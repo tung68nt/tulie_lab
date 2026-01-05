@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
@@ -20,8 +21,10 @@ export function MainLayout({ children }: MainLayoutProps) {
     // Admin/Learn: Managed by their own layouts
     return (
         <div className="relative flex min-h-screen flex-col">
-            <ActivityTracker />
-            <ContentProtector />
+            <Suspense fallback={null}>
+                <ActivityTracker />
+                <ContentProtector />
+            </Suspense>
             <Navbar />
             <main className={`flex-1 ${isLearnPage ? '' : 'pt-14'}`}>
                 {children}
