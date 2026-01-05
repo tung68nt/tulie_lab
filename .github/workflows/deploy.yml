@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - main
+      - beta
     paths:
       - 'server/**'
       - '.github/workflows/deploy.yml'
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SERVICE_NAME: academy-api
+  # Dynamic Service Name based on branch
+  SERVICE_NAME: ${{ github.ref == 'refs/heads/main' && 'academy-api' || 'academy-api-beta' }}
   REGION: asia-southeast1
 
 jobs:
@@ -49,6 +51,17 @@ jobs:
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
           docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
 
+      - name: Determine Database URL for Runtime Env
+        id: db-env
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "RUNTIME_DB_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+            echo "RUNTIME_DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
+          else
+            echo "RUNTIME_DB_URL=${{ secrets.BETA_DATABASE_URL }}" >> $GITHUB_ENV
+            echo "RUNTIME_DIRECT_URL=${{ secrets.BETA_DIRECT_URL }}" >> $GITHUB_ENV
+          fi
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE_NAME \
@@ -56,7 +69,7 @@ jobs:
             --platform managed \
             --region $REGION \
             --allow-unauthenticated \
-            --set-env-vars "NODE_ENV=production" \
+            --set-env-vars "NODE_ENV=production,DATABASE_URL=$RUNTIME_DB_URL,DIRECT_URL=$RUNTIME_DIRECT_URL" \
             --min-instances 0 \
             --max-instances 10 \
             --memory 512Mi \
@@ -68,11 +81,10 @@ jobs:
           echo "Deployed to:"
           gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)'
 
-  # Optional: Run database migrations after deploy
+  # Run database migrations after deploy
   migrate:
     needs: deploy
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout code
@@ -87,9 +99,16 @@ jobs:
         working-directory: ./server
         run: npm ci
 
+      - name: Set Database Config
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+            echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
+          else
+            echo "DATABASE_URL=${{ secrets.BETA_DATABASE_URL }}" >> $GITHUB_ENV
+            echo "DIRECT_URL=${{ secrets.BETA_DIRECT_URL }}" >> $GITHUB_ENV
+          fi
+
       - name: Run migrations
         working-directory: ./server
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: npx prisma migrate deploy
