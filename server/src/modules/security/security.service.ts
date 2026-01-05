@@ -23,7 +23,7 @@ export const SecurityService = {
         });
 
         // Enrich logs with user details
-        const userIds = [...new Set(logs.map(l => l.userId).filter(Boolean))];
+        const userIds = [...new Set(logs.map((l: any) => l.userId).filter(Boolean))];
         const users = await prisma.user.findMany({
             where: { id: { in: userIds as string[] } },
             select: { id: true, email: true, name: true, role: true }
@@ -35,7 +35,7 @@ export const SecurityService = {
         }, {});
 
         return {
-            logs: logs.map(log => ({
+            logs: logs.map((log: any) => ({
                 ...log,
                 user: log.userId ? userMap[log.userId] : null
             })),

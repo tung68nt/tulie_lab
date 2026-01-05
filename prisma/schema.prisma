@@ -349,3 +349,26 @@ model CouponUsage {
   discount  Int      // Số tiền đã giảm
   usedAt    DateTime @default(now())
 }
+
+// ==========================================
+// SECURITY / LOGGING
+// ==========================================
+
+enum SecurityAction {
+  LOGIN
+  REGISTER
+  PASSWORD_CHANGE
+  FAILED_LOGIN
+  ACCESS_DENIED
+  ADMIN_ACTION
+}
+
+model SecurityLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  action    SecurityAction
+  ipAddress String?
+  userAgent String?
+  details   String?  @db.Text
+  createdAt DateTime @default(now())
+}
