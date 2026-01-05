@@ -62,6 +62,14 @@ jobs:
             echo "RUNTIME_DIRECT_URL=${{ secrets.BETA_DIRECT_URL }}" >> $GITHUB_ENV
           fi
 
+      - name: Determine Config Vars
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "ENV_CLIENT_URL=https://thelab.tulie.vn" >> $GITHUB_ENV
+          else
+            echo "ENV_CLIENT_URL=https://beta.thelab.tulie.vn" >> $GITHUB_ENV
+          fi
+
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE_NAME \
@@ -70,6 +78,13 @@ jobs:
             --region $REGION \
             --allow-unauthenticated \
             --set-env-vars "NODE_ENV=production,DATABASE_URL=$RUNTIME_DB_URL,DIRECT_URL=$RUNTIME_DIRECT_URL" \
+            --set-env-vars "CLIENT_URL=$ENV_CLIENT_URL" \
+            --set-env-vars "JWT_SECRET=${{ secrets.JWT_SECRET }}" \
+            --set-env-vars "R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }}" \
+            --set-env-vars "R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}" \
+            --set-env-vars "R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}" \
+            --set-env-vars "R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}" \
+            --set-env-vars "R2_PUBLIC_DOMAIN=${{ secrets.R2_PUBLIC_DOMAIN }}" \
             --min-instances 0 \
             --max-instances 10 \
             --memory 512Mi \
