@@ -1,0 +1,281 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+type VideoType = 'YOUTUBE' | 'VIMEO' | 'CLOUDFLARE_STREAM' | 'SELF_HOSTED' | 'EXTERNAL';
+
+interface VideoPlayerProps {
+    url: string;
+    type?: VideoType;
+    title?: string;
+    className?: string;
+}
+
+/**
+ * Multi-source Video Player
+ * Supports: YouTube, Vimeo, Cloudflare Stream (HLS), Self-hosted
+ */
+export function VideoPlayer({ url, type, title, className = '' }: VideoPlayerProps) {
+    const [error, setError] = useState(false);
+
+    // Auto-detect type if not provided
+    const videoType = type || detectVideoType(url);
+    const PROXY_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+
+    if (error) {
+        return (
+            <div className={`flex items-center justify-center bg-zinc-900 text-zinc-400 ${className}`}>
+                <div className="text-center p-8">
+                    <svg className="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <p>Không thể tải video</p>
+                </div>
+            </div>
+        );
+    }
+
+    // YouTube embed
+    if (videoType === 'YOUTUBE') {
+        const embedUrl = getYouTubeEmbedUrl(url);
+        return (
+            <iframe
+                src={embedUrl}
+                className={`w-full h-full ${className}`}
+                allowFullScreen
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                title={title || 'Video'}
+                onError={() => setError(true)}
+            />
+        );
+    }
+
+    // Vimeo embed
+    if (videoType === 'VIMEO') {
+        const embedUrl = getVimeoEmbedUrl(url);
+        return (
+            <iframe
+                src={embedUrl}
+                className={`w-full h-full ${className}`}
+                allowFullScreen
+                allow="fullscreen; picture-in-picture"
+                title={title || 'Video'}
+                onError={() => setError(true)}
+            />
+        );
+    }
+
+    // Cloudflare Stream or HLS content
+    if (videoType === 'CLOUDFLARE_STREAM' || url.includes('.m3u8')) {
+        return <HLSPlayer src={url} title={title} className={className} onError={() => setError(true)} />;
+    }
+
+    // Direct video (self-hosted or external)
+    const isExternalMp4 = videoType === 'EXTERNAL' && (url.endsWith('.mp4') || url.endsWith('.mov') || url.endsWith('.mkv'));
+    const videoSource = isExternalMp4
+        ? `${PROXY_BASE_URL}/proxy/stream?url=${encodeURIComponent(url)}`
+        : url;
+
+    return (
+        <video
+            src={videoSource}
+            className={`w-full h-full ${className}`}
+            controls
+            controlsList="nodownload"
+            onContextMenu={(e) => e.preventDefault()}
+            onError={() => setError(true)}
+            title={title}
+        >
+            Your browser does not support video playback.
+        </video>
+    );
+}
+
+/**
+ * HLS Player using hls.js
+ */
+function HLSPlayer({
+    src,
+    title,
+    className,
+    onError
+}: {
+    src: string;
+    title?: string;
+    className?: string;
+    onError?: () => void;
+}) {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        let hls: any = null;
+
+        const initPlayer = async () => {
+            // Check for native HLS support (Safari, iOS)
+            if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = src;
+                video.addEventListener('loadedmetadata', () => setIsLoading(false));
+                return;
+            }
+
+            // Use hls.js for other browsers
+            try {
+                const Hls = (await import('hls.js')).default;
+
+                if (Hls.isSupported()) {
+                    hls = new Hls({
+                        enableWorker: true,
+                        lowLatencyMode: true,
+                    });
+
+                    hls.loadSource(src);
+                    hls.attachMedia(video);
+
+                    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                        setIsLoading(false);
+                    });
+
+                    hls.on(Hls.Events.ERROR, (event: any, data: any) => {
+                        if (data.fatal) {
+                            console.error('HLS fatal error:', data);
+                            onError?.();
+                        }
+                    });
+                } else {
+                    console.error('HLS is not supported in this browser');
+                    onError?.();
+                }
+            } catch (err) {
+                console.error('Failed to load hls.js:', err);
+                // Fallback: try direct playback
+                video.src = src;
+            }
+        };
+
+        initPlayer();
+
+        return () => {
+            if (hls) {
+                hls.destroy();
+            }
+        };
+    }, [src, onError]);
+
+    return (
+        <div className={`relative ${className}`}>
+            {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
+                    <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
+            <video
+                ref={videoRef}
+                className="w-full h-full"
+                controls
+                controlsList="nodownload"
+                onContextMenu={(e) => e.preventDefault()}
+                title={title}
+            />
+        </div>
+    );
+}
+
+/**
+ * Detect video type from URL
+ */
+function detectVideoType(url: string): VideoType {
+    if (!url) return 'EXTERNAL';
+
+    // YouTube - various formats
+    if (url.includes('youtube.com/watch') ||
+        url.includes('youtube.com/embed') ||
+        url.includes('youtu.be') ||
+        url.includes('youtube.com/shorts') ||
+        url.includes('youtube.com/v/')) {
+        return 'YOUTUBE';
+    }
+    if (url.includes('vimeo.com') || url.includes('player.vimeo.com')) {
+        return 'VIMEO';
+    }
+    if (url.includes('cloudflarestream.com') || url.includes('videodelivery.net') || url.includes('.m3u8')) {
+        return 'CLOUDFLARE_STREAM';
+    }
+    if (url.startsWith('/uploads/') || url.includes('localhost')) {
+        return 'SELF_HOSTED';
+    }
+    return 'EXTERNAL';
+}
+
+/**
+ * Convert YouTube URL to embed URL
+ */
+function getYouTubeEmbedUrl(url: string): string {
+    let videoId = '';
+
+    try {
+        const urlObj = new URL(url);
+
+        // youtube.com variants
+        if (urlObj.hostname.includes('youtube.com')) {
+            if (urlObj.searchParams.get('v')) {
+                videoId = urlObj.searchParams.get('v') || '';
+            } else if (urlObj.pathname.startsWith('/embed/')) {
+                videoId = urlObj.pathname.split('/embed/')[1];
+            } else if (urlObj.pathname.startsWith('/shorts/')) {
+                videoId = urlObj.pathname.split('/shorts/')[1];
+            } else if (urlObj.pathname.startsWith('/v/')) {
+                videoId = urlObj.pathname.split('/v/')[1];
+            }
+        }
+        // youtu.be variants
+        else if (urlObj.hostname.includes('youtu.be')) {
+            videoId = urlObj.pathname.slice(1);
+        }
+    } catch (e) {
+        // Fallback for partial URLs if any
+        console.warn('Invalid URL:', url);
+    }
+
+    if (videoId) {
+        // Clean videoId (remove query params if any stuck)
+        videoId = videoId.split('?')[0].split('&')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+
+    return url;
+}
+
+/**
+ * Convert Vimeo URL to embed URL
+ */
+function getVimeoEmbedUrl(url: string): string {
+    // Already embed format
+    if (url.includes('player.vimeo.com')) return url;
+
+    // vimeo.com/VIDEO_ID or vimeo.com/channels/staffpicks/VIDEO_ID
+    const match = url.match(/vimeo\.com\/(?:channels\/[\w]+\/)?(\d+)/);
+    if (match) {
+        return `https://player.vimeo.com/video/${match[1]}`;
+    }
+    return url;
+}
+
+/**
+ * Empty state when no video
+ */
+export function VideoPlayerEmpty({ className = '' }: { className?: string }) {
+    return (
+        <div className={`flex items-center justify-center bg-zinc-900 text-zinc-500 ${className}`}>
+            <div className="text-center">
+                <svg className="w-16 h-16 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <p className="text-zinc-400">Chưa có video cho bài học này</p>
+            </div>
+        </div>
+    );
+}
