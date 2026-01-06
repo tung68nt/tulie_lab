@@ -51,7 +51,6 @@ export const getCourseBySlug = async (slug: string) => {
                     position: true,
                     isFree: true,
                     duration: true,
-                    duration: true,
                     videoUrl: true, // Needed for frontend detection/fallback
                     // attachments: false // EXCLUDED SECURITY
                 }

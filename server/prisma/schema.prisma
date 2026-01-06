@@ -69,6 +69,25 @@ model Course {
   
   instructorId String?
   instructor   Instructor? @relation(fields: [instructorId], references: [id])
+  
+  categoryId   String?
+  category     Category?   @relation(fields: [categoryId], references: [id])
+}
+
+// ==========================================
+// CATEGORY
+// ==========================================
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  courses     Course[]
 }
 
 model Lesson {
@@ -370,5 +389,21 @@ model SecurityLog {
   ipAddress String?
   userAgent String?
   details   String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+// ==========================================
+// ACTIVITY LOG
+// ==========================================
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  action    String
+  path      String?
+  ipAddress String?
+  location  String?
+  device    String?
+  metadata  String?  @db.Text
   createdAt DateTime @default(now())
 }
