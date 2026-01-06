@@ -29,6 +29,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const refreshUser = async () => {
         try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setIsLoading(false);
+                setUser(null);
+                return;
+            }
+
             const response = await api.auth.getMe() as any;
             // API returns { user: {...} } directly
             const userData = response?.user || response?.data?.user || response?.data;
@@ -36,10 +43,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 setUser(userData);
             } else {
                 setUser(null);
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
             }
         } catch (error) {
             console.log('Not authenticated');
             setUser(null);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
         } finally {
             setIsLoading(false);
         }

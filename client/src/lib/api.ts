@@ -32,7 +32,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
         // ...
 
         if (!response.ok) {
-            if (response.status === 401 && !endpoint.includes('/auth/login') && typeof window !== 'undefined') {
+            if (response.status === 401 && !endpoint.includes('/auth/login') && !endpoint.includes('/auth/me') && typeof window !== 'undefined') {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 if (!window.location.pathname.includes('/login')) {
