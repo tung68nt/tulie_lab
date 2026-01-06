@@ -32,10 +32,18 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
         // ...
 
         if (!response.ok) {
-            if (response.status === 401 && !endpoint.includes('/auth/login') && !endpoint.includes('/auth/me') && typeof window !== 'undefined') {
+            if (response.status === 401 && typeof window !== 'undefined') {
+                const hadToken = !!token; // User had a token before this request
+
+                // Clear stale auth data
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                if (!window.location.pathname.includes('/login')) {
+
+                // Only redirect to login if:
+                // 1. User HAD a token (session expired) AND
+                // 2. NOT on auth endpoints AND
+                // 3. NOT already on login page
+                if (hadToken && !endpoint.includes('/auth/') && !window.location.pathname.includes('/login')) {
                     window.location.href = '/login?expired=true';
                 }
             }
