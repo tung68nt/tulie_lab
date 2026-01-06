@@ -253,23 +253,33 @@ export const api = {
         single: async (file: File): Promise<{ success: boolean, file: { url: string, originalName: string } }> => {
             const formData = new FormData();
             formData.append('file', file);
-            const response = await fetch(`${BASE_URL}/uploads`, {
+            const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+            const response = await fetch(`${BASE_URL}/api/uploads`, {
                 method: 'POST',
                 body: formData,
-                credentials: 'include'
+                credentials: 'include',
+                headers: token ? { 'Authorization': `Bearer ${token}` } : {}
             });
-            if (!response.ok) throw new Error('Upload failed');
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Upload failed');
+            }
             return response.json();
         },
         multiple: async (files: File[]): Promise<{ success: boolean, files: { url: string, originalName: string }[] }> => {
             const formData = new FormData();
             files.forEach(file => formData.append('files', file));
-            const response = await fetch(`${BASE_URL}/uploads/multiple`, {
+            const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+            const response = await fetch(`${BASE_URL}/api/uploads/multiple`, {
                 method: 'POST',
                 body: formData,
-                credentials: 'include'
+                credentials: 'include',
+                headers: token ? { 'Authorization': `Bearer ${token}` } : {}
             });
-            if (!response.ok) throw new Error('Upload failed');
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Upload failed');
+            }
             return response.json();
         }
     },
