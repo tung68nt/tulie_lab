@@ -180,7 +180,7 @@ function FullscreenVideoWrapper({
         if (!user) return null;
         const watermarkText = `${user.email} - ${user.id}`;
         return (
-            <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden select-none">
+            <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden select-none">
                 {/* Top left */}
                 <div className={`animate-float opacity-30 text-white font-bold absolute top-4 left-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
                     {watermarkText}
@@ -234,7 +234,7 @@ function FullscreenButton({ isFullscreen, onClick }: { isFullscreen: boolean; on
     return (
         <button
             onClick={onClick}
-            className="absolute bottom-3 right-14 z-30 p-2 bg-black/50 hover:bg-black/70 rounded transition-colors"
+            className="absolute top-4 right-4 z-50 p-2 bg-black/70 hover:bg-black/90 rounded transition-colors"
             title={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
         >
             {isFullscreen ? (
@@ -358,7 +358,7 @@ function HLSPlayer({
         if (!user) return null;
         const watermarkText = `${user.email} - ${user.id}`;
         return (
-            <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden select-none">
+            <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden select-none">
                 {/* Top left */}
                 <div className={`animate-float opacity-30 text-white font-bold absolute top-4 left-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
                     {watermarkText}
@@ -417,7 +417,7 @@ function HLSPlayer({
             {/* Custom fullscreen button */}
             <button
                 onClick={toggleFullscreen}
-                className="absolute bottom-3 right-14 z-30 p-2 bg-black/50 hover:bg-black/70 rounded transition-colors"
+                className="absolute top-4 right-4 z-50 p-2 bg-black/70 hover:bg-black/90 rounded transition-colors"
                 title={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
             >
                 {isFullscreen ? (
