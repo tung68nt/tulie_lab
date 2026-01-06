@@ -10,6 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { ChevronDown, ChevronUp, Paperclip, Eye } from 'lucide-react';
 import { Switch } from '@/components/Switch';
+import { Select } from '@/components/Select';
 
 export default function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
@@ -271,18 +272,15 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Tình trạng ra mắt</label>
                                     <div className="relative">
-                                        <select
+                                        <Select
                                             value={courseForm.deploymentStatus}
-                                            onChange={e => setCourseForm({ ...courseForm, deploymentStatus: e.target.value })}
-                                            className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
-                                        >
-                                            <option value="RELEASED">Đã ra mắt</option>
-                                            <option value="COMING_SOON">Sắp ra mắt (Coming Soon)</option>
-                                            <option value="UPDATING">Đang cập nhật (Updating)</option>
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
-                                            <ChevronDown className="h-4 w-4" />
-                                        </div>
+                                            onChange={(val) => setCourseForm({ ...courseForm, deploymentStatus: val })}
+                                            options={[
+                                                { value: 'RELEASED', label: 'Đã ra mắt' },
+                                                { value: 'COMING_SOON', label: 'Sắp ra mắt (Coming Soon)' },
+                                                { value: 'UPDATING', label: 'Đang cập nhật (Updating)' }
+                                            ]}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -291,45 +289,29 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 <div className="space-y-2">
                                     <label htmlFor="categoryId" className="text-sm font-medium">Danh mục</label>
                                     <div className="relative">
-                                        <select
-                                            id="categoryId"
+                                        <Select
                                             value={courseForm.categoryId}
-                                            onChange={e => setCourseForm({ ...courseForm, categoryId: e.target.value })}
-                                            className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
-                                        >
-                                            <option value="">-- Chưa phân loại --</option>
-                                            {categories.map((cat: any) => (
-                                                <option key={cat.id} value={cat.id}>
-                                                    {cat.name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
-                                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </div>
+                                            onChange={(val) => setCourseForm({ ...courseForm, categoryId: val })}
+                                            options={[
+                                                { value: '', label: '-- Chưa phân loại --' },
+                                                ...categories.map(c => ({ value: c.id, label: c.name }))
+                                            ]}
+                                        />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label htmlFor="level" className="text-sm font-medium">Trình độ</label>
                                     <div className="relative">
-                                        <select
-                                            id="level"
+                                        <Select
                                             value={courseForm.level}
-                                            onChange={e => setCourseForm({ ...courseForm, level: e.target.value })}
-                                            className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
-                                        >
-                                            <option value="ALL">Tất cả trình độ</option>
-                                            <option value="BEGINNER">Cơ bản (Beginner)</option>
-                                            <option value="INTERMEDIATE">Trung cấp (Intermediate)</option>
-                                            <option value="ADVANCED">Nâng cao (Advanced)</option>
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
-                                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </div>
+                                            onChange={(val) => setCourseForm({ ...courseForm, level: val })}
+                                            options={[
+                                                { value: 'ALL', label: 'Tất cả trình độ' },
+                                                { value: 'BEGINNER', label: 'Cơ bản (Beginner)' },
+                                                { value: 'INTERMEDIATE', label: 'Trung cấp (Intermediate)' },
+                                                { value: 'ADVANCED', label: 'Nâng cao (Advanced)' }
+                                            ]}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -337,24 +319,14 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             <div className="space-y-2">
                                 <label htmlFor="instructorId" className="text-sm font-medium">Giảng viên</label>
                                 <div className="relative">
-                                    <select
-                                        id="instructorId"
+                                    <Select
                                         value={courseForm.instructorId}
-                                        onChange={e => setCourseForm({ ...courseForm, instructorId: e.target.value })}
-                                        className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
-                                    >
-                                        <option value="">-- Chọn giảng viên --</option>
-                                        {instructors.map((instructor: any) => (
-                                            <option key={instructor.id} value={instructor.id}>
-                                                {instructor.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
-                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
+                                        onChange={(val) => setCourseForm({ ...courseForm, instructorId: val })}
+                                        options={[
+                                            { value: '', label: '-- Chọn giảng viên --' },
+                                            ...instructors.map(i => ({ value: i.id, label: i.name }))
+                                        ]}
+                                    />
                                 </div>
                             </div>
 

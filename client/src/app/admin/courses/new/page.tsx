@@ -8,6 +8,7 @@ import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
+import { Select } from '@/components/Select';
 export default function CreateCoursePage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -201,15 +202,15 @@ export default function CreateCoursePage() {
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Tình trạng ra mắt</label>
                                     <div className="relative">
-                                        <select
+                                        <Select
                                             value={formData.deploymentStatus}
-                                            onChange={e => setFormData({ ...formData, deploymentStatus: e.target.value })}
-                                            className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
-                                        >
-                                            <option value="RELEASED">Đã ra mắt</option>
-                                            <option value="COMING_SOON">Sắp ra mắt (Coming Soon)</option>
-                                            <option value="UPDATING">Đang cập nhật (Updating)</option>
-                                        </select>
+                                            onChange={(val) => setFormData({ ...formData, deploymentStatus: val })}
+                                            options={[
+                                                { value: 'RELEASED', label: 'Đã ra mắt' },
+                                                { value: 'COMING_SOON', label: 'Sắp ra mắt (Coming Soon)' },
+                                                { value: 'UPDATING', label: 'Đang cập nhật (Updating)' }
+                                            ]}
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -217,19 +218,14 @@ export default function CreateCoursePage() {
                             {/* Instructor Selection */}
                             <div className="space-y-2">
                                 <label htmlFor="instructorId" className="text-sm font-medium">Giảng viên</label>
-                                <select
-                                    id="instructorId"
+                                <Select
                                     value={formData.instructorId}
-                                    onChange={e => setFormData({ ...formData, instructorId: e.target.value })}
-                                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                                >
-                                    <option value="">-- Chọn giảng viên --</option>
-                                    {instructors.map((instructor: any) => (
-                                        <option key={instructor.id} value={instructor.id}>
-                                            {instructor.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                    onChange={(val) => setFormData({ ...formData, instructorId: val })}
+                                    options={[
+                                        { value: '', label: '-- Chọn giảng viên --' },
+                                        ...instructors.map((i: any) => ({ value: i.id, label: i.name }))
+                                    ]}
+                                />
                             </div>
 
                             <div className="pt-4 flex gap-2">
