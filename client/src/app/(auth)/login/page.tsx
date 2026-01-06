@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/Button';
@@ -9,12 +9,21 @@ import { Card, CardContent, CardFooter } from '@/components/Card';
 import { api } from '@/lib/api';
 import { Logo } from '@/components/Logo';
 import { useToast } from '@/contexts/ToastContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const { addToast } = useToast();
+    const { isAuthenticated, isAdmin, refreshUser } = useAuth();
     const router = useRouter();
+
+    // Redirect if already logged in
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.replace(isAdmin ? '/admin' : '/dashboard');
+        }
+    }, [isAuthenticated, isAdmin, router]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -25,18 +34,27 @@ export default function LoginPage() {
             const password = formData.get('password') as string;
 
             const response: any = await api.auth.login({ email, password });
-            if (response?.token) {
-                localStorage.setItem('token', response.token);
-                localStorage.setItem('user', JSON.stringify(response.user));
+
+            // Handle different response structures
+            const token = response?.token || response?.data?.token;
+            const user = response?.user || response?.data?.user;
+
+            if (token) {
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user));
             }
+
             // Notify Navbar to update (same-tab)
             window.dispatchEvent(new Event('auth-change'));
+
+            // Refresh auth context
+            await refreshUser();
+
             addToast('Đăng nhập thành công!', 'success');
 
             // Redirect based on role
-            const targetUrl = response.user.role === 'ADMIN' ? '/admin' : '/dashboard';
+            const targetUrl = user?.role === 'ADMIN' ? '/admin' : '/dashboard';
             router.push(targetUrl);
-            router.refresh();
         } catch (error) {
             addToast('Đăng nhập thất bại. Vui lòng kiểm tra lại email/mật khẩu.', 'error');
         } finally {
