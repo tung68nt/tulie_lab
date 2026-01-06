@@ -94,7 +94,7 @@ const ToastContainer = ({ toasts, removeToast }: { toasts: Toast[], removeToast:
                 <div
                     key={toast.id}
                     className={`
-                        pointer-events-auto rounded-lg px-4 py-3 shadow-xl transition-all duration-300 transform cursor-pointer border flex items-center gap-3 animate-in fade-in zoom-in-95
+                        pointer-events-auto rounded-lg px-4 py-3 shadow-xl cursor-pointer border flex items-center gap-3
                     ${toast.type === 'success' ? 'bg-zinc-900 text-white border-zinc-800' : ''}
                     ${toast.type === 'error' ? 'bg-red-600 text-white border-red-700' : ''}
                     ${toast.type === 'info' ? 'bg-blue-600 text-white border-blue-700' : ''}
@@ -102,7 +102,10 @@ const ToastContainer = ({ toasts, removeToast }: { toasts: Toast[], removeToast:
                     ${!['success', 'error', 'info', 'warning'].includes(toast.type) ? 'bg-zinc-900 text-white' : ''}
                     `}
                     onClick={() => removeToast(toast.id)}
-                    style={{ pointerEvents: 'auto' }}
+                    style={{
+                        pointerEvents: 'auto',
+                        animation: 'toastFadeIn 0.2s ease-out forwards'
+                    }}
                 >
                     <div className="flex-shrink-0">
                         {toast.type === 'success' && <CircleCheck className="h-5 w-5 text-green-400" />}

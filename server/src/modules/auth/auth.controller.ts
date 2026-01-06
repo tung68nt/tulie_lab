@@ -44,6 +44,20 @@ export const login = async (req: Request, res: Response) => {
         const result = await AuthService.login(email, password);
         console.log('Login success for:', email); // DEBUG
 
+        // Log the login activity
+        try {
+            const { logActivity } = await import('../activity/activity.service');
+            await logActivity({
+                userId: result.user.id,
+                action: 'login',
+                path: '/auth/login',
+                ipAddress: req.ip || req.headers['x-forwarded-for']?.toString() || null,
+                device: req.headers['user-agent'] || null
+            });
+        } catch (logErr) {
+            console.error('Failed to log login activity:', logErr);
+        }
+
         // Set cookie as well for convenience
         res.cookie('token', result.token, {
             httpOnly: true,

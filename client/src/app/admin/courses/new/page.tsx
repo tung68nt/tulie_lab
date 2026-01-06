@@ -14,6 +14,7 @@ export default function CreateCoursePage() {
     const [isLoading, setIsLoading] = useState(false);
     const { addToast } = useToast();
     const [instructors, setInstructors] = useState<any[]>([]);
+    const [categories, setCategories] = useState<any[]>([]);
     const [slugError, setSlugError] = useState<string | null>(null);
     const [checkingSlug, setCheckingSlug] = useState(false);
 
@@ -28,19 +29,25 @@ export default function CreateCoursePage() {
         introVideoUrl: '',
         learningOutcomes: '',
         deploymentStatus: 'RELEASED',
-        tag: 'NONE'
+        tag: 'NONE',
+        categoryId: '',
+        level: 'ALL'
     });
 
     useEffect(() => {
-        const fetchInstructors = async () => {
+        const fetchData = async () => {
             try {
-                const list = await api.instructors.list().catch(() => []);
-                setInstructors(Array.isArray(list) ? list : []);
+                const [instructorsList, categoriesList] = await Promise.all([
+                    api.instructors.list().catch(() => []),
+                    api.categories.list().catch(() => [])
+                ]);
+                setInstructors(Array.isArray(instructorsList) ? instructorsList : []);
+                setCategories(Array.isArray(categoriesList) ? categoriesList : []);
             } catch (e) {
                 console.error(e);
             }
         };
-        fetchInstructors();
+        fetchData();
     }, []);
 
     // Auto-generate slug from title
@@ -229,6 +236,34 @@ export default function CreateCoursePage() {
                                             ]}
                                         />
                                     </div>
+                                </div>
+                            </div>
+
+                            {/* Category and Level */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Danh mục</label>
+                                    <Select
+                                        value={formData.categoryId}
+                                        onChange={(val) => setFormData({ ...formData, categoryId: val })}
+                                        options={[
+                                            { value: '', label: '-- Chưa phân loại --' },
+                                            ...categories.map((c: any) => ({ value: c.id, label: c.name }))
+                                        ]}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Trình độ</label>
+                                    <Select
+                                        value={formData.level}
+                                        onChange={(val) => setFormData({ ...formData, level: val })}
+                                        options={[
+                                            { value: 'ALL', label: 'Tất cả trình độ' },
+                                            { value: 'BEGINNER', label: 'Cơ bản (Beginner)' },
+                                            { value: 'INTERMEDIATE', label: 'Trung cấp (Intermediate)' },
+                                            { value: 'ADVANCED', label: 'Nâng cao (Advanced)' }
+                                        ]}
+                                    />
                                 </div>
                             </div>
 

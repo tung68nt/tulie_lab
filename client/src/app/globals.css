@@ -185,15 +185,15 @@ body {
 }
 
 /* Toast Animations */
-@keyframes slideInFromRight {
+@keyframes toastFadeIn {
   from {
-    transform: translateX(100%);
     opacity: 0;
+    transform: scale(0.95);
   }
 
   to {
-    transform: translateX(0);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -208,11 +208,11 @@ body {
 }
 
 .animate-in {
-  animation: slideInFromRight 0.3s ease-out forwards;
+  animation: toastFadeIn 0.2s ease-out forwards;
 }
 
 .slide-in-from-right {
-  animation: slideInFromRight 0.3s ease-out forwards;
+  animation: toastFadeIn 0.2s ease-out forwards;
 }
 
 /* Autofill Background Override */

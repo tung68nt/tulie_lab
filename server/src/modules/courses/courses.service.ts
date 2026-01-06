@@ -133,6 +133,10 @@ export const updateCourse = async (id: string, data: any) => {
         }
     }
 
+    // Debug log for tag
+    console.log('[updateCourse] Input data:', { tag: data.tag, deploymentStatus: data.deploymentStatus });
+    console.log('[updateCourse] Filtered data:', { tag: filteredData.tag, deploymentStatus: filteredData.deploymentStatus });
+
     if (filteredData.instructorId === '') {
         filteredData.instructorId = null;
     }
