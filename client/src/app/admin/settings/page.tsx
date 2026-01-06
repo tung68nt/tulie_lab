@@ -291,6 +291,61 @@ export default function AdminSettingsPage() {
                         </CardContent>
                     </Card>
 
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Cấu hình thanh toán</CardTitle>
+                            <CardDescription>
+                                Thông tin tài khoản nhận tiền và cú pháp chuyển khoản.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Tên ngân hàng</label>
+                                    <Input
+                                        value={settings.bank_name || ''}
+                                        onChange={(e) => handleChange('bank_name', e.target.value)}
+                                        placeholder="Ví dụ: MB Bank"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Số tài khoản</label>
+                                    <Input
+                                        value={settings.bank_account_no || ''}
+                                        onChange={(e) => handleChange('bank_account_no', e.target.value)}
+                                        placeholder="Ví dụ: 0333333333"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Chủ tài khoản</label>
+                                <Input
+                                    value={settings.bank_account_name || ''}
+                                    onChange={(e) => handleChange('bank_account_name', e.target.value)}
+                                    placeholder="Ví dụ: NGUYEN VAN A"
+                                />
+                            </div>
+                            <div className="space-y-3 pt-2 border-t">
+                                <label className="text-sm font-medium">Cú pháp nội dung chuyển khoản</label>
+                                <Input
+                                    value={settings.payment_transfer_syntax || ''}
+                                    onChange={(e) => handleChange('payment_transfer_syntax', e.target.value)}
+                                    placeholder="Mặc định: {{code}}"
+                                />
+                                <p className="text-xs text-muted-foreground">
+                                    Sử dụng <code>{`{{code}}`}</code> để thay thế bằng mã đơn hàng (VD: ORD-123).<br />
+                                    Ví dụ nhập: <code>SEVQR {`{{code}}`}</code> -&gt; Khách thấy: <strong>SEVQR ORD-12345</strong>
+                                </p>
+                                <div className="p-3 bg-muted rounded text-sm">
+                                    <span className="text-muted-foreground mr-2">Xem trước:</span>
+                                    <span className="font-semibold">
+                                        {(settings.payment_transfer_syntax || '{{code}}').replace('{{code}}', 'ORD-123456')}
+                                    </span>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
                     <div className="flex justify-end">
                         <Button type="submit" disabled={loading}>
                             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

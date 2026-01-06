@@ -10,33 +10,34 @@ export default function OrderPage({ params }: { params: Promise<{ code: string }
     const { code } = use(params);
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-
-    // Mock bank info - in production this might come from env or config
-    const BANK_INFO = {
-        bankName: 'MB Bank',
-        accountNo: '0999999999', // Replace with real one
-        accountName: 'NGUYEN VAN A',
-        template: 'print'
-    };
+    const [settings, setSettings] = useState<any>({});
 
     useEffect(() => {
-        const fetchOrder = async () => {
+        const fetchData = async () => {
             try {
-                const data = await api.payments.getOrder(code);
-                setOrder(data);
+                // Parallel fetch
+                const [orderData, settingsData] = await Promise.all([
+                    api.payments.getOrder(code).catch(e => {
+                        console.warn("Failed to fetch order", e);
+                        // Fallback/Mock
+                        return {
+                            code: code,
+                            amount: 1200000,
+                            status: 'PENDING'
+                        };
+                    }),
+                    api.settings.getPublic().catch(() => ({}))
+                ]);
+
+                setOrder(orderData);
+                setSettings(settingsData);
             } catch (e) {
-                console.warn("Failed to fetch order, using mock data", e);
-                // Fallback for mock orders or when backend is down
-                setOrder({
-                    code: code,
-                    amount: 1200000,
-                    status: 'PENDING'
-                });
+                console.error("Error loading order page", e);
             } finally {
                 setLoading(false);
             }
         };
-        fetchOrder();
+        fetchData();
     }, [code]);
 
     if (loading) return <div className="p-10 text-center">Đang tải thông tin đơn hàng...</div>;
@@ -81,7 +82,16 @@ export default function OrderPage({ params }: { params: Promise<{ code: string }
         );
     }
 
-    const qrUrl = `https://qr.sepay.vn/img?acc=${BANK_INFO.accountNo}&bank=${BANK_INFO.bankName}&amount=${order.amount}&des=${order.code}`;
+    // Dynamic Bank Info
+    const bankName = settings.bank_name || 'MB Bank';
+    const accountNo = settings.bank_account_no || '0999999999';
+    const accountName = settings.bank_account_name || 'NGUYEN VAN A';
+
+    // Dynamic Transfer Content
+    const syntax = settings.payment_transfer_syntax || '{{code}}';
+    const transferContent = syntax.replace('{{code}}', order.code);
+
+    const qrUrl = `https://qr.sepay.vn/img?acc=${accountNo}&bank=${bankName}&amount=${order.amount}&des=${transferContent}`;
 
     return (
         <div className="container pt-6 md:pt-10" style={{ paddingBottom: '120px' }}>
@@ -105,26 +115,26 @@ export default function OrderPage({ params }: { params: Promise<{ code: string }
                             </div>
                             <p className="text-center text-sm text-muted-foreground">
                                 Quét mã QR bằng ứng dụng ngân hàng để thanh toán.<br />
-                                <span className="font-semibold text-rose-500">Nội dung chuyển khoản bắt buộc: {order.code}</span>
+                                <span className="font-semibold text-rose-500">Nội dung chuyển khoản bắt buộc: {transferContent}</span>
                             </p>
                         </div>
 
                         <div className="rounded-lg border p-4 text-sm">
                             <div className="grid grid-cols-3 gap-2 py-2 border-b">
                                 <span className="text-muted-foreground">Ngân hàng</span>
-                                <span className="col-span-2 font-medium">{BANK_INFO.bankName}</span>
+                                <span className="col-span-2 font-medium">{bankName}</span>
                             </div>
                             <div className="grid grid-cols-3 gap-2 py-2 border-b">
                                 <span className="text-muted-foreground">Số tài khoản</span>
-                                <span className="col-span-2 font-medium">{BANK_INFO.accountNo}</span>
+                                <span className="col-span-2 font-medium">{accountNo}</span>
                             </div>
                             <div className="grid grid-cols-3 gap-2 py-2 border-b">
                                 <span className="text-muted-foreground">Chủ tài khoản</span>
-                                <span className="col-span-2 font-medium">{BANK_INFO.accountName}</span>
+                                <span className="col-span-2 font-medium">{accountName}</span>
                             </div>
                             <div className="grid grid-cols-3 gap-2 py-2">
                                 <span className="text-muted-foreground">Nội dung</span>
-                                <span className="col-span-2 font-bold text-primary">{order.code}</span>
+                                <span className="col-span-2 font-bold text-primary">{transferContent}</span>
                             </div>
                         </div>
                     </CardContent>

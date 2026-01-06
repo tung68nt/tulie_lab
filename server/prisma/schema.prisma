@@ -8,7 +8,7 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL") // For Supabase - direct connection for migrations
+  directUrl = env("DIRECT_URL")
 }
 
 enum Role {
@@ -59,6 +59,8 @@ model Course {
   thumbnail   String?
   price       Int      @default(0) // Stored in smallest currency unit (e.g. VND)
   isPublished Boolean  @default(false)
+  introVideoUrl String?
+  learningOutcomes String? @db.Text // JSON string or newline separated text
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -97,7 +99,7 @@ model Lesson {
   description String?
   videoUrl    String?  // Secure URL or ID
   duration    String?  // Video duration (e.g. "10:25")
-  content     String?  // Markdown or HTML content
+  content     String?  @db.Text
   isFree      Boolean  @default(false) // Previewable
   position    Int      @default(0)
   courseId    String
@@ -124,7 +126,7 @@ model Attachment {
 model SystemSetting {
   id        String   @id @default(uuid())
   key       String   @unique
-  value     String   // JSON or text
+  value     String   @db.Text
   type      String   @default("text") // text, json, image
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -174,9 +176,9 @@ model PaymentTransaction {
   transactionDate DateTime? // From Sepay
   accountNumber   String?
   subAccount      String?
-  amountIn        Decimal?  @db.Decimal(20, 2)
-  amountOut       Decimal?  @db.Decimal(20, 2)
-  accumulated     Decimal?  @db.Decimal(20, 2)
+  amountIn        Decimal? @db.Decimal(15, 2)
+  amountOut       Decimal? @db.Decimal(15, 2)
+  accumulated     Decimal? @db.Decimal(15, 2) 
   code            String?   // Sepay code
   content         String?
   referenceCode   String?
@@ -188,7 +190,7 @@ model Instructor {
   id          String   @id @default(uuid())
   name        String
   title       String?
-  bio         String?  @db.Text
+  bio         String? @db.Text
   avatar      String?
   socialLinks String?
   
@@ -203,8 +205,8 @@ model BlogPost {
   id              String   @id @default(uuid())
   title           String
   slug            String   @unique
-  excerpt         String?  @db.Text
-  content         String   @db.Text
+  excerpt         String? @db.Text
+  content         String  @db.Text  
   thumbnail       String?
   authorId        String?
   author          Instructor? @relation(fields: [authorId], references: [id])
@@ -227,7 +229,7 @@ model ContactSubmission {
   name      String
   email     String
   phone     String?
-  message   String   @db.Text
+  message   String  @db.Text  
   status    String   @default("NEW") // NEW, READ, REPLIED
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -249,7 +251,7 @@ enum NotificationType {
 model SystemNotification {
   id            String   @id @default(uuid())
   title         String
-  content       String   @db.Text
+  content       String  @db.Text  
   type          NotificationType @default(SYSTEM)
   
   // Scheduling
@@ -289,7 +291,7 @@ model Bundle {
   id          String   @id @default(uuid())
   name        String
   slug        String   @unique
-  description String?  @db.Text
+  description String? 
   thumbnail   String?
   
   // Pricing
@@ -388,7 +390,7 @@ model SecurityLog {
   action    SecurityAction
   ipAddress String?
   userAgent String?
-  details   String?  @db.Text
+  details   String? 
   createdAt DateTime @default(now())
 }
 
@@ -404,6 +406,6 @@ model ActivityLog {
   ipAddress String?
   location  String?
   device    String?
-  metadata  String?  @db.Text
+  metadata  String? 
   createdAt DateTime @default(now())
 }

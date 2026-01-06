@@ -139,11 +139,11 @@ export default function AdminSecurityPage() {
                                     <table className="w-full text-sm">
                                         <thead>
                                             <tr className="border-b text-left">
-                                                <th className="py-2 px-2 font-semibold">Hành động</th>
-                                                <th className="py-2 px-2 font-semibold">Chi tiết</th>
-                                                <th className="py-2 px-2 font-semibold">IP</th>
-                                                <th className="py-2 px-2 font-semibold">User</th>
-                                                <th className="py-2 px-2 font-semibold">Thời gian</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">Hành động</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">Chi tiết</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">IP</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">User</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">Thời gian</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -222,21 +222,21 @@ export default function AdminSecurityPage() {
                                     <table className="w-full text-sm">
                                         <thead>
                                             <tr className="border-b text-left">
-                                                <th className="py-2 px-2 font-semibold">Hành động</th>
-                                                <th className="py-2 px-2 font-semibold">Đường dẫn</th>
-                                                <th className="py-2 px-2 font-semibold">Thiết bị</th>
-                                                <th className="py-2 px-2 font-semibold">IP / Địa điểm</th>
-                                                <th className="py-2 px-2 font-semibold">User</th>
-                                                <th className="py-2 px-2 font-semibold">Thời gian</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">Hành động</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">Đường dẫn</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">Thiết bị</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">IP / Địa điểm</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">User</th>
+                                                <th className="py-2 px-2 font-semibold whitespace-nowrap">Thời gian</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {paginatedActivities.map((log) => (
                                                 <tr key={log.id} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
                                                     <td className="py-3 px-2">
-                                                        <span className="font-semibold text-primary text-[10px] whitespace-nowrap">{formatActionLabel(log.action)}</span>
+                                                        <span className="font-medium text-primary whitespace-nowrap text-xs">{formatActionLabel(log.action)}</span>
                                                     </td>
-                                                    <td className="py-3 px-2 text-muted-foreground max-w-xs truncate" title={log.path}>{log.path || '-'}</td>
+                                                    <td className="py-3 px-2 text-muted-foreground max-w-xs truncate text-xs" title={log.path}>{log.path || '-'}</td>
                                                     <td className="py-3 px-2 text-xs max-w-[150px] truncate" title={log.device}>{log.device || '-'}</td>
                                                     <td className="py-3 px-2 font-mono text-xs">
                                                         <div>{log.ipAddress}</div>

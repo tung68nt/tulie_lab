@@ -29,7 +29,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         isPublished: false,
         instructorId: '',
         categoryId: '',
-        level: 'ALL'
+        level: 'ALL',
+        thumbnail: '',
+        introVideoUrl: '',
+        learningOutcomes: ''
     });
 
     const [newLesson, setNewLesson] = useState({
@@ -72,7 +75,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                         isPublished: fullDetails.isPublished,
                         instructorId: fullDetails.instructorId || '',
                         categoryId: fullDetails.categoryId || '',
-                        level: fullDetails.level || 'ALL'
+                        level: fullDetails.level || 'ALL',
+                        thumbnail: fullDetails.thumbnail || '',
+                        introVideoUrl: fullDetails.introVideoUrl || '',
+                        learningOutcomes: fullDetails.learningOutcomes || ''
                     });
                     // Set next position
                     setNewLesson(prev => ({ ...prev, position: (fullDetails.lessons?.length || 0) + 1 }));
@@ -89,7 +95,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
             }
         };
         fetchCourse();
-    }, [id, router]);
+    }, [id, router, addToast]);
 
     const handleUpdateCourse = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -187,11 +193,40 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Mô tả</label>
                                 <textarea
-                                    className="flex min-h-[200px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
+                                    className="flex min-h-[150px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
                                     value={courseForm.description}
                                     onChange={e => setCourseForm({ ...courseForm, description: e.target.value })}
                                     placeholder="Mô tả chi tiết về khóa học..."
                                 />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Bạn sẽ học được gì (Mỗi ý 1 dòng)</label>
+                                <textarea
+                                    className="flex min-h-[150px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
+                                    value={courseForm.learningOutcomes || ''}
+                                    onChange={e => setCourseForm({ ...courseForm, learningOutcomes: e.target.value })}
+                                    placeholder="- Hiểu rõ về...\n- Thực hành..."
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">URL Thumbnail (Ảnh bìa)</label>
+                                    <Input
+                                        value={courseForm.thumbnail || ''}
+                                        onChange={e => setCourseForm({ ...courseForm, thumbnail: e.target.value })}
+                                        placeholder="https://example.com/image.jpg"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">URL Video giới thiệu</label>
+                                    <Input
+                                        value={courseForm.introVideoUrl || ''}
+                                        onChange={e => setCourseForm({ ...courseForm, introVideoUrl: e.target.value })}
+                                        placeholder="https://www.youtube.com/watch?v=..."
+                                    />
+                                </div>
                             </div>
 
 
@@ -199,7 +234,14 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Học phí (VNĐ)</label>
-                                    <Input type="number" value={courseForm.price} onChange={e => setCourseForm({ ...courseForm, price: parseFloat(e.target.value) || 0 })} />
+                                    <Input
+                                        type="number"
+                                        value={courseForm.price}
+                                        onChange={e => {
+                                            const val = parseFloat(e.target.value);
+                                            setCourseForm({ ...courseForm, price: isNaN(val) ? 0 : val });
+                                        }}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Trạng thái</label>
@@ -219,9 +261,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium">Danh mục</label>
+                                    <label htmlFor="categoryId" className="text-sm font-medium">Danh mục</label>
                                     <div className="relative">
                                         <select
+                                            id="categoryId"
                                             value={courseForm.categoryId}
                                             onChange={e => setCourseForm({ ...courseForm, categoryId: e.target.value })}
                                             className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
@@ -241,9 +284,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium">Trình độ</label>
+                                    <label htmlFor="level" className="text-sm font-medium">Trình độ</label>
                                     <div className="relative">
                                         <select
+                                            id="level"
                                             value={courseForm.level}
                                             onChange={e => setCourseForm({ ...courseForm, level: e.target.value })}
                                             className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
@@ -263,9 +307,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Giảng viên</label>
+                                <label htmlFor="instructorId" className="text-sm font-medium">Giảng viên</label>
                                 <div className="relative">
                                     <select
+                                        id="instructorId"
                                         value={courseForm.instructorId}
                                         onChange={e => setCourseForm({ ...courseForm, instructorId: e.target.value })}
                                         className="flex h-10 w-full appearance-none rounded-md border border-input bg-background text-foreground px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring pr-8"
@@ -359,7 +404,14 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">Thứ tự bài học</label>
-                                        <Input type="number" value={newLesson.position} onChange={e => setNewLesson({ ...newLesson, position: parseInt(e.target.value) || 0 })} />
+                                        <Input
+                                            type="number"
+                                            value={newLesson.position}
+                                            onChange={e => {
+                                                const val = parseInt(e.target.value);
+                                                setNewLesson({ ...newLesson, position: isNaN(val) ? 0 : val });
+                                            }}
+                                        />
                                     </div>
                                     <div className="flex items-end pb-2">
                                         <div className="flex items-center gap-3">
@@ -415,10 +467,12 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                                                     name: result.file.originalName,
                                                                     url: result.file.url
                                                                 }]);
+                                                            } else {
+                                                                addToast(`Upload thất bại: ${file.name}`, 'error');
                                                             }
                                                         } catch (err) {
                                                             console.error('Upload failed:', err);
-                                                            addToast('Upload thất bại', 'error');
+                                                            addToast(`Lỗi upload: ${file.name}`, 'error');
                                                         }
                                                     }
                                                 }
@@ -522,12 +576,14 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
     const [slug, setSlug] = useState(lesson.slug || '');
     const [chapter, setChapter] = useState(lesson.chapter || '');
     const [section, setSection] = useState(lesson.section || '');
+    const [content, setContent] = useState(lesson.content || '');
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isEditingVideo, setIsEditingVideo] = useState(false);
     const [isEditingDuration, setIsEditingDuration] = useState(false);
     const [isEditingSlug, setIsEditingSlug] = useState(false);
     const [isEditingChapter, setIsEditingChapter] = useState(false);
     const [isEditingSection, setIsEditingSection] = useState(false);
+    const [isEditingContent, setIsEditingContent] = useState(false);
 
     const handleSaveTitle = () => {
         if (onUpdateLesson) {
@@ -569,6 +625,13 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
             onUpdateLesson(lesson.id, { section });
         }
         setIsEditingSection(false);
+    };
+
+    const handleSaveContent = () => {
+        if (onUpdateLesson) {
+            onUpdateLesson(lesson.id, { content });
+        }
+        setIsEditingContent(false);
     };
 
     return (

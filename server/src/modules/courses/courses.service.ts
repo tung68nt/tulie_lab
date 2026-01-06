@@ -76,7 +76,7 @@ export const getCourseById = async (id: string) => {
 
 export const createCourse = async (data: any) => {
     // Filter allowed fields
-    const validFields = ['title', 'slug', 'description', 'price', 'isPublished', 'instructorId', 'categoryId', 'thumbnail'];
+    const validFields = ['title', 'slug', 'description', 'price', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes'];
     const createData: any = {};
 
     for (const key of Object.keys(data)) {
@@ -124,7 +124,7 @@ export const addLesson = async (courseId: string, data: {
 
 export const updateCourse = async (id: string, data: any) => {
     // Filter out fields that don't match the Prisma schema (e.g. level)
-    const validFields = ['title', 'slug', 'description', 'price', 'isPublished', 'instructorId', 'categoryId', 'thumbnail'];
+    const validFields = ['title', 'slug', 'description', 'price', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes'];
     const filteredData: any = {};
 
     for (const key of Object.keys(data)) {
@@ -160,7 +160,8 @@ export const updateLesson = async (id: string, data: {
     isFree?: boolean,
     isPublished?: boolean,
     chapter?: string,
-    section?: string
+    section?: string,
+    content?: string
 }) => {
     return prisma.lesson.update({
         where: { id },

@@ -29,7 +29,7 @@ export function AdminGuard({ children }: AdminGuardProps) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                    <div className="h-10 w-10 animate-spin rounded-full border-[3px] border-zinc-200 border-t-black"></div>
                     <p className="text-muted-foreground">Đang kiểm tra quyền truy cập...</p>
                 </div>
             </div>

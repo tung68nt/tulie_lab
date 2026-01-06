@@ -24,7 +24,8 @@ export default function CreateCoursePage() {
         isPublished: false,
         instructorId: '',
         thumbnail: '',
-        introVideoUrl: ''
+        introVideoUrl: '',
+        learningOutcomes: ''
     });
 
     useEffect(() => {
@@ -127,6 +128,15 @@ export default function CreateCoursePage() {
                                     placeholder="Mô tả chi tiết về khóa học, nội dung, đối tượng học viên..."
                                 />
                             </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Bạn sẽ học được gì (Mỗi ý 1 dòng)</label>
+                                <textarea
+                                    className="flex min-h-[150px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
+                                    value={formData.learningOutcomes}
+                                    onChange={e => setFormData({ ...formData, learningOutcomes: e.target.value })}
+                                    placeholder="- Hiểu rõ về...\n- Thực hành..."
+                                />
+                            </div>
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">URL Thumbnail (Ảnh bìa)</label>
@@ -164,7 +174,10 @@ export default function CreateCoursePage() {
                                         min="0"
                                         placeholder="0"
                                         value={formData.price}
-                                        onChange={e => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
+                                        onChange={e => {
+                                            const val = parseFloat(e.target.value);
+                                            setFormData({ ...formData, price: isNaN(val) ? 0 : val });
+                                        }}
                                     />
                                     <p className="text-xs text-muted-foreground">
                                         {formData.price === 0 ? 'Miễn phí' : `${formData.price.toLocaleString('vi-VN')}đ`}
@@ -188,8 +201,9 @@ export default function CreateCoursePage() {
 
                             {/* Instructor Selection */}
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Giảng viên</label>
+                                <label htmlFor="instructorId" className="text-sm font-medium">Giảng viên</label>
                                 <select
+                                    id="instructorId"
                                     value={formData.instructorId}
                                     onChange={e => setFormData({ ...formData, instructorId: e.target.value })}
                                     className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"

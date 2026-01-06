@@ -15,8 +15,15 @@ interface VideoPlayerProps {
  * Multi-source Video Player
  * Supports: YouTube, Vimeo, Cloudflare Stream (HLS), Self-hosted
  */
+import { useAuth } from '@/contexts/AuthContext';
+
+/**
+ * Multi-source Video Player
+ * Supports: YouTube, Vimeo, Cloudflare Stream (HLS), Self-hosted
+ */
 export function VideoPlayer({ url, type, title, className = '' }: VideoPlayerProps) {
     const [error, setError] = useState(false);
+    const { user } = useAuth();
 
     // Auto-detect type if not provided
     const videoType = type || detectVideoType(url);
@@ -35,18 +42,45 @@ export function VideoPlayer({ url, type, title, className = '' }: VideoPlayerPro
         );
     }
 
+    const Watermark = () => {
+        if (!user) return null;
+
+        // Random position logic could be added here, 
+        // for now simple absolute positioning with some animation
+        return (
+            <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden select-none">
+                <div className="animate-float opacity-20 text-white text-sm font-bold absolute top-4 left-4 whitespace-nowrap">
+                    {user.email} - {user.id.slice(0, 8)}
+                </div>
+                <div className="animate-float-delayed opacity-20 text-white text-sm font-bold absolute bottom-8 right-8 whitespace-nowrap">
+                    {user.email}
+                </div>
+                {/* Center random floating element */}
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-10 text-white text-xs font-mono pointer-events-none">
+                    {user.id}
+                </div>
+            </div>
+        );
+    };
+
     // YouTube embed
     if (videoType === 'YOUTUBE') {
         const embedUrl = getYouTubeEmbedUrl(url);
         return (
-            <iframe
-                src={embedUrl}
-                className={`w-full h-full ${className}`}
-                allowFullScreen
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                title={title || 'Video'}
-                onError={() => setError(true)}
-            />
+            <div className={`relative ${className}`}>
+                <iframe
+                    src={embedUrl}
+                    className="w-full h-full"
+                    allowFullScreen
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    title={title || 'Video'}
+                    onError={() => setError(true)}
+                />
+                {/* Note: YouTube iframes capture clicks so overlay might not be fully effective or visible if z-index isn't handled by parent, 
+                     but standard iframe prevents overlays from intercepting interactions easily. 
+                     For strictly secure watermark on YouTube, it's hard. But we add it anyway. */}
+                <Watermark />
+            </div>
         );
     }
 
@@ -54,40 +88,49 @@ export function VideoPlayer({ url, type, title, className = '' }: VideoPlayerPro
     if (videoType === 'VIMEO') {
         const embedUrl = getVimeoEmbedUrl(url);
         return (
-            <iframe
-                src={embedUrl}
-                className={`w-full h-full ${className}`}
-                allowFullScreen
-                allow="fullscreen; picture-in-picture"
-                title={title || 'Video'}
-                onError={() => setError(true)}
-            />
+            <div className={`relative ${className}`}>
+                <iframe
+                    src={embedUrl}
+                    className="w-full h-full"
+                    allowFullScreen
+                    allow="fullscreen; picture-in-picture"
+                    title={title || 'Video'}
+                    onError={() => setError(true)}
+                />
+                <Watermark />
+            </div>
         );
     }
 
     // Cloudflare Stream or HLS content
     if (videoType === 'CLOUDFLARE_STREAM' || url.includes('.m3u8')) {
-        return <HLSPlayer src={url} title={title} className={className} onError={() => setError(true)} />;
+        return (
+            <div className={`relative ${className}`}>
+                <HLSPlayer src={url} title={title} onError={() => setError(true)} />
+                <Watermark />
+            </div>
+        );
     }
 
     // Direct video (self-hosted or external)
     const isExternalMp4 = videoType === 'EXTERNAL' && (url.endsWith('.mp4') || url.endsWith('.mov') || url.endsWith('.mkv'));
-    const videoSource = isExternalMp4
-        ? `${PROXY_BASE_URL}/proxy/stream?url=${encodeURIComponent(url)}`
-        : url;
+    const videoSource = url;
 
     return (
-        <video
-            src={videoSource}
-            className={`w-full h-full ${className}`}
-            controls
-            controlsList="nodownload"
-            onContextMenu={(e) => e.preventDefault()}
-            onError={() => setError(true)}
-            title={title}
-        >
-            Your browser does not support video playback.
-        </video>
+        <div className={`relative ${className}`}>
+            <video
+                src={videoSource}
+                className="w-full h-full"
+                controls
+                controlsList="nodownload"
+                onContextMenu={(e) => e.preventDefault()}
+                onError={() => setError(true)}
+                title={title}
+            >
+                Your browser does not support video playback.
+            </video>
+            <Watermark />
+        </div>
     );
 }
 

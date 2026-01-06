@@ -51,13 +51,12 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                     setIsLoggedIn(false);
                 }
             } catch (e) {
-                console.warn("Failed to fetch course data, using mock", e);
-                // Mock data fallback
+                // Low-level fallback for development or offline
                 setCourse({
                     id: 'mock-1',
                     title: 'Fullstack Next.js 14 (Demo)',
                     slug: slug,
-                    description: 'Đây là nội dung demo vì không thể kết nối server. Bạn có thể trải nghiệm giao diện.',
+                    description: 'Nội dung demo (không kết nối được server).',
                     price: 1200000,
                     lessons: [
                         { id: 'l1', title: 'Giới thiệu về Next.js', slug: 'intro', isFree: true },
@@ -72,6 +71,8 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         fetchData();
     }, [slug]);
 
+    const [isPurchasing, setIsPurchasing] = useState(false);
+
     const handleBuyNow = async () => {
         if (!isLoggedIn) {
             router.push('/login');
@@ -79,6 +80,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
         }
         if (!course) return;
 
+        setIsPurchasing(true);
         try {
             // If course is free, enroll via checkout (backend handles auto-completion)
             if (course.price === 0) {
@@ -91,8 +93,11 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
             // Redirect to checkout page
             router.push(`/checkout?courseId=${course.id}`);
         } catch (e: any) {
-            console.error("Enrollment/Checkout failed:", e);
+            if (process.env.NODE_ENV !== 'production') {
+                console.error("Enrollment/Checkout failed:", e);
+            }
             addToast(e.message || 'Đã có lỗi xảy ra. Vui lòng thử lại.', 'error');
+            setIsPurchasing(false);
         }
     };
 
@@ -148,18 +153,18 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl">
                                 {/* Thumbnail / Preview */}
                                 <div className="aspect-video w-full overflow-hidden rounded-lg bg-zinc-800 mb-6 relative group cursor-pointer">
-                                    {course.thumbnail ? (
+                                    {course.introVideoUrl ? (
+                                        <iframe
+                                            src={course.introVideoUrl}
+                                            className="w-full h-full"
+                                            allowFullScreen
+                                            title="Introduction Video"
+                                        />
+                                    ) : course.thumbnail ? (
                                         <img
                                             src={course.thumbnail}
                                             alt={course.title}
                                             className="w-full h-full object-cover"
-                                        />
-                                    ) : course.lessons?.[0]?.videoUrl ? (
-                                        <iframe
-                                            src={course.lessons[0].videoUrl}
-                                            className="w-full h-full"
-                                            allowFullScreen
-                                            title="Preview"
                                         />
                                     ) : (
                                         <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-700 to-zinc-900">
@@ -167,11 +172,6 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                                 <span className="text-5xl">🎬</span>
                                                 <p className="text-zinc-400 text-sm mt-2">Chưa có video preview</p>
                                             </div>
-                                        </div>
-                                    )}
-                                    {!course.lessons?.[0]?.videoUrl && !course.thumbnail && (
-                                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <span className="text-sm font-bold tracking-widest uppercase text-white">Xem trước</span>
                                         </div>
                                     )}
                                 </div>
@@ -192,11 +192,18 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                     {!isEnrolled ? (
                                         <Button
                                             size="lg"
-                                            className="w-full font-bold text-lg shadow-xl mt-4 border-0"
+                                            disabled={isPurchasing}
+                                            className="w-full font-bold text-lg shadow-xl mt-4 border-0 relative"
                                             style={{ backgroundColor: 'white', color: 'black' }}
                                             onClick={handleBuyNow}
                                         >
-                                            {course.price === 0 ? 'Đăng ký miễn phí' : 'Đăng ký ngay'}
+                                            {isPurchasing ? (
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-black border-t-transparent"></div>
+                                                </div>
+                                            ) : (
+                                                course.price === 0 ? 'Đăng ký miễn phí' : 'Đăng ký ngay'
+                                            )}
                                         </Button>
                                     ) : (
                                         <Link href={`/learn/${course.slug}/${course.lessons?.[0]?.slug || ''}`}>
@@ -355,12 +362,15 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                             <div>
                                 <h3 className="mb-6 text-2xl font-bold">Bạn sẽ học được gì</h3>
                                 <div className="rounded-xl border bg-card p-6 shadow-sm">
-                                    <ul className="space-y-3 text-sm text-muted-foreground">
-                                        <li className="flex gap-2">✓ Kiến trúc Fullstack hiện đại</li>
-                                        <li className="flex gap-2">✓ Next.js 14 App Router</li>
-                                        <li className="flex gap-2">✓ Thành thạo TypeScript</li>
-                                        <li className="flex gap-2">✓ Bảo mật API & Authentication</li>
-                                    </ul>
+                                    {course.learningOutcomes ? (
+                                        <ul className="space-y-3 text-sm text-muted-foreground">
+                                            {course.learningOutcomes.split('\n').map((line: string, i: number) => line.trim() && (
+                                                <li key={i} className="flex gap-2">✓ {line.replace(/^- /, '')}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-sm text-muted-foreground italic">Nội dung đang cập nhật...</p>
+                                    )}
                                 </div>
                             </div>
                         </div>

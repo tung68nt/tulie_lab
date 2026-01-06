@@ -78,8 +78,9 @@ export default function NewCouponPage() {
 
                         <div className="grid grid-cols-1 gap-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Loại giảm giá</label>
+                                <label htmlFor="discountType" className="text-sm font-medium">Loại giảm giá</label>
                                 <select
+                                    id="discountType"
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                     value={formData.discountType}
                                     onChange={e => setFormData({ ...formData, discountType: e.target.value })}
@@ -187,7 +188,7 @@ export default function NewCouponPage() {
                         <div className="flex items-center justify-between border-t pt-4">
                             <div className="space-y-0.5">
                                 <label className="text-sm font-medium block">Mã Sinh nhật</label>
-                                <span className="text-sm text-muted-foreground">Chỉ áp dụng cho user có sinh nhật trong tháng (Yêu cầu logic backend thêm)</span>
+                                <span className="text-sm text-muted-foreground">Chỉ áp dụng cho user có sinh nhật trong tháng</span>
                             </div>
                             <Switch checked={formData.forBirthday} onChange={(checked) => setFormData({ ...formData, forBirthday: checked })} />
                         </div>
