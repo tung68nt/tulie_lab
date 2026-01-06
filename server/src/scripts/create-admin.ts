@@ -35,10 +35,7 @@ async function createAdmin() {
                 email,
                 password: hashedPassword,
                 name,
-                role: 'ADMIN',
-                bio: 'System Administrator',
-                headline: 'The Tulie Lab',
-                emailVerified: new Date()
+                role: 'ADMIN'
             }
         });
 
