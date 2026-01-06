@@ -25,6 +25,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     };
 
     try {
+        console.log(`[API] ${options.method || 'GET'} ${url}`);
         const response = await fetch(url, { ...options, headers, credentials: 'include' });
         // ... (rest of request function same until catch)
 
