@@ -177,8 +177,22 @@ function FullscreenVideoWrapper({
     }, []);
 
     const WrapperWatermark = () => {
-        if (!user) return null;
-        const watermarkText = `${user.email} - ${user.id}`;
+        // Get user from props or try localStorage fallback
+        let displayUser = user;
+        if (!displayUser) {
+            try {
+                const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+                if (storedUser) {
+                    displayUser = JSON.parse(storedUser);
+                }
+            } catch (e) {
+                // Ignore parse errors
+            }
+        }
+
+        if (!displayUser || (!displayUser.email && !displayUser.id)) return null;
+
+        const watermarkText = `${displayUser.email || 'user'} - ${displayUser.id || ''}`;
         return (
             <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden select-none">
                 {/* Top left */}
@@ -187,7 +201,7 @@ function FullscreenVideoWrapper({
                 </div>
                 {/* Top right */}
                 <div className={`animate-float-delayed opacity-25 text-white font-bold absolute top-4 right-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {user.email}
+                    {displayUser.email}
                 </div>
                 {/* Center */}
                 <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-mono ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
@@ -195,7 +209,7 @@ function FullscreenVideoWrapper({
                 </div>
                 {/* Bottom left */}
                 <div className={`animate-float opacity-25 text-white font-bold absolute bottom-16 left-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {user.id}
+                    {displayUser.id}
                 </div>
                 {/* Bottom right */}
                 <div className={`animate-float-delayed opacity-30 text-white font-bold absolute bottom-16 right-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
@@ -205,10 +219,10 @@ function FullscreenVideoWrapper({
                 {isFullscreen && (
                     <>
                         <div className="opacity-20 text-white text-base font-bold absolute top-1/4 left-1/4 whitespace-nowrap">
-                            {user.email}
+                            {displayUser.email}
                         </div>
                         <div className="opacity-20 text-white text-base font-bold absolute top-3/4 right-1/4 whitespace-nowrap">
-                            {user.id}
+                            {displayUser.id}
                         </div>
                         <div className="opacity-15 text-white text-base font-mono absolute top-1/3 right-1/3 whitespace-nowrap">
                             {watermarkText}
@@ -355,8 +369,22 @@ function HLSPlayer({
 
     // Watermark component for HLS Player
     const HLSWatermark = () => {
-        if (!user) return null;
-        const watermarkText = `${user.email} - ${user.id}`;
+        // Get user from props or try localStorage fallback
+        let displayUser = user;
+        if (!displayUser) {
+            try {
+                const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+                if (storedUser) {
+                    displayUser = JSON.parse(storedUser);
+                }
+            } catch (e) {
+                // Ignore parse errors
+            }
+        }
+
+        if (!displayUser || (!displayUser.email && !displayUser.id)) return null;
+
+        const watermarkText = `${displayUser.email || 'user'} - ${displayUser.id || ''}`;
         return (
             <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden select-none">
                 {/* Top left */}
@@ -365,7 +393,7 @@ function HLSPlayer({
                 </div>
                 {/* Top right */}
                 <div className={`animate-float-delayed opacity-25 text-white font-bold absolute top-4 right-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {user.email}
+                    {displayUser.email}
                 </div>
                 {/* Center */}
                 <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-mono ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
@@ -373,7 +401,7 @@ function HLSPlayer({
                 </div>
                 {/* Bottom left */}
                 <div className={`animate-float opacity-25 text-white font-bold absolute bottom-16 left-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {user.id}
+                    {displayUser.id}
                 </div>
                 {/* Bottom right */}
                 <div className={`animate-float-delayed opacity-30 text-white font-bold absolute bottom-16 right-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
@@ -383,10 +411,10 @@ function HLSPlayer({
                 {isFullscreen && (
                     <>
                         <div className="opacity-20 text-white text-base font-bold absolute top-1/4 left-1/4 whitespace-nowrap">
-                            {user.email}
+                            {displayUser.email}
                         </div>
                         <div className="opacity-20 text-white text-base font-bold absolute top-3/4 right-1/4 whitespace-nowrap">
-                            {user.id}
+                            {displayUser.id}
                         </div>
                         <div className="opacity-15 text-white text-base font-mono absolute top-1/3 right-1/3 whitespace-nowrap">
                             {watermarkText}
