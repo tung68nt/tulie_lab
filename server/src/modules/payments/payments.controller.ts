@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as PaymentService from './payments.service';
+import * as SettingsService from '../settings/settings.service';
 import { AuthRequest } from '../../middleware/auth.middleware';
 
 export const checkout = async (req: Request, res: Response) => {
@@ -39,6 +40,19 @@ export const getOrder = async (req: Request, res: Response) => {
 
 export const webhook = async (req: Request, res: Response) => {
     try {
+        // Validate API Key from Authorization header
+        const authHeader = req.headers.authorization;
+        const storedApiKey = await SettingsService.getApiKey();
+
+        if (storedApiKey) {
+            // If API key is configured, validate it
+            const expectedHeader = `Apikey ${storedApiKey}`;
+            if (!authHeader || authHeader !== expectedHeader) {
+                console.warn('Webhook: Invalid API key');
+                return res.status(401).json({ success: false, message: 'Invalid API key' });
+            }
+        }
+
         // Sepay payload
         const { id, transferAmount, transferContent, referenceCode } = req.body;
 

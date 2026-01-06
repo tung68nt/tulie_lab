@@ -162,6 +162,10 @@ export const api = {
                 method: 'PUT',
                 body: JSON.stringify(data)
             }),
+            getApiKey: () => request('/settings/api-key'),
+            regenerateApiKey: () => request('/settings/api-key/regenerate', {
+                method: 'POST'
+            }),
         },
         blog: {
             create: (data: any) => request('/blog', {

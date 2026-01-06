@@ -1,4 +1,5 @@
 import prisma from '../../config/prisma';
+import crypto from 'crypto';
 
 export const getSettings = async (keys?: string[]) => {
     const where: any = {};
@@ -26,4 +27,25 @@ export const updateSettings = async (settings: Record<string, string>) => {
     });
 
     return Promise.all(promises);
+};
+
+export const generateApiKey = async (): Promise<string> => {
+    // Generate a random 32-character API key
+    const apiKey = 'sk_' + crypto.randomBytes(24).toString('hex');
+
+    // Save to database
+    await prisma.systemSetting.upsert({
+        where: { key: 'sepay_api_key' },
+        update: { value: apiKey },
+        create: { key: 'sepay_api_key', value: apiKey }
+    });
+
+    return apiKey;
+};
+
+export const getApiKey = async (): Promise<string | null> => {
+    const setting = await prisma.systemSetting.findUnique({
+        where: { key: 'sepay_api_key' }
+    });
+    return setting?.value || null;
 };

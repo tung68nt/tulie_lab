@@ -22,6 +22,11 @@ export default function AdminWebhooksPage() {
     const [qrAmount, setQrAmount] = useState('');
     const [qrDescription, setQrDescription] = useState('');
 
+    // API Key State
+    const [apiKey, setApiKey] = useState<string | null>(null);
+    const [showApiKey, setShowApiKey] = useState(false);
+    const [regenerating, setRegenerating] = useState(false);
+
     const fetchTransactions = async () => {
         try {
             setLoading(true);
@@ -74,9 +79,34 @@ export default function AdminWebhooksPage() {
         setBankConfig((prev: any) => ({ ...prev, [key]: value }));
     };
 
+    const fetchApiKey = async () => {
+        try {
+            const data: any = await api.admin.settings.getApiKey();
+            setApiKey(data.apiKey);
+        } catch (e) {
+            console.error('Failed to load API key', e);
+        }
+    };
+
+    const handleRegenerateApiKey = async () => {
+        if (!confirm('Bạn có chắc muốn tạo lại API Key? Key cũ sẽ không còn hoạt động.')) return;
+        setRegenerating(true);
+        try {
+            const data: any = await api.admin.settings.regenerateApiKey();
+            setApiKey(data.apiKey);
+            setShowApiKey(true);
+            addToast('Đã tạo API Key mới', 'success');
+        } catch (e: any) {
+            addToast(e.message || 'Lỗi tạo API Key', 'error');
+        } finally {
+            setRegenerating(false);
+        }
+    };
+
     useEffect(() => {
         fetchTransactions();
         fetchBankConfig();
+        fetchApiKey();
     }, []);
 
     const filtered = transactions.filter(t =>
@@ -170,9 +200,10 @@ export default function AdminWebhooksPage() {
                 <CardHeader>
                     <CardTitle className="text-lg">Cấu hình Webhook</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="space-y-4">
                     <div className="flex flex-col gap-2">
-                        <p className="text-sm text-muted-foreground">
+                        <label className="text-sm font-medium">Webhook URL</label>
+                        <p className="text-xs text-muted-foreground">
                             Sử dụng URL này để cấu hình Webhook trong trang quản lý của Sepay.
                         </p>
                         <div className="flex items-center gap-2">
@@ -191,6 +222,49 @@ export default function AdminWebhooksPage() {
                                 <Copy size={14} className="mr-2" /> Sao chép
                             </Button>
                         </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 pt-4 border-t">
+                        <label className="text-sm font-medium">API Key (Bảo mật)</label>
+                        <p className="text-xs text-muted-foreground">
+                            Nhập API Key vào SePay với header: <code className="bg-muted px-1 rounded">Authorization: Apikey YOUR_KEY</code>
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <code className="bg-muted px-3 py-2 rounded text-sm font-mono flex-1 border">
+                                {apiKey ? (showApiKey ? apiKey : '••••••••••••••••••••') : 'Chưa tạo API Key'}
+                            </code>
+                            {apiKey && (
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setShowApiKey(!showApiKey)}
+                                >
+                                    {showApiKey ? 'Ẩn' : 'Hiện'}
+                                </Button>
+                            )}
+                            {apiKey && (
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(apiKey);
+                                        addToast('Đã sao chép API Key', 'success');
+                                    }}
+                                >
+                                    <Copy size={14} />
+                                </Button>
+                            )}
+                        </div>
+                        <Button
+                            variant={apiKey ? 'outline' : 'default'}
+                            size="sm"
+                            className="w-fit"
+                            onClick={handleRegenerateApiKey}
+                            disabled={regenerating}
+                        >
+                            {regenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            {apiKey ? 'Tạo lại API Key' : 'Tạo API Key mới'}
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
