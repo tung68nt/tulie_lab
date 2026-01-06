@@ -29,9 +29,9 @@ const logEmail = async (data: {
                 subject: data.subject,
                 type: data.type,
                 status: data.status,
-                userId: data.userId,
-                orderId: data.orderId,
-                error: data.error
+                userId: data.userId ?? null,
+                orderId: data.orderId ?? null,
+                error: data.error ?? null
             }
         });
     } catch (e) {
@@ -532,8 +532,8 @@ export const emailService = {
                 subject: template.subject,
                 type: 'payment_reminder',
                 status: 'sent',
-                userId: data.userId,
-                orderId: data.orderId
+                ...(data.userId && { userId: data.userId }),
+                ...(data.orderId && { orderId: data.orderId })
             });
 
             return true;
@@ -546,8 +546,8 @@ export const emailService = {
                 subject: template.subject,
                 type: 'payment_reminder',
                 status: 'failed',
-                userId: data.userId,
-                orderId: data.orderId,
+                ...(data.userId && { userId: data.userId }),
+                ...(data.orderId && { orderId: data.orderId }),
                 error: error?.message
             });
 

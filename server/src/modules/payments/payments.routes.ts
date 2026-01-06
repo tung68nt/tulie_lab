@@ -13,6 +13,7 @@ router.get('/transactions', authenticate, authorize(['ADMIN']), PaymentControlle
 router.post('/orders/:id/send-reminder', authenticate, authorize(['ADMIN']), PaymentController.sendPaymentReminder);
 
 router.get('/:code', authenticate, PaymentController.getOrder);
-router.post('/sepay-webhook', PaymentController.webhook); // Public callback
+router.post('/webhook', PaymentController.webhook); // Generic public callback
+router.post('/sepay-webhook', PaymentController.webhook); // Legacy SePay callback (for backwards compatibility)
 
 export default router;

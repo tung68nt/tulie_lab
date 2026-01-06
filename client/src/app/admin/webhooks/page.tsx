@@ -91,15 +91,17 @@ export default function AdminWebhooksPage() {
     };
 
     const handleRegenerateApiKey = async () => {
-        const confirmed = await confirm({
-            title: 'Tạo lại API Key',
-            message: 'Bạn có chắc muốn tạo lại API Key? Key cũ sẽ không còn hoạt động, các webhook đang sử dụng key cũ sẽ bị lỗi.',
-            variant: 'warning',
-            confirmText: 'Tạo lại',
-            cancelText: 'Hủy'
-        });
-
-        if (!confirmed) return;
+        // Only ask for confirmation if key already exists
+        if (apiKey) {
+            const confirmed = await confirm({
+                title: 'Tạo lại API Key',
+                message: 'Bạn có chắc muốn tạo lại API Key? Key cũ sẽ không còn hoạt động.',
+                variant: 'warning',
+                confirmText: 'Tạo lại',
+                cancelText: 'Hủy'
+            });
+            if (!confirmed) return;
+        }
 
         setRegenerating(true);
         try {
@@ -215,17 +217,17 @@ export default function AdminWebhooksPage() {
                     <div className="flex flex-col gap-2">
                         <label className="text-sm font-medium">Webhook URL</label>
                         <p className="text-xs text-muted-foreground">
-                            Sử dụng URL này để cấu hình Webhook trong trang quản lý của Sepay.
+                            Sử dụng URL này để cấu hình Webhook từ cổng thanh toán.
                         </p>
                         <div className="flex items-center gap-2">
                             <code className="bg-muted px-3 py-2 rounded text-sm font-mono flex-1 border">
-                                {typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/payments/sepay-webhook` : '.../api/payments/sepay-webhook'}
+                                {typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/payments/webhook` : '.../api/payments/webhook'}
                             </code>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 onClick={() => {
-                                    const url = `${window.location.protocol}//${window.location.host}/api/payments/sepay-webhook`;
+                                    const url = `${window.location.protocol}//${window.location.host}/api/payments/webhook`;
                                     navigator.clipboard.writeText(url);
                                     addToast('Đã sao chép Webhook URL', 'success');
                                 }}
@@ -238,7 +240,7 @@ export default function AdminWebhooksPage() {
                     <div className="flex flex-col gap-2 pt-4 border-t">
                         <label className="text-sm font-medium">API Key (Bảo mật)</label>
                         <p className="text-xs text-muted-foreground">
-                            Nhập API Key vào SePay với header: <code className="bg-muted px-1 rounded">Authorization: Apikey YOUR_KEY</code>
+                            Sử dụng API Key này để xác thực webhook từ cổng thanh toán.
                         </p>
                         <div className="flex items-center gap-2">
                             <code className="bg-muted px-3 py-2 rounded text-sm font-mono flex-1 border">
@@ -408,7 +410,7 @@ export default function AdminWebhooksPage() {
                                         <td className="py-4 px-2">
                                             <div className="text-xs flex flex-col">
                                                 <span className="font-medium">{t.accountNumber}</span>
-                                                <span className="text-muted-foreground">Sepay</span>
+                                                <span className="text-muted-foreground">{t.gateway || 'Bank'}</span>
                                             </div>
                                         </td>
                                         <td className="py-4 px-2">
