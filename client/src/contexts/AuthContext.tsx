@@ -11,12 +11,6 @@ interface User {
     avatar?: string | null;
 }
 
-interface ApiResponse {
-    success: boolean;
-    data?: any;
-    message?: string;
-}
-
 interface AuthContextType {
     user: User | null;
     isLoading: boolean;
@@ -35,9 +29,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const refreshUser = async () => {
         try {
-            const response = await api.auth.getMe() as ApiResponse;
-            if (response.success && response.data) {
-                setUser(response.data);
+            const response = await api.auth.getMe() as any;
+            // API returns { user: {...} } directly
+            const userData = response?.user || response?.data?.user || response?.data;
+            if (userData && userData.id) {
+                setUser(userData);
             } else {
                 setUser(null);
             }
@@ -54,11 +50,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     const login = async (email: string, password: string) => {
-        const response = await api.auth.login({ email, password }) as ApiResponse;
-        if (response.success && response.data?.user) {
-            setUser(response.data.user);
+        const response = await api.auth.login({ email, password }) as any;
+        // API returns { user: {...}, token: "..." } directly
+        const userData = response?.user || response?.data?.user;
+        if (userData && userData.id) {
+            setUser(userData);
         } else {
-            throw new Error(response.message || 'Login failed');
+            throw new Error(response?.message || 'Login failed');
         }
     };
 
@@ -69,6 +67,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             console.error('Logout error:', error);
         } finally {
             setUser(null);
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
         }
     };
 
@@ -96,4 +96,3 @@ export const useAuth = () => {
     }
     return context;
 };
-
