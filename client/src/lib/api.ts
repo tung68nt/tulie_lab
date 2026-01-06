@@ -98,6 +98,7 @@ export const api = {
         getUser: (id: string) => request(`/users/${id}`),
         enrollUser: (userId: string, courseId: string) => request('/users/enroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
         unenrollUser: (userId: string, courseId: string) => request('/users/unenroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
+        getInactiveUsers: (days?: number) => request(`/users/inactive${days ? `?days=${days}` : ''}`),
         courses: {
             list: () => request('/courses/all'),
             get: (id: string) => request(`/courses/${id}/full`),

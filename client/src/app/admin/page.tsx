@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
-import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw } from 'lucide-react';
+import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, UserX, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface DashboardData {
@@ -126,9 +126,12 @@ export default function AdminDashboardPage() {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [exporting, setExporting] = useState(false);
+    const [inactiveUsers, setInactiveUsers] = useState<any[]>([]);
+    const [loadingInactive, setLoadingInactive] = useState(false);
 
     useEffect(() => {
         loadData();
+        loadInactiveUsers();
     }, [filterType, timePeriod, selectedMonth, selectedYear]);
 
     const loadData = async () => {
@@ -351,6 +354,18 @@ export default function AdminDashboardPage() {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
 
+    const loadInactiveUsers = async () => {
+        setLoadingInactive(true);
+        try {
+            const users = await api.admin.getInactiveUsers(7);
+            setInactiveUsers(Array.isArray(users) ? users.slice(0, 5) : []);
+        } catch (e) {
+            console.error('Error loading inactive users:', e);
+        } finally {
+            setLoadingInactive(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="space-y-4">
@@ -555,6 +570,56 @@ export default function AdminDashboardPage() {
                     </CardContent>
                 </Card>
             )}
+
+            {/* Inactive Users Widget */}
+            <Card>
+                <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                    <CardTitle className="text-base flex items-center gap-2">
+                        <UserX size={18} />
+                        Member chưa hoạt động (7 ngày+)
+                    </CardTitle>
+                    <Button variant="outline" size="sm" onClick={loadInactiveUsers} disabled={loadingInactive}>
+                        {loadingInactive ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw size={14} />}
+                    </Button>
+                </CardHeader>
+                <CardContent>
+                    {loadingInactive ? (
+                        <div className="flex items-center justify-center py-8">
+                            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                        </div>
+                    ) : inactiveUsers.length === 0 ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                            🎉 Tất cả member đều đang hoạt động!
+                        </div>
+                    ) : (
+                        <div className="space-y-2">
+                            {inactiveUsers.map((user: any) => (
+                                <Link key={user.id} href={`/admin/users/${user.id}`} className="block">
+                                    <div className="flex items-center justify-between p-3 hover:bg-muted/50 rounded-lg border transition-colors">
+                                        <div>
+                                            <p className="font-medium">{user.name || user.email}</p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {user.courses?.slice(0, 2).join(', ')}{user.courses?.length > 2 && '...'}
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-sm font-medium text-orange-600">
+                                                {user.daysSinceActivity} ngày
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">không hoạt động</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                            {inactiveUsers.length > 0 && (
+                                <Link href="/admin/users" className="block text-center py-2 text-sm text-muted-foreground hover:text-foreground">
+                                    Xem tất cả →
+                                </Link>
+                            )}
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
         </div>
     );
 }

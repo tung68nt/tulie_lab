@@ -179,3 +179,57 @@ export const unenrollUser = async (userId: string, courseId: string) => {
         }
     });
 };
+
+// Get inactive users (no activity in X days) who have enrollments
+export const getInactiveUsers = async (inactiveDays: number = 7) => {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - inactiveDays);
+
+    // Get users with enrollments who have no recent activity
+    const usersWithEnrollments = await prisma.user.findMany({
+        where: {
+            role: 'USER',
+            enrollments: {
+                some: {} // Has at least one enrollment
+            }
+        },
+        select: {
+            id: true,
+            email: true,
+            name: true,
+            createdAt: true,
+            enrollments: {
+                select: {
+                    course: {
+                        select: { title: true }
+                    }
+                },
+                take: 3
+            }
+        }
+    });
+
+    // For each user, check their last activity
+    const inactiveUsers = [];
+    for (const user of usersWithEnrollments) {
+        const lastActivity = await prisma.activityLog.findFirst({
+            where: { userId: user.id },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        const lastActivityDate = lastActivity?.createdAt || user.createdAt;
+        const daysSinceActivity = Math.floor((Date.now() - new Date(lastActivityDate).getTime()) / (1000 * 60 * 60 * 24));
+
+        if (daysSinceActivity >= inactiveDays) {
+            inactiveUsers.push({
+                ...user,
+                lastActivityAt: lastActivityDate,
+                daysSinceActivity,
+                courses: user.enrollments.map(e => e.course.title)
+            });
+        }
+    }
+
+    // Sort by longest inactive first
+    return inactiveUsers.sort((a, b) => b.daysSinceActivity - a.daysSinceActivity);
+};

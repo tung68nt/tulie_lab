@@ -103,3 +103,13 @@ export const getUserOrders = async (req: Request, res: Response) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const getInactiveUsers = async (req: Request, res: Response) => {
+    try {
+        const days = Number(req.query.days) || 7;
+        const users = await UserService.getInactiveUsers(days);
+        res.json(users);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};

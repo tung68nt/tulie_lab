@@ -14,6 +14,7 @@ router.get('/orders', UserController.getUserOrders);
 
 // Admin routes
 router.get('/', authorize([Role.ADMIN]), UserController.listUsers);
+router.get('/inactive', authorize([Role.ADMIN]), UserController.getInactiveUsers);
 router.post('/enroll', authorize([Role.ADMIN]), UserController.manualEnroll);
 router.post('/unenroll', authorize([Role.ADMIN]), UserController.manualUnenroll);
 router.get('/:id', authorize([Role.ADMIN]), UserController.getUser);
