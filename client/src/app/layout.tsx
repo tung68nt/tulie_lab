@@ -4,6 +4,7 @@ import './globals.css';
 import { MainLayout } from '@/components/MainLayout';
 import { ToastProvider } from '@/contexts/ToastContext';
 import { SettingsProvider } from '@/contexts/SettingsContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,9 +30,11 @@ export default function RootLayout({
     <html lang="vi" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning={true}>
         <ToastProvider>
-          <SettingsProvider>
-            <MainLayout>{children}</MainLayout>
-          </SettingsProvider>
+          <AuthProvider>
+            <SettingsProvider>
+              <MainLayout>{children}</MainLayout>
+            </SettingsProvider>
+          </AuthProvider>
         </ToastProvider>
       </body>
     </html>
