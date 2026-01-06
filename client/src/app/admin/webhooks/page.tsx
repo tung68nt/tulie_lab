@@ -18,6 +18,10 @@ export default function AdminWebhooksPage() {
     const [bankConfig, setBankConfig] = useState<any>({});
     const [savingConfig, setSavingConfig] = useState(false);
 
+    // QR Generator State
+    const [qrAmount, setQrAmount] = useState('');
+    const [qrDescription, setQrDescription] = useState('');
+
     const fetchTransactions = async () => {
         try {
             setLoading(true);
@@ -179,6 +183,66 @@ export default function AdminWebhooksPage() {
                             </Button>
                         </div>
                     </div>
+                </CardContent>
+            </Card>
+
+            {/* QR Code Generator */}
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-lg">🔧 Công cụ tạo mã QR</CardTitle>
+                    <CardDescription>Tạo mã QR thanh toán thủ công để test hoặc gửi cho khách.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Số tiền (VND)</label>
+                            <Input
+                                type="number"
+                                value={qrAmount}
+                                onChange={(e) => setQrAmount(e.target.value)}
+                                placeholder="Ví dụ: 500000"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">Nội dung chuyển khoản</label>
+                            <Input
+                                value={qrDescription}
+                                onChange={(e) => setQrDescription(e.target.value)}
+                                placeholder="Ví dụ: SEVQR ORD-12345"
+                            />
+                        </div>
+                    </div>
+                    {bankConfig.bank_account_no && qrAmount && (
+                        <div className="flex flex-col items-center justify-center gap-4 p-6 bg-muted/50 rounded-lg border">
+                            <img
+                                src={`https://qr.sepay.vn/img?acc=${bankConfig.bank_account_no}&bank=${bankConfig.bank_name || 'MB'}&amount=${qrAmount}&des=${encodeURIComponent(qrDescription || 'Thanh toan')}`}
+                                alt="QR Code"
+                                className="w-48 h-48 rounded-lg bg-white p-2 border shadow-sm"
+                            />
+                            <div className="text-center text-sm">
+                                <p><span className="text-muted-foreground">Ngân hàng:</span> <strong>{bankConfig.bank_name || 'N/A'}</strong></p>
+                                <p><span className="text-muted-foreground">STK:</span> <strong>{bankConfig.bank_account_no}</strong></p>
+                                <p><span className="text-muted-foreground">Số tiền:</span> <strong>{formatVND(Number(qrAmount) || 0)}</strong></p>
+                                <p><span className="text-muted-foreground">Nội dung:</span> <strong>{qrDescription || 'Thanh toan'}</strong></p>
+                            </div>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                    const qrUrl = `https://qr.sepay.vn/img?acc=${bankConfig.bank_account_no}&bank=${bankConfig.bank_name || 'MB'}&amount=${qrAmount}&des=${encodeURIComponent(qrDescription || 'Thanh toan')}`;
+                                    navigator.clipboard.writeText(qrUrl);
+                                    addToast('Đã sao chép URL mã QR', 'success');
+                                }}
+                            >
+                                <Copy size={14} className="mr-2" /> Sao chép URL QR
+                            </Button>
+                        </div>
+                    )}
+                    {!bankConfig.bank_account_no && (
+                        <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg text-sm text-amber-700 dark:text-amber-300">
+                            ⚠️ Vui lòng cấu hình thông tin tài khoản nhận tiền ở trên trước khi tạo mã QR.
+                        </div>
+                    )}
                 </CardContent>
             </Card>
 
