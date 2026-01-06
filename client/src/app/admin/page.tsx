@@ -149,153 +149,155 @@ export default function AdminDashboardPage() {
             const totalRevenue = paidOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0);
 
 
-            // Generate chart data based on selected time period
+            // Generate chart data based on selected time period using REAL ORDER DATA
             const generateChartData = () => {
                 const today = new Date();
+                const paidOrderList = orders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED');
+                const userList = users;
+
+                // Helper to aggregate orders by date
+                const aggregateByDate = (startDate: Date, endDate: Date, groupBy: 'day' | 'week' | 'month') => {
+                    const result: { month: string; revenue: number; orders: number; users: number }[] = [];
+
+                    if (groupBy === 'day') {
+                        const current = new Date(startDate);
+                        while (current <= endDate) {
+                            const dateStr = `${String(current.getDate()).padStart(2, '0')}/${String(current.getMonth() + 1).padStart(2, '0')}/${current.getFullYear()}`;
+                            const dayStart = new Date(current);
+                            dayStart.setHours(0, 0, 0, 0);
+                            const dayEnd = new Date(current);
+                            dayEnd.setHours(23, 59, 59, 999);
+
+                            const dayOrders = paidOrderList.filter((o: any) => {
+                                const orderDate = new Date(o.createdAt);
+                                return orderDate >= dayStart && orderDate <= dayEnd;
+                            });
+
+                            const dayUsers = userList.filter((u: any) => {
+                                const userDate = new Date(u.createdAt);
+                                return userDate >= dayStart && userDate <= dayEnd;
+                            });
+
+                            result.push({
+                                month: dateStr,
+                                revenue: dayOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+                                orders: dayOrders.length,
+                                users: dayUsers.length
+                            });
+
+                            current.setDate(current.getDate() + 1);
+                        }
+                    } else if (groupBy === 'week') {
+                        const current = new Date(startDate);
+                        let weekNum = 1;
+                        while (current <= endDate) {
+                            const weekStart = new Date(current);
+                            const weekEnd = new Date(current);
+                            weekEnd.setDate(weekEnd.getDate() + 6);
+
+                            const label = `W${weekNum} - ${String(weekStart.getMonth() + 1).padStart(2, '0')}/${weekStart.getFullYear()}`;
+
+                            const weekOrders = paidOrderList.filter((o: any) => {
+                                const orderDate = new Date(o.createdAt);
+                                return orderDate >= weekStart && orderDate <= weekEnd;
+                            });
+
+                            const weekUsers = userList.filter((u: any) => {
+                                const userDate = new Date(u.createdAt);
+                                return userDate >= weekStart && userDate <= weekEnd;
+                            });
+
+                            result.push({
+                                month: label,
+                                revenue: weekOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+                                orders: weekOrders.length,
+                                users: weekUsers.length
+                            });
+
+                            current.setDate(current.getDate() + 7);
+                            weekNum++;
+                        }
+                    } else if (groupBy === 'month') {
+                        const current = new Date(startDate);
+                        while (current <= endDate) {
+                            const monthStart = new Date(current.getFullYear(), current.getMonth(), 1);
+                            const monthEnd = new Date(current.getFullYear(), current.getMonth() + 1, 0, 23, 59, 59, 999);
+
+                            const label = `${String(current.getMonth() + 1).padStart(2, '0')}/${current.getFullYear()}`;
+
+                            const monthOrders = paidOrderList.filter((o: any) => {
+                                const orderDate = new Date(o.createdAt);
+                                return orderDate >= monthStart && orderDate <= monthEnd;
+                            });
+
+                            const monthUsers = userList.filter((u: any) => {
+                                const userDate = new Date(u.createdAt);
+                                return userDate >= monthStart && userDate <= monthEnd;
+                            });
+
+                            result.push({
+                                month: label,
+                                revenue: monthOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+                                orders: monthOrders.length,
+                                users: monthUsers.length
+                            });
+
+                            current.setMonth(current.getMonth() + 1);
+                        }
+                    }
+
+                    return result;
+                };
 
                 if (timePeriod === 'thisMonth') {
-                    // Current month - from day 1 to last day of current month
-                    // Only show actual data up to today, future days are 0
-                    const dailyData = [];
                     const year = today.getFullYear();
                     const month = today.getMonth();
-                    const currentDay = today.getDate();
-                    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-                    for (let day = 1; day <= daysInMonth; day++) {
-                        const dayLabel = `${String(day).padStart(2, '0')}/${String(month + 1).padStart(2, '0')}/${year}`;
-                        // Only generate data for past/today, future days are 0
-                        const hasPassed = day <= currentDay;
-                        dailyData.push({
-                            month: dayLabel,
-                            revenue: hasPassed ? Math.floor(1500000 + Math.random() * 3000000) : 0,
-                            orders: hasPassed ? Math.floor(2 + Math.random() * 6) : 0,
-                            users: hasPassed ? Math.floor(1 + Math.random() * 4) : 0
-                        });
-                    }
-                    return dailyData;
+                    const startDate = new Date(year, month, 1);
+                    const endDate = new Date(year, month + 1, 0);
+                    return aggregateByDate(startDate, endDate, 'day');
                 } else if (timePeriod === '7d') {
-                    // Last 7 days - daily data with DD/MM/YYYY format
-                    const dailyData = [];
-                    for (let i = 6; i >= 0; i--) {
-                        const date = new Date(today);
-                        date.setDate(date.getDate() - i);
-                        const dayLabel = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-                        dailyData.push({
-                            month: dayLabel,
-                            revenue: Math.floor(2000000 + Math.random() * 5000000),
-                            orders: Math.floor(3 + Math.random() * 8),
-                            users: Math.floor(2 + Math.random() * 6)
-                        });
-                    }
-                    return dailyData;
+                    const startDate = new Date(today);
+                    startDate.setDate(startDate.getDate() - 6);
+                    return aggregateByDate(startDate, today, 'day');
                 } else if (timePeriod === '30d') {
-                    // Last 30 days - all 30 bars with full date dd/mm/yyyy
-                    const dailyData = [];
-                    for (let i = 29; i >= 0; i--) {
-                        const date = new Date(today);
-                        date.setDate(date.getDate() - i);
-                        // Full date format dd/mm/yyyy for weekend detection
-                        const dayLabel = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-                        dailyData.push({
-                            month: dayLabel,
-                            revenue: Math.floor(1500000 + Math.random() * 3000000),
-                            orders: Math.floor(2 + Math.random() * 6),
-                            users: Math.floor(1 + Math.random() * 4)
-                        });
-                    }
-                    return dailyData;
+                    const startDate = new Date(today);
+                    startDate.setDate(startDate.getDate() - 29);
+                    return aggregateByDate(startDate, today, 'day');
                 } else if (timePeriod === 'quarter') {
-                    // Current Quarter - start from Jan/Apr/Jul/Oct 1st
-                    // Format: Wxx - MM/YYYY
-                    const weeklyData = [];
                     const currentMonth = today.getMonth();
-                    const quarterStartMonth = Math.floor(currentMonth / 3) * 3; // 0, 3, 6, 9
-                    const quarterStart = new Date(today.getFullYear(), quarterStartMonth, 1);
-
-                    // Generate weeks for the current quarter (usually 13 weeks)
-                    // We start from week 1 relative to the quarter start
-
-                    // Simple week generator - just take 12 weeks from start of quarter
-                    // Or until today? User says "Quý này" (This Quarter).
-                    // Let's show full quarter structure (12 weeks)
-
-                    for (let i = 0; i < 12; i++) {
-                        const weekDate = new Date(quarterStart);
-                        weekDate.setDate(quarterStart.getDate() + (i * 7));
-
-                        // formatting W1 - 01/2026
-                        // weekNum is i+1 relative to quarter
-                        const weekNum = i + 1;
-                        const label = `W${weekNum} - ${String(weekDate.getMonth() + 1).padStart(2, '0')}/${weekDate.getFullYear()}`;
-
-                        weeklyData.push({
-                            month: label,
-                            revenue: Math.floor(8000000 + Math.random() * 10000000),
-                            orders: Math.floor(12 + Math.random() * 8),
-                            users: Math.floor(5 + Math.random() * 10)
-                        });
-                    }
-                    return weeklyData;
+                    const quarterStartMonth = Math.floor(currentMonth / 3) * 3;
+                    const startDate = new Date(today.getFullYear(), quarterStartMonth, 1);
+                    return aggregateByDate(startDate, today, 'week');
                 } else if (timePeriod === 'year') {
-                    // Current Year - 12 months
-                    // Format: MM/YYYY
-                    const monthlyData = [];
-                    for (let i = 11; i >= 0; i--) {
-                        const date = new Date(today);
-                        date.setMonth(date.getMonth() - i);
-                        const label = `${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
-                        monthlyData.push({
-                            month: label,
-                            revenue: Math.floor(25000000 + Math.random() * 30000000),
-                            orders: Math.floor(30 + Math.random() * 30),
-                            users: Math.floor(40 + Math.random() * 40)
-                        });
-                    }
-                    return monthlyData;
+                    const startDate = new Date(today.getFullYear(), 0, 1);
+                    return aggregateByDate(startDate, today, 'month');
                 } else if (timePeriod === '90d') {
-                    // Last 90 days - 12 weeks
-                    const weeklyData = [];
-                    for (let i = 11; i >= 0; i--) {
-                        const weekStart = new Date(today);
-                        weekStart.setDate(weekStart.getDate() - (i * 7));
-                        const weekLabel = `${weekStart.getDate()}/${weekStart.getMonth() + 1}`;
-                        weeklyData.push({
-                            month: weekLabel,
-                            revenue: Math.floor(8000000 + Math.random() * 10000000),
-                            orders: Math.floor(10 + Math.random() * 15),
-                            users: Math.floor(8 + Math.random() * 12)
-                        });
-                    }
-                    return weeklyData;
+                    const startDate = new Date(today);
+                    startDate.setDate(startDate.getDate() - 84); // 12 weeks
+                    return aggregateByDate(startDate, today, 'week');
                 } else {
-                    // Fallback (should not happen with new logic, but kept for safety)
-                    const monthlyData = [];
-                    for (let i = 11; i >= 0; i--) {
-                        const date = new Date(today);
-                        date.setMonth(date.getMonth() - i);
-                        monthlyData.push({
-                            month: `T${date.getMonth() + 1}`,
-                            revenue: Math.floor(25000000 + Math.random() * 30000000),
-                            orders: Math.floor(30 + Math.random() * 30),
-                            users: Math.floor(40 + Math.random() * 40)
-                        });
-                    }
-                    return monthlyData;
+                    const startDate = new Date(today.getFullYear(), 0, 1);
+                    return aggregateByDate(startDate, today, 'month');
                 }
             };
 
             const monthlyData = generateChartData();
 
             setData({
-                totalRevenue: totalRevenue || 125000000,
-                monthlyRevenue: 45000000,
-                totalOrders: orders.length || 156,
-                paidOrders: paidOrders.length || 142,
-                pendingOrders: pendingOrders.length || 14,
-                totalUsers: users.length || 356,
-                activeUsers: users.filter((u: any) => u.enrolledCourses?.length > 0).length || 1,
-                totalCourses: courses.length || 3,
+                totalRevenue: totalRevenue,
+                monthlyRevenue: paidOrders
+                    .filter((o: any) => {
+                        const orderDate = new Date(o.createdAt);
+                        const now = new Date();
+                        return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
+                    })
+                    .reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+                totalOrders: orders.length,
+                paidOrders: paidOrders.length,
+                pendingOrders: pendingOrders.length,
+                totalUsers: users.length,
+                activeUsers: users.filter((u: any) => u.enrolledCourses?.length > 0).length,
+                totalCourses: courses.length,
                 monthlyData,
                 recentOrders: orders.slice(0, 5).map((o: any) => ({
                     id: o.id,
@@ -308,23 +310,17 @@ export default function AdminDashboardPage() {
             });
         } catch (e) {
             console.error('Dashboard load error:', e);
+            // On error, show zeros instead of fake data
             setData({
-                totalRevenue: 125000000,
-                monthlyRevenue: 45000000,
-                totalOrders: 156,
-                paidOrders: 142,
-                pendingOrders: 14,
-                totalUsers: 356,
-                activeUsers: 89,
-                totalCourses: 3,
-                monthlyData: [
-                    { month: 'T7', revenue: 28000000, orders: 32, users: 45 },
-                    { month: 'T8', revenue: 35000000, orders: 41, users: 52 },
-                    { month: 'T9', revenue: 42000000, orders: 48, users: 61 },
-                    { month: 'T10', revenue: 38000000, orders: 44, users: 55 },
-                    { month: 'T11', revenue: 45000000, orders: 52, users: 68 },
-                    { month: 'T12', revenue: 52000000, orders: 58, users: 75 },
-                ],
+                totalRevenue: 0,
+                monthlyRevenue: 0,
+                totalOrders: 0,
+                paidOrders: 0,
+                pendingOrders: 0,
+                totalUsers: 0,
+                activeUsers: 0,
+                totalCourses: 0,
+                monthlyData: [],
                 recentOrders: []
             });
         }
