@@ -7,7 +7,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
-
+import { Switch } from '@/components/Switch';
 export default function CreateCoursePage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -170,25 +170,19 @@ export default function CreateCoursePage() {
                                         {formData.price === 0 ? 'Miễn phí' : `${formData.price.toLocaleString('vi-VN')}đ`}
                                     </p>
                                 </div>
-                                <div className="flex items-end pb-2">
-                                    {/* Modern Toggle Switch */}
-                                    <label className="flex items-center gap-3 text-sm font-medium cursor-pointer select-none">
-                                        <span className="text-muted-foreground">Xuất bản</span>
-                                        <button
-                                            type="button"
-                                            role="switch"
-                                            aria-checked={formData.isPublished}
-                                            onClick={() => setFormData({ ...formData, isPublished: !formData.isPublished })}
-                                            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${formData.isPublished ? 'bg-foreground' : 'bg-muted'}`}
-                                        >
-                                            <span
-                                                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-background shadow-lg ring-0 transition duration-200 ease-in-out ${formData.isPublished ? 'translate-x-5' : 'translate-x-0'}`}
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Trạng thái</label>
+                                    <div className="flex items-center h-10">
+                                        <label className="flex items-center gap-2 cursor-pointer select-none">
+                                            <Switch
+                                                checked={formData.isPublished}
+                                                onChange={(checked) => setFormData({ ...formData, isPublished: checked })}
                                             />
-                                        </button>
-                                        <span className={formData.isPublished ? 'text-foreground font-semibold' : 'text-muted-foreground'}>
-                                            {formData.isPublished ? 'Đã xuất bản' : 'Nháp'}
-                                        </span>
-                                    </label>
+                                            <span className={formData.isPublished ? 'text-foreground font-semibold' : 'text-muted-foreground'}>
+                                                {formData.isPublished ? 'Đã xuất bản' : 'Nháp'}
+                                            </span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 

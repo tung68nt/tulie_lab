@@ -199,25 +199,19 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                     <label className="text-sm font-medium">Học phí (VNĐ)</label>
                                     <Input type="number" value={courseForm.price} onChange={e => setCourseForm({ ...courseForm, price: parseFloat(e.target.value) })} />
                                 </div>
-                                <div className="flex items-end pb-2">
-                                    {/* Modern Toggle Switch */}
-                                    <label className="flex items-center gap-3 text-sm font-medium cursor-pointer select-none">
-                                        <span className="text-muted-foreground">Xuất bản</span>
-                                        <button
-                                            type="button"
-                                            role="switch"
-                                            aria-checked={courseForm.isPublished}
-                                            onClick={() => setCourseForm({ ...courseForm, isPublished: !courseForm.isPublished })}
-                                            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${courseForm.isPublished ? 'bg-foreground' : 'bg-muted'}`}
-                                        >
-                                            <span
-                                                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-background shadow-lg ring-0 transition duration-200 ease-in-out ${courseForm.isPublished ? 'translate-x-5' : 'translate-x-0'}`}
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Trạng thái</label>
+                                    <div className="flex items-center h-10">
+                                        <label className="flex items-center gap-2 cursor-pointer select-none">
+                                            <Switch
+                                                checked={courseForm.isPublished}
+                                                onChange={(checked) => setCourseForm({ ...courseForm, isPublished: checked })}
                                             />
-                                        </button>
-                                        <span className={courseForm.isPublished ? 'text-foreground font-semibold' : 'text-muted-foreground'}>
-                                            {courseForm.isPublished ? 'Đã xuất bản' : 'Chưa xuất bản'}
-                                        </span>
-                                    </label>
+                                            <span className={courseForm.isPublished ? 'text-foreground font-semibold' : 'text-muted-foreground'}>
+                                                {courseForm.isPublished ? 'Đã xuất bản' : 'Chưa xuất bản'}
+                                            </span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
