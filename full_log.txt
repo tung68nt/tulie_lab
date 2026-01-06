@@ -1,0 +1,512 @@
+deploy	Set up job	﻿2026-01-05T17:42:00.3675981Z Current runner version: '2.330.0'
+deploy	Set up job	2026-01-05T17:42:00.3703928Z ##[group]Runner Image Provisioner
+deploy	Set up job	2026-01-05T17:42:00.3705203Z Hosted Compute Agent
+deploy	Set up job	2026-01-05T17:42:00.3706106Z Version: 20251211.462
+deploy	Set up job	2026-01-05T17:42:00.3707318Z Commit: 6cbad8c2bb55d58165063d031ccabf57e2d2db61
+deploy	Set up job	2026-01-05T17:42:00.3708314Z Build Date: 2025-12-11T16:28:49Z
+deploy	Set up job	2026-01-05T17:42:00.3709463Z Worker ID: ***8d290b53-77a9-46c2-a92a-575785f8d61d***
+deploy	Set up job	2026-01-05T17:42:00.3710614Z ##[endgroup]
+deploy	Set up job	2026-01-05T17:42:00.3711499Z ##[group]Operating System
+deploy	Set up job	2026-01-05T17:42:00.3712422Z Ubuntu
+deploy	Set up job	2026-01-05T17:42:00.3713153Z 24.04.3
+deploy	Set up job	2026-01-05T17:42:00.3713977Z LTS
+deploy	Set up job	2026-01-05T17:42:00.3714736Z ##[endgroup]
+deploy	Set up job	2026-01-05T17:42:00.3715516Z ##[group]Runner Image
+deploy	Set up job	2026-01-05T17:42:00.3716688Z Image: ubuntu-24.04
+deploy	Set up job	2026-01-05T17:42:00.3717599Z Version: 20251215.174.1
+deploy	Set up job	2026-01-05T17:42:00.3719058Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251215.174/images/ubuntu/Ubuntu2404-Readme.md
+deploy	Set up job	2026-01-05T17:42:00.3720882Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251215.174
+deploy	Set up job	2026-01-05T17:42:00.3722451Z ##[endgroup]
+deploy	Set up job	2026-01-05T17:42:00.3724095Z ##[group]GITHUB_TOKEN Permissions
+deploy	Set up job	2026-01-05T17:42:00.3726977Z Contents: read
+deploy	Set up job	2026-01-05T17:42:00.3727961Z Metadata: read
+deploy	Set up job	2026-01-05T17:42:00.3728719Z ##[endgroup]
+deploy	Set up job	2026-01-05T17:42:00.3731118Z Secret source: Actions
+deploy	Set up job	2026-01-05T17:42:00.3732552Z Prepare workflow directory
+deploy	Set up job	2026-01-05T17:42:00.4272759Z Prepare all required actions
+deploy	Set up job	2026-01-05T17:42:00.4311301Z Getting action download info
+deploy	Set up job	2026-01-05T17:42:00.7772985Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+deploy	Set up job	2026-01-05T17:42:00.8737871Z Download action repository 'google-github-actions/auth@v2' (SHA:c200f3691d83b41bf9bbd8638997a462592937ed)
+deploy	Set up job	2026-01-05T17:42:01.2346837Z Download action repository 'google-github-actions/setup-gcloud@v2' (SHA:e427ad8a34f8676edf47cf7d7925499adf3eb74f)
+deploy	Set up job	2026-01-05T17:42:01.7147263Z Complete job name: deploy
+deploy	Checkout code	﻿2026-01-05T17:42:01.8023244Z ##[group]Run actions/checkout@v4
+deploy	Checkout code	2026-01-05T17:42:01.8025087Z with:
+deploy	Checkout code	2026-01-05T17:42:01.8026599Z   repository: tung68nt/***
+deploy	Checkout code	2026-01-05T17:42:01.8028250Z   token: ***
+deploy	Checkout code	2026-01-05T17:42:01.8029478Z   ssh-strict: true
+deploy	Checkout code	2026-01-05T17:42:01.8030787Z   ssh-user: git
+deploy	Checkout code	2026-01-05T17:42:01.8032068Z   persist-credentials: true
+deploy	Checkout code	2026-01-05T17:42:01.8033434Z   clean: true
+deploy	Checkout code	2026-01-05T17:42:01.8034741Z   sparse-checkout-cone-mode: true
+deploy	Checkout code	2026-01-05T17:42:01.8036227Z   fetch-depth: 1
+deploy	Checkout code	2026-01-05T17:42:01.8037596Z   fetch-tags: false
+deploy	Checkout code	2026-01-05T17:42:01.8038903Z   show-progress: true
+deploy	Checkout code	2026-01-05T17:42:01.8040188Z   lfs: false
+deploy	Checkout code	2026-01-05T17:42:01.8041401Z   submodules: false
+deploy	Checkout code	2026-01-05T17:42:01.8042704Z   set-safe-directory: true
+deploy	Checkout code	2026-01-05T17:42:01.8044331Z env:
+deploy	Checkout code	2026-01-05T17:42:01.8045624Z   PROJECT_ID: ***
+deploy	Checkout code	2026-01-05T17:42:01.8047147Z   SERVICE_NAME: academy-api-beta
+deploy	Checkout code	2026-01-05T17:42:01.8048611Z   REGION: asia-southeast1
+deploy	Checkout code	2026-01-05T17:42:01.8049965Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:01.9224436Z Syncing repository: tung68nt/***
+deploy	Checkout code	2026-01-05T17:42:01.9228272Z ##[group]Getting Git version info
+deploy	Checkout code	2026-01-05T17:42:01.9230347Z Working directory is '/home/runner/work/***/***'
+deploy	Checkout code	2026-01-05T17:42:01.9232998Z [command]/usr/bin/git version
+deploy	Checkout code	2026-01-05T17:42:01.9281033Z git version 2.52.0
+deploy	Checkout code	2026-01-05T17:42:01.9307900Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:01.9328607Z Temporarily overriding HOME='/home/runner/work/_temp/1b5a53d6-d61d-4f80-ae37-adbd0405530b' before making global git config changes
+deploy	Checkout code	2026-01-05T17:42:01.9333159Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Checkout code	2026-01-05T17:42:01.9336087Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/***/***
+deploy	Checkout code	2026-01-05T17:42:01.9373578Z Deleting the contents of '/home/runner/work/***/***'
+deploy	Checkout code	2026-01-05T17:42:01.9377314Z ##[group]Initializing the repository
+deploy	Checkout code	2026-01-05T17:42:01.9381246Z [command]/usr/bin/git init /home/runner/work/***/***
+deploy	Checkout code	2026-01-05T17:42:01.9476626Z hint: Using 'master' as the name for the initial branch. This default branch name
+deploy	Checkout code	2026-01-05T17:42:01.9479733Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+deploy	Checkout code	2026-01-05T17:42:01.9482377Z hint: to use in all of your new repositories, which will suppress this warning,
+deploy	Checkout code	2026-01-05T17:42:01.9484264Z hint: call:
+deploy	Checkout code	2026-01-05T17:42:01.9485661Z hint:
+deploy	Checkout code	2026-01-05T17:42:01.9487216Z hint: 	git config --global init.defaultBranch <name>
+deploy	Checkout code	2026-01-05T17:42:01.9488847Z hint:
+deploy	Checkout code	2026-01-05T17:42:01.9490610Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+deploy	Checkout code	2026-01-05T17:42:01.9492955Z hint: 'development'. The just-created branch can be renamed via this command:
+deploy	Checkout code	2026-01-05T17:42:01.9494837Z hint:
+deploy	Checkout code	2026-01-05T17:42:01.9496034Z hint: 	git branch -m <name>
+deploy	Checkout code	2026-01-05T17:42:01.9497485Z hint:
+deploy	Checkout code	2026-01-05T17:42:01.9499144Z hint: Disable this message with "git config set advice.defaultBranchName false"
+deploy	Checkout code	2026-01-05T17:42:01.9501818Z Initialized empty Git repository in /home/runner/work/***/***/.git/
+deploy	Checkout code	2026-01-05T17:42:01.9505805Z [command]/usr/bin/git remote add origin https://github.com/tung68nt/***
+deploy	Checkout code	2026-01-05T17:42:01.9528969Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:01.9531645Z ##[group]Disabling automatic garbage collection
+deploy	Checkout code	2026-01-05T17:42:01.9534683Z [command]/usr/bin/git config --local gc.auto 0
+deploy	Checkout code	2026-01-05T17:42:01.9565884Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:01.9569635Z ##[group]Setting up auth
+deploy	Checkout code	2026-01-05T17:42:01.9572968Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+deploy	Checkout code	2026-01-05T17:42:01.9607094Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+deploy	Checkout code	2026-01-05T17:42:01.9928229Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Checkout code	2026-01-05T17:42:01.9957538Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+deploy	Checkout code	2026-01-05T17:42:02.0176851Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+deploy	Checkout code	2026-01-05T17:42:02.0217496Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+deploy	Checkout code	2026-01-05T17:42:02.0440472Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+deploy	Checkout code	2026-01-05T17:42:02.0476152Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:02.0480126Z ##[group]Fetching the repository
+deploy	Checkout code	2026-01-05T17:42:02.0488307Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2d243e816f46951e538f1c9d2a6e0ba84b409e56:refs/remotes/origin/beta
+deploy	Checkout code	2026-01-05T17:42:02.3401697Z From https://github.com/tung68nt/***
+deploy	Checkout code	2026-01-05T17:42:02.3406963Z  * [new ref]         2d243e816f46951e538f1c9d2a6e0ba84b409e56 -> origin/beta
+deploy	Checkout code	2026-01-05T17:42:02.3439568Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:02.3442999Z ##[group]Determining the checkout info
+deploy	Checkout code	2026-01-05T17:42:02.3447119Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:02.3449464Z [command]/usr/bin/git sparse-checkout disable
+deploy	Checkout code	2026-01-05T17:42:02.3491239Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+deploy	Checkout code	2026-01-05T17:42:02.3516300Z ##[group]Checking out the ref
+deploy	Checkout code	2026-01-05T17:42:02.3519801Z [command]/usr/bin/git checkout --progress --force -B beta refs/remotes/origin/beta
+deploy	Checkout code	2026-01-05T17:42:02.3728893Z Switched to a new branch 'beta'
+deploy	Checkout code	2026-01-05T17:42:02.3732675Z branch 'beta' set up to track 'origin/beta'.
+deploy	Checkout code	2026-01-05T17:42:02.3742753Z ##[endgroup]
+deploy	Checkout code	2026-01-05T17:42:02.3781214Z [command]/usr/bin/git log -1 --format=%H
+deploy	Checkout code	2026-01-05T17:42:02.3805134Z 2d243e816f46951e538f1c9d2a6e0ba84b409e56
+deploy	Authenticate to Google Cloud	﻿2026-01-05T17:42:02.4194074Z ##[group]Run google-github-actions/auth@v2
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4195558Z with:
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4230139Z   credentials_json: ***
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4231464Z   create_credentials_file: true
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4232942Z   export_environment_variables: true
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4234382Z   universe: googleapis.com
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4235676Z   cleanup_credentials: true
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4237325Z   access_token_lifetime: 3600s
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4239010Z   access_token_scopes: https://www.googleapis.com/auth/cloud-platform
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4240756Z   id_token_include_email: false
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4242026Z env:
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4243185Z   PROJECT_ID: ***
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4244418Z   SERVICE_NAME: academy-api-beta
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4245780Z   REGION: asia-southeast1
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.4247166Z ##[endgroup]
+deploy	Authenticate to Google Cloud	2026-01-05T17:42:02.5203312Z Created credentials file at "/home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json"
+deploy	Set up Cloud SDK	﻿2026-01-05T17:42:02.5421435Z ##[group]Run google-github-actions/setup-gcloud@v2
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5423007Z with:
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5424215Z   project_id: ***
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5425446Z   version: latest
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5426994Z   skip_install: false
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5428258Z   skip_tool_cache: false
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5429490Z env:
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5430649Z   PROJECT_ID: ***
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5431905Z   SERVICE_NAME: academy-api-beta
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5433260Z   REGION: asia-southeast1
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5435480Z   CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5438521Z   GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5441216Z   GOOGLE_GHA_CREDS_PATH: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5443135Z   CLOUDSDK_CORE_PROJECT: ***
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5444520Z   CLOUDSDK_PROJECT: ***
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5445825Z   GCLOUD_PROJECT: ***
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5447537Z   GCP_PROJECT: ***
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5448822Z   GOOGLE_CLOUD_PROJECT: ***
+deploy	Set up Cloud SDK	2026-01-05T17:42:02.5450072Z ##[endgroup]
+deploy	Set up Cloud SDK	2026-01-05T17:42:06.7194532Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/9975a6c9-4ae8-4833-9840-3ce9dd48204c -f /home/runner/work/_temp/c881ad72-6b81-4805-b5f1-1e68784a77fd
+deploy	Set up Cloud SDK	2026-01-05T17:42:26.0854693Z Successfully authenticated
+deploy	Set up Cloud SDK	2026-01-05T17:42:27.1124391Z Successfully set default project
+deploy	Configure Docker for GCR	﻿2026-01-05T17:42:27.1318295Z ##[group]Run gcloud auth configure-docker
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1318807Z [36;1mgcloud auth configure-docker[0m
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1357390Z shell: /usr/bin/bash -e ***0***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1357777Z env:
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1358098Z   PROJECT_ID: ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1358418Z   SERVICE_NAME: academy-api-beta
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1358775Z   REGION: asia-southeast1
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1359408Z   CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1360239Z   GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1360985Z   GOOGLE_GHA_CREDS_PATH: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1361530Z   CLOUDSDK_CORE_PROJECT: ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1361905Z   CLOUDSDK_PROJECT: ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1362283Z   GCLOUD_PROJECT: ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1362640Z   GCP_PROJECT: ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1362975Z   GOOGLE_CLOUD_PROJECT: ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1363422Z   CLOUDSDK_METRICS_ENVIRONMENT: github-actions-setup-gcloud
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1363886Z   CLOUDSDK_METRICS_ENVIRONMENT_VERSION: 2.2.1
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.1364244Z ##[endgroup]
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6230627Z Adding credentials for all GCR repositories.
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6232062Z WARNING: A long list of credential helpers may cause delays running 'docker build'. We recommend passing the registry name to configure only the registry you are using.
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6233733Z After update, the following will be written to your Docker config file located 
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6234513Z at [/home/runner/.docker/config.json]:
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6234986Z  ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6235324Z   "credHelpers": ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6235667Z     "gcr.io": "gcloud",
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6236086Z     "us.gcr.io": "gcloud",
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6236636Z     "eu.gcr.io": "gcloud",
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6237097Z     "asia.gcr.io": "gcloud",
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6237769Z     "staging-k8s.gcr.io": "gcloud",
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6238195Z     "marketplace.gcr.io": "gcloud"
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6238582Z   ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6238887Z ***
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6239058Z 
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6239216Z Do you want to continue (Y/n)?  
+deploy	Configure Docker for GCR	2026-01-05T17:42:27.6408734Z Docker configuration file updated.
+deploy	Build Docker image	﻿2026-01-05T17:42:27.7352722Z ##[group]Run docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:2d243e816f46951e538f1c9d2a6e0ba84b409e56 \
+deploy	Build Docker image	2026-01-05T17:42:27.7353584Z [36;1mdocker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:2d243e816f46951e538f1c9d2a6e0ba84b409e56 \[0m
+deploy	Build Docker image	2026-01-05T17:42:27.7354196Z [36;1m             -t gcr.io/$PROJECT_ID/$SERVICE_NAME:latest \[0m
+deploy	Build Docker image	2026-01-05T17:42:27.7354633Z [36;1m             ./server[0m
+deploy	Build Docker image	2026-01-05T17:42:27.7387419Z shell: /usr/bin/bash -e ***0***
+deploy	Build Docker image	2026-01-05T17:42:27.7387789Z env:
+deploy	Build Docker image	2026-01-05T17:42:27.7388095Z   PROJECT_ID: ***
+deploy	Build Docker image	2026-01-05T17:42:27.7388418Z   SERVICE_NAME: academy-api-beta
+deploy	Build Docker image	2026-01-05T17:42:27.7388786Z   REGION: asia-southeast1
+deploy	Build Docker image	2026-01-05T17:42:27.7389416Z   CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Build Docker image	2026-01-05T17:42:27.7390257Z   GOOGLE_APPLICATION_CREDENTIALS: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Build Docker image	2026-01-05T17:42:27.7390993Z   GOOGLE_GHA_CREDS_PATH: /home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json
+deploy	Build Docker image	2026-01-05T17:42:27.7391538Z   CLOUDSDK_CORE_PROJECT: ***
+deploy	Build Docker image	2026-01-05T17:42:27.7391898Z   CLOUDSDK_PROJECT: ***
+deploy	Build Docker image	2026-01-05T17:42:27.7392238Z   GCLOUD_PROJECT: ***
+deploy	Build Docker image	2026-01-05T17:42:27.7392574Z   GCP_PROJECT: ***
+deploy	Build Docker image	2026-01-05T17:42:27.7392900Z   GOOGLE_CLOUD_PROJECT: ***
+deploy	Build Docker image	2026-01-05T17:42:27.7393306Z   CLOUDSDK_METRICS_ENVIRONMENT: github-actions-setup-gcloud
+deploy	Build Docker image	2026-01-05T17:42:27.7393764Z   CLOUDSDK_METRICS_ENVIRONMENT_VERSION: 2.2.1
+deploy	Build Docker image	2026-01-05T17:42:27.7394128Z ##[endgroup]
+deploy	Build Docker image	2026-01-05T17:42:29.7613757Z #0 building with "default" instance using docker driver
+deploy	Build Docker image	2026-01-05T17:42:29.7614290Z 
+deploy	Build Docker image	2026-01-05T17:42:29.7614538Z #1 [internal] load build definition from Dockerfile
+deploy	Build Docker image	2026-01-05T17:42:29.7615114Z #1 transferring dockerfile: 1.14kB done
+deploy	Build Docker image	2026-01-05T17:42:29.7615566Z #1 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:29.7615769Z 
+deploy	Build Docker image	2026-01-05T17:42:29.7616060Z #2 [auth] library/node:pull token for registry-1.docker.io
+deploy	Build Docker image	2026-01-05T17:42:29.9119188Z #2 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:29.9119473Z 
+deploy	Build Docker image	2026-01-05T17:42:29.9119781Z #3 [internal] load metadata for docker.io/library/node:20-alpine
+deploy	Build Docker image	2026-01-05T17:42:30.2923526Z #3 DONE 0.6s
+deploy	Build Docker image	2026-01-05T17:42:30.4134301Z 
+deploy	Build Docker image	2026-01-05T17:42:30.4135110Z #4 [internal] load .dockerignore
+deploy	Build Docker image	2026-01-05T17:42:30.4135660Z #4 transferring context: 183B done
+deploy	Build Docker image	2026-01-05T17:42:30.4136107Z #4 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:30.4136316Z 
+deploy	Build Docker image	2026-01-05T17:42:30.4136713Z #5 [internal] load build context
+deploy	Build Docker image	2026-01-05T17:42:30.4137190Z #5 transferring context: 903.90kB 0.0s done
+deploy	Build Docker image	2026-01-05T17:42:30.4137649Z #5 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:30.4137848Z 
+deploy	Build Docker image	2026-01-05T17:42:30.4138401Z #6 [builder 1/8] FROM docker.io/library/node:20-alpine@sha256:658d0f63e501824d6c23e06d4bb95c71e7d704537c9d9272f488ac03a370d448
+deploy	Build Docker image	2026-01-05T17:42:30.4139599Z #6 resolve docker.io/library/node:20-alpine@sha256:658d0f63e501824d6c23e06d4bb95c71e7d704537c9d9272f488ac03a370d448 done
+deploy	Build Docker image	2026-01-05T17:42:30.4140656Z #6 sha256:658d0f63e501824d6c23e06d4bb95c71e7d704537c9d9272f488ac03a370d448 7.67kB / 7.67kB done
+deploy	Build Docker image	2026-01-05T17:42:30.4141611Z #6 sha256:fcbb8f7d018707c656a4da2eea8a15f2893d2258093fea9ff2ea5ea1cba82112 1.72kB / 1.72kB done
+deploy	Build Docker image	2026-01-05T17:42:30.4142579Z #6 sha256:e80b0510ba947015cacddea3d23dcdc761e399971c074a1bf32eea7e44510524 6.52kB / 6.52kB done
+deploy	Build Docker image	2026-01-05T17:42:30.4143509Z #6 sha256:1074353eec0db2c1d81d5af2671e56e00cf5738486f5762609ea33d606f88612 0B / 3.86MB 0.1s
+deploy	Build Docker image	2026-01-05T17:42:30.4144419Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 0B / 42.78MB 0.1s
+deploy	Build Docker image	2026-01-05T17:42:30.4145332Z #6 sha256:cb3325e64457574e24f92246e3da3376946e473d636209e1390eac47b50b26a3 0B / 1.26MB 0.1s
+deploy	Build Docker image	2026-01-05T17:42:30.5140127Z #6 sha256:1074353eec0db2c1d81d5af2671e56e00cf5738486f5762609ea33d606f88612 3.86MB / 3.86MB 0.2s
+deploy	Build Docker image	2026-01-05T17:42:30.5141389Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 3.15MB / 42.78MB 0.2s
+deploy	Build Docker image	2026-01-05T17:42:30.5142236Z #6 sha256:cb3325e64457574e24f92246e3da3376946e473d636209e1390eac47b50b26a3 1.26MB / 1.26MB 0.1s done
+deploy	Build Docker image	2026-01-05T17:42:30.5143075Z #6 sha256:fd1849a5c548bc65ee47a64498951bda5d40e87d08efe9dca69b5c8cdedc7a52 0B / 443B 0.2s
+deploy	Build Docker image	2026-01-05T17:42:30.7129273Z #6 sha256:1074353eec0db2c1d81d5af2671e56e00cf5738486f5762609ea33d606f88612 3.86MB / 3.86MB 0.2s done
+deploy	Build Docker image	2026-01-05T17:42:30.7130359Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 10.49MB / 42.78MB 0.4s
+deploy	Build Docker image	2026-01-05T17:42:30.7131354Z #6 sha256:fd1849a5c548bc65ee47a64498951bda5d40e87d08efe9dca69b5c8cdedc7a52 443B / 443B 0.2s done
+deploy	Build Docker image	2026-01-05T17:42:30.7132325Z #6 extracting sha256:1074353eec0db2c1d81d5af2671e56e00cf5738486f5762609ea33d606f88612 0.1s done
+deploy	Build Docker image	2026-01-05T17:42:30.8137593Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 15.73MB / 42.78MB 0.5s
+deploy	Build Docker image	2026-01-05T17:42:31.0130392Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 28.31MB / 42.78MB 0.7s
+deploy	Build Docker image	2026-01-05T17:42:31.1138363Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 34.60MB / 42.78MB 0.8s
+deploy	Build Docker image	2026-01-05T17:42:31.2857408Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 38.80MB / 42.78MB 0.9s
+deploy	Build Docker image	2026-01-05T17:42:31.2858760Z #6 extracting sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697
+deploy	Build Docker image	2026-01-05T17:42:31.3867887Z #6 sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 42.78MB / 42.78MB 1.0s done
+deploy	Build Docker image	2026-01-05T17:42:32.4804455Z #6 extracting sha256:8d06ba6946d1f299d8f962e37906c77006df33d47050430a57f7893ec35af697 1.0s done
+deploy	Build Docker image	2026-01-05T17:42:34.1453539Z #6 extracting sha256:cb3325e64457574e24f92246e3da3376946e473d636209e1390eac47b50b26a3
+deploy	Build Docker image	2026-01-05T17:42:34.2590734Z #6 extracting sha256:cb3325e64457574e24f92246e3da3376946e473d636209e1390eac47b50b26a3 0.0s done
+deploy	Build Docker image	2026-01-05T17:42:34.2592494Z #6 extracting sha256:fd1849a5c548bc65ee47a64498951bda5d40e87d08efe9dca69b5c8cdedc7a52 done
+deploy	Build Docker image	2026-01-05T17:42:34.2597728Z #6 DONE 3.9s
+deploy	Build Docker image	2026-01-05T17:42:34.2598036Z 
+deploy	Build Docker image	2026-01-05T17:42:34.2598483Z #7 [builder 2/8] WORKDIR /app
+deploy	Build Docker image	2026-01-05T17:42:34.2599048Z #7 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:34.2599322Z 
+deploy	Build Docker image	2026-01-05T17:42:34.2599605Z #8 [builder 3/8] COPY package*.json ./
+deploy	Build Docker image	2026-01-05T17:42:34.2600530Z #8 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:34.2601102Z 
+deploy	Build Docker image	2026-01-05T17:42:34.2601382Z #9 [builder 4/8] COPY prisma ./prisma/
+deploy	Build Docker image	2026-01-05T17:42:34.2601990Z #9 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:34.2602278Z 
+deploy	Build Docker image	2026-01-05T17:42:34.2602577Z #10 [production 3/9] RUN apk add --no-cache ffmpeg
+deploy	Build Docker image	2026-01-05T17:42:34.7281605Z #10 0.512 (  1/102) Installing libSvtAv1Enc (3.1.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.8312850Z #10 0.561 (  2/102) Installing aom-libs (3.13.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.8313626Z #10 0.612 (  3/102) Installing libxau (1.0.12-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.8314287Z #10 0.616 (  4/102) Installing libmd (1.1.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.9368756Z #10 0.619 (  5/102) Installing libbsd (0.12.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.9369634Z #10 0.621 (  6/102) Installing libxdmcp (1.1.5-r1)
+deploy	Build Docker image	2026-01-05T17:42:34.9370404Z #10 0.624 (  7/102) Installing libxcb (1.17.0-r1)
+deploy	Build Docker image	2026-01-05T17:42:34.9371097Z #10 0.636 (  8/102) Installing libx11 (1.8.12-r1)
+deploy	Build Docker image	2026-01-05T17:42:34.9371814Z #10 0.668 (  9/102) Installing hwdata-pci (0.401-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.9372573Z #10 0.681 ( 10/102) Installing libpciaccess (0.18.1-r1)
+deploy	Build Docker image	2026-01-05T17:42:34.9373312Z #10 0.684 ( 11/102) Installing libdrm (2.4.131-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.9374000Z #10 0.693 ( 12/102) Installing libxext (1.3.6-r2)
+deploy	Build Docker image	2026-01-05T17:42:34.9374713Z #10 0.696 ( 13/102) Installing libxfixes (6.0.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.9375432Z #10 0.698 ( 14/102) Installing libffi (3.5.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.9376164Z #10 0.702 ( 15/102) Installing wayland-libs-client (1.24.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:34.9377147Z #10 0.706 ( 16/102) Installing libva (2.22.0-r1)
+deploy	Build Docker image	2026-01-05T17:42:34.9377829Z #10 0.711 ( 17/102) Installing libvdpau (1.5-r4)
+deploy	Build Docker image	2026-01-05T17:42:34.9378789Z #10 0.715 ( 18/102) Installing libvpl (2.15.0-r1)
+deploy	Build Docker image	2026-01-05T17:42:34.9379541Z #10 0.721 ( 19/102) Installing ffmpeg-libavutil (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.0372632Z #10 0.732 ( 20/102) Installing libdav1d (1.5.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.0373524Z #10 0.744 ( 21/102) Installing brotli-libs (1.2.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.0374285Z #10 0.753 ( 22/102) Installing libhwy (1.3.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.0375190Z #10 0.756 ( 23/102) Installing lcms2 (2.17-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.0375617Z #10 0.762 ( 24/102) Installing libjxl (0.11.1-r3)
+deploy	Build Docker image	2026-01-05T17:42:35.0376025Z #10 0.792 ( 25/102) Installing lame-libs (3.100-r5)
+deploy	Build Docker image	2026-01-05T17:42:35.0376653Z #10 0.796 ( 26/102) Installing opus (1.5.2-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.0377360Z #10 0.803 ( 27/102) Installing rav1e-libs (0.8.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.0378095Z #10 0.821 ( 28/102) Installing spirv-tools (1.4.321.0-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.1661382Z #10 0.863 ( 29/102) Installing glslang-libs (1.4.321.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.1662233Z #10 0.879 ( 30/102) Installing shaderc (2025.3-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.1663009Z #10 0.883 ( 31/102) Installing libgomp (15.2.0-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.1663721Z #10 0.888 ( 32/102) Installing soxr (0.1.3-r7)
+deploy	Build Docker image	2026-01-05T17:42:35.1664477Z #10 0.892 ( 33/102) Installing ffmpeg-libswresample (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.1665260Z #10 0.896 ( 34/102) Installing libogg (1.3.6-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.1666005Z #10 0.899 ( 35/102) Installing libtheora (1.2.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.1667048Z #10 0.912 ( 36/102) Installing libvorbis (1.3.7-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.1667777Z #10 0.920 ( 37/102) Installing libvpx (1.15.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.1668516Z #10 0.950 ( 38/102) Installing libsharpyuv (1.6.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.2797439Z #10 0.953 ( 39/102) Installing libwebp (1.6.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.2799520Z #10 0.960 ( 40/102) Installing libwebpmux (1.6.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.2801076Z #10 0.963 ( 41/102) Installing x264-libs (0.164.3108-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.2801845Z #10 0.980 ( 42/102) Installing numactl (2.0.18-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.2802573Z #10 0.986 ( 43/102) Installing x265-libs (4.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.2803249Z #10 1.064 ( 44/102) Installing xvidcore (1.3.7-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.4205441Z #10 1.070 ( 45/102) Installing ffmpeg-libavcodec (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.4206318Z #10 1.205 ( 46/102) Installing alsa-lib (1.2.14-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.5507200Z #10 1.224 ( 47/102) Installing libexpat (2.7.3-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5507770Z #10 1.226 ( 48/102) Installing libbz2 (1.0.8-r6)
+deploy	Build Docker image	2026-01-05T17:42:35.5508200Z #10 1.230 ( 49/102) Installing libpng (1.6.53-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5508631Z #10 1.234 ( 50/102) Installing freetype (2.14.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5509038Z #10 1.244 ( 51/102) Installing fontconfig (2.17.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5509442Z #10 1.261 ( 52/102) Installing fribidi (1.0.16-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.5509821Z #10 1.265 ( 53/102) Installing libintl (0.24.1-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.5510194Z #10 1.268 ( 54/102) Installing libeconf (0.8.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5510577Z #10 1.272 ( 55/102) Installing libblkid (2.41.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5510980Z #10 1.277 ( 56/102) Installing libmount (2.41.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5511367Z #10 1.282 ( 57/102) Installing pcre2 (10.47-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5511747Z #10 1.292 ( 58/102) Installing glib (2.86.3-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.5512132Z #10 1.335 ( 59/102) Installing graphite2 (1.3.14-r6)
+deploy	Build Docker image	2026-01-05T17:42:35.6532912Z #10 1.339 ( 60/102) Installing harfbuzz (12.2.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6535739Z #10 1.351 ( 61/102) Installing libunibreak (6.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6536645Z #10 1.355 ( 62/102) Installing libass (0.17.4-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6537308Z #10 1.361 ( 63/102) Installing libudfread (1.2.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6537966Z #10 1.364 ( 64/102) Installing libbluray (1.4.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6538624Z #10 1.369 ( 65/102) Installing mpg123-libs (1.33.3-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6539326Z #10 1.375 ( 66/102) Installing libopenmpt (0.8.3-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6540077Z #10 1.390 ( 67/102) Installing cjson (1.7.19-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.6540761Z #10 1.393 ( 68/102) Installing mbedtls (3.6.5-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6541866Z #10 1.403 ( 69/102) Installing librist (0.2.10-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.6542578Z #10 1.406 ( 70/102) Installing libsrt (1.5.3-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.6543289Z #10 1.418 ( 71/102) Installing libssh (0.11.3-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6543937Z #10 1.424 ( 72/102) Installing xz-libs (5.8.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6544605Z #10 1.428 ( 73/102) Installing libxml2 (2.13.9-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.6545737Z #10 1.438 ( 74/102) Installing libsodium (1.0.20-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.7536906Z #10 1.444 ( 75/102) Installing libzmq (4.3.5-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.7537853Z #10 1.453 ( 76/102) Installing ffmpeg-libavformat (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7538652Z #10 1.482 ( 77/102) Installing serd-libs (0.32.4-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7539385Z #10 1.485 ( 78/102) Installing zix-libs (0.6.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7540111Z #10 1.488 ( 79/102) Installing sord-libs (0.16.18-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7540823Z #10 1.492 ( 80/102) Installing sratom (0.6.18-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7541568Z #10 1.495 ( 81/102) Installing lilv-libs (0.24.26-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7542275Z #10 1.498 ( 82/102) Installing libdovi (3.3.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7543039Z #10 1.505 ( 83/102) Installing vulkan-loader (1.4.321.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7543800Z #10 1.513 ( 84/102) Installing libplacebo (7.351.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7544587Z #10 1.523 ( 85/102) Installing ffmpeg-libswscale (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.7545363Z #10 1.538 ( 86/102) Installing vidstab (1.1.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.8555042Z #10 1.542 ( 87/102) Installing zimg (3.0.6-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.8555838Z #10 1.552 ( 88/102) Installing ffmpeg-libavfilter (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.8556337Z #10 1.595 ( 89/102) Installing libasyncns (0.8-r4)
+deploy	Build Docker image	2026-01-05T17:42:35.8557280Z #10 1.598 ( 90/102) Installing dbus-libs (1.16.2-r1)
+deploy	Build Docker image	2026-01-05T17:42:35.8557705Z #10 1.604 ( 91/102) Installing libltdl (2.5.4-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.8558100Z #10 1.608 ( 92/102) Installing orc (0.4.41-r0)
+deploy	Build Docker image	2026-01-05T17:42:35.8558485Z #10 1.616 ( 93/102) Installing libflac (1.4.3-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.8558904Z #10 1.626 ( 94/102) Installing libsndfile (1.2.2-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.8559307Z #10 1.637 ( 95/102) Installing speexdsp (1.2.1-r2)
+deploy	Build Docker image	2026-01-05T17:42:35.8559700Z #10 1.640 ( 96/102) Installing tdb-libs (1.4.14-r0)
+deploy	Build Docker image	2026-01-05T17:42:36.0244956Z #10 1.643 ( 97/102) Installing libpulse (17.0-r5)
+deploy	Build Docker image	2026-01-05T17:42:36.0245813Z #10 1.655 ( 98/102) Installing libjpeg-turbo (3.1.2-r0)
+deploy	Build Docker image	2026-01-05T17:42:36.0246804Z #10 1.662 ( 99/102) Installing json-c (0.18-r1)
+deploy	Build Docker image	2026-01-05T17:42:36.0247549Z #10 1.664 (100/102) Installing v4l-utils-libs (1.32.0-r0)
+deploy	Build Docker image	2026-01-05T17:42:36.0248327Z #10 1.672 (101/102) Installing ffmpeg-libavdevice (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:36.0249059Z #10 1.676 (102/102) Installing ffmpeg (8.0.1-r0)
+deploy	Build Docker image	2026-01-05T17:42:36.0249750Z #10 1.685 Executing busybox-1.37.0-r30.trigger
+deploy	Build Docker image	2026-01-05T17:42:36.0250422Z #10 1.693 Executing glib-2.86.3-r0.trigger
+deploy	Build Docker image	2026-01-05T17:42:36.0251049Z #10 1.699 OK: 135.5 MiB in 120 packages
+deploy	Build Docker image	2026-01-05T17:42:36.0251655Z #10 DONE 1.8s
+deploy	Build Docker image	2026-01-05T17:42:36.0251953Z 
+deploy	Build Docker image	2026-01-05T17:42:36.0252192Z #11 [builder 5/8] RUN npm ci
+deploy	Build Docker image	2026-01-05T17:42:36.1972488Z #11 ...
+deploy	Build Docker image	2026-01-05T17:42:36.1972899Z 
+deploy	Build Docker image	2026-01-05T17:42:36.1973342Z #12 [production 4/9] COPY package*.json ./
+deploy	Build Docker image	2026-01-05T17:42:36.1974022Z #12 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:36.3392058Z 
+deploy	Build Docker image	2026-01-05T17:42:36.3393494Z #13 [production 5/9] RUN npm ci --only=production
+deploy	Build Docker image	2026-01-05T17:42:36.3394562Z #13 0.292 npm warn config only Use `--omit=dev` to omit dev dependencies from the install.
+deploy	Build Docker image	2026-01-05T17:42:41.3801506Z #13 5.333 npm warn deprecated fluent-ffmpeg@2.1.3: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+deploy	Build Docker image	2026-01-05T17:42:46.7251177Z #13 ...
+deploy	Build Docker image	2026-01-05T17:42:46.7252470Z 
+deploy	Build Docker image	2026-01-05T17:42:46.7252736Z #11 [builder 5/8] RUN npm ci
+deploy	Build Docker image	2026-01-05T17:42:46.7253879Z #11 5.205 npm warn deprecated fluent-ffmpeg@2.1.3: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+deploy	Build Docker image	2026-01-05T17:42:46.7255032Z #11 12.28 
+deploy	Build Docker image	2026-01-05T17:42:46.7255962Z #11 12.28 added 345 packages, and audited 346 packages in 12s
+deploy	Build Docker image	2026-01-05T17:42:46.7256833Z #11 12.28 
+deploy	Build Docker image	2026-01-05T17:42:46.7257296Z #11 12.28 41 packages are looking for funding
+deploy	Build Docker image	2026-01-05T17:42:46.7257886Z #11 12.28   run `npm fund` for details
+deploy	Build Docker image	2026-01-05T17:42:46.7258442Z #11 12.28 
+deploy	Build Docker image	2026-01-05T17:42:46.7258909Z #11 12.28 found 0 vulnerabilities
+deploy	Build Docker image	2026-01-05T17:42:46.7259457Z #11 12.28 npm notice
+deploy	Build Docker image	2026-01-05T17:42:46.7260385Z #11 12.28 npm notice New major version of npm available! 10.8.2 -> 11.7.0
+deploy	Build Docker image	2026-01-05T17:42:46.7261347Z #11 12.28 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.7.0
+deploy	Build Docker image	2026-01-05T17:42:46.7262439Z #11 12.28 npm notice To update run: npm install -g npm@11.7.0
+deploy	Build Docker image	2026-01-05T17:42:46.7263126Z #11 12.28 npm notice
+deploy	Build Docker image	2026-01-05T17:42:46.7263620Z #11 DONE 12.3s
+deploy	Build Docker image	2026-01-05T17:42:46.7263898Z 
+deploy	Build Docker image	2026-01-05T17:42:46.7264112Z #14 [builder 6/8] COPY . .
+deploy	Build Docker image	2026-01-05T17:42:47.9065021Z #14 ...
+deploy	Build Docker image	2026-01-05T17:42:47.9074842Z 
+deploy	Build Docker image	2026-01-05T17:42:47.9075278Z #13 [production 5/9] RUN npm ci --only=production
+deploy	Build Docker image	2026-01-05T17:42:47.9075993Z #13 11.08 
+deploy	Build Docker image	2026-01-05T17:42:47.9076709Z #13 11.08 added 288 packages, and audited 289 packages in 11s
+deploy	Build Docker image	2026-01-05T17:42:47.9077369Z #13 11.08 
+deploy	Build Docker image	2026-01-05T17:42:47.9077852Z #13 11.08 37 packages are looking for funding
+deploy	Build Docker image	2026-01-05T17:42:47.9078488Z #13 11.08   run `npm fund` for details
+deploy	Build Docker image	2026-01-05T17:42:47.9079033Z #13 11.08 
+deploy	Build Docker image	2026-01-05T17:42:47.9079489Z #13 11.08 found 0 vulnerabilities
+deploy	Build Docker image	2026-01-05T17:42:47.9080046Z #13 11.08 npm notice
+deploy	Build Docker image	2026-01-05T17:42:47.9080684Z #13 11.08 npm notice New major version of npm available! 10.8.2 -> 11.7.0
+deploy	Build Docker image	2026-01-05T17:42:47.9081633Z #13 11.08 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.7.0
+deploy	Build Docker image	2026-01-05T17:42:47.9084677Z #13 11.08 npm notice To update run: npm install -g npm@11.7.0
+deploy	Build Docker image	2026-01-05T17:42:47.9085385Z #13 11.08 npm notice
+deploy	Build Docker image	2026-01-05T17:42:47.9085973Z #13 DONE 11.9s
+deploy	Build Docker image	2026-01-05T17:42:48.0816881Z 
+deploy	Build Docker image	2026-01-05T17:42:48.0817821Z #14 [builder 6/8] COPY . .
+deploy	Build Docker image	2026-01-05T17:42:48.0818355Z #14 DONE 1.3s
+deploy	Build Docker image	2026-01-05T17:42:48.0818643Z 
+deploy	Build Docker image	2026-01-05T17:42:48.0818872Z #15 [production 6/9] COPY prisma ./prisma/
+deploy	Build Docker image	2026-01-05T17:42:48.0819408Z #15 DONE 0.0s
+deploy	Build Docker image	2026-01-05T17:42:48.0819643Z 
+deploy	Build Docker image	2026-01-05T17:42:48.0819870Z #16 [production 7/9] RUN npx prisma generate
+deploy	Build Docker image	2026-01-05T17:42:49.8767073Z #16 1.948 Prisma schema loaded from prisma/schema.prisma
+deploy	Build Docker image	2026-01-05T17:42:50.7345230Z #16 2.806 
+deploy	Build Docker image	2026-01-05T17:42:50.7346941Z #16 2.806 ✔ Generated Prisma Client (v6.19.1) to ./node_modules/@prisma/client in 366ms
+deploy	Build Docker image	2026-01-05T17:42:50.7347878Z #16 2.806 
+deploy	Build Docker image	2026-01-05T17:42:50.7349486Z #16 2.806 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+deploy	Build Docker image	2026-01-05T17:42:50.7350377Z #16 2.806 
+deploy	Build Docker image	2026-01-05T17:42:50.7351059Z #16 2.806 Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+deploy	Build Docker image	2026-01-05T17:42:50.7351884Z #16 2.806 
+deploy	Build Docker image	2026-01-05T17:42:50.9692680Z #16 DONE 2.9s
+deploy	Build Docker image	2026-01-05T17:42:50.9693062Z 
+deploy	Build Docker image	2026-01-05T17:42:50.9693486Z #17 [builder 7/8] RUN npx prisma generate
+deploy	Build Docker image	2026-01-05T17:42:50.9694359Z #17 2.084 Prisma schema loaded from prisma/schema.prisma
+deploy	Build Docker image	2026-01-05T17:42:50.9695755Z #17 2.827 ┌─────────────────────────────────────────────────────────┐
+deploy	Build Docker image	2026-01-05T17:42:50.9697103Z #17 2.827 │  Update available 6.19.1 -> 7.2.0                       │
+deploy	Build Docker image	2026-01-05T17:42:50.9698079Z #17 2.827 │                                                         │
+deploy	Build Docker image	2026-01-05T17:42:50.9698948Z #17 2.827 │  This is a major update - please follow the guide at    │
+deploy	Build Docker image	2026-01-05T17:42:50.9699923Z #17 2.827 │  https://pris.ly/d/major-version-upgrade                │
+deploy	Build Docker image	2026-01-05T17:42:50.9700796Z #17 2.827 │                                                         │
+deploy	Build Docker image	2026-01-05T17:42:50.9701853Z #17 2.827 │  Run the following to update                            │
+deploy	Build Docker image	2026-01-05T17:42:50.9714004Z #17 2.827 │    npm i --save-dev prisma@latest                       │
+deploy	Build Docker image	2026-01-05T17:42:50.9715129Z #17 2.827 │    npm i @prisma/client@latest                          │
+deploy	Build Docker image	2026-01-05T17:42:50.9716069Z #17 2.827 └─────────────────────────────────────────────────────────┘
+deploy	Build Docker image	2026-01-05T17:42:50.9717270Z #17 2.827 
+deploy	Build Docker image	2026-01-05T17:42:50.9718179Z #17 2.827 ✔ Generated Prisma Client (v6.19.1) to ./node_modules/@prisma/client in 368ms
+deploy	Build Docker image	2026-01-05T17:42:50.9719044Z #17 2.827 
+deploy	Build Docker image	2026-01-05T17:42:50.9719795Z #17 2.827 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+deploy	Build Docker image	2026-01-05T17:42:50.9720642Z #17 2.827 
+deploy	Build Docker image	2026-01-05T17:42:50.9721620Z #17 2.827 Tip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate
+deploy	Build Docker image	2026-01-05T17:42:50.9722948Z #17 2.827 
+deploy	Build Docker image	2026-01-05T17:42:50.9723370Z #17 DONE 2.9s
+deploy	Build Docker image	2026-01-05T17:42:50.9723639Z 
+deploy	Build Docker image	2026-01-05T17:42:50.9723927Z #18 [builder 8/8] RUN npm run build
+deploy	Build Docker image	2026-01-05T17:42:51.1004873Z #18 0.281 
+deploy	Build Docker image	2026-01-05T17:42:51.1005641Z #18 0.281 > server@1.0.0 build
+deploy	Build Docker image	2026-01-05T17:42:51.1006238Z #18 0.281 > tsc
+deploy	Build Docker image	2026-01-05T17:42:51.1006967Z #18 0.281 
+deploy	Build Docker image	2026-01-05T17:42:56.3322055Z #18 5.513 src/modules/activity/activity.service.ts(12,19): error TS2339: Property 'activityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4291493Z #18 5.513 src/modules/activity/activity.service.ts(28,16): error TS2339: Property 'activityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4293752Z #18 5.513 src/modules/activity/activity.service.ts(29,16): error TS2339: Property 'activityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4295579Z #18 5.513 src/modules/activity/activity.service.ts(37,42): error TS7006: Parameter 'l' implicitly has an 'any' type.
+deploy	Build Docker image	2026-01-05T17:42:56.4297215Z #18 5.513 src/modules/activity/activity.service.ts(48,35): error TS7006: Parameter 'log' implicitly has an 'any' type.
+deploy	Build Docker image	2026-01-05T17:42:56.4298953Z #18 5.513 src/modules/categories/categories.service.ts(4,19): error TS2339: Property 'category' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4300469Z #18 5.513 src/modules/categories/categories.service.ts(16,19): error TS2339: Property 'category' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4301680Z #18 5.513 src/modules/categories/categories.service.ts(30,19): error TS2339: Property 'category' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4302818Z #18 5.514 src/modules/categories/categories.service.ts(41,19): error TS2339: Property 'category' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4303941Z #18 5.514 src/modules/categories/categories.service.ts(48,19): error TS2339: Property 'category' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4305148Z #18 5.514 src/modules/courses/courses.service.ts(33,13): error TS2353: Object literal may only specify known properties, and 'category' does not exist in type 'CourseInclude<DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4306339Z #18 5.514 src/modules/courses/courses.service.ts(54,21): error TS2353: Object literal may only specify known properties, and 'chapter' does not exist in type 'LessonSelect<DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4307858Z #18 5.514 src/modules/payments/payments.service.ts(237,84): error TS2367: This comparison appears to be unintentional because the types '"PENDING" | "CANCELLED"' and '"COMPLETED"' have no overlap.
+deploy	Build Docker image	2026-01-05T17:42:56.4309085Z #18 5.514 src/modules/security/security.service.ts(11,29): error TS2339: Property 'securityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4310210Z #18 5.514 src/modules/security/security.service.ts(17,35): error TS2339: Property 'securityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4311161Z #18 5.514 src/modules/security/security.service.ts(26,46): error TS7006: Parameter 'l' implicitly has an 'any' type.
+deploy	Build Docker image	2026-01-05T17:42:56.4311953Z #18 5.514 src/modules/security/security.service.ts(38,28): error TS7006: Parameter 'log' implicitly has an 'any' type.
+deploy	Build Docker image	2026-01-05T17:42:56.4313193Z #18 5.514 src/modules/security/security.service.ts(42,33): error TS2339: Property 'securityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4314077Z #18 ERROR: process "/bin/sh -c npm run build" did not complete successfully: exit code: 2
+deploy	Build Docker image	2026-01-05T17:42:56.4314689Z ------
+deploy	Build Docker image	2026-01-05T17:42:56.4315004Z  > [builder 8/8] RUN npm run build:
+deploy	Build Docker image	2026-01-05T17:42:56.4315764Z 5.514 src/modules/categories/categories.service.ts(41,19): error TS2339: Property 'category' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4317224Z 5.514 src/modules/categories/categories.service.ts(48,19): error TS2339: Property 'category' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4318408Z 5.514 src/modules/courses/courses.service.ts(33,13): error TS2353: Object literal may only specify known properties, and 'category' does not exist in type 'CourseInclude<DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4319595Z 5.514 src/modules/courses/courses.service.ts(54,21): error TS2353: Object literal may only specify known properties, and 'chapter' does not exist in type 'LessonSelect<DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4320809Z 5.514 src/modules/payments/payments.service.ts(237,84): error TS2367: This comparison appears to be unintentional because the types '"PENDING" | "CANCELLED"' and '"COMPLETED"' have no overlap.
+deploy	Build Docker image	2026-01-05T17:42:56.4322438Z 5.514 src/modules/security/security.service.ts(11,29): error TS2339: Property 'securityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4324175Z 5.514 src/modules/security/security.service.ts(17,35): error TS2339: Property 'securityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4325497Z 5.514 src/modules/security/security.service.ts(26,46): error TS7006: Parameter 'l' implicitly has an 'any' type.
+deploy	Build Docker image	2026-01-05T17:42:56.4326945Z 5.514 src/modules/security/security.service.ts(38,28): error TS7006: Parameter 'log' implicitly has an 'any' type.
+deploy	Build Docker image	2026-01-05T17:42:56.4328059Z 5.514 src/modules/security/security.service.ts(42,33): error TS2339: Property 'securityLog' does not exist on type 'PrismaClient<PrismaClientOptions, never, DefaultArgs>'.
+deploy	Build Docker image	2026-01-05T17:42:56.4328817Z ------
+deploy	Build Docker image	2026-01-05T17:42:56.4329085Z Dockerfile:20
+deploy	Build Docker image	2026-01-05T17:42:56.4329361Z --------------------
+deploy	Build Docker image	2026-01-05T17:42:56.4329655Z   18 |     
+deploy	Build Docker image	2026-01-05T17:42:56.4329931Z   19 |     # Build TypeScript
+deploy	Build Docker image	2026-01-05T17:42:56.4330264Z   20 | >>> RUN npm run build
+deploy	Build Docker image	2026-01-05T17:42:56.4330571Z   21 |     
+deploy	Build Docker image	2026-01-05T17:42:56.4330848Z   22 |     # Production stage
+deploy	Build Docker image	2026-01-05T17:42:56.4331167Z --------------------
+deploy	Build Docker image	2026-01-05T17:42:56.4331704Z ERROR: failed to build: failed to solve: process "/bin/sh -c npm run build" did not complete successfully: exit code: 2
+deploy	Build Docker image	2026-01-05T17:42:56.4353337Z ##[error]Process completed with exit code 1.
+deploy	Post Authenticate to Google Cloud	﻿2026-01-05T17:42:56.4498640Z Post job cleanup.
+deploy	Post Authenticate to Google Cloud	2026-01-05T17:42:56.5339137Z Removed exported credentials at "/home/runner/work/***/***/gha-creds-7eaa0d132b1a020e.json".
+deploy	Post Checkout code	﻿2026-01-05T17:42:56.5466282Z Post job cleanup.
+deploy	Post Checkout code	2026-01-05T17:42:56.6412386Z [command]/usr/bin/git version
+deploy	Post Checkout code	2026-01-05T17:42:56.6448960Z git version 2.52.0
+deploy	Post Checkout code	2026-01-05T17:42:56.6492755Z Temporarily overriding HOME='/home/runner/work/_temp/c8d289f9-5cf7-4cc7-ab08-6506fbd58cd9' before making global git config changes
+deploy	Post Checkout code	2026-01-05T17:42:56.6494267Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Post Checkout code	2026-01-05T17:42:56.6507824Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/***/***
+deploy	Post Checkout code	2026-01-05T17:42:56.6543432Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+deploy	Post Checkout code	2026-01-05T17:42:56.6577448Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+deploy	Post Checkout code	2026-01-05T17:42:56.6809931Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Post Checkout code	2026-01-05T17:42:56.6830493Z http.https://github.com/.extraheader
+deploy	Post Checkout code	2026-01-05T17:42:56.6843694Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+deploy	Post Checkout code	2026-01-05T17:42:56.6875377Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+deploy	Post Checkout code	2026-01-05T17:42:56.7099425Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+deploy	Post Checkout code	2026-01-05T17:42:56.7130249Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+deploy	Complete job	﻿2026-01-05T17:42:56.7501907Z Cleaning up orphan processes

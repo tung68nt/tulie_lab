@@ -34,7 +34,7 @@ export const listActivities = async (limit = 100, page = 1) => {
     ]);
 
     // Enhance logs with user details if possible (manual join)
-    const userIds = [...new Set(logs.map(l => l.userId).filter(Boolean))];
+    const userIds = [...new Set(logs.map((l: { userId: string | null }) => l.userId).filter(Boolean))];
     const users = await prisma.user.findMany({
         where: { id: { in: userIds as string[] } },
         select: { id: true, email: true, name: true, role: true }
@@ -45,7 +45,7 @@ export const listActivities = async (limit = 100, page = 1) => {
         return acc;
     }, {});
 
-    const enrichedLogs = logs.map(log => ({
+    const enrichedLogs = logs.map((log: { userId: string | null;[key: string]: unknown }) => ({
         ...log,
         user: log.userId ? userMap[log.userId] : null
     }));
