@@ -75,7 +75,15 @@ export const getCourseById = async (id: string) => {
 };
 
 export const createCourse = async (data: any) => {
-    const createData: any = { ...data };
+    // Filter allowed fields
+    const validFields = ['title', 'slug', 'description', 'price', 'isPublished', 'instructorId', 'categoryId', 'thumbnail'];
+    const createData: any = {};
+
+    for (const key of Object.keys(data)) {
+        if (validFields.includes(key)) {
+            createData[key] = data[key];
+        }
+    }
 
     // Ensure slug uniqueness
     let uniqueSlug = createData.slug;
@@ -115,16 +123,26 @@ export const addLesson = async (courseId: string, data: {
 };
 
 export const updateCourse = async (id: string, data: any) => {
-    const updateData = { ...data };
-    if (updateData.instructorId === '') {
-        updateData.instructorId = null;
+    // Filter out fields that don't match the Prisma schema (e.g. level)
+    const validFields = ['title', 'slug', 'description', 'price', 'isPublished', 'instructorId', 'categoryId', 'thumbnail'];
+    const filteredData: any = {};
+
+    for (const key of Object.keys(data)) {
+        if (validFields.includes(key)) {
+            filteredData[key] = data[key];
+        }
     }
-    if (updateData.categoryId === '') {
-        updateData.categoryId = null;
+
+    if (filteredData.instructorId === '') {
+        filteredData.instructorId = null;
     }
+    if (filteredData.categoryId === '') {
+        filteredData.categoryId = null;
+    }
+
     return prisma.course.update({
         where: { id },
-        data: updateData
+        data: filteredData
     });
 };
 

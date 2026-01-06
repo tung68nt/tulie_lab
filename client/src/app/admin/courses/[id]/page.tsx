@@ -48,16 +48,18 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                // Fetch instructors list
-                const instructorsList: any = await api.instructors.list().catch(() => []);
+                // Execute requests in parallel to reduce load time
+                const [instructorsList, categoriesList, fullDetails]: [any, any, any] = await Promise.all([
+                    api.instructors.list().catch(() => []),
+                    api.categories.list().catch(() => []),
+                    api.admin.courses.get(id).catch(e => {
+                        console.error('Fetch course error:', e);
+                        return null;
+                    })
+                ]);
+
                 setInstructors(Array.isArray(instructorsList) ? instructorsList : []);
-
-                // Fetch categories list
-                const categoriesList: any = await api.categories.list().catch(() => []);
                 setCategories(Array.isArray(categoriesList) ? categoriesList : []);
-
-                // Fetch full course details directly by ID
-                const fullDetails: any = await api.admin.courses.get(id);
 
                 if (fullDetails) {
                     setCourse(fullDetails);
