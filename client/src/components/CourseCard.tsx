@@ -32,14 +32,11 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                             MIỄN PHÍ
                         </div>
                     )}
-                    {deploymentStatus === 'COMING_SOON' && (
-                        <div className="absolute left-3 top-3 rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white shadow-lg">
-                            SẮP RA MẮT
-                        </div>
-                    )}
-                    {deploymentStatus === 'UPDATING' && (
-                        <div className="absolute left-3 top-3 rounded-full bg-amber-600 px-3 py-1 text-xs font-bold text-white shadow-lg">
-                            ĐANG CẬP NHẬT
+                    {(deploymentStatus === 'COMING_SOON' || deploymentStatus === 'UPDATING') && (
+                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-zinc-950/70 backdrop-blur-[1px] transition-colors group-hover:bg-zinc-950/60">
+                            <span className="border border-white/80 bg-black/30 px-6 py-2.5 text-sm font-bold tracking-wider text-white backdrop-blur-md">
+                                {deploymentStatus === 'COMING_SOON' ? 'SẮP RA MẮT' : 'ĐANG CẬP NHẬT'}
+                            </span>
                         </div>
                     )}
                 </div>
