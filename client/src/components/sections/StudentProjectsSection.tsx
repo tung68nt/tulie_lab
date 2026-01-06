@@ -37,7 +37,11 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
             <div className="container">
                 {/* Header */}
                 <div className="text-center mb-12">
-                    <div className="inline-block rounded-full border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary mb-4">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/50 px-3 py-1 text-sm font-medium text-foreground/80 mb-4">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-black dark:bg-white opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-black dark:bg-white"></span>
+                        </span>
                         Showcase thành viên
                     </div>
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">
