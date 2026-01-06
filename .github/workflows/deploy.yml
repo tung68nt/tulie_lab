@@ -127,4 +127,4 @@ jobs:
 
       - name: Run migrations
         working-directory: ./server
-        run: npx prisma migrate deploy
+        run: npx prisma db push --accept-data-loss
