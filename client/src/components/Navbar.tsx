@@ -7,6 +7,8 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { api } from '@/lib/api';
 import { Logo } from '@/components/Logo';
 import { NotificationMenu } from '@/components/NotificationMenu';
+import { useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
 
 interface UserProfile {
     id: string;
@@ -32,6 +34,17 @@ export function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const toggleTheme = () => {
+        setTheme(theme === 'dark' ? 'light' : 'dark');
+    };
+
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Click outside handler
@@ -49,6 +62,7 @@ export function Navbar() {
     }, []);
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        // ... (existing code)
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -79,6 +93,35 @@ export function Navbar() {
             setDropdownOpen(false);
         }
     };
+
+    // ... (rest of existing logic)
+
+    // ... inside return ...
+    /* 
+       We need to replace the entire return block or specific chunks. 
+       Let's target the navLinks mapping and insertion of Theme Toggle.
+    */
+
+    // Desktop Navigation
+    /* 
+    <div className="mr-4 hidden md:flex items-center space-x-6 text-sm font-medium">
+        {navLinks.map(link => {
+            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            return (
+                <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`transition-all duration-200 px-4 py-2 rounded-md ${isActive
+                            ? 'bg-black text-white dark:bg-white dark:text-black font-medium'
+                            : 'text-muted-foreground hover:bg-secondary/50'
+                        }`}
+                >
+                    {link.label}
+                </Link>
+            );
+        })}
+    </div> 
+    */
 
     const checkAuth = useCallback(async () => {
         try {
@@ -199,16 +242,16 @@ export function Navbar() {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="mr-4 hidden md:flex items-center space-x-6 text-sm font-medium">
+                    <div className="mr-8 hidden md:flex items-center space-x-2 text-sm font-medium">
                         {navLinks.map(link => {
                             const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
                             return (
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className={`transition-all duration-200 px-4 py-2 rounded-md hover:text-foreground ${isActive
-                                            ? 'bg-secondary text-foreground font-medium'
-                                            : 'text-muted-foreground hover:bg-secondary/50'
+                                    className={`transition-all duration-200 px-4 py-2 rounded-md ${isActive
+                                        ? 'bg-foreground text-background font-medium' // Black box in light, White box in dark
+                                        : 'text-muted-foreground hover:bg-secondary/50'
                                         }`}
                                 >
                                     {link.label}
@@ -219,6 +262,15 @@ export function Navbar() {
 
                     {/* Desktop Auth Section */}
                     <div className="flex flex-1 items-center justify-end gap-2">
+                        {/* Theme Toggle */}
+                        {mounted && (
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 mr-2 rounded-full hover:bg-secondary transition-colors"
+                            >
+                                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+                            </button>
+                        )}
                         {/* Mobile Layout */}
                         <div className="flex flex-1 items-center justify-end md:hidden gap-3">
                             {/* Mobile User Avatar */}

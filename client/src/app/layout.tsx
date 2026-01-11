@@ -6,6 +6,7 @@ import { ToastProvider } from '@/contexts/ToastContext';
 import { SettingsProvider } from '@/contexts/SettingsContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ConfirmProvider } from '@/components/ConfirmDialog';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/analytics/UtmTracker';
 
@@ -60,8 +61,15 @@ export default function RootLayout({
           <AuthProvider>
             <SettingsProvider>
               <ConfirmProvider>
-                <UtmTracker />
-                <MainLayout>{children}</MainLayout>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  <UtmTracker />
+                  <MainLayout>{children}</MainLayout>
+                </ThemeProvider>
               </ConfirmProvider>
             </SettingsProvider>
           </AuthProvider>
