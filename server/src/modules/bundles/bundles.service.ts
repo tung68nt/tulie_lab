@@ -27,7 +27,7 @@ export const listBundles = async (isAdmin = false, userId?: string) => {
         if (ownedCourses.length === 0) return bundle;
 
         // Calculate value of owned courses
-        const ownedValue = ownedCourses.reduce((sum, bc) => sum + bc.course.price, 0);
+        const ownedValue = ownedCourses.reduce((sum, bc) => sum + Number(bc.course.price), 0);
 
         // New price = Sale Price - Owned Value (clamped to 0)
         // Or specific logic: Maintain discount ratio?

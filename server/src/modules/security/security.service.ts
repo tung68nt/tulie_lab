@@ -26,7 +26,12 @@ export const SecurityService = {
         const userIds = [...new Set(logs.map((l: any) => l.userId).filter(Boolean))];
         const users = await prisma.user.findMany({
             where: { id: { in: userIds as string[] } },
-            select: { id: true, email: true, name: true, role: true }
+            select: {
+                id: true,
+                email: true,
+                role: true,
+                profile: { select: { name: true } }
+            }
         });
 
         const userMap = users.reduce((acc: any, u) => {

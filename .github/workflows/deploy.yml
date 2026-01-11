@@ -80,6 +80,7 @@ jobs:
             --allow-unauthenticated \
             --set-env-vars "NODE_ENV=production,DATABASE_URL=$RUNTIME_DB_URL,DIRECT_URL=$RUNTIME_DIRECT_URL" \
             --set-env-vars "CLIENT_URL=$ENV_CLIENT_URL" \
+            --set-env-vars "REDIS_URL=${{ secrets.REDIS_URL }}" \
             --set-env-vars "JWT_SECRET=${{ secrets.JWT_SECRET }}" \
             --set-env-vars "R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }}" \
             --set-env-vars "R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}" \
@@ -127,4 +128,4 @@ jobs:
 
       - name: Run migrations
         working-directory: ./server
-        run: npx prisma db push --accept-data-loss
+        run: npx prisma migrate deploy

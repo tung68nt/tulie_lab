@@ -47,5 +47,5 @@ export const getApiKey = async (): Promise<string | null> => {
     const setting = await prisma.systemSetting.findUnique({
         where: { key: 'sepay_api_key' }
     });
-    return setting?.value || null;
+    return (setting?.value as string) || null;
 };

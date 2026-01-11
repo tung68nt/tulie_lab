@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
@@ -8,9 +8,19 @@ import { Card, CardContent } from '@/components/Card';
 import { ChevronLeft, Save, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 
-export default function EditLandingPage({ params }: { params: { id: string } }) {
+import { useToast } from '@/contexts/ToastContext';
+
+export default function EditLandingPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params);
     const router = useRouter();
-    const isNew = params.id === 'new';
+    const { addToast } = useToast(); // Use custom toast
+    const isNew = id === 'new';
+
+    // Debug log to verify ID
+    useEffect(() => {
+        console.log('EditLandingPage mounted. ID:', id, 'isNew:', isNew);
+    }, [id, isNew]);
+
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(!isNew);
 
@@ -93,7 +103,7 @@ export default function EditLandingPage({ params }: { params: { id: string } }) 
         if (!isNew) {
             loadPage();
         }
-    }, []);
+    }, [isNew]); // Added dependency
 
     const loadPage = async () => {
         try {
@@ -108,8 +118,8 @@ export default function EditLandingPage({ params }: { params: { id: string } }) 
             // MISSING: Get Page by ID for Admin. 
             // WORKAROUND: For now, I'll fetch ALL and find by ID client side (not efficient but works for MVP).
 
-            const allPages: any[] = await api.landingPages.list();
-            const page = allPages.find(p => p.id === params.id);
+            const allPages = (await api.landingPages.list()) as any[];
+            const page = allPages.find(p => p.id === id);
 
             if (page) {
                 setFormData({
@@ -122,11 +132,12 @@ export default function EditLandingPage({ params }: { params: { id: string } }) 
                         : JSON.stringify(page.sections, null, 2)
                 });
             } else {
-                alert('Page not found');
+                addToast('Không tìm thấy trang yêu cầu', 'error');
                 router.push('/admin/landing-pages');
             }
         } catch (error) {
             console.error('Failed to load page', error);
+            addToast('Lỗi tải dữ liệu trang', 'error');
         } finally {
             setFetching(false);
         }
@@ -141,7 +152,7 @@ export default function EditLandingPage({ params }: { params: { id: string } }) 
             try {
                 sectionsParsed = JSON.parse(formData.sectionsJSON);
             } catch (err) {
-                alert('Invalid JSON in Sections configuration');
+                addToast('Cấu hình Sections (JSON) không hợp lệ', 'error');
                 setLoading(false);
                 return;
             }
@@ -156,14 +167,16 @@ export default function EditLandingPage({ params }: { params: { id: string } }) 
 
             if (isNew) {
                 await api.landingPages.create(payload);
+                addToast('Tạo trang thành công', 'success');
             } else {
-                await api.landingPages.update(params.id, payload);
+                await api.landingPages.update(id, payload);
+                addToast('Cập nhật trang thành công', 'success');
             }
 
             router.push('/admin/landing-pages');
             router.refresh(); // Refresh server components if any
         } catch (error: any) {
-            alert(`Error: ${error.message}`);
+            addToast(`Lỗi: ${error.message}`, 'error');
         } finally {
             setLoading(false);
         }

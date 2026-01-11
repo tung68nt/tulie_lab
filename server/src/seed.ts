@@ -338,8 +338,12 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
             data: {
                 email: adminEmail,
                 password: hashedPassword,
-                name: 'Admin Tulie',
                 role: 'ADMIN',
+                profile: {
+                    create: {
+                        name: 'Admin Tulie'
+                    }
+                }
             }
         });
         console.log('✅ Created admin: admin@tulie.vn / admin123');

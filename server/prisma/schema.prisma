@@ -23,32 +23,69 @@ enum OrderStatus {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String    @unique
-  password       String // Hashed
-  name           String?
-  role           Role      @default(USER)
-  
-  // Personal info
-  phone          String?
-  birthDate      DateTime?
-  address        String?
-  city           String?
-  occupation     String?   // Nghề nghiệp
-  company        String?
-  avatar         String?
-  
-  // Marketing preferences
-  allowEmailMarketing  Boolean @default(true)
-  allowSMSMarketing    Boolean @default(false)
-  
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id       String  @id @default(uuid())
+  email    String  @unique
+  password String // Hashed
+  role     Role    @default(USER)
+  isActive Boolean @default(true) // Added for soft ban/deactivation status
 
-  enrollments    Enrollment[]
-  orders         Order[]
-  progress       LessonProgress[]
-  notifications  UserNotification[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile  UserProfile?
+  sessions UserSession[]
+
+  enrollments   Enrollment[]
+  orders        Order[]
+  progress      LessonProgress[]
+  notifications UserNotification[]
+  securityLogs  SecurityLog[]
+  marketingLead MarketingLead[]
+  activityLogs  ActivityLog[]
+
+  @@index([role])
+  @@index([email])
+  @@index([role, isActive]) // Composite index for filtering active users by role
+}
+
+model UserProfile {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Personal info
+  name       String?
+  phone      String?
+  birthDate  DateTime?
+  address    String?
+  city       String?
+  occupation String? // Nghề nghiệp
+  company    String?
+  avatar     String?
+
+  // Marketing preferences
+  allowEmailMarketing Boolean @default(true)
+  allowSMSMarketing   Boolean @default(false)
+
+  updatedAt DateTime @updatedAt
+}
+
+model UserSession {
+  // NOTE: Consider migrating sessions primarily to Redis in the future
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  token        String   @unique // Refresh token
+  ipAddress    String?
+  userAgent    String?
+  isValid      Boolean  @default(true)
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  lastActiveAt DateTime @default(now()) // Track last usage
+
+  @@index([userId])
+  @@index([token])
 }
 
 enum CourseDeploymentStatus {
@@ -56,7 +93,6 @@ enum CourseDeploymentStatus {
   COMING_SOON
   UPDATING
 }
-
 
 enum CourseTag {
   NONE
@@ -67,32 +103,35 @@ enum CourseTag {
 }
 
 model Course {
-  id          String   @id @default(uuid())
-  title       String
-  slug        String   @unique
-  description String?
-  thumbnail   String?
-  price       Int      @default(0) // Stored in smallest currency unit (e.g. VND)
-  isPublished Boolean  @default(false)
+  id               String                 @id @default(uuid())
+  title            String
+  slug             String                 @unique
+  description      String?
+  thumbnail        String?
+  price            Decimal                @default(0) @db.Decimal(12, 0) // Stored in currency unit (e.g. VND)
+  isPublished      Boolean                @default(false)
   deploymentStatus CourseDeploymentStatus @default(RELEASED)
-  tag         CourseTag              @default(NONE)
-  
-  registrations CourseRegistration[]
-  introVideoUrl String?
-  learningOutcomes String? @db.Text // JSON string or newline separated text
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  tag              CourseTag              @default(NONE)
+
+  registrations    CourseRegistration[]
+  introVideoUrl    String?
+  learningOutcomes Json? // Structured data for learning outcomes
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
 
   lessons     Lesson[]
   enrollments Enrollment[]
-  orders      Order[]      @relation("CourseOrders")
+  orders      Order[]        @relation("CourseOrders")
   bundles     BundleCourse[]
-  
+
   instructorId String?
   instructor   Instructor? @relation(fields: [instructorId], references: [id])
-  
-  categoryId   String?
-  category     Category?   @relation(fields: [categoryId], references: [id])
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  @@index([isPublished])
+  @@index([price])
 }
 
 // ==========================================
@@ -107,8 +146,8 @@ model Category {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
-  courses     Course[]
+
+  courses Course[]
 }
 
 model Lesson {
@@ -116,8 +155,8 @@ model Lesson {
   title       String
   slug        String
   description String?
-  videoUrl    String?  // Secure URL or ID
-  duration    String?  // Video duration (e.g. "10:25")
+  videoUrl    String? // Secure URL or ID
+  duration    String? // Video duration (e.g. "10:25")
   content     String?  @db.Text
   isFree      Boolean  @default(false) // Previewable
   position    Int      @default(0)
@@ -130,6 +169,7 @@ model Lesson {
   attachments Attachment[]
 
   @@unique([courseId, slug])
+  @@index([courseId]) // Performance index for fetching lessons by course
 }
 
 model Attachment {
@@ -145,7 +185,7 @@ model Attachment {
 model SystemSetting {
   id        String   @id @default(uuid())
   key       String   @unique
-  value     String   @db.Text
+  value     Json // Flexible value storage (string, number, boolean, object)
   type      String   @default("text") // text, json, image
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -160,22 +200,29 @@ model Enrollment {
   createdAt DateTime @default(now())
 
   @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
 }
 
 model Order {
-  id              String      @id @default(uuid())
-  code            String      @unique // Order code for Sepay (e.g. DH123456)
-  userId          String
-  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  amount          Int
-  status          OrderStatus @default(PENDING)
-  transactionId   String?     // From Sepay webhook
-  paymentMethod   String?
-  courses         Course[]    @relation("CourseOrders")
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  
-  marketingLead   MarketingLead?
+  id            String      @id @default(uuid())
+  code          String      @unique // Order code for Sepay (e.g. DH123456)
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Decimal     @db.Decimal(12, 0)
+  status        OrderStatus @default(PENDING)
+  transactionId String? // From Sepay webhook
+  paymentMethod String?
+  courses       Course[]    @relation("CourseOrders")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  marketingLead MarketingLead?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([code])
 }
 
 model LessonProgress {
@@ -192,53 +239,53 @@ model LessonProgress {
 }
 
 model PaymentTransaction {
-  id              String   @id @default(uuid())
+  id              String    @id @default(uuid())
   gateway         String?
   transactionDate DateTime? // From Sepay
   accountNumber   String?
   subAccount      String?
-  amountIn        Decimal? @db.Decimal(15, 2)
-  amountOut       Decimal? @db.Decimal(15, 2)
-  accumulated     Decimal? @db.Decimal(15, 2) 
-  code            String?   // Sepay code
+  amountIn        Decimal?  @db.Decimal(15, 2)
+  amountOut       Decimal?  @db.Decimal(15, 2)
+  accumulated     Decimal?  @db.Decimal(15, 2)
+  code            String? // Sepay code
   content         String?
   referenceCode   String?
   description     String?
-  createdAt       DateTime @default(now())
+  createdAt       DateTime  @default(now())
 }
 
 model Instructor {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
   title       String?
   bio         String? @db.Text
   avatar      String?
   socialLinks String?
-  
-  courses     Course[]
-  blogPosts   BlogPost[]
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  courses   Course[]
+  blogPosts BlogPost[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model BlogPost {
-  id              String   @id @default(uuid())
+  id              String      @id @default(uuid())
   title           String
-  slug            String   @unique
-  excerpt         String? @db.Text
-  content         String  @db.Text  
+  slug            String      @unique
+  excerpt         String?     @db.Text
+  content         String      @db.Text
   thumbnail       String?
   authorId        String?
   author          Instructor? @relation(fields: [authorId], references: [id])
-  isPublished     Boolean  @default(false)
+  isPublished     Boolean     @default(false)
   publishedAt     DateTime?
   // SEO fields
   metaTitle       String?
   metaDescription String?
   metaKeywords    String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 }
 
 // ==========================================
@@ -250,7 +297,7 @@ model ContactSubmission {
   name      String
   email     String
   phone     String?
-  message   String  @db.Text  
+  message   String   @db.Text
   status    String   @default("NEW") // NEW, READ, REPLIED
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -281,37 +328,37 @@ model CourseRegistration {
 }
 
 model SystemNotification {
-  id            String   @id @default(uuid())
-  title         String
-  content       String  @db.Text  
-  type          NotificationType @default(SYSTEM)
-  
+  id      String           @id @default(uuid())
+  title   String
+  content String           @db.Text
+  type    NotificationType @default(SYSTEM)
+
   // Scheduling
-  isActive      Boolean  @default(true)
-  startDate     DateTime?
-  endDate       DateTime?
-  
+  isActive  Boolean   @default(true)
+  startDate DateTime?
+  endDate   DateTime?
+
   // Targeting
-  targetAll     Boolean  @default(true)
+  targetAll      Boolean @default(true)
   targetBirthday Boolean @default(false)
-  
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
-  recipients    UserNotification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  recipients UserNotification[]
 }
 
 model UserNotification {
-  id             String   @id @default(uuid())
+  id             String             @id @default(uuid())
   userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   notificationId String
   notification   SystemNotification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
-  
-  isRead         Boolean  @default(false)
-  readAt         DateTime?
-  createdAt      DateTime @default(now())
-  
+
+  isRead    Boolean   @default(false)
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
   @@unique([userId, notificationId])
 }
 
@@ -320,35 +367,35 @@ model UserNotification {
 // ==========================================
 
 model Bundle {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
-  slug        String   @unique
-  description String? 
+  slug        String  @unique
+  description String?
   thumbnail   String?
-  
+
   // Pricing
-  originalPrice   Int    // Tổng giá gốc
-  salePrice       Int    // Giá combo
-  discountPercent Int?   // Hiển thị "Giảm X%"
-  
+  originalPrice   Int // Tổng giá gốc
+  salePrice       Int // Giá combo
+  discountPercent Int? // Hiển thị "Giảm X%"
+
   // Availability
-  isActive    Boolean  @default(true)
-  startDate   DateTime?
-  endDate     DateTime?
-  
-  courses     BundleCourse[]
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isActive  Boolean   @default(true)
+  startDate DateTime?
+  endDate   DateTime?
+
+  courses BundleCourse[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model BundleCourse {
-  id        String @id @default(uuid())
-  bundleId  String
-  bundle    Bundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
-  courseId  String
-  course    Course @relation(fields: [courseId], references: [id])
-  
+  id       String @id @default(uuid())
+  bundleId String
+  bundle   Bundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
   @@unique([bundleId, courseId])
 }
 
@@ -362,45 +409,45 @@ enum DiscountType {
 }
 
 model Coupon {
-  id            String   @id @default(uuid())
-  code          String   @unique
-  description   String?
-  
+  id          String  @id @default(uuid())
+  code        String  @unique
+  description String?
+
   // Discount
   discountType  DiscountType @default(PERCENT)
-  discountValue Int      // 20 = 20% or 500000 = 500k VND
-  
+  discountValue Int // 20 = 20% or 500000 = 500k VND
+
   // Conditions
-  minPurchase   Int?     // Đơn tối thiểu
-  maxDiscount   Int?     // Giảm tối đa (cho PERCENT)
-  
+  minPurchase Int? // Đơn tối thiểu
+  maxDiscount Int? // Giảm tối đa (cho PERCENT)
+
   // Usage limits
-  usageLimit    Int?     // Tổng số lượt dùng
-  usageCount    Int      @default(0)
-  perUserLimit  Int      @default(1)
-  
+  usageLimit   Int? // Tổng số lượt dùng
+  usageCount   Int  @default(0)
+  perUserLimit Int  @default(1)
+
   // Validity
-  isActive      Boolean  @default(true)
-  startDate     DateTime?
-  endDate       DateTime?
-  
+  isActive  Boolean   @default(true)
+  startDate DateTime?
+  endDate   DateTime?
+
   // Special targeting
-  forBirthday   Boolean  @default(false)
-  
-  usages        CouponUsage[]
-  
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  forBirthday Boolean @default(false)
+
+  usages CouponUsage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CouponUsage {
-  id        String   @id @default(uuid())
-  couponId  String
-  coupon    Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
-  userId    String
-  orderId   String?
-  discount  Int      // Số tiền đã giảm
-  usedAt    DateTime @default(now())
+  id       String   @id @default(uuid())
+  couponId String
+  coupon   Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  userId   String
+  orderId  String?
+  discount Int // Số tiền đã giảm
+  usedAt   DateTime @default(now())
 }
 
 // ==========================================
@@ -417,13 +464,17 @@ enum SecurityAction {
 }
 
 model SecurityLog {
-  id        String   @id @default(uuid())
+  id        String         @id @default(uuid())
   userId    String?
   action    SecurityAction
   ipAddress String?
   userAgent String?
-  details   String? 
-  createdAt DateTime @default(now())
+  details   String?
+  createdAt DateTime       @default(now())
+  user      User?          @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
 }
 
 // ==========================================
@@ -438,8 +489,13 @@ model ActivityLog {
   ipAddress String?
   location  String?
   device    String?
-  metadata  String? 
+  metadata  String?
   createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([action])
 }
 
 // ==========================================
@@ -448,42 +504,44 @@ model ActivityLog {
 
 model EmailLog {
   id        String   @id @default(uuid())
-  to        String   // Recipient email
+  to        String // Recipient email
   subject   String
-  type      String   // e.g. "payment_reminder", "welcome", "password_reset"
+  type      String // e.g. "payment_reminder", "welcome", "password_reset"
   status    String   @default("sent") // "sent", "failed", "bounced"
-  userId    String?  // Optional link to user
-  orderId   String?  // Optional link to order
-  metadata  String?  // JSON string for additional data
-  error     String?  // Error message if failed
+  userId    String? // Optional link to user
+  orderId   String? // Optional link to order
+  metadata  String? // JSON string for additional data
+  error     String? // Error message if failed
   createdAt DateTime @default(now())
 }
 
 model MarketingLead {
-  id          String   @id @default(uuid())
-  orderId     String   @unique
-  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  
-  source      String?  // utm_source
-  medium      String?  // utm_medium
-  campaign    String?  // utm_campaign
-  term        String?  // utm_term
-  content     String?  // utm_content
-  
-  fbc         String?  // Facebook Click ID
-  gclid       String?  // Google Click ID
-  
-  clickId     String?  // Generic click ID
-  
-  createdAt   DateTime @default(now())
+  id      String  @id @default(uuid())
+  userId  String? // Link to User if known
+  user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  orderId String  @unique
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  source   String? // utm_source
+  medium   String? // utm_medium
+  campaign String? // utm_campaign
+  term     String? // utm_term
+  content  String? // utm_content
+
+  fbc   String? // Facebook Click ID
+  gclid String? // Google Click ID
+
+  clickId String? // Generic click ID
+
+  createdAt DateTime @default(now())
 }
 
 model LandingPage {
   id          String   @id @default(uuid())
   title       String
   slug        String   @unique
-  description String?  // Meta description
-  sections    String   @db.Text // JSON string of Section[]
+  description String? // Meta description
+  sections    Json // JSON of Section[]
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

@@ -6,6 +6,7 @@ import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, UserX, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { RealtimeHealthChart } from '@/components/analytics/RealtimeHealthChart';
 
 interface DashboardData {
     totalRevenue: number;
@@ -75,7 +76,7 @@ function BarChart({ data, label }: { data: { month: string; value: number; date?
                                         <div className="relative w-full flex justify-center" style={{ height: `${Math.max((item.value / maxValue) * 100, 1)}%` }}>
                                             {/* Value label */}
                                             <div className={`text-[10px] sm:text-xs mb-1 text-center 
-                                                ${weekend ? 'text-foreground font-semibold' : 'text-muted-foreground'}
+                                                ${!weekend ? 'text-foreground font-semibold' : 'text-muted-foreground'}
                                                 ${isDense
                                                     ? 'opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 bg-popover text-popover-foreground px-2 py-1 rounded shadow-md z-20 border text-xs whitespace-nowrap pointer-events-none w-auto'
                                                     : 'truncate absolute bottom-full left-0 right-0 w-full'}`}
@@ -102,7 +103,7 @@ function BarChart({ data, label }: { data: { month: string; value: number; date?
                                     key={i}
                                     className="flex-1 relative min-w-0"
                                 >
-                                    <span className={`absolute left-1/2 whitespace-nowrap text-[8px] ${weekend ? 'text-foreground font-bold' : ''} 
+                                    <span className={`absolute left-1/2 whitespace-nowrap text-[8px] ${!weekend ? 'text-foreground font-bold' : ''} 
                                     transform origin-top-right -rotate-45 -translate-x-full`}>
                                         {d.month}
                                     </span>
@@ -151,23 +152,35 @@ export default function AdminDashboardPage() {
             const [coursesRes, usersRes, ordersRes]: any = await Promise.all([
                 api.admin.courses.list().catch(() => []),
                 api.admin.users.list().catch(() => []),
-                api.admin.orders.list().catch(() => [])
+                api.admin.orders.list({ limit: 1000 }).catch(() => ({ data: [], meta: { stats: {} } })) // Fetch more for charts
             ]);
 
             const courses = Array.isArray(coursesRes) ? coursesRes : [];
             const users = Array.isArray(usersRes) ? usersRes : [];
-            const orders = Array.isArray(ordersRes) ? ordersRes : [];
+
+            // Handle orders response structure (paginated)
+            const orders = ordersRes.data || [];
+            const orderStats = ordersRes.meta?.stats || {};
 
             const paidOrders = orders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED');
             const pendingOrders = orders.filter((o: any) => o.status === 'PENDING');
-            const totalRevenue = paidOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0);
 
+            // Use backend stats if available, otherwise fallback (dashboard might show 0 if Limit < Total)
+            const totalRevenue = orderStats.totalRevenue || paidOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0);
 
-            // Generate chart data based on selected time period using REAL ORDER DATA
+            // Generate chart data... (logic remains, utilizing the 1000 orders fetched)
+            // ...
+
             const generateChartData = () => {
+                // ... existing logic ...
+                // Note: we're using 'orders' which is now up to 1000 items. 
+                // If total orders > 1000, charts will be truncated. 
+                // Ideally we should have a separate stats endpoint for charts.
                 const today = new Date();
                 const paidOrderList = orders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED');
                 const userList = users;
+
+                // ...
 
                 // Helper to aggregate orders by date
                 const aggregateByDate = (startDate: Date, endDate: Date, groupBy: 'day' | 'week' | 'month') => {
@@ -263,6 +276,8 @@ export default function AdminDashboardPage() {
                     return result;
                 };
 
+                // ...
+
                 if (timePeriod === 'thisMonth') {
                     const year = today.getFullYear();
                     const month = today.getMonth();
@@ -306,9 +321,9 @@ export default function AdminDashboardPage() {
                         return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
                     })
                     .reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
-                totalOrders: orders.length,
-                paidOrders: paidOrders.length,
-                pendingOrders: pendingOrders.length,
+                totalOrders: orderStats.total || orders.length,
+                paidOrders: orderStats.paid || paidOrders.length,
+                pendingOrders: orderStats.pending || pendingOrders.length,
                 totalUsers: users.length,
                 activeUsers: users.filter((u: any) => u.enrolledCourses?.length > 0).length,
                 totalCourses: courses.length,
@@ -582,37 +597,10 @@ export default function AdminDashboardPage() {
                 </Card>
             )}
 
-            {/* System Stats Widget */}
-            {systemStats && (
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-base flex items-center gap-2">
-                            <TrendingUp size={18} />
-                            System Health
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-muted-foreground">Uptime:</span>
-                                <span className="font-medium">{(systemStats.uptime / 3600).toFixed(1)} hours</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-muted-foreground">App RAM:</span>
-                                <span className="font-medium">{(systemStats.memory.rss / 1024 / 1024).toFixed(0)} MB</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-muted-foreground">Node Ver:</span>
-                                <span className="font-medium">{systemStats.nodeVersion}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                                <span className="text-muted-foreground">Time:</span>
-                                <span className="font-medium">{new Date(systemStats.serverTime).toLocaleTimeString('vi-VN')}</span>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            )}
+            {/* System Stats Widget - Realtime Chart */}
+            <div className="h-[300px]">
+                <RealtimeHealthChart />
+            </div>
 
             {/* Inactive Users Widget */}
             <Card>

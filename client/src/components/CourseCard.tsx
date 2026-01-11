@@ -39,8 +39,8 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                     ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-zinc-100 dark:bg-zinc-800">
-                            <span className="text-4xl text-zinc-300">—</span>
+                        <div className="flex h-full w-full items-center justify-center bg-muted">
+                            <span className="text-4xl text-muted-foreground">—</span>
                         </div>
                     )}
                     {price === 0 && deploymentStatus === 'RELEASED' && (

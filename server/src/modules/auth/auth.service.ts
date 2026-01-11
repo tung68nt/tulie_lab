@@ -24,8 +24,15 @@ export const register = async (email: string, password: string, name: string) =>
         data: {
             email,
             password: hashedPassword,
-            name,
-            role: Role.USER // Default role
+            role: Role.USER, // Default role
+            profile: {
+                create: {
+                    name
+                }
+            }
+        },
+        include: {
+            profile: true
         }
     });
 
@@ -37,11 +44,14 @@ export const register = async (email: string, password: string, name: string) =>
         console.log('Welcome email skipped (SMTP not configured)');
     }
 
-    return { id: user.id, email: user.email, name: user.name, role: user.role };
+    return { id: user.id, email: user.email, name: user.profile?.name, role: user.role };
 };
 
 export const login = async (email: string, password: string) => {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+        where: { email },
+        include: { profile: true }
+    });
     if (!user) {
         console.log('User not found:', email); // DEBUG
         throw new Error('Invalid credentials');
@@ -60,14 +70,15 @@ export const login = async (email: string, password: string) => {
     );
 
     return {
-        user: { id: user.id, email: user.email, name: user.name, role: user.role },
+        user: { id: user.id, email: user.email, name: user.profile?.name, role: user.role },
         token
     };
 };
 
 export const getUserById = async (id: string) => {
     const user = await prisma.user.findUnique({
-        where: { id }
+        where: { id },
+        include: { profile: true }
     });
 
     if (!user) return null;
@@ -79,7 +90,10 @@ export const getUserById = async (id: string) => {
 
 // Password Reset Functions
 export const sendPasswordResetEmail = async (email: string) => {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+        where: { email },
+        include: { profile: true }
+    });
 
     // Don't reveal if user exists
     if (!user) {
@@ -97,7 +111,7 @@ export const sendPasswordResetEmail = async (email: string) => {
     // Try to send email (if SMTP is configured)
     try {
         const { emailService } = await import('../../services/email.service');
-        await emailService.sendPasswordResetEmail(email, resetToken, user.name || undefined);
+        await emailService.sendPasswordResetEmail(email, resetToken, user.profile?.name || undefined);
     } catch (error) {
         console.log('Email service not available, reset token:', resetToken);
         // In development, log the token for testing

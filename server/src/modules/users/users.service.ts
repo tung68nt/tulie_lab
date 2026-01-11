@@ -103,23 +103,44 @@ export const getUserDetailsForAdmin = async (id: string) => {
 
 
 export const updateUser = async (id: string, data: any) => {
+    const { name, phone, birthDate, address, city, occupation, company, avatar, allowEmailMarketing, allowSMSMarketing, ...userData } = data;
+
+    const profileData = {
+        name, phone, birthDate, address, city, occupation, company, avatar, allowEmailMarketing, allowSMSMarketing
+    };
+
+    // Remove undefined keys from profileData
+    Object.keys(profileData).forEach(key => (profileData as any)[key] === undefined && delete (profileData as any)[key]);
+
     return prisma.user.update({
         where: { id },
-        data,
+        data: {
+            ...userData,
+            profile: {
+                upsert: {
+                    create: profileData,
+                    update: profileData
+                }
+            }
+        },
         select: {
             id: true,
             email: true,
-            name: true,
             role: true,
-            phone: true,
-            birthDate: true,
-            address: true,
-            city: true,
-            occupation: true,
-            company: true,
-            avatar: true,
-            allowEmailMarketing: true,
-            allowSMSMarketing: true
+            profile: {
+                select: {
+                    name: true,
+                    phone: true,
+                    birthDate: true,
+                    address: true,
+                    city: true,
+                    occupation: true,
+                    company: true,
+                    avatar: true,
+                    allowEmailMarketing: true,
+                    allowSMSMarketing: true
+                }
+            }
         }
     });
 };
@@ -129,9 +150,13 @@ export const getAllUsers = async () => {
         select: {
             id: true,
             email: true,
-            name: true,
             role: true,
-            createdAt: true
+            createdAt: true,
+            profile: {
+                select: {
+                    name: true
+                }
+            }
         }
     });
 };
@@ -196,8 +221,10 @@ export const getInactiveUsers = async (inactiveDays: number = 7) => {
         select: {
             id: true,
             email: true,
-            name: true,
             createdAt: true,
+            profile: {
+                select: { name: true }
+            },
             enrollments: {
                 select: {
                     course: {

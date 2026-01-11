@@ -60,13 +60,14 @@ export const getUserNotifications = async (userId: string) => {
     // Get user to check birthDate
     const user = await prisma.user.findUnique({
         where: { id: userId },
-        select: { birthDate: true }
+        select: { profile: { select: { birthDate: true } } }
     });
 
     const now = new Date();
-    const isBirthday = user?.birthDate &&
-        user.birthDate.getDate() === now.getDate() &&
-        user.birthDate.getMonth() === now.getMonth();
+    const userBirthDate = user?.profile?.birthDate;
+    const isBirthday = userBirthDate &&
+        userBirthDate.getDate() === now.getDate() &&
+        userBirthDate.getMonth() === now.getMonth();
 
     // 1. Get system-wide notifications that target all users OR target birthday (if applicable)
     const systemNotifications = await prisma.systemNotification.findMany({

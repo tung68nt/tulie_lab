@@ -24,7 +24,24 @@ npx prisma migrate deploy
 
 ---
 
-## Bước 2: Setup Cloudflare R2 (Video Storage)
+## Bước 2: Setup Redis (Upstash) - Cho Caching
+
+1. Truy cập [console.upstash.com](https://console.upstash.com/redis) (như hình bạn gửi).
+2. Bấm nút xanh **Create Database**.
+3. Điền thông tin:
+   - **Name**: `academy-redis`
+   - **Region**: Chọn **Singapore (ap-southeast-1)** (để gần Database và Server).
+   - **Type**: Regional (thường là mặc định).
+   - **Eviction**: **Bật (Enable)** (Quan trọng: để khi đầy bộ nhớ nó tự xóa cache cũ đi, không bị lỗi).
+4. Bấm **Create**.
+5. Sau khi tạo xong, cuộn xuống phần **Connect**.
+6. Chọn tab **Node.js (ioredis)** hoặc copy dòng `REDIS_URL`.
+   - Nó sẽ có dạng: `redis://default:******@gw-xxxx.upstash.io:6379`
+7. Copy chuỗi này để dùng cho GitHub Secrets.
+
+---
+
+## Bước 3: Setup Cloudflare R2 (Video Storage)
 
 1. Truy cập [dash.cloudflare.com](https://dash.cloudflare.com) → R2
 2. Create bucket: `academy-videos`

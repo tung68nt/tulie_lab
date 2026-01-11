@@ -66,8 +66,8 @@ export const applyCoupon = async (orderId: string, code: string, userId: string)
     });
     if (!order) throw new Error('Order not found');
 
-    const validation = await validateCoupon(code, order.amount, userId);
-    const discount = calculateDiscountAmount(order.amount, validation);
+    const validation = await validateCoupon(code, Number(order.amount), userId);
+    const discount = calculateDiscountAmount(Number(order.amount), validation);
 
     // This function typically updates Order. But Order schema doesn't have couponId (yet).
     // Let's check Schema. Order has no explicit coupon relation.
@@ -77,7 +77,7 @@ export const applyCoupon = async (orderId: string, code: string, userId: string)
 
     // For now, assuming this is called during checkout calculation or order creation.
     // Return discount info.
-    return { discount, finalAmount: order.amount - discount, couponId: validation.id };
+    return { discount, finalAmount: Number(order.amount) - discount, couponId: validation.id };
 };
 
 export const listCoupons = async (isAdmin = false) => {
@@ -131,11 +131,16 @@ export const deleteCoupon = async (id: string) => {
 import emailService from '../../services/email.service';
 
 export const checkAndIssueBirthdayCoupon = async (userId: string) => {
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    if (!user || !user.birthDate) return null;
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        include: { profile: true }
+    });
+    const birthDateValue = user?.profile?.birthDate;
+
+    if (!user || !birthDateValue) return null;
 
     const today = new Date();
-    const birthDate = new Date(user.birthDate);
+    const birthDate = new Date(birthDateValue);
 
     // Check if birthday is in current month
     if (today.getMonth() !== birthDate.getMonth()) return null;
@@ -167,7 +172,7 @@ export const checkAndIssueBirthdayCoupon = async (userId: string) => {
     const newCoupon = await prisma.coupon.create({
         data: {
             code: personalizedCode,
-            description: `Birthday Coupon for ${user.name || user.email}`,
+            description: `Birthday Coupon for ${user.profile?.name || user.email}`,
             discountType: template.discountType,
             discountValue: template.discountValue,
             maxDiscount: template.maxDiscount,
@@ -188,7 +193,7 @@ export const checkAndIssueBirthdayCoupon = async (userId: string) => {
 
     await emailService.sendBirthdayCouponEmail(
         user.email,
-        user.name || 'Bạn',
+        user.profile?.name || 'Bạn',
         personalizedCode,
         discountText
     );

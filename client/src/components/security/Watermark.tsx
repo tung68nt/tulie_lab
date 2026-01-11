@@ -23,7 +23,7 @@ export function Watermark({ text, mode = 'fixed' }: WatermarkProps) {
                 style={{ gap: '150px 100px', padding: '50px' }}
             >
                 {Array.from({ length: 40 }).map((_, i) => (
-                    <div key={i} className="whitespace-nowrap font-bold text-xl text-black dark:text-white">
+                    <div key={i} className="whitespace-nowrap font-bold text-xl text-foreground opacity-20">
                         {text}
                     </div>
                 ))}

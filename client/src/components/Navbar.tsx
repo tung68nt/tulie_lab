@@ -206,9 +206,10 @@ export function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
-                                    className={`transition-all duration-200 px-4 py-2 rounded-md hover:text-foreground ${isActive
-                                            ? 'bg-secondary text-foreground font-medium'
-                                            : 'text-muted-foreground hover:bg-secondary/50'
+                                    className={`transition-all duration-200 px-4 py-2 rounded-md ${isActive
+                                        ? 'bg-foreground text-background font-medium'
+                                        : 'text-muted-foreground hover:bg-secondary/50'
+                                        }`}
                                         }`}
                                 >
                                     {link.label}
@@ -290,7 +291,7 @@ export function Navbar() {
                                         </button>
 
                                         {/* Dropdown Menu */}
-                                        <div className={`absolute right-0 top-full mt-2 w-56 rounded-md border bg-popover text-popover-foreground shadow-lg transition-all duration-200 ease-out transform origin-top-right z-50 overflow-hidden ${dropdownOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
+                                        <div className={`absolute right - 0 top - full mt - 2 w - 56 rounded - md border bg - popover text - popover - foreground shadow - lg transition - all duration - 200 ease - out transform origin - top - right z - 50 overflow - hidden ${ dropdownOpen? 'opacity-100 translate-y-0': 'opacity-0 -translate-y-2 pointer-events-none' }`}>
                                             <div className="p-2 border-b bg-muted/30">
                                                 <p className="text-sm font-medium">{user?.name || user?.fullName}</p>
                                                 <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
@@ -347,92 +348,92 @@ export function Navbar() {
             </nav>
 
             {/* Mobile Menu Drawer (Fade Down) - Below Navbar (z-49) */}
-            <div className={`fixed inset-x-0 top-16 bottom-0 z-[49] md:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-                {/* Backdrop */}
-                <div
-                    className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                />
+            <div className={`fixed inset - x - 0 top - 16 bottom - 0 z - [49] md:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+                        {/* Backdrop */}
+                        <div
+                            className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+                            onClick={() => setMobileMenuOpen(false)}
+                        />
 
-                {/* Drawer Content - Full width dropdown, fade down animation */}
-                <div className={`absolute top-0 inset-x-0 bg-background border-b border-border flex flex-col shadow-lg transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+                        {/* Drawer Content - Full width dropdown, fade down animation */}
+                        <div className={`absolute top-0 inset-x-0 bg-background border-b border-border flex flex-col shadow-lg transition-all duration-300 ease-in-out ${mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
 
-                    {/* Navigation Links & User Menu */}
-                    <div className="flex-1 overflow-y-auto py-4 px-4 space-y-1 max-h-[70vh]">
-                        {navLinks.map(link => {
-                            const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
-                            return (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={`block py-3 px-4 text-base font-medium rounded-md transition-colors ${isActive ? 'bg-muted text-foreground font-semibold' : 'text-foreground/70 hover:bg-muted'}`}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    {link.label}
-                                </Link>
-                            );
-                        })}
+                            {/* Navigation Links & User Menu */}
+                            <div className="flex-1 overflow-y-auto py-4 px-4 space-y-1 max-h-[70vh]">
+                                {navLinks.map(link => {
+                                    const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+                                    return (
+                                        <Link
+                                            key={link.href}
+                                            href={link.href}
+                                            className={`block py-3 px-4 text-base font-medium rounded-md transition-colors ${isActive ? 'bg-muted text-foreground font-semibold' : 'text-foreground/70 hover:bg-muted'}`}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                        >
+                                            {link.label}
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Drawer Footer (Guest Only) */}
+                            {!isLoggedIn && !loading && (
+                                <div className="p-4 border-t border-border bg-background">
+                                    <div className="space-y-4">
+                                        <div className="text-center pb-2">
+                                            <h4 className="font-bold text-base mb-1">Chào mừng bạn!</h4>
+                                            <p className="text-sm text-muted-foreground">Đăng nhập để tiếp tục hành trình học tập.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                                                <Button variant="outline" className="w-full h-10">Đăng nhập</Button>
+                                            </Link>
+                                            <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                                                <Button className="w-full h-10 shadow-none">Đăng ký</Button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
-                    {/* Drawer Footer (Guest Only) */}
-                    {!isLoggedIn && !loading && (
-                        <div className="p-4 border-t border-border bg-background">
-                            <div className="space-y-4">
-                                <div className="text-center pb-2">
-                                    <h4 className="font-bold text-base mb-1">Chào mừng bạn!</h4>
-                                    <p className="text-sm text-muted-foreground">Đăng nhập để tiếp tục hành trình học tập.</p>
-                                </div>
-                                <div className="grid grid-cols-2 gap-3">
-                                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                                        <Button variant="outline" className="w-full h-10">Đăng nhập</Button>
+                    {/* Mobile User Menu Drawer (Fade Down) - Below Navbar (z-49) */}
+                    <div className={`fixed inset-x-0 top-16 bottom-0 z-[49] md:hidden ${dropdownOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+                        {/* Backdrop */}
+                        <div
+                            className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${dropdownOpen ? 'opacity-100' : 'opacity-0'}`}
+                            onClick={() => setDropdownOpen(false)}
+                        />
+
+                        {/* Drawer Content - Full width dropdown, fade down animation */}
+                        <div className={`absolute top-0 inset-x-0 bg-background border-b border-border flex flex-col shadow-lg transition-all duration-300 ease-in-out ${dropdownOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+                            <div className="p-4 border-b bg-muted/30">
+                                <p className="font-semibold text-base">Xin chào, {user?.name || user?.fullName}!</p>
+                                <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
+                            </div>
+                            <div className="flex-1 overflow-y-auto py-2">
+                                {isAdmin && (
+                                    <Link href="/admin" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base font-medium hover:bg-muted transition-colors text-primary">
+                                        Quản trị hệ thống
                                     </Link>
-                                    <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                                        <Button className="w-full h-10 shadow-none">Đăng ký</Button>
-                                    </Link>
-                                </div>
+                                )}
+                                <Link href="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base hover:bg-muted transition-colors">
+                                    Hồ sơ cá nhân
+                                </Link>
+                                <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base hover:bg-muted transition-colors">
+                                    Khoá học của tôi
+                                </Link>
+                                <Link href="/orders" onClick={() => setDropdownOpen(false)} className="flex items-center justify-between px-4 py-3 text-base hover:bg-muted transition-colors">
+                                    <span>Lịch sử đơn hàng</span>
+                                    {pendingOrdersCount > 0 && <span className="bg-primary text-primary-foreground text-xs w-5 h-5 flex items-center justify-center rounded-full">{pendingOrdersCount}</span>}
+                                </Link>
+                                <div className="h-px bg-border my-2 mx-4"></div>
+                                <button onClick={handleLogout} className="w-full text-left px-4 py-3 text-base text-foreground hover:bg-muted transition-colors">
+                                    Đăng xuất
+                                </button>
                             </div>
                         </div>
-                    )}
-                </div>
-            </div>
-
-            {/* Mobile User Menu Drawer (Fade Down) - Below Navbar (z-49) */}
-            <div className={`fixed inset-x-0 top-16 bottom-0 z-[49] md:hidden ${dropdownOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-                {/* Backdrop */}
-                <div
-                    className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${dropdownOpen ? 'opacity-100' : 'opacity-0'}`}
-                    onClick={() => setDropdownOpen(false)}
-                />
-
-                {/* Drawer Content - Full width dropdown, fade down animation */}
-                <div className={`absolute top-0 inset-x-0 bg-background border-b border-border flex flex-col shadow-lg transition-all duration-300 ease-in-out ${dropdownOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-                    <div className="p-4 border-b bg-muted/30">
-                        <p className="font-semibold text-base">Xin chào, {user?.name || user?.fullName}!</p>
-                        <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
                     </div>
-                    <div className="flex-1 overflow-y-auto py-2">
-                        {isAdmin && (
-                            <Link href="/admin" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base font-medium hover:bg-muted transition-colors text-primary">
-                                Quản trị hệ thống
-                            </Link>
-                        )}
-                        <Link href="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base hover:bg-muted transition-colors">
-                            Hồ sơ cá nhân
-                        </Link>
-                        <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base hover:bg-muted transition-colors">
-                            Khoá học của tôi
-                        </Link>
-                        <Link href="/orders" onClick={() => setDropdownOpen(false)} className="flex items-center justify-between px-4 py-3 text-base hover:bg-muted transition-colors">
-                            <span>Lịch sử đơn hàng</span>
-                            {pendingOrdersCount > 0 && <span className="bg-primary text-primary-foreground text-xs w-5 h-5 flex items-center justify-center rounded-full">{pendingOrdersCount}</span>}
-                        </Link>
-                        <div className="h-px bg-border my-2 mx-4"></div>
-                        <button onClick={handleLogout} className="w-full text-left px-4 py-3 text-base text-foreground hover:bg-muted transition-colors">
-                            Đăng xuất
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+                </>
+                );
 }

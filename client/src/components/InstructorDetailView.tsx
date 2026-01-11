@@ -20,7 +20,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                         <div className="flex flex-col md:flex-row items-center gap-8">
                             {/* Avatar */}
                             <div className="relative">
-                                <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
+                                <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-background shadow-2xl overflow-hidden bg-background">
                                     {instructor.avatar ? (
                                         <img
                                             src={instructor.avatar}
@@ -28,7 +28,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 text-white text-6xl font-bold">
+                                        <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground text-6xl font-bold">
                                             {instructor.name?.charAt(0) || 'G'}
                                         </div>
                                     )}

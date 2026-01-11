@@ -93,41 +93,39 @@
   --font-inter: 'Inter', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #09090b;
-    /* Zinc 950 */
-    --foreground: #fafafa;
-    /* Zinc 50 */
+.dark {
+  --background: #09090b;
+  /* Zinc 950 */
+  --foreground: #fafafa;
+  /* Zinc 50 */
 
-    --card: #09090b;
-    --card-foreground: #fafafa;
+  --card: #09090b;
+  --card-foreground: #fafafa;
 
-    --popover: #09090b;
-    --popover-foreground: #fafafa;
+  --popover: #09090b;
+  --popover-foreground: #fafafa;
 
-    --primary: #fafafa;
-    /* White for dark mode primary */
-    --primary-foreground: #18181b;
+  --primary: #fafafa;
+  /* White for dark mode primary */
+  --primary-foreground: #18181b;
 
-    --secondary: #27272a;
-    /* Zinc 800 */
-    --secondary-foreground: #fafafa;
+  --secondary: #27272a;
+  /* Zinc 800 */
+  --secondary-foreground: #fafafa;
 
-    --muted: #27272a;
-    --muted-foreground: #a1a1aa;
-    /* Zinc 400 */
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  /* Zinc 400 */
 
-    --accent: #27272a;
-    --accent-foreground: #fafafa;
+  --accent: #27272a;
+  --accent-foreground: #fafafa;
 
-    --destructive: #7f1d1d;
-    --destructive-foreground: #fafafa;
+  --destructive: #7f1d1d;
+  --destructive-foreground: #fafafa;
 
-    --border: #27272a;
-    --input: #27272a;
-    --ring: #d4d4d8;
-  }
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #d4d4d8;
 }
 
 body {
@@ -224,7 +222,7 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--foreground) !important;
 }
 
-@media (prefers-color-scheme: dark) {
+.dark {
 
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
@@ -236,3 +234,29 @@ input:-webkit-autofill:active {
 }
 
 /* Build trigger: 1767671035 */
+
+.bg-dot-grid {
+  background-color: var(--background);
+  background-image: radial-gradient(circle, #e4e4e7 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-dot-grid {
+  background-color: var(--background);
+  background-image: radial-gradient(circle, #27272a 1px, transparent 1px);
+}
+
+.bg-dot-grid-dark {
+  background-color: #09090b;
+  background-image: radial-gradient(circle, #27272a 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, #e4e4e7 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-dot-pattern {
+  background-image: radial-gradient(circle, #27272a 1px, transparent 1px);
+}

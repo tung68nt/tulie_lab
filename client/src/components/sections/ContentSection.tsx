@@ -57,7 +57,7 @@ export const ContentSection = ({ section }: { section: Section }) => {
     };
 
     return (
-        <section className="container py-12 md:py-16">
+        <section className="container py-12 md:py-16 bg-dot-pattern">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
                 {/* Text content */}
                 <div className="space-y-6">

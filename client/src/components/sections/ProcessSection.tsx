@@ -1,10 +1,10 @@
-import { Section } from '@/lib/types';
+import { Section } from '@/types/sections';
 
 export const ProcessSection = ({ section }: { section: Section }) => {
     if (!section.items) return null;
 
     return (
-        <section className="py-20 bg-background">
+        <section className="py-20 bg-background bg-dot-pattern">
             <div className="container px-4 mx-auto">
                 <div className="max-w-3xl mx-auto text-center mb-16">
                     <h2 className="text-3xl font-bold mb-4">{section.title}</h2>

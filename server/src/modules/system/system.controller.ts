@@ -11,6 +11,7 @@ export const getSystemStats = async (req: Request, res: Response) => {
             totalMem: os.totalmem(),
             freeMem: os.freemem(),
             cpus: os.cpus().length,
+            loadAvg: os.loadavg(), // [1, 5, 15] minutes
         };
 
         res.json({

@@ -203,12 +203,18 @@ export const processWebhook = async (data: {
 
         // 3. Send emails (non-blocking, outside transaction)
         // Get user info for email
-        const user = await tx.user.findUnique({ where: { id: order.userId }, select: { email: true, name: true } });
+        const user = await tx.user.findUnique({
+            where: { id: order.userId },
+            select: {
+                email: true,
+                profile: { select: { name: true } }
+            }
+        });
         if (user) {
             const courseTitles = order.courses?.map(c => c.title) || [];
             // Import and send emails after transaction commits
             import('../../services/email.service').then(({ emailService }) => {
-                emailService.sendPaymentSuccessEmail(user.email, user.name || 'Học viên', order.code, courseTitles);
+                emailService.sendPaymentSuccessEmail(user.email, user.profile?.name || 'Học viên', order.code, courseTitles);
                 emailService.sendAdminOrderNotification(order.code, user.email, courseTitles, Number(order.amount));
             }).catch(err => console.log('Email service error:', err));
         }
@@ -227,7 +233,8 @@ export const getAllOrders = async (params: { page?: number; limit?: number; sear
         where.OR = [
             { code: { contains: search, mode: 'insensitive' } },
             { user: { email: { contains: search, mode: 'insensitive' } } },
-            { user: { name: { contains: search, mode: 'insensitive' } } },
+            // { user: { name: { contains: search, mode: 'insensitive' } } },
+            { user: { profile: { name: { contains: search, mode: 'insensitive' } } } },
             // { user: { fullName: { contains: search, mode: 'insensitive' } } },
             { courses: { some: { title: { contains: search, mode: 'insensitive' } } } }
         ];
@@ -246,7 +253,13 @@ export const getAllOrders = async (params: { page?: number; limit?: number; sear
             skip,
             take: limit,
             include: {
-                user: { select: { id: true, email: true, name: true } },
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                        profile: { select: { name: true } }
+                    }
+                },
                 courses: { select: { id: true, title: true } }
             }
         }),

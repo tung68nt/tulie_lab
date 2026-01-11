@@ -19,9 +19,9 @@ export function Logo({ className = "", showText = true }: LogoProps) {
                     <img src={settings.site_logo} alt="Logo" className="h-full w-auto object-contain" />
                 </div>
             ) : (
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground dark:bg-white transition-transform hover:scale-105">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground transition-transform hover:scale-105">
                     <svg
-                        className="h-5 w-5 text-background dark:text-black"
+                        className="h-5 w-5 text-background"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                     >
@@ -32,7 +32,7 @@ export function Logo({ className = "", showText = true }: LogoProps) {
             )}
 
             {shouldShowText && (
-                <span className="text-lg font-bold text-foreground dark:text-white tracking-tight">
+                <span className="text-lg font-bold text-foreground tracking-tight">
                     {settings.site_name}
                 </span>
             )}
