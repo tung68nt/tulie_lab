@@ -52,17 +52,29 @@ const SECTION_COMPONENTS: Record<string, any> = {
 
 async function getLandingPage(slug: string) {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/landing-pages/${slug}`, {
-            next: { revalidate: 0 } // No caching while editing
+        // Match the URL pattern from api.ts
+        const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+        const baseUrl = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl;
+        const url = `${baseUrl}/api/landing-pages/${slug}`;
+
+        console.log('[LandingPageRenderer] Fetching:', url);
+
+        const res = await fetch(url, {
+            next: { revalidate: 0 }, // No caching while editing
+            cache: 'no-store'
         });
 
-        if (!res.ok) return null;
+        if (!res.ok) {
+            console.error('[LandingPageRenderer] Fetch failed:', res.status, res.statusText);
+            return null;
+        }
         return res.json();
     } catch (error) {
-        console.error('Failed to fetch landing page:', error);
+        console.error('[LandingPageRenderer] Failed to fetch landing page:', error);
         return null;
     }
 }
+
 
 interface LandingPageRendererProps {
     slug: string;

@@ -37,66 +37,64 @@ export default function CalendarPage() {
             <main className="flex-1">
                 <HeroSection section={heroSection} />
 
-                <div className="container py-12">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                            <h2 className="text-3xl font-bold tracking-tight">Sự kiện sắp tới</h2>
+                <div className="container py-12 max-w-6xl mx-auto">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                        <h2 className="text-3xl font-bold tracking-tight">Sự kiện sắp tới</h2>
 
-                            <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
-                                <button
-                                    onClick={() => setViewMode('month')}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${viewMode === 'month'
-                                        ? 'bg-card text-primary shadow-sm'
-                                        : 'text-muted-foreground hover:text-foreground'
-                                        }`}
-                                >
-                                    <CalendarIcon className="w-4 h-4" />
-                                    Xem tháng
-                                </button>
-                                <button
-                                    onClick={() => setViewMode('list')}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${viewMode === 'list'
-                                        ? 'bg-card text-primary shadow-sm'
-                                        : 'text-muted-foreground hover:text-foreground'
-                                        }`}
-                                >
-                                    <ListIcon className="w-4 h-4" />
-                                    Danh sách
-                                </button>
-                            </div>
+                        <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
+                            <button
+                                onClick={() => setViewMode('month')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${viewMode === 'month'
+                                    ? 'bg-card text-primary shadow-sm'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                            >
+                                <CalendarIcon className="w-4 h-4" />
+                                Xem tháng
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${viewMode === 'list'
+                                    ? 'bg-card text-primary shadow-sm'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                            >
+                                <ListIcon className="w-4 h-4" />
+                                Danh sách
+                            </button>
                         </div>
-
-                        {viewMode === 'month' ? (
-                            <MonthViewCalendar events={EVENTS} />
-                        ) : (
-                            <div className="space-y-4">
-                                {EVENTS.map((event, index) => (
-                                    <Link
-                                        key={index}
-                                        href={event.link}
-                                        className="flex flex-col md:flex-row items-start md:items-center p-6 border rounded-2xl hover:border-primary/50 transition-all bg-card hover:shadow-lg group"
-                                    >
-                                        <div className="md:w-32 flex-shrink-0 mb-4 md:mb-0">
-                                            <div className="text-xl font-bold text-primary">{event.date}</div>
-                                            <div className="text-sm text-muted-foreground font-medium">{event.time}</div>
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-secondary text-secondary-foreground mb-2 uppercase tracking-wide">
-                                                {event.type}
-                                            </div>
-                                            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{event.title}</h3>
-                                        </div>
-                                        <div className="mt-6 md:mt-0">
-                                            <div className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-primary border-2 border-primary rounded-xl group-hover:bg-primary group-hover:text-primary-foreground transition-all shadow-sm">
-                                                <span>Xem chi tiết</span>
-                                                <ExternalLink className="w-4 h-4" />
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
                     </div>
+
+                    {viewMode === 'month' ? (
+                        <MonthViewCalendar events={EVENTS} />
+                    ) : (
+                        <div className="space-y-4">
+                            {EVENTS.map((event, index) => (
+                                <Link
+                                    key={index}
+                                    href={event.link}
+                                    className="flex flex-col md:flex-row items-start md:items-center p-6 border rounded-2xl hover:border-primary/50 transition-all bg-card hover:shadow-lg group"
+                                >
+                                    <div className="md:w-32 flex-shrink-0 mb-4 md:mb-0">
+                                        <div className="text-xl font-bold text-primary">{event.date}</div>
+                                        <div className="text-sm text-muted-foreground font-medium">{event.time}</div>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-secondary text-secondary-foreground mb-2 uppercase tracking-wide">
+                                            {event.type}
+                                        </div>
+                                        <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{event.title}</h3>
+                                    </div>
+                                    <div className="mt-6 md:mt-0">
+                                        <div className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-primary border-2 border-primary rounded-xl group-hover:bg-primary group-hover:text-primary-foreground transition-all shadow-sm">
+                                            <span>Xem chi tiết</span>
+                                            <ExternalLink className="w-4 h-4" />
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <CTASection section={{
@@ -108,8 +106,8 @@ export default function CalendarPage() {
                     isVisible: true,
                     order: 3
                 }} />
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }
 
