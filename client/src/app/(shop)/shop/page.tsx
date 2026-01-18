@@ -1,0 +1,343 @@
+'use client';
+
+import { useEffect, useState, useMemo } from 'react';
+import Link from 'next/link';
+import { api } from '@/lib/api';
+import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
+import { cn } from '@/lib/utils';
+import { Search, Filter, X } from 'lucide-react';
+
+// Categories mapping based on schema ProductField
+const CATEGORIES = [
+    { id: 'all', label: 'Tất cả lĩnh vực' },
+    { id: 'ACCOUNTING', label: 'Kế toán (Accounting)' },
+    { id: 'HR', label: 'Nhân sự (HR)' },
+    { id: 'MARKETING', label: 'Marketing' },
+    { id: 'BUSINESS', label: 'Kinh doanh (Business)' },
+    { id: 'CREATIVE', label: 'Sáng tạo (Creative)' },
+    { id: 'OTHER', label: 'Khác' },
+];
+
+const PRODUCT_TYPES = [
+    { id: 'all', label: 'Tất cả loại hình' },
+    { id: 'TEMPLATE', label: 'Template' },
+    { id: 'APP', label: 'Apps Script' },
+    { id: 'LICENSE', label: 'License Key' },
+];
+
+export default function ShopPage() {
+    const [products, setProducts] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [selectedType, setSelectedType] = useState('all');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [showMobileFilter, setShowMobileFilter] = useState(false);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res: any = await api.products.list({ isPublished: true });
+                setProducts(res.data || []);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    // Filter Logic
+    const filteredProducts = useMemo(() => {
+        return products.filter(product => {
+            const matchCategory = selectedCategory === 'all' || product.field === selectedCategory;
+            const matchType = selectedType === 'all' || product.type === selectedType;
+            const matchSearch = searchQuery === '' ||
+                product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                product.description?.toLowerCase().includes(searchQuery.toLowerCase());
+            return matchCategory && matchType && matchSearch;
+        });
+    }, [products, selectedCategory, selectedType, searchQuery]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen pt-24 bg-background">
+                <div className="container px-4 mx-auto flex flex-col items-center justify-center py-20">
+                    <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+                    <p className="text-muted-foreground animate-pulse">Đang tải cửa hàng...</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
+            {/* Background Accents */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[128px] -z-10" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[128px] -z-10" />
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:32px_32px] opacity-30 -z-10" />
+
+            <div className="container px-4 mx-auto relative z-10">
+                {/* Header */}
+                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-background/50 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-primary mb-2">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                        </span>
+                        Tulie Academy Store
+                    </div>
+                    <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+                        Cửa hàng Trực tuyến
+                    </h1>
+                    <p className="max-w-[700px] text-xl text-muted-foreground leading-relaxed">
+                        Khám phá bộ sưu tập website templates, app scripts và tài nguyên được thiết kế chuyên sâu.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                    {/* Sidebar - Desktop */}
+                    <div className="hidden lg:block lg:col-span-1 space-y-8 sticky top-24 h-fit">
+                        {/* Search */}
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <input
+                                type="text"
+                                placeholder="Tìm kiếm sản phẩm..."
+                                className="w-full bg-background/50 border border-border rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Categories Filter */}
+                        <div className="space-y-3">
+                            <h3 className="font-bold text-lg">Danh mục</h3>
+                            <div className="flex flex-col gap-1">
+                                {CATEGORIES.map(cat => {
+                                    const isSelected = selectedCategory === cat.id;
+                                    return (
+                                        <button
+                                            key={cat.id}
+                                            onClick={() => setSelectedCategory(cat.id)}
+                                            className={cn(
+                                                "text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-3",
+                                                isSelected
+                                                    ? "text-foreground font-medium"
+                                                    : "text-muted-foreground hover:text-foreground"
+                                            )}
+                                        >
+                                            <span className={cn(
+                                                "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-foreground border-foreground"
+                                                    : "border-muted-foreground/50"
+                                            )}>
+                                                {isSelected && <svg className="w-3 h-3 text-background" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>}
+                                            </span>
+                                            {cat.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Types Filter */}
+                        <div className="space-y-3">
+                            <h3 className="font-bold text-lg">Loại sản phẩm</h3>
+                            <div className="flex flex-col gap-1">
+                                {PRODUCT_TYPES.map(type => {
+                                    const isSelected = selectedType === type.id;
+                                    return (
+                                        <button
+                                            key={type.id}
+                                            onClick={() => setSelectedType(type.id)}
+                                            className={cn(
+                                                "text-left px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-3",
+                                                isSelected
+                                                    ? "text-foreground font-medium"
+                                                    : "text-muted-foreground hover:text-foreground"
+                                            )}
+                                        >
+                                            <span className={cn(
+                                                "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-foreground border-foreground"
+                                                    : "border-muted-foreground/50"
+                                            )}>
+                                                {isSelected && <svg className="w-3 h-3 text-background" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>}
+                                            </span>
+                                            {type.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Mobile Filter Button */}
+                    <div className="lg:hidden col-span-1">
+                        <Button
+                            variant="outline"
+                            onClick={() => setShowMobileFilter(!showMobileFilter)}
+                            className="w-full justify-between"
+                        >
+                            <span>Bộ lọc & Tìm kiếm</span>
+                            <Filter className="w-4 h-4" />
+                        </Button>
+
+                        {showMobileFilter && (
+                            <div className="mt-4 p-4 border border-border rounded-xl bg-card space-y-6">
+                                <div className="space-y-3">
+                                    <h3 className="font-bold">Tìm kiếm</h3>
+                                    <input
+                                        type="text"
+                                        placeholder="Tìm kiếm..."
+                                        className="w-full bg-background border border-border rounded-lg px-3 py-2 text-sm"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <h3 className="font-bold">Danh mục</h3>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {CATEGORIES.map(cat => (
+                                            <button
+                                                key={cat.id}
+                                                onClick={() => setSelectedCategory(cat.id)}
+                                                className={cn(
+                                                    "text-sm px-2 py-1.5 rounded-md border",
+                                                    selectedCategory === cat.id ? "border-primary bg-primary/5 text-primary" : "border-border"
+                                                )}
+                                            >
+                                                {cat.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <h3 className="font-bold">Loại</h3>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {PRODUCT_TYPES.map(type => (
+                                            <button
+                                                key={type.id}
+                                                onClick={() => setSelectedType(type.id)}
+                                                className={cn(
+                                                    "text-sm px-2 py-1.5 rounded-md border",
+                                                    selectedType === type.id ? "border-primary bg-primary/5 text-primary" : "border-border"
+                                                )}
+                                            >
+                                                {type.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Main Content - Products Grid */}
+                    <div className="lg:col-span-3">
+                        {filteredProducts.length === 0 ? (
+                            <div className="text-center py-32 rounded-3xl border border-dashed border-border bg-card/30 backdrop-blur-md">
+                                <p className="text-xl text-muted-foreground">Không tìm thấy sản phẩm nào.</p>
+                                <Button
+                                    variant="link"
+                                    onClick={() => { setSelectedCategory('all'); setSelectedType('all'); setSearchQuery(''); }}
+                                    className="mt-2 text-primary"
+                                >
+                                    Xóa bộ lọc
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                {filteredProducts.map((product) => (
+                                    <div
+                                        key={product.id}
+                                        className="group relative bg-card/50 backdrop-blur-xl border border-border/50 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 transition-all duration-500 flex flex-col h-full"
+                                    >
+                                        {product.thumbnail && (
+                                            <div className="aspect-[16/10] w-full overflow-hidden relative">
+                                                <img
+                                                    src={product.thumbnail}
+                                                    alt={product.title}
+                                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                />
+                                                <div className="absolute top-4 right-4 flex gap-2">
+                                                    <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-1 px-2.5 text-xs">
+                                                        {product.type}
+                                                    </Badge>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        <div className="p-6 flex flex-col flex-1">
+                                            <div className="mb-4">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-md">
+                                                        {product.field}
+                                                    </span>
+                                                </div>
+                                                <h3 className="text-xl font-bold group-hover:text-primary transition-colors mb-2 line-clamp-2">
+                                                    {product.title}
+                                                </h3>
+                                                <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                                                    {product.description}
+                                                </p>
+                                            </div>
+
+                                            <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
+                                                <div className="flex flex-col">
+                                                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Giá</span>
+                                                    <span className="text-lg font-bold text-foreground">
+                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                                                    </span>
+                                                </div>
+                                                <Link href={`/shop/${product.slug}`}>
+                                                    <Button size="sm" className="rounded-xl px-5 font-bold shadow-sm hover:shadow-md transition-all">
+                                                        Chi tiết
+                                                    </Button>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* CTA Section */}
+            <div className="container px-4 mx-auto mt-32 mb-16">
+                <div className="relative rounded-2xl bg-[#1a1a1a] p-12 md:p-16 overflow-hidden text-center md:text-left">
+                    {/* Dotted Grid Pattern */}
+                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
+
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-primary/10 blur-3xl opacity-30" />
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-primary/5 blur-2xl opacity-30" />
+
+                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+                        <div className="max-w-2xl">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-normal">
+                                Bạn cần giải pháp <br /> <span className="text-white/60">thiết kế riêng biệt?</span>
+                            </h2>
+                            <p className="text-lg text-white/60 md:text-xl leading-relaxed mb-0">
+                                Đội ngũ chuyên gia tại Tulie Academy sẵn sàng tư vấn và xây dựng giải pháp tối ưu nhất.
+                            </p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 shrink-0">
+                            <Link href="/contact">
+                                <Button size="lg" className="rounded-2xl h-14 px-8 text-base font-bold bg-white text-black hover:bg-gray-200 border-none transition-all">
+                                    Liên hệ tư vấn
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

@@ -22,8 +22,8 @@ const SettingsContext = createContext<{ settings: Settings, updateSettings: () =
     updateSettings: async () => { }
 });
 
-export const SettingsProvider = ({ children }: { children: React.ReactNode }) => {
-    const [settings, setSettings] = useState<Settings>(defaultSettings);
+export const SettingsProvider = ({ children, initialSettings }: { children: React.ReactNode, initialSettings?: Settings }) => {
+    const [settings, setSettings] = useState<Settings>(initialSettings || defaultSettings);
 
     const fetchSettings = async () => {
         try {
@@ -48,9 +48,6 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
                         document.head.appendChild(newLink);
                     }
                 }
-
-                // Update Document Title suffix if needed, but Next.js head handles title separately. 
-                // Client-side title updates might conflict with Next.js metadata.
             }
         } catch (error) {
             console.error('Failed to load settings', error);
@@ -58,7 +55,12 @@ export const SettingsProvider = ({ children }: { children: React.ReactNode }) =>
     };
 
     useEffect(() => {
-        fetchSettings();
+        // Only fetch if no initial settings provided (or to keep fresh)
+        // If we provide initialSettings, we might skip the effect or just use it for updates
+        // For now, keeping it to ensuring latest client-side updates, but initial render is fast.
+        if (!initialSettings) {
+            fetchSettings();
+        }
     }, []);
 
     return (

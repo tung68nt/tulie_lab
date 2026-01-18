@@ -151,3 +151,49 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
         </ConfirmContext.Provider>
     );
 }
+
+// Inline Dialog Component (Optional Helper)
+interface ConfirmDialogProps {
+    trigger: React.ReactNode;
+    onConfirm: () => void | Promise<void>;
+    title?: string;
+    description?: string;
+    variant?: 'danger' | 'warning' | 'info' | 'success';
+    confirmText?: string;
+    cancelText?: string;
+}
+
+export function ConfirmDialog({
+    trigger,
+    onConfirm,
+    title = "Xác nhận hành động",
+    description = "Bạn có chắc chắn muốn thực hiện hành động này?",
+    variant = 'danger',
+    confirmText = "Xác nhận",
+    cancelText = "Hủy"
+}: ConfirmDialogProps) {
+    const confirm = useConfirm();
+
+    const handleClick = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isConfirmed = await confirm({
+            title,
+            message: description,
+            variant,
+            confirmText,
+            cancelText
+        });
+
+        if (isConfirmed) {
+            await onConfirm();
+        }
+    };
+
+    return (
+        <div onClick={handleClick} className="inline-block">
+            {trigger}
+        </div>
+    );
+}

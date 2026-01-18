@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactCompiler: true,
+  experimental: {
+    typedRoutes: false,
+  },
+
   images: {
     remotePatterns: [
       {
@@ -17,6 +20,26 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thelab.tulie.vn',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
       }
     ],
   },
@@ -39,3 +62,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// Forced restart trigger: 1
+

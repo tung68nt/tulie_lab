@@ -1,0 +1,205 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Button } from '@/components/Button';
+import { AdminGuard } from '@/components/AdminGuard';
+import { ChevronDown, ChevronRight, LayoutDashboard, ScrollText, ShoppingBag, Settings, BookOpen } from 'lucide-react';
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
+
+    type NavGroup = {
+        title?: string;
+        icon?: any;
+        items: {
+            href: string;
+            label: string;
+            exact?: boolean;
+        }[];
+    };
+
+    const navGroups: NavGroup[] = [
+        {
+            items: [
+                { href: '/admin', label: 'Tổng quan', exact: true },
+            ]
+        },
+        {
+            title: 'LMS (Đào tạo)',
+            icon: BookOpen,
+            items: [
+                { href: '/admin/courses', label: 'Khóa học / Workshop' },
+                { href: '/admin/categories', label: 'Chuyên mục' },
+                { href: '/admin/instructors', label: 'Instructors' },
+            ]
+        },
+        {
+            title: 'Shop (Cửa hàng)',
+            icon: ShoppingBag,
+            items: [
+                { href: '/admin/products', label: 'Sản phẩm số' },
+                { href: '/admin/bundles', label: 'Combo / Bundle' },
+                { href: '/admin/orders', label: 'Đơn hàng' },
+                { href: '/admin/coupons', label: 'Mã giảm giá' },
+                { href: '/admin/activation-codes', label: 'Mã kích hoạt' },
+                { href: '/admin/webhooks', label: 'Cổng thanh toán' },
+            ]
+        },
+        {
+            title: 'Info (Nội dung)',
+            icon: ScrollText,
+            items: [
+                { href: '/admin/landing-pages', label: 'Landing Pages' },
+                { href: '/admin/system-pages', label: 'Trang thông tin' },
+                { href: '/admin/blog', label: 'Bài viết / Blog' },
+                { href: '/admin/contact', label: 'Liên hệ / Leads' },
+                { href: '/admin/footer', label: 'Footer' },
+            ]
+        },
+        {
+            title: 'System (Hệ thống)',
+            icon: Settings,
+            items: [
+                { href: '/admin/users', label: 'Thành viên' },
+                { href: '/admin/notifications', label: 'Thông báo' },
+                { href: '/admin/emails', label: 'Email Logs' },
+                { href: '/admin/security', label: 'Bảo mật' },
+                { href: '/admin/settings', label: 'Cài đặt chung' },
+            ]
+        }
+    ];
+
+    const isActive = (href: string, exact?: boolean) => {
+        if (exact) return pathname === href;
+        return pathname?.startsWith(href);
+    };
+
+    return (
+        <AdminGuard>
+            {/* Background layer - allow overflow for border extensions */}
+            <div className="w-full bg-muted/20 min-h-[calc(100vh-64px)] overflow-visible">
+                {/* Container matching navbar */}
+                <div className="max-w-6xl mx-auto px-4 overflow-visible">
+                    {/* Admin box with borders - use relative for pseudo-element */}
+                    <div className="relative bg-background border-l border-r border-border min-h-[calc(100vh-64px)] overflow-visible">
+                        {/* Extend borders up to navbar using absolute positioned elements */}
+                        <div className="absolute -top-16 left-[-1px] w-px h-16 bg-border z-40"></div>
+                        <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border z-40"></div>
+                        <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
+                            {/* Sidebar */}
+                            <aside className="w-full border-r border-border md:w-64 shrink-0 relative overflow-visible">
+                                {/* Extend sidebar border up */}
+                                <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border z-40"></div>
+                                <div className="sticky top-16 flex flex-col h-[calc(100vh-64px)]">
+                                    <div className="px-6 py-6 border-b bg-muted/20">
+                                        <div className="flex flex-col gap-1">
+                                            <span className="text-sm text-muted-foreground leading-none">Quản trị</span>
+                                            <span className="text-xl font-bold text-foreground tracking-tight">Hệ thống Tulie</span>
+                                        </div>
+                                    </div>
+                                    <nav className="flex-1 px-4 py-6 flex flex-col min-h-0 overflow-y-auto">
+                                        <div className="space-y-4">
+                                            {navGroups.map((group, groupIndex) => (
+                                                <CollapsibleGroup
+                                                    key={groupIndex}
+                                                    group={group}
+                                                    isActive={isActive}
+                                                    defaultOpen={false}
+                                                />
+                                            ))}
+                                        </div>
+                                    </nav>
+
+                                    <div className="p-4 border-t bg-background">
+                                        <Link href="/">
+                                            <Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground hover:text-foreground pl-2 h-9 text-sm font-medium">
+                                                ← Về trang chủ
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </aside>
+
+                            {/* Main content */}
+                            <main className="flex-1 p-6 md:p-8 bg-background overflow-y-auto">
+                                <div className="mx-auto max-w-6xl">
+                                    {children}
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AdminGuard>
+    );
+}
+
+function CollapsibleGroup({
+    group,
+    isActive,
+    defaultOpen = false
+}: {
+    group: any,
+    isActive: (href: string, exact?: boolean) => boolean,
+    defaultOpen?: boolean
+}) {
+    // If no title, it's the dashboard group - render items directly
+    if (!group.title) {
+        return (
+            <div className="space-y-1">
+                {group.items.map((link: any) => (
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className={`flex items-center gap-2 px-2 py-2 rounded-lg text-sm transition-all duration-500 w-full ${isActive(link.href, link.exact)
+                            ? 'bg-foreground text-background font-bold'
+                            : 'text-muted-foreground hover:bg-muted hover:text-foreground font-medium'
+                            }`}
+                    >
+                        <LayoutDashboard className="h-4 w-4" />
+                        {link.label}
+                    </Link>
+                ))}
+            </div>
+        );
+    }
+
+    const hasActiveChild = group.items.some((item: any) => isActive(item.href, item.exact));
+    const [isOpen, setIsOpen] = useState(defaultOpen || hasActiveChild);
+    const Icon = group.icon;
+
+    return (
+        <div className="space-y-1">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`w-full flex items-center justify-between px-2 py-2 text-sm font-semibold rounded-md transition-colors ${hasActiveChild ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                    }`}
+            >
+                <div className="flex items-center gap-2">
+                    {Icon && <Icon className="h-4 w-4" />}
+                    <span>{group.title}</span>
+                </div>
+                {isOpen ? <ChevronDown className="h-4 w-4 opacity-50" /> : <ChevronRight className="h-4 w-4 opacity-50" />}
+            </button>
+
+            {isOpen && (
+                <div className="space-y-1 pl-4 border-l border-border/50 ml-2">
+                    {group.items.map((link: any) => (
+                        <Link
+                            key={link.href}
+                            href={link.href}
+                            className={`flex items-center px-3 py-1.5 rounded-md text-sm transition-all duration-500 w-full ${isActive(link.href, link.exact)
+                                ? 'bg-secondary text-secondary-foreground font-medium'
+                                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                                }`}
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}

@@ -6,16 +6,30 @@ import { Button } from '@/components/Button';
 import { api } from '@/lib/api';
 
 import { Section } from '@/types/sections';
-import { DEFAULT_LANDING_PAGE_SECTIONS } from '@/lib/defaultContent';
-import { HeroSection } from '@/components/sections/HeroSection';
-import { StatsSection } from '@/components/sections/StatsSection';
-import { ComparisonSection } from '@/components/sections/ComparisonSection';
-import { ProcessSection } from '@/components/sections/ProcessSection';
-import { CTASection } from '@/components/sections/CTASection';
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
-import { StudentProjectsSection } from '@/components/sections/StudentProjectsSection';
-import { BenefitsSection } from '@/components/sections/BenefitsSection';
+import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS } from '@/lib/defaultContent';
+import { HeroSection } from '@/components/info/sections/HeroSection';
+import { StatsSection } from '@/components/info/sections/StatsSection';
+import { ComparisonSection } from '@/components/info/sections/ComparisonSection';
+import { ProcessSection } from '@/components/info/sections/ProcessSection';
+import { CTASection } from '@/components/info/sections/CTASection';
+import { TestimonialsSection } from '@/components/info/sections/TestimonialsSection';
+import { StudentProjectsSection } from '@/components/info/sections/StudentProjectsSection';
+import { BenefitsSection } from '@/components/info/sections/BenefitsSection';
+import { CodingMethodsSection } from '@/components/info/sections/CodingMethodsSection';
 
+import { SalesCountdownSection } from '@/components/info/sections/SalesCountdownSection';
+import { UpsellSection } from '@/components/info/sections/UpsellSection';
+import { PaymentSection } from '@/components/info/sections/PaymentSection';
+import { CustomHtmlSection } from '@/components/info/sections/CustomHtmlSection';
+import { ExpertSection } from '@/components/info/sections/ExpertSection';
+import { StudentShowcaseSection } from '@/components/info/sections/StudentShowcaseSection';
+import { BonusSection } from '@/components/info/sections/BonusSection';
+import { ContentBlockSection } from '@/components/info/sections/ContentBlockSection';
+import { FAQSection } from '@/components/info/sections/FAQSection';
+import { InstructorBioSection } from '@/components/info/sections/InstructorBioSection';
+import { InstructorGridSection } from '@/components/info/sections/InstructorGridSection';
+
+// Map section types to components
 const SECTION_COMPONENTS: Record<string, React.ComponentType<{ section: Section }>> = {
   hero: HeroSection,
   stats: StatsSection,
@@ -25,11 +39,26 @@ const SECTION_COMPONENTS: Record<string, React.ComponentType<{ section: Section 
   testimonials: TestimonialsSection,
   projects: StudentProjectsSection,
   benefits: BenefitsSection,
+  'coding-methods': CodingMethodsSection,
+  'sales-countdown': SalesCountdownSection,
+  upsell: UpsellSection,
+  payment: PaymentSection,
+  'custom-html': CustomHtmlSection,
+  'student-showcase': StudentShowcaseSection,
+  'content-block': ContentBlockSection,
+  'instructor-bio': InstructorBioSection,
+  'instructor-grid': InstructorGridSection,
+  'expert': ExpertSection,
+  'bonus': BonusSection,
+  'faq': FAQSection,
 };
 
-export default function Home() {
-  const [sections, setSections] = useState<Section[]>(DEFAULT_LANDING_PAGE_SECTIONS);
 
+
+export default function Home() {
+  const [sections, setSections] = useState<Section[]>(DEFAULT_HOME_SECTIONS);
+
+  /*
   useEffect(() => {
     const loadContent = async () => {
       try {
@@ -50,6 +79,7 @@ export default function Home() {
     };
     loadContent();
   }, []);
+  */
 
   return (
     <div className="flex flex-col min-h-screen">

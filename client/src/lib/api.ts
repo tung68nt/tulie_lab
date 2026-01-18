@@ -96,17 +96,26 @@ export const api = {
     users: {
         getProfile: () => request('/users/profile'),
         updateProfile: (data: any) => request('/users/profile', { method: 'PUT', body: JSON.stringify(data) }),
-        getOrders: () => request('/users/orders'),
+        getMyOrders: () => request('/users/my-orders'),
     },
     instructors: {
         list: () => request('/instructors'),
         get: (id: string) => request(`/instructors/${id}`),
     },
     admin: {
-        listUsers: () => request('/users'),
+        listUsers: (params?: { page?: number; limit?: number; search?: string }) => {
+            const searchParams = new URLSearchParams();
+            if (params) {
+                if (params.page) searchParams.append('page', String(params.page));
+                if (params.limit) searchParams.append('limit', String(params.limit));
+                if (params.search) searchParams.append('search', params.search);
+            }
+            return request(`/users?${searchParams.toString()}`);
+        },
         getUser: (id: string) => request(`/users/${id}`),
         enrollUser: (userId: string, courseId: string) => request('/users/enroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
         unenrollUser: (userId: string, courseId: string) => request('/users/unenroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
+        grantMembership: (userId: string, days: number = 365) => request('/users/grant-membership', { method: 'POST', body: JSON.stringify({ userId, days }) }),
         getInactiveUsers: (days?: number) => request(`/users/inactive${days ? `?days=${days}` : ''}`),
         courses: {
             list: () => request('/courses/all'),
@@ -216,7 +225,7 @@ export const api = {
         }
     },
     payments: {
-        checkout: (data: { courseId: string, promoCodeId?: string }) => request('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
+        checkout: (data: any) => request('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
         getOrder: (code: string) => request(`/payments/${code}`),
     },
     promos: {
@@ -315,9 +324,38 @@ export const api = {
         getStats: () => request('/system/stats'),
     },
     landingPages: {
-        list: () => request('/landing-pages'),
+        list: (type?: string) => {
+            const query = type ? `?type=${type}` : '';
+            return request(`/landing-pages${query}`);
+        },
+        get: (id: string) => request(`/landing-pages/${id}`),
         create: (data: any) => request('/landing-pages', { method: 'POST', body: JSON.stringify(data) }),
         update: (id: string, data: any) => request(`/landing-pages/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
         delete: (id: string) => request(`/landing-pages/${id}`, { method: 'DELETE' }),
+        duplicate: (id: string) => request(`/landing-pages/${id}/duplicate`, { method: 'POST' }),
+    },
+    products: {
+        list: (params?: { page?: number; limit?: number; search?: string; type?: string; isPublished?: boolean }) => {
+            const searchParams = new URLSearchParams();
+            if (params) {
+                Object.keys(params).forEach(key => {
+                    // @ts-ignore
+                    if (params[key] !== undefined) searchParams.append(key, String(params[key]));
+                });
+            }
+            return request(`/products?${searchParams.toString()}`);
+        },
+        get: (slug: string) => request(`/products/${slug}`),
+        create: (data: any) => request('/products', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: any) => request(`/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request(`/products/${id}`, { method: 'DELETE' }),
+        addVersion: (id: string, data: any) => request(`/products/${id}/versions`, { method: 'POST', body: JSON.stringify(data) }),
+        deleteVersion: (versionId: string) => request(`/products/versions/${versionId}`, { method: 'DELETE' }),
+    },
+    activationCodes: {
+        list: () => request('/activation-codes/admin/list'),
+        create: (courseId: string, count: number) => request('/activation-codes/admin/create', { method: 'POST', body: JSON.stringify({ courseId, count }) }),
+        delete: (id: string) => request(`/activation-codes/admin/${id}`, { method: 'DELETE' }),
+        redeem: (code: string) => request('/activation-codes/redeem', { method: 'POST', body: JSON.stringify({ code }) }),
     }
 };

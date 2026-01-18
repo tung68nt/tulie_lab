@@ -1,0 +1,103 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { api } from '@/lib/api';
+import { Button } from '@/components/Button';
+import { Card, CardContent } from '@/components/Card';
+import { Plus, ExternalLink, Edit, Trash2, Copy } from 'lucide-react';
+
+import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { TableActions } from '@/components/system/admin/TableActions';
+
+export default function LandingPagesAdmin() {
+    const [pages, setPages] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadPages();
+    }, []);
+
+    const loadPages = async () => {
+        try {
+            const res = (await api.landingPages.list('LANDING')) as any[];
+            setPages(res);
+        } catch (error) {
+            console.error('Failed to load pages', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm('Bạn có chắc chắn muốn xóa trang này?')) return;
+        try {
+            await api.landingPages.delete(id);
+            loadPages();
+        } catch (error) {
+            alert('Xóa thất bại');
+        }
+    };
+
+    const handleDuplicate = async (id: string) => {
+        if (!confirm('Bạn có muốn nhân bản trang này không?')) return;
+        try {
+            await api.landingPages.duplicate(id);
+            loadPages();
+        } catch (error) {
+            alert('Nhân bản thất bại');
+        }
+    };
+
+    if (loading) return <div>Loading...</div>;
+
+    return (
+        <div className="space-y-6">
+            <AdminPageHeader
+                title="Quản lý Landing Pages"
+                subtitle="Tạo và chỉnh sửa các trang bán hàng động."
+            >
+                <Link href="/admin/landing-pages/new">
+                    <Button className="flex items-center gap-2">
+                        <Plus size={16} /> Tạo trang mới
+                    </Button>
+                </Link>
+            </AdminPageHeader>
+
+            <div className="grid gap-4">
+                {pages.map((page) => (
+                    <Card key={page.id}>
+                        <CardContent className="p-6 pt-6 flex items-center justify-between">
+                            <div>
+                                <h3 className="font-bold text-lg">{page.title}</h3>
+                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                    <span className="bg-muted px-2 py-0.5 rounded text-xs">/{page.slug}</span>
+                                    <span>•</span>
+                                    <span>{page.isActive ? 'Đang hoạt động' : 'Đã ẩn'}</span>
+                                </div>
+                            </div>
+                            <TableActions
+                                viewUrl={`/p/${page.slug}`}
+                                editUrl={`/admin/landing-pages/${page.id}`}
+                                onDelete={() => handleDelete(page.id)}
+                                customActions={[
+                                    {
+                                        title: 'Nhân bản',
+                                        icon: Copy,
+                                        onClick: () => handleDuplicate(page.id)
+                                    }
+                                ]}
+                            />
+                        </CardContent>
+                    </Card>
+                ))}
+
+                {pages.length === 0 && (
+                    <div className="text-center py-12 text-muted-foreground border rounded-lg bg-muted/10">
+                        Chưa có trang landing page nào. Hãy tạo trang đầu tiên!
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}

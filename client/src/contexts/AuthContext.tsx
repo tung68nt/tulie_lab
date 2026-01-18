@@ -9,6 +9,10 @@ interface User {
     name: string | null;
     role: 'USER' | 'ADMIN';
     avatar?: string | null;
+    subscriptions?: Array<{
+        status: string;
+        endDate: string;
+    }>;
 }
 
 interface AuthContextType {
@@ -29,19 +33,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const refreshUser = async () => {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setIsLoading(false);
-                setUser(null);
-                return;
-            }
+            // Try to get user from API (checks both Cookie and Headers)
+            try {
+                const response = await api.auth.getMe() as any;
+                // API returns { user: {...} } directly
+                const userData = response?.user || response?.data?.user || response?.data;
 
-            const response = await api.auth.getMe() as any;
-            // API returns { user: {...} } directly
-            const userData = response?.user || response?.data?.user || response?.data;
-            if (userData && userData.id) {
-                setUser(userData);
-            } else {
+                if (userData && userData.id) {
+                    setUser(userData);
+                    // If we recovered session via cookie but lost local token, restore it if possible (API doesn't return token on getMe usually though)
+                } else {
+                    setUser(null);
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                }
+            } catch (error) {
+                // Only clear if actually failed
+                // console.log('Not authenticated');
                 setUser(null);
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
@@ -64,8 +72,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const response = await api.auth.login({ email, password }) as any;
         // API returns { user: {...}, token: "..." } directly
         const userData = response?.user || response?.data?.user;
+        const token = response?.token || response?.data?.token;
+
         if (userData && userData.id) {
             setUser(userData);
+            if (token) localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(userData));
         } else {
             throw new Error(response?.message || 'Login failed');
         }

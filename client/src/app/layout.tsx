@@ -7,9 +7,23 @@ import { SettingsProvider } from '@/contexts/SettingsContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ConfirmProvider } from '@/components/ConfirmDialog';
 import Script from 'next/script';
-import { UtmTracker } from '@/components/analytics/UtmTracker';
+import { UtmTracker } from '@/components/system/analytics/UtmTracker';
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({ subsets: ['latin'] });
+
+async function getSettings() {
+  try {
+    const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    const baseUrl = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl;
+    const res = await fetch(`${baseUrl}/api/settings/public`, { next: { revalidate: 60 } }); // Cache for 1 min
+    if (!res.ok) return undefined;
+    return res.json();
+  } catch (e) {
+    console.warn('Failed to fetch settings server-side', e);
+    return undefined;
+  }
+}
 
 export const metadata: Metadata = {
   title: {
@@ -24,11 +38,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const settings = await getSettings();
+
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
@@ -45,6 +61,7 @@ export default function RootLayout({
           `,
           }}
         />
+        {settings?.site_favicon && <link rel="icon" href={settings.site_favicon} />}
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <noscript>
@@ -56,16 +73,23 @@ export default function RootLayout({
           />
         </noscript>
 
-        <ToastProvider>
-          <AuthProvider>
-            <SettingsProvider>
-              <ConfirmProvider>
-                <UtmTracker />
-                <MainLayout>{children}</MainLayout>
-              </ConfirmProvider>
-            </SettingsProvider>
-          </AuthProvider>
-        </ToastProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+
+        >
+          <ToastProvider>
+            <AuthProvider>
+              <SettingsProvider initialSettings={settings}>
+                <ConfirmProvider>
+                  <UtmTracker />
+                  <MainLayout>{children}</MainLayout>
+                </ConfirmProvider>
+              </SettingsProvider>
+            </AuthProvider>
+          </ToastProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

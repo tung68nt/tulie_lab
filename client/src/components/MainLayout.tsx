@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { ContentProtector } from './security/ContentProtector';
+import { ContentProtector } from './system/security/ContentProtector';
 import { ActivityTracker } from './ActivityTracker';
 
 interface MainLayoutProps {
@@ -21,12 +21,13 @@ export function MainLayout({ children }: MainLayoutProps) {
     // Admin/Learn: Managed by their own layouts
     return (
         <div className="relative flex min-h-screen flex-col">
+            <div id="top-banner-portal" className="sticky top-0 z-[60]" />
             <Suspense fallback={null}>
                 <ActivityTracker />
                 <ContentProtector />
             </Suspense>
             <Navbar />
-            <main className={`flex-1 ${isLearnPage ? '' : 'pt-14'}`}>
+            <main className="flex-1">
                 {children}
             </main>
             {!isLearnPage && <Footer />}

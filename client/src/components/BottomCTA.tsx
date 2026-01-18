@@ -13,14 +13,14 @@ interface BottomCTAProps {
 export function BottomCTA({
     title = "Sẵn sàng bắt đầu?",
     subtitle = "Tham gia cùng 1000+ Member đã thay đổi sự nghiệp với Vibe Coding.",
-    buttonText = "Đăng ký tham dự Workshop miễn phí",
+    buttonText = "Đăng ký tham dự Khoá học miễn phí",
     buttonHref = "/courses"
 }: BottomCTAProps) {
     return (
         <section className="py-12 md:py-16 bg-foreground text-background relative overflow-hidden">
             {/* Background pattern */}
-            <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_35%,rgba(255,255,255,0.1)_35%,rgba(255,255,255,0.1)_65%,transparent_65%)] bg-[length:20px_20px]"></div>
+            <div className="absolute inset-0 opacity-100">
+                <div className="absolute inset-0 bg-dot-inverted"></div>
             </div>
 
             <div className="container text-center max-w-3xl mx-auto relative z-10">

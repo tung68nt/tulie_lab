@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/Card';
 import { BottomCTA } from '@/components/BottomCTA';
+import { Users, BookOpen, Briefcase, Building2, GraduationCap, Award } from 'lucide-react';
 
 interface InstructorDetailViewProps {
     instructor: any;
@@ -9,18 +10,27 @@ interface InstructorDetailViewProps {
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
     return (
-        <>
-            <div className="min-h-screen bg-background">
-                {/* Hero Banner - Black */}
-                <div className="relative bg-foreground text-background">
-                    <div className="absolute inset-0 opacity-10">
-                        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_35%,rgba(255,255,255,0.1)_35%,rgba(255,255,255,0.1)_65%,transparent_65%)] bg-[length:20px_20px]"></div>
-                    </div>
-                    <div className="container relative py-8 md:py-12">
-                        <div className="flex flex-col md:flex-row items-center gap-8">
-                            {/* Avatar */}
-                            <div className="relative">
-                                <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-background shadow-2xl overflow-hidden bg-background">
+        <div className="min-h-screen bg-background pb-20">
+            {/* Modern Monochrome Banner */}
+            <div className="relative h-[280px] md:h-[320px] w-full overflow-hidden">
+                <div className="absolute inset-0 bg-zinc-950">
+                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
+                    <div className="absolute inset-0 bg-dot-white"></div>
+                </div>
+                {/* Decorative Elements - Subtle Monochrome Glows */}
+                <div className="absolute -top-24 -right-24 w-96 h-96 bg-zinc-800/50 rounded-full blur-3xl opacity-50" />
+                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-zinc-800/50 rounded-full blur-3xl opacity-50" />
+            </div>
+
+            {/* Profile Info Container */}
+            <div className="container px-4 relative -mt-32 md:-mt-40 z-10">
+                <div className="bg-card shadow-2xl rounded-2xl p-6 md:p-10 overflow-hidden relative group">
+
+                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-start text-center md:text-left">
+                        {/* Avatar */}
+                        <div className="relative shrink-0 group-hover:scale-105 transition-transform duration-500">
+                            <div className="w-32 h-32 md:w-48 md:h-48 rounded-[2rem] p-1.5 bg-gradient-to-br from-zinc-200 to-zinc-400 dark:from-zinc-800 dark:to-zinc-600 shadow-2xl rotate-3 hover:rotate-0 transition-all duration-300">
+                                <div className="w-full h-full rounded-[1.7rem] overflow-hidden bg-background border-4 border-background relative">
                                     {instructor.avatar ? (
                                         <img
                                             src={instructor.avatar}
@@ -28,29 +38,49 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground text-6xl font-bold">
+                                        <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 text-5xl font-bold">
                                             {instructor.name?.charAt(0) || 'G'}
                                         </div>
                                     )}
                                 </div>
                             </div>
+                            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-foreground text-background text-xs font-bold px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap border border-background">
+                                EXPERT INSTRUCTOR
+                            </div>
+                        </div>
 
-                            {/* Info */}
-                            <div className="flex-1 text-center md:text-left">
-                                <h1 className="text-4xl md:text-5xl font-bold mb-2">{instructor.name}</h1>
-                                {instructor.title && (
-                                    <p className="text-xl md:text-2xl text-background/70 mb-4">{instructor.title}</p>
-                                )}
-                                <div className="flex flex-wrap gap-6 justify-center md:justify-start text-sm">
-                                    <div>
-                                        <span className="font-bold text-2xl">{instructor.courseCount}</span>
-                                        <span className="ml-2 text-background/70">khóa học</span>
+                        {/* Info Content */}
+                        <div className="flex-1 pt-4">
+                            <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight text-foreground">
+                                {instructor.name}
+                            </h1>
+                            {instructor.title && (
+                                <p className="text-lg md:text-xl text-muted-foreground font-medium mb-6 flex items-center justify-center md:justify-start gap-2">
+                                    <Award className="w-5 h-5" />
+                                    {instructor.title}
+                                </p>
+                            )}
+
+                            {/* Stats */}
+                            <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 mb-8">
+                                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-secondary/50 border border-border/50">
+                                    <div className="w-10 h-10 rounded-xl bg-foreground text-background flex items-center justify-center">
+                                        <BookOpen className="w-5 h-5" />
                                     </div>
-                                    <div>
-                                        <span className="font-bold text-2xl">
+                                    <div className="text-left">
+                                        <div className="font-bold text-xl leading-none">{instructor.courseCount}</div>
+                                        <div className="text-xs text-muted-foreground font-bold uppercase tracking-wider mt-1">Khóa học</div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-secondary/50 border border-border/50">
+                                    <div className="w-10 h-10 rounded-xl bg-foreground text-background flex items-center justify-center">
+                                        <Users className="w-5 h-5" />
+                                    </div>
+                                    <div className="text-left">
+                                        <div className="font-bold text-xl leading-none">
                                             {instructor.studentCount > 0 ? `${instructor.studentCount}+` : 0}
-                                        </span>
-                                        <span className="ml-2 text-background/70">học viên</span>
+                                        </div>
+                                        <div className="text-xs text-muted-foreground font-bold uppercase tracking-wider mt-1">Học viên</div>
                                     </div>
                                 </div>
                             </div>
@@ -58,119 +88,122 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                     </div>
                 </div>
 
-                {/* Content */}
-                <div className="container py-6 md:py-8" style={{ paddingBottom: '120px' }}>
-                    <div className="max-w-4xl mx-auto space-y-12">
-                        <div className="space-y-12">
-                            {/* Bio */}
-                            {instructor.bio && (
-                                <section>
-                                    <h2 className="text-2xl font-bold mb-6">Giới thiệu</h2>
-                                    <div className="bg-muted/50 rounded-xl p-6 border">
-                                        <p className="text-muted-foreground leading-loose whitespace-pre-wrap">
-                                            {instructor.bio}
-                                        </p>
-                                    </div>
-                                </section>
-                            )}
+                {/* Main Content Layout: Bio First -> Then Courses */}
+                <div className="mt-16 container px-0 space-y-16">
 
-                            {/* Achievements / Partnerships */}
-                            {instructor.experiences && instructor.experiences.length > 0 && (
-                                <section>
-                                    <h2 className="text-2xl font-bold mb-6">Các vị trí khác nổi bật đã trải qua:</h2>
-                                    <div className="grid gap-6 md:grid-cols-3">
-                                        {instructor.experiences.map((exp: any) => (
-                                            <Card key={exp.id} className="text-center p-6 flex flex-col items-center justify-center hover:border-primary/50 transition-colors h-full">
-                                                <div className="mb-4 text-primary">
-                                                    {(!exp.icon || exp.icon === 'building') && (
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                                            <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
-                                                            <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
-                                                            <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
-                                                            <path d="M10 6h4" />
-                                                            <path d="M10 10h4" />
-                                                            <path d="M10 14h4" />
-                                                            <path d="M10 18h4" />
-                                                        </svg>
-                                                    )}
-                                                    {exp.icon === 'school' && (
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                                            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                                                            <path d="M6 12v5c3 3 9 3 12 0v-5" />
-                                                        </svg>
-                                                    )}
-                                                    {exp.icon === 'users' && (
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                                                            <circle cx="9" cy="7" r="4" />
-                                                            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                                                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                                                        </svg>
-                                                    )}
-                                                </div>
-                                                <h3 className="font-bold mb-2">{exp.company}</h3>
-                                                <p className="text-sm text-muted-foreground">
-                                                    {exp.position}
-                                                </p>
-                                                {exp.period && (
-                                                    <p className="text-xs text-muted-foreground mt-1 opacity-70">
-                                                        {exp.period}
-                                                    </p>
-                                                )}
-                                            </Card>
-                                        ))}
-                                    </div>
-                                </section>
-                            )}
-
-                            {/* Courses */}
-                            <section>
-                                <h2 className="text-2xl font-bold mb-6">Khóa học</h2>
-                                <div className="grid gap-6 md:grid-cols-2">
-                                    {courses.map((course) => (
-                                        <Link key={course.id} href={`/courses/${course.slug}`}>
-                                            <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer h-full">
-                                                {course.thumbnail && (
-                                                    <div className="aspect-video bg-muted overflow-hidden">
-                                                        <img
-                                                            src={course.thumbnail}
-                                                            alt={course.title}
-                                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                                        />
-                                                    </div>
-                                                )}
-                                                <CardContent className="p-6 pt-5">
-                                                    <h3 className="font-bold text-lg mb-2 line-clamp-2 mt-1">{course.title}</h3>
-                                                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                                                        {course.description}
-                                                    </p>
-                                                    <div className="flex items-center justify-between">
-                                                        <span className="text-sm text-muted-foreground">
-                                                            {course.lessons?.length || 0} bài học
-                                                        </span>
-                                                        <span className="font-bold text-primary">
-                                                            {course.price === 0
-                                                                ? 'Miễn phí'
-                                                                : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)
-                                                            }
-                                                        </span>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
-                                        </Link>
-                                    ))}
+                    {/* 1. Introduction & Bio Section */}
+                    {instructor.bio && (
+                        <section className="animate-in fade-in slide-in-from-bottom-8 duration-700">
+                            <div className="flex items-center gap-4 mb-8 border-b pb-4">
+                                <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center shadow-lg">
+                                    <GraduationCap className="w-5 h-5" />
                                 </div>
-                            </section>
+                                <h2 className="text-2xl font-bold tracking-tight">Về giảng viên</h2>
+                            </div>
+
+                            <div className="flex flex-col gap-8">
+                                <div className="w-full bg-card border border-border/50 rounded-3xl p-8 shadow-sm">
+                                    <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap font-light">
+                                        {instructor.bio}
+                                    </div>
+                                </div>
+
+                                {/* Experience Column/Box */}
+                                {instructor.experiences && instructor.experiences.length > 0 && (
+                                    <div className="space-y-6">
+                                        <h3 className="text-lg font-bold tracking-wider text-muted-foreground ml-1">Kinh nghiệm</h3>
+                                        <div className="space-y-4">
+                                            {instructor.experiences.map((exp: any) => (
+                                                <div key={exp.id} className="bg-muted/30 border border-border/50 rounded-2xl p-5 hover:bg-card hover:shadow-md transition-all duration-300 group">
+                                                    <div className="flex items-start gap-4">
+                                                        <div className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center shrink-0 group-hover:border-foreground transition-colors">
+                                                            {(!exp.icon || exp.icon === 'building') && <Building2 className="w-5 h-5" />}
+                                                            {exp.icon === 'school' && <GraduationCap className="w-5 h-5" />}
+                                                            {exp.icon === 'users' && <Users className="w-5 h-5" />}
+                                                        </div>
+                                                        <div>
+                                                            <h3 className="font-bold text-base group-hover:underline decoration-1 underline-offset-4">{exp.company}</h3>
+                                                            <p className="text-sm text-muted-foreground font-medium mb-1">{exp.position}</p>
+                                                            {exp.period && (
+                                                                <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded bg-foreground text-background inline-block mt-1">
+                                                                    {exp.period}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* 2. Courses Section */}
+                    <section className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
+                        <div className="flex items-center justify-between mb-8 border-b border-border/40 pb-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center shadow-lg">
+                                    <BookOpen className="w-6 h-6" />
+                                </div>
+                                <h2 className="text-3xl font-bold tracking-tight">Khóa học đang giảng dạy</h2>
+                            </div>
                         </div>
-                    </div>
+
+                        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                            {courses.map((course) => (
+                                <Link key={course.id} href={`/courses/${course.slug}`} className="group h-full">
+                                    <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 h-full border-border/50 group-hover:border-foreground/20 bg-card rounded-[2rem] flex flex-col">
+                                        {course.thumbnail && (
+                                            <div className="aspect-[4/3] bg-muted overflow-hidden relative">
+                                                <img
+                                                    src={course.thumbnail}
+                                                    alt={course.title}
+                                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+
+                                                <div className="absolute bottom-4 left-4 right-4">
+                                                    <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/90 text-black text-xs font-bold backdrop-blur-sm">
+                                                        {course.lessons?.length || 0} bài học
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+                                        <CardContent className="p-6 flex flex-col flex-1">
+                                            <h3 className="font-bold text-xl mb-3 line-clamp-2 mt-1 group-hover:underline decoration-2 underline-offset-4">{course.title}</h3>
+                                            <p className="text-sm text-muted-foreground mb-6 line-clamp-2 leading-relaxed flex-1">
+                                                {course.description}
+                                            </p>
+                                            <div className="pt-4 mt-auto border-t border-border/50 flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                                    <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Đang tuyển sinh</span>
+                                                </div>
+                                                <span className="font-black text-lg">
+                                                    {course.price === 0
+                                                        ? 'Miễn phí'
+                                                        : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)
+                                                    }
+                                                </span>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+
                 </div>
             </div>
+
             <BottomCTA
                 title="Học hỏi từ chuyên gia hàng đầu"
                 subtitle="Đăng ký ngay để được trực tiếp dẫn dắt bởi những giảng viên giàu kinh nghiệm."
                 buttonText="Xem tất cả khóa học"
                 buttonHref="/courses"
             />
-        </>
+        </div>
     );
 }

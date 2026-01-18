@@ -42,11 +42,16 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "noImplicitAny": true,
+    "incremental": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "src/scripts"
+    "src/scripts",
+    "dist",
+    "node_modules",
+    "uploads",
+    "coverage"
   ]
 }

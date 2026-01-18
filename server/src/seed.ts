@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -7,7 +8,34 @@ const prisma = new PrismaClient();
 const main = async () => {
     console.log('🌱 Starting comprehensive seed with sample content...\n');
 
-    // ===== 1. INSTRUCTOR: Nguyễn Thanh Tùng =====
+    // ===== 1. ADMIN USER =====
+    console.log('\n👤 Creating/Updating Admin User...');
+    const adminEmail = 'admin@tulie.vn';
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+
+    const adminUser = await prisma.user.upsert({
+        where: { email: adminEmail },
+        update: {
+            password: hashedPassword,
+            role: 'ADMIN',
+            isActive: true
+        },
+        create: {
+            email: adminEmail,
+            password: hashedPassword,
+            role: 'ADMIN',
+            isActive: true,
+            profile: {
+                create: {
+                    name: 'Admin Tulie'
+                }
+            }
+        }
+    });
+
+    console.log('✅ Admin user ready: admin@tulie.vn / admin123\n');
+
+    // ===== 2. INSTRUCTOR: Nguyễn Thanh Tùng =====
     console.log('👨‍🏫 Creating Instructor...');
 
     // Delete existing instructor to ensure fresh data
@@ -84,7 +112,7 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
     });
     console.log(`✅ Created instructor: ${instructor.name}\n`);
 
-    // ===== 2. COURSES =====
+    // ===== 3. COURSES =====
     console.log('📚 Creating Courses...');
 
     // Delete existing courses
@@ -290,7 +318,7 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
                 title: courseData.title,
                 slug: courseData.slug,
                 description: courseData.description,
-                price: courseData.price,
+                price: new Decimal(courseData.price),
                 thumbnail: courseData.thumbnail,
                 // introVideoUrl: courseData.introVideoUrl,
                 isPublished: courseData.isPublished,
@@ -328,28 +356,7 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
         console.log(`✅ ${course.title} (${priceLabel}) - ${course.lessons.length} lessons`);
     }
 
-    // ===== 3. ADMIN USER =====
-    console.log('\n👤 Creating Admin User...');
-    const adminEmail = 'admin@tulie.vn';
-    const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
-    if (!existingAdmin) {
-        const hashedPassword = await bcrypt.hash('admin123', 10);
-        await prisma.user.create({
-            data: {
-                email: adminEmail,
-                password: hashedPassword,
-                role: 'ADMIN',
-                profile: {
-                    create: {
-                        name: 'Admin Tulie'
-                    }
-                }
-            }
-        });
-        console.log('✅ Created admin: admin@tulie.vn / admin123');
-    } else {
-        console.log('⏩ Admin already exists');
-    }
+    // ===== 2. INSTRUCTOR: Nguyễn Thanh Tùng =====
 
     // ===== SUMMARY =====
     console.log('\n🎉 Seed completed successfully!');
