@@ -40,11 +40,21 @@ jobs:
       - name: Configure Docker for GCR
         run: gcloud auth configure-docker
 
+      - name: Determine API URL for Build
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "NEXT_PUBLIC_API_URL=https://academy-api-xsycxf7qka-as.a.run.app" >> $GITHUB_ENV
+          else
+            echo "NEXT_PUBLIC_API_URL=https://academy-api-beta-xsycxf7qka-as.a.run.app" >> $GITHUB_ENV
+          fi
+
       - name: Build Docker image
         run: |
-          docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
-                       -t gcr.io/$PROJECT_ID/$SERVICE_NAME:latest \
-                       ./client
+          docker build \
+            --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+            -t gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
+            -t gcr.io/$PROJECT_ID/$SERVICE_NAME:latest \
+            ./client
 
       - name: Push Docker image
         run: |
