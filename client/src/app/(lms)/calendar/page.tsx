@@ -44,7 +44,7 @@ export default function CalendarPage() {
                         <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
                             <button
                                 onClick={() => setViewMode('month')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${viewMode === 'month'
+                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
                                     ? 'bg-card text-primary shadow-sm'
                                     : 'text-muted-foreground hover:text-foreground'
                                     }`}
@@ -54,7 +54,7 @@ export default function CalendarPage() {
                             </button>
                             <button
                                 onClick={() => setViewMode('list')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${viewMode === 'list'
+                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
                                     ? 'bg-card text-primary shadow-sm'
                                     : 'text-muted-foreground hover:text-foreground'
                                     }`}

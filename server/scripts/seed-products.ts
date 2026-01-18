@@ -18,7 +18,7 @@ async function main() {
             price: 499000,
             salePrice: 299000,
             thumbnail: 'https://ui-avatars.com/api/?name=Admin+Template&background=0D8ABC&color=fff&size=512',
-            type: 'DIGITAL',
+            type: 'TEMPLATE',
             versions: [
                 { version: '1.0.0', changelog: 'Initial release', fileUrl: 'https://example.com/files/admin-v1.zip' },
                 { version: '1.1.0', changelog: 'Added dark mode support', fileUrl: 'https://example.com/files/admin-v1.1.zip' },
@@ -33,7 +33,7 @@ async function main() {
             price: 199000,
             salePrice: 99000,
             thumbnail: 'https://ui-avatars.com/api/?name=NextJS+Ebook&background=000&color=fff&size=512',
-            type: 'DIGITAL',
+            type: 'TEMPLATE',
             versions: [
                 { version: '1.0', changelog: 'First edition', fileUrl: 'https://example.com/files/ebook-v1.pdf' }
             ]
@@ -46,7 +46,7 @@ async function main() {
             price: 350000,
             salePrice: null,
             thumbnail: 'https://ui-avatars.com/api/?name=3D+Icons&background=ff00ff&color=fff&size=512',
-            type: 'DIGITAL',
+            type: 'TEMPLATE',
             versions: [
                 { version: '1.0', changelog: 'Release 100 icons', fileUrl: 'https://example.com/files/icons-v1.zip' }
             ]
@@ -66,7 +66,7 @@ async function main() {
                     compareAtPrice: p.salePrice,
                     thumbnail: p.thumbnail,
                     type: p.type as any,
-                    status: 'PUBLISHED',
+                    isPublished: true,
                     tags: ['PROMOTED']
                 }
             });
@@ -105,11 +105,10 @@ async function main() {
             data: {
                 title: subProduct.title,
                 slug: subProduct.slug,
-                shortDescription: 'Truy cập không giới hạn tất cả sản phẩm số.',
-                description: 'Quyền lợi hội viên Premium 1 năm.',
+                description: 'Quyền lợi hội viên Premium 1 năm. Truy cập không giới hạn tất cả sản phẩm số.',
                 price: subProduct.price,
                 type: 'SUBSCRIPTION',
-                status: 'PUBLISHED',
+                isPublished: true,
                 thumbnail: 'https://ui-avatars.com/api/?name=VIP&background=FFD700&color=000&size=512'
             }
         });
