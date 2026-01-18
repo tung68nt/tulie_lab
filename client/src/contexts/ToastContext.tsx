@@ -84,6 +84,7 @@ const ToastContainer = ({ toasts, removeToast }: { toasts: Toast[], removeToast:
                 container.parentNode.removeChild(container);
             }
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!portalContainer || toasts.length === 0) return null;

@@ -183,13 +183,32 @@ export class UserService {
             select: { id: true, email: true, createdAt: true, profile: { select: { name: true } }, enrollments: { select: { course: { select: { title: true } } }, take: 3 } }
         });
 
+        const userIds = usersWithEnrollments.map(u => u.id);
+
+        // Batch fetch latest activities for these users
+        // Since we want the *latest* per user, and Prisma groupBy doesn't give full object easily, 
+        // we can fetch recent logs for these users and process in memory (assuming not millions of logs yet for inactive users).
+        // A optimized way: Fetch logs where userId in userIds, orderBy createdAt desc.
+        // To avoid fetching ALL logs, we might rely on the fact that if they are inactive, they haven't logged in recently?
+        // But we need the *last* date. 
+        // Let's use a raw query for performance or a simplified logic.
+        // Simple optimization:
+        const lastActivities = await prisma.activityLog.findMany({
+            where: { userId: { in: userIds } },
+            orderBy: { createdAt: 'desc' },
+            distinct: ['userId'], // Postgres-specific feature supported by Prisma? Yes, distinct is supported.
+            select: { userId: true, createdAt: true }
+        });
+
+        const activityMap = new Map();
+        lastActivities.forEach(log => {
+            if (log.userId) activityMap.set(log.userId, log.createdAt);
+        });
+
         const inactiveUsers = [];
         for (const user of usersWithEnrollments) {
-            const lastActivity = await prisma.activityLog.findFirst({
-                where: { userId: user.id },
-                orderBy: { createdAt: 'desc' }
-            });
-            const lastActivityDate = lastActivity?.createdAt || user.createdAt;
+            const lastData = activityMap.get(user.id);
+            const lastActivityDate = lastData || user.createdAt;
             const daysSinceActivity = Math.floor((Date.now() - new Date(lastActivityDate).getTime()) / (1000 * 60 * 60 * 24));
 
             if (daysSinceActivity >= inactiveDays) {

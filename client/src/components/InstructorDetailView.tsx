@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/Card';
 import { BottomCTA } from '@/components/BottomCTA';
 import { Users, BookOpen, Briefcase, Building2, GraduationCap, Award } from 'lucide-react';
+import { Instructor, Course } from '@/types/api';
 
 interface InstructorDetailViewProps {
-    instructor: any;
-    courses: any[];
+    instructor: Instructor;
+    courses: Course[];
 }
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
@@ -78,7 +79,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                     </div>
                                     <div className="text-left">
                                         <div className="font-bold text-xl leading-none">
-                                            {instructor.studentCount > 0 ? `${instructor.studentCount}+` : 0}
+                                            {(instructor.studentCount || 0) > 0 ? `${instructor.studentCount}+` : 0}
                                         </div>
                                         <div className="text-xs text-muted-foreground font-bold uppercase tracking-wider mt-1">Học viên</div>
                                     </div>
@@ -184,7 +185,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                                 <span className="font-black text-lg">
                                                     {course.price === 0
                                                         ? 'Miễn phí'
-                                                        : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)
+                                                        : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price || 0)
                                                     }
                                                 </span>
                                             </div>

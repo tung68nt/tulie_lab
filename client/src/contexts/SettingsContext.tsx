@@ -59,6 +59,7 @@ export const SettingsProvider = ({ children, initialSettings }: { children: Reac
         // If we provide initialSettings, we might skip the effect or just use it for updates
         // For now, keeping it to ensuring latest client-side updates, but initial render is fast.
         if (!initialSettings) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             fetchSettings();
         }
     }, []);

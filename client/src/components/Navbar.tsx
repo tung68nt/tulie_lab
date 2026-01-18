@@ -183,16 +183,15 @@ export function Navbar() {
                             if (link.children) {
                                 return (
                                     <div key={link.href} className="relative group">
-                                        <Link
-                                            href={link.href}
-                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${isActive ? 'bg-secondary/50 text-foreground' : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
+                                        <div
+                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-default ${isActive ? 'bg-secondary/50 text-foreground' : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
                                                 }`}
                                         >
                                             {link.label}
                                             <svg className="w-3 h-3 opacity-50 group-hover:rotate-180 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                             </svg>
-                                        </Link>
+                                        </div>
 
                                         {/* Dropdown Menu */}
                                         <div className="absolute top-full left-0 pt-2 w-56 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 ease-out z-[100]">

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
-import { Edit, Trash2, Eye, ExternalLink } from 'lucide-react';
+import { Edit, Trash2, Eye } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ActionButtonProps {

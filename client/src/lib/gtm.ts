@@ -1,5 +1,5 @@
 type WindowWithDataLayer = Window & {
-    dataLayer: Record<string, any>[];
+    dataLayer: Record<string, unknown>[];
 };
 
 declare const window: WindowWithDataLayer;
@@ -15,7 +15,7 @@ export const pageview = (url: string) => {
     }
 };
 
-export const sendGTMEvent = (eventName: string, data: Record<string, any> = {}) => {
+export const sendGTMEvent = (eventName: string, data: Record<string, unknown> = {}) => {
     if (typeof window !== 'undefined' && window.dataLayer) {
         window.dataLayer.push({
             event: eventName,

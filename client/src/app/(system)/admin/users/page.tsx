@@ -34,22 +34,20 @@ export default function AdminUsersPage() {
                     api.courses.list()
                 ]);
 
-                // Handle new structure with pagination and stats
-                if (usersResult && (usersResult as any).pagination) {
-                    const res = usersResult as any;
-                    setUsers(res.data);
-                    setTotalPages(res.pagination.totalPages);
-                    if (res.stats) {
-                        setStats(res.stats);
+                if (usersResult && usersResult.users) {
+                    setUsers(usersResult.users);
+
+                    if (usersResult.total) {
+                        setStats(prev => ({ ...prev, total: usersResult.total }));
+                        setTotalPages(Math.ceil(usersResult.total / ITEMS_PER_PAGE));
                     }
-                } else {
-                    // Fallback for old API if needed
-                    const list = usersResult as any[];
-                    setUsers(list);
+                } else if (Array.isArray(usersResult)) {
+                    // Fallback if API somehow returns array
+                    setUsers(usersResult);
                     setStats({
-                        total: list.length,
-                        admins: list.filter(u => u.role === 'ADMIN').length,
-                        users: list.filter(u => u.role !== 'ADMIN').length
+                        total: usersResult.length,
+                        admins: usersResult.filter((u: any) => u.role === 'ADMIN').length,
+                        users: usersResult.filter((u: any) => u.role !== 'ADMIN').length
                     });
                 }
                 setCourses(coursesData as any[]);

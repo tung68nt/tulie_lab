@@ -4,6 +4,8 @@ const BASE_URL = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl; // Stri
 
 console.log('Using BASE_URL for API:', BASE_URL);
 
+import { User, Course, Instructor, Order, Product, SearchParams } from '@/types/api';
+
 export class ApiError extends Error {
     constructor(public status: number, public message: string) {
         super(message);
@@ -16,20 +18,22 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     const url = `${BASE_URL}/api${path}`;
 
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-    const authHeader = token ? { 'Authorization': `Bearer ${token}` } : {};
 
-    const headers: any = {
+    const headers: Record<string, string> = {
         'Content-Type': 'application/json',
-        ...authHeader,
-        ...options.headers,
     };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    if (options.headers) {
+        Object.assign(headers, options.headers);
+    }
 
     try {
         console.log(`[API] ${options.method || 'GET'} ${url}`);
         const response = await fetch(url, { ...options, headers, credentials: 'include' });
-        // ... (rest of request function same until catch)
-
-        // ...
 
         if (!response.ok) {
             if (response.status === 401 && typeof window !== 'undefined') {
@@ -60,7 +64,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
         }
 
         return response.json();
-    } catch (error: any) {
+    } catch (error: unknown) {
         if (error instanceof ApiError) throw error;
         // console.error(`API Request Failed: ${endpoint}`, error); // Switched to warn to reduce noise
         console.warn(`API Request Failed: ${endpoint} - Is the backend server running?`);
@@ -70,13 +74,13 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
 export const api = {
     auth: {
-        register: (data: any) => request('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
-        login: (data: any) => request('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
-        logout: () => request('/auth/logout', { method: 'POST' }),
-        getMe: () => request('/auth/me'),
+        register: (data: unknown) => request<{ user: User, token: string }>('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+        login: (data: unknown) => request<{ user: User, token: string }>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
+        logout: () => request<void>('/auth/logout', { method: 'POST' }),
+        getMe: () => request<User>('/auth/me'),
     },
     courses: {
-        list: (params?: any) => {
+        list: (params?: Record<string, unknown>) => {
             const searchParams = new URLSearchParams();
             if (params) {
                 Object.keys(params).forEach(key => {
@@ -85,55 +89,55 @@ export const api = {
                     }
                 });
             }
-            return request(`/courses?${searchParams.toString()}`);
+            return request<Course[]>(`/courses?${searchParams.toString()}`);
         },
-        get: (slug: string) => request(`/courses/${slug}`),
-        getContent: (lessonId: string) => request(`/courses/lessons/${lessonId}/content`),
-        getProgress: (courseId: string) => request(`/courses/${courseId}/progress`),
-        markComplete: (lessonId: string) => request(`/courses/lessons/${lessonId}/complete`, { method: 'POST' }),
-        markUncomplete: (lessonId: string) => request(`/courses/lessons/${lessonId}/uncomplete`, { method: 'POST' }),
+        get: (slug: string) => request<Course>(`/courses/${slug}`),
+        getContent: (lessonId: string) => request<unknown>(`/courses/lessons/${lessonId}/content`),
+        getProgress: (courseId: string) => request<unknown>(`/courses/${courseId}/progress`),
+        markComplete: (lessonId: string) => request<void>(`/courses/lessons/${lessonId}/complete`, { method: 'POST' }),
+        markUncomplete: (lessonId: string) => request<void>(`/courses/lessons/${lessonId}/uncomplete`, { method: 'POST' }),
     },
     users: {
-        getProfile: () => request('/users/profile'),
-        updateProfile: (data: any) => request('/users/profile', { method: 'PUT', body: JSON.stringify(data) }),
-        getMyOrders: () => request('/users/my-orders'),
+        getProfile: () => request<User>('/users/profile'),
+        updateProfile: (data: Partial<User>) => request<User>('/users/profile', { method: 'PUT', body: JSON.stringify(data) }),
+        getMyOrders: () => request<Order[]>('/users/my-orders'),
     },
     instructors: {
-        list: () => request('/instructors'),
-        get: (id: string) => request(`/instructors/${id}`),
+        list: () => request<Instructor[]>('/instructors'),
+        get: (id: string) => request<Instructor>(`/instructors/${id}`),
     },
     admin: {
-        listUsers: (params?: { page?: number; limit?: number; search?: string }) => {
+        listUsers: (params?: SearchParams) => {
             const searchParams = new URLSearchParams();
             if (params) {
                 if (params.page) searchParams.append('page', String(params.page));
                 if (params.limit) searchParams.append('limit', String(params.limit));
                 if (params.search) searchParams.append('search', params.search);
             }
-            return request(`/users?${searchParams.toString()}`);
+            return request<{ users: User[], total: number }>(`/users?${searchParams.toString()}`);
         },
-        getUser: (id: string) => request(`/users/${id}`),
-        enrollUser: (userId: string, courseId: string) => request('/users/enroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
-        unenrollUser: (userId: string, courseId: string) => request('/users/unenroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
-        grantMembership: (userId: string, days: number = 365) => request('/users/grant-membership', { method: 'POST', body: JSON.stringify({ userId, days }) }),
-        getInactiveUsers: (days?: number) => request(`/users/inactive${days ? `?days=${days}` : ''}`),
+        getUser: (id: string) => request<User>(`/users/${id}`),
+        enrollUser: (userId: string, courseId: string) => request<void>('/users/enroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
+        unenrollUser: (userId: string, courseId: string) => request<void>('/users/unenroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
+        grantMembership: (userId: string, days: number = 365) => request<void>('/users/grant-membership', { method: 'POST', body: JSON.stringify({ userId, days }) }),
+        getInactiveUsers: (days?: number) => request<User[]>(`/users/inactive${days ? `?days=${days}` : ''}`),
         courses: {
-            list: () => request('/courses/all'),
-            get: (id: string) => request(`/courses/${id}/full`),
-            create: (data: any) => request('/courses', { method: 'POST', body: JSON.stringify(data) }),
-            update: (id: string, data: any) => request(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-            delete: (id: string) => request(`/courses/${id}`, { method: 'DELETE' }),
-            addLesson: (courseId: string, data: any) => request(`/courses/${courseId}/lessons`, { method: 'POST', body: JSON.stringify(data) }),
-            updateLesson: (lessonId: string, data: any) => request(`/courses/lessons/${lessonId}`, { method: 'PUT', body: JSON.stringify(data) }),
-            deleteLesson: (lessonId: string) => request(`/courses/lessons/${lessonId}`, { method: 'DELETE' }),
-            addAttachment: (lessonId: string, data: any) => request(`/courses/lessons/${lessonId}/attachments`, { method: 'POST', body: JSON.stringify(data) }),
+            list: () => request<Course[]>('/courses/all'),
+            get: (id: string) => request<Course>(`/courses/${id}/full`),
+            create: (data: unknown) => request<Course>('/courses', { method: 'POST', body: JSON.stringify(data) }),
+            update: (id: string, data: unknown) => request<Course>(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+            delete: (id: string) => request<void>(`/courses/${id}`, { method: 'DELETE' }),
+            addLesson: (courseId: string, data: unknown) => request<unknown>(`/courses/${courseId}/lessons`, { method: 'POST', body: JSON.stringify(data) }),
+            updateLesson: (lessonId: string, data: unknown) => request<unknown>(`/courses/lessons/${lessonId}`, { method: 'PUT', body: JSON.stringify(data) }),
+            deleteLesson: (lessonId: string) => request<void>(`/courses/lessons/${lessonId}`, { method: 'DELETE' }),
+            addAttachment: (lessonId: string, data: unknown) => request<unknown>(`/courses/lessons/${lessonId}/attachments`, { method: 'POST', body: JSON.stringify(data) }),
         },
         users: {
-            list: () => request('/users'),
-            get: (id: string) => request(`/users/${id}`),
+            list: () => request<User[]>('/users'),
+            get: (id: string) => request<User>(`/users/${id}`),
         },
         orders: {
-            list: (params?: any) => {
+            list: (params?: SearchParams) => {
                 const searchParams = new URLSearchParams();
                 if (params) {
                     Object.keys(params).forEach(key => {
@@ -142,9 +146,9 @@ export const api = {
                         }
                     });
                 }
-                return request(`/payments/orders?${searchParams.toString()}`);
+                return request<{ orders: Order[], total: number }>(`/payments/orders?${searchParams.toString()}`);
             },
-            updateStatus: (id: string, status: string) => request(`/payments/orders/${id}/status`, {
+            updateStatus: (id: string, status: string) => request<Order>(`/payments/orders/${id}/status`, {
                 method: 'PUT',
                 body: JSON.stringify({ status })
             }),
@@ -152,11 +156,11 @@ export const api = {
                 const searchParams = new URLSearchParams();
                 if (startDate) searchParams.append('startDate', startDate);
                 if (endDate) searchParams.append('endDate', endDate);
-                return request(`/payments/orders/export?${searchParams.toString()}`);
+                return request<Blob>(`/payments/orders/export?${searchParams.toString()}`);
             },
         },
         contact: {
-            list: (params?: any) => {
+            list: (params?: SearchParams) => {
                 const searchParams = new URLSearchParams();
                 if (params) {
                     Object.keys(params).forEach(key => {
@@ -165,117 +169,117 @@ export const api = {
                         }
                     });
                 }
-                return request(`/contact/admin?${searchParams.toString()}`);
+                return request<{ items: unknown[], total: number }>(`/contact/admin?${searchParams.toString()}`);
             },
-            updateStatus: (id: string, status: string) => request(`/contact/admin/${id}`, {
+            updateStatus: (id: string, status: string) => request<unknown>(`/contact/admin/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify({ status })
             }),
-            delete: (id: string) => request(`/contact/admin/${id}`, {
+            delete: (id: string) => request<void>(`/contact/admin/${id}`, {
                 method: 'DELETE'
             }),
         },
         settings: {
-            get: () => request('/settings'),
-            update: (data: any) => request('/settings', {
+            get: () => request<unknown>('/settings'),
+            update: (data: unknown) => request<unknown>('/settings', {
                 method: 'PUT',
                 body: JSON.stringify(data)
             }),
-            getApiKey: () => request('/settings/api-key'),
-            regenerateApiKey: () => request('/settings/api-key/regenerate', {
+            getApiKey: () => request<{ apiKey: string }>('/settings/api-key'),
+            regenerateApiKey: () => request<{ apiKey: string }>('/settings/api-key/regenerate', {
                 method: 'POST'
             }),
-            getEmailLogs: () => request('/settings/email-logs'),
+            getEmailLogs: () => request<unknown[]>('/settings/email-logs'),
         },
         blog: {
-            create: (data: any) => request('/blog', {
+            create: (data: unknown) => request<unknown>('/blog', {
                 method: 'POST',
                 body: JSON.stringify(data),
             }),
-            update: (id: string, data: any) => request(`/blog/${id}`, {
+            update: (id: string, data: unknown) => request<unknown>(`/blog/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(data),
             }),
-            delete: (id: string) => request(`/blog/${id}`, {
+            delete: (id: string) => request<void>(`/blog/${id}`, {
                 method: 'DELETE',
             }),
         },
         payments: {
-            listTransactions: () => request('/payments/transactions'),
-            sendReminder: (orderId: string, customMessage?: string) => request(`/payments/orders/${orderId}/send-reminder`, {
+            listTransactions: () => request<unknown[]>('/payments/transactions'),
+            sendReminder: (orderId: string, customMessage?: string) => request<void>(`/payments/orders/${orderId}/send-reminder`, {
                 method: 'POST',
                 body: JSON.stringify({ customMessage })
             }),
         },
         cms: {
-            update: (data: { key: string, value: string, type?: string }) => request('/cms', { method: 'POST', body: JSON.stringify(data) }),
+            update: (data: { key: string, value: string, type?: string }) => request<unknown>('/cms', { method: 'POST', body: JSON.stringify(data) }),
         },
         instructors: {
-            list: () => request('/instructors'),
-            get: (id: string) => request(`/instructors/${id}`),
-            create: (data: any) => request('/instructors', { method: 'POST', body: JSON.stringify(data) }),
-            update: (id: string, data: any) => request(`/instructors/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-            delete: (id: string) => request(`/instructors/${id}`, { method: 'DELETE' }),
+            list: () => request<Instructor[]>('/instructors'),
+            get: (id: string) => request<Instructor>(`/instructors/${id}`),
+            create: (data: unknown) => request<Instructor>('/instructors', { method: 'POST', body: JSON.stringify(data) }),
+            update: (id: string, data: unknown) => request<Instructor>(`/instructors/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+            delete: (id: string) => request<void>(`/instructors/${id}`, { method: 'DELETE' }),
         }
     },
     cms: {
         get: (keys?: string[]) => {
             const query = keys ? `?keys=${keys.join(',')}` : '';
-            return request(`/cms${query}`);
+            return request<Record<string, unknown>>(`/cms${query}`);
         }
     },
     payments: {
-        checkout: (data: any) => request('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
-        getOrder: (code: string) => request(`/payments/${code}`),
+        checkout: (data: unknown) => request<{ url: string }>('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
+        getOrder: (code: string) => request<Order>(`/payments/${code}`),
     },
     promos: {
-        validate: (code: string) => request('/promo-codes/validate', { method: 'POST', body: JSON.stringify({ code }) }),
-        list: () => request('/promo-codes'),
-        create: (data: any) => request('/promo-codes', { method: 'POST', body: JSON.stringify(data) }),
-        update: (id: string, data: any) => request(`/promo-codes/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id: string) => request(`/promo-codes/${id}`, { method: 'DELETE' }),
+        validate: (code: string) => request<{ valid: boolean, discount?: number }>('/promo-codes/validate', { method: 'POST', body: JSON.stringify({ code }) }),
+        list: () => request<unknown[]>('/promo-codes'),
+        create: (data: unknown) => request<unknown>('/promo-codes', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/promo-codes/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/promo-codes/${id}`, { method: 'DELETE' }),
     },
     notifications: {
-        list: () => request('/notifications'),
-        listAll: () => request('/notifications/all'),
-        create: (data: any) => request('/notifications', { method: 'POST', body: JSON.stringify(data) }),
-        update: (id: string, data: any) => request(`/notifications/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id: string) => request(`/notifications/${id}`, { method: 'DELETE' }),
-        markRead: (id: string) => request(`/notifications/${id}/read`, { method: 'PUT' }),
-        markAllRead: () => request('/notifications/read-all', { method: 'PUT' }),
-        getUnreadCount: () => request('/notifications/unread-count'),
+        list: () => request<unknown[]>('/notifications'),
+        listAll: () => request<unknown[]>('/notifications/all'),
+        create: (data: unknown) => request<unknown>('/notifications', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/notifications/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/notifications/${id}`, { method: 'DELETE' }),
+        markRead: (id: string) => request<void>(`/notifications/${id}/read`, { method: 'PUT' }),
+        markAllRead: () => request<void>('/notifications/read-all', { method: 'PUT' }),
+        getUnreadCount: () => request<{ count: number }>('/notifications/unread-count'),
     },
     contact: {
-        submit: (data: any) => request('/contact', {
+        submit: (data: unknown) => request<void>('/contact', {
             method: 'POST',
             body: JSON.stringify(data)
         }),
     },
     settings: {
-        getPublic: () => request('/settings/public'),
+        getPublic: () => request<unknown>('/settings/public'),
     },
     categories: {
-        list: () => request('/categories'),
-        get: (id: string) => request(`/categories/${id}`),
-        create: (data: any) => request('/categories', { method: 'POST', body: JSON.stringify(data) }),
-        update: (id: string, data: any) => request(`/categories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id: string) => request(`/categories/${id}`, { method: 'DELETE' }),
+        list: () => request<unknown[]>('/categories'),
+        get: (id: string) => request<unknown>(`/categories/${id}`),
+        create: (data: unknown) => request<unknown>('/categories', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/categories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/categories/${id}`, { method: 'DELETE' }),
     },
     bundles: {
-        list: () => request('/bundles'),
-        listAdmin: () => request('/bundles/manage/all'),
-        get: (id: string) => request(`/bundles/${id}`),
-        create: (data: any) => request('/bundles', { method: 'POST', body: JSON.stringify(data) }),
-        update: (id: string, data: any) => request(`/bundles/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id: string) => request(`/bundles/${id}`, { method: 'DELETE' }),
+        list: () => request<unknown[]>('/bundles'),
+        listAdmin: () => request<unknown[]>('/bundles/manage/all'),
+        get: (id: string) => request<unknown>(`/bundles/${id}`),
+        create: (data: unknown) => request<unknown>('/bundles', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/bundles/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/bundles/${id}`, { method: 'DELETE' }),
     },
     coupons: {
-        list: () => request('/coupons/manage'),
-        get: (id: string) => request(`/coupons/${id}`),
-        create: (data: any) => request('/coupons', { method: 'POST', body: JSON.stringify(data) }),
-        update: (id: string, data: any) => request(`/coupons/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id: string) => request(`/coupons/${id}`, { method: 'DELETE' }),
-        validate: (code: string, amount: number) => request('/coupons/validate', { method: 'POST', body: JSON.stringify({ code, amount }) }),
+        list: () => request<unknown[]>('/coupons/manage'),
+        get: (id: string) => request<unknown>(`/coupons/${id}`),
+        create: (data: unknown) => request<unknown>('/coupons', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/coupons/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/coupons/${id}`, { method: 'DELETE' }),
+        validate: (code: string, amount: number) => request<{ valid: boolean, discount?: number }>('/coupons/validate', { method: 'POST', body: JSON.stringify({ code, amount }) }),
     },
     uploads: {
         single: async (file: File): Promise<{ success: boolean, file: { url: string, originalName: string } }> => {
@@ -311,51 +315,51 @@ export const api = {
             return response.json();
         }
     },
-    post: (endpoint: string, data: any) => request(endpoint, { method: 'POST', body: JSON.stringify(data) }),
+    post: (endpoint: string, data: unknown) => request<unknown>(endpoint, { method: 'POST', body: JSON.stringify(data) }),
     security: {
-        log: (data: { action: string, details?: string }) => request('/security/log', { method: 'POST', body: JSON.stringify(data) }),
-        list: (limit = 100) => request(`/security/list?limit=${limit}`)
+        log: (data: { action: string, details?: string }) => request<void>('/security/log', { method: 'POST', body: JSON.stringify(data) }),
+        list: (limit = 100) => request<unknown[]>(`/security/list?limit=${limit}`)
     },
     activity: {
-        log: (action: string, data: any) => request('/activity/log', { method: 'POST', body: JSON.stringify({ action, ...data }) }),
-        list: (limit = 50) => request(`/activity/list?limit=${limit}`)
+        log: (action: string, data: unknown) => request<void>('/activity/log', { method: 'POST', body: JSON.stringify({ action, ...(data as object || {}) }) }),
+        list: (limit = 50) => request<unknown[]>(`/activity/list?limit=${limit}`)
     },
     system: {
-        getStats: () => request('/system/stats'),
+        getStats: () => request<unknown>('/system/stats'),
     },
     landingPages: {
         list: (type?: string) => {
             const query = type ? `?type=${type}` : '';
-            return request(`/landing-pages${query}`);
+            return request<unknown[]>(`/landing-pages${query}`);
         },
-        get: (id: string) => request(`/landing-pages/${id}`),
-        create: (data: any) => request('/landing-pages', { method: 'POST', body: JSON.stringify(data) }),
-        update: (id: string, data: any) => request(`/landing-pages/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id: string) => request(`/landing-pages/${id}`, { method: 'DELETE' }),
-        duplicate: (id: string) => request(`/landing-pages/${id}/duplicate`, { method: 'POST' }),
+        get: (id: string) => request<unknown>(`/landing-pages/${id}`),
+        create: (data: unknown) => request<unknown>('/landing-pages', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/landing-pages/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/landing-pages/${id}`, { method: 'DELETE' }),
+        duplicate: (id: string) => request<unknown>(`/landing-pages/${id}/duplicate`, { method: 'POST' }),
     },
     products: {
         list: (params?: { page?: number; limit?: number; search?: string; type?: string; isPublished?: boolean }) => {
             const searchParams = new URLSearchParams();
             if (params) {
                 Object.keys(params).forEach(key => {
-                    // @ts-ignore
+                    // @ts-expect-error - params key check
                     if (params[key] !== undefined) searchParams.append(key, String(params[key]));
                 });
             }
-            return request(`/products?${searchParams.toString()}`);
+            return request<{ products: Product[], total: number }>(`/products?${searchParams.toString()}`);
         },
-        get: (slug: string) => request(`/products/${slug}`),
-        create: (data: any) => request('/products', { method: 'POST', body: JSON.stringify(data) }),
-        update: (id: string, data: any) => request(`/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-        delete: (id: string) => request(`/products/${id}`, { method: 'DELETE' }),
-        addVersion: (id: string, data: any) => request(`/products/${id}/versions`, { method: 'POST', body: JSON.stringify(data) }),
-        deleteVersion: (versionId: string) => request(`/products/versions/${versionId}`, { method: 'DELETE' }),
+        get: (slug: string) => request<Product>(`/products/${slug}`),
+        create: (data: unknown) => request<Product>('/products', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<Product>(`/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/products/${id}`, { method: 'DELETE' }),
+        addVersion: (id: string, data: unknown) => request<unknown>(`/products/${id}/versions`, { method: 'POST', body: JSON.stringify(data) }),
+        deleteVersion: (versionId: string) => request<void>(`/products/versions/${versionId}`, { method: 'DELETE' }),
     },
     activationCodes: {
-        list: () => request('/activation-codes/admin/list'),
-        create: (courseId: string, count: number) => request('/activation-codes/admin/create', { method: 'POST', body: JSON.stringify({ courseId, count }) }),
-        delete: (id: string) => request(`/activation-codes/admin/${id}`, { method: 'DELETE' }),
-        redeem: (code: string) => request('/activation-codes/redeem', { method: 'POST', body: JSON.stringify({ code }) }),
+        list: () => request<unknown[]>('/activation-codes/admin/list'),
+        create: (courseId: string, count: number) => request<unknown[]>('/activation-codes/admin/create', { method: 'POST', body: JSON.stringify({ courseId, count }) }),
+        delete: (id: string) => request<void>(`/activation-codes/admin/${id}`, { method: 'DELETE' }),
+        redeem: (code: string) => request<void>('/activation-codes/redeem', { method: 'POST', body: JSON.stringify({ code }) }),
     }
 };
