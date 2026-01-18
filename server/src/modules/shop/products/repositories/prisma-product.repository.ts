@@ -1,4 +1,4 @@
-import { Product, Prisma } from '@prisma/client';
+import { Product, Prisma, ProductType } from '@prisma/client';
 import prisma from '../../../../config/prisma';
 import { IProductRepository } from '../interfaces/product.repository.interface';
 
@@ -49,7 +49,9 @@ export class PrismaProductRepository implements IProductRepository {
         }
 
         if (type && type !== 'all') {
-            where.type = type as any;
+            if (Object.values(ProductType).includes(type as ProductType)) {
+                where.type = type as ProductType;
+            }
         }
 
         if (isPublished !== undefined && isPublished !== 'all') {

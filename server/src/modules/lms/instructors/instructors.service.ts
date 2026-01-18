@@ -62,11 +62,16 @@ export class InstructorService {
     }
 
     async createInstructor(data: any) {
-        return (this.instructorRepository as any).create(data);
+        const { name, title, bio, avatar, socialLinks } = data;
+        return (this.instructorRepository as any).create({ name, title, bio, avatar, socialLinks });
     }
 
     async updateInstructor(id: string, data: any) {
-        return (this.instructorRepository as any).update(id, data);
+        const { name, title, bio, avatar, socialLinks } = data;
+        // Filter out undefined values to avoid overwriting with null/undefined if not intended, 
+        // though typically for update we might want to allow partial updates.
+        // Prisma ignores undefined in data usually.
+        return (this.instructorRepository as any).update(id, { name, title, bio, avatar, socialLinks });
     }
 
     async deleteInstructor(id: string) {
