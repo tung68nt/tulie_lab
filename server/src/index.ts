@@ -69,9 +69,11 @@ app.use(cors({
       return;
     }
 
-    if (allowed.includes(origin)) {
+    // Check allowed list OR Cloud Run domains
+    if (allowed.includes(origin) || origin.endsWith('.run.app') || origin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
+
       console.warn(`[CORS] Blocked request from origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }

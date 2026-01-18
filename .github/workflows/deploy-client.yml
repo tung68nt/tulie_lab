@@ -44,7 +44,7 @@ jobs:
       - name: Determine Build Arguments
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "API_URL=https://api.academy-tulie.com" >> $GITHUB_ENV
+            echo "API_URL=https://academy-api-863772349164.asia-southeast1.run.app" >> $GITHUB_ENV
           else
             echo "API_URL=https://academy-api-beta-863772349164.asia-southeast1.run.app" >> $GITHUB_ENV
           fi
