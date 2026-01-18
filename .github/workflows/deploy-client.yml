@@ -43,9 +43,9 @@ jobs:
       - name: Determine API URL for Build
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "NEXT_PUBLIC_API_URL=https://academy-api-xsycxf7qka-as.a.run.app" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_API_URL=https://academy-api-863772349164.asia-southeast1.run.app" >> $GITHUB_ENV
           else
-            echo "NEXT_PUBLIC_API_URL=https://academy-api-beta-xsycxf7qka-as.a.run.app" >> $GITHUB_ENV
+            echo "NEXT_PUBLIC_API_URL=https://academy-api-beta-863772349164.asia-southeast1.run.app" >> $GITHUB_ENV
           fi
 
       - name: Build Docker image
