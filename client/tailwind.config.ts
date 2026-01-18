@@ -10,7 +10,7 @@ const config: Config = {
         "./src/contexts/**/*.{js,ts,jsx,tsx,mdx}",
         "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
     ],
-    darkMode: "class",
+
     theme: {
         container: {
             center: true,

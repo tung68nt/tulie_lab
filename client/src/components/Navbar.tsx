@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './Button';
+import { Sun, Moon } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import { api } from '@/lib/api';
 import { Logo } from '@/components/Logo';
@@ -11,6 +12,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
+import { useTheme } from 'next-themes';
 
 export function Navbar() {
     const { user, logout, isLoading: authLoading } = useAuth();

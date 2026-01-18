@@ -9,7 +9,7 @@ import { ConfirmProvider } from '@/components/ConfirmDialog';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/system/analytics/UtmTracker';
-import { ThemeProvider } from "@/components/ThemeProvider";
+
 
 const inter = Inter({ subsets: ['latin'] });
 

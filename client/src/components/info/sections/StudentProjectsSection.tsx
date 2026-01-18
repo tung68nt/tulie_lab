@@ -43,8 +43,8 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                                 {/* Project image */}
                                 <div className="aspect-[4/3] overflow-hidden bg-muted relative">
                                     <Image
-                                        src={project.image}
-                                        alt={project.title}
+                                        src={project.image || ''}
+                                        alt={project.title || 'Project Image'}
                                         fill
                                         className="object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
                                     />
@@ -73,7 +73,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
 
                                     {/* Tech tags */}
                                     <div className="mt-auto pt-6 border-t border-border/50 flex flex-wrap gap-2">
-                                        {project.tech && project.tech.map((tech, i) => (
+                                        {project.tech && project.tech.map((tech: string, i: number) => (
                                             <span
                                                 key={i}
                                                 className="px-2.5 py-1 bg-background border border-border/50 rounded-md text-xs font-semibold text-muted-foreground group-hover:border-primary/30 group-hover:text-primary transition-colors"
