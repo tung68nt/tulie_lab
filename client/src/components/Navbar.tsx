@@ -230,15 +230,7 @@ export function Navbar() {
 
                     {/* Desktop Auth Section */}
                     <div className="flex flex-1 items-center justify-end gap-2">
-                        {/* Theme Toggle */}
-                        {mounted && (
-                            <button
-                                onClick={toggleTheme}
-                                className="p-2 mr-2 rounded-full hover:bg-secondary transition-colors"
-                            >
-                                {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                            </button>
-                        )}
+
                         {/* Mobile Layout */}
                         <div className="flex flex-1 items-center justify-end md:hidden gap-3">
                             {/* Mobile User Avatar */}

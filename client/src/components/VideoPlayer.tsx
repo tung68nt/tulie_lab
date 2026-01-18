@@ -248,7 +248,7 @@ function FullscreenButton({ isFullscreen, onClick }: { isFullscreen: boolean; on
     return (
         <button
             onClick={onClick}
-            className="absolute top-4 right-4 z-50 p-2 bg-black/70 hover:bg-black/90 rounded transition-colors"
+            className="absolute top-4 right-4 z-20 p-2 bg-black/70 hover:bg-black/90 rounded transition-colors"
             title={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
         >
             {isFullscreen ? (
@@ -445,7 +445,7 @@ function HLSPlayer({
             {/* Custom fullscreen button */}
             <button
                 onClick={toggleFullscreen}
-                className="absolute top-4 right-4 z-50 p-2 bg-black/70 hover:bg-black/90 rounded transition-colors"
+                className="absolute top-4 right-4 z-20 p-2 bg-black/70 hover:bg-black/90 rounded transition-colors"
                 title={isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
             >
                 {isFullscreen ? (

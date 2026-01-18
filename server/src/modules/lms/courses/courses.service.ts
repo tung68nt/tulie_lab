@@ -35,7 +35,7 @@ export class CourseService {
             where,
             include: {
                 lessons: {
-                    select: { id: true, title: true, slug: true, isFree: true, position: true }
+                    select: { id: true, title: true, slug: true, isFree: true, position: true, thumbnail: true }
                 },
                 category: true,
                 instructor: true
@@ -105,6 +105,7 @@ export class CourseService {
                     isFree: true,
                     duration: true,
                     videoUrl: true,
+                    thumbnail: true,
                 }
             }
         });

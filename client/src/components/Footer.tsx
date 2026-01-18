@@ -41,7 +41,7 @@ const defaultFooterData: FooterData = {
     taxId: '0110386298',
     logoUrl: '/images/logo.png',
     quickLinks: [
-        { label: 'Về chúng tôi', href: '/about' },
+
         { label: 'Các khóa học', href: '/courses' },
         { label: 'Giảng viên', href: '/instructors' },
         { label: 'Blog & Bài viết', href: '/blog' },

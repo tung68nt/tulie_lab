@@ -441,6 +441,15 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                         </div>
                                     </div>
                                 </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Thumbnail (Ảnh bìa bài học)</label>
+                                    <Input
+                                        placeholder="https://..."
+                                        value={(newLesson as any).thumbnail || ''}
+                                        onChange={e => setNewLesson({ ...newLesson, thumbnail: e.target.value } as any)}
+                                    />
+                                    <p className="text-xs text-muted-foreground">URL ảnh thumbnail cho bài học (Tùy chọn)</p>
+                                </div>
 
                                 {/* Attachments Section */}
                                 <div className="space-y-3 border-t pt-4">
@@ -594,6 +603,7 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
     const [slug, setSlug] = useState(lesson.slug || '');
     const [chapter, setChapter] = useState(lesson.chapter || '');
     const [section, setSection] = useState(lesson.section || '');
+    const [thumbnail, setThumbnail] = useState(lesson.thumbnail || '');
     const [content, setContent] = useState(lesson.content || '');
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isEditingVideo, setIsEditingVideo] = useState(false);
@@ -601,6 +611,7 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
     const [isEditingSlug, setIsEditingSlug] = useState(false);
     const [isEditingChapter, setIsEditingChapter] = useState(false);
     const [isEditingSection, setIsEditingSection] = useState(false);
+    const [isEditingThumbnail, setIsEditingThumbnail] = useState(false);
     const [isEditingContent, setIsEditingContent] = useState(false);
 
     const handleSaveTitle = () => {
@@ -838,6 +849,42 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
                             </div>
                         </div>
 
+
+                        {/* Thumbnail Section */}
+                        <div className="space-y-2">
+                            <label className="text-xs font-semibold text-muted-foreground">Thumbnail (Ảnh bìa)</label>
+                            <div className="flex gap-2">
+                                <Input
+                                    placeholder="https://..."
+                                    className="h-8 text-sm flex-1"
+                                    value={thumbnail}
+                                    onChange={e => setThumbnail(e.target.value)}
+                                    disabled={!isEditingThumbnail}
+                                />
+                                {isEditingThumbnail ? (
+                                    <>
+                                        <Button size="sm" className="h-8" onClick={() => {
+                                            if (onUpdateLesson) {
+                                                onUpdateLesson(lesson.id, { thumbnail });
+                                            }
+                                            setIsEditingThumbnail(false);
+                                        }}>Lưu</Button>
+                                        <Button size="sm" variant="ghost" className="h-8" onClick={() => {
+                                            setThumbnail(lesson.thumbnail || '');
+                                            setIsEditingThumbnail(false);
+                                        }}>Hủy</Button>
+                                    </>
+                                ) : (
+                                    <Button size="sm" variant="outline" className="h-8" onClick={() => setIsEditingThumbnail(true)}>Sửa</Button>
+                                )}
+                            </div>
+                            {thumbnail && (
+                                <div className="mt-1 w-20 h-12 rounded border bg-zinc-100 overflow-hidden relative">
+                                    <img src={thumbnail} alt="Thumbnail preview" className="w-full h-full object-cover" />
+                                </div>
+                            )}
+                        </div>
+
                         {/* Free View Section */}
                         <div className="space-y-2">
                             <label className="text-xs font-semibold text-muted-foreground block">Xem miễn phí</label>
@@ -942,8 +989,9 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
                         </div>
                     </div>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 

@@ -171,8 +171,8 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                         <div className="space-y-6">
                             <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm font-medium text-zinc-400">
                                 <span className={`mr-2 h-2 w-2 rounded-full ${course.deploymentStatus === 'COMING_SOON' ? 'bg-yellow-500'
-                                        : course.deploymentStatus === 'UPDATING' ? 'bg-blue-500'
-                                            : 'bg-emerald-500'
+                                    : course.deploymentStatus === 'UPDATING' ? 'bg-blue-500'
+                                        : 'bg-emerald-500'
                                     }`}></span>
                                 {course.deploymentStatus === 'COMING_SOON' ? 'Workshop Sắp ra mắt'
                                     : course.deploymentStatus === 'UPDATING' ? 'Workshop Đang nâng cấp'
@@ -376,89 +376,104 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                             <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <div className="">
-                                        {course.lessons.map((lesson: any, index: number) => {
-                                            const isLocked = !isEnrolled && !lesson.isFree;
-                                            const isExpanded = expandedLessonId === lesson.id;
-
-                                            const showChapter = lesson.chapter && (index === 0 || lesson.chapter !== course.lessons[index - 1].chapter);
-                                            const showSection = lesson.section && (index === 0 || lesson.section !== course.lessons[index - 1].section || (lesson.chapter && lesson.chapter !== course.lessons[index - 1].chapter));
+                                        {/* Group lessons by chapter */}
+                                        {Object.entries(course.lessons.reduce((acc: any, lesson: any) => {
+                                            const chapter = lesson.chapter || 'Chương 1: Mở đầu'; // Default chapter if missing
+                                            if (!acc[chapter]) acc[chapter] = [];
+                                            acc[chapter].push(lesson);
+                                            return acc;
+                                        }, {})).map(([chapterName, chapterLessons]: [string, any], chapterIndex: number) => {
+                                            // Handle collapsible state for chapters
+                                            // Use a new state variable for chapters, defaulting to first chapter open
+                                            const [isChapterOpen, setIsChapterOpen] = useState(chapterIndex === 0);
 
                                             return (
-                                                <div key={lesson.id} className="group flex flex-col transition-colors border-b last:border-0">
-                                                    {showChapter && (
-                                                        <div className="bg-zinc-50 px-4 py-3 border-b">
-                                                            <h3 className="text-sm font-bold uppercase tracking-wide text-zinc-900 flex items-center gap-2">
-                                                                <span className="w-2 h-2 rounded bg-black"></span>
-                                                                {lesson.chapter}
-                                                            </h3>
-                                                        </div>
-                                                    )}
-                                                    {showSection && (
-                                                        <div className="bg-zinc-50/50 px-4 py-2 border-b">
-                                                            <p className="text-xs font-semibold text-zinc-500">
-                                                                {lesson.section}
-                                                            </p>
-                                                        </div>
-                                                    )}
-                                                    <div className="hover:bg-muted/50 transition-colors">
-                                                        <div
-                                                            className="flex items-center justify-between p-4 cursor-pointer"
-                                                            onClick={() => setExpandedLessonId(isExpanded ? null : lesson.id)}
-                                                        >
-                                                            <div className="flex items-center gap-4">
-                                                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground">
-                                                                    {index + 1}
-                                                                </div>
-                                                                <div>
-                                                                    <div className="flex items-center gap-2">
-                                                                        <h3 className={`font-medium text-sm ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary'}`}>
-                                                                            {lesson.title}
-                                                                        </h3>
-                                                                        {lesson.isFree && !isEnrolled && (
-                                                                            <span className="inline-flex items-center rounded-full border border-border bg-muted px-2 py-0.5 text-xs font-semibold text-foreground">
-                                                                                Free
-                                                                            </span>
-                                                                        )}
-                                                                    </div>
-                                                                    <p className="text-xs text-muted-foreground">{lesson.duration || ''} {lesson.duration ? '•' : ''} {isExpanded ? 'Thu gọn' : 'Chi tiết'}</p>
-                                                                </div>
-                                                            </div>
+                                                <div key={chapterName} className="border-b last:border-0">
+                                                    {/* Chapter Header - Click to Toggle */}
+                                                    <div
+                                                        className="bg-zinc-50 px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-zinc-100 transition-colors"
+                                                        onClick={() => setIsChapterOpen(!isChapterOpen)}
+                                                    >
+                                                        <h3 className="font-bold text-zinc-900 flex items-center gap-2">
+                                                            {isChapterOpen ? (
+                                                                <span className="text-zinc-500 text-xs">▼</span>
+                                                            ) : (
+                                                                <span className="text-zinc-500 text-xs">▶</span>
+                                                            )}
+                                                            {chapterName}
+                                                            <span className="text-xs font-normal text-muted-foreground ml-2">
+                                                                ({chapterLessons.length} bài học)
+                                                            </span>
+                                                        </h3>
+                                                    </div>
 
-                                                            <div className="flex items-center gap-2">
-                                                                {isLocked ? (
-                                                                    <Button variant="ghost" size="sm" disabled>
-                                                                        🔒
-                                                                    </Button>
-                                                                ) : (
-                                                                    <Link href={`/learn/${course.slug}/${lesson.slug}`} onClick={(e) => e.stopPropagation()}>
-                                                                        <Button variant="ghost" size="sm" className="text-primary">
-                                                                            Vào học
-                                                                        </Button>
-                                                                    </Link>
-                                                                )}
-                                                                <span className="text-muted-foreground text-xs transform transition-transform duration-200">
-                                                                    {isExpanded ? '▲' : '▼'}
-                                                                </span>
-                                                            </div>
-                                                        </div>
+                                                    {/* Chapter Lessons - Collapsible Content */}
+                                                    <div className={`transition-all duration-300 ease-in-out ${isChapterOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+                                                        {chapterLessons.map((lesson: any, lessonIndex: number) => {
+                                                            const isLocked = !isEnrolled && !lesson.isFree;
 
-                                                        {/* Expandable Content in Grid Transition */}
-                                                        <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-                                                            <div className="overflow-hidden">
-                                                                <div className="px-16 pb-4 text-sm text-muted-foreground">
-                                                                    <div className="p-4 bg-muted/30 rounded-lg">
-                                                                        <p className="mb-2 font-medium text-foreground">Trong bài học này, bạn sẽ:</p>
-                                                                        <ul className="list-disc pl-4 space-y-1">
-                                                                            <li>Hiểu rõ về các khái niệm cốt lõi.</li>
-                                                                            <li>Thực hành thông qua các ví dụ thực tế.</li>
-                                                                            <li>Nắm vững kiến thức để áp dụng vào dự án.</li>
-                                                                        </ul>
-                                                                        {/* Fallback mock description if not present in API */}
-                                                                        <p className="mt-3 opacity-80">{lesson.description || "Nội dung chi tiết cho bài học này đang được cập nhật. Giảng viên sẽ cung cấp các tài liệu và video hướng dẫn cụ thể."}</p>
+                                                            return (
+                                                                <div key={lesson.id} className="group flex flex-col transition-colors border-t first:border-t-0 hover:bg-muted/30">
+                                                                    <div className="flex items-start p-4 gap-4">
+                                                                        {/* Lesson Thumbnail */}
+                                                                        <div className="shrink-0 w-24 h-16 bg-zinc-200 rounded-md overflow-hidden relative border border-zinc-200">
+                                                                            {lesson.thumbnail ? (
+                                                                                <img src={lesson.thumbnail} alt={lesson.title} className="w-full h-full object-cover" />
+                                                                            ) : (
+                                                                                <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-zinc-400">
+                                                                                    {/* Play Icon Placeholder */}
+                                                                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                                                                </div>
+                                                                            )}
+                                                                            {/* Duration Badge */}
+                                                                            {lesson.duration && (
+                                                                                <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[10px] px-1 rounded-sm">
+                                                                                    {lesson.duration}
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+
+                                                                        {/* Lesson Info */}
+                                                                        <div className="flex-1 min-w-0">
+                                                                            <div className="flex items-start justify-between gap-2">
+                                                                                <div>
+                                                                                    <h4 className={`text-sm font-medium leading-tight mb-1 ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
+                                                                                        {lesson.title}
+                                                                                    </h4>
+                                                                                    {lesson.isFree && !isEnrolled && (
+                                                                                        <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
+                                                                                            Học thử miễn phí
+                                                                                        </span>
+                                                                                    )}
+                                                                                </div>
+
+                                                                                {/* Action Button */}
+                                                                                <div className="shrink-0">
+                                                                                    {isLocked ? (
+                                                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground" disabled>
+                                                                                            <span className="text-xs">🔒</span>
+                                                                                        </Button>
+                                                                                    ) : (
+                                                                                        <Link href={`/learn/${course.slug}/${lesson.slug}`}>
+                                                                                            <Button variant="ghost" size="sm" className="h-8 text-primary hover:text-primary hover:bg-primary/10">
+                                                                                                Vào học
+                                                                                            </Button>
+                                                                                        </Link>
+                                                                                    )}
+                                                                                </div>
+                                                                            </div>
+
+                                                                            {/* Description preview (optional) */}
+                                                                            {lesson.description && (
+                                                                                <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                                                                                    {lesson.description}
+                                                                                </p>
+                                                                            )}
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
                                             );

@@ -212,6 +212,7 @@ model Lesson {
   title       String
   slug        String
   description String?
+  thumbnail   String?
   videoUrl    String?
   duration    String?
   content     String?
