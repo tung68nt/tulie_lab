@@ -62,6 +62,11 @@ jobs:
             echo "❌ Error: DATABASE_URL is not set for branch ${{ github.ref }}"
             exit 1
           fi
+
+          if [ -z "$DIR_URL" ]; then
+            echo "⚠️ Warning: DIRECT_URL is not set for branch ${{ github.ref }}. Falling back to DATABASE_URL. This may fail if using a transaction pooler."
+            DIR_URL="$DB_URL"
+          fi
           
           echo "🚀 Running Prisma generate..."
           npx prisma generate
@@ -84,6 +89,11 @@ jobs:
           else
             DB_URL="${{ secrets.BETA_DATABASE_URL }}"
             DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
+          fi
+          
+          if [ -z "$DIR_URL" ]; then
+             echo "⚠️ Warning: DIRECT_URL is not set for branch ${{ github.ref }}. Falling back to DATABASE_URL."
+             DIR_URL="$DB_URL"
           fi
           
           echo "🚀 Running Seeds..."
