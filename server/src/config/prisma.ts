@@ -13,7 +13,7 @@ if (url && url.includes(':6543') && !url.includes('pgbouncer=true')) {
 export const prisma = globalForPrisma.prisma || new PrismaClient({
     datasources: {
         db: {
-            url
+            url: url || ''
         }
     }
 });
