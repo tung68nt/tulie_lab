@@ -307,14 +307,14 @@ export function Navbar() {
                                                 <p className="text-sm font-medium">{getDisplayName()}</p>
                                                 <div className="flex items-center gap-2">
                                                     <p className="text-xs text-muted-foreground truncate max-w-[120px]">{user?.email}</p>
-                                                    {user?.subscriptions?.some(s => s.status === 'ACTIVE' && !isNaN(new Date(s.endDate).getTime()) && new Date(s.endDate) > new Date()) ? (
+                                                    {Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status === 'ACTIVE' && !isNaN(new Date(s.endDate).getTime()) && new Date(s.endDate) > new Date()) ? (
                                                         <span className="bg-yellow-400/20 text-yellow-600 text-[10px] px-1.5 rounded-full font-bold border border-yellow-400/30">PREMIUM</span>
                                                     ) : (
                                                         <span className="bg-muted text-muted-foreground text-[10px] px-1.5 rounded-full font-bold">FREE</span>
                                                     )}
                                                 </div>
                                                 {(() => {
-                                                    const activeSub = user?.subscriptions?.find(s => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+                                                    const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
                                                     if (activeSub) {
                                                         const date = new Date(activeSub.endDate);
                                                         return !isNaN(date.getTime()) ? (

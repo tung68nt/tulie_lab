@@ -46,8 +46,11 @@ const nextConfig: NextConfig = {
         hostname: 'randomuser.me',
       },
       {
-        protocol: 'https',
         hostname: 'img.youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
       }
     ],
   },
