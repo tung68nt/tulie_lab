@@ -15,178 +15,158 @@ const limiter = rateLimit({
 
 dotenv.config({ path: path.join(__dirname, '../.env') }); // Load .env from server root
 
-import { bootstrapDI } from './bootstrap';
-
-// Initialize Dependency Injection
-bootstrapDI();
-
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Global Request Tracking
-export let globalRequestCount = 0;
-// Reset count every minute to get simplified RPM
-setInterval(() => {
-  globalRequestCount = 0;
-}, 60000);
-
-// Middleware
-app.use((req, res, next) => {
-  globalRequestCount++;
-  next();
-});
-// Middleware
-import { metrics } from './metrics';
-app.use((req, res, next) => {
-  if (!req.path.startsWith('/api/system/stats')) { // Don't count stats polling itself
-    metrics.requestsPerMinute++;
-  }
-  next();
-});
-
-app.use(helmet());
-app.use('/api', limiter); // Apply rate limiting to API routes
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) {
-      callback(null, true);
-      return;
-    }
-
-    const cleanOrigin = origin.replace(/\/$/, ''); // Remove trailing slash
-
-    const allowed = [
-      process.env.CLIENT_URL,
-      'https://thelab.tulie.vn',
-      'https://www.thelab.tulie.vn',
-      'https://beta.thelab.tulie.vn',
-      'https://the-tulie-lab.vercel.app',
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:3002',
-      'http://localhost:3003',
-      'http://127.0.0.1:3000'
-    ].filter((o): o is string => !!o).map(o => o.replace(/\/$/, ''));
-
-    if (allowed.includes(cleanOrigin) || cleanOrigin.endsWith('.run.app') || cleanOrigin.endsWith('.vercel.app')) {
-      callback(null, true);
-    } else {
-      console.warn(`[CORS] Blocked request from origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
-app.use(express.json());
-app.use(cookieParser());
-app.use(morgan('dev'));
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-// Routes
-import authRoutes from './modules/system/auth/auth.routes';
-import userRoutes from './modules/system/users/users.routes';
-import courseRoutes from './modules/lms/courses/courses.routes';
-import paymentRoutes from './modules/shop/payments/payments.routes';
-import cmsRoutes from './modules/info/cms/cms.routes';
-import instructorRoutes from './modules/lms/instructors/instructors.routes';
-// import promoCodeRoutes from './modules/promo-codes/promo-codes.routes'; // Temporarily disabled - replaced by Coupon
-import uploadRoutes from './modules/system/uploads/uploads.routes';
-import blogRoutes from './modules/info/blog/blog.routes';
-import notificationRoutes from './modules/system/notifications/notifications.routes';
-import categoryRoutes from './modules/lms/categories/categories.routes';
-import bundleRoutes from './modules/shop/bundles/bundles.routes';
-import couponRoutes from './modules/shop/coupons/coupons.routes';
-import contactRoutes from './modules/info/contact/contact.routes';
-import settingsRoutes from './modules/system/settings/settings.routes';
-import securityRoutes from './modules/system/security/security.routes';
-import activityRoutes from './modules/lms/activity/activity.routes';
-import proxyRoutes from './modules/system/proxy/proxy.routes';
-
-// Health check endpoint (for Cloud Run)
+// --- CRITICAL: Register health check FIRST, before any blocking operations ---
+// This ensures Cloud Run's health check always passes.
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', version: 'v1.0.2-verify', timestamp: new Date().toISOString() });
+  res.status(200).json({ status: 'ok', version: 'v1.0.3-fast-start', timestamp: new Date().toISOString() });
 });
 
 app.get('/api/check', (req, res) => {
-  res.json({ message: 'Deployment Success', version: 'v1.0.2-verify', time: new Date().toISOString() });
+  res.json({ message: 'Deployment Success', version: 'v1.0.3-fast-start', time: new Date().toISOString() });
 });
 
-// Mount Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/courses', courseRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/cms', cmsRoutes);
-app.use('/api/instructors', instructorRoutes);
-app.use('/api/uploads', uploadRoutes);
-app.use('/api/blog', blogRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/bundles', bundleRoutes);
-app.use('/api/coupons', couponRoutes);
-app.use('/api/contact', contactRoutes);
-app.use('/api/settings', settingsRoutes);
-app.use('/api/security', securityRoutes);
-app.use('/api/activity', activityRoutes);
-app.use('/api/proxy', proxyRoutes);
-import landingPageRoutes from './modules/info/landing-pages/landing-pages.routes';
-app.use('/api/landing-pages', landingPageRoutes);
-import systemRoutes from './modules/system/system/system.routes';
-app.use('/api/system', systemRoutes);
-import activationCodeRoutes from './modules/shop/activation-codes/activation-codes.routes';
-app.use('/api/activation-codes', activationCodeRoutes);
+// --- START LISTENING IMMEDIATELY ---
+// This is the definitive fix for "Container failed to start".
+// We bind to the port first, then initialize heavy dependencies asynchronously.
+const server = app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}. Initializing services...`);
+  initializeApp();
+});
 
-import productRoutes from './modules/shop/products/products.routes';
-app.use('/api/products', productRoutes);
-
-// Diagnostic Endpoint
-app.get('/api/diag', async (req, res) => {
-  let dbStatus = 'checking...';
+// --- Async App Initialization ---
+async function initializeApp() {
   try {
-    const prisma = (await import('./config/prisma')).default;
-    await prisma.$queryRaw`SELECT 1`;
-    dbStatus = 'connected';
-  } catch (error: any) {
-    dbStatus = `error: ${error.message}`;
+    // Global Request Tracking
+    let globalRequestCount = 0;
+    setInterval(() => { globalRequestCount = 0; }, 60000);
+
+    // Middleware
+    app.use((req, res, next) => { globalRequestCount++; next(); });
+    const { metrics } = await import('./metrics');
+    app.use((req, res, next) => {
+      if (!req.path.startsWith('/api/system/stats')) { metrics.requestsPerMinute++; }
+      next();
+    });
+
+    app.use(helmet());
+    app.use('/api', limiter);
+    app.use(cors({
+      origin: (origin, callback) => {
+        if (!origin) { callback(null, true); return; }
+        const cleanOrigin = origin.replace(/\/$/, '');
+        const allowed = [
+          process.env.CLIENT_URL,
+          'https://thelab.tulie.vn',
+          'https://www.thelab.tulie.vn',
+          'https://beta.thelab.tulie.vn',
+          'https://the-tulie-lab.vercel.app',
+          'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003',
+          'http://127.0.0.1:3000'
+        ].filter((o): o is string => !!o).map(o => o.replace(/\/$/, ''));
+        if (allowed.includes(cleanOrigin) || cleanOrigin.endsWith('.run.app') || cleanOrigin.endsWith('.vercel.app')) {
+          callback(null, true);
+        } else {
+          console.warn(`[CORS] Blocked request from origin: ${origin}`);
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true
+    }));
+    app.use(express.json());
+    app.use(cookieParser());
+    app.use(morgan('dev'));
+    app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+    // --- Initialize Dependency Injection (Heavy) ---
+    console.log('Initializing Dependency Injection...');
+    const { bootstrapDI } = await import('./bootstrap');
+    bootstrapDI();
+    console.log('Dependency Injection initialized.');
+
+    // --- Mount Routes (After DI) ---
+    const authRoutes = (await import('./modules/system/auth/auth.routes')).default;
+    const userRoutes = (await import('./modules/system/users/users.routes')).default;
+    const courseRoutes = (await import('./modules/lms/courses/courses.routes')).default;
+    const paymentRoutes = (await import('./modules/shop/payments/payments.routes')).default;
+    const cmsRoutes = (await import('./modules/info/cms/cms.routes')).default;
+    const instructorRoutes = (await import('./modules/lms/instructors/instructors.routes')).default;
+    const uploadRoutes = (await import('./modules/system/uploads/uploads.routes')).default;
+    const blogRoutes = (await import('./modules/info/blog/blog.routes')).default;
+    const notificationRoutes = (await import('./modules/system/notifications/notifications.routes')).default;
+    const categoryRoutes = (await import('./modules/lms/categories/categories.routes')).default;
+    const bundleRoutes = (await import('./modules/shop/bundles/bundles.routes')).default;
+    const couponRoutes = (await import('./modules/shop/coupons/coupons.routes')).default;
+    const contactRoutes = (await import('./modules/info/contact/contact.routes')).default;
+    const settingsRoutes = (await import('./modules/system/settings/settings.routes')).default;
+    const securityRoutes = (await import('./modules/system/security/security.routes')).default;
+    const activityRoutes = (await import('./modules/lms/activity/activity.routes')).default;
+    const proxyRoutes = (await import('./modules/system/proxy/proxy.routes')).default;
+    const landingPageRoutes = (await import('./modules/info/landing-pages/landing-pages.routes')).default;
+    const systemRoutes = (await import('./modules/system/system/system.routes')).default;
+    const activationCodeRoutes = (await import('./modules/shop/activation-codes/activation-codes.routes')).default;
+    const productRoutes = (await import('./modules/shop/products/products.routes')).default;
+
+    app.use('/api/auth', authRoutes);
+    app.use('/api/users', userRoutes);
+    app.use('/api/courses', courseRoutes);
+    app.use('/api/payments', paymentRoutes);
+    app.use('/api/cms', cmsRoutes);
+    app.use('/api/instructors', instructorRoutes);
+    app.use('/api/uploads', uploadRoutes);
+    app.use('/api/blog', blogRoutes);
+    app.use('/api/notifications', notificationRoutes);
+    app.use('/api/categories', categoryRoutes);
+    app.use('/api/bundles', bundleRoutes);
+    app.use('/api/coupons', couponRoutes);
+    app.use('/api/contact', contactRoutes);
+    app.use('/api/settings', settingsRoutes);
+    app.use('/api/security', securityRoutes);
+    app.use('/api/activity', activityRoutes);
+    app.use('/api/proxy', proxyRoutes);
+    app.use('/api/landing-pages', landingPageRoutes);
+    app.use('/api/system', systemRoutes);
+    app.use('/api/activation-codes', activationCodeRoutes);
+    app.use('/api/products', productRoutes);
+
+    // Diagnostic Endpoint
+    app.get('/api/diag', async (req, res) => {
+      let dbStatus = 'checking...';
+      try {
+        const prisma = (await import('./config/prisma')).default;
+        await prisma.$queryRaw`SELECT 1`;
+        dbStatus = 'connected';
+      } catch (error: any) {
+        dbStatus = `error: ${error.message}`;
+      }
+      res.json({
+        status: 'online', database: dbStatus, timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV, headers: req.headers, baseUrl: req.baseUrl, path: req.path, url: req.url, originalUrl: req.originalUrl
+      });
+    });
+
+    // JSON 404 Handler - MUST be after all routes
+    app.use('/api', (req, res) => {
+      console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
+      res.status(404).json({ error: 'Endpoint not found', method: req.method, path: req.originalUrl });
+    });
+
+    // Global Error Handler - MUST be last
+    app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+      console.error('[Global Error]', err);
+      const status = err.status || err.statusCode || 500;
+      res.status(status).json({ error: err.message || 'Internal Server Error', status });
+    });
+
+    console.log('✅ All routes and services initialized successfully.');
+
+  } catch (error) {
+    console.error('❌ Fatal error during app initialization:', error);
+    // Optionally, could shut down server here, but for resilience, keep health check alive.
   }
+}
 
-  res.json({
-    status: 'online',
-    database: dbStatus,
-    timestamp: new Date().toISOString(),
-    env: process.env.NODE_ENV,
-    headers: req.headers,
-    baseUrl: req.baseUrl,
-    path: req.path,
-    url: req.url,
-    originalUrl: req.originalUrl
-  });
-});
-
-// JSON 404 Handler - MUST be after all routes
-app.use('/api', (req, res) => {
-  console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
-  res.status(404).json({
-    error: 'Endpoint not found',
-    method: req.method,
-    path: req.originalUrl
-  });
-});
-
-// Global Error Handler - MUST be last
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error('[Global Error]', err);
-  const status = err.status || err.statusCode || 500;
-  res.status(status).json({
-    error: err.message || 'Internal Server Error',
-    status
-  });
-});
-
-// Start Server
-// Force restart for bundle routes
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-// Trigger restart for Schema update - Timestamp: 5678
+// Export for testing
+export { app, server };

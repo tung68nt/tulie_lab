@@ -1,3 +1,0 @@
-DATABASE_URL="postgresql://postgres.jlreyzyvtylrmgaacuqs:0wWZeKFeyM6buTc9@aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres?pgbouncer=true"
-DIRECT_URL="postgresql://postgres:0wWZeKFeyM6buTc9@db.jlreyzyvtylrmgaacuqs.supabase.co:5432/postgres"
-JWT_SECRET="super-secret-jwt-token-with-at-least-32-characters-long"
