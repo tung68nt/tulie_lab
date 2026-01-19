@@ -34,10 +34,13 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install production dependencies only
-RUN npm ci --only=production
+# We use --omit=dev and --ignore-scripts to avoid running postinstall (prisma generate)
+# which would fail because prisma CLI is in devDependencies.
+RUN npm ci --omit=dev --ignore-scripts
 
-# Generate client explicitly (redundant if postinstall runs it, but safe)
-RUN npx prisma generate
+# Copy generated Prisma client from builder
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/client
 
 # Copy built files from builder
 COPY --from=builder /app/dist ./dist
