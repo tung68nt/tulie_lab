@@ -58,6 +58,15 @@ export class LandingPageService {
         const page = await this.landingPageRepository.findBySlug(slug);
         if (!page) return null;
 
+        if (typeof page.sections === 'string') {
+            try {
+                page.sections = JSON.parse(page.sections);
+            } catch (e) {
+                console.error('Failed to parse landing page sections', e);
+                page.sections = [];
+            }
+        }
+
         if (this.cacheProvider) {
             await this.cacheProvider.setJson(cacheKey, page, this.CACHE_TTL);
         }
@@ -66,7 +75,16 @@ export class LandingPageService {
     }
 
     async getLandingPageById(id: string) {
-        return this.landingPageRepository.findById(id);
+        const page = await this.landingPageRepository.findById(id);
+        if (page && typeof page.sections === 'string') {
+            try {
+                page.sections = JSON.parse(page.sections);
+            } catch (e) {
+                console.error('Failed to parse landing page sections', e);
+                page.sections = [];
+            }
+        }
+        return page;
     }
 
     async findAll(params: { type?: string } = {}) {

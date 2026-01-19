@@ -13,6 +13,20 @@ export class CourseService {
         private cacheProvider?: any // Optional Redis provider
     ) { }
 
+    private parseCourse(course: any) {
+        if (!course) return null;
+        if (course.learningOutcomes && typeof course.learningOutcomes === 'string') {
+            try {
+                course.learningOutcomes = JSON.parse(course.learningOutcomes);
+            } catch (e) {
+                // If it fails to parse (e.g. not JSON), keep as is or empty array?
+                // Better to be safe for frontend expecting array
+                course.learningOutcomes = [];
+            }
+        }
+        return course;
+    }
+
     async getAllCourses(options: any = {}) {
         const { publishedOnly = true, categoryId, level, isFree, search } = options;
 
@@ -31,7 +45,7 @@ export class CourseService {
             ];
         }
 
-        return this.courseRepository.findMany({
+        const courses = await this.courseRepository.findMany({
             where,
             include: {
                 lessons: {
@@ -42,6 +56,7 @@ export class CourseService {
             },
             orderBy: { createdAt: 'desc' }
         });
+        return courses.map(c => this.parseCourse(c));
     }
 
     async getCourseListing(options: any = {}) {
@@ -93,7 +108,7 @@ export class CourseService {
     }
 
     async getCourseBySlug(slug: string) {
-        return this.courseRepository.findBySlug(slug, {
+        const course = await this.courseRepository.findBySlug(slug, {
             instructor: true,
             lessons: {
                 orderBy: { position: 'asc' },
@@ -109,10 +124,11 @@ export class CourseService {
                 }
             }
         });
+        return this.parseCourse(course);
     }
 
     async getCourseById(id: string) {
-        return this.courseRepository.findById(id, {
+        const course = await this.courseRepository.findById(id, {
             instructor: true,
             lessons: {
                 orderBy: { position: 'asc' },
@@ -121,6 +137,7 @@ export class CourseService {
                 }
             }
         });
+        return this.parseCourse(course);
     }
 
     async createCourse(data: any) {
@@ -143,7 +160,8 @@ export class CourseService {
         if (createData.instructorId === '') delete createData.instructorId;
         if (createData.categoryId === '') delete createData.categoryId;
 
-        return this.courseRepository.create(createData);
+        const createdKey = await this.courseRepository.create(createData);
+        return this.parseCourse(createdKey);
     }
 
     async updateCourse(id: string, data: any) {
@@ -157,7 +175,8 @@ export class CourseService {
         if (filteredData.instructorId === '') filteredData.instructorId = null;
         if (filteredData.categoryId === '') filteredData.categoryId = null;
 
-        return this.courseRepository.update(id, filteredData);
+        const updatedCourse = await this.courseRepository.update(id, filteredData);
+        return this.parseCourse(updatedCourse);
     }
 
     async deleteCourse(id: string) {
@@ -204,6 +223,10 @@ export class CourseService {
 
         if (!enrollment) {
             throw new Error('Access denied: You must enroll in this course to view this lesson.');
+        }
+
+        if (lesson.course) {
+            lesson.course = this.parseCourse(lesson.course);
         }
 
         return secureLessonContent(lesson);
