@@ -46,14 +46,47 @@ jobs:
 
       - name: Run migrations
         working-directory: ./server
-        run: npx prisma db push --accept-data-loss
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || secrets.BETA_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL || secrets.BETA_DIRECT_URL }}
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            DB_URL="${{ secrets.DATABASE_URL }}"
+            DIR_URL="${{ secrets.DIRECT_URL }}"
+          else
+            DB_URL="${{ secrets.BETA_DATABASE_URL }}"
+            DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
+          fi
+          
+          if [ -z "$DB_URL" ]; then
+            echo "❌ Error: DATABASE_URL is not set for branch ${{ github.ref }}"
+            exit 1
+          fi
+          
+          echo "🚀 Running Prisma generate..."
+          npx prisma generate
+          
+          echo "🚀 Running DB Push..."
+          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx prisma db push --accept-data-loss
 
       - name: Run seeds
         working-directory: ./server
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || secrets.BETA_DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL || secrets.BETA_DIRECT_URL }}
         run: |
-          npx ts-node src/seed.ts
-          npx ts-node prisma/seed-products.ts
-          npx ts-node prisma/seed-landing-page.ts
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            DB_URL="${{ secrets.DATABASE_URL }}"
+            DIR_URL="${{ secrets.DIRECT_URL }}"
+          else
+            DB_URL="${{ secrets.BETA_DATABASE_URL }}"
+            DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
+          fi
+          
+          echo "🚀 Running Seeds..."
+          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx src/seed.ts
+          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-products.ts
+          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-landing-page.ts
 
   # 2. Deploy only if migrations succeed
   deploy:
