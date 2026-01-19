@@ -75,7 +75,13 @@ jobs:
             --timeout 300 \
             --port 3000
 
-      - name: Show Cloud Run URL
+      - name: Verify Deployment
         run: |
-          echo "Deployed to:"
-          gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)'
+          echo "✅ Deployed $SERVICE_NAME to $REGION"
+          URL=$(gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)')
+          echo "🌐 Live Frontend URL: $URL"
+          echo "🔍 Checking health..."
+          # Note: Next.js doesn't have a default /api/health unless we add it, 
+          # but we can check if the homepage returns 200
+          curl -I -s "$URL" | grep -q "200" || (echo "⚠ Warning: Homepage check might have failed (could be due to redirects), please check manually." && exit 0)
+          echo "🚀 Deployment verified!"

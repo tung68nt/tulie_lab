@@ -1,6 +1,7 @@
 // Remove /api suffix if present to get clean base URL
 const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-const BASE_URL = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl; // Strip /api suffix if exists
+// Strip trailing slash and /api suffix to get a clean base URL
+const BASE_URL = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
 
 console.log('Using BASE_URL for API:', BASE_URL);
 

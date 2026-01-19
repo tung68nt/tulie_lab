@@ -93,10 +93,16 @@ jobs:
             --cpu 1 \
             --timeout 300
 
-      - name: Show Cloud Run URL
+      - name: Verify Deployment
         run: |
-          echo "Deployed to:"
-          gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)'
+          echo "✅ Deployed $SERVICE_NAME to $REGION"
+          gcloud run services describe $SERVICE_NAME --region $REGION --format='yaml(status.url, spec.template.spec.containers[0].image)'
+          
+          URL=$(gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)')
+          echo "🌐 Live URL: $URL"
+          echo "🩺 Health check: $URL/api/health"
+          curl -s "$URL/api/health" | grep -q "ok" || (echo "❌ Health check failed!" && exit 1)
+          echo "🚀 Health check passed!"
 
   # Run database migrations after deploy
   migrate:
