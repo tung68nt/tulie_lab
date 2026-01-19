@@ -190,7 +190,7 @@ model Course {
   deploymentStatus CourseDeploymentStatus @default(RELEASED)
   tag              CourseTag              @default(NONE)
   introVideoUrl    String?
-  learningOutcomes Json?
+  learningOutcomes String?                @db.Text
   createdAt        DateTime               @default(now())
   updatedAt        DateTime               @updatedAt
   instructorId     String?
