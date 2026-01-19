@@ -68,6 +68,9 @@ jobs:
           
           echo "🚀 Running DB Push..."
           DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx prisma db push --accept-data-loss
+          
+          echo "🔧 Running Manual Schema Repair..."
+          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx src/fix-schema.ts
 
       - name: Run seeds
         working-directory: ./server
