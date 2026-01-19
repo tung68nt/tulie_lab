@@ -70,10 +70,15 @@ export default function AdminOrdersPage() {
                 search: debouncedSearch,
                 status: statusFilter === 'all' ? undefined : statusFilter
             });
-            // Backend returns { orders, total }
-            setOrders(res.orders || []);
-            setTotalPages(Math.ceil((res.total || 0) / 10));
-            setStats(prev => ({ ...prev, total: res.total || 0 }));
+            console.log('Orders API Response:', res);
+
+            // Handle various response structures for robustness
+            const ordersData = res.orders || res.data || (Array.isArray(res) ? res : []);
+            const totalCount = res.total || res.meta?.total || ordersData.length;
+
+            setOrders(ordersData);
+            setTotalPages(Math.ceil((totalCount || 0) / 10));
+            setStats(prev => ({ ...prev, total: totalCount || 0 }));
         } catch (error) {
             console.error('Failed to load orders:', error);
             addToast('Không thể tải danh sách đơn hàng', 'error');

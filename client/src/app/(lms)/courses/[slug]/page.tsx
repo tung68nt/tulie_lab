@@ -519,15 +519,28 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                             <div>
                                 <h3 className="mb-6 text-2xl font-bold">Bạn sẽ học được gì</h3>
                                 <div className="rounded-xl border bg-card p-6 shadow-sm">
-                                    {course.learningOutcomes ? (
-                                        <ul className="space-y-3 text-sm text-muted-foreground">
-                                            {course.learningOutcomes.split('\n').map((line: string, i: number) => line.trim() && (
-                                                <li key={i} className="flex gap-2">✓ {line.replace(/^- /, '')}</li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="text-sm text-muted-foreground">Nội dung đang cập nhật...</p>
-                                    )}
+                                    {(() => {
+                                        let outcomes: string[] = [];
+                                        try {
+                                            if (typeof course.learningOutcomes === 'string') {
+                                                outcomes = course.learningOutcomes.split('\n');
+                                            } else if (Array.isArray(course.learningOutcomes)) {
+                                                outcomes = course.learningOutcomes.map(String);
+                                            }
+                                        } catch (e) {
+                                            console.error('Error parsing learning outcomes', e);
+                                        }
+
+                                        return outcomes.length > 0 ? (
+                                            <ul className="space-y-3 text-sm text-muted-foreground">
+                                                {outcomes.map((line: string, i: number) => line.trim() && (
+                                                    <li key={i} className="flex gap-2">✓ {line.replace(/^- /, '')}</li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p className="text-sm text-muted-foreground">Nội dung đang cập nhật...</p>
+                                        );
+                                    })()}
                                 </div>
                             </div>
                         </div>
