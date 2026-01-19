@@ -23,7 +23,15 @@ export default function AdminProductsPage() {
         try {
             setLoading(true);
             const res: any = await api.products.list({ limit: 100 });
-            setProducts(res.data || []);
+            // Backend returns { data: [...], meta: ... }
+            if (res.data && Array.isArray(res.data)) {
+                setProducts(res.data);
+            } else if (Array.isArray(res)) {
+                // Fallback if structure changes
+                setProducts(res);
+            } else {
+                setProducts([]);
+            }
         } catch (error) {
             console.error(error);
             addToast('Lỗi tải danh sách sản phẩm', 'error');
