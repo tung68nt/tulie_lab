@@ -38,15 +38,17 @@ const main = async () => {
     // ===== 2. INSTRUCTOR: Nguyễn Thanh Tùng =====
     console.log('👨‍🏫 Creating Instructor...');
 
-    // Delete existing instructor to ensure fresh data
-    // await prisma.instructorExperience.deleteMany({});
-    await prisma.instructor.deleteMany({});
 
-    const instructor = await prisma.instructor.create({
-        data: {
-            name: 'Nguyễn Thanh Tùng',
-            title: 'Founder & CEO at The Tulie Lab',
-            bio: `🎯 Founder & CEO của The Tulie Lab - Nền tảng giáo dục công nghệ AI hàng đầu Việt Nam.
+    let instructor = await prisma.instructor.findFirst({
+        where: { name: 'Nguyễn Thanh Tùng' }
+    });
+
+    if (!instructor) {
+        instructor = await prisma.instructor.create({
+            data: {
+                name: 'Nguyễn Thanh Tùng',
+                title: 'Founder & CEO at The Tulie Lab',
+                bio: `🎯 Founder & CEO của The Tulie Lab - Nền tảng giáo dục công nghệ AI hàng đầu Việt Nam.
 
 Với hơn 12 năm kinh nghiệm trong ngành công nghệ và giáo dục, tôi đã có cơ hội làm việc tại các tập đoàn công nghệ hàng đầu và tham gia đào tạo hàng nghìn học viên từ cơ bản đến nâng cao.
 
@@ -68,56 +70,19 @@ Với hơn 12 năm kinh nghiệm trong ngành công nghệ và giáo dục, tôi
 "Học để làm được, không chỉ để biết. Mỗi dòng code phải mang lại giá trị thực."
 
 Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta làm việc và học tập. Sứ mệnh của tôi là giúp mọi người Việt Nam có thể tiếp cận và làm chủ công nghệ AI một cách dễ dàng nhất.`,
-            avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
-            studentCount: 15000, 
-            courseCount: 6,
-            /*
-            experiences: {
-                create: [
-                    {
-                        company: 'The Tulie Lab',
-                        position: 'Founder & CEO',
-                        period: '2021 - Hiện tại',
-                        icon: 'building'
-                    },
-                    {
-                        company: 'VNG Corporation',
-                        position: 'Senior Software Architect',
-                        period: '2018 - 2021',
-                        icon: 'building'
-                    },
-                    {
-                        company: 'FPT Software',
-                        position: 'Technical Lead',
-                        period: '2015 - 2018',
-                        icon: 'building'
-                    },
-                    {
-                        company: 'Đại học Bách khoa TP.HCM',
-                        position: 'Giảng viên thỉnh giảng - Khoa CNTT',
-                        period: '2019 - Hiện tại',
-                        icon: 'school'
-                    },
-                    {
-                        company: 'Google Developer Expert',
-                        position: 'GDE for Web Technologies',
-                        period: '2020 - Hiện tại',
-                        icon: 'award'
-                    }
-                ]
+                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
+                studentCount: 15000,
+                courseCount: 6,
             }
-            */
-        }
-    });
-    console.log(`✅ Created instructor: ${instructor.name}\n`);
+        });
+        console.log(`✅ Created instructor: ${instructor.name}\n`);
+    } else {
+        console.log(`ℹ️ Instructor already exists: ${instructor.name}\n`);
+    }
 
     // ===== 3. COURSES =====
-    console.log('📚 Creating Courses...');
+    console.log('📚 Creating/Updating Courses...');
 
-    // Delete existing courses
-    await prisma.attachment.deleteMany({});
-    await prisma.lesson.deleteMany({});
-    await prisma.course.deleteMany({});
 
     const coursesData = [
         // ===== PAID COURSES =====
@@ -312,14 +277,22 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
     ];
 
     for (const courseData of coursesData) {
-        const course = await prisma.course.create({
-            data: {
+        const course = await prisma.course.upsert({
+            where: { slug: courseData.slug },
+            update: {
+                title: courseData.title,
+                description: courseData.description,
+                price: new Decimal(courseData.price),
+                thumbnail: courseData.thumbnail,
+                isPublished: courseData.isPublished,
+                instructorId: instructor.id,
+            },
+            create: {
                 title: courseData.title,
                 slug: courseData.slug,
                 description: courseData.description,
                 price: new Decimal(courseData.price),
                 thumbnail: courseData.thumbnail,
-                // introVideoUrl: courseData.introVideoUrl,
                 isPublished: courseData.isPublished,
                 instructorId: instructor.id,
                 lessons: {
@@ -335,19 +308,28 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
             include: { lessons: true }
         });
 
-        // Add attachments to first lesson of each course
+        // Add attachments to first lesson of each course only if they don't exist
         // @ts-ignore
         if (courseData.attachments && course.lessons && course.lessons.length > 0 && course.lessons[0]) {
             for (const att of courseData.attachments) {
-                await prisma.attachment.create({
-                    data: {
-                        name: att.title, // Schema uses 'name'
-                        url: att.url,
-                        type: att.type,
-                        // @ts-ignore
+                const existingAtt = await prisma.attachment.findFirst({
+                    where: {
+                        name: att.title,
                         lessonId: course.lessons[0].id
                     }
                 });
+
+                if (!existingAtt) {
+                    await prisma.attachment.create({
+                        data: {
+                            name: att.title,
+                            url: att.url,
+                            type: att.type,
+                            // @ts-ignore
+                            lessonId: course.lessons[0].id
+                        }
+                    });
+                }
             }
         }
 
