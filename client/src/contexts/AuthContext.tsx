@@ -33,32 +33,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const refreshUser = async () => {
         try {
-            // Try to get user from API (checks both Cookie and Headers)
+            // Try to get user from API
             try {
                 const response = await api.auth.getMe() as any;
-                // API returns { user: {...} } directly
                 const userData = response?.user || response?.data?.user || response?.data;
 
                 if (userData && userData.id) {
                     setUser(userData);
-                    // If we recovered session via cookie but lost local token, restore it if possible (API doesn't return token on getMe usually though)
+                    localStorage.setItem('user', JSON.stringify(userData));
                 } else {
+                    // Invalid response pattern
+                    throw new Error('Invalid user data');
+                }
+            } catch (error: any) {
+                // Only clear session if explicitly 401 or Auth token invalid
+                if (error?.status === 401 || error?.message?.includes('Not authenticated')) {
+                    console.log('Session expired or invalid');
                     setUser(null);
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
+                } else {
+                    console.warn('Network/Server error during auth check, falling back to local storage:', error);
+                    // Attempt to restore from local storage if API failed
+                    const storedUser = localStorage.getItem('user');
+                    if (storedUser) {
+                        try {
+                            setUser(JSON.parse(storedUser));
+                        } catch (e) {
+                            // corrupted data
+                            setUser(null);
+                        }
+                    } else {
+                        // checking failed and no local data
+                        setUser(null);
+                    }
                 }
-            } catch (error) {
-                // Only clear if actually failed
-                // console.log('Not authenticated');
-                setUser(null);
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
             }
         } catch (error) {
-            console.log('Not authenticated');
+            console.error('Unhandled auth error:', error);
             setUser(null);
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
         } finally {
             setIsLoading(false);
         }
