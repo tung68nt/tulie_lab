@@ -129,3 +129,10 @@ jobs:
       - name: Run migrations
         working-directory: ./server
         run: npx prisma migrate deploy
+
+      - name: Run seeds
+        working-directory: ./server
+        run: |
+          npx ts-node src/seed.ts
+          npx ts-node prisma/seed-products.ts
+          npx ts-node prisma/seed-landing-page.ts
