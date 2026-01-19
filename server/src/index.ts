@@ -48,32 +48,29 @@ app.use(helmet());
 app.use('/api', limiter); // Apply rate limiting to API routes
 app.use(cors({
   origin: (origin, callback) => {
-    const allowed = [
-      process.env.CLIENT_URL,
-      // Production Domains
-      'https://thelab.tulie.vn',
-      'https://www.thelab.tulie.vn',
-      'https://beta.thelab.tulie.vn',
-      'https://the-tulie-lab.vercel.app',
-      // Development Domains
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:3002',
-      'http://localhost:3003',
-      'http://127.0.0.1:3000'
-    ].filter((origin): origin is string => !!origin); // Type-safe filter
-
-    // Allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) {
       callback(null, true);
       return;
     }
 
-    // Check allowed list OR Cloud Run domains
-    if (allowed.includes(origin) || origin.endsWith('.run.app') || origin.endsWith('.vercel.app')) {
+    const cleanOrigin = origin.replace(/\/$/, ''); // Remove trailing slash
+
+    const allowed = [
+      process.env.CLIENT_URL,
+      'https://thelab.tulie.vn',
+      'https://www.thelab.tulie.vn',
+      'https://beta.thelab.tulie.vn',
+      'https://the-tulie-lab.vercel.app',
+      'http://localhost:3000',
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'http://localhost:3003',
+      'http://127.0.0.1:3000'
+    ].filter((o): o is string => !!o).map(o => o.replace(/\/$/, ''));
+
+    if (allowed.includes(cleanOrigin) || cleanOrigin.endsWith('.run.app') || cleanOrigin.endsWith('.vercel.app')) {
       callback(null, true);
     } else {
-
       console.warn(`[CORS] Blocked request from origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
@@ -137,6 +134,39 @@ app.use('/api/activation-codes', activationCodeRoutes);
 
 import productRoutes from './modules/shop/products/products.routes';
 app.use('/api/products', productRoutes);
+
+// Diagnostic Endpoint
+app.get('/api/diag', (req, res) => {
+  res.json({
+    status: 'online',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV,
+    headers: req.headers,
+    baseUrl: req.baseUrl,
+    path: req.path,
+    url: req.url
+  });
+});
+
+// JSON 404 Handler - MUST be after all routes
+app.use('/api', (req, res) => {
+  console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({
+    error: 'Endpoint not found',
+    method: req.method,
+    path: req.originalUrl
+  });
+});
+
+// Global Error Handler - MUST be last
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('[Global Error]', err);
+  const status = err.status || err.statusCode || 500;
+  res.status(status).json({
+    error: err.message || 'Internal Server Error',
+    status
+  });
+});
 
 // Start Server
 // Force restart for bundle routes
