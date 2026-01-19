@@ -1,0 +1,13 @@
+{
+    "name": "@tulie/design-system",
+    "version": "1.0.0",
+    "description": "Shared design system for Tulie Ecosystem",
+    "main": "index.js",
+    "files": [
+        "tailwind-preset.js",
+        "globals.css"
+    ],
+    "peerDependencies": {
+        "tailwindcss": "^3.0.0"
+    }
+}

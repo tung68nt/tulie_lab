@@ -62,10 +62,6 @@ export class ActivationCodeController {
             res.status(400).json({ message: error.message });
         }
     }
-} catch (error: any) {
-    res.status(400).json({ message: error.message });
-}
-    }
 }
 
 export const activationCodeController = new ActivationCodeController();
