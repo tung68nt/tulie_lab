@@ -347,7 +347,7 @@ export const api = {
                     if (params[key] !== undefined) searchParams.append(key, String(params[key]));
                 });
             }
-            return request<{ products: Product[], total: number }>(`/products?${searchParams.toString()}`);
+            return request<{ data: Product[], meta: any }>(`/products?${searchParams.toString()}`);
         },
         get: (slug: string) => request<Product>(`/products/${slug}`),
         create: (data: unknown) => request<Product>('/products', { method: 'POST', body: JSON.stringify(data) }),
