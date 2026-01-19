@@ -201,8 +201,9 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                     <span className="text-zinc-300">{course.lessons?.length || 0} Bài học</span>
                                 </div>
                                 {(() => {
-                                    const totalSeconds = (course.lessons || []).reduce((acc: number, lesson: any) =>
-                                        acc + parseDurationToSeconds(lesson.duration), 0);
+                                    const totalSeconds = (course.lessons || [])
+                                        .filter((l: any) => l && l.duration)
+                                        .reduce((acc: number, lesson: any) => acc + parseDurationToSeconds(lesson.duration), 0);
                                     return totalSeconds > 0 ? (
                                         <div className="flex items-center gap-2">
                                             <Clock className="h-4 w-4 text-zinc-400" />
@@ -383,7 +384,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <div className="">
                                         {/* Group lessons by chapter */}
-                                        {Object.entries(course.lessons.reduce((acc: any, lesson: any) => {
+                                        {Object.entries((course.lessons || []).filter((l: any) => l).reduce((acc: any, lesson: any) => {
                                             const chapter = lesson.chapter || 'Chương 1: Mở đầu'; // Default chapter if missing
                                             if (!acc[chapter]) acc[chapter] = [];
                                             acc[chapter].push(lesson);
