@@ -17,7 +17,47 @@ env:
   REGION: asia-southeast1
 
 jobs:
+  # 1. Run database migrations FIRST
+  migrate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ./server
+        run: npm ci
+
+      - name: Set Database Config
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+            echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
+          else
+            echo "DATABASE_URL=${{ secrets.BETA_DATABASE_URL }}" >> $GITHUB_ENV
+            echo "DIRECT_URL=${{ secrets.BETA_DIRECT_URL }}" >> $GITHUB_ENV
+          fi
+
+      - name: Run migrations
+        working-directory: ./server
+        run: npx prisma db push --accept-data-loss
+
+      - name: Run seeds
+        working-directory: ./server
+        run: |
+          npx ts-node src/seed.ts
+          npx ts-node prisma/seed-products.ts
+          npx ts-node prisma/seed-landing-page.ts
+
+  # 2. Deploy only if migrations succeed
   deploy:
+    needs: migrate
     runs-on: ubuntu-latest
     
     permissions:
@@ -118,42 +158,3 @@ jobs:
               echo "⚠ Warning: Version check still failing, but proceeding to migrations. The service might still be rolling out."
             fi
           fi
-
-  # Run database migrations after deploy
-  migrate:
-    needs: deploy
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        working-directory: ./server
-        run: npm ci
-
-      - name: Set Database Config
-        run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-            echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
-          else
-            echo "DATABASE_URL=${{ secrets.BETA_DATABASE_URL }}" >> $GITHUB_ENV
-            echo "DIRECT_URL=${{ secrets.BETA_DIRECT_URL }}" >> $GITHUB_ENV
-          fi
-
-      - name: Run migrations
-        working-directory: ./server
-        run: npx prisma db push --accept-data-loss
-
-      - name: Run seeds
-        working-directory: ./server
-        run: |
-          npx ts-node src/seed.ts
-          npx ts-node prisma/seed-products.ts
-          npx ts-node prisma/seed-landing-page.ts
