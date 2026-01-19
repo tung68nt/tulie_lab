@@ -41,7 +41,13 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
 
     // Mock discount end date (e.g., 24 hours from now) for demo purposes
     // In a real app, this should come from the backend course data (course.discountEndDate)
-    const [discountEndDate] = useState(new Date(Date.now() + 24 * 60 * 60 * 1000));
+    // Mock discount end date (e.g., 24 hours from now) for demo purposes
+    // In a real app, this should come from the backend course data (course.discountEndDate)
+    const [discountEndDate, setDiscountEndDate] = useState<Date | null>(null);
+
+    useEffect(() => {
+        setDiscountEndDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -237,7 +243,7 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
 
                                 <div className="space-y-4">
                                     {/* Countdown Timer */}
-                                    {(!course.deploymentStatus || course.deploymentStatus === 'RELEASED') && course.price > 0 && !isEnrolled && (
+                                    {(!course.deploymentStatus || course.deploymentStatus === 'RELEASED') && course.price > 0 && !isEnrolled && discountEndDate && (
                                         <div className="mb-6">
                                             <CountdownTimer targetDate={discountEndDate} title="Ưu đãi giới hạn kết thúc sau:" />
                                         </div>
