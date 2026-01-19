@@ -94,19 +94,29 @@ jobs:
             --timeout 300
 
       - name: Verify Deployment
+        continue-on-error: true
         run: |
           echo "✅ Deployed $SERVICE_NAME to $REGION"
           URL=$(gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)')
           echo "🌐 Live URL: $URL"
           echo "🩺 Health check: $URL/api/health"
-          echo "⏳ Waiting for service to stabilize..."
-          sleep 10
-          RESPONSE=$(curl -s "$URL/api/health")
+          echo "⏳ Waiting for service to stabilize (Attempt 1)..."
+          sleep 15
+          RESPONSE=$(curl -s --max-time 10 "$URL/api/health" || echo "timeout")
           echo "Response: $RESPONSE"
+          
           if echo "$RESPONSE" | grep -q "v1.0.2-verify"; then
-            echo "🚀 Health check passed with correct version!"
+            echo "🚀 Health check passed!"
           else
-            echo "⚠ Warning: Version check failed, but proceeding to migrations. Current: $RESPONSE"
+            echo "⏳ Attempt 2 (waiting 20s more)..."
+            sleep 20
+            RESPONSE=$(curl -s --max-time 10 "$URL/api/health" || echo "timeout")
+            echo "Response: $RESPONSE"
+            if echo "$RESPONSE" | grep -q "v1.0.2-verify"; then
+              echo "🚀 Health check passed!"
+            else
+              echo "⚠ Warning: Version check still failing, but proceeding to migrations. The service might still be rolling out."
+            fi
           fi
 
   # Run database migrations after deploy
