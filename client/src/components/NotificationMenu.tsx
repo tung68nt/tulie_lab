@@ -64,6 +64,8 @@ export function NotificationMenu() {
         const hours = Math.floor(diff / 3600000);
         const days = Math.floor(diff / 86400000);
 
+        if (isNaN(d.getTime())) return '';
+
         if (mins < 1) return 'Vừa xong';
         if (mins < 60) return `${mins} phút trước`;
         if (hours < 24) return `${hours} giờ trước`;
