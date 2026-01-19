@@ -123,7 +123,7 @@ export const api = {
         grantMembership: (userId: string, days: number = 365) => request<void>('/users/grant-membership', { method: 'POST', body: JSON.stringify({ userId, days }) }),
         getInactiveUsers: (days?: number) => request<User[]>(`/users/inactive${days ? `?days=${days}` : ''}`),
         courses: {
-            list: () => request<Course[]>('/courses/all'),
+            list: () => request<Course[]>('/courses/admin/list'),
             get: (id: string) => request<Course>(`/courses/${id}/full`),
             create: (data: unknown) => request<Course>('/courses', { method: 'POST', body: JSON.stringify(data) }),
             update: (id: string, data: unknown) => request<Course>(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
