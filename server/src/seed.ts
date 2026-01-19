@@ -69,9 +69,8 @@ Với hơn 12 năm kinh nghiệm trong ngành công nghệ và giáo dục, tôi
 
 Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta làm việc và học tập. Sứ mệnh của tôi là giúp mọi người Việt Nam có thể tiếp cận và làm chủ công nghệ AI một cách dễ dàng nhất.`,
             avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face',
-            // studentCount: 15000, 
-            // introVideoUrl: courseData.introVideoUrl,
-            // courseCount: 6,
+            studentCount: 15000, 
+            courseCount: 6,
             /*
             experiences: {
                 create: [

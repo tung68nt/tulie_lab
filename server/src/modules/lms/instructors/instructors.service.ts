@@ -1,3 +1,4 @@
+import { Instructor, Prisma } from '@prisma/client';
 import { IInstructorRepository } from './interfaces/instructor.repository.interface';
 
 
@@ -12,30 +13,44 @@ export class InstructorService {
         return this.instructorRepository.findById(id);
     }
 
-
-
     async createInstructor(data: any) {
         const { name, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
 
-        // Remove id if it's empty string to let Prisma generate it
-        const payload: any = { name, title, bio, avatar, socialLinks };
-        if (studentCount !== undefined) payload.studentCount = Number(studentCount);
-        if (courseCount !== undefined) payload.courseCount = Number(courseCount);
+        const payload: Prisma.InstructorCreateInput = {
+            name,
+            title,
+            bio,
+            avatar,
+            socialLinks,
+            studentCount: studentCount !== undefined ? Number(studentCount) : 0,
+            courseCount: courseCount !== undefined ? Number(courseCount) : 0,
+        };
 
-        return (this.instructorRepository as any).create(payload);
+        return this.instructorRepository.create(payload);
     }
 
     async updateInstructor(id: string, data: any) {
         const { name, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
 
-        const payload: any = { name, title, bio, avatar, socialLinks };
-        if (studentCount !== undefined) payload.studentCount = Number(studentCount);
-        if (courseCount !== undefined) payload.courseCount = Number(courseCount);
+        const payload: Prisma.InstructorUpdateInput = {
+            name,
+            title,
+            bio,
+            avatar,
+            socialLinks,
+        };
 
-        return (this.instructorRepository as any).update(id, payload);
+        if (studentCount !== undefined) {
+            payload.studentCount = Number(studentCount);
+        }
+        if (courseCount !== undefined) {
+            payload.courseCount = Number(courseCount);
+        }
+
+        return this.instructorRepository.update(id, payload);
     }
 
     async deleteInstructor(id: string) {
-        return (this.instructorRepository as any).delete(id);
+        return this.instructorRepository.delete(id);
     }
 }
