@@ -107,6 +107,10 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', version: 'v1.0.2-verify', timestamp: new Date().toISOString() });
 });
 
+app.get('/api/check', (req, res) => {
+  res.json({ message: 'Deployment Success', version: 'v1.0.2-verify', time: new Date().toISOString() });
+});
+
 // Mount Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
