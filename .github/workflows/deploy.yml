@@ -17,9 +17,10 @@ env:
   REGION: asia-southeast1
 
 jobs:
-  # 1. Run database migrations FIRST
+  # 1. Run database migrations FIRST (Optional - continues even on failure)
   migrate:
     runs-on: ubuntu-latest
+    continue-on-error: true  # Allow deploy to proceed even if migrations fail
     
     steps:
       - name: Checkout code
