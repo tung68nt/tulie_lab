@@ -307,17 +307,24 @@ export function Navbar() {
                                                 <p className="text-sm font-medium">{getDisplayName()}</p>
                                                 <div className="flex items-center gap-2">
                                                     <p className="text-xs text-muted-foreground truncate max-w-[120px]">{user?.email}</p>
-                                                    {user?.subscriptions?.some(s => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) ? (
+                                                    {user?.subscriptions?.some(s => s.status === 'ACTIVE' && !isNaN(new Date(s.endDate).getTime()) && new Date(s.endDate) > new Date()) ? (
                                                         <span className="bg-yellow-400/20 text-yellow-600 text-[10px] px-1.5 rounded-full font-bold border border-yellow-400/30">PREMIUM</span>
                                                     ) : (
                                                         <span className="bg-muted text-muted-foreground text-[10px] px-1.5 rounded-full font-bold">FREE</span>
                                                     )}
                                                 </div>
-                                                {user?.subscriptions?.find(s => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) && (
-                                                    <p className="text-[10px] text-muted-foreground mt-1">
-                                                        Hạn: {new Date(user.subscriptions.find(s => s.status === 'ACTIVE' && new Date(s.endDate) > new Date())!.endDate).toLocaleDateString('vi-VN')}
-                                                    </p>
-                                                )}
+                                                {(() => {
+                                                    const activeSub = user?.subscriptions?.find(s => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+                                                    if (activeSub) {
+                                                        const date = new Date(activeSub.endDate);
+                                                        return !isNaN(date.getTime()) ? (
+                                                            <p className="text-[10px] text-muted-foreground mt-1">
+                                                                Hạn: {date.toLocaleDateString('vi-VN')}
+                                                            </p>
+                                                        ) : null;
+                                                    }
+                                                    return null;
+                                                })()}
                                             </div>
                                             <div className="p-1">
                                                 {isAdmin && (
