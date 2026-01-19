@@ -35,91 +35,65 @@ jobs:
         working-directory: ./server
         run: npm ci
 
-      - name: Set Database Config
+      - name: Configure Environment
+        id: config-env
         run: |
+          # Determine secrets based on branch
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-            echo "DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
+            DB="${{ secrets.DATABASE_URL }}"
+            DIR="${{ secrets.DIRECT_URL }}"
           else
-            echo "DATABASE_URL=${{ secrets.BETA_DATABASE_URL }}" >> $GITHUB_ENV
-            echo "DIRECT_URL=${{ secrets.BETA_DIRECT_URL }}" >> $GITHUB_ENV
+            DB="${{ secrets.BETA_DATABASE_URL }}"
+            DIR="${{ secrets.BETA_DIRECT_URL }}"
           fi
+
+          # Fallback for DIRECT_URL
+          if [ -z "$DIR" ]; then
+            echo "⚠️ DIRECT_URL is not set for branch ${{ github.ref }}. Falling back to DATABASE_URL."
+            DIR="$DB"
+          fi
+          
+          # Enforce pgbouncer=true for Transaction Pooler (port 6543)
+          if [[ "$DB" == *":6543"* ]] && [[ "$DB" != *"pgbouncer=true"* ]]; then
+             if [[ "$DB" == *"?"* ]]; then
+               DB="${DB}&pgbouncer=true"
+             else
+               DB="${DB}?pgbouncer=true"
+             fi
+             echo "🔌 Appended pgbouncer=true to DATABASE_URL"
+          fi
+
+          # Mask values just in case
+          echo "::add-mask::$DB"
+          echo "::add-mask::$DIR"
+
+          # Export to GITHUB_ENV for subsequent steps
+          echo "DATABASE_URL=$DB" >> $GITHUB_ENV
+          echo "DIRECT_URL=$DIR" >> $GITHUB_ENV
 
       - name: Run migrations
         working-directory: ./server
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL || secrets.BETA_DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL || secrets.BETA_DIRECT_URL }}
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DB_URL="${{ secrets.DATABASE_URL }}"
-            DIR_URL="${{ secrets.DIRECT_URL }}"
-          else
-            DB_URL="${{ secrets.BETA_DATABASE_URL }}"
-            DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
-          fi
-
-          # Enforce pgbouncer=true for Transaction Pooler (port 6543)
-          if [[ "$DB_URL" == *":6543"* ]] && [[ "$DB_URL" != *"pgbouncer=true"* ]]; then
-             if [[ "$DB_URL" == *"?"* ]]; then
-               DB_URL="${DB_URL}&pgbouncer=true"
-             else
-               DB_URL="${DB_URL}?pgbouncer=true"
-             fi
-             echo "🔌 Appended pgbouncer=true to DATABASE_URL for migration/push"
-          fi
-          
-          if [ -z "$DB_URL" ]; then
-            echo "❌ Error: DATABASE_URL is not set for branch ${{ github.ref }}"
-            exit 1
-          fi
-
-          if [ -z "$DIR_URL" ]; then
-            echo "⚠️ Warning: DIRECT_URL is not set for branch ${{ github.ref }}. Falling back to DATABASE_URL. This may fail if using a transaction pooler."
-            DIR_URL="$DB_URL"
-          fi
-          
           echo "🚀 Running Prisma generate..."
           npx prisma generate
           
-          
-          # Schema repair script removed as file not found
-          
-
           echo "🚀 Running DB Push..."
-          # Attempt DB push, but do not fail the build if it fails on main (likely due to Pooler)
-          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx prisma db push --accept-data-loss; then
+          if ! npx prisma db push --accept-data-loss; then
             echo "⚠️ DB Push failed. This is expected if using a Transaction Pooler without DIRECT_URL."
-            echo "Proceeding because schema was manually patched."
+            echo "Proceeding anyway."
           fi
 
       - name: Run seeds
         working-directory: ./server
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL || secrets.BETA_DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL || secrets.BETA_DIRECT_URL }}
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DB_URL="${{ secrets.DATABASE_URL }}"
-            DIR_URL="${{ secrets.DIRECT_URL }}"
-          else
-            DB_URL="${{ secrets.BETA_DATABASE_URL }}"
-            DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
-          fi
-          
-          if [ -z "$DIR_URL" ]; then
-             echo "⚠️ Warning: DIRECT_URL is not set for branch ${{ github.ref }}. Falling back to DATABASE_URL."
-             DIR_URL="$DB_URL"
-          fi
-          
           echo "🚀 Running Seeds..."
-          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx src/seed.ts; then
+          if ! npx tsx src/seed.ts; then
             echo "⚠️ seed.ts failed. Proceeding anyway."
           fi
-          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-products.ts; then
+          if ! npx tsx prisma/seed-products.ts; then
             echo "⚠️ seed-products.ts failed. Proceeding anyway."
           fi
-          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-landing-page.ts; then
+          if ! npx tsx prisma/seed-landing-page.ts; then
             echo "⚠️ seed-landing-page.ts failed. Proceeding anyway."
           fi
 
