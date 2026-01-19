@@ -58,12 +58,12 @@ export class LandingPageService {
         const page = await this.landingPageRepository.findBySlug(slug);
         if (!page) return null;
 
-        if (typeof page.sections === 'string') {
+        if (page && typeof page.sections === 'string') {
             try {
-                page.sections = JSON.parse(page.sections);
+                (page as any).sections = JSON.parse(page.sections);
             } catch (e) {
                 console.error('Failed to parse landing page sections', e);
-                page.sections = [];
+                (page as any).sections = [];
             }
         }
 
@@ -78,10 +78,10 @@ export class LandingPageService {
         const page = await this.landingPageRepository.findById(id);
         if (page && typeof page.sections === 'string') {
             try {
-                page.sections = JSON.parse(page.sections);
+                (page as any).sections = JSON.parse(page.sections);
             } catch (e) {
                 console.error('Failed to parse landing page sections', e);
-                page.sections = [];
+                (page as any).sections = [];
             }
         }
         return page;
