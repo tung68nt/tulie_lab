@@ -7,11 +7,22 @@ import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { Info, CircleCheck } from 'lucide-react';
 
-export default function OrderPage({ params }: { params: Promise<{ code: string }> }) {
-    const { code } = use(params);
+export default function OrderPage({ params }: { params: any }) {
+    const [code, setCode] = useState<string>('');
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState<any>({});
+
+    // Handle params promise safely
+    useEffect(() => {
+        if (params instanceof Promise) {
+            params.then(p => {
+                if (p.code) setCode(p.code);
+            });
+        } else if (params && typeof params === 'object' && params.code) {
+            setCode(params.code);
+        }
+    }, [params]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -110,7 +121,7 @@ export default function OrderPage({ params }: { params: Promise<{ code: string }
                         <div className="rounded-lg bg-muted/50 p-4 text-center">
                             <p className="text-sm text-muted-foreground mb-1">Số tiền cần thanh toán</p>
                             <p className="text-3xl font-bold text-primary">
-                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.amount)}
+                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
                             </p>
                         </div>
 

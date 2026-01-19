@@ -29,8 +29,9 @@ function formatTotalDuration(totalSeconds: number): string {
     return `${minutes} phút`;
 }
 
-export default function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = use(params);
+export default function CoursePage({ params }: { params: any }) {
+    // Safely handle params which might be a Promise (Next.js 15+) or a plain object
+    const [slug, setSlug] = useState<string>('');
     const router = useRouter();
     const { addToast } = useToast();
     const [course, setCourse] = useState<any>(null);
@@ -39,6 +40,15 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [expandedLessonId, setExpandedLessonId] = useState<string | null>(null);
     const [activationType, setActivationType] = useState<'EMAIL' | 'CODE'>('EMAIL');
+
+    // Handle params promise safely
+    useEffect(() => {
+        if (params instanceof Promise) {
+            params.then(p => setSlug(p.slug));
+        } else if (params && typeof params === 'object' && params.slug) {
+            setSlug(params.slug);
+        }
+    }, [params]);
 
     // Mock discount end date (e.g., 24 hours from now) for demo purposes
     // In a real app, this should come from the backend course data (course.discountEndDate)
@@ -202,15 +212,23 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                     <span className="text-zinc-300">{course.lessons?.length || 0} Bài học</span>
                                 </div>
                                 {(() => {
-                                    const totalSeconds = (course.lessons || [])
-                                        .filter((l: any) => l && l.duration)
-                                        .reduce((acc: number, lesson: any) => acc + parseDurationToSeconds(lesson.duration), 0);
-                                    return totalSeconds > 0 ? (
-                                        <div className="flex items-center gap-2">
-                                            <Clock className="h-4 w-4 text-zinc-400" />
-                                            <span className="text-zinc-300">{formatTotalDuration(totalSeconds)}</span>
-                                        </div>
-                                    ) : null;
+                                    try {
+                                        const lessons = Array.isArray(course?.lessons) ? course.lessons : [];
+                                        const totalSeconds = lessons
+                                            .filter((l: any) => l && l.duration)
+                                            .reduce((acc: number, lesson: any) => {
+                                                const d = parseDurationToSeconds(lesson.duration);
+                                                return acc + (isNaN(d) ? 0 : d);
+                                            }, 0);
+                                        return totalSeconds > 0 ? (
+                                            <div className="flex items-center gap-2">
+                                                <Clock className="h-4 w-4 text-zinc-400" />
+                                                <span className="text-zinc-300">{formatTotalDuration(totalSeconds)}</span>
+                                            </div>
+                                        ) : null;
+                                    } catch (e) {
+                                        return null;
+                                    }
                                 })()}
                             </div>
                         </div>
@@ -255,11 +273,11 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                         <div>
                                             <p className="text-xs text-zinc-400 mb-1">Học phí</p>
                                             <div className="text-2xl font-bold text-white">
-                                                {course.price === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
+                                                {Number(course.price) === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.price))}
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            {course.price > 0 && <span className="line-through text-zinc-600 text-xs">{(course.price * 1.5).toLocaleString()} ₫</span>}
+                                            {Number(course.price) > 0 && <span className="line-through text-zinc-600 text-xs">{(Number(course.price) * 1.5).toLocaleString()} ₫</span>}
                                         </div>
                                     </div>
 

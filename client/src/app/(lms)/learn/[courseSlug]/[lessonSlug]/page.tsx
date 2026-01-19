@@ -46,8 +46,10 @@ function formatTotalDurationLabel(totalSeconds: number): string {
     return `${minutes}m`;
 }
 
-export default function LearnPage({ params }: { params: Promise<{ courseSlug: string, lessonSlug: string }> }) {
-    const { courseSlug, lessonSlug } = use(params);
+export default function LearnPage({ params }: { params: any }) {
+    const [courseSlug, setCourseSlug] = useState<string>('');
+    const [lessonSlug, setLessonSlug] = useState<string>('');
+
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [course, setCourse] = useState<any>(null);
@@ -56,8 +58,23 @@ export default function LearnPage({ params }: { params: Promise<{ courseSlug: st
     const [user, setUser] = useState<any>(null);
     const [completedLessons, setCompletedLessons] = useState<string[]>([]);
 
+    // Handle params promise safely
+    useEffect(() => {
+        if (params instanceof Promise) {
+            params.then(p => {
+                if (p.courseSlug) setCourseSlug(p.courseSlug);
+                if (p.lessonSlug) setLessonSlug(p.lessonSlug);
+            });
+        } else if (params && typeof params === 'object') {
+            if (params.courseSlug) setCourseSlug(params.courseSlug);
+            if (params.lessonSlug) setLessonSlug(params.lessonSlug);
+        }
+    }, [params]);
+
     useEffect(() => {
         const fetchData = async () => {
+            if (!courseSlug || !lessonSlug) return;
+            setLoading(true);
             try {
                 const courseData: any = await api.courses.get(courseSlug);
                 setCourse(courseData);

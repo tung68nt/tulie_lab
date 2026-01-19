@@ -61,7 +61,7 @@ export function CourseChapter({
                             <div className="flex items-start p-4 gap-4">
                                 {/* Lesson Thumbnail */}
                                 <div className="shrink-0 w-24 h-16 bg-zinc-200 rounded-md overflow-hidden relative border border-zinc-200">
-                                    {lesson.thumbnail ? (
+                                    {lesson.thumbnail && typeof lesson.thumbnail === 'string' ? (
                                         <img src={lesson.thumbnail} alt={lesson.title} className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-zinc-400">
