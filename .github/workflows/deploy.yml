@@ -58,6 +58,16 @@ jobs:
             DB_URL="${{ secrets.BETA_DATABASE_URL }}"
             DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
           fi
+
+          # Enforce pgbouncer=true for Transaction Pooler (port 6543)
+          if [[ "$DB_URL" == *":6543"* ]] && [[ "$DB_URL" != *"pgbouncer=true"* ]]; then
+             if [[ "$DB_URL" == *"?"* ]]; then
+               DB_URL="${DB_URL}&pgbouncer=true"
+             else
+               DB_URL="${DB_URL}?pgbouncer=true"
+             fi
+             echo "🔌 Appended pgbouncer=true to DATABASE_URL for migration/push"
+          fi
           
           if [ -z "$DB_URL" ]; then
             echo "❌ Error: DATABASE_URL is not set for branch ${{ github.ref }}"
@@ -72,10 +82,9 @@ jobs:
           echo "🚀 Running Prisma generate..."
           npx prisma generate
           
-          echo "🔧 Running Manual Schema Repair..."
-          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx src/fix-schema.ts; then
-             echo "⚠️ Manual Schema Repair failed. Proceeding anyway as this might be due to Pooler limitations."
-          fi
+          
+          # Schema repair script removed as file not found
+          
 
           echo "🚀 Running DB Push..."
           # Attempt DB push, but do not fail the build if it fails on main (likely due to Pooler)
