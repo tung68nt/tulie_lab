@@ -136,15 +136,26 @@ import productRoutes from './modules/shop/products/products.routes';
 app.use('/api/products', productRoutes);
 
 // Diagnostic Endpoint
-app.get('/api/diag', (req, res) => {
+app.get('/api/diag', async (req, res) => {
+  let dbStatus = 'checking...';
+  try {
+    const prisma = (await import('./config/prisma')).default;
+    await prisma.$queryRaw`SELECT 1`;
+    dbStatus = 'connected';
+  } catch (error: any) {
+    dbStatus = `error: ${error.message}`;
+  }
+
   res.json({
     status: 'online',
+    database: dbStatus,
     timestamp: new Date().toISOString(),
     env: process.env.NODE_ENV,
     headers: req.headers,
     baseUrl: req.baseUrl,
     path: req.path,
-    url: req.url
+    url: req.url,
+    originalUrl: req.originalUrl
   });
 });
 
