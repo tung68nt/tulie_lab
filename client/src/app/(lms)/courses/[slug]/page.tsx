@@ -10,6 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { Clock } from 'lucide-react';
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
+import { CourseChapter } from '@/components/lms/CourseChapter';
 
 // Helper function to parse duration string to seconds
 function parseDurationToSeconds(duration: string): number {
@@ -389,102 +390,16 @@ export default function CoursePage({ params }: { params: Promise<{ slug: string 
                                             if (!acc[chapter]) acc[chapter] = [];
                                             acc[chapter].push(lesson);
                                             return acc;
-                                        }, {})).map(([chapterName, chapterLessons]: [string, any], chapterIndex: number) => {
-                                            // Handle collapsible state for chapters
-                                            // Use a new state variable for chapters, defaulting to first chapter open
-                                            const [isChapterOpen, setIsChapterOpen] = useState(chapterIndex === 0);
-
-                                            return (
-                                                <div key={chapterName} className="border-b last:border-0">
-                                                    {/* Chapter Header - Click to Toggle */}
-                                                    <div
-                                                        className="bg-zinc-50 px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-zinc-100 transition-colors"
-                                                        onClick={() => setIsChapterOpen(!isChapterOpen)}
-                                                    >
-                                                        <h3 className="font-bold text-zinc-900 flex items-center gap-2">
-                                                            {isChapterOpen ? (
-                                                                <span className="text-zinc-500 text-xs">▼</span>
-                                                            ) : (
-                                                                <span className="text-zinc-500 text-xs">▶</span>
-                                                            )}
-                                                            {chapterName}
-                                                            <span className="text-xs font-normal text-muted-foreground ml-2">
-                                                                ({chapterLessons.length} bài học)
-                                                            </span>
-                                                        </h3>
-                                                    </div>
-
-                                                    {/* Chapter Lessons - Collapsible Content */}
-                                                    <div className={`transition-all duration-300 ease-in-out ${isChapterOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-                                                        {chapterLessons.map((lesson: any, lessonIndex: number) => {
-                                                            const isLocked = !isEnrolled && !lesson.isFree;
-
-                                                            return (
-                                                                <div key={lesson.id} className="group flex flex-col transition-colors border-t first:border-t-0 hover:bg-muted/30">
-                                                                    <div className="flex items-start p-4 gap-4">
-                                                                        {/* Lesson Thumbnail */}
-                                                                        <div className="shrink-0 w-24 h-16 bg-zinc-200 rounded-md overflow-hidden relative border border-zinc-200">
-                                                                            {lesson.thumbnail ? (
-                                                                                <img src={lesson.thumbnail} alt={lesson.title} className="w-full h-full object-cover" />
-                                                                            ) : (
-                                                                                <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-zinc-400">
-                                                                                    {/* Play Icon Placeholder */}
-                                                                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                                                                </div>
-                                                                            )}
-                                                                            {/* Duration Badge */}
-                                                                            {lesson.duration && (
-                                                                                <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[10px] px-1 rounded-sm">
-                                                                                    {lesson.duration}
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-
-                                                                        {/* Lesson Info */}
-                                                                        <div className="flex-1 min-w-0">
-                                                                            <div className="flex items-start justify-between gap-2">
-                                                                                <div>
-                                                                                    <h4 className={`text-sm font-medium leading-tight mb-1 ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
-                                                                                        {lesson.title}
-                                                                                    </h4>
-                                                                                    {lesson.isFree && !isEnrolled && (
-                                                                                        <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
-                                                                                            Học thử miễn phí
-                                                                                        </span>
-                                                                                    )}
-                                                                                </div>
-
-                                                                                {/* Action Button */}
-                                                                                <div className="shrink-0">
-                                                                                    {isLocked ? (
-                                                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground" disabled>
-                                                                                            <span className="text-xs">🔒</span>
-                                                                                        </Button>
-                                                                                    ) : (
-                                                                                        <Link href={`/learn/${course.slug}/${lesson.slug}`}>
-                                                                                            <Button variant="ghost" size="sm" className="h-8 text-primary hover:text-primary hover:bg-primary/10">
-                                                                                                Vào học
-                                                                                            </Button>
-                                                                                        </Link>
-                                                                                    )}
-                                                                                </div>
-                                                                            </div>
-
-                                                                            {/* Description preview (optional) */}
-                                                                            {lesson.description && (
-                                                                                <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
-                                                                                    {lesson.description}
-                                                                                </p>
-                                                                            )}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
+                                        }, {})).map(([chapterName, chapterLessons]: [string, any], chapterIndex: number) => (
+                                            <CourseChapter
+                                                key={chapterName}
+                                                chapterName={chapterName}
+                                                chapterLessons={chapterLessons}
+                                                chapterIndex={chapterIndex}
+                                                courseSlug={course.slug}
+                                                isEnrolled={isEnrolled}
+                                            />
+                                        ))}
                                     </div>
                                 ) : (
                                     <div className="p-8 text-center text-muted-foreground">
