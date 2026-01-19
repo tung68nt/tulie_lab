@@ -62,4 +62,8 @@ export class ActivationCodeService {
     async getByOrderId(orderId: string) {
         return this.activationCodeRepository.findByOrderId(orderId);
     }
+
+    async deleteCode(id: string) {
+        return this.activationCodeRepository.delete(id);
+    }
 }

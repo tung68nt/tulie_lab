@@ -51,6 +51,21 @@ export class ActivationCodeController {
             res.status(400).json({ message: error.message });
         }
     }
+
+    async delete(req: Request, res: Response) {
+        try {
+            const id = req.params.id as string;
+            if (!id) return res.status(400).json({ message: 'ID is required' });
+            await this.activationCodeService.deleteCode(id);
+            res.json({ success: true, message: 'Activation code deleted' });
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+} catch (error: any) {
+    res.status(400).json({ message: error.message });
+}
+    }
 }
 
 export const activationCodeController = new ActivationCodeController();
