@@ -101,7 +101,7 @@ jobs:
           URL=$(gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)')
           echo "🌐 Live URL: $URL"
           echo "🩺 Health check: $URL/api/health"
-          curl -s "$URL/api/health" | grep -q "ok" || (echo "❌ Health check failed!" && exit 1)
+          curl -s "$URL/api/health" | grep -q "v1.0.2-verify" || (echo "❌ Version check failed! (Got: $(curl -s $URL/api/health))" && exit 1)
           echo "🚀 Health check passed!"
 
   # Run database migrations after deploy
