@@ -103,9 +103,15 @@ jobs:
           fi
           
           echo "🚀 Running Seeds..."
-          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx src/seed.ts
-          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-products.ts
-          DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-landing-page.ts
+          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx src/seed.ts; then
+            echo "⚠️ seed.ts failed. Proceeding anyway."
+          fi
+          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-products.ts; then
+            echo "⚠️ seed-products.ts failed. Proceeding anyway."
+          fi
+          if ! DATABASE_URL="$DB_URL" DIRECT_URL="$DIR_URL" npx tsx prisma/seed-landing-page.ts; then
+            echo "⚠️ seed-landing-page.ts failed. Proceeding anyway."
+          fi
 
   # 2. Deploy only if migrations succeed
   deploy:
