@@ -24,8 +24,8 @@ FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Install ffmpeg for video processing
-RUN apk add --no-cache ffmpeg
+# Install ffmpeg for video processing and OpenSSL for Prisma
+RUN apk add --no-cache ffmpeg openssl libc6-compat
 
 # Copy package files for production deps only
 COPY package*.json ./
