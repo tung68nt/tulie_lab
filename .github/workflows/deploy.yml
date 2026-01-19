@@ -142,12 +142,20 @@ jobs:
         id: db-env
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "RUNTIME_DB_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
-            echo "RUNTIME_DIRECT_URL=${{ secrets.DIRECT_URL }}" >> $GITHUB_ENV
+            DB_URL="${{ secrets.DATABASE_URL }}"
+            DIR_URL="${{ secrets.DIRECT_URL }}"
           else
-            echo "RUNTIME_DB_URL=${{ secrets.BETA_DATABASE_URL }}" >> $GITHUB_ENV
-            echo "RUNTIME_DIRECT_URL=${{ secrets.BETA_DIRECT_URL }}" >> $GITHUB_ENV
+            DB_URL="${{ secrets.BETA_DATABASE_URL }}"
+            DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
           fi
+
+          if [ -z "$DIR_URL" ]; then
+             echo "⚠️ Warning: DIRECT_URL is not set for runtime branch ${{ github.ref }}. Falling back to DATABASE_URL."
+             DIR_URL="$DB_URL"
+          fi
+
+          echo "RUNTIME_DB_URL=$DB_URL" >> $GITHUB_ENV
+          echo "RUNTIME_DIRECT_URL=$DIR_URL" >> $GITHUB_ENV
 
       - name: Determine Config Vars
         run: |
