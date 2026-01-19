@@ -25,7 +25,8 @@ export default function ActivationCodesPage() {
                 api.activationCodes.list(),
                 api.admin.courses.list()
             ]);
-            setCodes(codesData);
+            // Backend returns { data, meta }
+            setCodes(codesData.data || []);
             setCourses(coursesData);
         } catch (error) {
             console.error(error);

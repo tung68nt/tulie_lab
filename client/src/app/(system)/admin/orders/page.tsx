@@ -70,11 +70,10 @@ export default function AdminOrdersPage() {
                 search: debouncedSearch,
                 status: statusFilter === 'all' ? undefined : statusFilter
             });
-            setOrders(res.data);
-            setTotalPages(res.meta.totalPages);
-            if (res.meta.stats) {
-                setStats(res.meta.stats);
-            }
+            // Backend returns { orders, total }
+            setOrders(res.orders || []);
+            setTotalPages(Math.ceil((res.total || 0) / 10));
+            setStats(prev => ({ ...prev, total: res.total || 0 }));
         } catch (error) {
             console.error('Failed to load orders:', error);
             addToast('Không thể tải danh sách đơn hàng', 'error');
