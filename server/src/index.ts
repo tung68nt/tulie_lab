@@ -104,7 +104,7 @@ import proxyRoutes from './modules/system/proxy/proxy.routes';
 
 // Health check endpoint (for Cloud Run)
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.status(200).json({ status: 'ok', version: 'v1.0.1-debug', timestamp: new Date().toISOString() });
 });
 
 // Mount Routes
