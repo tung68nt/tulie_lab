@@ -19,6 +19,14 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'academy-api-qcmix2qxca-as.a.run.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'academy-api-beta-qcmix2qxca-as.a.run.app',
+      },
+      {
+        protocol: 'https',
         hostname: 'pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev',
       },
       {

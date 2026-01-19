@@ -44,9 +44,9 @@ jobs:
       - name: Determine Build Arguments
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "API_URL=https://academy-api-863772349164.asia-southeast1.run.app" >> $GITHUB_ENV
+            echo "API_URL=https://academy-api-qcmix2qxca-as.a.run.app" >> $GITHUB_ENV
           else
-            echo "API_URL=https://academy-api-beta-863772349164.asia-southeast1.run.app" >> $GITHUB_ENV
+            echo "API_URL=https://academy-api-beta-qcmix2qxca-as.a.run.app" >> $GITHUB_ENV
           fi
 
       - name: Build Docker image
