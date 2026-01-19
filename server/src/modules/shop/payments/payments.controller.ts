@@ -162,7 +162,6 @@ export const sendPaymentReminder = async (req: Request, res: Response) => {
         // For quick refactor, we are leaving the reminder email logic here but it should be moved.
         // It relies on Order model which we can get from Service.
 
-        const order: any = await paymentService.getOrder(id); // Using code or id? Service only has getOrder by CODE. We need getOrderById.
 
         const orderFull = await prisma.order.findUnique({
             where: { id: String(id) },
