@@ -90,7 +90,7 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                                 <span className="text-lg font-bold text-foreground">Truy cập miễn phí</span>
                             )}
                         </div>
-                        <Button variant="outline" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Button as="div" variant="outline" className="opacity-0 group-hover:opacity-100 transition-opacity">
                             Xem chi tiết
                         </Button>
                     </div>

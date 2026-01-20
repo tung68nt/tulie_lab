@@ -368,10 +368,10 @@ export function Navbar() {
                                 // Not logged in state
                                 <div className="flex items-center gap-2">
                                     <Link href="/login">
-                                        <Button variant="ghost" size="sm">Đăng nhập</Button>
+                                        <Button as="div" variant="ghost" size="sm">Đăng nhập</Button>
                                     </Link>
                                     <Link href="/register">
-                                        <Button size="sm">Bắt đầu ngay</Button>
+                                        <Button as="div" size="sm">Bắt đầu ngay</Button>
                                     </Link>
                                 </div>
                             )}
@@ -445,10 +445,10 @@ export function Navbar() {
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
                                     <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                                        <Button variant="outline" className="w-full h-10">Đăng nhập</Button>
+                                        <Button as="div" variant="outline" className="w-full h-10">Đăng nhập</Button>
                                     </Link>
                                     <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                                        <Button className="w-full h-10 shadow-none">Đăng ký</Button>
+                                        <Button as="div" className="w-full h-10 shadow-none">Đăng ký</Button>
                                     </Link>
                                 </div>
                             </div>

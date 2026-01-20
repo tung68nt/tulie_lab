@@ -187,7 +187,7 @@ export default function LearnPage({ params }: { params: any }) {
         return (
             <div className="fixed inset-0 bg-background flex flex-col items-center justify-center gap-4">
                 <h1 className="text-2xl font-bold">Không tìm thấy bài học</h1>
-                <Link href={`/courses/${courseSlug}`}><Button>Quay lại khóa học</Button></Link>
+                <Link href={`/courses/${courseSlug}`}><Button as="div">Quay lại khóa học</Button></Link>
             </div>
         );
     }
@@ -203,7 +203,7 @@ export default function LearnPage({ params }: { params: any }) {
                 <h1 className="text-2xl font-bold">Nội dung bị khóa</h1>
                 <p className="text-zinc-400 text-center max-w-md">Bạn cần đăng ký khóa học để xem bài học này.</p>
                 <Link href={`/courses/${courseSlug}`}>
-                    <Button className="bg-white text-black hover:bg-zinc-200">Xem khóa học</Button>
+                    <Button as="div" className="bg-white text-black hover:bg-zinc-200">Xem khóa học</Button>
                 </Link>
             </div>
         );
@@ -394,7 +394,7 @@ export default function LearnPage({ params }: { params: any }) {
                             <div className="flex items-center justify-between pt-4 border-t">
                                 {prevLesson ? (
                                     <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}>
-                                        <Button variant="outline" size="sm" className="gap-2">
+                                        <Button as="div" variant="outline" size="sm" className="gap-2">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                             </svg>
@@ -407,7 +407,7 @@ export default function LearnPage({ params }: { params: any }) {
 
                                 {nextLesson ? (
                                     <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}>
-                                        <Button size="sm" className="gap-2">
+                                        <Button as="div" size="sm" className="gap-2">
                                             Bài tiếp theo
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -416,7 +416,7 @@ export default function LearnPage({ params }: { params: any }) {
                                     </Link>
                                 ) : (
                                     <Link href={`/courses/${courseSlug}`}>
-                                        <Button size="sm" className="gap-2">
+                                        <Button as="div" size="sm" className="gap-2">
                                             Hoàn thành khóa học
                                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

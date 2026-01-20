@@ -90,7 +90,7 @@ export default function MyProductsPage() {
                     </div>
                     {(!user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date())) && (
                         <Link href="/pricing">
-                            <Button variant="default" className="shadow-lg shadow-primary/25">Nâng cấp ngay</Button>
+                            <Button as="div" variant="default" className="shadow-lg shadow-primary/25">Nâng cấp ngay</Button>
                         </Link>
                     )}
                 </div>
@@ -103,7 +103,7 @@ export default function MyProductsPage() {
                         <h3 className="text-xl font-bold mb-2">Chưa có sản phẩm nào</h3>
                         <p className="text-muted-foreground mb-8 max-w-md mx-auto">Bạn chưa mua sản phẩm số nào. Hãy khám phá kho tài nguyên chất lượng cao của chúng tôi.</p>
                         <Link href="/shop">
-                            <Button size="lg" className="rounded-xl font-bold shadow-lg shadow-primary/25">Khám phá Cửa hàng</Button>
+                            <Button as="div" size="lg" className="rounded-xl font-bold shadow-lg shadow-primary/25">Khám phá Cửa hàng</Button>
                         </Link>
                     </div>
                 ) : (
@@ -173,13 +173,13 @@ function ProductCard({ product }: { product: any }) {
 
                     <div className="flex gap-3">
                         <a href={downloadUrl || '#'} target="_blank" rel="noopener noreferrer" className="flex-1">
-                            <Button className="w-full font-bold rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40">
+                            <Button as="div" className="w-full font-bold rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40">
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                                 Tải {versionLabel}
                             </Button>
                         </a>
                         <Link href={`/shop/${product.slug}`}>
-                            <Button variant="outline" className="px-3 rounded-xl border-2 hover:bg-secondary">
+                            <Button as="div" variant="outline" className="px-3 rounded-xl border-2 hover:bg-secondary">
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                             </Button>
                         </Link>

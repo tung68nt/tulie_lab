@@ -153,7 +153,7 @@ function CheckoutContent() {
             <div className="container py-20 text-center">
                 <h1 className="text-2xl font-bold mb-4">Không tìm thấy khóa học</h1>
                 <Link href="/courses">
-                    <Button>Quay lại danh sách khóa học</Button>
+                    <Button as="div">Quay lại danh sách khóa học</Button>
                 </Link>
             </div>
         );

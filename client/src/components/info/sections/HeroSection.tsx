@@ -66,7 +66,7 @@ export function HeroSection({ section }: { section: Section }) {
                                 </Button>
                             )}
                             <Link href="/contact">
-                                <Button variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 h-12 font-semibold hover:bg-muted transition-all">
+                                <Button as="div" variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 h-12 font-semibold hover:bg-muted transition-all">
                                     Liên hệ tư vấn
                                 </Button>
                             </Link>

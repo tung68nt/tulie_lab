@@ -296,7 +296,7 @@ export default function ShopPage() {
                                                     </span>
                                                 </div>
                                                 <Link href={`/shop/${product.slug}`}>
-                                                    <Button size="sm" className="rounded-xl px-5 font-bold shadow-sm hover:shadow-md transition-all">
+                                                    <Button as="div" size="sm" className="rounded-xl px-5 font-bold shadow-sm hover:shadow-md transition-all">
                                                         Chi tiết
                                                     </Button>
                                                 </Link>
@@ -330,7 +330,7 @@ export default function ShopPage() {
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 shrink-0">
                             <Link href="/contact">
-                                <Button size="lg" className="rounded-2xl h-14 px-8 text-base font-bold bg-white text-black hover:bg-gray-200 border-none transition-all">
+                                <Button as="div" size="lg" className="rounded-2xl h-14 px-8 text-base font-bold bg-white text-black hover:bg-gray-200 border-none transition-all">
                                     Liên hệ tư vấn
                                 </Button>
                             </Link>

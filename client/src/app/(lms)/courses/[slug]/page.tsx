@@ -333,6 +333,7 @@ export default function CoursePage({ params }: { params: any }) {
                                         ) : (
                                             <Link href={`/learn/${course.slug}/${course.lessons?.[0]?.slug || ''}`}>
                                                 <Button
+                                                    as="div"
                                                     size="lg"
                                                     className="w-full font-bold text-sm shadow-xl mt-4 border-0 h-10"
                                                     style={{ backgroundColor: 'white', color: 'black' }}

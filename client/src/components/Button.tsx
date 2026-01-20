@@ -4,10 +4,11 @@ export interface ButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: "default" | "outline" | "ghost" | "link" | "destructive" | "secondary" | "inverted" | "light"
     size?: "default" | "sm" | "lg" | "icon"
+    as?: React.ElementType
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className = "", variant = "default", size = "default", ...props }, ref) => {
+    ({ className = "", variant = "default", size = "default", as: Component = "button", ...props }, ref) => {
         const baseStyles = "inline-flex items-center justify-center rounded-md font-medium transition-colors duration-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
 
         const variants = {
@@ -31,7 +32,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         }
 
         return (
-            <button
+            <Component
                 className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
                 ref={ref}
                 {...props}

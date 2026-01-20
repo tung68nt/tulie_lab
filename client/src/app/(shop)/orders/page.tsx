@@ -74,10 +74,10 @@ export default function OrdersPage() {
                         <p className="text-muted-foreground mb-6">Khám phá các khóa học và sản phẩm tuyệt vời của chúng tôi!</p>
                         <div className="flex justify-center gap-4">
                             <Link href="/courses">
-                                <Button>Xem khóa học</Button>
+                                <Button as="div">Xem khóa học</Button>
                             </Link>
                             <Link href="/shop">
-                                <Button variant="outline">Xem cửa hàng</Button>
+                                <Button as="div" variant="outline">Xem cửa hàng</Button>
                             </Link>
                         </div>
                     </div>
@@ -145,11 +145,11 @@ export default function OrdersPage() {
                                                 <td className="px-4 py-4 text-right">
                                                     {order.status === 'PENDING' && order.amount > 0 ? (
                                                         <Link href={`/order/${order.code}`}>
-                                                            <Button size="sm">Thanh toán</Button>
+                                                            <Button as="div" size="sm">Thanh toán</Button>
                                                         </Link>
                                                     ) : (order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) ? (
                                                         <Link href="/dashboard">
-                                                            <Button variant="outline" size="sm">Vào học</Button>
+                                                            <Button as="div" variant="outline" size="sm">Vào học</Button>
                                                         </Link>
                                                     ) : null}
                                                 </td>

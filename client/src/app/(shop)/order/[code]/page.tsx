@@ -58,7 +58,7 @@ export default function OrderPage({ params }: { params: any }) {
         <div className="container py-20 text-center">
             <h1 className="text-2xl font-bold mb-4">Đơn hàng không tồn tại</h1>
             <Link href="/courses">
-                <Button>Quay lại danh sách khóa học</Button>
+                <Button as="div">Quay lại danh sách khóa học</Button>
             </Link>
         </div>
     );
@@ -74,7 +74,7 @@ export default function OrderPage({ params }: { params: any }) {
                     <h1 className="text-2xl font-bold mb-2">Khóa học miễn phí</h1>
                     <p className="text-muted-foreground mb-6">Khóa học này hoàn toàn miễn phí. Bạn không cần thanh toán.</p>
                     <Link href="/my-learning">
-                        <Button className="w-full">Vào học ngay</Button>
+                        <Button as="div" className="w-full">Vào học ngay</Button>
                     </Link>
                 </div>
             </div>
@@ -91,7 +91,7 @@ export default function OrderPage({ params }: { params: any }) {
                     <h1 className="text-2xl font-bold mb-2">Thanh toán thành công!</h1>
                     <p className="text-muted-foreground mb-6">Bạn đã đăng ký thành công khóa học.</p>
                     <Link href="/dashboard">
-                        <Button className="w-full">Vào học ngay</Button>
+                        <Button as="div" className="w-full">Vào học ngay</Button>
                     </Link>
                 </div>
             </div>

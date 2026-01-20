@@ -182,7 +182,7 @@ export default function ProductDetailPage() {
                                                     </div>
 
                                                     <a href={selectedVersion.fileUrl} target="_blank" rel="noopener noreferrer">
-                                                        <Button size="lg" className="w-full text-lg h-14 rounded-xl font-bold gap-2">
+                                                        <Button as="div" size="lg" className="w-full text-lg h-14 rounded-xl font-bold gap-2">
                                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                                                             Tải xuống v{selectedVersion.version}
                                                         </Button>
@@ -194,7 +194,7 @@ export default function ProductDetailPage() {
                                         // Fallback for Products without versions (Legacy)
                                         product.fileUrl ? (
                                             <a href={product.fileUrl} target="_blank" rel="noopener noreferrer">
-                                                <Button size="lg" className="w-full text-lg h-14 rounded-xl font-bold gap-2">
+                                                <Button as="div" size="lg" className="w-full text-lg h-14 rounded-xl font-bold gap-2">
                                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                                                     Tải xuống
                                                 </Button>
@@ -209,13 +209,13 @@ export default function ProductDetailPage() {
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <Link href={`/checkout?productId=${product.id}`}>
-                                        <Button size="lg" className="w-full text-lg h-16 rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 font-bold">
+                                        <Button as="div" size="lg" className="w-full text-lg h-16 rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 font-bold">
                                             Sở hữu ngay
                                         </Button>
                                     </Link>
                                     {product.previewUrl && (
                                         <a href={product.previewUrl} target="_blank" rel="noopener noreferrer">
-                                            <Button variant="outline" size="lg" className="w-full text-lg h-16 rounded-2xl border-2 hover:bg-secondary font-bold">
+                                            <Button as="div" variant="outline" size="lg" className="w-full text-lg h-16 rounded-2xl border-2 hover:bg-secondary font-bold">
                                                 Xem bản demo
                                             </Button>
                                         </a>
@@ -249,7 +249,7 @@ export default function ProductDetailPage() {
                                         </div>
                                         <Link href="/checkout?productId=membership-yearly" className="block">
                                             {/* Note: Ensure membership-yearly product exists or logic handles it */}
-                                            <Button className="w-full font-bold shadow-lg shadow-primary/20 bg-primary text-primary-foreground hover:bg-primary/90">
+                                            <Button as="div" className="w-full font-bold shadow-lg shadow-primary/20 bg-primary text-primary-foreground hover:bg-primary/90">
                                                 Đăng ký Hội viên ngay
                                             </Button>
                                         </Link>

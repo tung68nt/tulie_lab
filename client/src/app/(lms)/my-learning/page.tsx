@@ -44,7 +44,7 @@ export default function MyLearningPage() {
                 <div className="text-center py-20 bg-muted/20 rounded-xl">
                     <p className="text-muted-foreground mb-4">Bạn chưa đăng ký khóa học nào.</p>
                     <Link href="/courses">
-                        <Button>Khám phá khóa học</Button>
+                        <Button as="div">Khám phá khóa học</Button>
                     </Link>
                 </div>
             ) : (
@@ -62,7 +62,7 @@ export default function MyLearningPage() {
                             </CardContent>
                             <CardFooter>
                                 <Link href={`/courses/${item.course.slug}`} className="w-full">
-                                    <Button className="w-full">Tiếp tục học</Button>
+                                    <Button as="div" className="w-full">Tiếp tục học</Button>
                                 </Link>
                             </CardFooter>
                         </Card>
