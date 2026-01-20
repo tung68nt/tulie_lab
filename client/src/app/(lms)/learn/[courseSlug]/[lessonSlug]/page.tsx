@@ -317,6 +317,8 @@ export default function LearnPage({ params }: { params: any }) {
 
                                 return Object.entries(groupedLessons).map(([chapterName, lessons], chapterIdx) => {
                                     const isCollapsed = collapsedChapters.has(chapterName);
+                                    const chapterHasActiveLesson = lessons.some((l: any) => l.slug === lessonSlug);
+                                    const completedInChapter = lessons.filter((l: any) => completedLessons.includes(l.id)).length;
                                     const toggleChapter = () => {
                                         setCollapsedChapters(prev => {
                                             const newSet = new Set(prev);
@@ -327,92 +329,96 @@ export default function LearnPage({ params }: { params: any }) {
                                     };
 
                                     return (
-                                        <div key={chapterName} className={chapterIdx > 0 ? 'mt-1' : ''}>
-                                            {/* Chapter Header - Clickable to toggle */}
+                                        <div key={chapterName} className="mb-1">
+                                            {/* Chapter Header - Modern Design */}
                                             <div
-                                                className="px-4 py-2.5 bg-muted/50 cursor-pointer hover:bg-muted/70 transition-colors flex items-center justify-between"
+                                                className={`px-4 py-3 cursor-pointer transition-all flex items-center justify-between
+                                                    ${chapterHasActiveLesson ? 'bg-zinc-100' : 'hover:bg-zinc-50'}
+                                                `}
                                                 onClick={toggleChapter}
                                             >
-                                                <h3 className="text-[12px] font-semibold text-foreground flex items-center gap-2">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
-                                                    {chapterName}
-                                                    <span className="text-muted-foreground font-normal text-[11px]">({lessons.length})</span>
-                                                </h3>
-                                                {isCollapsed ? (
-                                                    <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                                                ) : (
-                                                    <ChevronUp className="w-4 h-4 text-muted-foreground" />
-                                                )}
+                                                <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                    <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0
+                                                        ${completedInChapter === lessons.length ? 'bg-green-500 text-white' : 'bg-zinc-200 text-zinc-600'}
+                                                    `}>
+                                                        {completedInChapter === lessons.length ? <Check className="w-3.5 h-3.5" /> : chapterIdx + 1}
+                                                    </div>
+                                                    <div className="min-w-0">
+                                                        <h3 className="text-[13px] font-semibold text-zinc-900 truncate">{chapterName}</h3>
+                                                        <p className="text-[11px] text-zinc-500">{completedInChapter}/{lessons.length} bài đã hoàn thành</p>
+                                                    </div>
+                                                </div>
+                                                <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform flex-shrink-0 ${!isCollapsed ? 'rotate-180' : ''}`} />
                                             </div>
 
-                                            {/* Lessons in Chapter */}
-                                            {!isCollapsed && lessons.map((lesson: any, idx: number) => {
-                                                const isActive = lesson.slug === lessonSlug;
-                                                const isCompleted = lesson.id && completedLessons.includes(lesson.id);
-                                                const globalIdx = sortedLessons.findIndex((l: any) => l.id === lesson.id);
-                                                const showSection = lesson.section && (idx === 0 || lesson.section !== lessons[idx - 1]?.section);
+                                            {/* Lessons in Chapter - Modern Cards */}
+                                            {!isCollapsed && (
+                                                <div className="pl-4 pr-2 py-1">
+                                                    {lessons.map((lesson: any, idx: number) => {
+                                                        const isActive = lesson.slug === lessonSlug;
+                                                        const isCompleted = lesson.id && completedLessons.includes(lesson.id);
+                                                        const globalIdx = sortedLessons.findIndex((l: any) => l.id === lesson.id);
+                                                        const showSection = lesson.section && (idx === 0 || lesson.section !== lessons[idx - 1]?.section);
 
-                                                return (
-                                                    <div key={lesson.id}>
-                                                        {showSection && (
-                                                            <div className="px-5 py-1.5 bg-muted/5">
-                                                                <p className="text-[11px] font-medium text-muted-foreground/70">
-                                                                    {lesson.section}
-                                                                </p>
-                                                            </div>
-                                                        )}
-                                                        <Link
-                                                            href={`/learn/${courseSlug}/${lesson.slug}`}
-                                                            className={`flex items-start gap-3 px-4 py-2.5 text-sm transition-all group
-                                                            ${isActive ? 'bg-black text-white' : 'hover:bg-zinc-50'}
-                                                        `}
-                                                        >
-                                                            {/* Status Icon */}
-                                                            <div
-                                                                onClick={(e) => handleToggleComplete(lesson.id, e)}
-                                                                className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 border cursor-pointer transition-all
-                                                                ${isActive
-                                                                        ? isCompleted
-                                                                            ? 'bg-white text-black border-white'
-                                                                            : 'border-white/50 text-white hover:border-white'
-                                                                        : isCompleted
-                                                                            ? 'bg-foreground text-background border-foreground'
-                                                                            : 'border-muted-foreground/30 text-muted-foreground hover:border-foreground'}
-                                                            `}>
-                                                                {isCompleted ? (
-                                                                    <Check className="w-3.5 h-3.5" strokeWidth={3} />
-                                                                ) : (
-                                                                    <span className="text-[10px] font-bold">{globalIdx + 1}</span>
-                                                                )}
-                                                            </div>
-
-                                                            {/* Lesson Thumbnail */}
-                                                            <div className="flex-shrink-0 mt-0.5">
-                                                                {lesson.thumbnail ? (
-                                                                    <img
-                                                                        src={lesson.thumbnail}
-                                                                        alt=""
-                                                                        className="w-20 h-12 object-cover rounded border border-zinc-200/50"
-                                                                    />
-                                                                ) : (
-                                                                    <div className="w-20 h-12 bg-zinc-100 rounded flex items-center justify-center border border-zinc-200/50">
-                                                                        <Play size={14} className="text-zinc-400" />
+                                                        return (
+                                                            <div key={lesson.id}>
+                                                                {showSection && (
+                                                                    <div className="py-2 pl-9">
+                                                                        <p className="text-[12px] font-medium text-zinc-800">
+                                                                            {lesson.section}
+                                                                        </p>
                                                                     </div>
                                                                 )}
-                                                            </div>
+                                                                <Link
+                                                                    href={`/learn/${courseSlug}/${lesson.slug}`}
+                                                                    className={`flex items-center gap-3 px-3 py-2 mb-1 rounded-lg text-sm transition-all group
+                                                                        ${isActive
+                                                                            ? 'bg-black text-white shadow-sm'
+                                                                            : 'hover:bg-zinc-100 text-zinc-700'}
+                                                                    `}
+                                                                >
+                                                                    {/* Status Indicator */}
+                                                                    <div
+                                                                        onClick={(e) => handleToggleComplete(lesson.id, e)}
+                                                                        className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 border-2 cursor-pointer transition-all
+                                                                            ${isActive
+                                                                                ? isCompleted
+                                                                                    ? 'bg-white text-black border-white'
+                                                                                    : 'border-white/50 text-white hover:border-white'
+                                                                                : isCompleted
+                                                                                    ? 'bg-green-500 border-green-500 text-white'
+                                                                                    : 'border-zinc-300 text-zinc-400 hover:border-zinc-400'}
+                                                                        `}
+                                                                    >
+                                                                        {isCompleted ? (
+                                                                            <Check className="w-3 h-3" strokeWidth={3} />
+                                                                        ) : (
+                                                                            <span className="text-[10px] font-medium">{globalIdx + 1}</span>
+                                                                        )}
+                                                                    </div>
 
-                                                            <div className="flex-1 min-w-0">
-                                                                <span className={`block line-clamp-2 ${isActive ? 'font-medium' : ''}`}>
-                                                                    {lesson.title}
-                                                                </span>
-                                                                {lesson.duration && (
-                                                                    <span className="text-[10px] text-muted-foreground">{lesson.duration}</span>
-                                                                )}
+                                                                    {/* Lesson Info */}
+                                                                    <div className="flex-1 min-w-0">
+                                                                        <span className={`block text-[13px] leading-tight truncate ${isActive ? 'font-medium' : ''}`}>
+                                                                            {lesson.title}
+                                                                        </span>
+                                                                        {lesson.duration && (
+                                                                            <span className={`text-[11px] ${isActive ? 'text-white/70' : 'text-zinc-400'}`}>
+                                                                                {lesson.duration}
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+
+                                                                    {/* Play Icon for Active */}
+                                                                    {isActive && (
+                                                                        <Play className="w-4 h-4 flex-shrink-0" fill="white" />
+                                                                    )}
+                                                                </Link>
                                                             </div>
-                                                        </Link>
-                                                    </div>
-                                                );
-                                            })}
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 });
@@ -529,9 +535,9 @@ export default function LearnPage({ params }: { params: any }) {
                                 )}
                             </div>
                         </div>
-                    </main>
-                </div>
-            </div>
-        </div>
+                    </main >
+                </div >
+            </div >
+        </div >
     );
 }
