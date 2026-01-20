@@ -329,11 +329,11 @@ export default function LearnPage({ params }: { params: any }) {
                                     };
 
                                     return (
-                                        <div key={chapterName} className="mb-1">
+                                        <div key={chapterName}>
                                             {/* Chapter Header - Modern Design */}
                                             <div
-                                                className={`px-4 py-3 cursor-pointer transition-all flex items-center justify-between
-                                                    ${chapterHasActiveLesson ? 'bg-zinc-100' : 'hover:bg-zinc-50'}
+                                                className={`px-4 py-3 cursor-pointer transition-all flex items-center justify-between border-b border-zinc-100
+                                                    ${chapterHasActiveLesson ? 'bg-zinc-50' : 'hover:bg-zinc-50'}
                                                 `}
                                                 onClick={toggleChapter}
                                             >
@@ -353,7 +353,7 @@ export default function LearnPage({ params }: { params: any }) {
 
                                             {/* Lessons in Chapter - Modern Cards */}
                                             {!isCollapsed && (
-                                                <div className="pl-4 pr-2 py-1">
+                                                <div className="bg-white">
                                                     {lessons.map((lesson: any, idx: number) => {
                                                         const isActive = lesson.slug === lessonSlug;
                                                         const isCompleted = lesson.id && completedLessons.includes(lesson.id);
@@ -363,7 +363,7 @@ export default function LearnPage({ params }: { params: any }) {
                                                         return (
                                                             <div key={lesson.id}>
                                                                 {showSection && (
-                                                                    <div className="py-2 pl-9">
+                                                                    <div className="py-2 pl-9 bg-zinc-50/50 border-t border-zinc-100">
                                                                         <p className="text-[12px] font-medium text-zinc-800">
                                                                             {lesson.section}
                                                                         </p>
@@ -371,20 +371,20 @@ export default function LearnPage({ params }: { params: any }) {
                                                                 )}
                                                                 <Link
                                                                     href={`/learn/${courseSlug}/${lesson.slug}`}
-                                                                    className={`flex items-center gap-3 px-3 py-2 mb-1 rounded-lg text-sm transition-all group
+                                                                    className={`flex items-start gap-3 px-4 py-3 transition-all group border-b border-zinc-50
                                                                         ${isActive
-                                                                            ? 'bg-black text-white shadow-sm'
-                                                                            : 'hover:bg-zinc-100 text-zinc-700'}
+                                                                            ? 'bg-zinc-100'
+                                                                            : 'hover:bg-zinc-50'}
                                                                     `}
                                                                 >
                                                                     {/* Status Indicator */}
                                                                     <div
                                                                         onClick={(e) => handleToggleComplete(lesson.id, e)}
-                                                                        className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 border-2 cursor-pointer transition-all
+                                                                        className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 border cursor-pointer transition-all
                                                                             ${isActive
                                                                                 ? isCompleted
-                                                                                    ? 'bg-white text-black border-white'
-                                                                                    : 'border-white/50 text-white hover:border-white'
+                                                                                    ? 'bg-green-600 text-white border-green-600'
+                                                                                    : 'border-zinc-400 text-zinc-600'
                                                                                 : isCompleted
                                                                                     ? 'bg-green-500 border-green-500 text-white'
                                                                                     : 'border-zinc-300 text-zinc-400 hover:border-zinc-400'}
@@ -397,22 +397,35 @@ export default function LearnPage({ params }: { params: any }) {
                                                                         )}
                                                                     </div>
 
-                                                                    {/* Lesson Info */}
-                                                                    <div className="flex-1 min-w-0">
-                                                                        <span className={`block text-[13px] leading-tight truncate ${isActive ? 'font-medium' : ''}`}>
-                                                                            {lesson.title}
-                                                                        </span>
+                                                                    {/* Thumbnail */}
+                                                                    <div className="flex-shrink-0 w-24 h-14 bg-zinc-200 rounded-md overflow-hidden relative">
+                                                                        {lesson.thumbnail ? (
+                                                                            <img
+                                                                                src={lesson.thumbnail}
+                                                                                alt=""
+                                                                                className="w-full h-full object-cover"
+                                                                            />
+                                                                        ) : (
+                                                                            <div className="w-full h-full flex items-center justify-center bg-zinc-100">
+                                                                                <Play className="w-5 h-5 text-zinc-300" />
+                                                                            </div>
+                                                                        )}
+                                                                        {/* Duration Badge */}
                                                                         {lesson.duration && (
-                                                                            <span className={`text-[11px] ${isActive ? 'text-white/70' : 'text-zinc-400'}`}>
+                                                                            <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] px-1 rounded-sm">
                                                                                 {lesson.duration}
-                                                                            </span>
+                                                                            </div>
                                                                         )}
                                                                     </div>
 
-                                                                    {/* Play Icon for Active */}
-                                                                    {isActive && (
-                                                                        <Play className="w-4 h-4 flex-shrink-0" fill="white" />
-                                                                    )}
+                                                                    {/* Lesson Info */}
+                                                                    <div className="flex-1 min-w-0 pt-0.5">
+                                                                        <span className={`block text-[13px] leading-tight line-clamp-2 mb-1 ${isActive ? 'font-semibold text-zinc-900' : 'text-zinc-700'}`}>
+                                                                            {lesson.title}
+                                                                        </span>
+
+                                                                        {/* Optional: Add extra metadata here if needed */}
+                                                                    </div>
                                                                 </Link>
                                                             </div>
                                                         );
