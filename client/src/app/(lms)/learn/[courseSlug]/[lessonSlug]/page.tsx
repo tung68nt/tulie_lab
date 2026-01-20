@@ -57,7 +57,23 @@ export default function LearnPage({ params }: { params: any }) {
     const [hasAccess, setHasAccess] = useState(false);
     const [user, setUser] = useState<any>(null);
     const [completedLessons, setCompletedLessons] = useState<string[]>([]);
-    const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
+    const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(() => {
+        // Initialize from localStorage if available (client-side only)
+        if (typeof window !== 'undefined') {
+            try {
+                const saved = localStorage.getItem('lms-collapsed-chapters');
+                if (saved) return new Set(JSON.parse(saved));
+            } catch (e) { /* ignore */ }
+        }
+        return new Set();
+    });
+
+    // Persist collapsed chapters to localStorage
+    useEffect(() => {
+        if (typeof window !== 'undefined' && collapsedChapters.size >= 0) {
+            localStorage.setItem('lms-collapsed-chapters', JSON.stringify([...collapsedChapters]));
+        }
+    }, [collapsedChapters]);
 
     // Handle params promise safely
     useEffect(() => {
@@ -301,16 +317,16 @@ export default function LearnPage({ params }: { params: any }) {
                                     };
 
                                     return (
-                                        <div key={chapterName}>
+                                        <div key={chapterName} className={chapterIdx > 0 ? 'mt-1' : ''}>
                                             {/* Chapter Header - Clickable to toggle */}
                                             <div
-                                                className="px-4 py-3 bg-muted/30 border-b cursor-pointer hover:bg-muted/50 transition-colors flex items-center justify-between"
+                                                className="px-4 py-2.5 bg-muted/50 cursor-pointer hover:bg-muted/70 transition-colors flex items-center justify-between"
                                                 onClick={toggleChapter}
                                             >
                                                 <h3 className="text-[12px] font-semibold text-foreground flex items-center gap-2">
                                                     <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
                                                     {chapterName}
-                                                    <span className="text-muted-foreground font-normal">({lessons.length})</span>
+                                                    <span className="text-muted-foreground font-normal text-[11px]">({lessons.length})</span>
                                                 </h3>
                                                 {isCollapsed ? (
                                                     <ChevronDown className="w-4 h-4 text-muted-foreground" />
@@ -329,16 +345,16 @@ export default function LearnPage({ params }: { params: any }) {
                                                 return (
                                                     <div key={lesson.id}>
                                                         {showSection && (
-                                                            <div className="px-4 py-2 bg-muted/10 border-b">
-                                                                <p className="text-[11px] font-medium text-muted-foreground/80">
+                                                            <div className="px-5 py-1.5 bg-muted/5">
+                                                                <p className="text-[10px] font-medium text-muted-foreground/70 uppercase tracking-wide">
                                                                     {lesson.section}
                                                                 </p>
                                                             </div>
                                                         )}
                                                         <Link
                                                             href={`/learn/${courseSlug}/${lesson.slug}`}
-                                                            className={`flex items-start gap-3 px-4 py-3 border-b text-sm transition-all group
-                                                            ${isActive ? 'bg-black text-white' : 'hover:bg-zinc-100'}
+                                                            className={`flex items-start gap-3 px-4 py-2.5 text-sm transition-all group
+                                                            ${isActive ? 'bg-black text-white' : 'hover:bg-zinc-50'}
                                                         `}
                                                         >
                                                             {/* Status Icon */}
