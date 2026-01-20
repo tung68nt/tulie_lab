@@ -131,7 +131,7 @@ async function initializeApp() {
     app.use('/api/activation-codes', activationCodeRoutes);
     app.use('/api/products', productRoutes);
 
-    // Diagnostic Endpoint
+    // Basic Diagnostic Endpoint (safe to keep)
     app.get('/api/diag', async (req, res) => {
       let dbStatus = 'checking...';
       try {
@@ -143,52 +143,14 @@ async function initializeApp() {
       }
       res.json({
         status: 'online', database: dbStatus, timestamp: new Date().toISOString(),
-        env: process.env.NODE_ENV, headers: req.headers, baseUrl: req.baseUrl, path: req.path, url: req.url, originalUrl: req.originalUrl
+        env: process.env.NODE_ENV
       });
     });
 
-    app.get('/api/diag/schema', async (req, res) => {
-      try {
-        const prisma = (await import('./config/prisma')).default;
-        const columns = await prisma.$queryRaw`
-                SELECT column_name, data_type 
-                FROM information_schema.columns 
-                WHERE table_name = 'Lesson'
-            `;
-        res.json(columns);
-      } catch (error: any) {
-        res.status(500).json({ error: error.message });
-      }
-    });
-
-    app.get('/api/diag/update-test/:id', async (req, res) => {
-      try {
-        const { id } = req.params;
-        const { PrismaLessonRepository } = await import('./modules/lms/courses/repositories/prisma-lesson.repository');
-        const repo = new PrismaLessonRepository();
-        console.log(`[Diag] Testing update for lesson ${id}`);
-        const result = await repo.update(id, { chapter: 'Diag Test ' + Date.now() });
-        res.json({ success: true, result });
-      } catch (error: any) {
-        console.error(`[Diag] Update failed:`, error);
-        res.status(500).json({ error: error.message, stack: error.stack });
-      }
-    });
-
-    app.get('/api/diag/fix-schema', async (req, res) => {
-      try {
-        const prisma = (await import('./config/prisma')).default;
-        console.log('[Diag] Attempting to fix schema manually...');
-
-        await prisma.$executeRawUnsafe(`ALTER TABLE "Lesson" ADD COLUMN IF NOT EXISTS "chapter" TEXT;`);
-        await prisma.$executeRawUnsafe(`ALTER TABLE "Lesson" ADD COLUMN IF NOT EXISTS "section" TEXT;`);
-
-        res.json({ success: true, message: 'Schema fixed: Added chapter and section columns if they were missing.' });
-      } catch (error: any) {
-        console.error('[Diag] Schema fix failed:', error);
-        res.status(500).json({ error: error.message });
-      }
-    });
+    // NOTE: Dangerous debug endpoints removed for security:
+    // - /api/diag/schema - Lists DB columns
+    // - /api/diag/update-test/:id - Modifies data
+    // - /api/diag/fix-schema - DANGEROUS: Runs ALTER TABLE
 
     // JSON 404 Handler - MUST be after all routes
     app.use('/api', (req, res) => {
