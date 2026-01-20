@@ -10,6 +10,7 @@ export class CourseController {
 
     async listCourses(req: Request, res: Response) {
         try {
+            res.set('Cache-Control', 'public, max-age=60'); // Cache for 60 seconds
             const { category, level, price, search } = req.query;
             let isFree: boolean | undefined = undefined;
             if (price === 'free') isFree = true;
@@ -30,6 +31,10 @@ export class CourseController {
 
     async listAllCourses(req: Request, res: Response) {
         try {
+            // No cache for admin list or internal use list usually, but strict args here suggest public usage??
+            // usually listAllCourses is for admin. Let's check route usage.
+            // If it accepts 'published' query param, it might be admin.
+            // PROCEED with caution: only cache listCourses (public) and getCourse (public).
             const { category, level, price, search, published } = req.query;
             let isFree: boolean | undefined = undefined;
             if (price === 'free') isFree = true;
@@ -51,6 +56,7 @@ export class CourseController {
 
     async getCourse(req: Request, res: Response) {
         try {
+            res.set('Cache-Control', 'public, max-age=60'); // Cache for 60 seconds
             const { slug } = req.params as { slug: string };
             const course = await this.courseService.getCourseBySlug(slug);
             if (!course) return res.status(404).json({ message: 'Course not found' });

@@ -38,7 +38,8 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         introVideoUrl: '',
         learningOutcomes: '',
         deploymentStatus: 'RELEASED',
-        tag: 'NONE'
+        tag: 'NONE',
+        structure: [] as { title: string, sections: string[] }[]
     });
 
     const [newLesson, setNewLesson] = useState({
@@ -92,7 +93,8 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             ? JSON.stringify(fullDetails.learningOutcomes, null, 2)
                             : fullDetails.learningOutcomes || '',
                         deploymentStatus: fullDetails.deploymentStatus || 'RELEASED',
-                        tag: fullDetails.tag || 'NONE'
+                        tag: fullDetails.tag || 'NONE',
+                        structure: fullDetails.structure || []
                     });
                     // Set next position
                     setNewLesson(prev => ({ ...prev, position: (fullDetails.lessons?.length || 0) + 1 }));
@@ -177,6 +179,35 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         } catch (e) {
             console.error(e);
             addToast('Cập nhật bài học thất bại', 'error');
+        }
+    };
+
+    const handleMoveLesson = async (index: number, direction: 'up' | 'down') => {
+        const sortedLessons = [...lessons].sort((a, b) => a.position - b.position);
+        if (direction === 'up' && index === 0) return;
+        if (direction === 'down' && index === sortedLessons.length - 1) return;
+
+        const targetIndex = direction === 'up' ? index - 1 : index + 1;
+        const currentLesson = sortedLessons[index];
+        const targetLesson = sortedLessons[targetIndex];
+
+        // Swap positions
+        const tempPos = currentLesson.position;
+        currentLesson.position = targetLesson.position;
+        targetLesson.position = tempPos;
+
+        // Optimistic update
+        setLessons([...sortedLessons]);
+
+        try {
+            await Promise.all([
+                api.admin.courses.updateLesson(currentLesson.id, { position: currentLesson.position }),
+                api.admin.courses.updateLesson(targetLesson.id, { position: targetLesson.position })
+            ]);
+            addToast('Đã cập nhật thứ tự', 'success');
+        } catch (error) {
+            console.error('Failed to move lesson', error);
+            addToast('Lỗi cập nhật thứ tự', 'error');
         }
     };
 
@@ -361,6 +392,72 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
 
                 {/* Lessons Management */}
                 <div className="space-y-6">
+                    {/* Structure Editor */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Cấu trúc chương trình (Curriculum)</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-4">
+                                {courseForm.structure.map((chapter, cIndex) => (
+                                    <div key={cIndex} className="border p-4 rounded-lg bg-zinc-50/50">
+                                        <div className="flex gap-2 items-center mb-3">
+                                            <div className="font-semibold text-sm w-20">Chương {cIndex + 1}:</div>
+                                            <Input
+                                                value={chapter.title}
+                                                onChange={(e) => {
+                                                    const newStructure = [...courseForm.structure];
+                                                    newStructure[cIndex].title = e.target.value;
+                                                    setCourseForm({ ...courseForm, structure: newStructure });
+                                                }}
+                                                placeholder="Tên chương (VD: Giới thiệu)"
+                                                className="flex-1"
+                                            />
+                                            <Button variant="ghost" size="sm" onClick={() => {
+                                                const newStructure = [...courseForm.structure];
+                                                newStructure.splice(cIndex, 1);
+                                                setCourseForm({ ...courseForm, structure: newStructure });
+                                            }} className="text-red-500 hover:text-red-700">Xóa</Button>
+                                        </div>
+                                        <div className="pl-24 space-y-2">
+                                            {chapter.sections.map((section, sIndex) => (
+                                                <div key={sIndex} className="flex gap-2 items-center">
+                                                    <div className="text-xs text-muted-foreground w-16">Phần {cIndex + 1}.{sIndex + 1}:</div>
+                                                    <Input
+                                                        value={section}
+                                                        className="h-8 text-sm flex-1"
+                                                        onChange={(e) => {
+                                                            const newStructure = [...courseForm.structure];
+                                                            newStructure[cIndex].sections[sIndex] = e.target.value;
+                                                            setCourseForm({ ...courseForm, structure: newStructure });
+                                                        }}
+                                                        placeholder="Tên phần"
+                                                    />
+                                                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={() => {
+                                                        const newStructure = [...courseForm.structure];
+                                                        newStructure[cIndex].sections.splice(sIndex, 1);
+                                                        setCourseForm({ ...courseForm, structure: newStructure });
+                                                    }}>×</Button>
+                                                </div>
+                                            ))}
+                                            <Button size="sm" variant="outline" type="button" className="h-7 text-xs mt-2" onClick={() => {
+                                                const newStructure = [...courseForm.structure];
+                                                newStructure[cIndex].sections.push(`Bài ...`);
+                                                setCourseForm({ ...courseForm, structure: newStructure });
+                                            }}>+ Thêm phần</Button>
+                                        </div>
+                                    </div>
+                                ))}
+                                <Button className="w-full" type="button" variant="outline" onClick={() => setCourseForm({
+                                    ...courseForm,
+                                    structure: [...courseForm.structure, { title: `Chương ${courseForm.structure.length + 1}`, sections: [] }]
+                                })}>
+                                    + Thêm chương mới
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+
                     <Card>
                         <CardHeader>
                             <CardTitle>Thêm bài học mới</CardTitle>
@@ -402,18 +499,24 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">Chương (Module)</label>
-                                        <Input
-                                            placeholder="vd: Chương 1: Cơ bản"
+                                        <Select
+                                            options={[
+                                                { value: '', label: 'Chọn chương' },
+                                                ...courseForm.structure.map(s => ({ value: s.title, label: s.title }))
+                                            ]}
                                             value={newLesson.chapter}
-                                            onChange={e => setNewLesson({ ...newLesson, chapter: e.target.value })}
+                                            onChange={(val) => setNewLesson({ ...newLesson, chapter: val })}
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">Phần (Section)</label>
-                                        <Input
-                                            placeholder="vd: Phần 1.1: Cài đặt"
+                                        <Select
+                                            options={[
+                                                { value: '', label: 'Chọn phần' },
+                                                ...(courseForm.structure.find(s => s.title === newLesson.chapter)?.sections.map(sec => ({ value: sec, label: sec })) || [])
+                                            ]}
                                             value={newLesson.section}
-                                            onChange={e => setNewLesson({ ...newLesson, section: e.target.value })}
+                                            onChange={(val) => setNewLesson({ ...newLesson, section: val })}
                                         />
                                     </div>
                                 </div>
@@ -556,6 +659,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                         </CardContent>
                     </Card>
 
+                    {/* Lesson List */}
                     <Card>
                         <CardHeader>
                             <CardTitle>Danh sách bài học</CardTitle>
@@ -565,12 +669,16 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 <p className="text-muted-foreground text-sm">Chưa có bài học nào.</p>
                             ) : (
                                 <div className="space-y-2">
-                                    {lessons.sort((a, b) => a.position - b.position).map((lesson) => (
+                                    {lessons.sort((a, b) => a.position - b.position).map((lesson, index) => (
                                         <LessonItem
                                             key={lesson.id}
                                             lesson={lesson}
+                                            index={index}
+                                            totalLessons={lessons.length}
+                                            structure={courseForm.structure}
                                             onDelete={handleDeleteLesson}
                                             onUpdateLesson={handleUpdateLesson}
+                                            onMoveLesson={handleMoveLesson}
                                             onAddAttachment={async (lessonId, data) => {
                                                 try {
                                                     const attach = await api.admin.courses.addAttachment(lessonId, data);
@@ -595,11 +703,24 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     );
 }
 
-function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
+function LessonItem({
+    lesson,
+    onDelete,
+    onAddAttachment,
+    onUpdateLesson,
+    structure,
+    onMoveLesson,
+    index,
+    totalLessons
+}: {
     lesson: any,
     onDelete: (id: string) => void,
     onAddAttachment: (id: string, data: any) => void,
-    onUpdateLesson?: (id: string, data: any) => void
+    onUpdateLesson?: (id: string, data: any) => void,
+    structure: { title: string, sections: string[] }[],
+    onMoveLesson: (index: number, direction: 'up' | 'down') => void,
+    index: number,
+    totalLessons: number
 }) {
     const [expanded, setExpanded] = useState(false);
     const [attachForm, setAttachForm] = useState({ title: '', url: '' });
@@ -620,33 +741,14 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
     const [isEditingThumbnail, setIsEditingThumbnail] = useState(false);
     const [isEditingContent, setIsEditingContent] = useState(false);
 
-    const handleSaveTitle = () => {
-        if (onUpdateLesson) {
-            onUpdateLesson(lesson.id, { title });
-        }
-        setIsEditingTitle(false);
-    };
+    // ... (keep handleSave functions)
+    const handleSaveTitle = () => { if (onUpdateLesson) { onUpdateLesson(lesson.id, { title }); } setIsEditingTitle(false); };
+    const handleSaveSlug = () => { if (onUpdateLesson) { onUpdateLesson(lesson.id, { slug }); } setIsEditingSlug(false); };
+    const handleSaveVideoUrl = () => { if (onUpdateLesson) { onUpdateLesson(lesson.id, { videoUrl }); } setIsEditingVideo(false); };
+    const handleSaveDuration = () => { if (onUpdateLesson) { onUpdateLesson(lesson.id, { duration }); } setIsEditingDuration(false); };
 
-    const handleSaveSlug = () => {
-        if (onUpdateLesson) {
-            onUpdateLesson(lesson.id, { slug });
-        }
-        setIsEditingSlug(false);
-    };
-
-    const handleSaveVideoUrl = () => {
-        if (onUpdateLesson) {
-            onUpdateLesson(lesson.id, { videoUrl });
-        }
-        setIsEditingVideo(false);
-    };
-
-    const handleSaveDuration = () => {
-        if (onUpdateLesson) {
-            onUpdateLesson(lesson.id, { duration });
-        }
-        setIsEditingDuration(false);
-    };
+    // Helper to get sections for current chapter
+    const currentChapterSections = structure.find(s => s.title === chapter)?.sections || [];
 
     const handleSaveChapter = () => {
         if (onUpdateLesson) {
@@ -670,9 +772,29 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
     };
 
     return (
-        <div className="border rounded-md bg-card">
-            <div className="flex items-center justify-between p-3">
-                <div className="flex items-center gap-3 cursor-pointer" onClick={() => setExpanded(!expanded)}>
+        <div className="border rounded-lg bg-white overflow-hidden">
+            <div className="p-3 flex items-center gap-3">
+                <div className="flex flex-col gap-1 items-center justify-center mr-1">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-5 w-5 p-0 hover:bg-zinc-100"
+                        disabled={index === 0}
+                        onClick={() => onMoveLesson(index, 'up')}
+                    >
+                        <ChevronUp className="w-4 h-4 text-zinc-500" />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-5 w-5 p-0 hover:bg-zinc-100"
+                        disabled={index === totalLessons - 1}
+                        onClick={() => onMoveLesson(index, 'down')}
+                    >
+                        <ChevronDown className="w-4 h-4 text-zinc-500" />
+                    </Button>
+                </div>
+                <div className="w-16 h-10 bg-zinc-100 rounded overflow-hidden flex-shrink-0 relative" onClick={() => setExpanded(!expanded)}>
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium">
                         {lesson.position}
                     </span>
@@ -809,15 +931,19 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
                         <div className="space-y-2">
                             <label className="text-xs font-semibold text-muted-foreground">Chương (Module)</label>
                             <div className="flex gap-2">
-                                <Input
-                                    placeholder="Chương 1: Mở đầu"
-                                    className="h-8 text-sm flex-1"
-                                    value={chapter}
-                                    onChange={e => setChapter(e.target.value)}
-                                    disabled={!isEditingChapter}
-                                />
                                 {isEditingChapter ? (
                                     <>
+                                        <div className="flex-1">
+                                            <Select
+                                                value={chapter}
+                                                onChange={(val) => setChapter(val)}
+                                                options={[
+                                                    { value: '', label: 'Chọn chương' },
+                                                    ...structure.map(s => ({ value: s.title, label: s.title }))
+                                                ]}
+                                                className="h-8 text-sm"
+                                            />
+                                        </div>
                                         <Button size="sm" className="h-8" onClick={handleSaveChapter}>Lưu</Button>
                                         <Button size="sm" variant="ghost" className="h-8" onClick={() => {
                                             setChapter(lesson.chapter || '');
@@ -825,7 +951,10 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
                                         }}>Hủy</Button>
                                     </>
                                 ) : (
-                                    <Button size="sm" variant="outline" className="h-8" onClick={() => setIsEditingChapter(true)}>Sửa</Button>
+                                    <>
+                                        <div className="flex-1 text-sm py-1 px-3 border rounded bg-zinc-50">{chapter || 'Chưa có'}</div>
+                                        <Button size="sm" variant="outline" className="h-8" onClick={() => setIsEditingChapter(true)}>Sửa</Button>
+                                    </>
                                 )}
                             </div>
                         </div>
@@ -834,15 +963,19 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
                         <div className="space-y-2">
                             <label className="text-xs font-semibold text-muted-foreground">Phần (Section)</label>
                             <div className="flex gap-2">
-                                <Input
-                                    placeholder="Phần 1.1: Tổng quan"
-                                    className="h-8 text-sm flex-1"
-                                    value={section}
-                                    onChange={e => setSection(e.target.value)}
-                                    disabled={!isEditingSection}
-                                />
                                 {isEditingSection ? (
                                     <>
+                                        <div className="flex-1">
+                                            <Select
+                                                value={section}
+                                                onChange={(val) => setSection(val)}
+                                                options={[
+                                                    { value: '', label: 'Chọn phần' },
+                                                    ...(currentChapterSections.map(s => ({ value: s, label: s })))
+                                                ]}
+                                                className="h-8 text-sm"
+                                            />
+                                        </div>
                                         <Button size="sm" className="h-8" onClick={handleSaveSection}>Lưu</Button>
                                         <Button size="sm" variant="ghost" className="h-8" onClick={() => {
                                             setSection(lesson.section || '');
@@ -850,7 +983,10 @@ function LessonItem({ lesson, onDelete, onAddAttachment, onUpdateLesson }: {
                                         }}>Hủy</Button>
                                     </>
                                 ) : (
-                                    <Button size="sm" variant="outline" className="h-8" onClick={() => setIsEditingSection(true)}>Sửa</Button>
+                                    <>
+                                        <div className="flex-1 text-sm py-1 px-3 border rounded bg-zinc-50">{section || 'Chưa có'}</div>
+                                        <Button size="sm" variant="outline" className="h-8" onClick={() => setIsEditingSection(true)}>Sửa</Button>
+                                    </>
                                 )}
                             </div>
                         </div>
