@@ -8,6 +8,7 @@ interface VideoPlayerProps {
     url: string;
     type?: VideoType;
     title?: string;
+    thumbnail?: string;
     className?: string;
 }
 
@@ -21,7 +22,7 @@ import { useAuth } from '@/contexts/AuthContext';
  * Multi-source Video Player
  * Supports: YouTube, Vimeo, Cloudflare Stream (HLS), Self-hosted
  */
-export function VideoPlayer({ url, type, title, className = '' }: VideoPlayerProps) {
+export function VideoPlayer({ url, type, title, thumbnail, className = '' }: VideoPlayerProps) {
     const [error, setError] = useState(false);
     const { user } = useAuth();
 
@@ -106,7 +107,7 @@ export function VideoPlayer({ url, type, title, className = '' }: VideoPlayerPro
     if (videoType === 'CLOUDFLARE_STREAM' || url.includes('.m3u8')) {
         return (
             <div className={`relative ${className}`}>
-                <HLSPlayer src={url} title={title} onError={() => setError(true)} />
+                <HLSPlayer src={url} title={title} thumbnail={thumbnail} onError={() => setError(true)} />
                 <Watermark />
             </div>
         );
@@ -127,6 +128,7 @@ export function VideoPlayer({ url, type, title, className = '' }: VideoPlayerPro
                         onContextMenu={(e) => e.preventDefault()}
                         onError={() => setError(true)}
                         title={title}
+                        poster={thumbnail}
                     >
                         Your browser does not support video playback.
                     </video>
@@ -270,11 +272,13 @@ function FullscreenButton({ isFullscreen, onClick }: { isFullscreen: boolean; on
 function HLSPlayer({
     src,
     title,
+    thumbnail,
     className,
     onError
 }: {
     src: string;
     title?: string;
+    thumbnail?: string;
     className?: string;
     onError?: () => void;
 }) {
@@ -439,6 +443,7 @@ function HLSPlayer({
                 controlsList="nodownload nofullscreen"
                 onContextMenu={(e) => e.preventDefault()}
                 title={title}
+                poster={thumbnail}
             />
             {/* Watermark overlay - visible in both normal and fullscreen */}
             <HLSWatermark />

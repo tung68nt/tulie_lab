@@ -328,6 +328,7 @@ export default function LearnPage({ params }: { params: any }) {
                                         url={currentLesson.videoUrl}
                                         type={currentLesson.videoType}
                                         title={currentLesson.title}
+                                        thumbnail={currentLesson.thumbnail}
                                         className="w-full h-full"
                                     />
                                     {user && (user.email || user.name) && (
