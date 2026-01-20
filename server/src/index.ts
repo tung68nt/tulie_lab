@@ -175,6 +175,21 @@ async function initializeApp() {
       }
     });
 
+    app.get('/api/diag/fix-schema', async (req, res) => {
+      try {
+        const prisma = (await import('./config/prisma')).default;
+        console.log('[Diag] Attempting to fix schema manually...');
+
+        await prisma.$executeRawUnsafe(`ALTER TABLE "Lesson" ADD COLUMN IF NOT EXISTS "chapter" TEXT;`);
+        await prisma.$executeRawUnsafe(`ALTER TABLE "Lesson" ADD COLUMN IF NOT EXISTS "section" TEXT;`);
+
+        res.json({ success: true, message: 'Schema fixed: Added chapter and section columns if they were missing.' });
+      } catch (error: any) {
+        console.error('[Diag] Schema fix failed:', error);
+        res.status(500).json({ error: error.message });
+      }
+    });
+
     // JSON 404 Handler - MUST be after all routes
     app.use('/api', (req, res) => {
       console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
