@@ -303,6 +303,21 @@ export default function LearnPage({ params }: { params: any }) {
                                                 )}
                                             </div>
 
+                                            {/* Lesson Thumbnail */}
+                                            <div className="flex-shrink-0 mt-0.5">
+                                                {lesson.thumbnail ? (
+                                                    <img
+                                                        src={lesson.thumbnail}
+                                                        alt=""
+                                                        className="w-14 h-9 object-cover rounded border border-zinc-200/50"
+                                                    />
+                                                ) : (
+                                                    <div className="w-14 h-9 bg-zinc-100 rounded flex items-center justify-center border border-zinc-200/50">
+                                                        <Play size={12} className="text-zinc-400" />
+                                                    </div>
+                                                )}
+                                            </div>
+
                                             <div className="flex-1 min-w-0">
                                                 <span className={`block line-clamp-2 ${isActive ? 'font-medium' : ''}`}>
                                                     {lesson.title}
