@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -8,7 +9,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// Schema Version: 2 (Force Rebuild - Sync with Server)
+// Schema Version: 2 (Force Rebuild)
 
 model User {
   id            String             @id @default(uuid())
@@ -72,7 +73,7 @@ model UserSession {
 model SystemSetting {
   id        String   @id @default(uuid())
   key       String   @unique
-  value     Json
+  value     String   @db.Text
   type      String   @default("text")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -189,7 +190,7 @@ model Course {
   deploymentStatus CourseDeploymentStatus @default(RELEASED)
   tag              CourseTag              @default(NONE)
   introVideoUrl    String?
-  learningOutcomes Json?
+  learningOutcomes String?                @db.Text
   createdAt        DateTime               @default(now())
   updatedAt        DateTime               @updatedAt
   instructorId     String?
@@ -217,6 +218,8 @@ model Lesson {
   thumbnail   String?
   videoUrl    String?
   duration    String?
+  chapter     String?
+  section     String?
   content     String?
   isFree      Boolean          @default(false)
   position    Int              @default(0)
@@ -419,7 +422,7 @@ model Coupon {
   isActive      Boolean       @default(true)
   startDate     DateTime?
   endDate       DateTime?
-  forBirthday   Boolean       @false
+  forBirthday   Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   usages        CouponUsage[]
@@ -488,7 +491,7 @@ model LandingPage {
   title          String
   slug           String   @unique
   description    String?
-  sections       Json
+  sections       String?       @db.Text
   isActive       Boolean  @default(true)
   courseId       String?
   upsellCourseId String?

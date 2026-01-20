@@ -7,8 +7,8 @@ export class PrismaCourseRepository implements ICourseRepository {
         return prisma.course.create({ data });
     }
 
-    async update(id: string, data: Prisma.CourseUpdateInput): Promise<Course> {
-        return prisma.course.update({ where: { id }, data });
+    async update(id: string, data: any): Promise<Course> {
+        return (prisma.course as any).update({ where: { id }, data });
     }
 
     async delete(id: string): Promise<Course> {

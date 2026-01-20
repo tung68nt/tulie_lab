@@ -174,6 +174,10 @@ export class CourseService {
 
         if (filteredData.instructorId === '') filteredData.instructorId = null;
         if (filteredData.categoryId === '') filteredData.categoryId = null;
+        if (filteredData.learningOutcomes === '') filteredData.learningOutcomes = null;
+        if (filteredData.introVideoUrl === '') filteredData.introVideoUrl = null;
+        if (filteredData.thumbnail === '') filteredData.thumbnail = null;
+        if (filteredData.description === '') filteredData.description = null;
 
         const updatedCourse = await this.courseRepository.update(id, filteredData);
         return this.parseCourse(updatedCourse);
