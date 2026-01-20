@@ -163,11 +163,14 @@ export class PaymentService {
         transactionId: string,
         signature?: string
     }): Promise<Order> {
-        if (data.signature) {
-            const { signature, ...payload } = data;
-            const isValid = await this.verifySepaySignature(payload, signature);
-            if (!isValid) throw new Error('Invalid webhook signature');
+        const { signature, ...payload } = data;
+
+        if (!signature) {
+            throw new Error('Missing webhook signature');
         }
+
+        const isValid = await this.verifySepaySignature(payload, signature);
+        if (!isValid) throw new Error('Invalid webhook signature');
 
         const order = await this.orderRepository.findByCode(data.code);
         if (!order) throw new Error('Order not found');

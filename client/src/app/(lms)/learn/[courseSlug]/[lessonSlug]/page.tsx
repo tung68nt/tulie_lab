@@ -410,12 +410,6 @@ export default function LearnPage({ params }: { params: any }) {
                                                                                 <Play className="w-5 h-5 text-zinc-300" />
                                                                             </div>
                                                                         )}
-                                                                        {/* Duration Badge */}
-                                                                        {lesson.duration && (
-                                                                            <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] px-1 rounded-sm">
-                                                                                {lesson.duration}
-                                                                            </div>
-                                                                        )}
                                                                     </div>
 
                                                                     {/* Lesson Info */}
@@ -423,8 +417,11 @@ export default function LearnPage({ params }: { params: any }) {
                                                                         <span className={`block text-[13px] leading-tight line-clamp-2 mb-1 ${isActive ? 'font-semibold text-zinc-900' : 'text-zinc-700'}`}>
                                                                             {lesson.title}
                                                                         </span>
-
-                                                                        {/* Optional: Add extra metadata here if needed */}
+                                                                        {lesson.duration && (
+                                                                            <span className={`text-[11px] block ${isActive ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                                                                                {lesson.duration}
+                                                                            </span>
+                                                                        )}
                                                                     </div>
                                                                 </Link>
                                                             </div>
