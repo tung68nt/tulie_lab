@@ -192,7 +192,14 @@ export class CourseService {
     }
 
     async updateLesson(id: string, data: any) {
-        return this.lessonRepository.update(id, data);
+        const validFields = ['title', 'slug', 'description', 'thumbnail', 'videoUrl', 'duration', 'chapter', 'section', 'content', 'isFree', 'position'];
+        const filteredData: any = {};
+
+        for (const key of Object.keys(data)) {
+            if (validFields.includes(key)) filteredData[key] = data[key];
+        }
+
+        return this.lessonRepository.update(id, filteredData);
     }
 
     async deleteLesson(id: string) {
