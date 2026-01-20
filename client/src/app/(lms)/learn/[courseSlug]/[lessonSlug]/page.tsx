@@ -7,7 +7,7 @@ import { Watermark } from '@/components/system/security/Watermark';
 import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Check, Play, Clock, FileText, ExternalLink, ChevronLeft, ChevronRight, Lock } from 'lucide-react';
+import { Check, Play, Clock, FileText, ExternalLink, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Lock } from 'lucide-react';
 
 // Helper function to parse duration string (e.g., "10:25" or "1:05:30") to seconds
 function parseDurationToSeconds(duration: string): number {
@@ -57,6 +57,7 @@ export default function LearnPage({ params }: { params: any }) {
     const [hasAccess, setHasAccess] = useState(false);
     const [user, setUser] = useState<any>(null);
     const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+    const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
 
     // Handle params promise safely
     useEffect(() => {
@@ -252,84 +253,144 @@ export default function LearnPage({ params }: { params: any }) {
                             </div>
                         </div>
 
-                        {/* Lessons List */}
-                        <div className="flex-1 overflow-y-auto pb-20">
-                            {sortedLessons.map((lesson: any, idx: number) => {
-                                const isActive = lesson.slug === lessonSlug;
-                                const isCompleted = lesson.id && completedLessons.includes(lesson.id);
-
-                                const showChapter = lesson.chapter && (idx === 0 || lesson.chapter !== sortedLessons[idx - 1].chapter);
-                                const showSection = lesson.section && (idx === 0 || lesson.section !== sortedLessons[idx - 1].section || (lesson.chapter && lesson.chapter !== sortedLessons[idx - 1].chapter));
-
+                        {/* Expand/Collapse All Controls */}
+                        {(() => {
+                            const chapters = [...new Set(sortedLessons.map((l: any) => l.chapter).filter(Boolean))];
+                            if (chapters.length > 1) {
                                 return (
-                                    <div key={lesson.id}>
-                                        {showChapter && (
-                                            <div className="px-4 py-3 bg-muted/30 border-b">
-                                                <h3 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                                                    {lesson.chapter}
-                                                </h3>
-                                            </div>
-                                        )}
-                                        {showSection && (
-                                            <div className="px-4 py-2 bg-muted/10 border-b">
-                                                <p className="text-[11px] font-semibold text-muted-foreground/80">
-                                                    {lesson.section}
-                                                </p>
-                                            </div>
-                                        )}
-                                        <Link
-                                            href={`/learn/${courseSlug}/${lesson.slug}`}
-                                            className={`flex items-start gap-3 px-4 py-3 border-b text-sm transition-all group
-                                            ${isActive ? 'bg-black text-white' : 'hover:bg-zinc-100'}
-                                        `}
+                                    <div className="px-4 py-2 border-b flex gap-2 text-[11px]">
+                                        <button
+                                            onClick={() => setCollapsedChapters(new Set())}
+                                            className="text-primary hover:underline"
                                         >
-                                            {/* Status Icon */}
-                                            <div
-                                                onClick={(e) => handleToggleComplete(lesson.id, e)}
-                                                className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 border cursor-pointer transition-all
-                                                ${isActive
-                                                        ? isCompleted
-                                                            ? 'bg-white text-black border-white'
-                                                            : 'border-white/50 text-white hover:border-white'
-                                                        : isCompleted
-                                                            ? 'bg-foreground text-background border-foreground'
-                                                            : 'border-muted-foreground/30 text-muted-foreground hover:border-foreground'}
-                                            `}>
-                                                {isCompleted ? (
-                                                    <Check className="w-3.5 h-3.5" strokeWidth={3} />
-                                                ) : (
-                                                    <span className="text-[10px] font-bold">{idx + 1}</span>
-                                                )}
-                                            </div>
-
-                                            {/* Lesson Thumbnail */}
-                                            <div className="flex-shrink-0 mt-0.5">
-                                                {lesson.thumbnail ? (
-                                                    <img
-                                                        src={lesson.thumbnail}
-                                                        alt=""
-                                                        className="w-20 h-12 object-cover rounded border border-zinc-200/50"
-                                                    />
-                                                ) : (
-                                                    <div className="w-20 h-12 bg-zinc-100 rounded flex items-center justify-center border border-zinc-200/50">
-                                                        <Play size={14} className="text-zinc-400" />
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            <div className="flex-1 min-w-0">
-                                                <span className={`block line-clamp-2 ${isActive ? 'font-medium' : ''}`}>
-                                                    {lesson.title}
-                                                </span>
-                                                {lesson.duration && (
-                                                    <span className="text-[10px] text-muted-foreground">{lesson.duration}</span>
-                                                )}
-                                            </div>
-                                        </Link>
+                                            Mở rộng tất cả
+                                        </button>
+                                        <span className="text-muted-foreground">|</span>
+                                        <button
+                                            onClick={() => setCollapsedChapters(new Set(chapters as string[]))}
+                                            className="text-primary hover:underline"
+                                        >
+                                            Thu gọn tất cả
+                                        </button>
                                     </div>
                                 );
-                            })}
+                            }
+                            return null;
+                        })()}
+
+                        {/* Lessons List - Grouped by Chapter */}
+                        <div className="flex-1 overflow-y-auto pb-20">
+                            {(() => {
+                                // Group lessons by chapter
+                                const groupedLessons: { [key: string]: any[] } = {};
+                                sortedLessons.forEach((lesson: any) => {
+                                    const chapterKey = lesson.chapter || 'Giới thiệu';
+                                    if (!groupedLessons[chapterKey]) groupedLessons[chapterKey] = [];
+                                    groupedLessons[chapterKey].push(lesson);
+                                });
+
+                                return Object.entries(groupedLessons).map(([chapterName, lessons], chapterIdx) => {
+                                    const isCollapsed = collapsedChapters.has(chapterName);
+                                    const toggleChapter = () => {
+                                        setCollapsedChapters(prev => {
+                                            const newSet = new Set(prev);
+                                            if (newSet.has(chapterName)) newSet.delete(chapterName);
+                                            else newSet.add(chapterName);
+                                            return newSet;
+                                        });
+                                    };
+
+                                    return (
+                                        <div key={chapterName}>
+                                            {/* Chapter Header - Clickable to toggle */}
+                                            <div
+                                                className="px-4 py-3 bg-muted/30 border-b cursor-pointer hover:bg-muted/50 transition-colors flex items-center justify-between"
+                                                onClick={toggleChapter}
+                                            >
+                                                <h3 className="text-[12px] font-semibold text-foreground flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>
+                                                    {chapterName}
+                                                    <span className="text-muted-foreground font-normal">({lessons.length})</span>
+                                                </h3>
+                                                {isCollapsed ? (
+                                                    <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                                                ) : (
+                                                    <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                                                )}
+                                            </div>
+
+                                            {/* Lessons in Chapter */}
+                                            {!isCollapsed && lessons.map((lesson: any, idx: number) => {
+                                                const isActive = lesson.slug === lessonSlug;
+                                                const isCompleted = lesson.id && completedLessons.includes(lesson.id);
+                                                const globalIdx = sortedLessons.findIndex((l: any) => l.id === lesson.id);
+                                                const showSection = lesson.section && (idx === 0 || lesson.section !== lessons[idx - 1]?.section);
+
+                                                return (
+                                                    <div key={lesson.id}>
+                                                        {showSection && (
+                                                            <div className="px-4 py-2 bg-muted/10 border-b">
+                                                                <p className="text-[11px] font-medium text-muted-foreground/80">
+                                                                    {lesson.section}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                        <Link
+                                                            href={`/learn/${courseSlug}/${lesson.slug}`}
+                                                            className={`flex items-start gap-3 px-4 py-3 border-b text-sm transition-all group
+                                                            ${isActive ? 'bg-black text-white' : 'hover:bg-zinc-100'}
+                                                        `}
+                                                        >
+                                                            {/* Status Icon */}
+                                                            <div
+                                                                onClick={(e) => handleToggleComplete(lesson.id, e)}
+                                                                className={`w-5 h-5 rounded-full flex items-center justify-center text-xs flex-shrink-0 mt-0.5 border cursor-pointer transition-all
+                                                                ${isActive
+                                                                        ? isCompleted
+                                                                            ? 'bg-white text-black border-white'
+                                                                            : 'border-white/50 text-white hover:border-white'
+                                                                        : isCompleted
+                                                                            ? 'bg-foreground text-background border-foreground'
+                                                                            : 'border-muted-foreground/30 text-muted-foreground hover:border-foreground'}
+                                                            `}>
+                                                                {isCompleted ? (
+                                                                    <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                                                                ) : (
+                                                                    <span className="text-[10px] font-bold">{globalIdx + 1}</span>
+                                                                )}
+                                                            </div>
+
+                                                            {/* Lesson Thumbnail */}
+                                                            <div className="flex-shrink-0 mt-0.5">
+                                                                {lesson.thumbnail ? (
+                                                                    <img
+                                                                        src={lesson.thumbnail}
+                                                                        alt=""
+                                                                        className="w-20 h-12 object-cover rounded border border-zinc-200/50"
+                                                                    />
+                                                                ) : (
+                                                                    <div className="w-20 h-12 bg-zinc-100 rounded flex items-center justify-center border border-zinc-200/50">
+                                                                        <Play size={14} className="text-zinc-400" />
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
+                                                            <div className="flex-1 min-w-0">
+                                                                <span className={`block line-clamp-2 ${isActive ? 'font-medium' : ''}`}>
+                                                                    {lesson.title}
+                                                                </span>
+                                                                {lesson.duration && (
+                                                                    <span className="text-[10px] text-muted-foreground">{lesson.duration}</span>
+                                                                )}
+                                                            </div>
+                                                        </Link>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                });
+                            })()}
                         </div>
                     </aside>
 

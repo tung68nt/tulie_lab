@@ -278,11 +278,11 @@ export default function CoursePage({ params }: { params: any }) {
                                         <div>
                                             <p className="text-xs text-zinc-400 mb-1">Học phí</p>
                                             <div className="text-2xl font-bold text-white">
-                                                {Number(course.price) === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.price))}
+                                                {(course.price == null || Number(course.price) === 0) ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.price))}
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            {Number(course.price) > 0 && <span className="line-through text-zinc-600 text-xs">{(Number(course.price) * 1.5).toLocaleString()} ₫</span>}
+                                            {course.price != null && Number(course.price) > 0 && <span className="line-through text-zinc-600 text-xs">{(Number(course.price) * 1.5).toLocaleString()} ₫</span>}
                                         </div>
                                     </div>
 
