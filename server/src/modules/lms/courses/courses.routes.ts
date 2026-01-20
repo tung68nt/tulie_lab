@@ -10,6 +10,7 @@ const router = Router();
 // ==========================================
 router.get('/admin/list', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.listAllCourses(req, res));
 router.get('/admin/:id', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.getCourseDetails(req, res));
+router.get('/:id/full', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.getCourseDetails(req, res));
 
 // ==========================================
 // LESSONS & ATTACHMENTS
