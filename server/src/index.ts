@@ -147,6 +147,34 @@ async function initializeApp() {
       });
     });
 
+    app.get('/api/diag/schema', async (req, res) => {
+      try {
+        const prisma = (await import('./config/prisma')).default;
+        const columns = await prisma.$queryRaw`
+                SELECT column_name, data_type 
+                FROM information_schema.columns 
+                WHERE table_name = 'Lesson'
+            `;
+        res.json(columns);
+      } catch (error: any) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+
+    app.get('/api/diag/update-test/:id', async (req, res) => {
+      try {
+        const { id } = req.params;
+        const { PrismaLessonRepository } = await import('./modules/lms/courses/repositories/prisma-lesson.repository');
+        const repo = new PrismaLessonRepository();
+        console.log(`[Diag] Testing update for lesson ${id}`);
+        const result = await repo.update(id, { chapter: 'Diag Test ' + Date.now() });
+        res.json({ success: true, result });
+      } catch (error: any) {
+        console.error(`[Diag] Update failed:`, error);
+        res.status(500).json({ error: error.message, stack: error.stack });
+      }
+    });
+
     // JSON 404 Handler - MUST be after all routes
     app.use('/api', (req, res) => {
       console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
