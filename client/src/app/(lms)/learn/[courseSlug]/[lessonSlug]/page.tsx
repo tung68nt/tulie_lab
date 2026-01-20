@@ -89,57 +89,67 @@ export default function LearnPage({ params }: { params: any }) {
     }, [params]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (!courseSlug || !lessonSlug) return;
-            setLoading(true);
+        // Fetch course data ONCE when courseSlug changes
+        const fetchCourse = async () => {
+            if (!courseSlug) return;
             try {
                 const courseData: any = await api.courses.get(courseSlug);
                 setCourse(courseData);
+            } catch (error) {
+                console.error('Failed to fetch course:', error);
+            }
+        };
+        fetchCourse();
+    }, [courseSlug]); // Only refetch when courseSlug changes
 
-                if (courseData && courseData.lessons && courseData.lessons.length > 0) {
-                    const foundLesson = courseData.lessons.find((l: any) => l.slug === lessonSlug);
+    useEffect(() => {
+        // Fetch lesson content when lessonSlug changes (fast, uses cached course)
+        const fetchLesson = async () => {
+            if (!courseSlug || !lessonSlug || !course) return;
+            setLoading(true);
+            try {
+                const foundLesson = course.lessons?.find((l: any) => l.slug === lessonSlug);
 
-                    if (!foundLesson) {
-                        setLoading(false);
-                        return;
-                    }
+                if (!foundLesson) {
+                    setLoading(false);
+                    return;
+                }
 
-                    let access = false;
-                    if (foundLesson.isFree || courseData.price === 0) {
-                        access = true;
-                    } else {
-                        try {
-                            const userData: any = await api.auth.getMe().catch(() => null);
-                            if (userData?.user || userData?.id) {
-                                setUser(userData.user || userData);
-                                const profile: any = await api.users.getProfile().catch(() => null);
-                                if (profile && profile.enrollments) {
-                                    access = profile.enrollments.some((e: any) => e.course?.slug === courseSlug || e.courseId === courseData.id);
-                                }
+                let access = false;
+                if (foundLesson.isFree || course.price === 0) {
+                    access = true;
+                } else {
+                    try {
+                        const userData: any = await api.auth.getMe().catch(() => null);
+                        if (userData?.user || userData?.id) {
+                            setUser(userData.user || userData);
+                            const profile: any = await api.users.getProfile().catch(() => null);
+                            if (profile && profile.enrollments) {
+                                access = profile.enrollments.some((e: any) => e.course?.slug === courseSlug || e.courseId === course.id);
                             }
-                        } catch {
-                            access = false;
                         }
+                    } catch {
+                        access = false;
                     }
+                }
 
-                    setHasAccess(access);
+                setHasAccess(access);
 
-                    if (access) {
-                        try {
-                            const secureContent = await api.courses.getContent(foundLesson.id);
-                            setCurrentLesson(secureContent);
+                if (access) {
+                    try {
+                        const secureContent = await api.courses.getContent(foundLesson.id);
+                        setCurrentLesson(secureContent);
 
-                            // Fetch progress
-                            const progressData: any = await api.courses.getProgress(courseData.id).catch(() => ({}));
-                            if (progressData && progressData.completedLessonIds) {
-                                setCompletedLessons(progressData.completedLessonIds);
-                            }
-                        } catch (e) {
-                            setCurrentLesson(foundLesson);
+                        // Fetch progress
+                        const progressData: any = await api.courses.getProgress(course.id).catch(() => ({}));
+                        if (progressData && progressData.completedLessonIds) {
+                            setCompletedLessons(progressData.completedLessonIds);
                         }
-                    } else {
+                    } catch (e) {
                         setCurrentLesson(foundLesson);
                     }
+                } else {
+                    setCurrentLesson(foundLesson);
                 }
             } catch (e) {
                 console.warn("Failed to load lesson data", e);
@@ -147,8 +157,8 @@ export default function LearnPage({ params }: { params: any }) {
                 setLoading(false);
             }
         };
-        fetchData();
-    }, [courseSlug, lessonSlug, api]);
+        fetchLesson();
+    }, [courseSlug, lessonSlug, course]); // Also depends on course being loaded
 
     const handleToggleComplete = async (lessonId: string, e?: React.MouseEvent) => {
         if (e) {
@@ -346,7 +356,7 @@ export default function LearnPage({ params }: { params: any }) {
                                                     <div key={lesson.id}>
                                                         {showSection && (
                                                             <div className="px-5 py-1.5 bg-muted/5">
-                                                                <p className="text-[10px] font-medium text-muted-foreground/70 uppercase tracking-wide">
+                                                                <p className="text-[11px] font-medium text-muted-foreground/70">
                                                                     {lesson.section}
                                                                 </p>
                                                             </div>
