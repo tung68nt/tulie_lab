@@ -63,7 +63,12 @@ export default function CoursePage({ params }: { params: any }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const courseData = await api.courses.get(slug) as any;
+                // Fetch course and user profile in PARALLEL for faster loading
+                const [courseData, userProfile]: [any, any] = await Promise.all([
+                    api.courses.get(slug),
+                    api.users.getProfile().catch(() => null) // Don't fail if not logged in
+                ]);
+
                 setCourse(courseData);
 
                 // Track ViewContent event
@@ -77,13 +82,13 @@ export default function CoursePage({ params }: { params: any }) {
                     }]
                 });
 
-                try {
-                    const user = await api.users.getProfile() as any;
+                // Check enrollment from parallel-fetched profile
+                if (userProfile) {
                     setIsLoggedIn(true);
-                    if (user && user.enrollments) {
-                        setIsEnrolled(user.enrollments.some((e: any) => e.course.slug === slug));
+                    if (userProfile.enrollments) {
+                        setIsEnrolled(userProfile.enrollments.some((e: any) => e.course?.slug === slug));
                     }
-                } catch {
+                } else {
                     setIsLoggedIn(false);
                 }
             } catch (e) {

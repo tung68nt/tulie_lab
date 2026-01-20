@@ -219,7 +219,7 @@ export default function LearnPage({ params }: { params: any }) {
 
                 <div className="flex flex-col-reverse md:flex-row min-h-screen">
                     {/* Left Sidebar - Course Navigation */}
-                    <aside className="w-full md:w-72 border-r-0 border-t md:border-t-0 md:border-r border-border bg-muted/5 flex-shrink-0 h-auto md:h-[calc(100vh-56px)] relative md:sticky top-0 md:top-[56px] flex flex-col overflow-visible">
+                    <aside className="w-full md:w-80 border-r-0 border-t md:border-t-0 md:border-r border-border bg-muted/5 flex-shrink-0 h-auto md:h-[calc(100vh-56px)] relative md:sticky top-0 md:top-[56px] flex flex-col overflow-visible">
                         {/* Extend sidebar border up */}
                         <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border hidden md:block"></div>
                         {/* Course Header with Progress */}
@@ -309,11 +309,11 @@ export default function LearnPage({ params }: { params: any }) {
                                                     <img
                                                         src={lesson.thumbnail}
                                                         alt=""
-                                                        className="w-14 h-9 object-cover rounded border border-zinc-200/50"
+                                                        className="w-20 h-12 object-cover rounded border border-zinc-200/50"
                                                     />
                                                 ) : (
-                                                    <div className="w-14 h-9 bg-zinc-100 rounded flex items-center justify-center border border-zinc-200/50">
-                                                        <Play size={12} className="text-zinc-400" />
+                                                    <div className="w-20 h-12 bg-zinc-100 rounded flex items-center justify-center border border-zinc-200/50">
+                                                        <Play size={14} className="text-zinc-400" />
                                                     </div>
                                                 )}
                                             </div>
