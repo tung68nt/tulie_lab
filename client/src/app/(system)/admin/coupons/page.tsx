@@ -59,7 +59,7 @@ export default function CouponsPage() {
                 subtitle="Quản lý mã giảm giá và chương trình khuyến mãi cho học viên."
             >
                 <Link href="/admin/coupons/new">
-                    <Button>+ Tạo Mã mới</Button>
+                    <Button as="div">+ Tạo Mã mới</Button>
                 </Link>
             </AdminPageHeader>
 
@@ -113,7 +113,7 @@ export default function CouponsPage() {
                                         <td className="px-4 py-4 text-right">
                                             <div className="flex justify-end gap-2">
                                                 <Link href={`/admin/coupons/${coupon.id}`}>
-                                                    <Button variant="outline" size="sm" className="h-7 px-2">Sửa</Button>
+                                                    <Button as="div" variant="outline" size="sm" className="h-7 px-2">Sửa</Button>
                                                 </Link>
                                                 <Button
                                                     variant="ghost"

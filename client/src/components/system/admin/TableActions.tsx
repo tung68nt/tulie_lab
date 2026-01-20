@@ -39,7 +39,7 @@ export function TableActions({
             {(onView || viewUrl) && (
                 viewUrl ? (
                     <Link href={viewUrl} target="_blank">
-                        <Button variant="outline" size="icon" className={buttonClass} title="Xem chi tiết">
+                        <Button as="div" variant="outline" size="icon" className={buttonClass} title="Xem chi tiết">
                             <Eye size={16} className="text-muted-foreground hover:text-foreground" />
                         </Button>
                     </Link>
@@ -54,7 +54,7 @@ export function TableActions({
             {customActions.map((action, idx) => (
                 action.href ? (
                     <Link key={idx} href={action.href}>
-                        <Button variant="outline" size="icon" className={buttonClass} title={action.title}>
+                        <Button as="div" variant="outline" size="icon" className={buttonClass} title={action.title}>
                             <action.icon size={16} className="text-muted-foreground hover:text-foreground" />
                         </Button>
                     </Link>
@@ -69,7 +69,7 @@ export function TableActions({
             {(onEdit || editUrl) && (
                 editUrl ? (
                     <Link href={editUrl}>
-                        <Button variant="outline" size="icon" className={buttonClass} title="Chỉnh sửa">
+                        <Button as="div" variant="outline" size="icon" className={buttonClass} title="Chỉnh sửa">
                             <Edit size={16} className="text-muted-foreground hover:text-foreground" />
                         </Button>
                     </Link>

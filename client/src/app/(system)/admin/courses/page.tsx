@@ -65,7 +65,7 @@ export default function AdminCoursesPage() {
                 subtitle="Quản lý danh sách khóa học và nội dung đào tạo"
             >
                 <Link href="/admin/courses/new">
-                    <Button>Tạo khóa học</Button>
+                    <Button as="div">Tạo khóa học</Button>
                 </Link>
             </AdminPageHeader>
 

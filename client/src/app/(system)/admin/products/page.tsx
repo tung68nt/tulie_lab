@@ -78,7 +78,7 @@ export default function AdminProductsPage() {
                 subtitle="Quản lý các sản phẩm kỹ thuật số (Template, App, License)"
             >
                 <Link href="/admin/products/new">
-                    <Button className="gap-2">
+                    <Button as="div" className="gap-2">
                         <Plus className="h-4 w-4" /> Thêm sản phẩm
                     </Button>
                 </Link>

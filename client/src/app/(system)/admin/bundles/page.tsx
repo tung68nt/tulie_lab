@@ -59,7 +59,7 @@ export default function BundlesPage() {
                 subtitle="Tạo và quản lý các gói combo khóa học ưu đãi."
             >
                 <Link href="/admin/bundles/new">
-                    <Button>+ Tạo Combo mới</Button>
+                    <Button as="div">+ Tạo Combo mới</Button>
                 </Link>
             </AdminPageHeader>
 
@@ -116,7 +116,7 @@ export default function BundlesPage() {
                                 </div>
                                 <div className="flex flex-row md:flex-col gap-2 justify-center border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-4">
                                     <Link href={`/admin/bundles/${bundle.id}`}>
-                                        <Button variant="outline" size="sm" className="w-full">Edit</Button>
+                                        <Button as="div" variant="outline" size="sm" className="w-full">Edit</Button>
                                     </Link>
                                     <Button
                                         variant="ghost"

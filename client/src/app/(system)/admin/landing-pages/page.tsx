@@ -58,7 +58,7 @@ export default function LandingPagesAdmin() {
                 subtitle="Tạo và chỉnh sửa các trang bán hàng động."
             >
                 <Link href="/admin/landing-pages/new">
-                    <Button className="flex items-center gap-2">
+                    <Button as="div" className="flex items-center gap-2">
                         <Plus size={16} /> Tạo trang mới
                     </Button>
                 </Link>
