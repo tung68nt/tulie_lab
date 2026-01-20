@@ -49,6 +49,21 @@ export default async function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.__APP_VERSION__ = "0.1.7";
+            console.log("🚀 Academy Tulie v" + window.__APP_VERSION__);
+            if (typeof window !== 'undefined' && window.location.search.includes('reset=true')) {
+              console.warn("Force Reset requested via URL. Clearing local storage...");
+              localStorage.clear();
+              const url = new URL(window.location.href);
+              url.searchParams.delete('reset');
+              window.history.replaceState({}, '', url.pathname);
+            }
+          `,
+          }}
+        />
         <Script
           id="gtm-script"
           strategy="afterInteractive"

@@ -227,10 +227,11 @@ export function Footer() {
                 </div>
 
                 {/* Bottom Bar - Copyright only */}
-                <div className="mt-12 pt-6 border-t">
+                <div className="mt-12 pt-6 border-t flex flex-col items-center gap-2">
                     <p className="text-sm text-muted-foreground text-center">
                         © {new Date().getFullYear()} {footerData.copyrightText}
                     </p>
+                    <span className="text-[10px] text-zinc-500 font-mono opacity-30">v0.1.7</span>
                 </div>
             </div>
         </footer>
