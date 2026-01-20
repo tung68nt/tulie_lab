@@ -30,6 +30,11 @@ export function CourseChapter({
     isEnrolled
 }: CourseChapterProps) {
     const [isChapterOpen, setIsChapterOpen] = useState(chapterIndex === 0);
+    const [expandedLessonId, setExpandedLessonId] = useState<string | null>(null);
+
+    const toggleLesson = (lessonId: string) => {
+        setExpandedLessonId(expandedLessonId === lessonId ? null : lessonId);
+    };
 
     return (
         <div className="border-b last:border-0">
@@ -55,10 +60,14 @@ export function CourseChapter({
             <div className={`transition-all duration-300 ease-in-out ${isChapterOpen ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
                 {chapterLessons.map((lesson: Lesson) => {
                     const isLocked = !isEnrolled && !lesson.isFree;
+                    const isExpanded = expandedLessonId === lesson.id;
 
                     return (
                         <div key={lesson.id} className="group flex flex-col transition-colors border-t first:border-t-0 hover:bg-muted/30">
-                            <div className="flex items-start p-4 gap-4">
+                            <div
+                                className="flex items-start p-4 gap-4 cursor-pointer"
+                                onClick={() => toggleLesson(lesson.id)}
+                            >
                                 {/* Lesson Thumbnail */}
                                 <div className="shrink-0 w-24 h-16 bg-zinc-200 rounded-md overflow-hidden relative border border-zinc-200">
                                     {lesson.thumbnail && typeof lesson.thumbnail === 'string' ? (
@@ -80,10 +89,15 @@ export function CourseChapter({
                                 {/* Lesson Info */}
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-start justify-between gap-2">
-                                        <div>
-                                            <h4 className={`text-sm font-medium leading-tight mb-1 ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
-                                                {lesson.title}
-                                            </h4>
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h4 className={`text-sm font-medium leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
+                                                    {lesson.title}
+                                                </h4>
+                                                <span className="text-[10px] text-zinc-400">
+                                                    {isExpanded ? '▲' : '▼'}
+                                                </span>
+                                            </div>
                                             {lesson.isFree && !isEnrolled && (
                                                 <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
                                                     Học thử miễn phí
@@ -92,7 +106,7 @@ export function CourseChapter({
                                         </div>
 
                                         {/* Action Button */}
-                                        <div className="shrink-0">
+                                        <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
                                             {isLocked ? (
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground" disabled>
                                                     <span className="text-xs">🔒</span>
@@ -107,9 +121,9 @@ export function CourseChapter({
                                         </div>
                                     </div>
 
-                                    {/* Description preview (optional) */}
+                                    {/* Expandable Description */}
                                     {lesson.description && (
-                                        <p className="text-xs text-muted-foreground mt-1 line-clamp-1">
+                                        <p className={`text-xs text-muted-foreground mt-2 leading-relaxed transition-all ${isExpanded ? 'line-clamp-none' : 'line-clamp-1'}`}>
                                             {lesson.description}
                                         </p>
                                     )}
