@@ -21,11 +21,11 @@ const PORT = process.env.PORT || 5001;
 // --- CRITICAL: Register health check FIRST, before any blocking operations ---
 // This ensures Cloud Run's health check always passes.
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', version: 'v1.0.3-fast-start', timestamp: new Date().toISOString() });
+  res.status(200).json({ status: 'ok', version: 'v1.0.4-trace-fix', timestamp: new Date().toISOString() });
 });
 
 app.get('/api/check', (req, res) => {
-  res.json({ message: 'Deployment Success', version: 'v1.0.3-fast-start', time: new Date().toISOString() });
+  res.json({ message: 'Deployment Success', version: 'v1.0.4-trace-fix', time: new Date().toISOString() });
 });
 
 // --- START LISTENING IMMEDIATELY ---

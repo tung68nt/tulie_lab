@@ -8,6 +8,7 @@ export class PrismaLessonRepository implements ILessonRepository {
     }
 
     async update(id: string, data: any): Promise<Lesson> {
+        console.log(`[PrismaLessonRepository] Entering update for lesson ${id} with data keys:`, Object.keys(data));
         try {
             // Try standard update first
             return await (prisma.lesson as any).update({ where: { id }, data });
