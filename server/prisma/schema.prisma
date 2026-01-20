@@ -218,6 +218,8 @@ model Lesson {
   thumbnail   String?
   videoUrl    String?
   duration    String?
+  chapter     String?
+  section     String?
   content     String?
   isFree      Boolean          @default(false)
   position    Int              @default(0)
