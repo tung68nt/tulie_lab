@@ -19,7 +19,7 @@ export function AdminPageHeader({ title, subtitle, backUrl, children, className 
             {backUrl && (
                 <div>
                     <Link href={backUrl}>
-                        <Button variant="outline" size="sm" className="gap-2">
+                        <Button as="div" variant="outline" size="sm" className="gap-2">
                             <ArrowLeft size={16} /> Quay lại
                         </Button>
                     </Link>

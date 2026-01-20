@@ -62,7 +62,11 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                     api.instructors.list().catch(() => []),
                     api.categories.list().catch(() => []),
                     api.admin.courses.get(id).catch(e => {
-                        console.error('Fetch course error:', e);
+                        console.error('Fetch course error for ID:', id, e);
+                        // Log specifically if it's a 404 or 500
+                        if (e instanceof Error && (e as any).status) {
+                            console.error('Status:', (e as any).status);
+                        }
                         return null;
                     })
                 ]);
@@ -84,7 +88,9 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                         level: fullDetails.level || 'ALL',
                         thumbnail: fullDetails.thumbnail || '',
                         introVideoUrl: fullDetails.introVideoUrl || '',
-                        learningOutcomes: fullDetails.learningOutcomes || '',
+                        learningOutcomes: typeof fullDetails.learningOutcomes === 'object'
+                            ? JSON.stringify(fullDetails.learningOutcomes, null, 2)
+                            : fullDetails.learningOutcomes || '',
                         deploymentStatus: fullDetails.deploymentStatus || 'RELEASED',
                         tag: fullDetails.tag || 'NONE'
                     });

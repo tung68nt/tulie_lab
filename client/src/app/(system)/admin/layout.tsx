@@ -114,7 +114,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                                     <div className="p-4 border-t bg-background">
                                         <Link href="/">
-                                            <Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground hover:text-foreground pl-2 h-9 text-sm font-medium">
+                                            <Button as="div" variant="ghost" size="sm" className="w-full justify-start text-muted-foreground hover:text-foreground pl-2 h-9 text-sm font-medium">
                                                 ← Về trang chủ
                                             </Button>
                                         </Link>

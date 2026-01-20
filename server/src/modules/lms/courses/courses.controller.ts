@@ -61,12 +61,17 @@ export class CourseController {
     }
 
     async getCourseDetails(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
         try {
-            const { id } = req.params as { id: string };
+            console.log(`[Admin] Fetching course details for ID: ${id}`);
             const course = await this.courseService.getCourseById(id);
-            if (!course) return res.status(404).json({ message: 'Course not found' });
+            if (!course) {
+                console.warn(`[Admin] Course not found for ID: ${id}`);
+                return res.status(404).json({ message: 'Course not found' });
+            }
             res.json(course);
         } catch (error: any) {
+            console.error(`[Admin] Error fetching course ${id}:`, error);
             res.status(500).json({ message: error.message });
         }
     }

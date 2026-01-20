@@ -124,7 +124,7 @@ export const api = {
         getInactiveUsers: (days?: number) => request<User[]>(`/users/inactive${days ? `?days=${days}` : ''}`),
         courses: {
             list: () => request<Course[]>('/courses/admin/list'),
-            get: (id: string) => request<Course>(`/courses/${id}/full`),
+            get: (id: string) => request<Course>(`/courses/admin/${id}`),
             create: (data: unknown) => request<Course>('/courses', { method: 'POST', body: JSON.stringify(data) }),
             update: (id: string, data: unknown) => request<Course>(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
             delete: (id: string) => request<void>(`/courses/${id}`, { method: 'DELETE' }),
