@@ -772,52 +772,70 @@ function LessonItem({
     };
 
     return (
-        <div className="border rounded-lg bg-white overflow-hidden">
-            <div className="p-3 flex items-center gap-3">
-                <div className="flex flex-col gap-1 items-center justify-center mr-1">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-5 w-5 p-0 hover:bg-zinc-100"
+        <div className="border rounded-xl bg-card shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+            {/* Main row - collapsed view */}
+            <div className="p-4 flex items-center gap-4">
+                {/* Reorder buttons - prominent placement */}
+                <div className="flex flex-col gap-0.5">
+                    <button
+                        type="button"
                         disabled={index === 0}
                         onClick={() => onMoveLesson(index, 'up')}
+                        className="w-7 h-7 flex items-center justify-center rounded-md bg-muted hover:bg-foreground hover:text-background disabled:opacity-30 disabled:hover:bg-muted disabled:cursor-not-allowed transition-colors"
+                        title="Di chuyển lên"
                     >
-                        <ChevronUp className="w-4 h-4 text-zinc-500" />
-                    </Button>
+                        <ChevronUp className="w-4 h-4" />
+                    </button>
+                    <button
+                        type="button"
+                        disabled={index === totalLessons - 1}
+                        onClick={() => onMoveLesson(index, 'down')}
+                        className="w-7 h-7 flex items-center justify-center rounded-md bg-muted hover:bg-foreground hover:text-background disabled:opacity-30 disabled:hover:bg-muted disabled:cursor-not-allowed transition-colors"
+                        title="Di chuyển xuống"
+                    >
+                        <ChevronDown className="w-4 h-4" />
+                    </button>
+                </div>
+
+                {/* Position badge */}
+                <div className="w-10 h-10 rounded-lg bg-foreground text-background flex items-center justify-center font-bold text-sm flex-shrink-0">
+                    {lesson.position}
+                </div>
+
+                {/* Lesson info */}
+                <div className="flex-1 min-w-0" onClick={() => setExpanded(!expanded)}>
+                    <p className="font-semibold text-sm truncate">{lesson.title}</p>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5 flex-wrap">
+                        {lesson.chapter && <span className="bg-muted px-1.5 py-0.5 rounded font-medium">{lesson.chapter}</span>}
+                        {lesson.section && <span className="text-muted-foreground">• {lesson.section}</span>}
+                        <span className={`${lesson.isFree ? 'text-green-600' : 'text-orange-500'}`}>
+                            {lesson.isFree ? '✓ Miễn phí' : '🔒 Khóa'}
+                        </span>
+                        {lesson.duration && <span>• {lesson.duration}</span>}
+                        {lesson.attachments?.length > 0 && (
+                            <span className="flex items-center gap-0.5">
+                                <Paperclip className="w-3 h-3" /> {lesson.attachments.length}
+                            </span>
+                        )}
+                    </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-1 flex-shrink-0">
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="h-5 w-5 p-0 hover:bg-zinc-100"
-                        disabled={index === totalLessons - 1}
-                        onClick={() => onMoveLesson(index, 'down')}
+                        onClick={() => setExpanded(!expanded)}
+                        className="text-xs"
                     >
-                        <ChevronDown className="w-4 h-4 text-zinc-500" />
-                    </Button>
-                </div>
-                <div className="w-16 h-10 bg-zinc-100 rounded overflow-hidden flex-shrink-0 relative" onClick={() => setExpanded(!expanded)}>
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium">
-                        {lesson.position}
-                    </span>
-                    <div>
-                        <p className="text-sm font-medium">{lesson.title}</p>
-                        <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                            {lesson.chapter && <span className="text-primary font-medium">{lesson.chapter}</span>}
-                            {lesson.section && <span className="text-muted-foreground">• {lesson.section}</span>}
-                            • {lesson.isFree ? 'Xem miễn phí' : 'Khóa'} • {lesson.attachments?.length || 0} đính kèm
-                            • {lesson.videoUrl ? 'Có video' : 'Không có video'}
-                            {lesson.duration && ` • ${lesson.duration}`}
-                        </p>
-                    </div>
-                </div>
-                <div className="flex gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => setExpanded(!expanded)}>
                         {expanded ? 'Thu gọn' : 'Chi tiết'}
                     </Button>
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-foreground hover:bg-foreground hover:text-background h-8 w-8 p-0"
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
                         onClick={() => onDelete(lesson.id)}
+                        title="Xóa bài học"
                     >
                         ×
                     </Button>
