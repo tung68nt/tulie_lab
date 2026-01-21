@@ -65,7 +65,7 @@ export function CourseChapter({
                     return (
                         <div key={lesson.id} className="group flex flex-col transition-colors border-t first:border-t-0 hover:bg-muted/30">
                             <div
-                                className="flex items-start p-4 gap-4 cursor-pointer"
+                                className="flex items-start p-3 gap-3 cursor-pointer"
                                 onClick={() => toggleLesson(lesson.id)}
                             >
                                 {/* Lesson Thumbnail */}
