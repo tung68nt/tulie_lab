@@ -360,10 +360,15 @@ export default function LearnPage({ params }: { params: any }) {
                                                         const globalIdx = sortedLessons.findIndex((l: any) => l.id === lesson.id);
                                                         const showSection = lesson.section && (idx === 0 || lesson.section !== lessons[idx - 1]?.section);
 
+                                                        // Check if lesson has video content (has duration or videoUrl)
+                                                        // If we don't have videoUrl in the list, we rely on duration > 0 or type !== 'TEXT'
+                                                        // Assuming duration string usually exists for video lessons
+                                                        const hasVideo = lesson.duration && lesson.duration !== '0:00' && lesson.type !== 'QUIZ';
+
                                                         return (
                                                             <div key={lesson.id}>
                                                                 {showSection && (
-                                                                    <div className="py-2 pl-9 bg-muted/30 border-t border-border/50">
+                                                                    <div className={`py-2 pl-9 bg-muted/30 border-t border-border/50 ${idx === 0 ? 'border-t-0' : ''}`}>
                                                                         <p className="text-[12px] font-medium text-foreground">
                                                                             {lesson.section}
                                                                         </p>
@@ -397,20 +402,22 @@ export default function LearnPage({ params }: { params: any }) {
                                                                         )}
                                                                     </div>
 
-                                                                    {/* Thumbnail */}
-                                                                    <div className="flex-shrink-0 w-24 h-14 bg-muted rounded-md overflow-hidden relative">
-                                                                        {lesson.thumbnail ? (
-                                                                            <img
-                                                                                src={lesson.thumbnail}
-                                                                                alt=""
-                                                                                className="w-full h-full object-cover"
-                                                                            />
-                                                                        ) : (
-                                                                            <div className="w-full h-full flex items-center justify-center bg-muted">
-                                                                                <Play className="w-5 h-5 text-muted-foreground" />
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
+                                                                    {/* Thumbnail - Only show if has video */}
+                                                                    {hasVideo && (
+                                                                        <div className="flex-shrink-0 w-24 h-14 bg-muted rounded-md overflow-hidden relative">
+                                                                            {lesson.thumbnail ? (
+                                                                                <img
+                                                                                    src={lesson.thumbnail}
+                                                                                    alt=""
+                                                                                    className="w-full h-full object-cover"
+                                                                                />
+                                                                            ) : (
+                                                                                <div className="w-full h-full flex items-center justify-center bg-muted">
+                                                                                    <Play className="w-5 h-5 text-muted-foreground" />
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
 
                                                                     {/* Lesson Info */}
                                                                     <div className="flex-1 min-w-0 pt-0.5">
