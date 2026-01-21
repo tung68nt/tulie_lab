@@ -25,6 +25,7 @@ router.post('/lessons/:lessonId/attachments', authenticate, authorize([Role.ADMI
 // ==========================================
 // PUBLIC & GENERAL
 // ==========================================
+router.get('/by-id/:id', (req, res) => courseController.getCourseById(req, res)); // For checkout validation
 router.get('/', (req, res) => courseController.listCourses(req, res));
 router.post('/', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.create(req, res));
 router.get('/:id/progress', authenticate, (req, res) => courseController.getCourseProgress(req, res));

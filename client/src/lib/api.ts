@@ -93,6 +93,7 @@ export const api = {
             return request<Course[]>(`/courses?${searchParams.toString()}`);
         },
         get: (slug: string) => request<Course>(`/courses/${slug}`),
+        getById: (id: string) => request<Course>(`/courses/by-id/${id}`),
         getContent: (lessonId: string) => request<unknown>(`/courses/lessons/${lessonId}/content`),
         getProgress: (courseId: string) => request<unknown>(`/courses/${courseId}/progress`),
         markComplete: (lessonId: string) => request<void>(`/courses/lessons/${lessonId}/complete`, { method: 'POST' }),

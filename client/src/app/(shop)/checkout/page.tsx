@@ -50,16 +50,16 @@ function CheckoutContent() {
                         return;
                     }
                 } else if (courseId) {
-                    const allCourses: any = await api.courses.list();
-                    const foundCourse = allCourses.find((c: any) => c.id === courseId);
-
-                    if (!foundCourse) {
+                    try {
+                        const foundCourse: any = await api.courses.getById(courseId);
+                        if (!foundCourse) throw new Error('Course not found');
+                        setItem(foundCourse);
+                        setItemType('COURSE');
+                    } catch (err) {
                         addToast('Không tìm thấy khóa học', 'error');
                         router.push('/courses');
                         return;
                     }
-                    setItem(foundCourse);
-                    setItemType('COURSE');
                 } else {
                     addToast('Không tìm thấy thông tin thanh toán', 'error');
                     router.push('/');

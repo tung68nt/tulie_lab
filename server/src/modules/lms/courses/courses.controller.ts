@@ -66,6 +66,19 @@ export class CourseController {
         }
     }
 
+    async getCourseById(req: Request, res: Response) {
+        const { id } = req.params as { id: string };
+        try {
+            const course = await this.courseService.getCourseById(id);
+            if (!course) {
+                return res.status(404).json({ message: 'Course not found' });
+            }
+            res.json(course);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async getCourseDetails(req: Request, res: Response) {
         const { id } = req.params as { id: string };
         try {
