@@ -61,7 +61,11 @@ export default function CoursePage({ params }: { params: any }) {
     }, []);
 
     useEffect(() => {
+        // Guard: Don't fetch if slug is empty
+        if (!slug) return;
+
         const fetchData = async () => {
+            setLoading(true);
             try {
                 // Fetch course and user profile in PARALLEL for faster loading
                 const [courseData, userProfile]: [any, any] = await Promise.all([
