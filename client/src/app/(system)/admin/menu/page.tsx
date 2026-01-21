@@ -266,21 +266,53 @@ export default function MenuManagementPage() {
                                             <div className="text-sm text-muted-foreground">{item.href}</div>
                                         </div>
 
-                                        <div className="flex items-center gap-1">
-                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground" disabled={index === 0} onClick={() => handleMove(index, 'up')}>
-                                                <MoveUp size={14} />
+                                        <div className="flex items-center gap-2">
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                disabled={index === 0}
+                                                onClick={() => handleMove(index, 'up')}
+                                                title="Lên trên"
+                                            >
+                                                <MoveUp size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground" disabled={index === menuItems.length - 1} onClick={() => handleMove(index, 'down')}>
-                                                <MoveDown size={14} />
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                disabled={index === menuItems.length - 1}
+                                                onClick={() => handleMove(index, 'down')}
+                                                title="Xuống dưới"
+                                            >
+                                                <MoveDown size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20" onClick={() => handleStartEdit(item)}>
-                                                <Edit2 size={14} />
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                onClick={() => handleStartEdit(item)}
+                                                title="Chỉnh sửa"
+                                            >
+                                                <Edit2 size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={() => openSubmenuModal(item.id)} title="Thêm submenu">
-                                                <Plus size={14} />
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                onClick={() => openSubmenuModal(item.id)}
+                                                title="Thêm submenu"
+                                            >
+                                                <Plus size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" onClick={() => handleDelete(item.id)}>
-                                                <Trash2 size={14} />
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                onClick={() => handleDelete(item.id)}
+                                                title="Xóa"
+                                            >
+                                                <Trash2 size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
                                         </div>
                                     </>
@@ -295,8 +327,13 @@ export default function MenuManagementPage() {
                                             <div className="w-1 h-1 rounded-full bg-muted-foreground/30 ml-1 mr-2"></div>
                                             <span className="flex-1">{child.label}</span>
                                             <span className="text-muted-foreground text-xs">{child.href}</span>
-                                            <Button size="icon" variant="ghost" className="h-6 w-6 text-red-500 hover:bg-red-50" onClick={() => handleDeleteSubmenu(item.id, child.id)}>
-                                                <Trash2 size={12} />
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="h-8 w-8 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                onClick={() => handleDeleteSubmenu(item.id, child.id)}
+                                            >
+                                                <Trash2 size={14} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
                                         </div>
                                     ))}
