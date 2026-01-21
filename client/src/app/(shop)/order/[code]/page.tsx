@@ -32,11 +32,7 @@ export default function OrderPage({ params }: { params: any }) {
                     api.payments.getOrder(code).catch(e => {
                         console.warn("Failed to fetch order", e);
                         // Fallback/Mock
-                        return {
-                            code: code,
-                            amount: 1200000,
-                            status: 'PENDING'
-                        };
+                        return null;
                     }),
                     api.settings.getPublic().catch(() => ({}))
                 ]);
@@ -111,54 +107,66 @@ export default function OrderPage({ params }: { params: any }) {
 
     return (
         <div className="container pt-6 md:pt-10" style={{ paddingBottom: '120px' }}>
-            <div className="mx-auto max-w-lg">
+            <div className="mx-auto max-w-4xl">
                 <Card>
                     <CardHeader className="text-center">
                         <CardTitle className="text-2xl">Thanh toán đơn hàng</CardTitle>
                         <CardDescription>Mã đơn hàng: <span className="font-bold text-primary">{order.code}</span></CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="rounded-lg bg-muted/50 p-4 text-center">
-                            <p className="text-sm text-muted-foreground mb-1">Số tiền cần thanh toán</p>
-                            <p className="text-3xl font-bold text-primary">
-                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
-                            </p>
-                        </div>
+                    <CardContent className="p-6">
+                        <div className="grid gap-8 md:grid-cols-2">
+                            {/* Left Column: QR & Price */}
+                            <div className="flex flex-col space-y-6">
+                                <div className="rounded-lg bg-muted/50 p-4 text-center">
+                                    <p className="text-sm text-muted-foreground mb-1">Số tiền cần thanh toán</p>
+                                    <p className="text-3xl font-bold text-primary">
+                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
+                                    </p>
+                                </div>
 
-                        <div className="flex flex-col items-center justify-center space-y-4">
-                            <div className="relative aspect-square w-64 overflow-hidden rounded-lg border bg-white p-2 shadow-sm">
-                                <img src={qrUrl} alt="QR Code Payment" className="h-full w-full object-contain" />
+                                <div className="flex flex-col items-center justify-center space-y-4">
+                                    <div className="relative aspect-square w-full max-w-[280px] overflow-hidden rounded-lg border bg-white p-2 shadow-sm">
+                                        <img src={qrUrl} alt="QR Code Payment" className="h-full w-full object-contain" />
+                                    </div>
+                                    <p className="text-center text-sm text-muted-foreground">
+                                        Quét mã QR bằng ứng dụng ngân hàng để thanh toán.<br />
+                                        <span className="font-semibold text-rose-500">Nội dung chuyển khoản bắt buộc: {transferContent}</span>
+                                    </p>
+                                </div>
                             </div>
-                            <p className="text-center text-sm text-muted-foreground">
-                                Quét mã QR bằng ứng dụng ngân hàng để thanh toán.<br />
-                                <span className="font-semibold text-rose-500">Nội dung chuyển khoản bắt buộc: {transferContent}</span>
-                            </p>
-                        </div>
 
-                        <div className="rounded-lg border p-4 text-sm">
-                            <div className="grid grid-cols-3 gap-2 py-2 border-b">
-                                <span className="text-muted-foreground">Ngân hàng</span>
-                                <span className="col-span-2 font-medium">{bankName}</span>
-                            </div>
-                            <div className="grid grid-cols-3 gap-2 py-2 border-b">
-                                <span className="text-muted-foreground">Số tài khoản</span>
-                                <span className="col-span-2 font-medium">{accountNo}</span>
-                            </div>
-                            <div className="grid grid-cols-3 gap-2 py-2 border-b">
-                                <span className="text-muted-foreground">Chủ tài khoản</span>
-                                <span className="col-span-2 font-medium">{accountName}</span>
-                            </div>
-                            <div className="grid grid-cols-3 gap-2 py-2">
-                                <span className="text-muted-foreground">Nội dung</span>
-                                <span className="col-span-2 font-bold text-primary">{transferContent}</span>
+                            {/* Right Column: Bank Info & Actions */}
+                            <div className="flex flex-col space-y-6 justify-center">
+                                <div className="rounded-lg border p-4 text-sm space-y-3">
+                                    <div className="grid grid-cols-3 gap-2 py-2 border-b">
+                                        <span className="text-muted-foreground">Ngân hàng</span>
+                                        <span className="col-span-2 font-medium break-words text-right">{bankName}</span>
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-2 py-2 border-b">
+                                        <span className="text-muted-foreground">Số tài khoản</span>
+                                        <span className="col-span-2 font-medium break-all text-right">{accountNo}</span>
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-2 py-2 border-b">
+                                        <span className="text-muted-foreground">Chủ tài khoản</span>
+                                        <span className="col-span-2 font-medium break-words text-right">{accountName}</span>
+                                    </div>
+                                    <div className="grid grid-cols-3 gap-2 py-2">
+                                        <span className="text-muted-foreground">Nội dung</span>
+                                        <span className="col-span-2 font-bold text-primary break-all text-right">{transferContent}</span>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4 pt-2">
+                                    <Button className="w-full" size="lg" variant="default" onClick={() => window.location.reload()}>
+                                        Tôi đã chuyển khoản
+                                    </Button>
+                                    <p className="text-center text-xs text-muted-foreground">
+                                        Hệ thống sẽ tự động kích hoạt khóa học sau khi nhận được thanh toán (thường trong vòng 1-2 phút).
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </CardContent>
-                    <CardFooter>
-                        <Button className="w-full" variant="outline" onClick={() => window.location.reload()}>
-                            Tôi đã chuyển khoản
-                        </Button>
-                    </CardFooter>
                 </Card>
                 <p className="mt-8 text-center text-sm text-muted-foreground">
                     Hệ thống sẽ tự động kích hoạt khóa học sau khi nhận được thanh toán (thường trong vòng 1-2 phút).

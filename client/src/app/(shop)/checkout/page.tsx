@@ -122,17 +122,17 @@ function CheckoutContent() {
                 promoCodeId: appliedPromo?.id
             };
 
-            const order: any = await api.payments.checkout(orderData);
+            const response: any = await api.payments.checkout(orderData);
 
             // If free course (amount 0), redirect to dashboard immediately
-            if (order.amount === 0) {
+            if (response.order.amount === 0) {
                 addToast('Đăng ký thành công!', 'success');
                 router.push('/my-learning');
                 return;
             }
 
             // Redirect to order page for payment
-            router.push(`/order/${order.code}`);
+            router.push(`/order/${response.order.code}`);
         } catch (e: any) {
             addToast(e.message || 'Tạo đơn hàng thất bại', 'error');
         } finally {
