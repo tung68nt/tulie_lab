@@ -376,7 +376,7 @@ export default function LearnPage({ params }: { params: any }) {
                                                                 )}
                                                                 <Link
                                                                     href={`/learn/${courseSlug}/${lesson.slug}`}
-                                                                    className={`flex items-start gap-3 px-4 py-3 transition-all group border-b border-border/50
+                                                                    className={`flex items-start gap-3 px-4 py-3 transition-all group
                                                                         ${isActive
                                                                             ? 'bg-muted'
                                                                             : 'hover:bg-muted/50'}
