@@ -15,8 +15,12 @@ router.get('/', (req, res) => productController.list(req, res));
 router.get('/:idOrSlug', (req, res) => {
     const param = req.params.idOrSlug;
     if (isUUID(param)) {
+        // Set the id param for the controller
+        (req.params as any).id = param;
         return productController.getById(req, res);
     }
+    // Set the slug param for the controller
+    (req.params as any).slug = param;
     return productController.getBySlug(req, res);
 });
 
