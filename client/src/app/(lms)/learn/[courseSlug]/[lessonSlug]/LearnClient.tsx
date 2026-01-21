@@ -32,11 +32,15 @@ interface LearnClientProps {
 }
 
 export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps) {
-    const [currentLesson, setCurrentLesson] = useState<any>(null);
-    const [hasAccess, setHasAccess] = useState(false);
+    // Initialize lesson from server data immediately (no loading spinner)
+    const sortedLessons = course?.lessons?.sort((a: any, b: any) => a.position - b.position) || [];
+    const initialLesson = sortedLessons.find((l: any) => l.slug === lessonSlug) || null;
+
+    const [currentLesson, setCurrentLesson] = useState<any>(initialLesson);
+    const [hasAccess, setHasAccess] = useState(initialLesson?.isFree || course?.price === 0 || false);
     const [user, setUser] = useState<any>(null);
     const [completedLessons, setCompletedLessons] = useState<string[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingSecure, setLoadingSecure] = useState(true);
 
     // Collapsed state: chapters and sections
     const [collapsedItems, setCollapsedItems] = useState<Set<string>>(() => {
@@ -55,14 +59,18 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
         }
     }, [collapsedItems]);
 
-    // Parallel fetch: auth, progress, secure content
+    // Parallel fetch: auth, progress, secure content (runs in background)
     useEffect(() => {
         const fetchSecureData = async () => {
             if (!course || !lessonSlug) return;
-            setLoading(true);
 
-            const foundLesson = course.lessons?.find((l: any) => l.slug === lessonSlug);
-            if (!foundLesson) { setLoading(false); return; }
+            const foundLesson = sortedLessons.find((l: any) => l.slug === lessonSlug);
+            if (!foundLesson) return;
+
+            // Update current lesson reference if slug changed
+            if (currentLesson?.slug !== lessonSlug) {
+                setCurrentLesson(foundLesson);
+            }
 
             const isFreeAccess = foundLesson.isFree || course.price === 0;
 
@@ -101,9 +109,8 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                 }
             } catch (e) {
                 console.warn("Failed to load lesson data", e);
-                setCurrentLesson(foundLesson);
             } finally {
-                setLoading(false);
+                setLoadingSecure(false);
             }
         };
         fetchSecureData();
@@ -136,11 +143,11 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
         });
     };
 
-    // Data processing
-    const sortedLessons = course?.lessons?.sort((a: any, b: any) => a.position - b.position) || [];
+    // Navigation - use sortedLessons defined at top
     const currentIndex = sortedLessons.findIndex((l: any) => l.slug === lessonSlug);
     const prevLesson = currentIndex > 0 ? sortedLessons[currentIndex - 1] : null;
-    const nextLesson = currentIndex < sortedLessons.length - 1 ? sortedLessons[currentIndex + 1] : null;
+    const nextLesson = (currentIndex >= 0 && currentIndex < sortedLessons.length - 1) ? sortedLessons[currentIndex + 1] : null;
+    const isLastLesson = currentIndex === sortedLessons.length - 1;
     const actualCompletedLessons = sortedLessons.filter((l: any) => completedLessons.includes(l.id));
     const completedCount = actualCompletedLessons.length;
     const totalLessonsCount = sortedLessons.length;
@@ -182,14 +189,13 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
     const expandAll = () => setCollapsedItems(new Set());
     const collapseAll = () => setCollapsedItems(new Set(allItems));
 
-    // Loading/Error states
-    if (loading && !currentLesson) {
+    // No more loading spinner - content shows immediately
+    // Only show "not found" if lesson truly doesn't exist
+    if (!currentLesson) {
         return (
-            <div className="flex items-center justify-center py-20">
-                <div className="flex flex-col items-center gap-3">
-                    <div className="w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin"></div>
-                    <p className="text-muted-foreground text-sm">Đang tải nội dung...</p>
-                </div>
+            <div className="flex flex-col items-center justify-center gap-4 py-20">
+                <h1 className="text-2xl font-bold">Không tìm thấy bài học</h1>
+                <Link href={`/courses/${courseSlug}`}><Button as="div">Quay lại khóa học</Button></Link>
             </div>
         );
     }
@@ -445,7 +451,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                 </Button>
                             </Link>
                         ) : <div />}
-                        {nextLesson ? (
+                        {!isLastLesson && nextLesson ? (
                             <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}>
                                 <Button as="div" size="sm" className="gap-2">
                                     Bài tiếp theo
@@ -454,13 +460,15 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                     </svg>
                                 </Button>
                             </Link>
-                        ) : (
+                        ) : isLastLesson ? (
                             <Link href={`/courses/${courseSlug}`}>
                                 <Button as="div" size="sm" className="gap-2">
                                     Hoàn thành khóa học
                                     <Check className="w-4 h-4" />
                                 </Button>
                             </Link>
+                        ) : (
+                            <div />
                         )}
                     </div>
                 </div>
