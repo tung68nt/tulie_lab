@@ -51,22 +51,25 @@ const SECTION_COMPONENTS: Record<string, any> = {
 
 async function getLandingPage(slug: string) {
     try {
-        // In a real implementation, use the API client to fetch data
-        // const page = await api.get(`/landing-pages/${slug}`);
-        // return page;
+        // Construct API URL same way as api.ts does
+        const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+        // Strip trailing slash and /api suffix to get a clean base URL
+        const baseUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
+        const apiUrl = `${baseUrl}/api/landing-pages/${slug}`;
 
-        // For now, fetch from the new API endpoint we just created
-        // We can't use the 'api' helper if it's client-side only or requires auth headers we don't have yet SS/
-        // So we fetch directly from absolute URL or use a server-side helper
+        console.log('[LandingPageRenderer] Fetching:', apiUrl);
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/landing-pages/${slug}`, {
+        const res = await fetch(apiUrl, {
             next: { revalidate: 60 } // Revalidate every minute
         });
 
-        if (!res.ok) return null;
+        if (!res.ok) {
+            console.warn(`[LandingPageRenderer] API returned ${res.status} for ${apiUrl}`);
+            return null;
+        }
         return res.json();
     } catch (error) {
-        console.error('Failed to fetch landing page:', error);
+        console.error('[LandingPageRenderer] Failed to fetch landing page:', error);
         return null;
     }
 }
