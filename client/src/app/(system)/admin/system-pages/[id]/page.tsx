@@ -177,37 +177,37 @@ export default function CmsPageEditor({ params }: { params: Promise<{ id: string
                                             <p className="text-xs text-muted-foreground truncate max-w-[300px]">{section.title || section.id}</p>
                                         </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Button size="icon" variant="outline" className="h-9 w-9" onClick={() => setEditingSectionIndex(index)} title="Sửa nội dung">
-                                            <Edit size={16} />
+                                    <div className="flex items-center gap-1">
+                                        <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => setEditingSectionIndex(index)} title="Sửa nội dung">
+                                            <Edit size={14} />
                                         </Button>
-                                        <Button size="icon" variant="outline" className="h-9 w-9" onClick={() => {
+                                        <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => {
                                             const newSections = [...sections];
                                             newSections[index].isVisible = !(newSections[index].isVisible ?? true);
                                             updateSections(newSections);
                                         }} title={section.isVisible === false ? 'Hiện' : 'Ẩn'}>
-                                            {section.isVisible === false ? <EyeOff size={16} /> : <Eye size={16} />}
+                                            {section.isVisible === false ? <EyeOff size={14} /> : <Eye size={14} />}
                                         </Button>
                                         <div className="flex items-center gap-1">
-                                            <Button size="icon" variant="outline" className="h-9 w-9" disabled={index === 0} onClick={() => {
+                                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" disabled={index === 0} onClick={() => {
                                                 const newSections = [...sections];
                                                 [newSections[index], newSections[index - 1]] = [newSections[index - 1], newSections[index]];
                                                 updateSections(newSections);
                                             }} title="Lên">
-                                                <ArrowUp size={16} />
+                                                <ArrowUp size={14} />
                                             </Button>
-                                            <Button size="icon" variant="outline" className="h-9 w-9" disabled={index === sections.length - 1} onClick={() => {
+                                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" disabled={index === sections.length - 1} onClick={() => {
                                                 const newSections = [...sections];
                                                 [newSections[index], newSections[index + 1]] = [newSections[index + 1], newSections[index]];
                                                 updateSections(newSections);
                                             }} title="Xuống">
-                                                <ArrowDown size={16} />
+                                                <ArrowDown size={14} />
                                             </Button>
                                         </div>
                                         <Button
                                             size="icon"
                                             variant="outline"
-                                            className="h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-secondary hover:border-border"
+                                            className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                                             onClick={async () => {
                                                 const confirmed = await confirm({
                                                     title: 'Xóa Section?',
@@ -222,7 +222,7 @@ export default function CmsPageEditor({ params }: { params: Promise<{ id: string
                                             }}
                                             title="Xóa"
                                         >
-                                            <Trash2 size={16} />
+                                            <Trash2 size={14} />
                                         </Button>
                                     </div>
                                 </div>

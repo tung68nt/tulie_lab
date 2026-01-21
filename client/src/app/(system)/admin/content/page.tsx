@@ -224,23 +224,21 @@ export default function AdminContentPage() {
                                                                 <p className="text-xs text-muted-foreground truncate max-w-[300px]">{section.title || section.id}</p>
                                                             </div>
                                                         </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <Button size="icon" variant="outline" className="h-9 w-9" onClick={() => setEditingSectionIndex(index)} title="Edit Section">
-                                                                <Edit size={16} />
+                                                        <div className="flex items-center gap-1">
+                                                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => setEditingSectionIndex(index)} title="Edit Section">
+                                                                <Edit size={14} />
                                                             </Button>
-                                                            <Button size="icon" variant="outline" className="h-9 w-9" onClick={() => toggleVisibility(index)} title={section.isVisible === false ? 'Show' : 'Hide'}>
-                                                                {section.isVisible === false ? <EyeOff size={16} /> : <Eye size={16} />}
+                                                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => toggleVisibility(index)} title={section.isVisible === false ? 'Show' : 'Hide'}>
+                                                                {section.isVisible === false ? <EyeOff size={14} /> : <Eye size={14} />}
                                                             </Button>
-                                                            <div className="flex items-center gap-1">
-                                                                <Button size="icon" variant="outline" className="h-9 w-9" disabled={index === 0} onClick={() => moveSection(index, 'up')} title="Move Up">
-                                                                    <ArrowUp size={16} />
-                                                                </Button>
-                                                                <Button size="icon" variant="outline" className="h-9 w-9" disabled={index === sections.length - 1} onClick={() => moveSection(index, 'down')} title="Move Down">
-                                                                    <ArrowDown size={16} />
-                                                                </Button>
-                                                            </div>
-                                                            <Button size="icon" variant="outline" className="h-9 w-9 text-red-500 hover:text-red-600 hover:bg-red-50 hover:border-red-200" onClick={() => deleteSection(index)} title="Delete">
-                                                                <Trash2 size={16} />
+                                                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" disabled={index === 0} onClick={() => moveSection(index, 'up')} title="Move Up">
+                                                                <ArrowUp size={14} />
+                                                            </Button>
+                                                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" disabled={index === sections.length - 1} onClick={() => moveSection(index, 'down')} title="Move Down">
+                                                                <ArrowDown size={14} />
+                                                            </Button>
+                                                            <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => deleteSection(index)} title="Delete">
+                                                                <Trash2 size={14} />
                                                             </Button>
                                                         </div>
                                                     </div>

@@ -561,21 +561,19 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-1">
-                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-neutral-200 dark:border-neutral-800" onClick={() => setEditingSectionIndex(index)} title="Chỉnh sửa">
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => setEditingSectionIndex(index)} title="Chỉnh sửa">
                                                     <Edit size={14} />
                                                 </Button>
-                                                <Button size="icon" variant="ghost" className="h-8 w-8 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100" onClick={() => handleToggleVisibility(index)} title={section.isVisible === false ? 'Hiện' : 'Ẩn'}>
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => handleToggleVisibility(index)} title={section.isVisible === false ? 'Hiện' : 'Ẩn'}>
                                                     {section.isVisible === false ? <EyeOff size={14} /> : <Eye size={14} />}
                                                 </Button>
-                                                <div className="flex items-center">
-                                                    <Button size="icon" variant="ghost" className="h-8 w-8 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100" disabled={index === 0} onClick={() => handleMoveSection(index, 'up')} title="Lên">
-                                                        <ArrowUp size={14} />
-                                                    </Button>
-                                                    <Button size="icon" variant="ghost" className="h-8 w-8 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100" disabled={index === sections.length - 1} onClick={() => handleMoveSection(index, 'down')} title="Xuống">
-                                                        <ArrowDown size={14} />
-                                                    </Button>
-                                                </div>
-                                                <Button size="icon" variant="ghost" className="h-8 w-8 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-secondary" onClick={() => handleRemoveSection(index)} title="Xóa">
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" disabled={index === 0} onClick={() => handleMoveSection(index, 'up')} title="Lên">
+                                                    <ArrowUp size={14} />
+                                                </Button>
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" disabled={index === sections.length - 1} onClick={() => handleMoveSection(index, 'down')} title="Xuống">
+                                                    <ArrowDown size={14} />
+                                                </Button>
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors" onClick={() => handleRemoveSection(index)} title="Xóa">
                                                     <Trash2 size={14} />
                                                 </Button>
                                             </div>
