@@ -31,7 +31,7 @@ export function TableActions({
     customActions = [],
     className
 }: TableActionsProps) {
-    const buttonClass = "h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors";
+    const buttonClass = "h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors";
 
     return (
         <div className={cn("flex items-center gap-2", className)}>

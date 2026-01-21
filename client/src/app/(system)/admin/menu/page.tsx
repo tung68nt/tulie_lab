@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
-import { ArrowUp, ArrowDown, Trash2, Plus, Save, ExternalLink, ChevronRight, GripVertical, Edit2, MoveUp, MoveDown, Check, X } from 'lucide-react';
+import { ArrowUp, ArrowDown, Trash2, Plus, Save, ExternalLink, ChevronRight, GripVertical, Edit, Check, X } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
 import { useConfirm } from '@/components/ConfirmDialog';
@@ -266,40 +266,40 @@ export default function MenuManagementPage() {
                                             <div className="text-sm text-muted-foreground">{item.href}</div>
                                         </div>
 
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-1">
                                             <Button
                                                 size="icon"
                                                 variant="outline"
-                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                                                 disabled={index === 0}
                                                 onClick={() => handleMove(index, 'up')}
                                                 title="Lên trên"
                                             >
-                                                <MoveUp size={16} className="text-muted-foreground hover:text-foreground" />
+                                                <ArrowUp size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
                                             <Button
                                                 size="icon"
                                                 variant="outline"
-                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                                                 disabled={index === menuItems.length - 1}
                                                 onClick={() => handleMove(index, 'down')}
                                                 title="Xuống dưới"
                                             >
-                                                <MoveDown size={16} className="text-muted-foreground hover:text-foreground" />
+                                                <ArrowDown size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
                                             <Button
                                                 size="icon"
                                                 variant="outline"
-                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                                                 onClick={() => handleStartEdit(item)}
                                                 title="Chỉnh sửa"
                                             >
-                                                <Edit2 size={16} className="text-muted-foreground hover:text-foreground" />
+                                                <Edit size={16} className="text-muted-foreground hover:text-foreground" />
                                             </Button>
                                             <Button
                                                 size="icon"
                                                 variant="outline"
-                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                                                 onClick={() => openSubmenuModal(item.id)}
                                                 title="Thêm submenu"
                                             >
@@ -308,7 +308,7 @@ export default function MenuManagementPage() {
                                             <Button
                                                 size="icon"
                                                 variant="outline"
-                                                className="h-9 w-9 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                                                 onClick={() => handleDelete(item.id)}
                                                 title="Xóa"
                                             >
@@ -330,7 +330,7 @@ export default function MenuManagementPage() {
                                             <Button
                                                 size="icon"
                                                 variant="outline"
-                                                className="h-8 w-8 p-0 rounded-md border border-input bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                                                 onClick={() => handleDeleteSubmenu(item.id, child.id)}
                                             >
                                                 <Trash2 size={14} className="text-muted-foreground hover:text-foreground" />
