@@ -65,11 +65,12 @@ export default function SystemPagesAdmin() {
             </AdminPageHeader>
 
             <div className="grid gap-4">
-                {/* Hardcoded CMS Pages */}
+                {/* Hardcoded CMS Pages - System Core */}
                 {[
                     { id: 'cms-home', title: 'Trang chủ (Home)', slug: '/', isActive: true, isCms: true },
-                    { id: 'cms-about', title: 'Về chúng tôi (About)', slug: '/about', isActive: true, isCms: true },
-                    { id: 'cms-instructors', title: 'Giảng viên (Instructors)', slug: '/instructors', isActive: true, isCms: true },
+                    // Note: /about has been removed, keeping /instructors hidden until we have more instructors
+                    // { id: 'cms-about', title: 'Về chúng tôi (About)', slug: '/about', isActive: true, isCms: true },
+                    // { id: 'cms-instructors', title: 'Giảng viên (Instructors)', slug: '/instructors', isActive: true, isCms: true },
                 ].map((page) => (
                     <Card key={page.id} className="border border-border bg-secondary/20">
                         <CardContent className="p-6 pt-6 flex items-center justify-between">
@@ -84,19 +85,10 @@ export default function SystemPagesAdmin() {
                                     <span>Đang hoạt động</span>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <TableActions
-                                    viewUrl={page.slug}
-                                    editUrl={`/admin/system-pages/${page.id}`}
-                                    customActions={[
-                                        {
-                                            title: "Chỉnh sửa cấu trúc",
-                                            icon: Edit,
-                                            href: `/admin/system-pages/${page.id}`
-                                        }
-                                    ]}
-                                />
-                            </div>
+                            <TableActions
+                                viewUrl={page.slug}
+                                editUrl={`/admin/system-pages/${page.id}`}
+                            />
                         </CardContent>
                     </Card>
                 ))}
