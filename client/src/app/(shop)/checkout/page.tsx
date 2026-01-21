@@ -164,7 +164,7 @@ function CheckoutContent() {
 
     return (
         <div className="container pt-6 md:pt-10" style={{ paddingBottom: '120px' }}>
-            <div className="mx-auto max-w-4xl">
+            <div className="mx-auto w-full">
                 <h1 className="text-3xl font-bold mb-8">Thanh toán</h1>
 
                 <div className="grid gap-8 lg:grid-cols-3">
@@ -253,9 +253,16 @@ function CheckoutContent() {
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">Giá gốc</span>
-                                        <span className="font-medium">
-                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
-                                        </span>
+                                        <div className="flex flex-col items-end">
+                                            {item.compareAtPrice > item.price && (
+                                                <span className="text-xs text-muted-foreground line-through">
+                                                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.compareAtPrice)}
+                                                </span>
+                                            )}
+                                            <span className="font-medium">
+                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
+                                            </span>
+                                        </div>
                                     </div>
 
                                     {discount > 0 && (
