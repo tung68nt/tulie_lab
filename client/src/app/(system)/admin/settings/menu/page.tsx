@@ -5,8 +5,10 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
-import { ArrowUp, ArrowDown, Trash2, Plus, Save, ExternalLink, ChevronRight, GripVertical } from 'lucide-react';
+import { ArrowUp, ArrowDown, Trash2, Plus, Save, ExternalLink, ChevronRight, GripVertical, Edit2, MoveUp, MoveDown, Check, X } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
+import { Switch } from '@/components/Switch';
+import { useConfirm } from '@/components/ConfirmDialog';
 
 interface MenuItem {
     id: string;
@@ -36,6 +38,7 @@ const DEFAULT_MENU: MenuItem[] = [
 
 export default function MenuManagementPage() {
     const { addToast } = useToast();
+    const confirm = useConfirm();
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -44,6 +47,14 @@ export default function MenuManagementPage() {
     const [newItem, setNewItem] = useState({ label: '', href: '', isExternal: false });
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editForm, setEditForm] = useState({ label: '', href: '', isExternal: false });
+
+    // Submenu Modal State
+    const [submenuModal, setSubmenuModal] = useState<{
+        open: boolean;
+        parentId: string | null;
+        label: string;
+        href: string;
+    }>({ open: false, parentId: null, label: '', href: '' });
 
     useEffect(() => {
         loadMenu();
@@ -93,9 +104,18 @@ export default function MenuManagementPage() {
         setMenuItems(newItems);
     };
 
-    const handleDelete = (id: string) => {
-        if (!confirm('Xóa menu item này?')) return;
-        setMenuItems(menuItems.filter(item => item.id !== id));
+    const handleDelete = async (id: string) => {
+        const isConfirmed = await confirm({
+            title: 'Xóa Menu Item',
+            message: 'Bạn có chắc chắn muốn xóa mục menu này? Hành động này không thể hoàn tác.',
+            confirmText: 'Xóa',
+            variant: 'danger'
+        });
+
+        if (isConfirmed) {
+            setMenuItems(menuItems.filter(item => item.id !== id));
+            addToast('Đã xóa menu item', 'success');
+        }
     };
 
     const handleAddItem = () => {
@@ -129,10 +149,16 @@ export default function MenuManagementPage() {
         addToast('Đã cập nhật', 'success');
     };
 
-    const handleAddSubmenu = (parentId: string) => {
-        const label = prompt('Tên submenu:');
-        const href = prompt('Đường dẫn (VD: /ai):');
-        if (!label || !href) return;
+    const openSubmenuModal = (parentId: string) => {
+        setSubmenuModal({ open: true, parentId, label: '', href: '' });
+    };
+
+    const handleAddSubmenu = () => {
+        const { parentId, label, href } = submenuModal;
+        if (!parentId || !label || !href) {
+            addToast('Vui lòng nhập đầy đủ tên và đường dẫn', 'error');
+            return;
+        }
 
         setMenuItems(menuItems.map(item => {
             if (item.id === parentId) {
@@ -144,21 +170,34 @@ export default function MenuManagementPage() {
             }
             return item;
         }));
+
+        setSubmenuModal({ open: false, parentId: null, label: '', href: '' });
+        addToast('Đã thêm submenu', 'success');
     };
 
-    const handleDeleteSubmenu = (parentId: string, subId: string) => {
-        setMenuItems(menuItems.map(item => {
-            if (item.id === parentId && item.children) {
-                return { ...item, children: item.children.filter(c => c.id !== subId) };
-            }
-            return item;
-        }));
+    const handleDeleteSubmenu = async (parentId: string, subId: string) => {
+        const isConfirmed = await confirm({
+            title: 'Xóa Submenu',
+            message: 'Bạn có chắc chắn muốn xóa submenu này?',
+            confirmText: 'Xóa',
+            variant: 'danger'
+        });
+
+        if (isConfirmed) {
+            setMenuItems(menuItems.map(item => {
+                if (item.id === parentId && item.children) {
+                    return { ...item, children: item.children.filter(c => c.id !== subId) };
+                }
+                return item;
+            }));
+            addToast('Đã xóa submenu', 'success');
+        }
     };
 
     if (loading) return <div className="p-8">Loading...</div>;
 
     return (
-        <div className="space-y-6 max-w-4xl">
+        <div className="space-y-6 max-w-4xl relative">
             <AdminPageHeader
                 title="Quản lý Menu Navbar"
                 subtitle="Thêm, xóa, sắp xếp các mục menu trên thanh điều hướng"
@@ -194,15 +233,18 @@ export default function MenuManagementPage() {
                                             onChange={e => setEditForm({ ...editForm, href: e.target.value })}
                                             placeholder="Đường dẫn"
                                         />
-                                        <label className="flex items-center gap-1 text-sm">
-                                            <input
-                                                type="checkbox"
+
+                                        <div className="flex items-center gap-2 px-2 py-1 bg-background border rounded">
+                                            <span className="text-xs font-medium">External</span>
+                                            <Switch
                                                 checked={editForm.isExternal}
-                                                onChange={e => setEditForm({ ...editForm, isExternal: e.target.checked })}
+                                                onChange={(checked) => setEditForm({ ...editForm, isExternal: checked })}
                                             />
-                                            <ExternalLink size={12} />
-                                        </label>
-                                        <Button size="sm" onClick={() => handleSaveEdit(item.id)}>Lưu</Button>
+                                        </div>
+
+                                        <Button size="sm" onClick={() => handleSaveEdit(item.id)}>
+                                            <Check size={14} />
+                                        </Button>
                                         <Button size="sm" variant="ghost" onClick={() => setEditingId(null)}>Hủy</Button>
                                     </div>
                                 ) : (
@@ -210,7 +252,11 @@ export default function MenuManagementPage() {
                                         <div className="flex-1">
                                             <div className="font-medium flex items-center gap-2">
                                                 {item.label}
-                                                {item.isExternal && <ExternalLink size={12} className="text-muted-foreground" />}
+                                                {item.isExternal && (
+                                                    <span className="flex items-center text-[10px] bg-muted border px-1.5 py-0.5 rounded text-muted-foreground">
+                                                        <ExternalLink size={8} className="mr-1" /> External
+                                                    </span>
+                                                )}
                                                 {item.children && item.children.length > 0 && (
                                                     <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
                                                         {item.children.length} submenu
@@ -221,19 +267,19 @@ export default function MenuManagementPage() {
                                         </div>
 
                                         <div className="flex items-center gap-1">
-                                            <Button size="icon" variant="ghost" className="h-8 w-8" disabled={index === 0} onClick={() => handleMove(index, 'up')}>
-                                                <ArrowUp size={14} />
+                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground" disabled={index === 0} onClick={() => handleMove(index, 'up')}>
+                                                <MoveUp size={14} />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8" disabled={index === menuItems.length - 1} onClick={() => handleMove(index, 'down')}>
-                                                <ArrowDown size={14} />
+                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground" disabled={index === menuItems.length - 1} onClick={() => handleMove(index, 'down')}>
+                                                <MoveDown size={14} />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => handleStartEdit(item)}>
-                                                ✏️
+                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20" onClick={() => handleStartEdit(item)}>
+                                                <Edit2 size={14} />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => handleAddSubmenu(item.id)} title="Thêm submenu">
-                                                <ChevronRight size={14} />
+                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={() => openSubmenuModal(item.id)} title="Thêm submenu">
+                                                <Plus size={14} />
                                             </Button>
-                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-red-500 hover:text-red-600" onClick={() => handleDelete(item.id)}>
+                                            <Button size="icon" variant="ghost" className="h-8 w-8 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" onClick={() => handleDelete(item.id)}>
                                                 <Trash2 size={14} />
                                             </Button>
                                         </div>
@@ -246,10 +292,10 @@ export default function MenuManagementPage() {
                                 <div className="ml-8 space-y-1">
                                     {item.children.map(child => (
                                         <div key={child.id} className="flex items-center gap-2 p-2 bg-background rounded border text-sm">
-                                            <ChevronRight size={12} className="text-muted-foreground" />
+                                            <div className="w-1 h-1 rounded-full bg-muted-foreground/30 ml-1 mr-2"></div>
                                             <span className="flex-1">{child.label}</span>
-                                            <span className="text-muted-foreground">{child.href}</span>
-                                            <Button size="icon" variant="ghost" className="h-6 w-6 text-red-500" onClick={() => handleDeleteSubmenu(item.id, child.id)}>
+                                            <span className="text-muted-foreground text-xs">{child.href}</span>
+                                            <Button size="icon" variant="ghost" className="h-6 w-6 text-red-500 hover:bg-red-50" onClick={() => handleDeleteSubmenu(item.id, child.id)}>
                                                 <Trash2 size={12} />
                                             </Button>
                                         </div>
@@ -285,20 +331,70 @@ export default function MenuManagementPage() {
                                 placeholder="VD: /about hoặc https://..."
                             />
                         </div>
-                        <label className="flex items-center gap-2 pb-2">
-                            <input
-                                type="checkbox"
-                                checked={newItem.isExternal}
-                                onChange={e => setNewItem({ ...newItem, isExternal: e.target.checked })}
-                            />
-                            <span className="text-sm">External</span>
-                        </label>
+
+                        <div className="flex flex-col gap-2 pb-1">
+                            <label className="text-sm font-medium">Tùy chọn</label>
+                            <div className="flex items-center gap-2 px-3 h-10 bg-background border rounded-md">
+                                <span className="text-sm">External</span>
+                                <Switch
+                                    checked={newItem.isExternal}
+                                    onChange={(checked) => setNewItem({ ...newItem, isExternal: checked })}
+                                />
+                            </div>
+                        </div>
+
                         <Button onClick={handleAddItem} className="gap-2">
                             <Plus size={16} /> Thêm
                         </Button>
                     </div>
                 </CardContent>
             </Card>
+
+            {/* Submenu Add Modal */}
+            {submenuModal.open && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setSubmenuModal({ ...submenuModal, open: false })} />
+                    <div className="relative bg-background border rounded-lg shadow-xl max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-semibold">Thêm Submenu</h3>
+                            <button onClick={() => setSubmenuModal({ ...submenuModal, open: false })} className="p-1 hover:bg-muted rounded-full">
+                                <X size={18} />
+                            </button>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Tên hiển thị</label>
+                                <input
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                    value={submenuModal.label}
+                                    onChange={e => setSubmenuModal({ ...submenuModal, label: e.target.value })}
+                                    placeholder="VD: Data Science"
+                                    autoFocus
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Đường dẫn</label>
+                                <input
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                    value={submenuModal.href}
+                                    onChange={e => setSubmenuModal({ ...submenuModal, href: e.target.value })}
+                                    placeholder="VD: /courses/data-science"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end gap-3 mt-6">
+                            <Button variant="ghost" onClick={() => setSubmenuModal({ ...submenuModal, open: false })}>
+                                Hủy
+                            </Button>
+                            <Button onClick={handleAddSubmenu}>
+                                Thêm
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

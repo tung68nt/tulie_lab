@@ -183,7 +183,7 @@ export function RealtimeHealthChart() {
             <CardContent className="pt-4">
                 <div className="h-[200px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 60 }}>
+                        <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                             <defs>
                                 <linearGradient id="colorMemory" x1="0" y1="0" x2="0" y2="1">
                                     <stop offset="5%" stopColor="#000000" stopOpacity={0.1} />
@@ -220,10 +220,35 @@ export function RealtimeHealthChart() {
                                 name="Memory (MB)"
                                 animationDuration={500}
                             />
-                            {/* Threshold Line */}
-                            {/* <ReferenceLine y={MEMORY_WARNING_THRESHOLD} stroke="red" strokeDasharray="3 3" /> */}
                         </AreaChart>
                     </ResponsiveContainer>
+                </div>
+
+                <div className="mt-4 pt-4 border-t grid grid-cols-1 md:grid-cols-3 gap-4 text-xs bg-muted/20 p-3 rounded-lg">
+                    <div className="space-y-1">
+                        <div className="font-semibold flex items-center gap-1.5"><Activity size={12} /> Memory Usage</div>
+                        <p className="text-muted-foreground leading-snug">Dung lượng RAM đang sử dụng.</p>
+                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
+                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-mono text-green-600">&lt;512MB</span></li>
+                            <li className="flex justify-between"><span>Cảnh báo:</span> <span className="font-mono text-amber-600">&gt;512MB</span></li>
+                        </ul>
+                    </div>
+                    <div className="space-y-1">
+                        <div className="font-semibold flex items-center gap-1.5"><Cpu size={12} /> CPU Load</div>
+                        <p className="text-muted-foreground leading-snug">Tải trung bình trong 1 phút.</p>
+                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
+                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-mono text-green-600">&lt;1.5</span></li>
+                            <li className="flex justify-between"><span>Quá tải:</span> <span className="font-mono text-amber-600">&gt;1.5</span></li>
+                        </ul>
+                    </div>
+                    <div className="space-y-1">
+                        <div className="font-semibold flex items-center gap-1.5"><Server size={12} /> Traffic (RPM)</div>
+                        <p className="text-muted-foreground leading-snug">Số request/phút.</p>
+                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
+                            <li className="flex justify-between"><span>Tiết kiệm:</span> <span className="font-mono text-blue-600">&lt;600</span></li>
+                            <li className="flex justify-between"><span>Scale Up:</span> <span className="font-mono text-purple-600">&gt;600</span></li>
+                        </ul>
+                    </div>
                 </div>
             </CardContent>
         </Card>
