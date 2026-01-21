@@ -696,3 +696,79 @@ export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
         ctaLink: '/careers'
     }
 ];
+
+export const DEFAULT_PRICING_SECTIONS: Section[] = [
+    {
+        id: 'hero-pricing',
+        type: 'hero',
+        title: 'Bảng giá & Gói thành viên',
+        subtitle: 'Đầu tư cho kiến thức là khoản đầu tư sinh lời nhất. Chọn gói phù hợp với lộ trình phát triển của bạn.',
+        ctaText: 'Tư vấn lộ trình',
+        ctaLink: '/contact',
+        image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=2070&auto=format&fit=crop'
+    },
+    {
+        id: 'pricing-plans',
+        type: 'pricing',
+        title: 'Chọn gói phù hợp với bạn',
+        subtitle: 'Minh bạch, không chi phí ẩn. Hủy đăng ký bất cứ lúc nào.',
+        items: [
+            {
+                title: 'Starter',
+                price: 'Miễn phí',
+                description: 'Dành cho người mới bắt đầu tìm hiểu về Vibe Coding và AI.',
+                tag: 'Cơ bản',
+                icon: 'Zap',
+                ctaText: 'Đăng ký miễn phí',
+                link: '/register',
+                features: [
+                    'Truy cập khoá học miễn phí',
+                    'Tham gia cộng đồng Member',
+                    'Nhận tin tức công nghệ hàng tuần',
+                    'Template cơ bản'
+                ]
+            },
+            {
+                title: 'Pro Member',
+                price: '299k/tháng',
+                topBadge: 'Phổ biến',
+                originalPrice: '500k',
+                description: 'Truy cập không giới hạn kho tài nguyên và khóa học chuyên sâu.',
+                tag: 'Phổ biến',
+                icon: 'Crown',
+                ctaText: 'Đăng ký ngay',
+                link: '/checkout/pro',
+                features: [
+                    'Truy cập TẤT CẢ khoá học',
+                    'Tải xuống Source Code dự án',
+                    'Xem Livestream hàng tuần',
+                    'Priority Support 24/7',
+                    'Chứng chỉ hoàn thành'
+                ]
+            },
+            {
+                title: 'Lifetime VIP',
+                price: '4.999k',
+                originalPrice: '9.000k',
+                description: 'Thanh toán 1 lần, sở hữu trọn đời. Dành cho người cam kết đi đường dài.',
+                tag: 'VIP',
+                icon: 'Gem',
+                ctaText: 'Trở thành VIP',
+                link: '/checkout/lifetime',
+                features: [
+                    'Quyền lợi trọn đời của gói Pro',
+                    'Mentoring 1:1 mỗi tháng',
+                    'Review Code & Dự án cá nhân',
+                    'Quyền truy cập sớm tính năng mới',
+                    'Quà tặng Exclusive Merch'
+                ]
+            }
+        ]
+    },
+    {
+        id: 'faq-pricing',
+        type: 'faq',
+        title: 'Câu hỏi thường gặp',
+        subtitle: 'Giải đáp thắc mắc về gói thành viên'
+    }
+];

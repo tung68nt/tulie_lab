@@ -230,7 +230,7 @@ export default function LearnPage({ params }: { params: any }) {
                 <h1 className="text-2xl font-bold">Nội dung bị khóa</h1>
                 <p className="text-zinc-400 text-center max-w-md">Bạn cần đăng ký khóa học để xem bài học này.</p>
                 <Link href={`/courses/${courseSlug}`}>
-                    <Button as="div" className="bg-white text-black hover:bg-zinc-200">Xem khóa học</Button>
+                    <Button as="div" className="bg-white !text-neutral-950 hover:bg-zinc-200 font-medium">Xem khóa học</Button>
                 </Link>
             </div>
         );

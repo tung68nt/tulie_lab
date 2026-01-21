@@ -43,7 +43,7 @@ export function CourseChapter({
                 className="bg-zinc-50 px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-zinc-100 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
-                <h3 className="font-bold text-zinc-900 flex items-center gap-2">
+                <h3 className="font-bold text-sm text-zinc-900 flex items-center gap-2">
                     {isChapterOpen ? (
                         <span className="text-zinc-500 text-xs">▼</span>
                     ) : (

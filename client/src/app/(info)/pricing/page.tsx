@@ -7,6 +7,8 @@ export const metadata: Metadata = {
     description: 'Chọn gói thành viên phù hợp để tiếp cận kho tài nguyên và kiến thức chất lượng cao từ Tulie Academy.',
 };
 
+import { DEFAULT_PRICING_SECTIONS } from '@/lib/defaultContent';
+
 export default function PricingPage() {
-    return <LandingPageRenderer slug="pricing" />;
+    return <LandingPageRenderer slug="pricing" fallbackSections={DEFAULT_PRICING_SECTIONS} />;
 }

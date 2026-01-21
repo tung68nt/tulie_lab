@@ -8,7 +8,7 @@ import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
-import { ChevronDown, ChevronUp, Paperclip, Eye } from 'lucide-react';
+import { ChevronDown, ChevronUp, Paperclip, Eye, CheckCircle, Lock, Trash2 } from 'lucide-react';
 import { Switch } from '@/components/Switch';
 import { Select } from '@/components/Select';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -808,8 +808,16 @@ function LessonItem({
                     <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5 flex-wrap">
                         {lesson.chapter && <span className="bg-muted px-1.5 py-0.5 rounded font-medium">{lesson.chapter}</span>}
                         {lesson.section && <span className="text-muted-foreground">• {lesson.section}</span>}
-                        <span className={`${lesson.isFree ? 'text-green-600' : 'text-orange-500'}`}>
-                            {lesson.isFree ? '✓ Miễn phí' : '🔒 Khóa'}
+                        <span className="flex items-center gap-1">
+                            {lesson.isFree ? (
+                                <>
+                                    <CheckCircle size={12} /> Miễn phí
+                                </>
+                            ) : (
+                                <>
+                                    <Lock size={12} /> Khóa
+                                </>
+                            )}
                         </span>
                         {lesson.duration && <span>• {lesson.duration}</span>}
                         {lesson.attachments?.length > 0 && (
@@ -831,13 +839,13 @@ function LessonItem({
                         {expanded ? 'Thu gọn' : 'Chi tiết'}
                     </Button>
                     <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8 w-8 p-0"
+                        size="icon"
+                        variant="outline"
+                        className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
                         onClick={() => onDelete(lesson.id)}
                         title="Xóa bài học"
                     >
-                        ×
+                        <Trash2 size={14} />
                     </Button>
                 </div>
             </div>
