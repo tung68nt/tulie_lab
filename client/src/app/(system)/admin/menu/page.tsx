@@ -201,7 +201,7 @@ export default function MenuManagementPage() {
             <AdminPageHeader
                 title="Quản lý Menu Navbar"
                 subtitle="Thêm, xóa, sắp xếp các mục menu trên thanh điều hướng"
-                backUrl="/admin/settings"
+                backUrl="/admin"
             >
                 <Button onClick={handleSave} disabled={saving} className="gap-2">
                     <Save size={16} />

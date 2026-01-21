@@ -66,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/notifications', label: 'Thông báo' },
                 { href: '/admin/emails', label: 'Email Logs' },
                 { href: '/admin/security', label: 'Bảo mật' },
-                { href: '/admin/settings/menu', label: 'Menu / Navigation' },
+                { href: '/admin/menu', label: 'Menu / Navigation' },
                 { href: '/admin/settings', label: 'Cài đặt chung' },
             ]
         }
