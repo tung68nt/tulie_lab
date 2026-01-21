@@ -222,13 +222,13 @@ function CheckoutContent() {
     const finalAmount = subtotal - discount;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+        <div className="min-h-screen bg-background">
             <div className="container pt-8 pb-20 px-4">
                 {/* Max Width Container */}
                 <div className="mx-auto max-w-6xl">
                     {/* Header */}
                     <div className="mb-8 text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-3">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-3">
                             <ShieldCheck className="w-4 h-4" />
                             Thanh toán bảo mật
                         </div>
@@ -240,8 +240,8 @@ function CheckoutContent() {
                         {/* Left Column - Main Content */}
                         <div className="lg:col-span-2 space-y-6">
                             {/* Main Item */}
-                            <Card className="border-2">
-                                <CardHeader className="bg-gradient-to-r from-primary/5 to-transparent">
+                            <Card>
+                                <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <Sparkles className="w-5 h-5 text-primary" />
                                         {itemType === 'COURSE' ? 'Khóa học' : 'Sản phẩm'} của bạn
@@ -250,15 +250,15 @@ function CheckoutContent() {
                                 <CardContent className="p-6">
                                     <div className="flex gap-4">
                                         {item.thumbnail && (
-                                            <div className="w-32 h-32 rounded-xl overflow-hidden bg-muted flex-shrink-0 border-2 border-border">
+                                            <div className="w-24 h-24 rounded-lg overflow-hidden bg-muted flex-shrink-0 border">
                                                 <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover" />
                                             </div>
                                         )}
                                         <div className="flex-1">
-                                            <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                                            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{item.description}</p>
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-2xl font-bold text-primary">
+                                            <h3 className="text-lg font-bold mb-1">{item.title}</h3>
+                                            <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{item.description}</p>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xl font-bold text-primary">
                                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
                                                 </span>
                                                 {item.compareAtPrice > item.price && (
@@ -266,7 +266,7 @@ function CheckoutContent() {
                                                         <span className="text-sm text-muted-foreground line-through">
                                                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.compareAtPrice)}
                                                         </span>
-                                                        <span className="text-xs font-bold text-white bg-gradient-to-r from-red-500 to-pink-500 px-2 py-1 rounded-md">
+                                                        <span className="text-xs font-bold text-white bg-gradient-to-r from-red-500 to-pink-500 px-2 py-0.5 rounded-md">
                                                             -{Math.round((1 - item.price / item.compareAtPrice) * 100)}%
                                                         </span>
                                                     </>
@@ -279,35 +279,35 @@ function CheckoutContent() {
 
                             {/* Upsell Products */}
                             {upsellProducts.length > 0 && (
-                                <Card className="border-2 border-dashed border-primary/30">
-                                    <CardHeader className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-red-500/10">
+                                <Card>
+                                    <CardHeader>
                                         <CardTitle className="flex items-center gap-2">
-                                            <TrendingUp className="w-5 h-5 text-amber-600" />
+                                            <TrendingUp className="w-5 h-5" />
                                             Mua thêm & Tiết kiệm
                                         </CardTitle>
                                         <p className="text-sm text-muted-foreground font-normal">
                                             Thêm các sản phẩm liên quan vào đơn hàng để tối ưu chi phí
                                         </p>
                                     </CardHeader>
-                                    <CardContent className="p-6 space-y-3">
+                                    <CardContent className="p-6 pt-0 space-y-3">
                                         {upsellProducts.map((product) => {
                                             const isSelected = selectedUpsells.includes(product.id);
                                             return (
                                                 <div
                                                     key={product.id}
                                                     onClick={() => toggleUpsell(product.id)}
-                                                    className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                                                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer ${
                                                         isSelected
-                                                            ? 'border-primary bg-primary/5 shadow-md'
-                                                            : 'border-border hover:border-primary/50 hover:bg-muted/50'
+                                                            ? 'border-primary bg-card shadow-sm'
+                                                            : 'border-border hover:border-primary/50 hover:bg-muted/30'
                                                     }`}
                                                 >
                                                     {/* Checkbox */}
                                                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                                                        isSelected ? 'bg-primary border-primary' : 'border-muted-foreground/50'
+                                                        isSelected ? 'bg-foreground border-foreground' : 'border-muted-foreground/50'
                                                     }`}>
                                                         {isSelected && (
-                                                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+                                                            <svg className="w-3 h-3 text-background" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                                                                 <path d="M20 6L9 17l-5-5" />
                                                             </svg>
                                                         )}
@@ -315,7 +315,7 @@ function CheckoutContent() {
 
                                                     {/* Thumbnail */}
                                                     {product.thumbnail && (
-                                                        <div className="w-16 h-16 rounded-lg overflow-hidden bg-muted flex-shrink-0 border">
+                                                        <div className="w-14 h-14 rounded-md overflow-hidden bg-muted flex-shrink-0 border">
                                                             <img src={product.thumbnail} alt={product.title} className="w-full h-full object-cover" />
                                                         </div>
                                                     )}
@@ -328,7 +328,7 @@ function CheckoutContent() {
 
                                                     {/* Price */}
                                                     <div className="text-right flex-shrink-0">
-                                                        <div className="font-bold text-base text-primary">
+                                                        <div className="font-bold text-sm">
                                                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
                                                         </div>
                                                         {product.compareAtPrice > product.price && (
@@ -394,8 +394,8 @@ function CheckoutContent() {
 
                         {/* Right Column - Order Summary */}
                         <div className="lg:col-span-1">
-                            <Card className="sticky top-4 border-2 shadow-xl">
-                                <CardHeader className="bg-gradient-to-br from-primary/10 to-primary/5">
+                            <Card className="sticky top-4 shadow-lg">
+                                <CardHeader>
                                     <CardTitle>Tóm tắt đơn hàng</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4 p-6">
@@ -455,7 +455,7 @@ function CheckoutContent() {
 
                                     {/* Trust Badges */}
                                     <div className="pt-3 space-y-2 border-t">
-                                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
                                             <ShieldCheck className="w-4 h-4 text-green-600" />
                                             <span>Thanh toán bảo mật 100%</span>
                                         </div>
