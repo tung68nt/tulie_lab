@@ -222,6 +222,8 @@ export function Navbar() {
                                                     <Link
                                                         key={child.href}
                                                         href={child.href}
+                                                        target={child.isExternal ? '_blank' : undefined}
+                                                        rel={child.isExternal ? 'noopener noreferrer' : undefined}
                                                         className={`block px-3 py-2 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
                                                             }`}
                                                     >
@@ -238,6 +240,8 @@ export function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
+                                    target={link.isExternal ? '_blank' : undefined}
+                                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
                                     className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive
                                         ? 'bg-foreground text-background font-medium'
                                         : 'text-muted-foreground hover:bg-secondary/50 hover:text-foreground'
@@ -430,6 +434,8 @@ export function Navbar() {
                                                 <Link
                                                     key={child.href}
                                                     href={child.href}
+                                                    target={child.isExternal ? '_blank' : undefined}
+                                                    rel={child.isExternal ? 'noopener noreferrer' : undefined}
                                                     className={`block py-2.5 px-4 text-base rounded-md transition-colors pl-6 border-l-2 ${isChildActive
                                                         ? 'border-primary bg-muted/50 text-foreground font-medium'
                                                         : 'border-transparent text-foreground/70 hover:bg-muted/30'
@@ -448,6 +454,8 @@ export function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
+                                    target={link.isExternal ? '_blank' : undefined}
+                                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
                                     className={`block py-3 px-4 text-base font-medium rounded-md transition-colors ${isActive ? 'bg-muted text-foreground font-semibold' : 'text-foreground/70 hover:bg-muted'}`}
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
