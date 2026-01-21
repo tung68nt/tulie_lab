@@ -701,66 +701,67 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
     {
         id: 'hero-pricing',
         type: 'hero',
-        title: 'Bảng giá & Gói thành viên',
-        subtitle: 'Đầu tư cho kiến thức là khoản đầu tư sinh lời nhất. Chọn gói phù hợp với lộ trình phát triển của bạn.',
-        ctaText: 'Tư vấn lộ trình',
+        title: 'Bảng giá Template & Gói thành viên',
+        subtitle: 'Giải pháp tối ưu cho công việc của bạn. Chọn gói thành viên để tiếp cận kho Template Google Sheets chất lượng cao.',
+        ctaText: 'Tư vấn gói giải pháp',
         ctaLink: '/contact',
-        image: 'https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=2070&auto=format&fit=crop'
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop'
     },
     {
         id: 'pricing-plans',
         type: 'pricing',
-        title: 'Chọn gói phù hợp với bạn',
-        subtitle: 'Minh bạch, không chi phí ẩn. Hủy đăng ký bất cứ lúc nào.',
+        title: 'Chọn gói phù hợp với nhu cầu',
+        subtitle: 'Tiết kiệm thời gian xây dựng hệ thống quản lý với các Template chuyên nghiệp.',
         items: [
             {
-                title: 'Starter',
-                price: 'Miễn phí',
-                description: 'Dành cho người mới bắt đầu tìm hiểu về Vibe Coding và AI.',
+                title: 'Gói Lẻ',
+                price: '0đ/năm',
+                description: 'Mua lẻ từng template theo nhu cầu sử dụng. Thanh toán một lần, sở hữu trọn đời.',
                 tag: 'Cơ bản',
-                icon: 'Zap',
-                ctaText: 'Đăng ký miễn phí',
-                link: '/register',
+                icon: 'ShoppingBag',
+                ctaText: 'Xem kho Template',
+                link: '/shop',
                 features: [
-                    'Truy cập khoá học miễn phí',
-                    'Tham gia cộng đồng Member',
-                    'Nhận tin tức công nghệ hàng tuần',
-                    'Template cơ bản'
+                    'Lựa chọn tự do từng Template',
+                    'Thanh toán 1 lần dùng mãi mãi',
+                    'Không phí duy trì hàng tháng',
+                    'Nhận hướng dẫn sử dụng cơ bản'
                 ]
             },
             {
-                title: 'Pro Member',
-                price: '299k/tháng',
-                topBadge: 'Phổ biến',
-                originalPrice: '500k',
-                description: 'Truy cập không giới hạn kho tài nguyên và khóa học chuyên sâu.',
+                title: 'Gói Pro',
+                price: '1.990k/năm',
+                topBadge: 'Khuyên dùng',
+                originalPrice: '3.500k',
+                description: 'Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template Google Sheets & Apps Script.',
                 tag: 'Phổ biến',
-                icon: 'Crown',
-                ctaText: 'Đăng ký ngay',
-                link: '/checkout/pro',
+                icon: 'Zap',
+                ctaText: 'Đăng ký gói Pro',
+                link: '/checkout/pro-template',
                 features: [
-                    'Truy cập TẤT CẢ khoá học',
-                    'Tải xuống Source Code dự án',
-                    'Xem Livestream hàng tuần',
-                    'Priority Support 24/7',
-                    'Chứng chỉ hoàn thành'
+                    'Tải xuống Unlimited Template',
+                    'Truy cập Template Premium mới nhất',
+                    'Tiết kiệm >90% chi phí mua lẻ',
+                    'Cập nhật mẫu mới hàng tuần',
+                    'Hỗ trợ kỹ thuật qua Group'
                 ]
             },
             {
-                title: 'Lifetime VIP',
-                price: '4.999k',
-                originalPrice: '9.000k',
-                description: 'Thanh toán 1 lần, sở hữu trọn đời. Dành cho người cam kết đi đường dài.',
-                tag: 'VIP',
-                icon: 'Gem',
-                ctaText: 'Trở thành VIP',
-                link: '/checkout/lifetime',
+                title: 'Gói Premium',
+                price: '7.990k/năm',
+                originalPrice: '15.000k',
+                description: 'Giải pháp thiết kế riêng và hỗ trợ kỹ thuật 1:1 cho Doanh nghiệp/Cá nhân chuyên nghiệp.',
+                tag: 'VIP Support',
+                icon: 'Crown',
+                ctaText: 'Liên hệ tư vấn',
+                link: '/contact',
                 features: [
-                    'Quyền lợi trọn đời của gói Pro',
-                    'Mentoring 1:1 mỗi tháng',
-                    'Review Code & Dự án cá nhân',
-                    'Quyền truy cập sớm tính năng mới',
-                    'Quà tặng Exclusive Merch'
+                    'Tất cả quyền lợi Gói Pro',
+                    'Thiết kế Custom Template (theo yêu cầu)',
+                    'Support 1:1 qua Zoom/UltraViewer',
+                    'Setup hệ thống Automation riêng',
+                    'Tư vấn quy trình vận hành tối ưu',
+                    'Ưu tiên hỗ trợ 24/7'
                 ]
             }
         ]
@@ -769,6 +770,6 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
         id: 'faq-pricing',
         type: 'faq',
         title: 'Câu hỏi thường gặp',
-        subtitle: 'Giải đáp thắc mắc về gói thành viên'
+        subtitle: 'Thắc mắc về gói thành viên Template'
     }
 ];
