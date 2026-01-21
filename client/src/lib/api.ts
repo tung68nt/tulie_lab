@@ -334,7 +334,7 @@ export const api = {
             const query = type ? `?type=${type}` : '';
             return request<unknown[]>(`/landing-pages${query}`);
         },
-        get: (id: string) => request<unknown>(`/landing-pages/${id}`),
+        get: (id: string) => request<unknown>(`/landing-pages/id/${id}`),
         create: (data: unknown) => request<unknown>('/landing-pages', { method: 'POST', body: JSON.stringify(data) }),
         update: (id: string, data: unknown) => request<unknown>(`/landing-pages/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
         delete: (id: string) => request<void>(`/landing-pages/${id}`, { method: 'DELETE' }),
