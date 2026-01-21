@@ -294,6 +294,11 @@ export default function ShopPage() {
                                                     <span className="text-lg font-bold text-foreground">
                                                         {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
                                                     </span>
+                                                    {product.compareAtPrice > 0 && (
+                                                        <span className="text-xs text-muted-foreground line-through">
+                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.compareAtPrice)}
+                                                        </span>
+                                                    )}
                                                 </div>
                                                 <Link href={`/shop/${product.slug}`}>
                                                     <Button as="div" size="sm" className="rounded-xl px-5 font-bold shadow-sm hover:shadow-md transition-all">

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
+import { PriceInput } from '@/components/PriceInput';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
@@ -189,20 +190,18 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                     <CardContent className="grid grid-cols-1 gap-6">
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Giá gốc</label>
-                            <Input
-                                type="number"
-                                min="0"
+                            <PriceInput
                                 value={formData.originalPrice}
-                                onChange={e => setFormData({ ...formData, originalPrice: parseInt(e.target.value) || 0 })}
+                                onChange={val => setFormData({ ...formData, originalPrice: val })}
+                                min={0}
                             />
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Giá bán</label>
-                            <Input
-                                type="number"
-                                min="0"
+                            <PriceInput
                                 value={formData.salePrice}
-                                onChange={e => setFormData({ ...formData, salePrice: parseInt(e.target.value) || 0 })}
+                                onChange={val => setFormData({ ...formData, salePrice: val })}
+                                min={0}
                             />
                         </div>
                         <div className="space-y-2">

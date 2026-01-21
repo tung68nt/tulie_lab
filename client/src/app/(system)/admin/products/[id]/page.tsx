@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
+import { PriceInput } from '@/components/PriceInput';
 import { useToast } from '@/contexts/ToastContext';
 import { ArrowLeft, Save, Loader2, UploadCloud } from 'lucide-react';
 import Link from 'next/link';
@@ -347,23 +348,19 @@ export default function ProductEditorPage() {
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Giá bán (VNĐ)</label>
-                                <Input
-                                    type="number"
-                                    name="price"
+                                <PriceInput
                                     value={formData.price}
-                                    onChange={handleChange}
-                                    min="0"
+                                    onChange={(val) => setFormData(prev => ({ ...prev, price: val }))}
+                                    min={0}
                                 />
                             </div>
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Giá gốc (để gạch ngang)</label>
-                                <Input
-                                    type="number"
-                                    name="compareAtPrice"
+                                <PriceInput
                                     value={formData.compareAtPrice}
-                                    onChange={handleChange}
-                                    min="0"
+                                    onChange={(val) => setFormData(prev => ({ ...prev, compareAtPrice: val }))}
+                                    min={0}
                                 />
                             </div>
 

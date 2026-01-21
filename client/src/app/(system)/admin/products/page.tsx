@@ -163,7 +163,7 @@ export default function AdminProductsPage() {
                                         </td>
                                         <td className="p-4 align-middle text-right">
                                             <TableActions
-                                                viewUrl={`/products/${product.slug}`}
+                                                viewUrl={`/shop/${product.slug}`}
                                                 editUrl={`/admin/products/${product.id}`}
                                                 onDelete={() => handleDelete(product.id)}
                                             />
