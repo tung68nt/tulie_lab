@@ -123,17 +123,31 @@ function CheckoutContent() {
             };
 
             const response: any = await api.payments.checkout(orderData);
+            console.log('Checkout response:', response);
+
+            // Handle response structure variations
+            const order = response.order || response;
+
+            if (!order || (!order.code && !order.id)) {
+                throw new Error('Không nhận được thông tin đơn hàng');
+            }
 
             // If free course (amount 0), redirect to dashboard immediately
-            if (response.order.amount === 0) {
+            if (Number(order.amount) === 0) {
                 addToast('Đăng ký thành công!', 'success');
                 router.push('/my-learning');
                 return;
             }
 
             // Redirect to order page for payment
-            router.push(`/order/${response.order.code}`);
+            if (order.code) {
+                router.push(`/order/${order.code}`);
+            } else {
+                throw new Error('Mã đơn hàng không tồn tại');
+            }
+
         } catch (e: any) {
+            console.error('Checkout error:', e);
             addToast(e.message || 'Tạo đơn hàng thất bại', 'error');
         } finally {
             setProcessing(false);

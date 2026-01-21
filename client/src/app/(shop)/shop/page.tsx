@@ -288,20 +288,31 @@ export default function ShopPage() {
                                                 </p>
                                             </div>
 
-                                            <div className="mt-auto pt-4 flex items-center justify-between border-t border-border/50">
-                                                <div className="flex flex-col">
-                                                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Giá</span>
-                                                    <span className="text-lg font-bold text-foreground">
-                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
-                                                    </span>
-                                                    {product.compareAtPrice > 0 && (
-                                                        <span className="text-xs text-muted-foreground line-through">
-                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.compareAtPrice)}
-                                                        </span>
+                                            <div className="mt-auto pt-4 flex flex-col items-start gap-3 border-t border-border/50">
+                                                <div className="flex flex-col w-full">
+                                                    {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
+                                                        <div className="flex items-center gap-2 mb-1">
+                                                            <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                                                                Giá gốc
+                                                            </span>
+                                                            <span className="text-sm text-muted-foreground line-through decoration-muted-foreground/50">
+                                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.compareAtPrice)}
+                                                            </span>
+                                                        </div>
                                                     )}
+                                                    <div className="flex items-baseline gap-2">
+                                                        <span className="text-lg font-bold text-foreground">
+                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                                                        </span>
+                                                        {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
+                                                            <span className="text-xs font-bold text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-md">
+                                                                -{Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)}%
+                                                            </span>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <Link href={`/shop/${product.slug}`}>
-                                                    <Button as="div" size="sm" className="rounded-xl px-5 font-bold shadow-sm hover:shadow-md transition-all">
+                                                <Link href={`/shop/${product.slug}`} className="w-full">
+                                                    <Button as="div" size="sm" className="w-full rounded-xl font-bold shadow-sm hover:shadow-md transition-all">
                                                         Chi tiết
                                                     </Button>
                                                 </Link>
