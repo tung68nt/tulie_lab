@@ -37,7 +37,7 @@ export function CourseChapter({
     };
 
     return (
-        <div className="border-b last:border-0">
+        <div className="border-b border-border/50 last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
                 className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
@@ -63,7 +63,7 @@ export function CourseChapter({
                     const isExpanded = expandedLessonId === lesson.id;
 
                     return (
-                        <div key={lesson.id} className="group flex flex-col transition-colors border-t first:border-t-0 hover:bg-muted/30">
+                        <div key={lesson.id} className="group flex flex-col transition-colors border-t border-border/50 first:border-t-0 hover:bg-muted/30">
                             <div
                                 className="flex items-start p-3 gap-3 cursor-pointer"
                                 onClick={() => toggleLesson(lesson.id)}

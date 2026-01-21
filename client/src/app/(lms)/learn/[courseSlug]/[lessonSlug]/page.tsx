@@ -250,7 +250,7 @@ export default function LearnPage({ params }: { params: any }) {
                         {/* Extend sidebar border up */}
                         <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border hidden md:block"></div>
                         {/* Course Header with Progress */}
-                        <div className="p-4 border-b bg-background">
+                        <div className="p-4 border-b border-border/50 bg-background">
                             <Link href={`/courses/${courseSlug}`} className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 mb-3 group">
                                 <span className="transition-transform group-hover:-translate-x-0.5">←</span> Quay lại khóa học
                             </Link>
@@ -284,7 +284,7 @@ export default function LearnPage({ params }: { params: any }) {
                             const chapters = [...new Set(sortedLessons.map((l: any) => l.chapter).filter(Boolean))];
                             if (chapters.length > 1) {
                                 return (
-                                    <div className="px-4 py-2 border-b flex gap-2 text-[11px]">
+                                    <div className="px-4 py-2 border-b border-border/50 flex gap-2 text-[11px]">
                                         <button
                                             onClick={() => setCollapsedChapters(new Set())}
                                             className="text-primary hover:underline"
@@ -332,7 +332,7 @@ export default function LearnPage({ params }: { params: any }) {
                                         <div key={chapterName}>
                                             {/* Chapter Header - Modern Design */}
                                             <div
-                                                className={`px-4 py-3 cursor-pointer transition-all flex items-center justify-between border-b border-border
+                                                className={`px-4 py-3 cursor-pointer transition-all flex items-center justify-between border-b border-border/50
                                                     ${chapterHasActiveLesson ? 'bg-muted/50' : 'hover:bg-muted/50'}
                                                 `}
                                                 onClick={toggleChapter}
@@ -363,7 +363,7 @@ export default function LearnPage({ params }: { params: any }) {
                                                         return (
                                                             <div key={lesson.id}>
                                                                 {showSection && (
-                                                                    <div className="py-2 pl-9 bg-muted/30 border-t border-border">
+                                                                    <div className="py-2 pl-9 bg-muted/30 border-t border-border/50">
                                                                         <p className="text-[12px] font-medium text-foreground">
                                                                             {lesson.section}
                                                                         </p>
