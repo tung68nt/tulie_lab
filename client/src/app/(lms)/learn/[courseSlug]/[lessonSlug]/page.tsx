@@ -250,11 +250,11 @@ export default function LearnPage({ params }: { params: any }) {
                         {/* Extend sidebar border up */}
                         <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border hidden md:block"></div>
                         {/* Course Header with Progress */}
-                        <div className="p-4 border-b bg-white">
+                        <div className="p-4 border-b bg-background">
                             <Link href={`/courses/${courseSlug}`} className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 mb-3 group">
                                 <span className="transition-transform group-hover:-translate-x-0.5">←</span> Quay lại khóa học
                             </Link>
-                            <h2 className="font-bold text-sm line-clamp-2">{course.title}</h2>
+                            <h2 className="font-bold text-sm text-foreground line-clamp-2">{course.title}</h2>
 
                             {/* Progress Bar */}
                             <div className="mt-3">
@@ -332,20 +332,20 @@ export default function LearnPage({ params }: { params: any }) {
                                         <div key={chapterName}>
                                             {/* Chapter Header - Modern Design */}
                                             <div
-                                                className={`px-4 py-3 cursor-pointer transition-all flex items-center justify-between border-b border-zinc-100
-                                                    ${chapterHasActiveLesson ? 'bg-zinc-50' : 'hover:bg-zinc-50'}
+                                                className={`px-4 py-3 cursor-pointer transition-all flex items-center justify-between border-b border-border
+                                                    ${chapterHasActiveLesson ? 'bg-muted/50' : 'hover:bg-muted/50'}
                                                 `}
                                                 onClick={toggleChapter}
                                             >
                                                 <div className="flex items-center gap-3 flex-1 min-w-0">
                                                     <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0
-                                                        ${completedInChapter === lessons.length ? 'bg-green-500 text-white' : 'bg-zinc-200 text-zinc-600'}
+                                                        ${completedInChapter === lessons.length ? 'bg-green-500 text-white' : 'bg-muted text-muted-foreground'}
                                                     `}>
                                                         {completedInChapter === lessons.length ? <Check className="w-3.5 h-3.5" /> : chapterIdx + 1}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <h3 className="text-[13px] font-semibold text-zinc-900 truncate">{chapterName}</h3>
-                                                        <p className="text-[11px] text-zinc-500">{completedInChapter}/{lessons.length} bài đã hoàn thành</p>
+                                                        <h3 className="text-[13px] font-semibold text-foreground truncate">{chapterName}</h3>
+                                                        <p className="text-[11px] text-muted-foreground">{completedInChapter}/{lessons.length} bài đã hoàn thành</p>
                                                     </div>
                                                 </div>
                                                 <ChevronDown className={`w-4 h-4 text-zinc-400 transition-transform flex-shrink-0 ${!isCollapsed ? 'rotate-180' : ''}`} />
@@ -353,7 +353,7 @@ export default function LearnPage({ params }: { params: any }) {
 
                                             {/* Lessons in Chapter - Modern Cards */}
                                             {!isCollapsed && (
-                                                <div className="bg-white">
+                                                <div className="bg-background">
                                                     {lessons.map((lesson: any, idx: number) => {
                                                         const isActive = lesson.slug === lessonSlug;
                                                         const isCompleted = lesson.id && completedLessons.includes(lesson.id);
@@ -363,18 +363,18 @@ export default function LearnPage({ params }: { params: any }) {
                                                         return (
                                                             <div key={lesson.id}>
                                                                 {showSection && (
-                                                                    <div className="py-2 pl-9 bg-zinc-50/50 border-t border-zinc-100">
-                                                                        <p className="text-[12px] font-medium text-zinc-800">
+                                                                    <div className="py-2 pl-9 bg-muted/30 border-t border-border">
+                                                                        <p className="text-[12px] font-medium text-foreground">
                                                                             {lesson.section}
                                                                         </p>
                                                                     </div>
                                                                 )}
                                                                 <Link
                                                                     href={`/learn/${courseSlug}/${lesson.slug}`}
-                                                                    className={`flex items-start gap-3 px-4 py-3 transition-all group border-b border-zinc-50
+                                                                    className={`flex items-start gap-3 px-4 py-3 transition-all group border-b border-border/50
                                                                         ${isActive
-                                                                            ? 'bg-zinc-100'
-                                                                            : 'hover:bg-zinc-50'}
+                                                                            ? 'bg-muted'
+                                                                            : 'hover:bg-muted/50'}
                                                                     `}
                                                                 >
                                                                     {/* Status Indicator */}
@@ -384,10 +384,10 @@ export default function LearnPage({ params }: { params: any }) {
                                                                             ${isActive
                                                                                 ? isCompleted
                                                                                     ? 'bg-green-600 text-white border-green-600'
-                                                                                    : 'border-zinc-400 text-zinc-600'
+                                                                                    : 'border-muted-foreground text-muted-foreground'
                                                                                 : isCompleted
                                                                                     ? 'bg-green-500 border-green-500 text-white'
-                                                                                    : 'border-zinc-300 text-zinc-400 hover:border-zinc-400'}
+                                                                                    : 'border-input text-muted-foreground hover:border-muted-foreground'}
                                                                         `}
                                                                     >
                                                                         {isCompleted ? (
@@ -398,7 +398,7 @@ export default function LearnPage({ params }: { params: any }) {
                                                                     </div>
 
                                                                     {/* Thumbnail */}
-                                                                    <div className="flex-shrink-0 w-24 h-14 bg-zinc-200 rounded-md overflow-hidden relative">
+                                                                    <div className="flex-shrink-0 w-24 h-14 bg-muted rounded-md overflow-hidden relative">
                                                                         {lesson.thumbnail ? (
                                                                             <img
                                                                                 src={lesson.thumbnail}
@@ -406,19 +406,19 @@ export default function LearnPage({ params }: { params: any }) {
                                                                                 className="w-full h-full object-cover"
                                                                             />
                                                                         ) : (
-                                                                            <div className="w-full h-full flex items-center justify-center bg-zinc-100">
-                                                                                <Play className="w-5 h-5 text-zinc-300" />
+                                                                            <div className="w-full h-full flex items-center justify-center bg-muted">
+                                                                                <Play className="w-5 h-5 text-muted-foreground" />
                                                                             </div>
                                                                         )}
                                                                     </div>
 
                                                                     {/* Lesson Info */}
                                                                     <div className="flex-1 min-w-0 pt-0.5">
-                                                                        <span className={`block text-[13px] leading-tight line-clamp-2 mb-1 ${isActive ? 'font-semibold text-zinc-900' : 'text-zinc-700'}`}>
+                                                                        <span className={`block text-[13px] leading-tight line-clamp-2 mb-1 ${isActive ? 'font-semibold text-foreground' : 'text-foreground/80'}`}>
                                                                             {lesson.title}
                                                                         </span>
                                                                         {lesson.duration && (
-                                                                            <span className={`text-[11px] block ${isActive ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                                                                            <span className={`text-[11px] block ${isActive ? 'text-muted-foreground' : 'text-muted-foreground/80'}`}>
                                                                                 {lesson.duration}
                                                                             </span>
                                                                         )}
@@ -457,7 +457,7 @@ export default function LearnPage({ params }: { params: any }) {
 
                             {/* Lesson Title - Below video with spacing */}
                             <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <h1 className="text-2xl font-bold text-zinc-900">{currentLesson.title}</h1>
+                                <h1 className="text-2xl font-bold text-foreground">{currentLesson.title}</h1>
 
                                 <Button
                                     onClick={() => handleToggleComplete(currentLesson.id)}
@@ -477,8 +477,8 @@ export default function LearnPage({ params }: { params: any }) {
 
                             {/* Resources Section */}
                             {currentLesson.attachments && currentLesson.attachments.length > 0 && (
-                                <div className="bg-zinc-50 rounded-xl border p-5 mb-6">
-                                    <h3 className="text-sm font-semibold text-zinc-900 mb-3">Resources</h3>
+                                <div className="bg-muted/10 rounded-xl border p-5 mb-6">
+                                    <h3 className="text-sm font-semibold text-foreground mb-3">Resources</h3>
                                     <div className="space-y-2">
                                         {currentLesson.attachments.map((att: any) => (
                                             <a

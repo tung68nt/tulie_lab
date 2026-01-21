@@ -40,14 +40,14 @@ export function CourseChapter({
         <div className="border-b last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
-                className="bg-zinc-50 px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-zinc-100 transition-colors"
+                className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
-                <h3 className="font-bold text-sm text-zinc-900 flex items-center gap-2">
+                <h3 className="font-bold text-sm text-foreground flex items-center gap-2">
                     {isChapterOpen ? (
-                        <span className="text-zinc-500 text-xs">▼</span>
+                        <span className="text-muted-foreground text-xs">▼</span>
                     ) : (
-                        <span className="text-zinc-500 text-xs">▶</span>
+                        <span className="text-muted-foreground text-xs">▶</span>
                     )}
                     {chapterName}
                     <span className="text-xs font-normal text-muted-foreground ml-2">
@@ -73,7 +73,7 @@ export function CourseChapter({
                                     {lesson.thumbnail && typeof lesson.thumbnail === 'string' ? (
                                         <img src={lesson.thumbnail} alt={lesson.title} className="w-full h-full object-cover" />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-zinc-400">
+                                        <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground">
                                             {/* Play Icon Placeholder */}
                                             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                                         </div>
@@ -94,7 +94,7 @@ export function CourseChapter({
                                                 <h4 className={`text-sm font-medium leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
                                                     {lesson.title}
                                                 </h4>
-                                                <span className="text-[10px] text-zinc-400">
+                                                <span className="text-[10px] text-muted-foreground">
                                                     {isExpanded ? '▲' : '▼'}
                                                 </span>
                                             </div>
