@@ -78,9 +78,10 @@ async function getLandingPage(slug: string) {
 interface LandingPageRendererProps {
     slug: string;
     fallbackSections?: any[];
+    forceFallback?: boolean;
 }
 
-export async function LandingPageRenderer({ slug, fallbackSections }: LandingPageRendererProps) {
+export async function LandingPageRenderer({ slug, fallbackSections, forceFallback }: LandingPageRendererProps) {
     const page = await getLandingPage(slug);
 
     // If no page from DB and no fallback, 404
@@ -96,8 +97,10 @@ export async function LandingPageRenderer({ slug, fallbackSections }: LandingPag
         sections = JSON.parse(sections);
     }
 
-    // If sections is null/undefined or empty array, use fallback if provided
-    if ((!sections || (Array.isArray(sections) && sections.length === 0)) && fallbackSections) {
+    // If forceFallback is true, OR if sections is null/undefined or empty, use fallback
+    if (forceFallback && fallbackSections) {
+        sections = fallbackSections;
+    } else if ((!sections || (Array.isArray(sections) && sections.length === 0)) && fallbackSections) {
         sections = fallbackSections;
     }
 
