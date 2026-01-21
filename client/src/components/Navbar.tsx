@@ -132,14 +132,16 @@ export function Navbar() {
     interface NavLinkItem {
         label: string;
         href: string;
-        children?: { label: string; href: string }[];
+        isExternal?: boolean;
+        children?: { label: string; href: string; isExternal?: boolean }[];
     }
 
-    const navLinks: NavLinkItem[] = [
+    // Default fallback menu
+    const DEFAULT_NAV_LINKS: NavLinkItem[] = [
         { label: 'Trang chủ', href: '/' },
         {
             label: 'Ứng dụng',
-            href: '/applications', // Main overview page if clicked, or just a trigger
+            href: '/applications',
             children: [
                 { label: 'Vibe coding', href: '/applications/vibe-coding' },
                 { label: 'Ứng dụng AI', href: '/applications/ai' },
@@ -166,6 +168,26 @@ export function Navbar() {
         { label: 'Bài viết', href: '/blog' },
         { label: 'Liên hệ', href: '/contact' },
     ];
+
+    const [navLinks, setNavLinks] = useState<NavLinkItem[]>(DEFAULT_NAV_LINKS);
+
+    // Fetch dynamic menu from CMS
+    useEffect(() => {
+        const fetchMenu = async () => {
+            try {
+                const data = await api.cms.get(['navbar_menu']) as any;
+                if (data?.navbar_menu) {
+                    const parsed = JSON.parse(data.navbar_menu);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        setNavLinks(parsed);
+                    }
+                }
+            } catch (error) {
+                console.log('Using default navbar menu');
+            }
+        };
+        fetchMenu();
+    }, []);
 
     return (
         <>

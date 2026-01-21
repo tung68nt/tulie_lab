@@ -65,34 +65,6 @@ export default function SystemPagesAdmin() {
             </AdminPageHeader>
 
             <div className="grid gap-4">
-                {/* Hardcoded CMS Pages - System Core */}
-                {[
-                    { id: 'cms-home', title: 'Trang chủ (Home)', slug: '/', isActive: true, isCms: true },
-                    // Note: /about has been removed, keeping /instructors hidden until we have more instructors
-                    // { id: 'cms-about', title: 'Về chúng tôi (About)', slug: '/about', isActive: true, isCms: true },
-                    // { id: 'cms-instructors', title: 'Giảng viên (Instructors)', slug: '/instructors', isActive: true, isCms: true },
-                ].map((page) => (
-                    <Card key={page.id} className="border border-border bg-secondary/20">
-                        <CardContent className="p-6 pt-6 flex items-center justify-between">
-                            <div>
-                                <h3 className="font-bold text-lg flex items-center gap-2">
-                                    {page.title}
-                                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">System Core</span>
-                                </h3>
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <span className="bg-muted px-2 py-0.5 rounded text-xs">{page.slug}</span>
-                                    <span>•</span>
-                                    <span>Đang hoạt động</span>
-                                </div>
-                            </div>
-                            <TableActions
-                                viewUrl={page.slug}
-                                editUrl={`/admin/system-pages/${page.id}`}
-                            />
-                        </CardContent>
-                    </Card>
-                ))}
-
                 {pages.map((page) => (
                     <Card key={page.id}>
                         <CardContent className="p-6 pt-6 flex items-center justify-between">
@@ -101,13 +73,15 @@ export default function SystemPagesAdmin() {
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <span className="bg-muted px-2 py-0.5 rounded text-xs">/{page.slug}</span>
                                     <span>•</span>
-                                    <span>{page.isActive ? 'Đang hoạt động' : 'Đã ẩn'}</span>
+                                    <span className={page.isActive ? 'text-green-600' : 'text-orange-500'}>
+                                        {page.isActive ? 'Đang hoạt động' : 'Đã ẩn'}
+                                    </span>
                                 </div>
                             </div>
                             <TableActions
-                                viewUrl={`/p/${page.slug}`}
+                                viewUrl={`/${page.slug}`}
                                 editUrl={`/admin/landing-pages/${page.id}`}
-                                onDelete={() => handleDelete(page.id)}
+                                onDelete={page.slug !== '' ? () => handleDelete(page.id) : undefined}
                                 customActions={[
                                     {
                                         title: 'Nhân bản',
@@ -122,7 +96,8 @@ export default function SystemPagesAdmin() {
 
                 {pages.length === 0 && (
                     <div className="text-center py-12 text-muted-foreground border rounded-lg bg-muted/10">
-                        Chưa có trang thông tin nào.
+                        <p>Chưa có trang thông tin nào.</p>
+                        <p className="text-sm mt-2">Nhấn "Tạo trang mới" để bắt đầu.</p>
                     </div>
                 )}
             </div>

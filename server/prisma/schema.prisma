@@ -298,24 +298,27 @@ model CourseRegistration {
 }
 
 model Product {
-  id             String           @id @default(uuid())
-  title          String
-  slug           String           @unique
-  description    String?
-  thumbnail      String?
-  price          Decimal          @default(0) @db.Decimal(12, 0)
-  compareAtPrice Decimal?         @db.Decimal(12, 0)
-  type           ProductType      @default(TEMPLATE)
-  fileUrl        String?
-  previewUrl     String?
-  isPublished    Boolean          @default(true)
-  tags           String[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  field          ProductField     @default(OTHER)
-  orderItems     OrderItem[]
-  versions       ProductVersion[]
-  subscriptions  Subscription[]
+  id                  String           @id @default(uuid())
+  title               String
+  slug                String           @unique
+  description         String?
+  thumbnail           String?
+  price               Decimal          @default(0) @db.Decimal(12, 0)
+  compareAtPrice      Decimal?         @db.Decimal(12, 0)
+  type                ProductType      @default(TEMPLATE)
+  fileUrl             String?
+  previewUrl          String?
+  isPublished         Boolean          @default(true)
+  tags                String[]
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  field               ProductField     @default(OTHER)
+  orderItems          OrderItem[]
+  versions            ProductVersion[]
+  subscriptions       Subscription[]
+  // Landing page relations
+  landingPages        LandingPage[]    @relation("LandingPageProduct")
+  landingPagesUpsell  LandingPage[]    @relation("LandingPageUpsellProduct")
 }
 
 model ProductVersion {
@@ -488,20 +491,27 @@ model ContactSubmission {
 }
 
 model LandingPage {
-  id             String   @id @default(uuid())
-  title          String
-  slug           String   @unique
-  description    String?
-  sections       String?       @db.Text
-  isActive       Boolean  @default(true)
-  courseId       String?
-  upsellCourseId String?
-  upsellPrice    Decimal? @db.Decimal(10, 2)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  type           PageType @default(LANDING)
-  course         Course?  @relation("LandingPageCourse", fields: [courseId], references: [id])
-  upsellCourse   Course?  @relation("LandingPageUpsell", fields: [upsellCourseId], references: [id])
+  id               String   @id @default(uuid())
+  title            String
+  slug             String   @unique
+  description      String?
+  sections         String?       @db.Text
+  isActive         Boolean  @default(true)
+  // Main product - can be either course OR product
+  courseId         String?
+  productId        String?
+  // Upsell - can be either course OR product
+  upsellCourseId   String?
+  upsellProductId  String?
+  upsellPrice      Decimal? @db.Decimal(10, 2)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  type             PageType @default(LANDING)
+  // Relations
+  course           Course?  @relation("LandingPageCourse", fields: [courseId], references: [id])
+  product          Product? @relation("LandingPageProduct", fields: [productId], references: [id])
+  upsellCourse     Course?  @relation("LandingPageUpsell", fields: [upsellCourseId], references: [id])
+  upsellProduct    Product? @relation("LandingPageUpsellProduct", fields: [upsellProductId], references: [id])
 }
 
 model Subscription {

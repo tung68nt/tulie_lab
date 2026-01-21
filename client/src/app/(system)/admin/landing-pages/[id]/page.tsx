@@ -37,6 +37,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
     const [editingSectionIndex, setEditingSectionIndex] = useState<number | null>(null);
 
     const [courses, setCourses] = useState<any[]>([]);
+    const [products, setProducts] = useState<any[]>([]);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -45,8 +46,14 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
         isActive: true,
         sectionsJSON: JSON.stringify(DEFAULT_LANDING_PAGE_SECTIONS, null, 2),
         htmlContent: '', // For HTML mode
+        // Main product selection
+        mainType: 'course' as 'course' | 'product',
         courseId: null as string | null,
+        productId: null as string | null,
+        // Upsell selection
+        upsellType: 'course' as 'course' | 'product',
         upsellCourseId: null as string | null,
+        upsellProductId: null as string | null,
         upsellPrice: '' as string | number,
         type: 'LANDING',
     });
@@ -56,10 +63,14 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
             setFormData(prev => ({ ...prev, type: typeParam }));
         }
 
-        // Fetch courses for selection
+        // Fetch courses and products for selection
         api.admin.courses.list()
             .then(res => setCourses(res as any[]))
             .catch(err => console.error('Failed to load courses', err));
+
+        api.products.list()
+            .then(res => setProducts((res as any).data || []))
+            .catch(err => console.error('Failed to load products', err));
     }, []);
 
     useEffect(() => {
@@ -90,8 +101,14 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 isActive: page.isActive,
                 sectionsJSON: JSON.stringify(initialSections, null, 2),
                 htmlContent: page.htmlContent || '',
+                // Main product - determine type based on which ID exists
+                mainType: page.productId ? 'product' : 'course',
                 courseId: page.courseId || null,
+                productId: page.productId || null,
+                // Upsell - determine type based on which ID exists
+                upsellType: page.upsellProductId ? 'product' : 'course',
                 upsellCourseId: page.upsellCourseId || null,
+                upsellProductId: page.upsellProductId || null,
                 upsellPrice: page.upsellPrice || '',
                 type: page.type || 'LANDING'
             });
@@ -110,9 +127,19 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
 
         try {
             const payload = {
-                ...formData,
+                title: formData.title,
+                slug: formData.slug,
+                description: formData.description,
+                isActive: formData.isActive,
+                type: formData.type,
                 sections: mode === 'builder' ? JSON.parse(formData.sectionsJSON) : [],
                 htmlContent: mode === 'html' ? formData.htmlContent : null,
+                // Main product - only send the selected type's ID
+                courseId: formData.mainType === 'course' ? formData.courseId : null,
+                productId: formData.mainType === 'product' ? formData.productId : null,
+                // Upsell - only send the selected type's ID
+                upsellCourseId: formData.upsellType === 'course' ? formData.upsellCourseId : null,
+                upsellProductId: formData.upsellType === 'product' ? formData.upsellProductId : null,
                 upsellPrice: formData.upsellPrice ? Number(formData.upsellPrice) : null
             };
 
@@ -255,61 +282,127 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                         </div>
 
                         <div className="grid grid-cols-2 gap-6 pt-4 border-t border-border">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Khóa học chính (Được đăng ký)</label>
-                                <select
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-                                    value={formData.courseId || ''}
-                                    onChange={e => setFormData({ ...formData, courseId: e.target.value || null })}
-                                >
-                                    <option value="">-- Không chọn --</option>
-                                    {courses.map((course: any) => (
-                                        <option key={course.id} value={course.id}>
-                                            {course.title} {course.price ? `(${Number(course.price).toLocaleString()}đ)` : ''}
-                                        </option>
-                                    ))}
-                                </select>
-                                <p className="text-xs text-muted-foreground">Khóa học sẽ được đăng ký khi user thanh toán.</p>
-                            </div>
+                            {/* Main Product Selection */}
+                            <div className="space-y-3">
+                                <label className="text-sm font-medium">Sản phẩm chính (Được đăng ký khi thanh toán)</label>
 
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Up-sell Add-on (Tùy chọn)</label>
-                                <div className="space-y-3">
-                                    <select
-                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-                                        value={formData.upsellCourseId || ''}
-                                        onChange={e => setFormData({ ...formData, upsellCourseId: e.target.value || null })}
+                                {/* Type Toggle */}
+                                <div className="flex gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, mainType: 'course', productId: null })}
+                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.mainType === 'course' ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
                                     >
-                                        <option value="">-- Không chọn --</option>
+                                        📚 Khóa học
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, mainType: 'product', courseId: null })}
+                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.mainType === 'product' ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
+                                    >
+                                        📦 Template/Sản phẩm
+                                    </button>
+                                </div>
+
+                                {/* Conditional Dropdown */}
+                                {formData.mainType === 'course' ? (
+                                    <select
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                        value={formData.courseId || ''}
+                                        onChange={e => setFormData({ ...formData, courseId: e.target.value || null })}
+                                    >
+                                        <option value="">-- Chọn khóa học --</option>
                                         {courses.map((course: any) => (
                                             <option key={course.id} value={course.id}>
-                                                {course.title} {course.price ? `(${Number(course.price).toLocaleString()}đ)` : ''}
+                                                {course.title} {course.price ? `(${Number(course.price).toLocaleString()}đ)` : '(Miễn phí)'}
                                             </option>
                                         ))}
                                     </select>
+                                ) : (
+                                    <select
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                        value={formData.productId || ''}
+                                        onChange={e => setFormData({ ...formData, productId: e.target.value || null })}
+                                    >
+                                        <option value="">-- Chọn sản phẩm --</option>
+                                        {products.map((product: any) => (
+                                            <option key={product.id} value={product.id}>
+                                                {product.name} {product.price ? `(${Number(product.price).toLocaleString()}đ)` : ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
+                            </div>
 
-                                    {formData.upsellCourseId && (
-                                        <div className="pl-4 border-l-2 border-muted">
-                                            <label className="text-xs font-medium mb-1.5 block">Giá bán Upsell (để trống nếu lấy giá gốc)</label>
-                                            <input
-                                                type="text"
-                                                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm"
-                                                value={formData.upsellPrice ? Number(formData.upsellPrice).toLocaleString('vi-VN') : ''}
-                                                onChange={e => {
-                                                    const rawValue = e.target.value.replace(/\./g, '');
-                                                    if (/^\d*$/.test(rawValue)) {
-                                                        setFormData({ ...formData, upsellPrice: rawValue });
-                                                    }
-                                                }}
-                                                placeholder="VD: 199.000"
-                                            />
-                                            <p className="text-[10px] text-muted-foreground mt-1">
-                                                Giá này sẽ đè lên giá mặc định của khoá học khi mua kèm.
-                                            </p>
-                                        </div>
-                                    )}
+                            {/* Upsell Selection */}
+                            <div className="space-y-3">
+                                <label className="text-sm font-medium">Up-sell Add-on (Tùy chọn)</label>
+
+                                {/* Type Toggle */}
+                                <div className="flex gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, upsellType: 'course', upsellProductId: null })}
+                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.upsellType === 'course' ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
+                                    >
+                                        📚 Khóa học
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, upsellType: 'product', upsellCourseId: null })}
+                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.upsellType === 'product' ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
+                                    >
+                                        📦 Template/Sản phẩm
+                                    </button>
                                 </div>
-                                <p className="text-xs text-muted-foreground mt-1.5">Hiển thị đề xuất mua thêm tại trang thanh toán.</p>
+
+                                {/* Conditional Dropdown */}
+                                {formData.upsellType === 'course' ? (
+                                    <select
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                        value={formData.upsellCourseId || ''}
+                                        onChange={e => setFormData({ ...formData, upsellCourseId: e.target.value || null })}
+                                    >
+                                        <option value="">-- Không có upsell --</option>
+                                        {courses.map((course: any) => (
+                                            <option key={course.id} value={course.id}>
+                                                {course.title} {course.price ? `(${Number(course.price).toLocaleString()}đ)` : '(Miễn phí)'}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    <select
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                                        value={formData.upsellProductId || ''}
+                                        onChange={e => setFormData({ ...formData, upsellProductId: e.target.value || null })}
+                                    >
+                                        <option value="">-- Không có upsell --</option>
+                                        {products.map((product: any) => (
+                                            <option key={product.id} value={product.id}>
+                                                {product.name} {product.price ? `(${Number(product.price).toLocaleString()}đ)` : ''}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
+
+                                {/* Upsell Price Override */}
+                                {(formData.upsellCourseId || formData.upsellProductId) && (
+                                    <div className="pl-3 border-l-2 border-muted">
+                                        <label className="text-xs font-medium mb-1 block">Giá Upsell (để trống = giá gốc)</label>
+                                        <input
+                                            type="text"
+                                            className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+                                            value={formData.upsellPrice ? Number(formData.upsellPrice).toLocaleString('vi-VN') : ''}
+                                            onChange={e => {
+                                                const rawValue = e.target.value.replace(/\./g, '');
+                                                if (/^\d*$/.test(rawValue)) {
+                                                    setFormData({ ...formData, upsellPrice: rawValue });
+                                                }
+                                            }}
+                                            placeholder="VD: 199.000"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         </div>
 
