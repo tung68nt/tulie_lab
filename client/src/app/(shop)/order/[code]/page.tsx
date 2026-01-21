@@ -25,6 +25,9 @@ export default function OrderPage({ params }: { params: any }) {
     }, [params]);
 
     useEffect(() => {
+        // Only fetch if code is available
+        if (!code) return;
+
         const fetchData = async () => {
             try {
                 // Parallel fetch
@@ -107,70 +110,87 @@ export default function OrderPage({ params }: { params: any }) {
 
     return (
         <div className="container pt-6 md:pt-10" style={{ paddingBottom: '120px' }}>
-            <div className="mx-auto max-w-4xl">
+            <div className="mx-auto max-w-5xl">
                 <Card>
                     <CardHeader className="text-center">
                         <CardTitle className="text-2xl">Thanh toán đơn hàng</CardTitle>
                         <CardDescription>Mã đơn hàng: <span className="font-bold text-primary">{order.code}</span></CardDescription>
                     </CardHeader>
-                    <CardContent className="p-6">
-                        <div className="grid gap-8 md:grid-cols-2">
-                            {/* Left Column: QR & Price */}
-                            <div className="flex flex-col space-y-6">
-                                <div className="rounded-lg bg-muted/50 p-4 text-center">
+                    <CardContent className="p-4 md:p-6">
+                        {/* Responsive Grid: 1 column on mobile, 2 columns on landscape/tablet+ */}
+                        <div className="grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2">
+                            {/* Left Column: QR Code */}
+                            <div className="flex flex-col items-center justify-center space-y-4 order-1">
+                                {/* Amount Display */}
+                                <div className="w-full rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 p-4 text-center border border-primary/20">
                                     <p className="text-sm text-muted-foreground mb-1">Số tiền cần thanh toán</p>
-                                    <p className="text-3xl font-bold text-primary">
+                                    <p className="text-3xl md:text-4xl font-bold text-primary">
                                         {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
                                     </p>
                                 </div>
 
-                                <div className="flex flex-col items-center justify-center space-y-4">
-                                    <div className="relative aspect-square w-full max-w-[280px] overflow-hidden rounded-lg border bg-white p-2 shadow-sm">
+                                {/* QR Code */}
+                                <div className="flex flex-col items-center space-y-3 w-full">
+                                    <div className="relative aspect-square w-full max-w-[320px] lg:max-w-[280px] overflow-hidden rounded-xl border-2 border-border bg-white p-3 shadow-lg">
                                         <img src={qrUrl} alt="QR Code Payment" className="h-full w-full object-contain" />
                                     </div>
-                                    <p className="text-center text-sm text-muted-foreground">
-                                        Quét mã QR bằng ứng dụng ngân hàng để thanh toán.<br />
-                                        <span className="font-semibold text-rose-500">Nội dung chuyển khoản bắt buộc: {transferContent}</span>
-                                    </p>
+                                    <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-lg p-3 w-full max-w-[320px] lg:max-w-[280px]">
+                                        <p className="text-center text-sm">
+                                            <span className="text-muted-foreground">Quét mã QR bằng app ngân hàng</span>
+                                            <br />
+                                            <span className="font-bold text-rose-600 dark:text-rose-400">
+                                                Nội dung CK: {transferContent}
+                                            </span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Right Column: Bank Info & Actions */}
-                            <div className="flex flex-col space-y-6 justify-center">
-                                <div className="rounded-lg border p-4 text-sm space-y-3">
-                                    <div className="grid grid-cols-3 gap-2 py-2 border-b">
-                                        <span className="text-muted-foreground">Ngân hàng</span>
-                                        <span className="col-span-2 font-medium break-words text-right">{bankName}</span>
-                                    </div>
-                                    <div className="grid grid-cols-3 gap-2 py-2 border-b">
-                                        <span className="text-muted-foreground">Số tài khoản</span>
-                                        <span className="col-span-2 font-medium break-all text-right">{accountNo}</span>
-                                    </div>
-                                    <div className="grid grid-cols-3 gap-2 py-2 border-b">
-                                        <span className="text-muted-foreground">Chủ tài khoản</span>
-                                        <span className="col-span-2 font-medium break-words text-right">{accountName}</span>
-                                    </div>
-                                    <div className="grid grid-cols-3 gap-2 py-2">
-                                        <span className="text-muted-foreground">Nội dung</span>
-                                        <span className="col-span-2 font-bold text-primary break-all text-right">{transferContent}</span>
+                            <div className="flex flex-col justify-center space-y-6 order-2">
+                                {/* Bank Information */}
+                                <div className="rounded-xl border-2 border-border p-5 space-y-3 bg-card">
+                                    <h3 className="font-bold text-lg mb-4 text-center lg:text-left">Thông tin chuyển khoản</h3>
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-between py-2 border-b">
+                                            <span className="text-sm text-muted-foreground">Ngân hàng</span>
+                                            <span className="font-semibold text-base">{bankName}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between py-2 border-b">
+                                            <span className="text-sm text-muted-foreground">Số tài khoản</span>
+                                            <span className="font-mono font-semibold text-base">{accountNo}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between py-2 border-b">
+                                            <span className="text-sm text-muted-foreground">Chủ tài khoản</span>
+                                            <span className="font-semibold text-base">{accountName}</span>
+                                        </div>
+                                        <div className="flex items-center justify-between py-2">
+                                            <span className="text-sm text-muted-foreground">Nội dung CK</span>
+                                            <span className="font-bold text-primary text-base">{transferContent}</span>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="space-y-4 pt-2">
-                                    <Button className="w-full" size="lg" variant="default" onClick={() => window.location.reload()}>
+                                {/* Action Button */}
+                                <div className="space-y-3">
+                                    <Button
+                                        className="w-full text-base h-12"
+                                        size="lg"
+                                        variant="default"
+                                        onClick={() => window.location.reload()}
+                                    >
                                         Tôi đã chuyển khoản
                                     </Button>
-                                    <p className="text-center text-xs text-muted-foreground">
-                                        Hệ thống sẽ tự động kích hoạt khóa học sau khi nhận được thanh toán (thường trong vòng 1-2 phút).
-                                    </p>
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                                        <p className="text-center text-xs text-muted-foreground leading-relaxed">
+                                            Hệ thống tự động kích hoạt sau khi nhận thanh toán (1-2 phút)
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
-                <p className="mt-8 text-center text-sm text-muted-foreground">
-                    Hệ thống sẽ tự động kích hoạt khóa học sau khi nhận được thanh toán (thường trong vòng 1-2 phút).
-                </p>
             </div>
         </div>
     );
