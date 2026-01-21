@@ -191,7 +191,7 @@ model Course {
   tag              CourseTag              @default(NONE)
   introVideoUrl    String?
   learningOutcomes String?                @db.Text
-  structure        Json?                  // Stores chapter/section structure: [{ title: "Chapter 1", sections: ["Section A", "Section B"] }]
+  structure        String?                @db.Text
   createdAt        DateTime               @default(now())
   updatedAt        DateTime               @updatedAt
   instructorId     String?
