@@ -200,16 +200,9 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
         );
     }
 
-    if (!currentLesson) {
-        return (
-            <div className="flex flex-col items-center justify-center gap-4 py-20">
-                <h1 className="text-2xl font-bold">Không tìm thấy bài học</h1>
-                <Link href={`/courses/${courseSlug}`}><Button as="div">Quay lại khóa học</Button></Link>
-            </div>
-        );
-    }
-
-    if (!hasAccess) {
+    // Only show "locked" AFTER auth check completes, not during loading
+    // This prevents flash of "locked" state while checking access
+    if (!loadingSecure && !hasAccess) {
         return (
             <div className="flex flex-col items-center justify-center gap-6 py-20 text-center">
                 <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center">
