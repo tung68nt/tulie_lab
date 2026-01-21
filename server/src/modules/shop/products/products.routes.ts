@@ -7,6 +7,7 @@ const router = Router();
 
 // Public
 router.get('/', (req, res) => productController.list(req, res));
+router.get('/:id([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})', (req, res) => productController.getById(req, res));
 router.get('/:slug', (req, res) => productController.getBySlug(req, res));
 
 // Admin
