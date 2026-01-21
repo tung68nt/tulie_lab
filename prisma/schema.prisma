@@ -191,6 +191,7 @@ model Course {
   tag              CourseTag              @default(NONE)
   introVideoUrl    String?
   learningOutcomes String?                @db.Text
+  structure        String?                @db.Text
   createdAt        DateTime               @default(now())
   updatedAt        DateTime               @updatedAt
   instructorId     String?
