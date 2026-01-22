@@ -35,19 +35,6 @@ export const SettingsProvider = ({ children, initialSettings }: { children: Reac
                     site_favicon: res.site_favicon || defaultSettings.site_favicon,
                     show_site_name: res.show_site_name || defaultSettings.show_site_name
                 });
-
-                // Update favicon dynamically
-                if (res.site_favicon && typeof document !== 'undefined') {
-                    const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
-                    if (link) {
-                        link.href = res.site_favicon;
-                    } else {
-                        const newLink = document.createElement('link');
-                        newLink.rel = 'icon';
-                        newLink.href = res.site_favicon;
-                        document.head.appendChild(newLink);
-                    }
-                }
             }
         } catch (error) {
             console.error('Failed to load settings', error);
