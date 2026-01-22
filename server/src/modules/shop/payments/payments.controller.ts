@@ -80,6 +80,8 @@ export const webhook = async (req: Request, res: Response) => {
         // Sepay payload
         const { id, transferAmount, transferContent, referenceCode } = req.body;
 
+        console.log('Webhook received:', { id, transferAmount, transferContent, referenceCode });
+
         if (!transferContent) {
             return res.status(400).json({ success: false, message: 'No content' });
         }
@@ -87,18 +89,20 @@ export const webhook = async (req: Request, res: Response) => {
         // Extract Order Code from content
         const match = transferContent.toUpperCase().match(/TULIE[A-Z0-9]+/);
         if (!match) {
+            console.log('No order code found in:', transferContent);
             return res.status(200).json({ success: false, message: 'No order code found' });
         }
 
         const orderCode = match[0];
+        console.log('Processing order:', orderCode);
 
         await paymentService.processWebhook({
             code: orderCode,
             amount: Number(transferAmount),
-            transactionId: String(id),
-            signature: authHeader || '' // Pass the auth header as signature
+            transactionId: String(id)
         });
 
+        console.log('Order processed successfully:', orderCode);
         res.json({ success: true, message: 'Processed' });
     } catch (error: any) {
         console.error('Webhook Error:', error);

@@ -165,7 +165,7 @@ export default function OrderPage({ params }: { params: any }) {
                                             <span className="text-muted-foreground">Quét mã QR bằng app ngân hàng</span>
                                             <br />
                                             <span className="font-semibold text-foreground mt-2 block">
-                                                Ghi rõ: Nội dung chuyển khoản
+                                                Nội dung chuyển khoản:
                                             </span>
                                             <span className="font-semibold text-foreground block">
                                                 {transferContent}
@@ -233,9 +233,9 @@ export default function OrderPage({ params }: { params: any }) {
                                             </div>
                                         </div>
                                         <div className="flex items-center justify-between py-3">
-                                            <span className="text-sm text-muted-foreground">Nội dung CK</span>
+                                            <span className="text-sm text-muted-foreground whitespace-nowrap">Nội dung chuyển khoản</span>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-bold text-foreground text-base">{transferContent}</span>
+                                                <span className="font-semibold text-foreground text-base">{transferContent}</span>
                                                 <button
                                                     onClick={() => copyToClipboard(transferContent, 'content')}
                                                     className="p-1.5 hover:bg-muted rounded-md transition-colors"

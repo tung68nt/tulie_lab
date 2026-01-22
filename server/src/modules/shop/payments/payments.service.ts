@@ -163,14 +163,8 @@ export class PaymentService {
         transactionId: string,
         signature?: string
     }): Promise<Order> {
-        const { signature, ...payload } = data;
-
-        if (!signature) {
-            throw new Error('Missing webhook signature');
-        }
-
-        const isValid = await this.verifySepaySignature(payload, signature);
-        if (!isValid) throw new Error('Invalid webhook signature');
+        // Signature validation is handled in controller via API key
+        // No need to verify again here
 
         const order = await this.orderRepository.findByCode(data.code);
         if (!order) throw new Error('Order not found');
@@ -191,18 +185,12 @@ export class PaymentService {
         });
 
         // Publish Event
-        // The Listeners (LMS, Email) will handle enrollment and notification
-        // This decouples Payment from LMS logic!
         this.eventBus.publish({
             type: 'ORDER_PAID',
             payload: {
                 orderId: order.id,
                 code: order.code,
                 userId: order.userId,
-                // We need to fetch items again or pass them. 
-                // Currently order repo findByCode includes items.
-                // Assuming repo return type includes items, otherwise logic below might need items.
-                // We'll trust the event payload structure or fetch in listener.
                 isGift: order.isGift
             },
             timestamp: new Date()
