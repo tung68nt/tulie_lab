@@ -101,35 +101,68 @@ export const webhook = async (req: Request, res: Response) => {
         }
 
         // Sepay payload - be flexible with field names
-        const { id, transferAmount, transferContent, referenceCode, description, content } = req.body;
-
-        // Try multiple field names for transfer content
-        const actualTransferContent = transferContent || content || description || '';
+        const {
+            id,
+            transferAmount,
+            transferContent,
+            referenceCode,
+            description,
+            content,
+            code: paymentCode,
+            gateway
+        } = req.body;
 
         console.log('=== WEBHOOK PARSED DATA ===');
         console.log('Transaction ID:', id);
         console.log('Amount:', transferAmount);
-        console.log('Transfer Content:', actualTransferContent);
+        console.log('Payment Code:', paymentCode);
+        console.log('Transfer Content:', transferContent);
         console.log('Reference Code:', referenceCode);
+        console.log('Gateway:', gateway);
+        console.log('Full body:', JSON.stringify(req.body, null, 2));
 
-        if (!actualTransferContent || typeof actualTransferContent !== 'string' || actualTransferContent.trim() === '') {
-            console.error('=== WEBHOOK ERROR: Missing transfer content ===');
-            console.error('Body:', req.body);
-            console.error('Tried fields: transferContent, content, description');
-            return res.status(400).json({ success: false, message: 'Invalid or missing transfer content' });
+        // Try to get order code from multiple sources
+        let orderCode: string | null = null;
+
+        // 1. Try payment code field first (SePay's "Code thanh toán")
+        if (paymentCode && typeof paymentCode === 'string' && paymentCode.trim()) {
+            orderCode = paymentCode.trim().toUpperCase();
+            console.log('✅ Found order code from payment code field:', orderCode);
         }
 
-        // Extract Order Code from content (format: 10-digit alphanumeric code)
-        const trimmedContent = actualTransferContent.trim().toUpperCase();
-        const match = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
-
-        if (!match) {
-            console.log('⚠️  No order code found in transfer content:', trimmedContent);
-            return res.status(200).json({ success: false, message: 'No order code found in transfer content' });
+        // 2. Try extracting from transfer content
+        if (!orderCode) {
+            const actualTransferContent = transferContent || content || description || '';
+            if (actualTransferContent && typeof actualTransferContent === 'string') {
+                const trimmedContent = actualTransferContent.trim().toUpperCase();
+                const match = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
+                if (match) {
+                    orderCode = match[0];
+                    console.log('✅ Found order code from transfer content:', orderCode);
+                }
+            }
         }
 
-        const orderCode = match[0];
-        console.log('✅ Found order code:', orderCode);
+        // 3. Try reference code
+        if (!orderCode && referenceCode && typeof referenceCode === 'string') {
+            const trimmedRef = referenceCode.trim().toUpperCase();
+            const match = trimmedRef.match(/\b[A-Z0-9]{10}\b/);
+            if (match) {
+                orderCode = match[0];
+                console.log('✅ Found order code from reference code:', orderCode);
+            }
+        }
+
+        if (!orderCode) {
+            console.error('=== WEBHOOK ERROR: No order code found ===');
+            console.error('Payment Code:', paymentCode);
+            console.error('Transfer Content:', transferContent);
+            console.error('Reference Code:', referenceCode);
+            console.error('Full Body:', req.body);
+            return res.status(400).json({ success: false, message: 'No order code found in webhook payload' });
+        }
+
+        console.log('✅ Using order code:', orderCode);
 
         // Process payment
         await paymentService.processWebhook({
