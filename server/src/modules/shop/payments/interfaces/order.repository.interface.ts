@@ -5,6 +5,7 @@ export interface IOrderRepository {
     findById(id: string): Promise<Order | null>;
     findByCode(code: string): Promise<Order | null>;
     update(id: string, data: Prisma.OrderUpdateInput): Promise<Order>;
+    delete(id: string): Promise<void>;
     findAll(params: {
         skip?: number;
         take?: number;

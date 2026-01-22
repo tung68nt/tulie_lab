@@ -230,6 +230,31 @@ export const updateStatus = async (req: Request, res: Response) => {
     }
 };
 
+export const deleteOrder = async (req: Request, res: Response) => {
+    try {
+        const paymentService = container.resolve<PaymentService>('PaymentService');
+        const { id } = req.params;
+        const userId = (req as AuthRequest).user?.id;
+
+        if (!id) return res.status(400).json({ message: 'Missing order ID' });
+        if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
+        const order = await paymentService.getOrderById(id);
+        if (!order) return res.status(404).json({ message: 'Order not found' });
+        if (order.userId !== userId) {
+            return res.status(403).json({ message: 'You can only delete your own orders' });
+        }
+        if (order.status !== 'PENDING') {
+            return res.status(400).json({ message: 'Only pending orders can be deleted' });
+        }
+
+        await paymentService.deleteOrder(id);
+        res.json({ message: 'Order deleted successfully' });
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const getTransactions = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');

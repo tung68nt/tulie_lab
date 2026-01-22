@@ -233,6 +233,7 @@ export const api = {
     payments: {
         checkout: (data: unknown) => request<{ url: string }>('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
         getOrder: (code: string) => request<Order>(`/payments/${code}`),
+        deleteOrder: (id: string) => request<void>(`/payments/orders/${id}`, { method: 'DELETE' }),
     },
     promos: {
         validate: (code: string) => request<{ valid: boolean, discount?: number }>('/promo-codes/validate', { method: 'POST', body: JSON.stringify({ code }) }),

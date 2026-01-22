@@ -54,6 +54,12 @@ export class PrismaOrderRepository implements IOrderRepository {
         });
     }
 
+    async delete(id: string): Promise<void> {
+        await prisma.order.delete({
+            where: { id }
+        });
+    }
+
     async findAll(params: {
         skip?: number;
         take?: number;

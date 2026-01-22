@@ -142,6 +142,17 @@ export class PaymentService {
         return this.orderRepository.findByCode(code);
     }
 
+    async getOrderById(id: string): Promise<Order | null> {
+        return this.orderRepository.findById(id);
+    }
+
+    async deleteOrder(id: string): Promise<void> {
+        const order = await this.orderRepository.findById(id);
+        if (!order) throw new Error('Order not found');
+
+        await this.orderRepository.delete(id);
+    }
+
     async verifySepaySignature(payload: any, signature: string): Promise<boolean> {
         const crypto = require('crypto');
         const secret = process.env.SEPAY_SECRET_KEY || '';

@@ -4,10 +4,32 @@ import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
+import { Trash2 } from 'lucide-react';
+import { useToast } from '@/contexts/ToastContext';
 
 export default function OrdersPage() {
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [deletingOrder, setDeletingOrder] = useState<string | null>(null);
+    const { addToast } = useToast();
+
+    const handleDeleteOrder = async (orderId: string, orderCode: string) => {
+        if (!confirm(`Bạn có chắc muốn xóa đơn hàng ${orderCode}? Hành động này không thể hoàn tác.`)) {
+            return;
+        }
+
+        setDeletingOrder(orderId);
+        try {
+            await api.payments.deleteOrder(orderId);
+            setOrders(orders.filter(o => o.id !== orderId));
+            addToast('Đã xóa đơn hàng thành công', 'success');
+        } catch (error: any) {
+            console.error('Delete order error:', error);
+            addToast(error.message || 'Không thể xóa đơn hàng', 'error');
+        } finally {
+            setDeletingOrder(null);
+        }
+    };
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -90,7 +112,7 @@ export default function OrdersPage() {
                                     <tr className="text-left text-sm">
                                         <th className="px-4 py-3 font-medium">Mã đơn</th>
                                         <th className="px-4 py-3 font-medium">Ngày tạo</th>
-                                        <th className="px-4 py-3 font-medium">Khóa học</th>
+                                        <th className="px-4 py-3 font-medium">Nội dung đơn hàng</th>
                                         <th className="px-4 py-3 font-medium text-right">Số tiền</th>
                                         <th className="px-4 py-3 font-medium text-center">Trạng thái</th>
                                         <th className="px-4 py-3 font-medium text-right">Thao tác</th>
@@ -142,12 +164,23 @@ export default function OrdersPage() {
                                                         {status.label}
                                                     </span>
                                                 </td>
-                                                <td className="px-4 py-4 text-right">
-                                                    {order.status === 'PENDING' && order.amount > 0 ? (
-                                                        <Link href={`/order/${order.code}`}>
-                                                            <Button as="div" size="sm">Thanh toán</Button>
-                                                        </Link>
-                                                    ) : (order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) ? (
+                                                <td className="px-4 py-4">
+                                                    <div className="flex items-center gap-2 justify-end">
+                                                        {order.status === 'PENDING' && order.amount > 0 ? (
+                                                            <>
+                                                                <Link href={`/order/${order.code}`}>
+                                                                    <Button as="div" size="sm">Thanh toán</Button>
+                                                                </Link>
+                                                                <button
+                                                                    onClick={() => handleDeleteOrder(order.id, order.code)}
+                                                                    disabled={deletingOrder === order.id}
+                                                                    className="p-2 hover:bg-red-50 dark:hover:bg-red-950/30 rounded transition-colors disabled:opacity-50"
+                                                                    title="Xóa đơn hàng"
+                                                                >
+                                                                    <Trash2 className={`w-4 h-4 text-red-600 ${deletingOrder === order.id ? 'animate-pulse' : ''}`} />
+                                                                </button>
+                                                            </>
+                                                        ) : (order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) ? (
                                                         (() => {
                                                             // Check if order contains courses or products
                                                             const hasCourses = order.courses && order.courses.length > 0;
@@ -175,6 +208,7 @@ export default function OrdersPage() {
                                                             );
                                                         })()
                                                     ) : null}
+                                                    </div>
                                                 </td>
                                             </tr>
                                         );
