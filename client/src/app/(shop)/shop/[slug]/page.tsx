@@ -7,6 +7,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
+import ReactMarkdown from 'react-markdown';
 
 export default function ProductDetailPage() {
     const { slug } = useParams();
@@ -17,6 +18,7 @@ export default function ProductDetailPage() {
     const [isMember, setIsMember] = useState(false);
     const [isOwned, setIsOwned] = useState(false);
     const [selectedVersion, setSelectedVersion] = useState<any>(null);
+    const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -33,14 +35,6 @@ export default function ProductDetailPage() {
                     const profile = await api.users.getProfile() as any;
                     if (profile) {
                         setIsMember(!!profile.subscriptions?.some((s: any) => s.status === 'ACTIVE'));
-                        // Check if owns this product via order history could be expensive here if not returned by profile.
-                        // Ideally profile should have 'ownedProductIds' or similar. 
-                        // For now let's assume getProfile returns orders or we fetch orders.
-                        // Simplest: profile.orders includes items... but getProfile usually doesn't returns deep orders.
-                        // Correct way: Check api.users.getOrders() or rely on a new check endpoint.
-                        // Let's quickly try to see if profile has what we need or fetch orders.
-                        // Assuming getProfile DOES NOT return orders deep enough.
-                        // We'll use a lightweight check or just fetch orders if logged in.
                         const orders = await api.users.getMyOrders() as any[];
                         const owned = orders.some((o: any) => o.status === 'PAID' && o.items.some((i: any) => i.productId === data.id));
                         setIsOwned(owned);
@@ -71,6 +65,16 @@ export default function ProductDetailPage() {
 
     if (!product) return null;
 
+    // Build media gallery from product data
+    // Expecting product.gallery: Array<{type: 'image'|'video', url: string, thumbnail?: string}>
+    const mediaGallery = product.gallery || [];
+    // Fallback: if no gallery, use thumbnail as first image
+    if (mediaGallery.length === 0 && product.thumbnail) {
+        mediaGallery.push({ type: 'image', url: product.thumbnail });
+    }
+
+    const currentMedia = mediaGallery[selectedMediaIndex] || { type: 'image', url: product.thumbnail };
+
     return (
         <div className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
             {/* Background Accents */}
@@ -78,7 +82,7 @@ export default function ProductDetailPage() {
             <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[128px] -z-10" />
 
             <div className="container px-4 mx-auto relative z-10">
-                {/* Breadcrumbs / Back button */}
+                {/* Breadcrumbs */}
                 <Link href="/shop" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-12 group">
                     <span className="p-2 rounded-full border border-border group-hover:border-primary/50 transition-colors">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
@@ -87,32 +91,72 @@ export default function ProductDetailPage() {
                 </Link>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                    {/* Left Column - Hero Visual */}
-                    <div className="relative group">
-                        <div className="absolute -inset-4 bg-primary/20 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
-                        <div className="relative aspect-video lg:aspect-square w-full rounded-[2.5rem] overflow-hidden bg-card border border-border shadow-2xl">
-                            {product.thumbnail ? (
-                                <img
-                                    src={product.thumbnail}
-                                    alt={product.title}
-                                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                                />
-                            ) : (
-                                <div className="flex h-full items-center justify-center text-muted-foreground text-lg">
-                                    No Image Preview
-                                </div>
-                            )}
+                    {/* Left Column - Media Gallery */}
+                    <div className="relative space-y-4">
+                        {/* Main Media Display */}
+                        <div className="relative group">
+                            <div className="absolute -inset-4 bg-primary/20 rounded-[2.5rem] blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-700" />
+                            <div className="relative aspect-video w-full rounded-[2.5rem] overflow-hidden bg-card border border-border shadow-2xl">
+                                {currentMedia.type === 'video' ? (
+                                    <video
+                                        src={currentMedia.url}
+                                        controls
+                                        className="h-full w-full object-cover"
+                                        poster={currentMedia.thumbnail}
+                                    />
+                                ) : (
+                                    <img
+                                        src={currentMedia.url || '/placeholder-image.jpg'}
+                                        alt={product.title}
+                                        className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                    />
+                                )}
 
-                            {/* Type overlay */}
-                            <div className="absolute top-6 left-6 flex gap-2">
-                                <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-2 px-4 rounded-xl text-xs font-bold uppercase tracking-wider">
-                                    {product.type}
-                                </Badge>
-                                <Badge className="bg-primary/90 text-white border-0 py-2 px-4 rounded-xl text-xs font-bold uppercase tracking-wider backdrop-blur-md">
-                                    Premium Asset
-                                </Badge>
+                                {/* Type overlay */}
+                                <div className="absolute top-6 left-6 flex gap-2">
+                                    <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-2 px-4 rounded-xl text-xs font-bold uppercase tracking-wider">
+                                        {product.type}
+                                    </Badge>
+                                    <Badge className="bg-primary/90 text-white border-0 py-2 px-4 rounded-xl text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+                                        Premium Asset
+                                    </Badge>
+                                </div>
                             </div>
                         </div>
+
+                        {/* Thumbnail Gallery */}
+                        {mediaGallery.length > 1 && (
+                            <div className="grid grid-cols-4 md:grid-cols-5 gap-3">
+                                {mediaGallery.map((media: any, index: number) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setSelectedMediaIndex(index)}
+                                        className={`relative aspect-video rounded-xl overflow-hidden border-2 transition-all ${
+                                            selectedMediaIndex === index
+                                                ? 'border-primary ring-2 ring-primary/50 scale-105'
+                                                : 'border-border hover:border-primary/50'
+                                        }`}
+                                    >
+                                        {media.type === 'video' ? (
+                                            <div className="h-full w-full bg-black/80 flex items-center justify-center">
+                                                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M8 5v14l11-7z" />
+                                                </svg>
+                                                {media.thumbnail && (
+                                                    <img src={media.thumbnail} alt="" className="absolute inset-0 w-full h-full object-cover opacity-50" />
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <img
+                                                src={media.url}
+                                                alt={`Gallery ${index + 1}`}
+                                                className="h-full w-full object-cover"
+                                            />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column - Product Info */}
@@ -156,7 +200,7 @@ export default function ProductDetailPage() {
 
                                     {product.versions && product.versions.length > 0 ? (
                                         <div className="space-y-4">
-                                            <div className="flex gap-2 p-1 bg-black/20 rounded-lg w-fit">
+                                            <div className="flex gap-2 p-1 bg-black/20 rounded-lg w-fit flex-wrap">
                                                 {product.versions.map((ver: any) => (
                                                     <button
                                                         key={ver.id}
@@ -223,7 +267,7 @@ export default function ProductDetailPage() {
                                 </div>
                             )}
 
-                            {/* Subscription Upsell - Only show if not a member */}
+                            {/* Subscription Upsell */}
                             {!isMember && !isOwned && (
                                 <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 mt-4 relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -248,7 +292,6 @@ export default function ProductDetailPage() {
                                             </div>
                                         </div>
                                         <Link href="/checkout?productId=membership-yearly" className="block">
-                                            {/* Note: Ensure membership-yearly product exists or logic handles it */}
                                             <Button as="div" className="w-full font-bold shadow-lg shadow-primary/20 bg-primary text-primary-foreground hover:bg-primary/90">
                                                 Đăng ký Hội viên ngay
                                             </Button>
@@ -274,6 +317,15 @@ export default function ProductDetailPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Detailed Content Section */}
+                {product.detailedContent && (
+                    <div className="mt-20 max-w-4xl mx-auto">
+                        <div className="prose prose-lg dark:prose-invert max-w-none">
+                            <ReactMarkdown>{product.detailedContent}</ReactMarkdown>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -321,6 +321,9 @@ model Product {
   previewUrl         String?
   isPublished        Boolean               @default(true)
   tags               String[]
+  // Rich content fields
+  gallery            Json?                 // Array of {type: 'image'|'video', url: string, thumbnail?: string}
+  detailedContent    String?               @db.Text // Markdown content
   // Countdown/Campaign fields
   campaignId         String?
   saleStartDate      DateTime?
