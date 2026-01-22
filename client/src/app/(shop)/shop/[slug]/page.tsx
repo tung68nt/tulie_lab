@@ -292,48 +292,43 @@ export default function ProductDetailPage() {
 
                             {/* Subscription Upsell */}
                             {!isMember && !isOwned && (
-                                <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 mt-4 relative overflow-hidden group">
-                                    <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                                        <svg className="w-32 h-32 -mr-8 -mt-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                                <div className="p-5 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
+                                    <div className="flex items-start justify-between gap-3 mb-3">
+                                        <h3 className="font-semibold text-base">Gói Thành viên Năm</h3>
+                                        <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-0 font-semibold text-xs px-2 py-0.5 shrink-0">Best Value</Badge>
                                     </div>
-                                    <div className="relative z-10">
-                                        <div className="flex justify-between items-start mb-2">
-                                            <h3 className="font-bold text-xl">Gói Thành viên Năm</h3>
-                                            <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-0 font-bold">Best Value</Badge>
+                                    <p className="text-xs text-muted-foreground mb-3 leading-normal">
+                                        Truy cập và tải không giới hạn toàn bộ kho tài nguyên (Templates, Apps Script) chỉ với <span className="font-semibold text-foreground">1.990.000đ/năm</span>.
+                                    </p>
+                                    <div className="flex flex-col gap-1.5 mb-3">
+                                        <div className="flex items-center gap-2 text-xs">
+                                            <svg className="w-3.5 h-3.5 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                            <span>Tải không giới hạn sản phẩm số</span>
                                         </div>
-                                        <p className="text-sm text-muted-foreground mb-4">
-                                            Truy cập và tải không giới hạn toàn bộ kho tài nguyên (Templates, Apps Script) chỉ với <span className="font-bold text-primary text-lg">1.990.000đ/năm</span>.
-                                        </p>
-                                        <div className="flex flex-col gap-2 mb-4">
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                                <span>Tải không giới hạn sản phẩm số</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                                <span>Tiết kiệm 80% so với mua lẻ</span>
-                                            </div>
+                                        <div className="flex items-center gap-2 text-xs">
+                                            <svg className="w-3.5 h-3.5 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                            <span>Tiết kiệm 80% so với mua lẻ</span>
                                         </div>
-                                        <Link href="/checkout?productId=membership-yearly" className="block">
-                                            <Button as="div" className="w-full font-bold shadow-lg shadow-primary/20 bg-primary text-primary-foreground hover:bg-primary/90">
-                                                Đăng ký Hội viên ngay
-                                            </Button>
-                                        </Link>
                                     </div>
+                                    <Link href="/pricing" className="block">
+                                        <Button as="div" size="sm" className="w-full font-semibold">
+                                            Đăng ký Hội viên ngay
+                                        </Button>
+                                    </Link>
                                 </div>
                             )}
 
                             {/* Value Propositions */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-border">
+                            <div className="grid grid-cols-3 gap-3 pt-6 border-t border-border">
                                 {[
                                     { title: "Trọn đời", desc: "Mua một lần dùng mãi mãi", icon: "💎" },
                                     { title: "Cập nhật", desc: "Update miễn phí trọn đời", icon: "✨" },
                                     { title: "Hỗ trợ", desc: "Hỗ trợ cài đặt kỹ thuật", icon: "🛠️" }
                                 ].map((item, i) => (
-                                    <div key={i} className="p-4 rounded-2xl bg-card border border-border/50 hover:border-primary/30 transition-colors group/item">
-                                        <div className="text-2xl mb-2 grayscale group-hover/item:grayscale-0 transition-all">{item.icon}</div>
-                                        <div className="font-bold text-sm mb-1">{item.title}</div>
-                                        <div className="text-xs text-muted-foreground line-clamp-2">{item.desc}</div>
+                                    <div key={i} className="p-3 rounded-lg bg-card border border-border/50 hover:border-primary/30 transition-colors group/item">
+                                        <div className="text-2xl mb-1 grayscale group-hover/item:grayscale-0 transition-all">{item.icon}</div>
+                                        <div className="font-semibold text-sm mb-0.5">{item.title}</div>
+                                        <div className="text-xs text-muted-foreground leading-snug">{item.desc}</div>
                                     </div>
                                 ))}
                             </div>
