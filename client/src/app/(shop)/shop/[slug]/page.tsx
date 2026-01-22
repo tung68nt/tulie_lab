@@ -7,7 +7,6 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
-import ReactMarkdown from 'react-markdown';
 
 export default function ProductDetailPage() {
     const { slug } = useParams();
@@ -160,36 +159,60 @@ export default function ProductDetailPage() {
                     </div>
 
                     {/* Right Column - Product Info */}
-                    <div className="flex flex-col space-y-10">
-                        <div className="space-y-4">
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]">
-                                {product.title}
-                            </h1>
-                            <div className="flex items-center gap-4">
+                    <div className="flex flex-col space-y-8">
+                        {/* Title & Price Section */}
+                        <div className="space-y-6">
+                            <div className="space-y-3">
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-foreground">
+                                    {product.title}
+                                </h1>
+                                <p className="text-lg text-muted-foreground leading-relaxed">
+                                    {product.description}
+                                </p>
+                            </div>
+
+                            {/* Price Display */}
+                            <div className="flex items-end gap-4 p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
                                 {isOwned ? (
-                                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-500 font-medium text-sm border border-green-500/20">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                        Đã sở hữu
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-3 rounded-full bg-green-500/10">
+                                            <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div className="text-sm text-muted-foreground">Trạng thái</div>
+                                            <div className="text-xl font-bold text-green-600">Đã sở hữu</div>
+                                        </div>
                                     </div>
                                 ) : (
-                                    <>
-                                        <div className="text-4xl font-bold text-primary">
-                                            {product.price > 0 ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) : 'Miễn phí'}
-                                        </div>
-                                        {product.compareAtPrice && (
-                                            <div className="text-xl text-muted-foreground line-through decoration-red-500/50">
-                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.compareAtPrice)}
+                                    <div className="flex-1">
+                                        <div className="text-sm font-medium text-muted-foreground mb-1">Giá bán</div>
+                                        <div className="flex items-baseline gap-3">
+                                            <div className="text-5xl font-black text-primary">
+                                                {product.price > 0 ? (
+                                                    <>
+                                                        {new Intl.NumberFormat('vi-VN').format(product.price)}
+                                                        <span className="text-2xl ml-1">đ</span>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-green-600">Miễn phí</span>
+                                                )}
                                             </div>
-                                        )}
-                                    </>
+                                            {product.compareAtPrice && (
+                                                <div className="flex flex-col">
+                                                    <span className="text-lg text-muted-foreground line-through">
+                                                        {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ
+                                                    </span>
+                                                    <span className="text-xs font-bold text-red-500 bg-red-500/10 px-2 py-0.5 rounded">
+                                                        -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 )}
                             </div>
-                        </div>
-
-                        <div className="prose dark:prose-invert max-w-none">
-                            <p className="text-xl text-muted-foreground leading-relaxed">
-                                {product.description}
-                            </p>
                         </div>
 
                         {/* Actions Area */}
@@ -321,9 +344,10 @@ export default function ProductDetailPage() {
                 {/* Detailed Content Section */}
                 {product.detailedContent && (
                     <div className="mt-20 max-w-4xl mx-auto">
-                        <div className="prose prose-lg dark:prose-invert max-w-none">
-                            <ReactMarkdown>{product.detailedContent}</ReactMarkdown>
-                        </div>
+                        <div
+                            className="prose prose-lg dark:prose-invert max-w-none"
+                            dangerouslySetInnerHTML={{ __html: product.detailedContent }}
+                        />
                     </div>
                 )}
             </div>

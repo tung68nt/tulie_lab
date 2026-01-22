@@ -36,6 +36,12 @@ export default function ProductEditorPage() {
         isPublished: true,
     });
 
+    // Gallery State
+    const [gallery, setGallery] = useState<Array<{type: 'image' | 'video'; url: string; thumbnail?: string}>>([]);
+
+    // Rich Content State
+    const [detailedContent, setDetailedContent] = useState('');
+
     // Version State
     const [versions, setVersions] = useState<any[]>([]);
     const [newVersion, setNewVersion] = useState({ version: '', changelog: '', fileUrl: '' });
@@ -68,6 +74,14 @@ export default function ProductEditorPage() {
                     });
                     if (data.versions) {
                         setVersions(data.versions);
+                    }
+                    // Load gallery
+                    if (data.gallery) {
+                        setGallery(data.gallery);
+                    }
+                    // Load detailed content
+                    if (data.detailedContent) {
+                        setDetailedContent(data.detailedContent);
                     }
 
                     // Fetch upsells
@@ -226,6 +240,8 @@ export default function ProductEditorPage() {
                 ...formData,
                 price: Number(formData.price),
                 compareAtPrice: formData.compareAtPrice ? Number(formData.compareAtPrice) : null,
+                gallery: gallery.length > 0 ? gallery : null,
+                detailedContent: detailedContent || null,
             };
 
             if (isNew) {
@@ -324,6 +340,115 @@ export default function ProductEditorPage() {
                                 />
                                 <p className="text-xs text-muted-foreground">Link trực tiếp đến file (Google Drive, Dropbox, S3...).</p>
                             </div>
+                        </div>
+
+                        {/* Gallery Management */}
+                        <div className="border rounded-lg p-6 bg-card space-y-4">
+                            <h3 className="font-semibold text-lg">Thư viện ảnh/video</h3>
+                            <p className="text-sm text-muted-foreground">Thêm nhiều ảnh hoặc video để hiển thị ở trang sản phẩm</p>
+
+                            <div className="space-y-3">
+                                {/* Add new media */}
+                                <div className="flex gap-2">
+                                    <Input
+                                        placeholder="URL ảnh hoặc video (https://...)"
+                                        onKeyDown={(e: any) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                const url = e.target.value.trim();
+                                                if (url) {
+                                                    const isVideo = url.includes('.mp4') || url.includes('.webm') || url.includes('youtube') || url.includes('vimeo');
+                                                    setGallery([...gallery, { type: isVideo ? 'video' : 'image', url }]);
+                                                    e.target.value = '';
+                                                }
+                                            }
+                                        }}
+                                    />
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        onClick={(e: any) => {
+                                            const input = e.target.closest('div').querySelector('input');
+                                            const url = input?.value.trim();
+                                            if (url) {
+                                                const isVideo = url.includes('.mp4') || url.includes('.webm') || url.includes('youtube') || url.includes('vimeo');
+                                                setGallery([...gallery, { type: isVideo ? 'video' : 'image', url }]);
+                                                input.value = '';
+                                            }
+                                        }}
+                                    >
+                                        Thêm
+                                    </Button>
+                                </div>
+
+                                {/* Gallery items */}
+                                <div className="grid grid-cols-2 gap-3">
+                                    {gallery.map((item, index) => (
+                                        <div key={index} className="relative group border rounded-lg overflow-hidden bg-muted">
+                                            <div className="aspect-video">
+                                                {item.type === 'video' ? (
+                                                    <div className="w-full h-full bg-black flex items-center justify-center">
+                                                        <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path d="M8 5v14l11-7z" />
+                                                        </svg>
+                                                    </div>
+                                                ) : (
+                                                    <img src={item.url} alt="" className="w-full h-full object-cover" />
+                                                )}
+                                            </div>
+                                            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setGallery(gallery.filter((_, i) => i !== index))}
+                                                    className="p-1.5 rounded bg-red-500 text-white hover:bg-red-600"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <div className="p-2 bg-background/80 backdrop-blur-sm">
+                                                <p className="text-xs text-muted-foreground truncate">{item.url}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {gallery.length === 0 && (
+                                    <div className="text-center py-8 text-muted-foreground text-sm border-2 border-dashed rounded-lg">
+                                        Chưa có ảnh/video nào. Nhập URL và nhấn Enter hoặc nút Thêm.
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Rich Content Editor */}
+                        <div className="border rounded-lg p-6 bg-card space-y-4">
+                            <h3 className="font-semibold text-lg">Nội dung chi tiết</h3>
+                            <p className="text-sm text-muted-foreground">Viết nội dung giới thiệu chi tiết về sản phẩm (hỗ trợ HTML)</p>
+
+                            <textarea
+                                value={detailedContent}
+                                onChange={(e) => setDetailedContent(e.target.value)}
+                                rows={15}
+                                className="w-full min-h-[300px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 font-mono"
+                                placeholder="<h2>Tiêu đề</h2>
+<p>Nội dung mô tả...</p>
+<ul>
+  <li>Điểm nổi bật 1</li>
+  <li>Điểm nổi bật 2</li>
+</ul>"
+                            />
+
+                            {detailedContent && (
+                                <details className="border rounded-lg p-4 bg-muted/30">
+                                    <summary className="cursor-pointer font-medium text-sm">Xem trước nội dung</summary>
+                                    <div
+                                        className="mt-4 prose prose-sm dark:prose-invert max-w-none"
+                                        dangerouslySetInnerHTML={{ __html: detailedContent }}
+                                    />
+                                </details>
+                            )}
                         </div>
 
                         {!isNew && (
