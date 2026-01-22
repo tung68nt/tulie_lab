@@ -357,6 +357,9 @@ export const api = {
         delete: (id: string) => request<void>(`/products/${id}`, { method: 'DELETE' }),
         addVersion: (id: string, data: unknown) => request<unknown>(`/products/${id}/versions`, { method: 'POST', body: JSON.stringify(data) }),
         deleteVersion: (versionId: string) => request<void>(`/products/versions/${versionId}`, { method: 'DELETE' }),
+        getUpsells: (id: string) => request<any>(`/products/${id}/upsells`),
+        addUpsell: (id: string, data: { productId?: string; courseId?: string; position?: number }) => request<any>(`/products/${id}/upsells`, { method: 'POST', body: JSON.stringify(data) }),
+        removeUpsell: (id: string, upsellId: string) => request<void>(`/products/${id}/upsells/${upsellId}`, { method: 'DELETE' }),
     },
     activationCodes: {
         list: () => request<unknown[]>('/activation-codes/admin/list'),
