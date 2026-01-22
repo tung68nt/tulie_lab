@@ -1,17 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import rateLimit from 'express-rate-limit';
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, // 1000 requests per IP
-  message: 'Too many requests from this IP, please try again later'
-});
 
 dotenv.config({ path: path.join(__dirname, '../.env') }); // Load .env from server root
 
@@ -21,11 +13,11 @@ const PORT = process.env.PORT || 5001;
 // --- CRITICAL: Register health check FIRST, before any blocking operations ---
 // This ensures Cloud Run's health check always passes.
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', version: 'v1.0.5-schema-refresh', timestamp: new Date().toISOString() });
+  res.status(200).json({ status: 'ok', version: 'v1.0.6-security-enhancements', timestamp: new Date().toISOString() });
 });
 
 app.get('/api/check', (req, res) => {
-  res.json({ message: 'Deployment Success', version: 'v1.0.5-schema-refresh', time: new Date().toISOString() });
+  res.json({ message: 'Deployment Success', version: 'v1.0.6-security-enhancements', time: new Date().toISOString() });
 });
 
 // --- START LISTENING IMMEDIATELY ---
@@ -39,11 +31,17 @@ const server = app.listen(PORT, () => {
 // --- Async App Initialization ---
 async function initializeApp() {
   try {
+    // Import middleware
+    const { requestId } = await import('./middleware/request-id.middleware');
+    const { sanitize } = await import('./middleware/validation.middleware');
+    const { apiLimiter } = await import('./middleware/rate-limit.middleware');
+
     // Global Request Tracking
     let globalRequestCount = 0;
     setInterval(() => { globalRequestCount = 0; }, 60000);
 
-    // Middleware
+    // Middleware order is important!
+    app.use(requestId); // Add request ID to all requests
     app.use((req, res, next) => { globalRequestCount++; next(); });
     const { metrics } = await import('./metrics');
     app.use((req, res, next) => {
@@ -51,8 +49,8 @@ async function initializeApp() {
       next();
     });
 
-    app.use(helmet());
-    app.use('/api', limiter);
+    app.use(helmet()); // Security headers
+    app.use('/api', apiLimiter); // Global rate limiting (only for /api routes)
     app.use(cors({
       origin: (origin, callback) => {
         if (!origin) { callback(null, true); return; }
@@ -77,7 +75,18 @@ async function initializeApp() {
     }));
     app.use(express.json());
     app.use(cookieParser());
-    app.use(morgan('dev'));
+    app.use(sanitize); // Sanitize input to prevent XSS
+
+    // Logging middleware with request ID
+    app.use((req, res, next) => {
+      const start = Date.now();
+      res.on('finish', () => {
+        const duration = Date.now() - start;
+        console.log(`[${req.id}] ${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`);
+      });
+      next();
+    });
+
     app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
     // --- Initialize Dependency Injection (Heavy) ---
