@@ -164,7 +164,7 @@ export default function OrderPage({ params }: { params: any }) {
                                         <p className="text-center text-sm leading-normal">
                                             <span className="text-muted-foreground">Quét mã QR bằng app ngân hàng</span>
                                             <br />
-                                            <span className="font-mono font-semibold text-foreground mt-2 block">
+                                            <span className="font-semibold text-foreground mt-2 block">
                                                 Nội dung chuyển khoản:
                                             </span>
                                             <span className="font-mono font-semibold text-foreground block">

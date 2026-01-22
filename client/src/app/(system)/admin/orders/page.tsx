@@ -312,7 +312,7 @@ export default function AdminOrdersPage() {
                                         {orders.map(order => (
                                             <tr key={order.id} className="border-b hover:bg-muted/30">
                                                 <td className="py-3 px-3">
-                                                    <span className="text-xs bg-muted px-2 py-1 rounded font-semibold">
+                                                    <span className="text-xs bg-muted px-2 py-1 rounded font-mono font-semibold">
                                                         {order.code || order.id.slice(-8)}
                                                     </span>
                                                 </td>
