@@ -340,6 +340,20 @@ export const api = {
         delete: (id: string) => request<void>(`/landing-pages/${id}`, { method: 'DELETE' }),
         duplicate: (id: string) => request<unknown>(`/landing-pages/${id}/duplicate`, { method: 'POST' }),
     },
+    events: {
+        list: (includeInactive?: boolean) => {
+            const query = includeInactive ? '?includeInactive=true' : '';
+            return request<unknown[]>(`/events${query}`);
+        },
+        getUpcoming: (limit?: number) => {
+            const query = limit ? `?limit=${limit}` : '';
+            return request<unknown[]>(`/events/upcoming${query}`);
+        },
+        get: (id: string) => request<unknown>(`/events/${id}`),
+        create: (data: unknown) => request<unknown>('/events', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/events/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/events/${id}`, { method: 'DELETE' }),
+    },
     products: {
         list: (params?: { page?: number; limit?: number; search?: string; type?: string; isPublished?: boolean }) => {
             const searchParams = new URLSearchParams();

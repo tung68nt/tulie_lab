@@ -108,6 +108,7 @@ async function initializeApp() {
     const systemRoutes = (await import('./modules/system/system/system.routes')).default;
     const activationCodeRoutes = (await import('./modules/shop/activation-codes/activation-codes.routes')).default;
     const productRoutes = (await import('./modules/shop/products/products.routes')).default;
+    const eventRoutes = (await import('./modules/lms/events/events.routes')).default;
 
     app.use('/api/auth', authRoutes);
     app.use('/api/users', userRoutes);
@@ -130,6 +131,7 @@ async function initializeApp() {
     app.use('/api/system', systemRoutes);
     app.use('/api/activation-codes', activationCodeRoutes);
     app.use('/api/products', productRoutes);
+    app.use('/api/events', eventRoutes);
 
     // Basic Diagnostic Endpoint (safe to keep)
     app.get('/api/diag', async (req, res) => {

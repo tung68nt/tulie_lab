@@ -703,3 +703,28 @@ model CourseProductUpsell {
   @@unique([courseId, upsellProductId])
   @@index([courseId])
 }
+
+// Calendar Events
+model Event {
+  id          String    @id @default(uuid())
+  title       String
+  description String?   @db.Text
+  date        DateTime  // Event date
+  time        String?   // Event time (e.g., "20:00", "19:30")
+  type        EventType @default(WEBINAR)
+  link        String?   // Link to course or external URL
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([date])
+  @@index([isActive])
+}
+
+enum EventType {
+  WEBINAR
+  WORKSHOP
+  COURSE
+  MEETUP
+  OTHER
+}

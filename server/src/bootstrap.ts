@@ -26,6 +26,8 @@ import { EventBus } from './core/event-bus';
 import { PrismaOrderRepository } from './modules/shop/payments/repositories/prisma-order.repository';
 import { PaymentService } from './modules/shop/payments/payments.service';
 import redisService from './services/redis.service';
+import { EventRepository } from './modules/lms/events/events.repository';
+import { EventService } from './modules/lms/events/events.service';
 
 /**
  * Initializes all dependencies and registers them in the DI container.
@@ -74,6 +76,9 @@ export const bootstrapDI = () => {
     const orderRepository = new PrismaOrderRepository();
     container.register('IOrderRepository', orderRepository);
 
+    const eventRepository = new EventRepository();
+    container.register('EventRepository', eventRepository);
+
     // Services
     const productService = new ProductService(productRepository);
     container.register('ProductService', productService);
@@ -117,6 +122,9 @@ export const bootstrapDI = () => {
         eventBus
     );
     container.register('PaymentService', paymentService);
+
+    const eventService = new EventService(eventRepository);
+    container.register('EventService', eventService);
 
     // Listeners
     const { OrderPaidListener } = require('./modules/shop/payments/listeners/order-paid.listener');

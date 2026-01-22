@@ -1,24 +1,63 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HeroSection } from '@/components/info/sections/HeroSection';
 import { Section } from '@/types/sections';
 import { CTASection } from '@/components/info/sections/CTASection';
 import Link from 'next/link';
 import { Calendar as CalendarIcon, List as ListIcon, ExternalLink } from 'lucide-react';
 import { MonthViewCalendar } from '@/components/calendar/MonthViewCalendar';
+import { api } from '@/lib/api';
 
-// Mock Events Data
-const EVENTS = [
-    { date: '2025-10-15', time: '20:00', title: 'Webinar: Nhập môn Vibe Coding', type: 'Webinar', link: '/courses/vibe-coding-intro' },
-    { date: '2025-10-20', time: '19:30', title: 'Workshop: AI cho Marketing', type: 'Workshop', link: '/courses/ai-marketing-workshop' },
-    { date: '2025-11-01', time: '09:00', title: 'Khai giảng: Master Apps Script K15', type: 'Course', link: '/courses/master-apps-script-k15' },
-    { date: '2025-11-15', time: '20:00', title: 'Webinar: Next.js 15 & Turbopack', type: 'Webinar', link: '/courses/nextjs-turbopack-webinar' },
-];
+interface Event {
+    id: string;
+    title: string;
+    description?: string;
+    date: string;
+    time?: string;
+    type: 'WEBINAR' | 'WORKSHOP' | 'COURSE' | 'MEETUP' | 'OTHER';
+    link?: string;
+    isActive: boolean;
+}
+
+const EVENT_TYPE_LABELS: Record<Event['type'], string> = {
+    WEBINAR: 'Webinar',
+    WORKSHOP: 'Workshop',
+    COURSE: 'Khóa học',
+    MEETUP: 'Meetup',
+    OTHER: 'Khác'
+};
 
 export default function CalendarPage() {
     const [viewMode, setViewMode] = useState<'list' | 'month'>('month');
+    const [events, setEvents] = useState<Event[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadEvents();
+    }, []);
+
+    const loadEvents = async () => {
+        try {
+            const res = await api.events.getUpcoming() as Event[];
+            setEvents(res);
+        } catch (error) {
+            console.error('Failed to load events', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const formatEventForCalendar = (event: Event) => ({
+        date: event.date.split('T')[0],
+        time: event.time || '',
+        title: event.title,
+        type: EVENT_TYPE_LABELS[event.type],
+        link: event.link || '#'
+    });
+
+    const calendarEvents = events.map(formatEventForCalendar);
 
     const heroSection: Section = {
         id: 'calendar-hero',
@@ -65,11 +104,18 @@ export default function CalendarPage() {
                         </div>
                     </div>
 
-                    {viewMode === 'month' ? (
-                        <MonthViewCalendar events={EVENTS} />
+                    {loading ? (
+                        <div className="text-center py-12">Đang tải...</div>
+                    ) : viewMode === 'month' ? (
+                        <MonthViewCalendar events={calendarEvents} />
                     ) : (
                         <div className="space-y-4">
-                            {EVENTS.map((event, index) => (
+                            {calendarEvents.length === 0 ? (
+                                <div className="text-center py-12 text-muted-foreground border rounded-lg bg-muted/10">
+                                    Hiện chưa có sự kiện nào được lên lịch.
+                                </div>
+                            ) : (
+                                calendarEvents.map((event, index) => (
                                 <Link
                                     key={index}
                                     href={event.link}
@@ -92,7 +138,7 @@ export default function CalendarPage() {
                                         </div>
                                     </div>
                                 </Link>
-                            ))}
+                            )))}
                         </div>
                     )}
                 </div>
