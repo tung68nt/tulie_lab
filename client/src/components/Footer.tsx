@@ -109,6 +109,7 @@ const SocialIcon = ({ type }: { type: string }) => {
 
 export function Footer() {
     const [footerData, setFooterData] = useState<FooterData>(defaultFooterData);
+    const [logoError, setLogoError] = useState(false);
 
     useEffect(() => {
         const loadFooterData = async () => {
@@ -127,9 +128,14 @@ export function Footer() {
     return (
         <footer className="border-t bg-background">
             <div className="container py-12 md:py-16">
-                {footerData.logoUrl && (
+                {footerData.logoUrl && !logoError && (
                     <div className="mb-4">
-                        <img src={footerData.logoUrl} alt={footerData.companyName} className="h-10 w-auto object-contain" />
+                        <img
+                            src={footerData.logoUrl}
+                            alt={footerData.companyName}
+                            className="h-10 w-auto object-contain"
+                            onError={() => setLogoError(true)}
+                        />
                     </div>
                 )}
                 <div className="grid gap-8 md:grid-cols-5">

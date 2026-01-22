@@ -61,78 +61,91 @@ export const webhook = async (req: Request, res: Response) => {
         const paymentService = container.resolve<PaymentService>('PaymentService');
 
         // Log full request for debugging
-        console.log('Webhook received - Full Request:', {
-            headers: req.headers,
-            body: req.body,
-            query: req.query
-        });
+        console.log('=== WEBHOOK RECEIVED ===');
+        console.log('Headers:', JSON.stringify(req.headers, null, 2));
+        console.log('Body:', JSON.stringify(req.body, null, 2));
+        console.log('Query:', JSON.stringify(req.query, null, 2));
 
-        // Validate API Key from Authorization header
-        const authHeader = req.headers.authorization;
+        // Validate API Key from Authorization header (flexible validation)
+        const authHeader = req.headers.authorization || req.headers['x-api-key'] as string;
         const settingService = container.resolve<any>('SettingService');
         const storedApiKey = await settingService.getApiKey();
 
         if (storedApiKey) {
-            // If API key is configured, validate it
-            // Support multiple formats:
-            // - "Apikey sk_xxx"
-            // - "Bearer sk_xxx"
-            // - "sk_xxx"
+            // If API key is configured, validate it with flexible matching
             let receivedKey = '';
             if (authHeader) {
-                // Extract key from "Apikey xxx", "Bearer xxx", or just "xxx"
+                // Extract key from various formats:
+                // - "Apikey sk_xxx"
+                // - "Bearer sk_xxx"
+                // - "sk_xxx"
                 const match = authHeader.match(/^(?:Apikey|Bearer)\s+(.+)$/i);
                 receivedKey = match?.[1] ?? authHeader;
             }
 
-            if (!authHeader || receivedKey !== storedApiKey) {
-                console.warn('Webhook: Invalid API key', {
-                    received: authHeader,
-                    extractedKey: receivedKey,
-                    expected: `Apikey ${storedApiKey}`,
-                    storedKey: storedApiKey
-                });
+            // Trim both keys for comparison to avoid whitespace issues
+            const cleanReceivedKey = receivedKey.trim();
+            const cleanStoredKey = storedApiKey.trim();
+
+            if (!authHeader || cleanReceivedKey !== cleanStoredKey) {
+                console.warn('=== WEBHOOK AUTH FAILED ===');
+                console.warn('Received header:', authHeader);
+                console.warn('Extracted key:', cleanReceivedKey);
+                console.warn('Expected key:', cleanStoredKey);
+                console.warn('Keys match:', cleanReceivedKey === cleanStoredKey);
                 return res.status(401).json({ success: false, message: 'Invalid API key' });
             }
-            console.log('Webhook: API key validated successfully');
+            console.log('✅ Webhook: API key validated successfully');
         } else {
-            console.log('Webhook: No API key configured, skipping validation');
+            console.log('⚠️  Webhook: No API key configured, skipping validation');
         }
 
-        // Sepay payload
-        const { id, transferAmount, transferContent, referenceCode } = req.body;
+        // Sepay payload - be flexible with field names
+        const { id, transferAmount, transferContent, referenceCode, description, content } = req.body;
 
-        console.log('Webhook parsed data:', { id, transferAmount, transferContent, referenceCode });
+        // Try multiple field names for transfer content
+        const actualTransferContent = transferContent || content || description || '';
 
-        if (!transferContent || typeof transferContent !== 'string' || transferContent.trim() === '') {
-            console.error('Webhook: Missing or invalid transferContent', {
-                body: req.body,
-                transferContent,
-                type: typeof transferContent
-            });
+        console.log('=== WEBHOOK PARSED DATA ===');
+        console.log('Transaction ID:', id);
+        console.log('Amount:', transferAmount);
+        console.log('Transfer Content:', actualTransferContent);
+        console.log('Reference Code:', referenceCode);
+
+        if (!actualTransferContent || typeof actualTransferContent !== 'string' || actualTransferContent.trim() === '') {
+            console.error('=== WEBHOOK ERROR: Missing transfer content ===');
+            console.error('Body:', req.body);
+            console.error('Tried fields: transferContent, content, description');
             return res.status(400).json({ success: false, message: 'Invalid or missing transfer content' });
         }
 
         // Extract Order Code from content (format: 10-digit alphanumeric code)
-        const match = transferContent.trim().toUpperCase().match(/\b[A-Z0-9]{10}\b/);
+        const trimmedContent = actualTransferContent.trim().toUpperCase();
+        const match = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
+
         if (!match) {
-            console.log('No order code found in:', transferContent);
-            return res.status(200).json({ success: false, message: 'No order code found' });
+            console.log('⚠️  No order code found in transfer content:', trimmedContent);
+            return res.status(200).json({ success: false, message: 'No order code found in transfer content' });
         }
 
         const orderCode = match[0];
-        console.log('Processing order:', orderCode);
+        console.log('✅ Found order code:', orderCode);
 
+        // Process payment
         await paymentService.processWebhook({
             code: orderCode,
             amount: Number(transferAmount),
             transactionId: String(id)
         });
 
-        console.log('Order processed successfully:', orderCode);
-        res.json({ success: true, message: 'Processed' });
+        console.log('✅ Order processed successfully:', orderCode);
+        console.log('=== WEBHOOK COMPLETED ===\n');
+
+        res.json({ success: true, message: 'Payment processed successfully', orderCode });
     } catch (error: any) {
-        console.error('Webhook Error:', error);
+        console.error('=== WEBHOOK ERROR ===');
+        console.error('Error:', error);
+        console.error('Stack:', error.stack);
         res.status(200).json({ success: false, message: error.message });
     }
 };
