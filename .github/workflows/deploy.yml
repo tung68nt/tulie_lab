@@ -71,6 +71,26 @@ jobs:
           echo "DATABASE_URL=$DB" >> $GITHUB_ENV
           echo "DIRECT_URL=$DIR" >> $GITHUB_ENV
 
+      - name: Debug Database Connection
+        run: |
+          echo "🔍 Checking DATABASE_URL format..."
+          # Show only protocol and host (masked password)
+          DB_HOST=$(echo "$DATABASE_URL" | sed -E 's|postgresql://[^@]+@([^/]+).*|\1|')
+          echo "Database host: $DB_HOST"
+
+          DIRECT_HOST=$(echo "$DIRECT_URL" | sed -E 's|postgresql://[^@]+@([^/]+).*|\1|')
+          echo "Direct connection host: $DIRECT_HOST"
+
+          # Check if URL is set
+          if [ -z "$DATABASE_URL" ]; then
+            echo "❌ ERROR: DATABASE_URL is empty!"
+            exit 1
+          fi
+
+          if [ -z "$DIRECT_URL" ]; then
+            echo "⚠️  WARNING: DIRECT_URL is empty, using DATABASE_URL fallback"
+          fi
+
       - name: Run migrations
         working-directory: ./server
         run: |
