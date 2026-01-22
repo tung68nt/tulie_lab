@@ -25,7 +25,7 @@ export const validate = (schema: ZodSchema, source: 'body' | 'params' | 'query' 
             if (error instanceof z.ZodError) {
                 return res.status(400).json({
                     message: 'Validation failed',
-                    errors: error.errors.map(err => ({
+                    errors: error.issues.map((err: z.ZodIssue) => ({
                         path: err.path.join('.'),
                         message: err.message
                     }))
@@ -86,9 +86,9 @@ export const sanitizeObject = <T extends Record<string, any>>(obj: T): T => {
     const sanitized = { ...obj };
     for (const key in sanitized) {
         if (typeof sanitized[key] === 'string') {
-            sanitized[key] = sanitizeHtml(sanitized[key]);
+            (sanitized as any)[key] = sanitizeHtml(sanitized[key]);
         } else if (typeof sanitized[key] === 'object' && sanitized[key] !== null) {
-            sanitized[key] = sanitizeObject(sanitized[key]);
+            (sanitized as any)[key] = sanitizeObject(sanitized[key]);
         }
     }
     return sanitized;

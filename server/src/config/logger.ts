@@ -3,7 +3,7 @@ import winston from 'winston';
 const { combine, timestamp, printf, colorize, errors } = winston.format;
 
 // Custom format
-const customFormat = printf(({ level, message, timestamp, stack, ...metadata }) => {
+const customFormat = printf(({ level, message, timestamp, stack, ...metadata }: any) => {
     let msg = `${timestamp} [${level}]: ${message}`;
 
     // Add metadata if exists
