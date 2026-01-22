@@ -4,6 +4,120 @@ const prisma = new PrismaClient();
 
 const sampleBlogPosts = [
     {
+        title: 'The Tulie Lab - Đối tác tin cậy cho chuyển đổi số doanh nghiệp',
+        slug: 'the-tulie-lab-doi-tac-chuyen-doi-so',
+        excerpt: 'Khám phá các dịch vụ chuyển đổi số toàn diện của The Tulie Lab: từ tư vấn, đào tạo đến triển khai giải pháp công nghệ.',
+        content: `<h2>The Tulie Lab - Đồng hành cùng doanh nghiệp trong kỷ nguyên số</h2>
+<p>The Tulie Lab là đơn vị tiên phong trong lĩnh vực chuyển đổi số và ứng dụng công nghệ AI vào doanh nghiệp. Với đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi cam kết mang đến những giải pháp công nghệ tối ưu nhất cho mọi quy mô doanh nghiệp.</p>
+
+<h3>Dịch vụ đào tạo công nghệ chuyên sâu</h3>
+<p>Chúng tôi cung cấp các khóa học chất lượng cao về AI, Fullstack Development và Vibe Coding - phương pháp lập trình hiện đại với sự hỗ trợ của trí tuệ nhân tạo. Học viên sẽ được học từ những chuyên gia hàng đầu với kinh nghiệm thực chiến tại các tập đoàn công nghệ lớn.</p>
+
+<h3>Thư viện Template Google Sheets & Apps Script</h3>
+<p>Tiết kiệm hàng trăm giờ làm việc với bộ sưu tập 100+ template chuyên nghiệp cho quản lý doanh nghiệp. Từ CRM, quản lý tồn kho, nhân sự đến kế toán - tất cả đều được tối ưu hóa và tự động hóa tối đa với Apps Script.</p>
+
+<h3>Dịch vụ tư vấn và triển khai</h3>
+<p>Đội ngũ chuyên gia của The Tulie Lab sẵn sàng tư vấn và triển khai các giải pháp công nghệ phù hợp với nhu cầu cụ thể của doanh nghiệp bạn. Chúng tôi không chỉ cung cấp công cụ mà còn đồng hành trong suốt quá trình chuyển đổi số.</p>
+
+<h3>Cam kết của The Tulie Lab</h3>
+<p>Chúng tôi cam kết mang đến giá trị thực tiễn thông qua đào tạo chất lượng, sản phẩm chuyên nghiệp và hỗ trợ tận tâm. Mỗi khóa học, mỗi template đều được thiết kế dựa trên kinh nghiệm thực tế và nhu cầu thực sự của thị trường Việt Nam.</p>
+
+<h3>Liên hệ với chúng tôi</h3>
+<p>Hãy để The Tulie Lab đồng hành cùng bạn trên con đường chuyển đổi số. Liên hệ ngay hôm nay để được tư vấn miễn phí và nhận ưu đãi đặc biệt dành cho doanh nghiệp.</p>`,
+        thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800',
+        isPublished: true,
+        metaTitle: 'The Tulie Lab - Đào tạo & Chuyển đổi số | Khóa học AI, Templates',
+        metaDescription: 'The Tulie Lab cung cấp khóa học AI, Fullstack Development, 100+ Template Google Sheets và dịch vụ tư vấn chuyển đổi số cho doanh nghiệp.',
+        metaKeywords: 'The Tulie Lab, đào tạo công nghệ, chuyển đổi số, template google sheets, khóa học AI'
+    },
+    {
+        title: 'Khóa học AI & Fullstack Development tại The Tulie Lab',
+        slug: 'khoa-hoc-ai-fullstack-the-tulie-lab',
+        excerpt: 'Chương trình đào tạo AI và Fullstack Development toàn diện, từ cơ bản đến nâng cao, phù hợp cho mọi trình độ.',
+        content: `<h2>Khóa học công nghệ chất lượng cao tại The Tulie Lab</h2>
+<p>The Tulie Lab tự hào là đơn vị đào tạo hàng đầu về công nghệ AI và phát triển phần mềm toàn diện. Với phương pháp giảng dạy hiện đại kết hợp lý thuyết và thực hành, chúng tôi cam kết giúp học viên thành thạo công nghệ một cách nhanh chóng và hiệu quả.</p>
+
+<h3>Khóa học AI - Ứng dụng trí tuệ nhân tạo</h3>
+<p>Học cách ứng dụng AI vào công việc thực tế: từ xử lý dữ liệu, xây dựng chatbot, đến tự động hóa quy trình làm việc. Khóa học phù hợp cho cả người mới bắt đầu và những ai muốn nâng cao kỹ năng AI.</p>
+
+<h3>Fullstack Development - Trở thành lập trình viên toàn diện</h3>
+<p>Nắm vững cả Frontend và Backend development với các công nghệ hot nhất: React, Next.js, Node.js, TypeScript, Prisma. Học viên sẽ xây dựng được ứng dụng web hoàn chỉnh ngay trong khóa học.</p>
+
+<h3>Vibe Coding - Lập trình thời AI</h3>
+<p>Học phương pháp lập trình mới nhất với sự hỗ trợ của AI tools như Cursor, GitHub Copilot. Phát triển ứng dụng nhanh gấp 5-10 lần so với phương pháp truyền thống mà vẫn đảm bảo chất lượng code.</p>
+
+<h3>Lộ trình học tập cá nhân hóa</h3>
+<p>Mỗi học viên được thiết kế lộ trình riêng dựa trên nền tảng kiến thức hiện tại và mục tiêu nghề nghiệp. Mentor 1-1 hỗ trợ trong suốt quá trình học và thực hành dự án thực tế.</p>
+
+<h3>Chứng chỉ và cơ hội việc làm</h3>
+<p>Hoàn thành khóa học, học viên nhận chứng chỉ chuyên nghiệp từ The Tulie Lab và được giới thiệu việc làm tại các công ty công nghệ hàng đầu. Tỷ lệ học viên có việc làm sau khóa học lên đến 95%.</p>`,
+        thumbnail: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800',
+        isPublished: true,
+        metaTitle: 'Khóa học AI, Fullstack Development | The Tulie Lab',
+        metaDescription: 'Khóa học AI, Fullstack Development và Vibe Coding chất lượng cao. Học thực chiến, mentor 1-1, cam kết đầu ra.',
+        metaKeywords: 'khóa học AI, fullstack development, vibe coding, học lập trình, đào tạo công nghệ'
+    },
+    {
+        title: '100+ Template Google Sheets chuyên nghiệp cho doanh nghiệp',
+        slug: 'template-google-sheets-chuyen-nghiep',
+        excerpt: 'Bộ sưu tập template Google Sheets tự động hóa toàn diện: CRM, quản lý kho, nhân sự, kế toán và nhiều hơn nữa.',
+        content: `<h2>Thư viện Template Google Sheets lớn nhất Việt Nam</h2>
+<p>The Tulie Lab cung cấp bộ sưu tập hơn 100 template Google Sheets được thiết kế chuyên nghiệp, tích hợp Apps Script để tự động hóa tối đa quy trình làm việc. Tất cả đều sẵn sàng sử dụng ngay, tiết kiệm hàng trăm giờ phát triển.</p>
+
+<h3>Template CRM - Quản lý khách hàng hiệu quả</h3>
+<p>Hệ thống CRM đầy đủ tính năng: quản lý leads, tracking tương tác, pipeline bán hàng, báo cáo tự động. Tích hợp email notification và dashboard trực quan giúp team sales làm việc hiệu quả hơn 300%.</p>
+
+<h3>Template quản lý kho - Inventory Management</h3>
+<p>Giải pháp quản lý tồn kho thông minh với tính năng: nhập xuất kho tự động, cảnh báo hết hàng, báo cáo doanh thu theo sản phẩm. Phù hợp cho mọi quy mô từ shop nhỏ đến chuỗi bán lẻ.</p>
+
+<h3>Template quản lý nhân sự - HR Management</h3>
+<p>Quản lý toàn diện thông tin nhân viên, chấm công, tính lương, theo dõi phép và đánh giá KPI. Tự động gửi email thông báo và tổng hợp báo cáo hàng tháng.</p>
+
+<h3>Template kế toán và tài chính</h3>
+<p>Hệ thống kế toán hoàn chỉnh: sổ quỹ, công nợ, báo cáo tài chính, lập hóa đơn tự động. Tuân thủ chuẩn kế toán Việt Nam và dễ dàng kết nối với phần mềm kế toán khác.</p>
+
+<h3>Template quản lý dự án - Project Management</h3>
+<p>Công cụ quản lý dự án Agile/Scrum: task board, gantt chart, time tracking, resource planning. Dashboard real-time giúp quản lý nắm bắt tiến độ dự án mọi lúc mọi nơi.</p>
+
+<h3>Gói thành viên Template Premium</h3>
+<p>Chỉ với 1.990.000đ/năm, truy cập unlimited toàn bộ 100+ template, nhận update mới hàng tuần và hỗ trợ kỹ thuật ưu tiên. Tiết kiệm hơn 90% so với mua lẻ từng template.</p>`,
+        thumbnail: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800',
+        isPublished: true,
+        metaTitle: '100+ Template Google Sheets Pro | CRM, Kho, Nhân sự, Kế toán',
+        metaDescription: 'Template Google Sheets chuyên nghiệp cho doanh nghiệp: CRM, quản lý kho, nhân sự, kế toán. Tự động hóa với Apps Script.',
+        metaKeywords: 'template google sheets, CRM, quản lý kho, quản lý nhân sự, kế toán, apps script'
+    },
+    {
+        title: 'Dịch vụ tư vấn chuyển đổi số và phát triển phần mềm',
+        slug: 'dich-vu-tu-van-chuyen-doi-so',
+        excerpt: 'The Tulie Lab cung cấp dịch vụ tư vấn chuyển đổi số toàn diện, phát triển phần mềm custom và tự động hóa quy trình.',
+        content: `<h2>Giải pháp chuyển đổi số toàn diện cho doanh nghiệp</h2>
+<p>Đội ngũ chuyên gia của The Tulie Lab với hơn 10 năm kinh nghiệm triển khai các dự án chuyển đổi số cho doanh nghiệp vừa và nhỏ. Chúng tôi hiểu rõ thách thức và cung cấp giải pháp phù hợp với từng ngành nghề.</p>
+
+<h3>Tư vấn chiến lược chuyển đổi số</h3>
+<p>Phân tích hiện trạng, xác định mục tiêu và lập roadmap chuyển đổi số chi tiết. Tư vấn lựa chọn công nghệ phù hợp, tối ưu ngân sách đầu tư và đo lường hiệu quả ROI.</p>
+
+<h3>Phát triển phần mềm theo yêu cầu</h3>
+<p>Xây dựng ứng dụng web/mobile custom 100% theo nhu cầu doanh nghiệp. Sử dụng công nghệ hiện đại: React, Next.js, Node.js, React Native. Cam kết tiến độ, chất lượng và bảo hành lâu dài.</p>
+
+<h3>Tự động hóa quy trình làm việc</h3>
+<p>Phân tích và tự động hóa các quy trình thủ công tốn thời gian: xử lý đơn hàng, gửi email, tổng hợp báo cáo. Tích hợp với các hệ thống hiện có như ERP, CRM, kế toán.</p>
+
+<h3>Đào tạo và chuyển giao công nghệ</h3>
+<p>Không chỉ triển khai mà còn đào tạo đội ngũ nội bộ sử dụng và maintain hệ thống. Documentation chi tiết và support 24/7 trong giai đoạn đầu vận hành.</p>
+
+<h3>Gói dịch vụ VIP Support</h3>
+<p>Dành cho doanh nghiệp cần hỗ trợ chuyên sâu: thiết kế custom template, setup automation riêng, tư vấn 1:1 qua Zoom. Ưu tiên hỗ trợ 24/7 và miễn phí training cho team.</p>
+
+<h3>Case study thành công</h3>
+<p>Đã triển khai thành công cho 200+ doanh nghiệp từ startup đến SME. Giúp tiết kiệm 40-60% chi phí vận hành và tăng 200% hiệu suất làm việc.</p>`,
+        thumbnail: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=800',
+        isPublished: true,
+        metaTitle: 'Dịch vụ tư vấn chuyển đổi số | Phát triển phần mềm custom',
+        metaDescription: 'Tư vấn chuyển đổi số, phát triển phần mềm custom, tự động hóa quy trình. Cam kết tiến độ, chất lượng.',
+        metaKeywords: 'tư vấn chuyển đổi số, phát triển phần mềm, tự động hóa, digital transformation'
+    },
+    {
         title: 'AI trong Giáo dục: Xu hướng 2026 và Tương lai',
         slug: 'ai-trong-giao-duc-xu-huong-2026',
         excerpt: 'Khám phá cách AI đang thay đổi ngành giáo dục, từ học tập cá nhân hóa đến đánh giá tự động.',

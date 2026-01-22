@@ -63,11 +63,28 @@ export default function BlogPage() {
     return (
         <>
             <div className="min-h-screen bg-background">
-                {/* Hero */}
-                <div className="bg-muted/30 pt-24 pb-8">
-                    <div className="container">
-                        <h1 className="text-4xl font-bold mb-4">Tin tức & Xu hướng</h1>
-                        <p className="text-muted-foreground text-lg max-w-2xl">
+                {/* Hero Section - Matching other pages */}
+                <div className="relative bg-gradient-to-br from-background via-muted/10 to-background pt-32 pb-16 overflow-hidden">
+                    {/* Background Accents */}
+                    <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] -z-10" />
+                    <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[128px] -z-10" />
+
+                    <div className="container relative z-10 text-center">
+                        {/* Badge */}
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                            <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                            <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                                Bắt đầu học ngay
+                            </span>
+                        </div>
+
+                        {/* Title */}
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                            Tin tức & Xu hướng
+                        </h1>
+
+                        {/* Description */}
+                        <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                             Chia sẻ kiến thức, kinh nghiệm và xu hướng mới nhất về ứng dụng AI trong cuộc sống và công việc
                         </p>
                     </div>
