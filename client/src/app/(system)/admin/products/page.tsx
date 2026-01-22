@@ -32,9 +32,9 @@ export default function AdminProductsPage() {
             } else {
                 setProducts([]);
             }
-        } catch (error) {
-            console.error(error);
-            addToast('Lỗi tải danh sách sản phẩm', 'error');
+        } catch (error: any) {
+            console.error('Error loading products:', error);
+            addToast(`Lỗi tải sản phẩm: ${error?.message || 'Unknown error'}`, 'error');
         } finally {
             setLoading(false);
         }

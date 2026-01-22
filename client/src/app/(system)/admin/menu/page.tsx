@@ -23,15 +23,32 @@ const DEFAULT_MENU: MenuItem[] = [
     {
         id: 'apps',
         label: 'Ứng dụng',
-        href: '#',
+        href: '/applications',
         children: [
-            { id: 'ai', label: 'Ứng dụng AI', href: '/ai' },
-            { id: 'vibe-coding', label: 'Vibe Coding', href: '/vibe-coding' },
-            { id: 'google-sheets', label: 'Google Sheets', href: '/google-sheets' },
+            { id: 'vibe-coding', label: 'Vibe Coding', href: '/applications/vibe-coding' },
+            { id: 'ai', label: 'Ứng dụng AI', href: '/applications/ai' },
+            { id: 'google-sheets', label: 'Google Sheets & Apps Script', href: '/applications/google-sheets' },
         ]
     },
-    { id: 'courses', label: 'Khóa học', href: '/courses' },
-    { id: 'templates', label: 'Kho template', href: '/shop' },
+    {
+        id: 'courses',
+        label: 'Khoá học',
+        href: '/courses',
+        children: [
+            { id: 'courses-list', label: 'Khoá học', href: '/courses' },
+            { id: 'calendar', label: 'Lịch hoạt động', href: '/calendar' },
+            { id: 'instructors', label: 'Người hướng dẫn', href: '/instructors' },
+        ],
+    },
+    {
+        id: 'shop',
+        label: 'Kho template',
+        href: '/shop',
+        children: [
+            { id: 'shop-list', label: 'Cửa hàng', href: '/shop' },
+            { id: 'pricing', label: 'Bảng giá', href: '/pricing' },
+        ],
+    },
     { id: 'blog', label: 'Bài viết', href: '/blog' },
     { id: 'contact', label: 'Liên hệ', href: '/contact' },
 ];
