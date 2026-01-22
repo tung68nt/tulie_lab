@@ -7,6 +7,7 @@ import { SettingsProvider } from '@/contexts/SettingsContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ConfirmProvider } from '@/components/ConfirmDialog';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { DynamicFavicon } from '@/components/DynamicFavicon';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/system/analytics/UtmTracker';
 
@@ -36,6 +37,9 @@ export const metadata: Metadata = {
     title: 'Academy Tulie',
     description: 'Làm chủ Tương lai Công nghệ',
     type: 'website',
+  },
+  icons: {
+    icon: '/favicon.ico',
   },
 };
 
@@ -77,7 +81,6 @@ export default async function RootLayout({
           `,
           }}
         />
-        <link rel="icon" href={settings?.site_favicon || '/favicon.ico'} />
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <noscript>
@@ -98,6 +101,7 @@ export default async function RootLayout({
           <ToastProvider>
             <AuthProvider>
               <SettingsProvider initialSettings={settings}>
+                <DynamicFavicon />
                 <ConfirmProvider>
                   <UtmTracker />
                   <MainLayout>{children}</MainLayout>
