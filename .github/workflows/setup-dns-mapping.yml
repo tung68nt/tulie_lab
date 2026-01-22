@@ -47,9 +47,9 @@ jobs:
           REGION="asia-southeast1"
 
           # Check if mapping exists
-          if gcloud run domain-mappings describe "$DOMAIN" --region "$REGION" &> /dev/null; then
+          if gcloud run domain-mappings describe "$DOMAIN" --location "$REGION" &> /dev/null; then
             echo "⚠️  Domain mapping already exists, deleting..."
-            gcloud run domain-mappings delete "$DOMAIN" --region "$REGION" --quiet || true
+            gcloud run domain-mappings delete "$DOMAIN" --location "$REGION" --quiet || true
           fi
 
           # Create mapping
@@ -57,7 +57,7 @@ jobs:
           gcloud run domain-mappings create \
             --service "$SERVICE" \
             --domain "$DOMAIN" \
-            --region "$REGION"
+            --location "$REGION"
 
           echo "✅ Beta domain mapping created!"
           echo ""
@@ -65,13 +65,13 @@ jobs:
           # Get DNS records
           echo "📝 DNS Records to configure:"
           gcloud run domain-mappings describe "$DOMAIN" \
-            --region "$REGION" \
+            --location "$REGION" \
             --format="table[box](status.resourceRecords.name,status.resourceRecords.type,status.resourceRecords.rrdata)"
 
           echo ""
           echo "📋 A Records (for DNS provider):"
           gcloud run domain-mappings describe "$DOMAIN" \
-            --region "$REGION" \
+            --location "$REGION" \
             --format="value(status.resourceRecords.filter(type:A).rrdata)" | tr ';' '\n'
 
       - name: Setup Production Domain Mapping
@@ -87,9 +87,9 @@ jobs:
           REGION="asia-southeast1"
 
           # Check if mapping exists
-          if gcloud run domain-mappings describe "$DOMAIN" --region "$REGION" &> /dev/null; then
+          if gcloud run domain-mappings describe "$DOMAIN" --location "$REGION" &> /dev/null; then
             echo "⚠️  Domain mapping already exists, deleting..."
-            gcloud run domain-mappings delete "$DOMAIN" --region "$REGION" --quiet || true
+            gcloud run domain-mappings delete "$DOMAIN" --location "$REGION" --quiet || true
           fi
 
           # Create mapping
@@ -97,7 +97,7 @@ jobs:
           gcloud run domain-mappings create \
             --service "$SERVICE" \
             --domain "$DOMAIN" \
-            --region "$REGION"
+            --location "$REGION"
 
           echo "✅ Production domain mapping created!"
           echo ""
@@ -105,13 +105,13 @@ jobs:
           # Get DNS records
           echo "📝 DNS Records to configure:"
           gcloud run domain-mappings describe "$DOMAIN" \
-            --region "$REGION" \
+            --location "$REGION" \
             --format="table[box](status.resourceRecords.name,status.resourceRecords.type,status.resourceRecords.rrdata)"
 
           echo ""
           echo "📋 A Records (for DNS provider):"
           gcloud run domain-mappings describe "$DOMAIN" \
-            --region "$REGION" \
+            --location "$REGION" \
             --format="value(status.resourceRecords.filter(type:A).rrdata)" | tr ';' '\n'
 
       - name: Summary
