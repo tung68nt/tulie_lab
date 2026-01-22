@@ -139,7 +139,7 @@ export default function OrderPage({ params }: { params: any }) {
                     <CardHeader className="text-center border-b">
                         <CardTitle className="text-2xl font-semibold">Thanh toán đơn hàng</CardTitle>
                         <CardDescription className="text-base mt-2">
-                            Mã đơn hàng: <span className="font-semibold text-foreground">{order.code}</span>
+                            Mã đơn hàng: <span className="font-mono font-semibold text-foreground">{order.code}</span>
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="p-4 md:p-6">
@@ -164,10 +164,10 @@ export default function OrderPage({ params }: { params: any }) {
                                         <p className="text-center text-sm leading-normal">
                                             <span className="text-muted-foreground">Quét mã QR bằng app ngân hàng</span>
                                             <br />
-                                            <span className="font-semibold text-foreground mt-2 block">
+                                            <span className="font-mono font-semibold text-foreground mt-2 block">
                                                 Nội dung chuyển khoản:
                                             </span>
-                                            <span className="font-semibold text-foreground block">
+                                            <span className="font-mono font-semibold text-foreground block">
                                                 {transferContent}
                                             </span>
                                         </p>
@@ -201,7 +201,7 @@ export default function OrderPage({ params }: { params: any }) {
                                         <div className="flex items-center justify-between py-3 border-b">
                                             <span className="text-sm text-muted-foreground">Số tài khoản</span>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-base">{accountNo}</span>
+                                                <span className="font-mono font-semibold text-base">{accountNo}</span>
                                                 <button
                                                     onClick={() => copyToClipboard(accountNo, 'account')}
                                                     className="p-1.5 hover:bg-muted rounded-md transition-colors"
@@ -235,7 +235,7 @@ export default function OrderPage({ params }: { params: any }) {
                                         <div className="flex items-center justify-between py-3">
                                             <span className="text-sm text-muted-foreground whitespace-nowrap">Nội dung chuyển khoản</span>
                                             <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-foreground text-base">{transferContent}</span>
+                                                <span className="font-mono font-semibold text-foreground text-base">{transferContent}</span>
                                                 <button
                                                     onClick={() => copyToClipboard(transferContent, 'content')}
                                                     className="p-1.5 hover:bg-muted rounded-md transition-colors"

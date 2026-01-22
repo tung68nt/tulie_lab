@@ -103,7 +103,7 @@ export class PaymentService {
         // 3. Create Order
         const randomString = Math.random().toString(36).substring(2, 6).toUpperCase();
         const timestamp = Date.now().toString().slice(-6);
-        const code = `TULIE${timestamp}${randomString}`;
+        const code = `${timestamp}${randomString}`;
 
         // Ensure status reflects calculation
         const initialStatus = totalAmount <= 0 ? OrderStatus.PAID : OrderStatus.PENDING;

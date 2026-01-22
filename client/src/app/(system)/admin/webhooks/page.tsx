@@ -220,7 +220,7 @@ export default function AdminWebhooksPage() {
                             Sử dụng URL này để cấu hình Webhook từ cổng thanh toán.
                         </p>
                         <div className="flex items-center gap-2">
-                            <code className="bg-muted px-3 py-2 rounded text-sm font-semibold flex-1 border">
+                            <code className="bg-muted px-3 py-2 rounded text-sm font-mono font-semibold flex-1 border">
                                 {typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/payments/webhook` : '.../api/payments/webhook'}
                             </code>
                             <Button
@@ -243,7 +243,7 @@ export default function AdminWebhooksPage() {
                             Sử dụng API Key này để xác thực webhook từ cổng thanh toán.
                         </p>
                         <div className="flex items-center gap-2">
-                            <code className="bg-muted px-3 py-2 rounded text-sm font-semibold flex-1 border">
+                            <code className="bg-muted px-3 py-2 rounded text-sm font-mono font-semibold flex-1 border">
                                 {apiKey ? (showApiKey ? apiKey : '••••••••••••••••••••') : 'Chưa tạo API Key'}
                             </code>
                             {apiKey && (
@@ -400,7 +400,7 @@ export default function AdminWebhooksPage() {
                                             </div>
                                         </td>
                                         <td className="py-4 px-2 max-w-[300px]">
-                                            <p className="font-semibold text-xs break-all bg-muted/50 p-1.5 rounded border border-border/50">{t.content}</p>
+                                            <p className="font-mono font-semibold text-xs break-all bg-muted/50 p-1.5 rounded border border-border/50">{t.content}</p>
                                         </td>
                                         <td className="py-4 px-2 text-right">
                                             <span className={`font-bold ${t.amountIn > 0 ? 'text-foreground' : 'text-muted-foreground'}`}>
@@ -409,13 +409,13 @@ export default function AdminWebhooksPage() {
                                         </td>
                                         <td className="py-4 px-2">
                                             <div className="text-xs flex flex-col">
-                                                <span className="font-medium">{t.accountNumber}</span>
+                                                <span className="font-mono font-medium">{t.accountNumber}</span>
                                                 <span className="text-muted-foreground">{t.gateway || 'Bank'}</span>
                                             </div>
                                         </td>
                                         <td className="py-4 px-2">
                                             <div className="text-xs flex flex-col">
-                                                <code className="bg-muted px-1.5 py-0.5 rounded text-[10px]">{t.referenceCode || 'N/A'}</code>
+                                                <code className="bg-muted px-1.5 py-0.5 rounded text-[10px] font-mono">{t.referenceCode || 'N/A'}</code>
                                                 <span className="text-[9px] text-muted-foreground mt-0.5 truncate max-w-[80px]">{t.gateway}</span>
                                             </div>
                                         </td>

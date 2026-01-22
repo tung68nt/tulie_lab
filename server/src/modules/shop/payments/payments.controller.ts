@@ -86,8 +86,8 @@ export const webhook = async (req: Request, res: Response) => {
             return res.status(400).json({ success: false, message: 'No content' });
         }
 
-        // Extract Order Code from content
-        const match = transferContent.toUpperCase().match(/TULIE[A-Z0-9]+/);
+        // Extract Order Code from content (format: 10-digit alphanumeric code)
+        const match = transferContent.toUpperCase().match(/\b[A-Z0-9]{10}\b/);
         if (!match) {
             console.log('No order code found in:', transferContent);
             return res.status(200).json({ success: false, message: 'No order code found' });
