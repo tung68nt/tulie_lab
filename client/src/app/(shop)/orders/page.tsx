@@ -78,7 +78,7 @@ export default function OrdersPage() {
 
     return (
         <div className="min-h-screen bg-background">
-            <div className="container py-10 content-container">
+            <div className="content-container px-4 py-10">
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold">Lịch sử đơn hàng</h1>
