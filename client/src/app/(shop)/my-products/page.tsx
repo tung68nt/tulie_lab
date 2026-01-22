@@ -61,7 +61,7 @@ export default function MyProductsPage() {
 
     return (
         <div className="min-h-screen bg-background pt-24 pb-20">
-            <div className="container px-4 mx-auto">
+            <div className="container px-4 mx-auto max-w-7xl">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold">Sản phẩm số của tôi</h1>
                     <p className="text-muted-foreground mt-2">Quản lý và tải xuống các tài nguyên bạn đã sở hữu</p>
