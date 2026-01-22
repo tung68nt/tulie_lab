@@ -26,7 +26,11 @@ export function StatsSection({ section }: { section: Section }) {
                     )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className={`grid gap-6 ${section.items && section.items.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' :
+                    section.items && section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto' :
+                        section.items && section.items.length === 3 ? 'grid-cols-1 md:grid-cols-3 justify-center' :
+                            'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
+                    }`}>
                     {section.items?.map((item, index) => (
                         <div
                             key={index}

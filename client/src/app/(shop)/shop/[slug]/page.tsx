@@ -286,6 +286,30 @@ export default function ProductDetailPage() {
                                         </div>
                                     </div>
 
+                                    {/* Membership - Gói Premium */}
+                                    <div className="relative p-5 rounded-xl border-2 border-purple-500 bg-gradient-to-br from-purple-500/10 to-purple-500/5">
+                                        <div className="absolute -top-3 left-4 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-bold shadow-lg">
+                                            VIP
+                                        </div>
+                                        <h3 className="text-lg font-bold mb-2 mt-2">Gói Premium</h3>
+                                        <div className="flex items-baseline gap-2 mb-3">
+                                            <span className="text-3xl font-bold text-purple-600">4.990.000đ</span>
+                                            <span className="text-muted-foreground">/năm</span>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground mb-4">All-in-one + tư vấn 1-1 + source code</p>
+                                        <Link href="/pricing">
+                                            <Button as="div" variant="default" className="w-full mb-4 bg-purple-600 hover:bg-purple-700 text-white">Nâng cấp ngay</Button>
+                                        </Link>
+                                        <div className="space-y-2 text-sm">
+                                            {['Tất cả quyền lợi Cơ Bản', 'Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7'].map((f, i) => (
+                                                <div key={i} className="flex items-center gap-2">
+                                                    <svg className="w-4 h-4 text-purple-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                                                    <span>{f}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
                                     {/* Preview Demo Button */}
                                     {product.previewUrl && (
                                         <a href={product.previewUrl} target="_blank" rel="noopener noreferrer">
@@ -298,16 +322,45 @@ export default function ProductDetailPage() {
                                 </>
                             )}
 
-                            {/* Value Props */}
-                            <div className="grid grid-cols-3 gap-2 pt-4 border-t">
+                            {/* Value Props - Redesigned with black/white icons */}
+                            <div className="space-y-3 pt-4 border-t">
                                 {[
-                                    { icon: '💎', text: 'Trọn đời' },
-                                    { icon: '🔄', text: 'Cập nhật' },
-                                    { icon: '🛠️', text: 'Hỗ trợ' }
+                                    {
+                                        icon: (
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        ),
+                                        title: 'Sở hữu trọn đời',
+                                        description: 'Mua một lần, sử dụng mãi mãi. Không phí ẩn, không phí gia hạn.'
+                                    },
+                                    {
+                                        icon: (
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                            </svg>
+                                        ),
+                                        title: 'Cập nhật miễn phí',
+                                        description: 'Nhận tất cả bản cập nhật và tính năng mới hoàn toàn miễn phí.'
+                                    },
+                                    {
+                                        icon: (
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                                            </svg>
+                                        ),
+                                        title: 'Hỗ trợ tận tâm',
+                                        description: 'Đội ngũ support nhiệt tình, giải đáp mọi thắc mắc của bạn.'
+                                    }
                                 ].map((item, i) => (
-                                    <div key={i} className="text-center p-2">
-                                        <div className="text-2xl mb-1">{item.icon}</div>
-                                        <div className="text-xs font-medium">{item.text}</div>
+                                    <div key={i} className="flex gap-3 items-start p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                            {item.icon}
+                                        </div>
+                                        <div className="flex-1">
+                                            <h4 className="text-sm font-bold mb-1">{item.title}</h4>
+                                            <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
