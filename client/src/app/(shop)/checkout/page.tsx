@@ -218,8 +218,8 @@ function CheckoutContent() {
 
     const discount = calculateDiscount();
     const upsellTotal = calculateUpsellTotal();
-    const subtotal = item.price + upsellTotal;
-    const finalAmount = subtotal - discount;
+    const subtotal = Number(item.price) + Number(upsellTotal);
+    const finalAmount = Math.max(0, subtotal - Number(discount));
 
     return (
         <div className="min-h-screen bg-background">
@@ -255,19 +255,19 @@ function CheckoutContent() {
                                             </div>
                                         )}
                                         <div className="flex-1">
-                                            <h3 className="text-lg font-bold mb-1">{item.title}</h3>
-                                            <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{item.description}</p>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-xl font-bold text-primary">
+                                            <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                                            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{item.description}</p>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-2xl font-extrabold text-foreground">
                                                     {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
                                                 </span>
-                                                {item.compareAtPrice > item.price && (
+                                                {Number(item.compareAtPrice) > Number(item.price) && (
                                                     <>
                                                         <span className="text-sm text-muted-foreground line-through">
                                                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.compareAtPrice)}
                                                         </span>
-                                                        <span className="text-xs font-bold text-white bg-gradient-to-r from-red-500 to-pink-500 px-2 py-0.5 rounded-md">
-                                                            -{Math.round((1 - item.price / item.compareAtPrice) * 100)}%
+                                                        <span className="text-sm font-extrabold text-background bg-foreground px-2.5 py-1 rounded-md">
+                                                            -{Math.round((1 - Number(item.price) / Number(item.compareAtPrice)) * 100)}%
                                                         </span>
                                                     </>
                                                 )}

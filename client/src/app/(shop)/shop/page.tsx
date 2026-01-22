@@ -280,7 +280,7 @@ export default function ShopPage() {
                                                         {product.field}
                                                     </span>
                                                 </div>
-                                                <h3 className="text-lg font-bold group-hover:text-primary transition-colors mb-2 line-clamp-2 leading-tight">
+                                                <h3 className="text-xl font-bold group-hover:text-primary transition-colors mb-3 line-clamp-2 leading-snug">
                                                     {product.title}
                                                 </h3>
                                                 <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
@@ -288,24 +288,26 @@ export default function ShopPage() {
                                                 </p>
                                             </div>
 
-                                            <div className="mt-auto pt-4 flex flex-col items-start gap-3 border-t border-border/50">
-                                                <div className="w-full space-y-2">
-                                                    {/* Price Section */}
-                                                    <div className="flex items-end gap-3">
-                                                        <div className="flex flex-col gap-0.5">
-                                                            <span className="text-2xl font-bold text-primary leading-none">
-                                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
-                                                            </span>
+                                            <div className="mt-auto pt-5 flex flex-col items-start gap-4 border-t border-border/50">
+                                                <div className="w-full">
+                                                    {/* Price Section - Redesigned for better clarity */}
+                                                    <div className="flex items-center justify-between gap-3 mb-3">
+                                                        <div className="flex flex-col gap-1.5">
                                                             {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
-                                                                <span className="text-sm text-muted-foreground line-through leading-none">
-                                                                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.compareAtPrice)}
+                                                                <span className="text-xs text-muted-foreground line-through leading-none">
+                                                                    Giá gốc: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.compareAtPrice)}
                                                                 </span>
                                                             )}
+                                                            <span className="text-3xl font-extrabold text-foreground leading-none">
+                                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                                                            </span>
                                                         </div>
                                                         {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
-                                                            <span className="text-sm font-bold text-white bg-gradient-to-r from-red-500 to-pink-500 px-2.5 py-1 rounded-lg shadow-sm">
-                                                                -{Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)}%
-                                                            </span>
+                                                            <div className="flex items-center justify-center bg-foreground text-background px-3 py-1.5 rounded-lg">
+                                                                <span className="text-sm font-extrabold leading-none">
+                                                                    -{Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)}%
+                                                                </span>
+                                                            </div>
                                                         )}
                                                     </div>
                                                 </div>

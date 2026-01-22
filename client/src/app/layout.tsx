@@ -77,7 +77,7 @@ export default async function RootLayout({
           `,
           }}
         />
-        {settings?.site_favicon && <link rel="icon" href={settings.site_favicon} />}
+        <link rel="icon" href={settings?.site_favicon || '/favicon.ico'} />
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <noscript>
