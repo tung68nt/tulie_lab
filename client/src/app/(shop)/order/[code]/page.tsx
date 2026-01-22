@@ -2,7 +2,6 @@
 
 import { use, useEffect, useState } from 'react';
 import { api } from '@/lib/api';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/Card';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { Info, CircleCheck, Copy, Check } from 'lucide-react';
@@ -13,6 +12,7 @@ export default function OrderPage({ params }: { params: any }) {
     const [loading, setLoading] = useState(true);
     const [settings, setSettings] = useState<any>({});
     const [copiedField, setCopiedField] = useState<string | null>(null);
+    const [isChecking, setIsChecking] = useState(false);
 
     const copyToClipboard = async (text: string, field: string) => {
         try {
@@ -63,12 +63,15 @@ export default function OrderPage({ params }: { params: any }) {
         // Auto-refresh order status every 5 seconds if order is pending
         const interval = setInterval(async () => {
             try {
+                setIsChecking(true);
                 const orderData = await api.payments.getOrder(code);
                 if (orderData && orderData.status !== order?.status) {
                     setOrder(orderData);
                 }
             } catch (e) {
                 console.error("Failed to refresh order status", e);
+            } finally {
+                setTimeout(() => setIsChecking(false), 1000);
             }
         }, 5000);
 
@@ -158,145 +161,165 @@ export default function OrderPage({ params }: { params: any }) {
     const qrUrl = `https://qr.sepay.vn/img?acc=${accountNo}&bank=${bankName}&amount=${order.amount}&des=${transferContent}`;
 
     return (
-        <div className="container pt-6 md:pt-10" style={{ paddingBottom: '120px' }}>
-            <div className="mx-auto max-w-5xl">
-                <Card>
-                    <CardHeader className="text-center border-b">
-                        <CardTitle className="text-2xl font-semibold">Thanh toán đơn hàng</CardTitle>
-                        <CardDescription className="text-base mt-2">
-                            Mã đơn hàng: <span className="font-mono font-semibold text-foreground">{order.code}</span>
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-4 md:p-6">
-                        {/* Responsive Grid: 1 column on mobile, 2 columns on landscape/tablet+ */}
-                        <div className="grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2 items-start">
-                            {/* Left Column: QR Code */}
-                            <div className="flex flex-col items-center justify-start space-y-4 order-1">
-                                {/* Amount Display */}
-                                <div className="w-full rounded-lg bg-muted/50 p-5 text-center border border-border">
-                                    <p className="text-sm text-muted-foreground mb-2">Số tiền cần thanh toán</p>
-                                    <p className="text-3xl font-semibold text-foreground">
-                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
-                                    </p>
-                                </div>
+        <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 py-8 md:py-16">
+            <div className="container max-w-6xl">
+                {/* Header */}
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-3">Thanh toán đơn hàng</h1>
+                    <p className="text-muted-foreground">
+                        Mã đơn hàng: <span className="font-mono font-bold text-foreground">{order.code}</span>
+                    </p>
+                </div>
 
-                                {/* QR Code */}
-                                <div className="flex flex-col items-center space-y-3 w-full">
-                                    <div className="relative aspect-square w-full max-w-[320px] lg:max-w-[280px] overflow-hidden rounded-xl border-2 border-border bg-white p-3 shadow-lg">
-                                        <img src={qrUrl} alt="QR Code Payment" className="h-full w-full object-contain" />
-                                    </div>
-                                    <div className="bg-muted/50 border border-border rounded-lg p-4 w-full max-w-[320px] lg:max-w-[280px]">
-                                        <p className="text-center text-sm leading-normal">
-                                            <span className="text-muted-foreground">Quét mã QR bằng app ngân hàng</span>
-                                            <br />
-                                            <span className="font-semibold text-foreground mt-2 block">
-                                                Nội dung chuyển khoản:
-                                            </span>
-                                            <span className="font-mono font-semibold text-foreground block">
-                                                {transferContent}
-                                            </span>
-                                        </p>
-                                    </div>
+                {/* Main Content */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    {/* Left Column - QR Code & Amount */}
+                    <div className="space-y-6">
+                        {/* Amount Card */}
+                        <div className="bg-card border rounded-2xl p-6 shadow-xl">
+                            <p className="text-sm text-muted-foreground text-center mb-3">Số tiền cần thanh toán</p>
+                            <p className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                                {new Intl.NumberFormat('vi-VN').format(Number(order.amount))} ₫
+                            </p>
+                        </div>
+
+                        {/* QR Code Card */}
+                        <div className="bg-card border rounded-2xl p-8 shadow-xl flex flex-col items-center">
+                            <div className="relative w-full max-w-[280px] aspect-square">
+                                <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-2xl"></div>
+                                <div className="relative bg-white rounded-2xl p-4 border-2 border-border shadow-lg">
+                                    <img src={qrUrl} alt="QR Code Payment" className="w-full h-full object-contain" />
                                 </div>
                             </div>
+                            <p className="text-sm text-muted-foreground mt-6 text-center">
+                                Quét mã QR bằng app ngân hàng
+                            </p>
+                        </div>
 
-                            {/* Right Column: Bank Info & Actions */}
-                            <div className="flex flex-col justify-start space-y-6 order-2">
-                                {/* Bank Information */}
-                                <div className="rounded-xl border-2 border-border p-5 space-y-3 bg-card h-fit">
-                                    <h3 className="font-semibold text-lg mb-4 text-center lg:text-left">Thông tin chuyển khoản</h3>
-                                    <div className="space-y-3">
-                                        <div className="flex items-center justify-between py-3 border-b">
-                                            <span className="text-sm text-muted-foreground">Ngân hàng</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-base">{bankName}</span>
-                                                <button
-                                                    onClick={() => copyToClipboard(bankName, 'bank')}
-                                                    className="p-1.5 hover:bg-muted rounded-md transition-colors"
-                                                    title="Copy"
-                                                >
-                                                    {copiedField === 'bank' ? (
-                                                        <Check className="w-4 h-4 text-green-600" />
-                                                    ) : (
-                                                        <Copy className="w-4 h-4 text-muted-foreground" />
-                                                    )}
-                                                </button>
-                                            </div>
+                        {/* Payment Status Indicator */}
+                        <div className={`bg-card border rounded-2xl p-4 shadow-lg transition-all duration-300 ${
+                            isChecking ? 'border-primary/50 bg-primary/5' : 'border-border'
+                        }`}>
+                            <div className="flex items-center justify-center gap-3">
+                                {isChecking ? (
+                                    <>
+                                        <div className="relative">
+                                            <div className="w-5 h-5 border-3 border-primary/30 border-t-primary rounded-full animate-spin"></div>
                                         </div>
-                                        <div className="flex items-center justify-between py-3 border-b">
-                                            <span className="text-sm text-muted-foreground">Số tài khoản</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-mono font-semibold text-base">{accountNo}</span>
-                                                <button
-                                                    onClick={() => copyToClipboard(accountNo, 'account')}
-                                                    className="p-1.5 hover:bg-muted rounded-md transition-colors"
-                                                    title="Copy"
-                                                >
-                                                    {copiedField === 'account' ? (
-                                                        <Check className="w-4 h-4 text-green-600" />
-                                                    ) : (
-                                                        <Copy className="w-4 h-4 text-muted-foreground" />
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between py-3 border-b">
-                                            <span className="text-sm text-muted-foreground">Chủ tài khoản</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-semibold text-base">{accountName}</span>
-                                                <button
-                                                    onClick={() => copyToClipboard(accountName, 'name')}
-                                                    className="p-1.5 hover:bg-muted rounded-md transition-colors"
-                                                    title="Copy"
-                                                >
-                                                    {copiedField === 'name' ? (
-                                                        <Check className="w-4 h-4 text-green-600" />
-                                                    ) : (
-                                                        <Copy className="w-4 h-4 text-muted-foreground" />
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between py-3">
-                                            <span className="text-sm text-muted-foreground whitespace-nowrap">Nội dung chuyển khoản</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-mono font-semibold text-foreground text-base">{transferContent}</span>
-                                                <button
-                                                    onClick={() => copyToClipboard(transferContent, 'content')}
-                                                    className="p-1.5 hover:bg-muted rounded-md transition-colors"
-                                                    title="Copy"
-                                                >
-                                                    {copiedField === 'content' ? (
-                                                        <Check className="w-4 h-4 text-green-600" />
-                                                    ) : (
-                                                        <Copy className="w-4 h-4 text-muted-foreground" />
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <span className="text-sm font-medium text-primary animate-pulse">Đang kiểm tra thanh toán...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                        <span className="text-sm text-muted-foreground">Chờ xác nhận thanh toán</span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Bank Info */}
+                    <div className="space-y-6">
+                        {/* Bank Information Card */}
+                        <div className="bg-card border rounded-2xl p-6 shadow-xl">
+                            <h3 className="text-xl font-bold mb-6">Thông tin chuyển khoản</h3>
+
+                            <div className="space-y-4">
+                                {/* Bank Name */}
+                                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border">
+                                    <span className="text-sm text-muted-foreground">Ngân hàng</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-bold text-base">{bankName}</span>
+                                        <button
+                                            onClick={() => copyToClipboard(bankName, 'bank')}
+                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
+                                            title="Copy"
+                                        >
+                                            {copiedField === 'bank' ? (
+                                                <Check className="w-4 h-4 text-green-600" />
+                                            ) : (
+                                                <Copy className="w-4 h-4 text-muted-foreground" />
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
 
-                                {/* Action Button */}
-                                <div className="space-y-3">
-                                    <Button
-                                        className="w-full text-base h-12"
-                                        size="lg"
-                                        variant="default"
-                                        onClick={() => window.location.reload()}
-                                    >
-                                        Tôi đã chuyển khoản
-                                    </Button>
-                                    <div className="bg-muted/50 border border-border rounded-lg p-3">
-                                        <p className="text-center text-xs text-muted-foreground leading-relaxed">
-                                            Hệ thống tự động kích hoạt sau khi nhận thanh toán (1-2 phút)
-                                        </p>
+                                {/* Account Number */}
+                                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border">
+                                    <span className="text-sm text-muted-foreground">Số tài khoản</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-mono font-bold text-base">{accountNo}</span>
+                                        <button
+                                            onClick={() => copyToClipboard(accountNo, 'account')}
+                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
+                                            title="Copy"
+                                        >
+                                            {copiedField === 'account' ? (
+                                                <Check className="w-4 h-4 text-green-600" />
+                                            ) : (
+                                                <Copy className="w-4 h-4 text-muted-foreground" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Account Name */}
+                                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border">
+                                    <span className="text-sm text-muted-foreground">Chủ tài khoản</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-bold text-base">{accountName}</span>
+                                        <button
+                                            onClick={() => copyToClipboard(accountName, 'name')}
+                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
+                                            title="Copy"
+                                        >
+                                            {copiedField === 'name' ? (
+                                                <Check className="w-4 h-4 text-green-600" />
+                                            ) : (
+                                                <Copy className="w-4 h-4 text-muted-foreground" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Transfer Content */}
+                                <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-primary/10 to-blue-500/10 border-2 border-primary/30">
+                                    <span className="text-sm font-medium text-foreground">Nội dung CK</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-mono font-bold text-base text-primary">{transferContent}</span>
+                                        <button
+                                            onClick={() => copyToClipboard(transferContent, 'content')}
+                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
+                                            title="Copy"
+                                        >
+                                            {copiedField === 'content' ? (
+                                                <Check className="w-4 h-4 text-green-600" />
+                                            ) : (
+                                                <Copy className="w-4 h-4 text-primary" />
+                                            )}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </CardContent>
-                </Card>
+
+                        {/* Action Button */}
+                        <Button
+                            className="w-full h-14 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
+                            size="lg"
+                            onClick={() => window.location.reload()}
+                        >
+                            Tôi đã chuyển khoản
+                        </Button>
+
+                        {/* Auto Verification Note */}
+                        <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
+                            <p className="text-sm text-blue-900 dark:text-blue-100 text-center leading-relaxed">
+                                💡 Hệ thống tự động kích hoạt sau khi nhận thanh toán (1-2 phút)
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
