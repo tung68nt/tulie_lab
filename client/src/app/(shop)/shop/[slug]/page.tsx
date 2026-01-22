@@ -162,17 +162,17 @@ export default function ProductDetailPage() {
                     <div className="flex flex-col space-y-8">
                         {/* Title & Price Section */}
                         <div className="space-y-6">
-                            <div className="space-y-3">
-                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-foreground">
+                            <div className="space-y-4">
+                                <h1 className="text-3xl md:text-4xl font-semibold leading-normal text-foreground">
                                     {product.title}
                                 </h1>
-                                <p className="text-lg text-muted-foreground leading-relaxed">
+                                <p className="text-base text-muted-foreground leading-normal">
                                     {product.description}
                                 </p>
                             </div>
 
                             {/* Price Display */}
-                            <div className="flex items-end gap-4 p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
+                            <div className="flex items-end gap-4 p-6 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
                                 {isOwned ? (
                                     <div className="flex items-center gap-3">
                                         <div className="p-3 rounded-full bg-green-500/10">
@@ -182,29 +182,29 @@ export default function ProductDetailPage() {
                                         </div>
                                         <div>
                                             <div className="text-sm text-muted-foreground">Trạng thái</div>
-                                            <div className="text-xl font-bold text-green-600">Đã sở hữu</div>
+                                            <div className="text-xl font-semibold text-green-600">Đã sở hữu</div>
                                         </div>
                                     </div>
                                 ) : (
                                     <div className="flex-1">
-                                        <div className="text-sm font-medium text-muted-foreground mb-1">Giá bán</div>
+                                        <div className="text-sm font-medium text-muted-foreground mb-2">Giá bán</div>
                                         <div className="flex items-baseline gap-3">
-                                            <div className="text-5xl font-black text-primary">
+                                            <div className="text-4xl font-semibold text-primary">
                                                 {product.price > 0 ? (
                                                     <>
                                                         {new Intl.NumberFormat('vi-VN').format(product.price)}
-                                                        <span className="text-2xl ml-1">đ</span>
+                                                        <span className="text-xl ml-1">đ</span>
                                                     </>
                                                 ) : (
                                                     <span className="text-green-600">Miễn phí</span>
                                                 )}
                                             </div>
                                             {product.compareAtPrice && (
-                                                <div className="flex flex-col">
-                                                    <span className="text-lg text-muted-foreground line-through">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-base text-muted-foreground line-through">
                                                         {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ
                                                     </span>
-                                                    <span className="text-xs font-bold text-red-500 bg-red-500/10 px-2 py-0.5 rounded">
+                                                    <span className="text-xs font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-2 py-0.5 rounded">
                                                         -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
                                                     </span>
                                                 </div>

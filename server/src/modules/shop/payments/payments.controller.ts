@@ -71,11 +71,9 @@ export const webhook = async (req: Request, res: Response) => {
             if (!authHeader || authHeader !== expectedHeader) {
                 console.warn('Webhook: Invalid API key', {
                     received: authHeader,
-                    expected: expectedHeader,
-                    allHeaders: req.headers
+                    expected: expectedHeader
                 });
-                // return res.status(401).json({ success: false, message: 'Invalid API key' });
-                console.warn('Webhook: Proceeding despite invalid API key (DEBUG MODE)');
+                return res.status(401).json({ success: false, message: 'Invalid API key' });
             }
         }
 
@@ -87,8 +85,6 @@ export const webhook = async (req: Request, res: Response) => {
         }
 
         // Extract Order Code from content
-        // Looking for TULIE followed by alphanumeric characters. 
-        // We convert to uppercase for robust matching.
         const match = transferContent.toUpperCase().match(/TULIE[A-Z0-9]+/);
         if (!match) {
             return res.status(200).json({ success: false, message: 'No order code found' });
@@ -99,13 +95,14 @@ export const webhook = async (req: Request, res: Response) => {
         await paymentService.processWebhook({
             code: orderCode,
             amount: Number(transferAmount),
-            transactionId: String(id)
+            transactionId: String(id),
+            signature: authHeader || '' // Pass the auth header as signature
         });
 
         res.json({ success: true, message: 'Processed' });
     } catch (error: any) {
         console.error('Webhook Error:', error);
-        res.status(200).json({ success: false, message: error.message }); // Always return 200 to Sepay so it doesn't retry infinitely
+        res.status(200).json({ success: false, message: error.message });
     }
 };
 

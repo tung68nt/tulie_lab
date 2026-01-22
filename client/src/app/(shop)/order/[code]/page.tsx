@@ -45,7 +45,6 @@ export default function OrderPage({ params }: { params: any }) {
                 const [orderData, settingsData] = await Promise.all([
                     api.payments.getOrder(code).catch(e => {
                         console.warn("Failed to fetch order", e);
-                        // Fallback/Mock
                         return null;
                     }),
                     api.settings.getPublic().catch(() => ({}))
@@ -60,6 +59,20 @@ export default function OrderPage({ params }: { params: any }) {
             }
         };
         fetchData();
+
+        // Auto-refresh order status every 5 seconds if order is pending
+        const interval = setInterval(async () => {
+            try {
+                const orderData = await api.payments.getOrder(code);
+                if (orderData && orderData.status !== order?.status) {
+                    setOrder(orderData);
+                }
+            } catch (e) {
+                console.error("Failed to refresh order status", e);
+            }
+        }, 5000);
+
+        return () => clearInterval(interval);
     }, [code]);
 
     if (loading) return <div className="p-10 text-center">Đang tải thông tin đơn hàng...</div>;
@@ -123,9 +136,11 @@ export default function OrderPage({ params }: { params: any }) {
         <div className="container pt-6 md:pt-10" style={{ paddingBottom: '120px' }}>
             <div className="mx-auto max-w-5xl">
                 <Card>
-                    <CardHeader className="text-center">
-                        <CardTitle className="text-2xl">Thanh toán đơn hàng</CardTitle>
-                        <CardDescription>Mã đơn hàng: <span className="font-bold text-primary">{order.code}</span></CardDescription>
+                    <CardHeader className="text-center border-b">
+                        <CardTitle className="text-2xl font-semibold">Thanh toán đơn hàng</CardTitle>
+                        <CardDescription className="text-base mt-2">
+                            Mã đơn hàng: <span className="font-semibold text-foreground">{order.code}</span>
+                        </CardDescription>
                     </CardHeader>
                     <CardContent className="p-4 md:p-6">
                         {/* Responsive Grid: 1 column on mobile, 2 columns on landscape/tablet+ */}
@@ -135,7 +150,7 @@ export default function OrderPage({ params }: { params: any }) {
                                 {/* Amount Display */}
                                 <div className="w-full rounded-lg bg-muted/50 p-5 text-center border border-border">
                                     <p className="text-sm text-muted-foreground mb-2">Số tiền cần thanh toán</p>
-                                    <p className="text-4xl md:text-5xl font-extrabold text-foreground">
+                                    <p className="text-3xl font-semibold text-foreground">
                                         {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
                                     </p>
                                 </div>
@@ -146,11 +161,14 @@ export default function OrderPage({ params }: { params: any }) {
                                         <img src={qrUrl} alt="QR Code Payment" className="h-full w-full object-contain" />
                                     </div>
                                     <div className="bg-muted/50 border border-border rounded-lg p-4 w-full max-w-[320px] lg:max-w-[280px]">
-                                        <p className="text-center text-sm">
+                                        <p className="text-center text-sm leading-normal">
                                             <span className="text-muted-foreground">Quét mã QR bằng app ngân hàng</span>
                                             <br />
-                                            <span className="font-bold text-foreground mt-1 block">
-                                                Nội dung CK: {transferContent}
+                                            <span className="font-semibold text-foreground mt-2 block">
+                                                Ghi rõ: Nội dung chuyển khoản
+                                            </span>
+                                            <span className="font-semibold text-foreground block">
+                                                {transferContent}
                                             </span>
                                         </p>
                                     </div>
@@ -161,7 +179,7 @@ export default function OrderPage({ params }: { params: any }) {
                             <div className="flex flex-col justify-start space-y-6 order-2">
                                 {/* Bank Information */}
                                 <div className="rounded-xl border-2 border-border p-5 space-y-3 bg-card h-fit">
-                                    <h3 className="font-bold text-lg mb-4 text-center lg:text-left">Thông tin chuyển khoản</h3>
+                                    <h3 className="font-semibold text-lg mb-4 text-center lg:text-left">Thông tin chuyển khoản</h3>
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between py-3 border-b">
                                             <span className="text-sm text-muted-foreground">Ngân hàng</span>
