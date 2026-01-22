@@ -3,14 +3,24 @@ const nextConfig = {
   // Output standalone for Docker deployment
   output: 'standalone',
 
-  // Enable React Compiler
-  experimental: {
-    reactCompiler: true,
-  },
+  // Enable React Compiler (moved from experimental in Next.js 16)
+  reactCompiler: true,
+
+  // Turbopack configuration (empty to silence warning)
+  turbopack: {},
 
   // Image optimization
   images: {
-    domains: ['images.unsplash.com', 'placehold.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -71,38 +81,6 @@ const nextConfig = {
         ],
       },
     ];
-  },
-
-  // Webpack optimization
-  webpack: (config, { isServer }) => {
-    // Optimize bundle size
-    if (!isServer) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          default: false,
-          vendors: false,
-          // Vendor chunk for node_modules
-          vendor: {
-            name: 'vendor',
-            chunks: 'all',
-            test: /node_modules/,
-            priority: 20
-          },
-          // Common chunk for shared code
-          common: {
-            name: 'common',
-            minChunks: 2,
-            chunks: 'all',
-            priority: 10,
-            reuseExistingChunk: true,
-            enforce: true
-          }
-        }
-      };
-    }
-
-    return config;
   },
 };
 
