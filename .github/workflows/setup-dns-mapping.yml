@@ -57,7 +57,8 @@ jobs:
           gcloud beta run domain-mappings create \
             --service "$SERVICE" \
             --domain "$DOMAIN" \
-            --region "$REGION"
+            --region "$REGION" \
+            --quiet
 
           echo "✅ Beta domain mapping created!"
           echo ""
@@ -95,7 +96,8 @@ jobs:
           gcloud beta run domain-mappings create \
             --service "$SERVICE" \
             --domain "$DOMAIN" \
-            --region "$REGION"
+            --region "$REGION" \
+            --quiet
 
           echo "✅ Production domain mapping created!"
           echo ""
