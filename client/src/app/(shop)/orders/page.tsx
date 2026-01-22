@@ -148,9 +148,32 @@ export default function OrdersPage() {
                                                             <Button as="div" size="sm">Thanh toán</Button>
                                                         </Link>
                                                     ) : (order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) ? (
-                                                        <Link href="/dashboard">
-                                                            <Button as="div" variant="outline" size="sm">Vào học</Button>
-                                                        </Link>
+                                                        (() => {
+                                                            // Check if order contains courses or products
+                                                            const hasCourses = order.courses && order.courses.length > 0;
+                                                            const hasProducts = order.products && order.products.length > 0;
+
+                                                            // Determine button text and link
+                                                            let buttonText = 'Xem';
+                                                            let buttonLink = '/dashboard';
+
+                                                            if (hasCourses && hasProducts) {
+                                                                buttonText = 'Xem';
+                                                                buttonLink = '/dashboard';
+                                                            } else if (hasCourses) {
+                                                                buttonText = 'Vào học';
+                                                                buttonLink = '/dashboard';
+                                                            } else if (hasProducts) {
+                                                                buttonText = 'Xem sản phẩm';
+                                                                buttonLink = '/my-products';
+                                                            }
+
+                                                            return (
+                                                                <Link href={buttonLink}>
+                                                                    <Button as="div" variant="outline" size="sm">{buttonText}</Button>
+                                                                </Link>
+                                                            );
+                                                        })()
                                                     ) : null}
                                                 </td>
                                             </tr>

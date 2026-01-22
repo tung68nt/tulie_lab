@@ -105,16 +105,41 @@ export default function OrderPage({ params }: { params: any }) {
     }
 
     if (order.status === 'PAID') {
+        // Check if order contains courses or products
+        const hasCourses = order.items?.some((item: any) => item.course) || false;
+        const hasProducts = order.items?.some((item: any) => item.product) || false;
+
+        // Determine message and button based on items
+        let message = 'Thanh toán thành công!';
+        let description = '';
+        let buttonText = '';
+        let buttonLink = '/dashboard';
+
+        if (hasCourses && hasProducts) {
+            description = 'Bạn đã mua thành công khóa học và sản phẩm.';
+            buttonText = 'Xem ngay';
+        } else if (hasCourses) {
+            description = 'Bạn đã đăng ký thành công khóa học.';
+            buttonText = 'Vào học ngay';
+        } else if (hasProducts) {
+            description = 'Bạn đã mua thành công sản phẩm.';
+            buttonText = 'Xem sản phẩm';
+            buttonLink = '/my-products';
+        } else {
+            description = 'Đơn hàng của bạn đã được xử lý thành công.';
+            buttonText = 'Xem chi tiết';
+        }
+
         return (
             <div className="container py-20 text-center">
                 <div className="mx-auto max-w-md rounded-xl border bg-card p-8 shadow-lg">
                     <div className="flex justify-center mb-6">
                         <CircleCheck className="h-16 w-16 text-green-500" />
                     </div>
-                    <h1 className="text-2xl font-bold mb-2">Thanh toán thành công!</h1>
-                    <p className="text-muted-foreground mb-6">Bạn đã đăng ký thành công khóa học.</p>
-                    <Link href="/dashboard">
-                        <Button as="div" className="w-full">Vào học ngay</Button>
+                    <h1 className="text-2xl font-bold mb-2">{message}</h1>
+                    <p className="text-muted-foreground mb-6">{description}</p>
+                    <Link href={buttonLink}>
+                        <Button as="div" className="w-full">{buttonText}</Button>
                     </Link>
                 </div>
             </div>

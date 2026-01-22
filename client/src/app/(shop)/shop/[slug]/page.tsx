@@ -219,7 +219,7 @@ export default function ProductDetailPage() {
                         <div className="space-y-6">
                             {(isOwned || isMember) ? (
                                 <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-800">
-                                    <h3 className="text-xl font-bold mb-4">Tải xuống tài nguyên</h3>
+                                    <h3 className="text-xl font-bold mb-4 text-white">Tải xuống tài nguyên</h3>
 
                                     {product.versions && product.versions.length > 0 ? (
                                         <div className="space-y-4">

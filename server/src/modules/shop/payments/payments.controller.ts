@@ -60,6 +60,13 @@ export const webhook = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
 
+        // Log full request for debugging
+        console.log('Webhook received - Full Request:', {
+            headers: req.headers,
+            body: req.body,
+            query: req.query
+        });
+
         // Validate API Key from Authorization header
         const authHeader = req.headers.authorization;
         const settingService = container.resolve<any>('SettingService');
@@ -67,27 +74,47 @@ export const webhook = async (req: Request, res: Response) => {
 
         if (storedApiKey) {
             // If API key is configured, validate it
-            const expectedHeader = `Apikey ${storedApiKey}`;
-            if (!authHeader || authHeader !== expectedHeader) {
+            // Support multiple formats:
+            // - "Apikey sk_xxx"
+            // - "Bearer sk_xxx"
+            // - "sk_xxx"
+            let receivedKey: string = '';
+            if (authHeader) {
+                // Extract key from "Apikey xxx", "Bearer xxx", or just "xxx"
+                const match = authHeader.match(/^(?:Apikey|Bearer)\s+(.+)$/i);
+                receivedKey = match ? match[1] : authHeader;
+            }
+
+            if (!authHeader || receivedKey !== storedApiKey) {
                 console.warn('Webhook: Invalid API key', {
                     received: authHeader,
-                    expected: expectedHeader
+                    extractedKey: receivedKey,
+                    expected: `Apikey ${storedApiKey}`,
+                    storedKey: storedApiKey
                 });
                 return res.status(401).json({ success: false, message: 'Invalid API key' });
             }
+            console.log('Webhook: API key validated successfully');
+        } else {
+            console.log('Webhook: No API key configured, skipping validation');
         }
 
         // Sepay payload
         const { id, transferAmount, transferContent, referenceCode } = req.body;
 
-        console.log('Webhook received:', { id, transferAmount, transferContent, referenceCode });
+        console.log('Webhook parsed data:', { id, transferAmount, transferContent, referenceCode });
 
-        if (!transferContent) {
-            return res.status(400).json({ success: false, message: 'No content' });
+        if (!transferContent || typeof transferContent !== 'string' || transferContent.trim() === '') {
+            console.error('Webhook: Missing or invalid transferContent', {
+                body: req.body,
+                transferContent,
+                type: typeof transferContent
+            });
+            return res.status(400).json({ success: false, message: 'Invalid or missing transfer content' });
         }
 
         // Extract Order Code from content (format: 10-digit alphanumeric code)
-        const match = transferContent.toUpperCase().match(/\b[A-Z0-9]{10}\b/);
+        const match = transferContent.trim().toUpperCase().match(/\b[A-Z0-9]{10}\b/);
         if (!match) {
             console.log('No order code found in:', transferContent);
             return res.status(200).json({ success: false, message: 'No order code found' });
