@@ -76,26 +76,27 @@ jobs:
         run: |
           echo "🚀 Running Prisma generate..."
           npx prisma generate
-          
+
           echo "🚀 Running DB Push..."
           if ! npx prisma db push --accept-data-loss; then
             echo "⚠️ DB Push failed. This is expected if using a Transaction Pooler without DIRECT_URL."
             echo "Proceeding anyway."
           fi
 
-      - name: Run seeds
-        working-directory: ./server
-        run: |
-          echo "🚀 Running Seeds..."
-          if ! npx tsx src/seed.ts; then
-            echo "⚠️ seed.ts failed. Proceeding anyway."
-          fi
-          if ! npx tsx prisma/seed-products.ts; then
-            echo "⚠️ seed-products.ts failed. Proceeding anyway."
-          fi
-          if ! npx tsx prisma/seed-landing-page.ts; then
-            echo "⚠️ seed-landing-page.ts failed. Proceeding anyway."
-          fi
+      # Disable auto-seeding in production to prevent data overwrite
+      # - name: Run seeds
+      #   working-directory: ./server
+      #   run: |
+      #     echo "🚀 Running Seeds..."
+      #     if ! npx tsx src/seed.ts; then
+      #       echo "⚠️ seed.ts failed. Proceeding anyway."
+      #     fi
+      #     if ! npx tsx prisma/seed-products.ts; then
+      #       echo "⚠️ seed-products.ts failed. Proceeding anyway."
+      #     fi
+      #     if ! npx tsx prisma/seed-landing-page.ts; then
+      #       echo "⚠️ seed-landing-page.ts failed. Proceeding anyway."
+      #     fi
 
   # 2. Deploy only if migrations succeed
   deploy:
