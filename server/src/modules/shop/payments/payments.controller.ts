@@ -217,13 +217,13 @@ export const getAllOrders = async (req: Request, res: Response) => {
 export const updateStatus = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
-        const { id } = req.params;
+        const id = String(req.params.id);
         if (!id) return res.status(400).json({ message: 'Missing order ID' });
 
         const { status } = req.body;
         if (!status) return res.status(400).json({ message: 'Missing status' });
 
-        const updated = await paymentService.updateOrderStatus(id as string, status);
+        const updated = await paymentService.updateOrderStatus(id, status);
         res.json(updated);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
@@ -233,7 +233,7 @@ export const updateStatus = async (req: Request, res: Response) => {
 export const deleteOrder = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
-        const { id } = req.params;
+        const id = String(req.params.id);
         const userId = (req as AuthRequest).user?.id;
 
         if (!id) return res.status(400).json({ message: 'Missing order ID' });
@@ -268,7 +268,7 @@ export const getTransactions = async (req: Request, res: Response) => {
 export const sendPaymentReminder = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
-        const { id } = req.params;
+        const id = String(req.params.id);
         const { customMessage } = req.body;
 
         if (!id) return res.status(400).json({ message: 'Missing order ID' });
