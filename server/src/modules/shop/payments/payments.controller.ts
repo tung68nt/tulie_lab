@@ -158,8 +158,23 @@ export const webhook = async (req: Request, res: Response) => {
             console.error('Payment Code:', paymentCode);
             console.error('Transfer Content:', transferContent);
             console.error('Reference Code:', referenceCode);
-            console.error('Full Body:', req.body);
-            return res.status(400).json({ success: false, message: 'No order code found in webhook payload' });
+            console.error('Content:', content);
+            console.error('Description:', description);
+            console.error('Full Body:', JSON.stringify(req.body, null, 2));
+            console.error('Query Params:', JSON.stringify(req.query, null, 2));
+
+            // Return 200 but log as failure - don't block SePay from sending more webhooks
+            return res.status(200).json({
+                success: false,
+                message: 'No order code found in webhook payload',
+                receivedData: {
+                    paymentCode,
+                    transferContent,
+                    referenceCode,
+                    bodyKeys: Object.keys(req.body),
+                    queryKeys: Object.keys(req.query)
+                }
+            });
         }
 
         console.log('✅ Using order code:', orderCode);
