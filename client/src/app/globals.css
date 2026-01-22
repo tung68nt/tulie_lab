@@ -283,3 +283,16 @@
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
 }
+
+/* Page Container Max Width */
+.page-container {
+  @apply max-w-7xl mx-auto;
+}
+
+.content-container {
+  @apply max-w-4xl mx-auto;
+}
+
+.admin-container {
+  @apply max-w-screen-2xl mx-auto;
+}

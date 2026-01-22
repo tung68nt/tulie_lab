@@ -204,7 +204,7 @@ export default function AdminOrdersPage() {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="admin-container space-y-6">
             <AdminPageHeader
                 title="Quản lý đơn hàng"
                 subtitle="Quản lý tất cả giao dịch của hệ thống"
