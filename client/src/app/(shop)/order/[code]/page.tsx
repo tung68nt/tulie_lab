@@ -173,39 +173,37 @@ export default function OrderPage({ params }: { params: any }) {
 
                 {/* Main Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    {/* Left Column - QR Code & Amount */}
-                    <div className="space-y-6">
-                        {/* Amount Card */}
-                        <div className="bg-card border rounded-2xl p-6 shadow-xl">
-                            <p className="text-sm text-muted-foreground text-center mb-3">Số tiền cần thanh toán</p>
-                            <p className="text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                    {/* Left Column - Amount & QR Code */}
+                    <div className="bg-card border rounded-2xl p-8 shadow-xl space-y-6">
+                        {/* Amount */}
+                        <div className="text-center pb-6 border-b">
+                            <p className="text-sm text-muted-foreground mb-2">Số tiền cần thanh toán</p>
+                            <p className="text-5xl md:text-6xl font-bold text-foreground">
                                 {new Intl.NumberFormat('vi-VN').format(Number(order.amount))} ₫
                             </p>
                         </div>
 
-                        {/* QR Code Card */}
-                        <div className="bg-card border rounded-2xl p-8 shadow-xl flex flex-col items-center">
-                            <div className="relative w-full max-w-[280px] aspect-square">
-                                <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-2xl"></div>
-                                <div className="relative bg-white rounded-2xl p-4 border-2 border-border shadow-lg">
+                        {/* QR Code */}
+                        <div className="flex flex-col items-center">
+                            <div className="relative w-full max-w-[320px] aspect-square">
+                                <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-2xl"></div>
+                                <div className="relative bg-white rounded-2xl p-4 shadow-lg">
                                     <img src={qrUrl} alt="QR Code Payment" className="w-full h-full object-contain" />
                                 </div>
                             </div>
-                            <p className="text-sm text-muted-foreground mt-6 text-center">
+                            <p className="text-sm text-muted-foreground mt-4 text-center">
                                 Quét mã QR bằng app ngân hàng
                             </p>
                         </div>
 
-                        {/* Payment Status Indicator */}
-                        <div className={`bg-card border rounded-2xl p-4 shadow-lg transition-all duration-300 ${
-                            isChecking ? 'border-primary/50 bg-primary/5' : 'border-border'
+                        {/* Payment Status */}
+                        <div className={`p-4 rounded-xl transition-all duration-300 ${
+                            isChecking ? 'bg-primary/5' : 'bg-muted/30'
                         }`}>
                             <div className="flex items-center justify-center gap-3">
                                 {isChecking ? (
                                     <>
-                                        <div className="relative">
-                                            <div className="w-5 h-5 border-3 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-                                        </div>
+                                        <div className="w-5 h-5 border-3 border-primary/30 border-t-primary rounded-full animate-spin"></div>
                                         <span className="text-sm font-medium text-primary animate-pulse">Đang kiểm tra thanh toán...</span>
                                     </>
                                 ) : (
@@ -218,22 +216,21 @@ export default function OrderPage({ params }: { params: any }) {
                         </div>
                     </div>
 
-                    {/* Right Column - Bank Info */}
+                    {/* Right Column - Bank Info & Actions */}
                     <div className="space-y-6">
-                        {/* Bank Information Card */}
-                        <div className="bg-card border rounded-2xl p-6 shadow-xl">
-                            <h3 className="text-xl font-bold mb-6">Thông tin chuyển khoản</h3>
+                        {/* Bank Information */}
+                        <div className="bg-card border rounded-2xl p-6 shadow-xl space-y-4">
+                            <h3 className="text-xl font-bold mb-4">Thông tin chuyển khoản</h3>
 
-                            <div className="space-y-4">
-                                {/* Bank Name */}
-                                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border">
-                                    <span className="text-sm text-muted-foreground">Ngân hàng</span>
+                            {/* Single table-like layout */}
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center py-3 border-b">
+                                    <span className="text-muted-foreground">Ngân hàng</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="font-bold text-base">{bankName}</span>
+                                        <span className="font-bold">{bankName}</span>
                                         <button
                                             onClick={() => copyToClipboard(bankName, 'bank')}
-                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
-                                            title="Copy"
+                                            className="p-1.5 hover:bg-muted rounded transition-colors"
                                         >
                                             {copiedField === 'bank' ? (
                                                 <Check className="w-4 h-4 text-green-600" />
@@ -244,15 +241,13 @@ export default function OrderPage({ params }: { params: any }) {
                                     </div>
                                 </div>
 
-                                {/* Account Number */}
-                                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border">
-                                    <span className="text-sm text-muted-foreground">Số tài khoản</span>
+                                <div className="flex justify-between items-center py-3 border-b">
+                                    <span className="text-muted-foreground">Số tài khoản</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="font-mono font-bold text-base">{accountNo}</span>
+                                        <span className="font-mono font-bold">{accountNo}</span>
                                         <button
                                             onClick={() => copyToClipboard(accountNo, 'account')}
-                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
-                                            title="Copy"
+                                            className="p-1.5 hover:bg-muted rounded transition-colors"
                                         >
                                             {copiedField === 'account' ? (
                                                 <Check className="w-4 h-4 text-green-600" />
@@ -263,15 +258,13 @@ export default function OrderPage({ params }: { params: any }) {
                                     </div>
                                 </div>
 
-                                {/* Account Name */}
-                                <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50 border border-border">
-                                    <span className="text-sm text-muted-foreground">Chủ tài khoản</span>
+                                <div className="flex justify-between items-center py-3 border-b">
+                                    <span className="text-muted-foreground">Chủ tài khoản</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="font-bold text-base">{accountName}</span>
+                                        <span className="font-bold">{accountName}</span>
                                         <button
                                             onClick={() => copyToClipboard(accountName, 'name')}
-                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
-                                            title="Copy"
+                                            className="p-1.5 hover:bg-muted rounded transition-colors"
                                         >
                                             {copiedField === 'name' ? (
                                                 <Check className="w-4 h-4 text-green-600" />
@@ -282,20 +275,18 @@ export default function OrderPage({ params }: { params: any }) {
                                     </div>
                                 </div>
 
-                                {/* Transfer Content */}
-                                <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-primary/10 to-blue-500/10 border-2 border-primary/30">
-                                    <span className="text-sm font-medium text-foreground">Nội dung CK</span>
+                                <div className="flex justify-between items-center py-3">
+                                    <span className="text-muted-foreground">Nội dung chuyển khoản</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="font-mono font-bold text-base text-primary">{transferContent}</span>
+                                        <span className="font-mono font-bold text-primary">{transferContent}</span>
                                         <button
                                             onClick={() => copyToClipboard(transferContent, 'content')}
-                                            className="p-2 hover:bg-background rounded-lg transition-all hover:scale-110"
-                                            title="Copy"
+                                            className="p-1.5 hover:bg-muted rounded transition-colors"
                                         >
                                             {copiedField === 'content' ? (
                                                 <Check className="w-4 h-4 text-green-600" />
                                             ) : (
-                                                <Copy className="w-4 h-4 text-primary" />
+                                                <Copy className="w-4 h-4 text-muted-foreground" />
                                             )}
                                         </button>
                                     </div>
