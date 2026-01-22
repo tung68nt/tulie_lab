@@ -468,9 +468,9 @@ export default function MenuManagementPage() {
                             />
                         </div>
 
-                        <div className="flex flex-col gap-2 pb-1">
+                        <div className="space-y-2">
                             <label className="text-sm font-medium">Tùy chọn</label>
-                            <div className="flex items-center gap-2 px-3 h-10 bg-background border rounded-md">
+                            <div className="flex items-center gap-2 px-3 h-10 bg-background border rounded-md whitespace-nowrap">
                                 <span className="text-sm">External</span>
                                 <Switch
                                     checked={newItem.isExternal}
@@ -479,9 +479,11 @@ export default function MenuManagementPage() {
                             </div>
                         </div>
 
-                        <Button onClick={handleAddItem} className="gap-2">
-                            <Plus size={16} /> Thêm
-                        </Button>
+                        <div className="flex items-end">
+                            <Button onClick={handleAddItem} className="gap-2 h-10">
+                                <Plus size={16} /> Thêm
+                            </Button>
+                        </div>
                     </div>
                 </CardContent>
             </Card>

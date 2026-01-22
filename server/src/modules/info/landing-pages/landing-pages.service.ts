@@ -54,14 +54,16 @@ export class LandingPageService {
     }
 
     async getLandingPageBySlug(slug: string) {
-        const cacheKey = `landing_page:${slug}`;
+        // Normalize slug: remove leading slash if present
+        const normalizedSlug = slug.startsWith('/') ? slug.slice(1) : slug;
+        const cacheKey = `landing_page:${normalizedSlug}`;
 
         if (this.cacheProvider) {
             const cached = await this.cacheProvider.getJson(cacheKey);
             if (cached) return cached;
         }
 
-        const page = await this.landingPageRepository.findBySlug(slug);
+        const page = await this.landingPageRepository.findBySlug(normalizedSlug);
         if (!page) return null;
 
         if (page && typeof page.sections === 'string') {
