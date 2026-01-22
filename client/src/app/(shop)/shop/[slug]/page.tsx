@@ -180,109 +180,10 @@ export default function ProductDetailPage() {
                             </p>
                         </div>
 
-                        {/* Pricing Cards */}
-                        <div className="grid grid-cols-1 gap-4">
-                            {/* Single Purchase Option */}
-                            <div className="relative group rounded-2xl border border-border bg-card/50 backdrop-blur-sm overflow-hidden transition-all hover:border-border/80">
-                                <div className="p-6 space-y-4">
-                                    <div className="flex items-start justify-between">
-                                        <div className="space-y-1">
-                                            <h3 className="text-lg font-bold text-foreground">Mua lẻ</h3>
-                                            <p className="text-sm text-muted-foreground">Sở hữu vĩnh viễn template này</p>
-                                        </div>
-                                        {isOwned && (
-                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
-                                                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                                </svg>
-                                                <span className="text-xs font-semibold text-green-600">Đã sở hữu</span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    <div className="flex items-baseline gap-3">
-                                        <div className="text-3xl font-bold text-foreground">
-                                            {product.price > 0 ? (
-                                                <>
-                                                    {new Intl.NumberFormat('vi-VN').format(product.price)}
-                                                    <span className="text-lg ml-1">đ</span>
-                                                </>
-                                            ) : (
-                                                <span className="text-green-600">Miễn phí</span>
-                                            )}
-                                        </div>
-                                        {product.compareAtPrice && product.compareAtPrice > product.price && (
-                                            <div className="flex flex-col gap-1">
-                                                <span className="text-sm text-muted-foreground line-through">
-                                                    {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ
-                                                </span>
-                                                <span className="text-xs font-bold text-red-600 bg-red-50 dark:bg-red-950/30 px-2 py-0.5 rounded-full">
-                                                    -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
-                                                </span>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {!isOwned && !isMember && (
-                                        <Link href={`/checkout?productId=${product.id}`} className="block">
-                                            <Button as="div" variant="outline" size="lg" className="w-full text-base h-12 rounded-xl font-bold border-2 hover:bg-secondary transition-all">
-                                                Sở hữu ngay
-                                            </Button>
-                                        </Link>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Membership Option - Gói Cơ Bản */}
-                            {!isMember && (
-                                <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 via-primary/5 to-primary/10 overflow-hidden shadow-xl shadow-primary/20">
-                                    <div className="absolute top-0 right-0">
-                                        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold px-4 py-1.5 rounded-bl-xl shadow-lg">
-                                            Khuyên dùng
-                                        </div>
-                                    </div>
-
-                                    <div className="p-6 space-y-5">
-                                        <div className="space-y-2">
-                                            <h3 className="text-2xl font-bold text-foreground">Gói Cơ Bản</h3>
-                                            <div className="flex items-baseline gap-2">
-                                                <span className="text-4xl font-bold text-primary">1.990.000đ</span>
-                                                <span className="text-lg text-muted-foreground">/năm</span>
-                                            </div>
-                                            <p className="text-sm text-muted-foreground leading-relaxed">
-                                                Truy cập và tải không giới hạn toàn bộ kho tài nguyên (Templates, Apps Script)
-                                            </p>
-                                        </div>
-
-                                        <div className="space-y-2.5">
-                                            {[
-                                                'Tải không giới hạn sản phẩm số',
-                                                'Tiết kiệm 80% so với mua lẻ',
-                                                'Cập nhật template mới hàng tuần',
-                                                'Hỗ trợ kỹ thuật qua Group'
-                                            ].map((feature, i) => (
-                                                <div key={i} className="flex items-start gap-2.5 text-sm">
-                                                    <svg className="w-5 h-5 text-green-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                                                    </svg>
-                                                    <span className="text-foreground font-medium">{feature}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <Link href="/pricing" className="block">
-                                            <Button as="div" size="lg" className="w-full text-base h-14 rounded-xl font-bold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 shadow-lg hover:shadow-xl transition-all">
-                                                Đăng ký Hội viên ngay
-                                            </Button>
-                                        </Link>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Actions Area - Download or Purchase */}
+                        {/* Pricing Section */}
                         <div className="space-y-6">
-                            {(isOwned || isMember) ? (
+                            {/* Download Section - Only show if user owns or is member */}
+                            {(isOwned || isMember) && (
                                 <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-800">
                                     <h3 className="text-xl font-bold mb-4 text-white">Tải xuống tài nguyên</h3>
 
@@ -322,78 +223,91 @@ export default function ProductDetailPage() {
                                                 </div>
                                             )}
                                         </div>
+                                    ) : product.fileUrl ? (
+                                        <a href={product.fileUrl} target="_blank" rel="noopener noreferrer">
+                                            <Button as="div" size="lg" className="w-full text-lg h-14 rounded-xl font-bold gap-2">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                                Tải xuống
+                                            </Button>
+                                        </a>
                                     ) : (
-                                        // Fallback for Products without versions (Legacy)
-                                        product.fileUrl ? (
-                                            <a href={product.fileUrl} target="_blank" rel="noopener noreferrer">
-                                                <Button as="div" size="lg" className="w-full text-lg h-14 rounded-xl font-bold gap-2">
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                                                    Tải xuống
-                                                </Button>
-                                            </a>
-                                        ) : (
-                                            <div className="text-amber-500 p-4 border border-amber-500/20 rounded-lg bg-amber-500/5">
-                                                Sản phẩm chưa có file tải lên. Vui lòng liên hệ Admin.
-                                            </div>
-                                        )
+                                        <div className="text-amber-500 p-4 border border-amber-500/20 rounded-lg bg-amber-500/5">
+                                            Sản phẩm chưa có file tải lên. Vui lòng liên hệ Admin.
+                                        </div>
                                     )}
                                 </div>
-                            ) : (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <Link href={`/checkout?productId=${product.id}`}>
-                                        <Button as="div" size="lg" className="w-full text-lg h-16 rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 font-bold">
-                                            Sở hữu ngay
-                                        </Button>
-                                    </Link>
+                            )}
+
+                            {/* Pricing Options - Only show if user doesn't own and isn't member */}
+                            {!isOwned && !isMember && (
+                                <>
+                                    {/* Single Purchase */}
+                                    <div className="p-5 rounded-xl border border-border bg-card">
+                                        <div className="flex items-baseline justify-between mb-3">
+                                            <h3 className="text-base font-bold">Mua lẻ</h3>
+                                            <div className="text-right">
+                                                <div className="text-2xl font-bold">
+                                                    {product.price === 0 || product.price === '0'
+                                                        ? 'Miễn phí'
+                                                        : `${new Intl.NumberFormat('vi-VN').format(product.price)}đ`}
+                                                </div>
+                                                {product.compareAtPrice && product.compareAtPrice > product.price && product.price > 0 && (
+                                                    <div className="text-xs text-muted-foreground line-through">{new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ</div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground mb-4">Sở hữu vĩnh viễn template này</p>
+                                        <Link href={`/checkout?productId=${product.id}`}>
+                                            <Button as="div" variant="outline" className="w-full">Sở hữu ngay</Button>
+                                        </Link>
+                                    </div>
+
+                                    {/* Membership - Gói Cơ Bản */}
+                                    <div className="relative p-5 rounded-xl border-2 border-primary bg-gradient-to-br from-primary/10 to-primary/5">
+                                        <div className="absolute -top-3 left-4 px-3 py-1 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold shadow-lg">
+                                            Khuyên dùng
+                                        </div>
+                                        <h3 className="text-lg font-bold mb-2 mt-2">Gói Cơ Bản</h3>
+                                        <div className="flex items-baseline gap-2 mb-3">
+                                            <span className="text-3xl font-bold text-primary">1.990.000đ</span>
+                                            <span className="text-muted-foreground">/năm</span>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground mb-4">Unlimited downloads + tất cả templates</p>
+                                        <Link href="/pricing">
+                                            <Button as="div" className="w-full mb-4">Đăng ký ngay</Button>
+                                        </Link>
+                                        <div className="space-y-2 text-sm">
+                                            {['Tải không giới hạn', 'Tiết kiệm 80%', 'Update mới hàng tuần'].map((f, i) => (
+                                                <div key={i} className="flex items-center gap-2">
+                                                    <svg className="w-4 h-4 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                                                    <span>{f}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Preview Demo Button */}
                                     {product.previewUrl && (
                                         <a href={product.previewUrl} target="_blank" rel="noopener noreferrer">
-                                            <Button as="div" variant="outline" size="lg" className="w-full text-lg h-16 rounded-2xl border-2 hover:bg-secondary font-bold">
+                                            <Button as="div" variant="outline" className="w-full">
+                                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                                 Xem bản demo
                                             </Button>
                                         </a>
                                     )}
-                                </div>
+                                </>
                             )}
 
-                            {/* Subscription Upsell */}
-                            {!isMember && !isOwned && (
-                                <div className="p-5 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
-                                    <div className="flex items-start justify-between gap-3 mb-3">
-                                        <h3 className="font-semibold text-base">Gói Thành viên Năm</h3>
-                                        <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black border-0 font-semibold text-xs px-2 py-0.5 shrink-0">Best Value</Badge>
-                                    </div>
-                                    <p className="text-xs text-muted-foreground mb-3 leading-normal">
-                                        Truy cập và tải không giới hạn toàn bộ kho tài nguyên (Templates, Apps Script) chỉ với <span className="font-semibold text-foreground">1.990.000đ/năm</span>.
-                                    </p>
-                                    <div className="flex flex-col gap-1.5 mb-3">
-                                        <div className="flex items-center gap-2 text-xs">
-                                            <svg className="w-3.5 h-3.5 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                            <span>Tải không giới hạn sản phẩm số</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-xs">
-                                            <svg className="w-3.5 h-3.5 text-green-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                            <span>Tiết kiệm 80% so với mua lẻ</span>
-                                        </div>
-                                    </div>
-                                    <Link href="/pricing" className="block">
-                                        <Button as="div" size="sm" className="w-full font-semibold">
-                                            Đăng ký Hội viên ngay
-                                        </Button>
-                                    </Link>
-                                </div>
-                            )}
-
-                            {/* Value Propositions */}
-                            <div className="grid grid-cols-3 gap-3 pt-6 border-t border-border">
+                            {/* Value Props */}
+                            <div className="grid grid-cols-3 gap-2 pt-4 border-t">
                                 {[
-                                    { title: "Trọn đời", desc: "Mua một lần dùng mãi mãi", icon: "💎" },
-                                    { title: "Cập nhật", desc: "Update miễn phí trọn đời", icon: "✨" },
-                                    { title: "Hỗ trợ", desc: "Hỗ trợ cài đặt kỹ thuật", icon: "🛠️" }
+                                    { icon: '💎', text: 'Trọn đời' },
+                                    { icon: '🔄', text: 'Cập nhật' },
+                                    { icon: '🛠️', text: 'Hỗ trợ' }
                                 ].map((item, i) => (
-                                    <div key={i} className="p-3 rounded-lg bg-card border border-border/50 hover:border-primary/30 transition-colors group/item">
-                                        <div className="text-2xl mb-1 grayscale group-hover/item:grayscale-0 transition-all">{item.icon}</div>
-                                        <div className="font-semibold text-sm mb-0.5">{item.title}</div>
-                                        <div className="text-xs text-muted-foreground leading-snug">{item.desc}</div>
+                                    <div key={i} className="text-center p-2">
+                                        <div className="text-2xl mb-1">{item.icon}</div>
+                                        <div className="text-xs font-medium">{item.text}</div>
                                     </div>
                                 ))}
                             </div>

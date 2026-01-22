@@ -294,20 +294,22 @@ export default function ShopPage() {
                                             <div className="mt-auto pt-4 flex flex-col gap-3 border-t border-border/50">
                                                 {/* Price Section */}
                                                 <div className="flex items-center justify-between">
-                                                    <div className="flex items-baseline gap-2">
-                                                        <span className="text-xl font-semibold text-foreground">
-                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                                                    <div className="flex items-end gap-2">
+                                                        <span className="text-xl font-semibold text-foreground leading-none">
+                                                            {product.price === 0 || product.price === '0'
+                                                                ? 'Miễn phí'
+                                                                : `${new Intl.NumberFormat('vi-VN').format(product.price)} ₫`}
                                                         </span>
-                                                        {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
-                                                            <span className="text-[11px] font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded">
+                                                        {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
+                                                            <span className="text-[11px] font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded leading-none mb-0.5">
                                                                 -{Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)}%
                                                             </span>
                                                         )}
                                                     </div>
                                                 </div>
-                                                {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
+                                                {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
                                                     <div className="text-xs text-muted-foreground line-through -mt-1">
-                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.compareAtPrice)}
+                                                        {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)} ₫
                                                     </div>
                                                 )}
                                                 <Link href={`/shop/${product.slug}`} className="w-full">
