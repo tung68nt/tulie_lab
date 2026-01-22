@@ -479,7 +479,7 @@ model ActivationCode {
   updatedAt    DateTime             @updatedAt
   buyer        User?                @relation("BoughtCodes", fields: [buyerId], references: [id])
   course       Course               @relation(fields: [courseId], references: [id])
-  order        Order?               @relation(fields: [orderId], references: [id])
+  order        Order?               @relation(fields: [orderId], references: [id], onDelete: Cascade)
   redeemedBy   User?                @relation("RedeemedCodes", fields: [redeemedById], references: [id])
 
   @@index([code])
