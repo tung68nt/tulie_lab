@@ -194,7 +194,14 @@ export const webhook = async (req: Request, res: Response) => {
         console.error('=== WEBHOOK ERROR ===');
         console.error('Error:', error);
         console.error('Stack:', error.stack);
-        res.status(200).json({ success: false, message: error.message });
+
+        // Return 500 for actual errors so SePay will retry
+        // Only return 200 for "expected" errors like duplicate processing
+        if (error.message === 'Order not found' || error.message.includes('already')) {
+            return res.status(200).json({ success: false, message: error.message });
+        }
+
+        res.status(500).json({ success: false, message: error.message });
     }
 };
 

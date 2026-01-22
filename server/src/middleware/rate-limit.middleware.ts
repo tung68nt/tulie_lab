@@ -1,9 +1,8 @@
 import rateLimit from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
-import { redis } from '../config/redis';
 
 /**
  * Rate limiting configuration for different endpoint types
+ * Using in-memory store for now (TODO: Add Redis store for production)
  */
 
 // General API rate limiting - 100 requests per 15 minutes
@@ -13,14 +12,6 @@ export const apiLimiter = rateLimit({
     message: { message: 'Too many requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
-    // Use Redis if available, fallback to memory store
-    ...(redis ? {
-        store: new RedisStore({
-            // @ts-expect-error - RedisStore types don't match perfectly
-            client: redis,
-            prefix: 'rl:api:',
-        })
-    } : {})
 });
 
 // Auth endpoints - stricter limits (5 requests per 15 minutes)
@@ -31,13 +22,6 @@ export const authLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     skipSuccessfulRequests: true, // Don't count successful auth requests
-    ...(redis ? {
-        store: new RedisStore({
-            // @ts-expect-error - RedisStore types don't match perfectly
-            client: redis,
-            prefix: 'rl:auth:',
-        })
-    } : {})
 });
 
 // Webhook endpoints - moderate limits (30 requests per minute)
@@ -54,13 +38,6 @@ export const webhookLimiter = rateLimit({
         const ip = req.ip || req.socket.remoteAddress || 'unknown';
         return apiKey ? `${ip}:${apiKey}` : ip;
     },
-    ...(redis ? {
-        store: new RedisStore({
-            // @ts-expect-error - RedisStore types don't match perfectly
-            client: redis,
-            prefix: 'rl:webhook:',
-        })
-    } : {})
 });
 
 // Password reset - very strict (3 requests per hour)
@@ -70,13 +47,6 @@ export const passwordResetLimiter = rateLimit({
     message: { message: 'Too many password reset attempts, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
-    ...(redis ? {
-        store: new RedisStore({
-            // @ts-expect-error - RedisStore types don't match perfectly
-            client: redis,
-            prefix: 'rl:reset:',
-        })
-    } : {})
 });
 
 // Email sending - moderate limits (10 per hour)
@@ -86,11 +56,4 @@ export const emailLimiter = rateLimit({
     message: { message: 'Too many email requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
-    ...(redis ? {
-        store: new RedisStore({
-            // @ts-expect-error - RedisStore types don't match perfectly
-            client: redis,
-            prefix: 'rl:email:',
-        })
-    } : {})
 });
