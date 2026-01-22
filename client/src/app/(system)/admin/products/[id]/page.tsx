@@ -431,7 +431,7 @@ export default function ProductEditorPage() {
                                 value={detailedContent}
                                 onChange={(e) => setDetailedContent(e.target.value)}
                                 rows={15}
-                                className="w-full min-h-[300px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 font-mono"
+                                className="w-full min-h-[300px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                                 placeholder="<h2>Tiêu đề</h2>
 <p>Nội dung mô tả...</p>
 <ul>
