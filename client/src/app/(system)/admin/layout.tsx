@@ -33,6 +33,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/courses', label: 'Khóa học / Workshop' },
                 { href: '/admin/categories', label: 'Chuyên mục' },
                 { href: '/admin/instructors', label: 'Instructors' },
+                { href: '/admin/events', label: 'Sự kiện' },
             ]
         },
         {
