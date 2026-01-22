@@ -22,7 +22,22 @@ interface Order {
         email: string;
         fullName?: string;
         name?: string;
+        profile?: {
+            name?: string;
+        };
     };
+    items?: {
+        id: string;
+        course?: {
+            id: string;
+            title: string;
+        };
+        product?: {
+            id: string;
+            title: string;
+        };
+    }[];
+    // Deprecated - keeping for backwards compatibility
     courses?: {
         id: string;
         title: string;
@@ -121,9 +136,9 @@ export default function AdminOrdersPage() {
         const headers = ['Mã đơn', 'Member', 'Email', 'Workshop', 'Số tiền', 'Trạng thái', 'Ngày tạo'];
         const rows = orders.map(o => [
             o.code,
-            o.user?.name || o.user?.fullName || 'N/A',
+            o.user?.profile?.name || o.user?.name || o.user?.fullName || 'N/A',
             o.user?.email || 'N/A',
-            o.courses?.map(c => c.title).join('; ') || 'N/A',
+            getOrderItems(o),
             o.amount.toString(),
             o.status,
             new Date(o.createdAt).toLocaleDateString('vi-VN')
@@ -137,6 +152,25 @@ export default function AdminOrdersPage() {
         link.download = `orders-${new Date().toISOString().split('T')[0]}.csv`;
         link.click();
         addToast('Đã xuất file CSV (Trang hiện tại)', 'success');
+    };
+
+    const getOrderItems = (order: Order): string => {
+        // New structure: items array with course/product
+        if (order.items && order.items.length > 0) {
+            return order.items
+                .map(item => item.course?.title || item.product?.title)
+                .filter(Boolean)
+                .join('; ') || 'N/A';
+        }
+        // Legacy structure: courses array
+        if (order.courses && order.courses.length > 0) {
+            return order.courses.map(c => c.title).join('; ');
+        }
+        return 'N/A';
+    };
+
+    const getUserName = (order: Order): string => {
+        return order.user?.profile?.name || order.user?.name || order.user?.fullName || 'N/A';
     };
 
     const formatCurrency = (value: number) => {
@@ -284,12 +318,12 @@ export default function AdminOrdersPage() {
                                                 </td>
                                                 <td className="py-3 px-3">
                                                     <div>
-                                                        <div className="font-medium">{order.user?.name || order.user?.fullName || 'N/A'}</div>
+                                                        <div className="font-medium">{getUserName(order)}</div>
                                                         <div className="text-xs text-muted-foreground">{order.user?.email}</div>
                                                     </div>
                                                 </td>
                                                 <td className="py-3 px-3 max-w-[200px] truncate">
-                                                    {order.courses?.[0]?.title || 'N/A'}
+                                                    {getOrderItems(order)}
                                                 </td>
                                                 <td className="py-3 px-3 text-right font-medium">
                                                     {formatCurrency(order.amount)}
