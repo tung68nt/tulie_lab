@@ -97,23 +97,8 @@ jobs:
           echo "🚀 Running Prisma generate..."
           npx prisma generate
 
-          echo "🚀 Running DB Push (Emergency)..."
-          npx prisma db push
-
-      # Disable auto-seeding in production to prevent data overwrite
-      # - name: Run seeds
-      #   working-directory: ./server
-      #   run: |
-      #     echo "🚀 Running Seeds..."
-      #     if ! npx tsx src/seed.ts; then
-      #       echo "⚠️ seed.ts failed. Proceeding anyway."
-      #     fi
-      #     if ! npx tsx prisma/seed-products.ts; then
-      #       echo "⚠️ seed-products.ts failed. Proceeding anyway."
-      #     fi
-      #     if ! npx tsx prisma/seed-landing-page.ts; then
-      #       echo "⚠️ seed-landing-page.ts failed. Proceeding anyway."
-      #     fi
+          echo "🚀 Running DB Push (Emergency Mode)..."
+          npx prisma db push --accept-data-loss
 
   # 2. Deploy only if migrations succeed
   deploy:
