@@ -20,7 +20,7 @@ export default function GlobalError({
                     <h2 className="text-2xl font-bold mb-4">CRITICAL SYSTEM ERROR</h2>
                     <p className="text-red-400 mb-6">Something went wrong in the Root Layout.</p>
 
-                    <div className="max-w-2xl w-full bg-slate-900 border border-slate-800 p-4 rounded-lg overflow-auto text-left text-xs font-mono mb-6">
+                    <div className="max-w-2xl w-full bg-slate-900 border border-slate-800 p-4 rounded-lg overflow-auto text-left text-xs font-semibold mb-6">
                         <p className="font-bold text-red-500 mb-2">{error.name}: {error.message}</p>
                         <pre className="whitespace-pre-wrap opacity-70">
                             {error.stack}

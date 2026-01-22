@@ -128,7 +128,7 @@ export default function ActivationCodesPage() {
                     <tbody className="divide-y">
                         {codes.map((code) => (
                             <tr key={code.id} className="hover:bg-muted/10 transition-colors">
-                                <td className="px-4 py-4 font-mono font-bold text-primary">{code.code}</td>
+                                <td className="px-4 py-4 font-semibold font-bold text-primary">{code.code}</td>
                                 <td className="px-4 py-4 max-w-[200px] truncate">{code.course.title}</td>
                                 <td className="px-4 py-4 text-muted-foreground">
                                     {new Date(code.createdAt).toLocaleDateString('vi-VN')}

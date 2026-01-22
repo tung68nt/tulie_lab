@@ -57,7 +57,7 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
                     {user.email}
                 </div>
                 {/* Center random floating element */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-10 text-white text-xs font-mono pointer-events-none">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-10 text-white text-xs font-semibold pointer-events-none">
                     {user.id}
                 </div>
             </div>
@@ -206,7 +206,7 @@ function FullscreenVideoWrapper({
                     {displayUser.email}
                 </div>
                 {/* Center */}
-                <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-mono ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
+                <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-semibold ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
                     {watermarkText}
                 </div>
                 {/* Bottom left */}
@@ -226,7 +226,7 @@ function FullscreenVideoWrapper({
                         <div className="opacity-20 text-white text-base font-bold absolute top-3/4 right-1/4 whitespace-nowrap">
                             {displayUser.id}
                         </div>
-                        <div className="opacity-15 text-white text-base font-mono absolute top-1/3 right-1/3 whitespace-nowrap">
+                        <div className="opacity-15 text-white text-base font-semibold absolute top-1/3 right-1/3 whitespace-nowrap">
                             {watermarkText}
                         </div>
                     </>
@@ -400,7 +400,7 @@ function HLSPlayer({
                     {displayUser.email}
                 </div>
                 {/* Center */}
-                <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-mono ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
+                <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-semibold ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
                     {watermarkText}
                 </div>
                 {/* Bottom left */}
@@ -420,7 +420,7 @@ function HLSPlayer({
                         <div className="opacity-20 text-white text-base font-bold absolute top-3/4 right-1/4 whitespace-nowrap">
                             {displayUser.id}
                         </div>
-                        <div className="opacity-15 text-white text-base font-mono absolute top-1/3 right-1/3 whitespace-nowrap">
+                        <div className="opacity-15 text-white text-base font-semibold absolute top-1/3 right-1/3 whitespace-nowrap">
                             {watermarkText}
                         </div>
                     </>

@@ -157,7 +157,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                         defaultValue={JSON.stringify(editedSection.items, null, 2)}
                                         onChange={e => handleItemsJsonChange(e.target.value)}
                                         rows={10}
-                                        className={`w-full p-2 rounded-md border bg-neutral-100 dark:bg-neutral-950 text-xs font-mono ${jsonError ? 'border-red-500 focus:ring-red-500' : 'border-neutral-300 dark:border-neutral-700'}`}
+                                        className={`w-full p-2 rounded-md border bg-neutral-100 dark:bg-neutral-950 text-xs font-semibold ${jsonError ? 'border-red-500 focus:ring-red-500' : 'border-neutral-300 dark:border-neutral-700'}`}
                                         spellCheck={false}
                                     />
                                 </div>

@@ -233,7 +233,7 @@ export default function AdminUsersPage() {
                                                                         ) : (
                                                                             <Clock size={16} className="text-muted-foreground" />
                                                                         )}
-                                                                        <span className="font-mono text-xs">{order.code}</span>
+                                                                        <span className="font-semibold text-xs">{order.code}</span>
                                                                     </div>
                                                                     <div className="flex items-center gap-3">
                                                                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${isPaid ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>

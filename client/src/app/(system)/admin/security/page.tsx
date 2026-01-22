@@ -162,7 +162,7 @@ export default function AdminSecurityPage() {
                                                         </span>
                                                     </td>
                                                     <td className="py-3 px-2 text-muted-foreground max-w-xs truncate" title={log.details}>{log.details}</td>
-                                                    <td className="py-3 px-2 font-mono text-xs">{log.ipAddress}</td>
+                                                    <td className="py-3 px-2 font-semibold text-xs">{log.ipAddress}</td>
                                                     <td className="py-3 px-2">
                                                         <div className="font-medium text-xs">
                                                             {log.user ? (
@@ -242,7 +242,7 @@ export default function AdminSecurityPage() {
                                                     </td>
                                                     <td className="py-3 px-2 text-muted-foreground max-w-xs truncate text-xs" title={log.path}>{log.path || '-'}</td>
                                                     <td className="py-3 px-2 text-xs max-w-[150px] truncate" title={log.device}>{log.device || '-'}</td>
-                                                    <td className="py-3 px-2 font-mono text-xs">
+                                                    <td className="py-3 px-2 font-semibold text-xs">
                                                         <div>{log.ipAddress}</div>
                                                         {log.location && <div className="text-muted-foreground">{log.location}</div>}
                                                     </td>

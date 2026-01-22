@@ -298,7 +298,7 @@ export default function AdminContentPage() {
                 </CardHeader>
                 <CardContent>
                     <textarea
-                        className="flex min-h-[600px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm font-mono"
+                        className="flex min-h-[600px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm font-semibold"
                         value={jsonContent}
                         onChange={(e) => setJsonContent(e.target.value)}
                     />

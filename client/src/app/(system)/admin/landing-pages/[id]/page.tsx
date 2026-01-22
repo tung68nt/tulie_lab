@@ -547,7 +547,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                             className={`flex items-center justify-between p-3 rounded-lg border bg-card text-card-foreground shadow-sm transition-all ${section.isVisible === false ? 'opacity-50 grayscale' : ''}`}
                                         >
                                             <div className="flex items-center gap-3 overflow-hidden">
-                                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-muted-foreground font-mono text-xs">
+                                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-muted-foreground font-semibold text-xs">
                                                     {index + 1}
                                                 </div>
                                                 <div className="min-w-0">

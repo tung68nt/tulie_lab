@@ -266,7 +266,7 @@ export default function AdminUserDetailPage() {
                                 <tbody>
                                     {user.orders?.map((order: any) => (
                                         <tr key={order.id} className="border-b">
-                                            <td className="py-2 px-3 font-mono">{order.code}</td>
+                                            <td className="py-2 px-3 font-semibold">{order.code}</td>
                                             <td className="py-2 px-3">{order.courses?.map((c: any) => c.title).join(', ') || '-'}</td>
                                             <td className="py-2 px-3 text-right">{formatCurrency(order.amount)}</td>
                                             <td className="py-2 px-3 text-center">

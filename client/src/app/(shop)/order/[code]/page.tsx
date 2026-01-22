@@ -129,7 +129,7 @@ export default function OrderPage({ params }: { params: any }) {
                     </CardHeader>
                     <CardContent className="p-4 md:p-6">
                         {/* Responsive Grid: 1 column on mobile, 2 columns on landscape/tablet+ */}
-                        <div className="grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2">
+                        <div className="grid gap-6 md:gap-8 grid-cols-1 lg:grid-cols-2 items-start">
                             {/* Left Column: QR Code */}
                             <div className="flex flex-col items-center justify-start space-y-4 order-1">
                                 {/* Amount Display */}

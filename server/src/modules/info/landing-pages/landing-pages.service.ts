@@ -17,8 +17,11 @@ export class LandingPageService {
             sections: data.sections || [],
             isActive: data.isActive ?? true,
             type: data.type || 'LANDING',
+            htmlContent: data.htmlContent ?? null,
             ...(data.courseId ? { course: { connect: { id: data.courseId } } } : {}),
+            ...(data.productId ? { product: { connect: { id: data.productId } } } : {}),
             ...(data.upsellCourseId ? { upsellCourse: { connect: { id: data.upsellCourseId } } } : {}),
+            ...(data.upsellProductId ? { upsellProduct: { connect: { id: data.upsellProductId } } } : {}),
             upsellPrice: data.upsellPrice ? data.upsellPrice : null
         });
     }
@@ -31,10 +34,13 @@ export class LandingPageService {
         if (data.slug !== undefined) updateData.slug = data.slug;
         if (data.description !== undefined) updateData.description = data.description;
         if (data.sections !== undefined) updateData.sections = data.sections;
+        if (data.htmlContent !== undefined) updateData.htmlContent = data.htmlContent;
         if (data.isActive !== undefined) updateData.isActive = data.isActive;
         if (data.type !== undefined) updateData.type = data.type;
         if (data.courseId !== undefined) updateData.courseId = data.courseId;
+        if (data.productId !== undefined) updateData.productId = data.productId;
         if (data.upsellCourseId !== undefined) updateData.upsellCourseId = data.upsellCourseId;
+        if (data.upsellProductId !== undefined) updateData.upsellProductId = data.upsellProductId;
         if (data.upsellPrice !== undefined) updateData.upsellPrice = data.upsellPrice || null;
 
         const updatedPage = await this.landingPageRepository.update(id, updateData);
@@ -114,10 +120,13 @@ export class LandingPageService {
             slug: newSlug,
             description: existingPage.description,
             sections: (existingPage.sections as any) ?? [],
+            htmlContent: existingPage.htmlContent,
             isActive: false,
             type: existingPage.type,
             ...(existingPage.courseId ? { course: { connect: { id: existingPage.courseId } } } : {}),
+            ...(existingPage.productId ? { product: { connect: { id: existingPage.productId } } } : {}),
             ...(existingPage.upsellCourseId ? { upsellCourse: { connect: { id: existingPage.upsellCourseId } } } : {}),
+            ...(existingPage.upsellProductId ? { upsellProduct: { connect: { id: existingPage.upsellProductId } } } : {}),
             upsellPrice: existingPage.upsellPrice
         });
     }

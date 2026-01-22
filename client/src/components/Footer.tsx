@@ -231,7 +231,7 @@ export function Footer() {
                     <p className="text-sm text-muted-foreground text-center">
                         © {new Date().getFullYear()} {footerData.copyrightText}
                     </p>
-                    <span className="text-[10px] text-zinc-500 font-mono opacity-30">v0.1.7</span>
+                    <span className="text-[10px] text-zinc-500 font-semibold opacity-30">v0.1.7</span>
                 </div>
             </div>
         </footer>

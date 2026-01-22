@@ -20,7 +20,7 @@ export default function Error({
             <p className="text-muted-foreground mb-4">Chúng tôi rất tiếc về sự cố này.</p>
 
             {/* Debug Info */}
-            <div className="max-w-2xl w-full bg-slate-900 text-red-400 p-4 rounded-lg overflow-auto text-left text-xs font-mono mb-6 max-h-[400px]">
+            <div className="max-w-2xl w-full bg-slate-900 text-red-400 p-4 rounded-lg overflow-auto text-left text-xs font-semibold mb-6 max-h-[400px]">
                 <p className="font-bold text-red-500 mb-2">{error.name}: {error.message}</p>
                 <pre className="whitespace-pre-wrap opacity-70">
                     {error.stack}

@@ -517,6 +517,7 @@ model LandingPage {
   slug            String   @unique
   description     String?
   sections        String?  @db.Text
+  htmlContent     String?  @db.Text
   isActive        Boolean  @default(true)
   // Main product - can be either course OR product
   courseId        String?

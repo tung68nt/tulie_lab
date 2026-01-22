@@ -229,24 +229,24 @@ export function RealtimeHealthChart() {
                         <div className="font-semibold flex items-center gap-1.5"><Activity size={12} /> Memory Usage</div>
                         <p className="text-muted-foreground leading-snug">Dung lượng RAM đang sử dụng.</p>
                         <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
-                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-mono text-green-600">&lt;512MB</span></li>
-                            <li className="flex justify-between"><span>Cảnh báo:</span> <span className="font-mono text-amber-600">&gt;512MB</span></li>
+                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-semibold text-green-600">&lt;512MB</span></li>
+                            <li className="flex justify-between"><span>Cảnh báo:</span> <span className="font-semibold text-amber-600">&gt;512MB</span></li>
                         </ul>
                     </div>
                     <div className="space-y-1">
                         <div className="font-semibold flex items-center gap-1.5"><Cpu size={12} /> CPU Load</div>
                         <p className="text-muted-foreground leading-snug">Tải trung bình trong 1 phút.</p>
                         <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
-                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-mono text-green-600">&lt;1.5</span></li>
-                            <li className="flex justify-between"><span>Quá tải:</span> <span className="font-mono text-amber-600">&gt;1.5</span></li>
+                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-semibold text-green-600">&lt;1.5</span></li>
+                            <li className="flex justify-between"><span>Quá tải:</span> <span className="font-semibold text-amber-600">&gt;1.5</span></li>
                         </ul>
                     </div>
                     <div className="space-y-1">
                         <div className="font-semibold flex items-center gap-1.5"><Server size={12} /> Traffic (RPM)</div>
                         <p className="text-muted-foreground leading-snug">Số request/phút.</p>
                         <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
-                            <li className="flex justify-between"><span>Tiết kiệm:</span> <span className="font-mono text-blue-600">&lt;600</span></li>
-                            <li className="flex justify-between"><span>Scale Up:</span> <span className="font-mono text-purple-600">&gt;600</span></li>
+                            <li className="flex justify-between"><span>Tiết kiệm:</span> <span className="font-semibold text-blue-600">&lt;600</span></li>
+                            <li className="flex justify-between"><span>Scale Up:</span> <span className="font-semibold text-purple-600">&gt;600</span></li>
                         </ul>
                     </div>
                 </div>
