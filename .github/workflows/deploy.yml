@@ -20,7 +20,7 @@ jobs:
   # 1. Run database migrations FIRST (Optional - continues even on failure)
   migrate:
     runs-on: ubuntu-latest
-    continue-on-error: true  # Allow deploy to proceed even if migrations fail
+    continue-on-error: false  # Stop deploy if migrations fail
     
     steps:
       - name: Checkout code
@@ -98,10 +98,8 @@ jobs:
           npx prisma generate
 
           echo "🚀 Running DB Push..."
-          if ! npx prisma db push --accept-data-loss; then
-            echo "⚠️ DB Push failed. This is expected if using a Transaction Pooler without DIRECT_URL."
-            echo "Proceeding anyway."
-          fi
+          echo "🚀 Running Prisma Migrate Deploy..."
+          npx prisma migrate deploy
 
       # Disable auto-seeding in production to prevent data overwrite
       # - name: Run seeds
