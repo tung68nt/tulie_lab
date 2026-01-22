@@ -42,6 +42,7 @@ jobs:
 
       - name: Determine Build Arguments
         run: |
+          echo "🔄 Syncing Frontend with Backend Service..."
           # DYNAMICALLY fetch the backend URL from Cloud Run
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             BACKEND_SERVICE="academy-api"
