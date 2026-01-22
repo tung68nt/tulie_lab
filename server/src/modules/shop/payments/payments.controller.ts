@@ -78,11 +78,11 @@ export const webhook = async (req: Request, res: Response) => {
             // - "Apikey sk_xxx"
             // - "Bearer sk_xxx"
             // - "sk_xxx"
-            let receivedKey: string = '';
+            let receivedKey = '';
             if (authHeader) {
                 // Extract key from "Apikey xxx", "Bearer xxx", or just "xxx"
                 const match = authHeader.match(/^(?:Apikey|Bearer)\s+(.+)$/i);
-                receivedKey = match ? match[1] : authHeader;
+                receivedKey = match?.[1] ?? authHeader;
             }
 
             if (!authHeader || receivedKey !== storedApiKey) {
