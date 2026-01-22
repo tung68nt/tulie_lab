@@ -97,9 +97,8 @@ jobs:
           echo "🚀 Running Prisma generate..."
           npx prisma generate
 
-          echo "🚀 Running DB Push..."
-          echo "🚀 Running Prisma Migrate Deploy..."
-          npx prisma migrate deploy
+          echo "🚀 Running DB Push (Emergency)..."
+          npx prisma db push
 
       # Disable auto-seeding in production to prevent data overwrite
       # - name: Run seeds
@@ -198,9 +197,9 @@ jobs:
             --set-env-vars "R2_PUBLIC_DOMAIN=${{ secrets.R2_PUBLIC_DOMAIN }}" \
             --min-instances 0 \
             --max-instances 10 \
-            --memory 512Mi \
+            --memory 1Gi \
             --cpu 1 \
-            --timeout 300
+            --timeout 600
 
       - name: Verify Deployment
         continue-on-error: true
