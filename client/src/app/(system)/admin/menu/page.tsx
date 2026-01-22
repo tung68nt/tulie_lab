@@ -65,6 +65,10 @@ export default function MenuManagementPage() {
     const [editingId, setEditingId] = useState<string | null>(null);
     const [editForm, setEditForm] = useState({ label: '', href: '', isExternal: false });
 
+    // Submenu editing state
+    const [editingSubmenu, setEditingSubmenu] = useState<{ parentId: string; childId: string } | null>(null);
+    const [submenuEditForm, setSubmenuEditForm] = useState({ label: '', href: '' });
+
     // Submenu Modal State
     const [submenuModal, setSubmenuModal] = useState<{
         open: boolean;
@@ -211,6 +215,34 @@ export default function MenuManagementPage() {
         }
     };
 
+    const handleStartEditSubmenu = (parentId: string, child: MenuItem) => {
+        setEditingSubmenu({ parentId, childId: child.id });
+        setSubmenuEditForm({ label: child.label, href: child.href });
+    };
+
+    const handleSaveSubmenuEdit = (parentId: string, childId: string) => {
+        setMenuItems(menuItems.map(item => {
+            if (item.id === parentId && item.children) {
+                return {
+                    ...item,
+                    children: item.children.map(c =>
+                        c.id === childId
+                            ? { ...c, label: submenuEditForm.label, href: submenuEditForm.href }
+                            : c
+                    )
+                };
+            }
+            return item;
+        }));
+        setEditingSubmenu(null);
+        addToast('Đã cập nhật submenu', 'success');
+    };
+
+    const handleCancelSubmenuEdit = () => {
+        setEditingSubmenu(null);
+        setSubmenuEditForm({ label: '', href: '' });
+    };
+
     if (loading) return <div className="p-8">Loading...</div>;
 
     return (
@@ -339,21 +371,71 @@ export default function MenuManagementPage() {
                             {/* Submenu items */}
                             {item.children && item.children.length > 0 && (
                                 <div className="ml-8 space-y-1">
-                                    {item.children.map(child => (
-                                        <div key={child.id} className="flex items-center gap-2 p-2 bg-background rounded border text-sm">
-                                            <div className="w-1 h-1 rounded-full bg-muted-foreground/30 ml-1 mr-2"></div>
-                                            <span className="flex-1">{child.label}</span>
-                                            <span className="text-muted-foreground text-xs">{child.href}</span>
-                                            <Button
-                                                size="icon"
-                                                variant="outline"
-                                                className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
-                                                onClick={() => handleDeleteSubmenu(item.id, child.id)}
-                                            >
-                                                <Trash2 size={14} className="text-muted-foreground hover:text-foreground" />
-                                            </Button>
-                                        </div>
-                                    ))}
+                                    {item.children.map(child => {
+                                        const isEditingThisSubmenu = editingSubmenu?.parentId === item.id && editingSubmenu?.childId === child.id;
+
+                                        return (
+                                            <div key={child.id} className="flex items-center gap-2 p-2 bg-background rounded border text-sm">
+                                                <div className="w-1 h-1 rounded-full bg-muted-foreground/30 ml-1 mr-2"></div>
+
+                                                {isEditingThisSubmenu ? (
+                                                    <>
+                                                        <input
+                                                            className="flex-1 h-8 px-2 rounded border text-sm"
+                                                            value={submenuEditForm.label}
+                                                            onChange={e => setSubmenuEditForm({ ...submenuEditForm, label: e.target.value })}
+                                                            placeholder="Tên hiển thị"
+                                                        />
+                                                        <input
+                                                            className="flex-1 h-8 px-2 rounded border text-sm"
+                                                            value={submenuEditForm.href}
+                                                            onChange={e => setSubmenuEditForm({ ...submenuEditForm, href: e.target.value })}
+                                                            placeholder="Đường dẫn"
+                                                        />
+                                                        <Button
+                                                            size="icon"
+                                                            variant="outline"
+                                                            className="h-8 w-8 p-0"
+                                                            onClick={() => handleSaveSubmenuEdit(item.id, child.id)}
+                                                        >
+                                                            <Check size={14} />
+                                                        </Button>
+                                                        <Button
+                                                            size="icon"
+                                                            variant="ghost"
+                                                            className="h-8 w-8 p-0"
+                                                            onClick={handleCancelSubmenuEdit}
+                                                        >
+                                                            <X size={14} />
+                                                        </Button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span className="flex-1">{child.label}</span>
+                                                        <span className="text-muted-foreground text-xs">{child.href}</span>
+                                                        <Button
+                                                            size="icon"
+                                                            variant="outline"
+                                                            className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                            onClick={() => handleStartEditSubmenu(item.id, child)}
+                                                            title="Chỉnh sửa"
+                                                        >
+                                                            <Edit size={14} className="text-muted-foreground hover:text-foreground" />
+                                                        </Button>
+                                                        <Button
+                                                            size="icon"
+                                                            variant="outline"
+                                                            className="h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors"
+                                                            onClick={() => handleDeleteSubmenu(item.id, child.id)}
+                                                            title="Xóa"
+                                                        >
+                                                            <Trash2 size={14} className="text-muted-foreground hover:text-foreground" />
+                                                        </Button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             )}
                         </div>
