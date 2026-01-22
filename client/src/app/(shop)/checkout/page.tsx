@@ -217,9 +217,25 @@ function CheckoutContent() {
     }
 
     const discount = calculateDiscount();
-    const upsellTotal = calculateUpsellTotal();
-    const subtotal = Number(item.price) + Number(upsellTotal);
+    // Fix: Force upsellTotal to 0 if no items selected to prevent phantom calculation issues
+    const upsellTotal = selectedUpsells.length > 0 ? calculateUpsellTotal() : 0;
+
+    // Fix: Safely parse item price (handle strings or numbers)
+    const itemPrice = Number(item.price);
+
+    const subtotal = itemPrice + Number(upsellTotal);
     const finalAmount = Math.max(0, subtotal - Number(discount));
+
+    console.log('DEBUG CHECKOUT:', {
+        itemName: item.title,
+        itemPrice: item.price,
+        itemPriceType: typeof item.price,
+        upsellTotal,
+        selectedUpsells,
+        subtotal,
+        discount,
+        finalAmount
+    });
 
     return (
         <div className="min-h-screen bg-background">
@@ -296,16 +312,14 @@ function CheckoutContent() {
                                                 <div
                                                     key={product.id}
                                                     onClick={() => toggleUpsell(product.id)}
-                                                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer ${
-                                                        isSelected
-                                                            ? 'border-primary bg-card shadow-sm'
-                                                            : 'border-border hover:border-primary/50 hover:bg-muted/30'
-                                                    }`}
+                                                    className={`flex items-center gap-3 p-3 rounded-lg border transition-all cursor-pointer ${isSelected
+                                                        ? 'border-primary bg-card shadow-sm'
+                                                        : 'border-border hover:border-primary/50 hover:bg-muted/30'
+                                                        }`}
                                                 >
                                                     {/* Checkbox */}
-                                                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                                                        isSelected ? 'bg-foreground border-foreground' : 'border-muted-foreground/50'
-                                                    }`}>
+                                                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${isSelected ? 'bg-foreground border-foreground' : 'border-muted-foreground/50'
+                                                        }`}>
                                                         {isSelected && (
                                                             <svg className="w-3 h-3 text-background" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
                                                                 <path d="M20 6L9 17l-5-5" />
