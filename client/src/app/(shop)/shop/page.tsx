@@ -276,7 +276,10 @@ export default function ShopPage() {
                                         <div className="p-6 flex flex-col flex-1">
                                             <div className="mb-4">
                                                 <div className="flex items-center gap-2 mb-3">
-                                                    <span className="text-[10px] font-medium uppercase text-muted-foreground bg-secondary/50 px-2 py-1 rounded">
+                                                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-primary/20 to-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/30 shadow-sm">
+                                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                                                        </svg>
                                                         {product.field}
                                                     </span>
                                                 </div>

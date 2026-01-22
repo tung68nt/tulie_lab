@@ -160,62 +160,127 @@ export default function ProductDetailPage() {
 
                     {/* Right Column - Product Info */}
                     <div className="flex flex-col space-y-8">
-                        {/* Title & Price Section */}
-                        <div className="space-y-6">
-                            <div className="space-y-4">
-                                <h1 className="text-3xl md:text-4xl font-semibold leading-normal text-foreground">
-                                    {product.title}
-                                </h1>
-                                <p className="text-base text-muted-foreground leading-normal">
-                                    {product.description}
-                                </p>
+                        {/* Title & Description */}
+                        <div className="space-y-4">
+                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 w-fit">
+                                <svg className="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                                </svg>
+                                <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+                                    {product.field || 'Template'}
+                                </span>
                             </div>
 
-                            {/* Price Display */}
-                            <div className="flex items-end gap-4 p-6 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
-                                {isOwned ? (
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-3 rounded-full bg-green-500/10">
-                                            <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <div className="text-sm text-muted-foreground">Trạng thái</div>
-                                            <div className="text-xl font-semibold text-green-600">Đã sở hữu</div>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="flex-1">
-                                        <div className="text-sm font-medium text-muted-foreground mb-2">Giá bán</div>
-                                        <div className="flex items-baseline gap-3">
-                                            <div className="text-4xl font-semibold text-primary">
-                                                {product.price > 0 ? (
-                                                    <>
-                                                        {new Intl.NumberFormat('vi-VN').format(product.price)}
-                                                        <span className="text-xl ml-1">đ</span>
-                                                    </>
-                                                ) : (
-                                                    <span className="text-green-600">Miễn phí</span>
-                                                )}
-                                            </div>
-                                            {product.compareAtPrice && (
-                                                <div className="flex flex-col gap-1">
-                                                    <span className="text-base text-muted-foreground line-through">
-                                                        {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ
-                                                    </span>
-                                                    <span className="text-xs font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-2 py-0.5 rounded">
-                                                        -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
-                                                    </span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
+                            <h1 className="text-3xl md:text-4xl font-bold leading-tight text-foreground">
+                                {product.title}
+                            </h1>
+
+                            <p className="text-base text-muted-foreground leading-relaxed">
+                                {product.description}
+                            </p>
                         </div>
 
-                        {/* Actions Area */}
+                        {/* Pricing Cards */}
+                        <div className="grid grid-cols-1 gap-4">
+                            {/* Single Purchase Option */}
+                            <div className="relative group rounded-2xl border border-border bg-card/50 backdrop-blur-sm overflow-hidden transition-all hover:border-border/80">
+                                <div className="p-6 space-y-4">
+                                    <div className="flex items-start justify-between">
+                                        <div className="space-y-1">
+                                            <h3 className="text-lg font-bold text-foreground">Mua lẻ</h3>
+                                            <p className="text-sm text-muted-foreground">Sở hữu vĩnh viễn template này</p>
+                                        </div>
+                                        {isOwned && (
+                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+                                                <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                                </svg>
+                                                <span className="text-xs font-semibold text-green-600">Đã sở hữu</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="flex items-baseline gap-3">
+                                        <div className="text-3xl font-bold text-foreground">
+                                            {product.price > 0 ? (
+                                                <>
+                                                    {new Intl.NumberFormat('vi-VN').format(product.price)}
+                                                    <span className="text-lg ml-1">đ</span>
+                                                </>
+                                            ) : (
+                                                <span className="text-green-600">Miễn phí</span>
+                                            )}
+                                        </div>
+                                        {product.compareAtPrice && product.compareAtPrice > product.price && (
+                                            <div className="flex flex-col gap-1">
+                                                <span className="text-sm text-muted-foreground line-through">
+                                                    {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ
+                                                </span>
+                                                <span className="text-xs font-bold text-red-600 bg-red-50 dark:bg-red-950/30 px-2 py-0.5 rounded-full">
+                                                    -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {!isOwned && !isMember && (
+                                        <Link href={`/checkout?productId=${product.id}`} className="block">
+                                            <Button as="div" variant="outline" size="lg" className="w-full text-base h-12 rounded-xl font-bold border-2 hover:bg-secondary transition-all">
+                                                Sở hữu ngay
+                                            </Button>
+                                        </Link>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Membership Option - Gói Cơ Bản */}
+                            {!isMember && (
+                                <div className="relative rounded-2xl border-2 border-primary bg-gradient-to-br from-primary/10 via-primary/5 to-primary/10 overflow-hidden shadow-xl shadow-primary/20">
+                                    <div className="absolute top-0 right-0">
+                                        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold px-4 py-1.5 rounded-bl-xl shadow-lg">
+                                            Khuyên dùng
+                                        </div>
+                                    </div>
+
+                                    <div className="p-6 space-y-5">
+                                        <div className="space-y-2">
+                                            <h3 className="text-2xl font-bold text-foreground">Gói Cơ Bản</h3>
+                                            <div className="flex items-baseline gap-2">
+                                                <span className="text-4xl font-bold text-primary">1.990.000đ</span>
+                                                <span className="text-lg text-muted-foreground">/năm</span>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                                Truy cập và tải không giới hạn toàn bộ kho tài nguyên (Templates, Apps Script)
+                                            </p>
+                                        </div>
+
+                                        <div className="space-y-2.5">
+                                            {[
+                                                'Tải không giới hạn sản phẩm số',
+                                                'Tiết kiệm 80% so với mua lẻ',
+                                                'Cập nhật template mới hàng tuần',
+                                                'Hỗ trợ kỹ thuật qua Group'
+                                            ].map((feature, i) => (
+                                                <div key={i} className="flex items-start gap-2.5 text-sm">
+                                                    <svg className="w-5 h-5 text-green-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                    <span className="text-foreground font-medium">{feature}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <Link href="/pricing" className="block">
+                                            <Button as="div" size="lg" className="w-full text-base h-14 rounded-xl font-bold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80 shadow-lg hover:shadow-xl transition-all">
+                                                Đăng ký Hội viên ngay
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Actions Area - Download or Purchase */}
                         <div className="space-y-6">
                             {(isOwned || isMember) ? (
                                 <div className="p-6 rounded-2xl bg-zinc-900 border border-zinc-800">
