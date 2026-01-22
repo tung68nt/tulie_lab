@@ -180,32 +180,43 @@ model Category {
 }
 
 model Course {
-  id               String                 @id @default(uuid())
-  title            String
-  slug             String                 @unique
-  description      String?
-  thumbnail        String?
-  price            Decimal                @default(0) @db.Decimal(12, 0)
-  isPublished      Boolean                @default(false)
-  deploymentStatus CourseDeploymentStatus @default(RELEASED)
-  tag              CourseTag              @default(NONE)
-  introVideoUrl    String?
-  learningOutcomes String?                @db.Text
-  structure        String?                @db.Text
-  createdAt        DateTime               @default(now())
-  updatedAt        DateTime               @updatedAt
-  instructorId     String?
-  categoryId       String?
-  activationCodes  ActivationCode[]
-  bundles          BundleCourse[]
-  category         Category?              @relation(fields: [categoryId], references: [id])
-  instructor       Instructor?            @relation(fields: [instructorId], references: [id])
-  registrations    CourseRegistration[]
-  enrollments      Enrollment[]
-  landingPages     LandingPage[]          @relation("LandingPageCourse")
-  upsellForPages   LandingPage[]          @relation("LandingPageUpsell")
-  lessons          Lesson[]
-  orderItems       OrderItem[]
+  id                String                 @id @default(uuid())
+  title             String
+  slug              String                 @unique
+  description       String?
+  thumbnail         String?
+  price             Decimal                @default(0) @db.Decimal(12, 0)
+  compareAtPrice    Decimal?               @db.Decimal(12, 0)
+  isPublished       Boolean                @default(false)
+  deploymentStatus  CourseDeploymentStatus @default(RELEASED)
+  tag               CourseTag              @default(NONE)
+  introVideoUrl     String?
+  learningOutcomes  String?                @db.Text
+  structure         String?                @db.Text
+  // Countdown/Campaign fields
+  campaignId        String?
+  saleStartDate     DateTime?
+  saleEndDate       DateTime?
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
+  instructorId      String?
+  categoryId        String?
+  activationCodes   ActivationCode[]
+  bundles           BundleCourse[]
+  category          Category?              @relation(fields: [categoryId], references: [id])
+  instructor        Instructor?            @relation(fields: [instructorId], references: [id])
+  campaign          Campaign?              @relation(fields: [campaignId], references: [id])
+  registrations     CourseRegistration[]
+  enrollments       Enrollment[]
+  landingPages      LandingPage[]          @relation("LandingPageCourse")
+  upsellForPages    LandingPage[]          @relation("LandingPageUpsell")
+  lessons           Lesson[]
+  orderItems        OrderItem[]
+  // Upsell relations
+  upsellCourses     CourseUpsell[]         @relation("CourseToUpsellCourses")
+  upsellFor         CourseUpsell[]         @relation("UpsellCourseToCourse")
+  upsellProducts    CourseProductUpsell[]  @relation("CourseToUpsellProducts")
+  upsellFromProduct ProductCourseUpsell[]  @relation("ProductUpsellCourse")
 
   @@index([isPublished])
   @@index([price])
@@ -272,18 +283,18 @@ model LessonProgress {
 }
 
 model Instructor {
-  id          String     @id @default(uuid())
-  name        String
-  title       String?
-  bio         String?
-  avatar      String?
-  socialLinks String?
-  studentCount Int       @default(0)
-  courseCount  Int       @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  blogPosts   BlogPost[]
-  courses     Course[]
+  id           String     @id @default(uuid())
+  name         String
+  title        String?
+  bio          String?
+  avatar       String?
+  socialLinks  String?
+  studentCount Int        @default(0)
+  courseCount  Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  blogPosts    BlogPost[]
+  courses      Course[]
 }
 
 model CourseRegistration {
@@ -298,27 +309,37 @@ model CourseRegistration {
 }
 
 model Product {
-  id                  String           @id @default(uuid())
-  title               String
-  slug                String           @unique
-  description         String?
-  thumbnail           String?
-  price               Decimal          @default(0) @db.Decimal(12, 0)
-  compareAtPrice      Decimal?         @db.Decimal(12, 0)
-  type                ProductType      @default(TEMPLATE)
-  fileUrl             String?
-  previewUrl          String?
-  isPublished         Boolean          @default(true)
-  tags                String[]
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime         @updatedAt
-  field               ProductField     @default(OTHER)
-  orderItems          OrderItem[]
-  versions            ProductVersion[]
-  subscriptions       Subscription[]
+  id                 String                @id @default(uuid())
+  title              String
+  slug               String                @unique
+  description        String?
+  thumbnail          String?
+  price              Decimal               @default(0) @db.Decimal(12, 0)
+  compareAtPrice     Decimal?              @db.Decimal(12, 0)
+  type               ProductType           @default(TEMPLATE)
+  fileUrl            String?
+  previewUrl         String?
+  isPublished        Boolean               @default(true)
+  tags               String[]
+  // Countdown/Campaign fields
+  campaignId         String?
+  saleStartDate      DateTime?
+  saleEndDate        DateTime?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  field              ProductField          @default(OTHER)
+  orderItems         OrderItem[]
+  versions           ProductVersion[]
+  subscriptions      Subscription[]
+  campaign           Campaign?             @relation(fields: [campaignId], references: [id])
   // Landing page relations
-  landingPages        LandingPage[]    @relation("LandingPageProduct")
-  landingPagesUpsell  LandingPage[]    @relation("LandingPageUpsellProduct")
+  landingPages       LandingPage[]         @relation("LandingPageProduct")
+  landingPagesUpsell LandingPage[]         @relation("LandingPageUpsellProduct")
+  // Upsell relations
+  upsellProducts     ProductUpsell[]       @relation("ProductToUpsellProducts")
+  upsellFor          ProductUpsell[]       @relation("UpsellProductToProduct")
+  upsellCourses      ProductCourseUpsell[] @relation("ProductToUpsellCourses")
+  upsellFromCourse   CourseProductUpsell[] @relation("CourseUpsellProduct")
 }
 
 model ProductVersion {
@@ -491,27 +512,27 @@ model ContactSubmission {
 }
 
 model LandingPage {
-  id               String   @id @default(uuid())
-  title            String
-  slug             String   @unique
-  description      String?
-  sections         String?       @db.Text
-  isActive         Boolean  @default(true)
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  description     String?
+  sections        String?  @db.Text
+  isActive        Boolean  @default(true)
   // Main product - can be either course OR product
-  courseId         String?
-  productId        String?
+  courseId        String?
+  productId       String?
   // Upsell - can be either course OR product
-  upsellCourseId   String?
-  upsellProductId  String?
-  upsellPrice      Decimal? @db.Decimal(10, 2)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  type             PageType @default(LANDING)
+  upsellCourseId  String?
+  upsellProductId String?
+  upsellPrice     Decimal? @db.Decimal(10, 2)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  type            PageType @default(LANDING)
   // Relations
-  course           Course?  @relation("LandingPageCourse", fields: [courseId], references: [id])
-  product          Product? @relation("LandingPageProduct", fields: [productId], references: [id])
-  upsellCourse     Course?  @relation("LandingPageUpsell", fields: [upsellCourseId], references: [id])
-  upsellProduct    Product? @relation("LandingPageUpsellProduct", fields: [upsellProductId], references: [id])
+  course          Course?  @relation("LandingPageCourse", fields: [courseId], references: [id])
+  product         Product? @relation("LandingPageProduct", fields: [productId], references: [id])
+  upsellCourse    Course?  @relation("LandingPageUpsell", fields: [upsellCourseId], references: [id])
+  upsellProduct   Product? @relation("LandingPageUpsellProduct", fields: [upsellProductId], references: [id])
 }
 
 model Subscription {
@@ -610,4 +631,74 @@ enum SubscriptionStatus {
   ACTIVE
   EXPIRED
   CANCELLED
+}
+
+// Campaign Model for Countdown Strategy
+model Campaign {
+  id        String    @id @default(uuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  // Relations
+  products  Product[]
+  courses   Course[]
+}
+
+// Product to Product Upsell (Self-Relation)
+model ProductUpsell {
+  id              String   @id @default(uuid())
+  productId       String
+  upsellProductId String
+  position        Int      @default(0)
+  createdAt       DateTime @default(now())
+  product         Product  @relation("ProductToUpsellProducts", fields: [productId], references: [id], onDelete: Cascade)
+  upsellProduct   Product  @relation("UpsellProductToProduct", fields: [upsellProductId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, upsellProductId])
+  @@index([productId])
+}
+
+// Course to Course Upsell (Self-Relation)
+model CourseUpsell {
+  id             String   @id @default(uuid())
+  courseId       String
+  upsellCourseId String
+  position       Int      @default(0)
+  createdAt      DateTime @default(now())
+  course         Course   @relation("CourseToUpsellCourses", fields: [courseId], references: [id], onDelete: Cascade)
+  upsellCourse   Course   @relation("UpsellCourseToCourse", fields: [upsellCourseId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, upsellCourseId])
+  @@index([courseId])
+}
+
+// Product to Course Upsell (Cross-Entity)
+model ProductCourseUpsell {
+  id             String   @id @default(uuid())
+  productId      String
+  upsellCourseId String
+  position       Int      @default(0)
+  createdAt      DateTime @default(now())
+  product        Product  @relation("ProductToUpsellCourses", fields: [productId], references: [id], onDelete: Cascade)
+  upsellCourse   Course   @relation("ProductUpsellCourse", fields: [upsellCourseId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, upsellCourseId])
+  @@index([productId])
+}
+
+// Course to Product Upsell (Cross-Entity)
+model CourseProductUpsell {
+  id              String   @id @default(uuid())
+  courseId        String
+  upsellProductId String
+  position        Int      @default(0)
+  createdAt       DateTime @default(now())
+  course          Course   @relation("CourseToUpsellProducts", fields: [courseId], references: [id], onDelete: Cascade)
+  upsellProduct   Product  @relation("CourseUpsellProduct", fields: [upsellProductId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, upsellProductId])
+  @@index([courseId])
 }

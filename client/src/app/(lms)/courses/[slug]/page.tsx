@@ -412,22 +412,72 @@ export default function CoursePage({ params }: { params: any }) {
                             <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <div className="">
-                                        {/* Group lessons by chapter */}
-                                        {Object.entries((course.lessons || []).filter((l: any) => l).reduce((acc: any, lesson: any) => {
-                                            const chapter = lesson.chapter || 'Chương 1: Mở đầu'; // Default chapter if missing
-                                            if (!acc[chapter]) acc[chapter] = [];
-                                            acc[chapter].push(lesson);
-                                            return acc;
-                                        }, {})).map(([chapterName, chapterLessons]: [string, any], chapterIndex: number) => (
-                                            <CourseChapter
-                                                key={chapterName}
-                                                chapterName={chapterName}
-                                                chapterLessons={chapterLessons}
-                                                chapterIndex={chapterIndex}
-                                                courseSlug={course.slug}
-                                                isEnrolled={isEnrolled}
-                                            />
-                                        ))}
+                                        {/* Check if course has structure defined */}
+                                        {(() => {
+                                            const hasStructure = course.structure && Array.isArray(course.structure) && course.structure.length > 0;
+                                            const hasChapters = course.lessons.some((l: any) => l && l.chapter);
+
+                                            // If no structure and no chapters, show flat list
+                                            if (!hasStructure && !hasChapters) {
+                                                return (
+                                                    <div className="divide-y">
+                                                        {course.lessons.map((lesson: any, index: number) => (
+                                                            lesson && (
+                                                                <div key={lesson.id || index} className="p-4 hover:bg-muted/50 transition-colors">
+                                                                    <div className="flex items-center justify-between">
+                                                                        <div className="flex-1">
+                                                                            <div className="flex items-center gap-3">
+                                                                                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-sm font-bold text-primary">
+                                                                                    {index + 1}
+                                                                                </span>
+                                                                                <div>
+                                                                                    <h4 className="font-medium">{lesson.title}</h4>
+                                                                                    {lesson.duration && (
+                                                                                        <p className="text-xs text-muted-foreground mt-0.5">
+                                                                                            {lesson.duration}
+                                                                                        </p>
+                                                                                    )}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        {lesson.isFree ? (
+                                                                            <Link href={`/learn/${course.slug}/${lesson.slug}`}>
+                                                                                <Button as="div" size="sm" variant="outline">
+                                                                                    Học thử miễn phí
+                                                                                </Button>
+                                                                            </Link>
+                                                                        ) : !isEnrolled ? (
+                                                                            <span className="text-xs text-muted-foreground">Khóa</span>
+                                                                        ) : (
+                                                                            <Link href={`/learn/${course.slug}/${lesson.slug}`}>
+                                                                                <Button as="div" size="sm">Vào học</Button>
+                                                                            </Link>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            )
+                                                        ))}
+                                                    </div>
+                                                );
+                                            }
+
+                                            // Show grouped by chapters
+                                            return Object.entries((course.lessons || []).filter((l: any) => l).reduce((acc: any, lesson: any) => {
+                                                const chapter = lesson.chapter || 'Chưa phân loại';
+                                                if (!acc[chapter]) acc[chapter] = [];
+                                                acc[chapter].push(lesson);
+                                                return acc;
+                                            }, {})).map(([chapterName, chapterLessons]: [string, any], chapterIndex: number) => (
+                                                <CourseChapter
+                                                    key={chapterName}
+                                                    chapterName={chapterName}
+                                                    chapterLessons={chapterLessons}
+                                                    chapterIndex={chapterIndex}
+                                                    courseSlug={course.slug}
+                                                    isEnrolled={isEnrolled}
+                                                />
+                                            ));
+                                        })()}
                                     </div>
                                 ) : (
                                     <div className="p-8 text-center text-muted-foreground">

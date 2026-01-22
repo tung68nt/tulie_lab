@@ -87,6 +87,38 @@ export class ProductController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    // Upsell Management
+    async getUpsells(req: Request, res: Response) {
+        try {
+            const upsells = await this.productService.getUpsells(req.params.id as string);
+            res.json(upsells);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async addUpsell(req: Request, res: Response) {
+        try {
+            const { productId, courseId, position } = req.body;
+            const upsell = await this.productService.addUpsell(
+                req.params.id as string,
+                { productId, courseId, position }
+            );
+            res.status(201).json(upsell);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async removeUpsell(req: Request, res: Response) {
+        try {
+            await this.productService.removeUpsell(req.params.id as string, req.params.upsellId as string);
+            res.status(204).send();
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
 }
 
 // Export singleton instance

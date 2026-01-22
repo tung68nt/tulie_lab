@@ -89,8 +89,133 @@ export class PrismaProductRepository implements IProductRepository {
     }
 
     async deleteVersion(versionId: string): Promise<any> {
-        return prisma.productVersion.delete({
+        return prisma.product.delete({
             where: { id: versionId }
         });
+    }
+
+    // Upsell Management
+    async getUpsells(productId: string): Promise<any> {
+        // Get both product and course upsells
+        const [productUpsells, courseUpsells] = await Promise.all([
+            (prisma as any).productUpsell.findMany({
+                where: { productId },
+                include: {
+                    upsellProduct: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                            price: true,
+                            compareAtPrice: true,
+                            thumbnail: true,
+                            description: true,
+                            type: true
+                        }
+                    }
+                },
+                orderBy: { position: 'asc' }
+            }),
+            (prisma as any).productCourseUpsell.findMany({
+                where: { productId },
+                include: {
+                    upsellCourse: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                            price: true,
+                            compareAtPrice: true,
+                            thumbnail: true,
+                            description: true
+                        }
+                    }
+                },
+                orderBy: { position: 'asc' }
+            })
+        ]);
+
+        // Combine and format results
+        return {
+            products: productUpsells.map((u: any) => ({
+                id: u.id,
+                position: u.position,
+                type: 'PRODUCT',
+                item: u.upsellProduct
+            })),
+            courses: courseUpsells.map((u: any) => ({
+                id: u.id,
+                position: u.position,
+                type: 'COURSE',
+                item: u.upsellCourse
+            }))
+        };
+    }
+
+    async addUpsell(productId: string, data: { productId?: string; courseId?: string; position?: number }): Promise<any> {
+        const { productId: upsellProductId, courseId: upsellCourseId, position = 0 } = data;
+
+        if (upsellProductId) {
+            // Add product upsell
+            return (prisma as any).productUpsell.create({
+                data: {
+                    productId,
+                    upsellProductId,
+                    position
+                },
+                include: {
+                    upsellProduct: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                            price: true,
+                            compareAtPrice: true,
+                            thumbnail: true,
+                            description: true,
+                            type: true
+                        }
+                    }
+                }
+            });
+        } else if (upsellCourseId) {
+            // Add course upsell
+            return (prisma as any).productCourseUpsell.create({
+                data: {
+                    productId,
+                    upsellCourseId,
+                    position
+                },
+                include: {
+                    upsellCourse: {
+                        select: {
+                            id: true,
+                            title: true,
+                            slug: true,
+                            price: true,
+                            compareAtPrice: true,
+                            thumbnail: true,
+                            description: true
+                        }
+                    }
+                }
+            });
+        }
+
+        throw new Error('Either productId or courseId must be provided');
+    }
+
+    async removeUpsell(_productId: string, upsellId: string): Promise<void> {
+        // Try to delete from both tables (one will succeed, one will fail - that's okay)
+        try {
+            await (prisma as any).productUpsell.delete({
+                where: { id: upsellId }
+            });
+        } catch (e) {
+            // If not found in productUpsell, try courseUpsell
+            await (prisma as any).productCourseUpsell.delete({
+                where: { id: upsellId }
+            });
+        }
     }
 }

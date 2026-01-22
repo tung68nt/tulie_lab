@@ -40,4 +40,17 @@ export class ProductService {
     async deleteVersion(versionId: string) {
         return this.productRepository.deleteVersion(versionId);
     }
+
+    // Upsell Management
+    async getUpsells(productId: string) {
+        return this.productRepository.getUpsells(productId);
+    }
+
+    async addUpsell(productId: string, data: { productId?: string; courseId?: string; position?: number }) {
+        return this.productRepository.addUpsell(productId, data);
+    }
+
+    async removeUpsell(productId: string, upsellId: string) {
+        return this.productRepository.removeUpsell(productId, upsellId);
+    }
 }
