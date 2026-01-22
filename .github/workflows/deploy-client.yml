@@ -40,14 +40,30 @@ jobs:
       - name: Configure Docker for GCR
         run: gcloud auth configure-docker
 
-      # Determine Build Args based on Environment
       - name: Determine Build Arguments
         run: |
+          # DYNAMICALLY fetch the backend URL from Cloud Run
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "API_URL=https://academy-api-qcmix2qxca-as.a.run.app" >> $GITHUB_ENV
+            BACKEND_SERVICE="academy-api"
           else
-            echo "API_URL=https://academy-api-beta-qcmix2qxca-as.a.run.app" >> $GITHUB_ENV
+            BACKEND_SERVICE="academy-api-beta"
           fi
+          
+          echo "🔍 Fetching URL for service: $BACKEND_SERVICE in region $REGION"
+          # Try to get the URL. process might fail if service not found.
+          API_URL=$(gcloud run services describe $BACKEND_SERVICE --region $REGION --format 'value(status.url)' 2>/dev/null || echo "")
+          
+          if [ -z "$API_URL" ]; then
+             echo "⚠️ Could not find running service '$BACKEND_SERVICE'. Falling back to known pattern or failing."
+             # Fallback or Exit? Better to fail if we strictly need the backend.
+             # But for safety in case of first-time deploy, maybe we can't.
+             # Actually, if backend isn't there, frontend won't work anyway.
+             echo "❌ Error: Backend service '$BACKEND_SERVICE' not found. Please deploy backend first."
+             exit 1
+          fi
+          
+          echo "✅ Detected Backend URL: $API_URL"
+          echo "API_URL=$API_URL" >> $GITHUB_ENV
 
       - name: Build Docker image
         run: |
