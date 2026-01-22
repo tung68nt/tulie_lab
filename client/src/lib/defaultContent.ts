@@ -714,29 +714,14 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
         subtitle: 'Tiết kiệm thời gian xây dựng hệ thống quản lý với các Template chuyên nghiệp.',
         items: [
             {
-                title: 'Gói Lẻ',
-                price: '0đ/năm',
-                description: 'Mua lẻ từng template theo nhu cầu sử dụng. Thanh toán một lần, sở hữu trọn đời.',
-                tag: 'Cơ bản',
-                icon: 'ShoppingBag',
-                ctaText: 'Xem kho Template',
-                link: '/shop',
-                features: [
-                    'Lựa chọn tự do từng Template',
-                    'Thanh toán 1 lần dùng mãi mãi',
-                    'Không phí duy trì hàng tháng',
-                    'Nhận hướng dẫn sử dụng cơ bản'
-                ]
-            },
-            {
-                title: 'Gói Pro',
+                title: 'Gói Cơ Bản',
                 price: '1.990k/năm',
                 topBadge: 'Khuyên dùng',
                 originalPrice: '3.500k',
                 description: 'Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template Google Sheets & Apps Script.',
                 tag: 'Phổ biến',
                 icon: 'Zap',
-                ctaText: 'Đăng ký gói Pro',
+                ctaText: 'Đăng ký gói Cơ bản',
                 link: '/checkout/pro-template',
                 features: [
                     'Tải xuống Unlimited Template',
@@ -756,7 +741,7 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
                 ctaText: 'Liên hệ tư vấn',
                 link: '/contact',
                 features: [
-                    'Tất cả quyền lợi Gói Pro',
+                    'Tất cả quyền lợi Gói Cơ Bản',
                     'Thiết kế Custom Template (theo yêu cầu)',
                     'Support 1:1 qua Zoom/UltraViewer',
                     'Setup hệ thống Automation riêng',
