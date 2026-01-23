@@ -27,24 +27,30 @@ async function getSettings() {
   }
 }
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s | Academy Tulie',
-    default: 'Academy Tulie - Làm chủ Tương lai Công nghệ',
-  },
-  description: 'Khai phá tiềm năng của bạn với các khóa học chuyên sâu về AI, Fullstack Development và Vibe Coding.',
-  openGraph: {
-    title: 'Academy Tulie',
-    description: 'Làm chủ Tương lai Công nghệ',
-    type: 'website',
-  },
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/icon', type: 'image/png', sizes: '32x32' },
-    ],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSettings();
+  const favicon = settings?.site_favicon || '/favicon.ico';
+
+  return {
+    title: {
+      template: `%s | ${settings?.site_title || 'Academy Tulie'}`,
+      default: settings?.site_title || 'Academy Tulie - Làm chủ Tương lai Công nghệ',
+    },
+    description: settings?.site_description || 'Khai phá tiềm năng của bạn với các khóa học chuyên sâu về AI, Fullstack Development và Vibe Coding.',
+    icons: {
+      icon: [
+        { url: favicon },
+      ],
+      shortcut: favicon,
+      apple: favicon,
+    },
+    openGraph: {
+      title: settings?.site_title || 'Academy Tulie',
+      description: settings?.site_description || 'Làm chủ Tương lai Công nghệ',
+      type: 'website',
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
