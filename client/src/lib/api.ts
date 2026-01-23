@@ -2,6 +2,7 @@
 const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 // Strip trailing slash and /api suffix to get a clean base URL
 const BASE_URL = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
+// Build trigger: 2026-01-24 - Standardizing max-width and fixing connectivity
 
 console.log('Using BASE_URL for API:', BASE_URL);
 
