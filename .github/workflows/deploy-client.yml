@@ -42,28 +42,14 @@ jobs:
 
       - name: Determine Build Arguments
         run: |
-          echo "🔄 Syncing Frontend with Backend Service..."
-          # DYNAMICALLY fetch the backend URL from Cloud Run
+          # Use hardcoded URLs to prevent gcloud lookup failures
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            BACKEND_SERVICE="academy-api"
+            API_URL="https://academy-api-863772349164.asia-southeast1.run.app/api"
           else
-            BACKEND_SERVICE="academy-api-beta"
+            API_URL="https://academy-api-beta-863772349164.asia-southeast1.run.app/api"
           fi
           
-          echo "🔍 Fetching URL for service: $BACKEND_SERVICE in region $REGION"
-          # Try to get the URL. process might fail if service not found.
-          API_URL=$(gcloud run services describe $BACKEND_SERVICE --region $REGION --format 'value(status.url)' 2>/dev/null || echo "")
-          
-          if [ -z "$API_URL" ]; then
-             echo "⚠️ Could not find running service '$BACKEND_SERVICE'. Falling back to known pattern or failing."
-             # Fallback or Exit? Better to fail if we strictly need the backend.
-             # But for safety in case of first-time deploy, maybe we can't.
-             # Actually, if backend isn't there, frontend won't work anyway.
-             echo "❌ Error: Backend service '$BACKEND_SERVICE' not found. Please deploy backend first."
-             exit 1
-          fi
-          
-          echo "✅ Detected Backend URL: $API_URL"
+          echo "✅ Using Backend URL: $API_URL"
           echo "API_URL=$API_URL" >> $GITHUB_ENV
 
       - name: Build Docker image
@@ -90,7 +76,6 @@ jobs:
             --memory 512Mi \
             --cpu 1 \
             --timeout 300 \
-            --set-env-vars "NEXT_PUBLIC_API_URL=$API_URL" \
             --port 3000
 
       - name: Verify Deployment
