@@ -83,6 +83,14 @@ export const sanitizeHtml = (str: string): string => {
 
 // Sanitize object by removing dangerous HTML from all string fields
 export const sanitizeObject = <T extends Record<string, any>>(obj: T): T => {
+    if (Array.isArray(obj)) {
+        return obj.map(item => {
+            if (typeof item === 'string') return sanitizeHtml(item);
+            if (typeof item === 'object' && item !== null) return sanitizeObject(item);
+            return item;
+        }) as any;
+    }
+
     const sanitized = { ...obj };
     for (const key in sanitized) {
         if (typeof sanitized[key] === 'string') {
