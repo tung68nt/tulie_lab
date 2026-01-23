@@ -5,7 +5,7 @@ import { Check } from 'lucide-react';
 export function ComparisonSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-12 bg-background bg-dot-grid-light">
-            <div className="container px-4 md:px-6">
+            <div className="container">
                 <div className="text-center mb-12">
                     {section.subtitle && (
                         <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary mb-4">
@@ -20,13 +20,13 @@ export function ComparisonSection({ section }: { section: Section }) {
                         {section.title}
                     </h2>
                     {section.content && (
-                        <p className="max-w-[800px] mx-auto text-muted-foreground md:text-lg">
+                        <p className="mx-auto text-muted-foreground md:text-lg">
                             {section.content}
                         </p>
                     )}
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-6">
                     {section.items?.map((item, index) => (
                         <div key={index} className={`w-full lg:w-[calc(50%-12px)] flex flex-col`}>
                             <Card className={`h-full border flex flex-col ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border'}`}>

@@ -16,7 +16,7 @@ export function HeroSection({ section }: { section: Section }) {
                 <div className="absolute inset-0 bg-dot-grid-light opacity-50"></div>
             </div>
 
-            <div className="container px-4 md:px-6">
+            <div className="container">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
                     <div className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">

@@ -11,7 +11,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
             {/* Dotted Background */}
             <div className="absolute inset-0 bg-dot-black/[0.1] dark:bg-dot-white/[0.1] pointer-events-none" />
 
-            <div className="container px-4 relative z-10">
+            <div className="container relative z-10">
                 {/* Header */}
                 <div className="text-center mb-16 md:mb-24">
                     <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary mb-6">
@@ -24,7 +24,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
                         {section.title || "Sản phẩm thành viên đã làm được"}
                     </h2>
-                    <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">
                         {section.subtitle || "Xem những ứng dụng thực tế mà thành viên đã xây dựng sau workshop. Không phải bài tập về nhà, đây là sản phẩm khởi nghiệp."}
                     </p>
                 </div>

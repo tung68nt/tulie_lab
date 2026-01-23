@@ -59,7 +59,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
             {/* Dotted Background */}
             <div className="absolute inset-0 bg-dot-black/[0.1] dark:bg-dot-white/[0.1] pointer-events-none" />
 
-            <div className="container px-4 relative z-10">
+            <div className="container relative z-10">
                 {/* Header */}
                 <div className="text-center mb-10">
                     <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm font-semibold text-foreground mb-6">
@@ -72,7 +72,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
                         {section.title || "Kết quả thực tế từ những người như bạn"}
                     </h2>
-                    <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">
                         {section.subtitle || "Không lý thuyết suông. Đây là những thay đổi cụ thể trước và sau khi tham gia."}
                     </p>
                 </div>

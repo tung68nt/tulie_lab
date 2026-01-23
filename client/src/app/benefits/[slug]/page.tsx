@@ -29,7 +29,7 @@ export default async function BenefitPage({ params }: BenefitPageProps) {
 
     return (
         <div className="min-h-screen bg-background pt-24 pb-16">
-            <div className="container px-4 mx-auto max-w-4xl">
+            <div className="container">
                 <Link
                     href="/#benefits"
                     className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 transition-colors"

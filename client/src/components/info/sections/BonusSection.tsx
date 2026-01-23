@@ -34,8 +34,8 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 </div>
             </div>
 
-            <div className="container px-4 mx-auto relative z-10 pt-12">
-                <div className="text-center max-w-4xl mx-auto mb-16">
+            <div className="container relative z-10 pt-12">
+                <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
                         {section.title || "Quà Tặng Đặc Biệt"}
                     </h2>
@@ -44,7 +44,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                     </p>
                 </div>
 
-                <div className="flex flex-col gap-8 max-w-5xl mx-auto">
+                <div className="flex flex-col gap-8">
                     {/* Bonus Cards */}
                     {items.map((item, idx) => (
                         <div key={idx} className="group relative overflow-hidden rounded-3xl bg-neutral-900/50 border border-white/10 hover:border-[#FF0000]/50 transition-all duration-500 hover:shadow-[10px_10px_50px_-10px_rgba(255,0,0,0.2)]">
@@ -111,7 +111,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 </div>
 
                 {/* Total Value Summary - Premium Redesign */}
-                <div className="mt-24 relative max-w-3xl mx-auto">
+                <div className="mt-24 relative">
                     {/* Ambient Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-red-600/20 blur-[100px] rounded-full pointer-events-none" />
 

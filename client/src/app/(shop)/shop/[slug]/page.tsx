@@ -80,7 +80,7 @@ export default function ProductDetailPage() {
             <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] -z-10" />
             <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[128px] -z-10" />
 
-            <div className="container px-4 mx-auto relative z-10">
+            <div className="container relative z-10">
                 {/* Breadcrumbs */}
                 <Link href="/shop" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-12 group">
                     <span className="p-2 rounded-full border border-border group-hover:border-primary/50 transition-colors">
@@ -130,11 +130,10 @@ export default function ProductDetailPage() {
                                     <button
                                         key={index}
                                         onClick={() => setSelectedMediaIndex(index)}
-                                        className={`relative aspect-video rounded-xl overflow-hidden border-2 transition-all ${
-                                            selectedMediaIndex === index
-                                                ? 'border-primary ring-2 ring-primary/50 scale-105'
-                                                : 'border-border hover:border-primary/50'
-                                        }`}
+                                        className={`relative aspect-video rounded-xl overflow-hidden border-2 transition-all ${selectedMediaIndex === index
+                                            ? 'border-primary ring-2 ring-primary/50 scale-105'
+                                            : 'border-border hover:border-primary/50'
+                                            }`}
                                     >
                                         {media.type === 'video' ? (
                                             <div className="h-full w-full bg-black/80 flex items-center justify-center">
@@ -370,7 +369,7 @@ export default function ProductDetailPage() {
 
                 {/* Detailed Content Section */}
                 {product.detailedContent && (
-                    <div className="mt-20 max-w-4xl mx-auto">
+                    <div className="mt-20">
                         <div
                             className="prose prose-lg dark:prose-invert max-w-none"
                             dangerouslySetInnerHTML={{ __html: product.detailedContent }}

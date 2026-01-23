@@ -64,7 +64,7 @@ export default function ShopPage() {
     if (loading) {
         return (
             <div className="min-h-screen pt-24 bg-background">
-                <div className="container px-4 mx-auto flex flex-col items-center justify-center py-20">
+                <div className="container flex flex-col items-center justify-center py-20">
                     <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
                     <p className="text-muted-foreground animate-pulse">Đang tải cửa hàng...</p>
                 </div>
@@ -79,7 +79,7 @@ export default function ShopPage() {
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[128px] -z-10" />
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:32px_32px] opacity-30 -z-10" />
 
-            <div className="container px-4 mx-auto relative z-10">
+            <div className="container relative z-10">
                 {/* Header */}
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                     <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-background/50 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-primary mb-2">
@@ -92,7 +92,7 @@ export default function ShopPage() {
                     <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
                         Cửa hàng Trực tuyến
                     </h1>
-                    <p className="max-w-[700px] text-xl text-muted-foreground leading-relaxed">
+                    <p className="mx-auto text-xl text-muted-foreground leading-relaxed">
                         Khám phá bộ sưu tập website templates, app scripts và tài nguyên được thiết kế chuyên sâu.
                     </p>
                 </div>
@@ -328,7 +328,7 @@ export default function ShopPage() {
             </div>
 
             {/* CTA Section */}
-            <div className="container px-4 mx-auto mt-32 mb-16">
+            <div className="container mt-32 mb-16">
                 <div className="relative rounded-2xl bg-[#1a1a1a] p-12 md:p-16 overflow-hidden text-center md:text-left">
                     {/* Dotted Grid Pattern */}
                     <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />

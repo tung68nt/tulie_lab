@@ -68,7 +68,7 @@ export default function DashboardPage() {
     if (loading) return <div className="p-10 text-center">Đang tải dữ liệu...</div>;
 
     return (
-        <div className="container pt-10" style={{ paddingBottom: '120px' }}>
+        <div className="container pt-24 pb-32">
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold">Khóa học của tôi</h1>
