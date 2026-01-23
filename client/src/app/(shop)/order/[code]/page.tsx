@@ -280,7 +280,6 @@ export default function OrderPage({ params }: { params: any }) {
                             </div>
                         </div>
 
-<<<<<<< HEAD
                         <div className="mt-6 flex items-start gap-4 p-4 rounded-xl bg-yellow-50 border border-yellow-100">
                             <div className="relative flex h-3 w-3 mt-1.5 shrink-0">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
@@ -292,19 +291,6 @@ export default function OrderPage({ params }: { params: any }) {
                                     Trạng thái đơn hàng sẽ tự động cập nhật sau mỗi 5 giây. Không cần refresh trang.
                                 </p>
                             </div>
-=======
-                        <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-100">
-                            <div className="flex items-center gap-2.5 mb-2">
-                                <div className="relative flex h-2.5 w-2.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-500"></span>
-                                </div>
-                                <span className="text-sm font-medium text-zinc-700">Đang chờ nhận tiền...</span>
-                            </div>
-                            <p className="text-xs text-zinc-500 leading-relaxed">
-                                Hệ thống tự động kiểm tra mỗi 5 giây. Khóa học sẽ được kích hoạt ngay khi giao dịch thành công.
-                            </p>
->>>>>>> main
                         </div>
                     </div>
                 </div>
