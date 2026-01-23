@@ -77,8 +77,8 @@ export default function OrdersPage() {
     }
 
     return (
-        <div className="min-h-screen bg-background">
-            <div className="content-container px-4 py-10">
+        <div className="min-h-screen bg-background pt-24 pb-20">
+            <div className="container py-10">
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold">Lịch sử đơn hàng</h1>
@@ -181,33 +181,33 @@ export default function OrdersPage() {
                                                                 </button>
                                                             </>
                                                         ) : (order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) ? (
-                                                        (() => {
-                                                            // Check if order contains courses or products
-                                                            const hasCourses = order.courses && order.courses.length > 0;
-                                                            const hasProducts = order.products && order.products.length > 0;
+                                                            (() => {
+                                                                // Check if order contains courses or products
+                                                                const hasCourses = order.courses && order.courses.length > 0;
+                                                                const hasProducts = order.products && order.products.length > 0;
 
-                                                            // Determine button text and link
-                                                            let buttonText = 'Xem';
-                                                            let buttonLink = '/dashboard';
+                                                                // Determine button text and link
+                                                                let buttonText = 'Xem';
+                                                                let buttonLink = '/dashboard';
 
-                                                            if (hasCourses && hasProducts) {
-                                                                buttonText = 'Xem';
-                                                                buttonLink = '/dashboard';
-                                                            } else if (hasCourses) {
-                                                                buttonText = 'Vào học';
-                                                                buttonLink = '/dashboard';
-                                                            } else if (hasProducts) {
-                                                                buttonText = 'Xem sản phẩm';
-                                                                buttonLink = '/my-products';
-                                                            }
+                                                                if (hasCourses && hasProducts) {
+                                                                    buttonText = 'Xem';
+                                                                    buttonLink = '/dashboard';
+                                                                } else if (hasCourses) {
+                                                                    buttonText = 'Vào học';
+                                                                    buttonLink = '/dashboard';
+                                                                } else if (hasProducts) {
+                                                                    buttonText = 'Xem sản phẩm';
+                                                                    buttonLink = '/my-products';
+                                                                }
 
-                                                            return (
-                                                                <Link href={buttonLink}>
-                                                                    <Button as="div" variant="outline" size="sm">{buttonText}</Button>
-                                                                </Link>
-                                                            );
-                                                        })()
-                                                    ) : null}
+                                                                return (
+                                                                    <Link href={buttonLink}>
+                                                                        <Button as="div" variant="outline" size="sm">{buttonText}</Button>
+                                                                    </Link>
+                                                                );
+                                                            })()
+                                                        ) : null}
                                                     </div>
                                                 </td>
                                             </tr>
