@@ -6,7 +6,6 @@ import prisma from '../../../config/prisma';
 
 export const checkout = async (req: Request, res: Response) => {
     try {
-        console.log('[DEBUG] Checkout body:', JSON.stringify(req.body, null, 2));
         const paymentService = container.resolve<PaymentService>('PaymentService');
         const user = (req as AuthRequest).user; // Optional if guest
         const { form, cart, marketing, isGift, promoCodeId } = req.body;
