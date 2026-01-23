@@ -135,10 +135,19 @@ export const webhook = async (req: Request, res: Response) => {
             const actualTransferContent = transferContent || content || description || '';
             if (actualTransferContent && typeof actualTransferContent === 'string') {
                 const trimmedContent = actualTransferContent.trim().toUpperCase();
-                const match = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
+
+                // First try SEVQR pattern (SePay's QR code format: SEVQR + alphanumeric)
+                let match = trimmedContent.match(/\bSEVQR[A-Z0-9]{8,12}\b/);
                 if (match) {
                     orderCode = match[0];
-                    console.log('✅ Found order code from transfer content:', orderCode);
+                    console.log('✅ Found order code from transfer content (SEVQR pattern):', orderCode);
+                } else {
+                    // Fallback to general alphanumeric pattern (10-16 chars)
+                    match = trimmedContent.match(/\b[A-Z0-9]{10,16}\b/);
+                    if (match) {
+                        orderCode = match[0];
+                        console.log('✅ Found order code from transfer content (general pattern):', orderCode);
+                    }
                 }
             }
         }
@@ -146,10 +155,17 @@ export const webhook = async (req: Request, res: Response) => {
         // 3. Try reference code
         if (!orderCode && referenceCode && typeof referenceCode === 'string') {
             const trimmedRef = referenceCode.trim().toUpperCase();
-            const match = trimmedRef.match(/\b[A-Z0-9]{10}\b/);
+            // Try SEVQR pattern first
+            let match = trimmedRef.match(/\bSEVQR[A-Z0-9]{8,12}\b/);
             if (match) {
                 orderCode = match[0];
-                console.log('✅ Found order code from reference code:', orderCode);
+                console.log('✅ Found order code from reference code (SEVQR):', orderCode);
+            } else {
+                match = trimmedRef.match(/\b[A-Z0-9]{10,16}\b/);
+                if (match) {
+                    orderCode = match[0];
+                    console.log('✅ Found order code from reference code:', orderCode);
+                }
             }
         }
 

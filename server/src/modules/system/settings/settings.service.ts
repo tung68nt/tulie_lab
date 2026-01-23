@@ -26,6 +26,21 @@ export class SettingService {
         return this.settingRepository.findByKey(key);
     }
 
+    /**
+     * Get multiple settings by keys.
+     * Returns a key-value object with only the requested keys.
+     */
+    async getSettings(keys: string[]): Promise<Record<string, string>> {
+        const allSettings = await this.settingRepository.findAll();
+        const result: Record<string, string> = {};
+        for (const setting of allSettings) {
+            if (keys.includes(setting.key)) {
+                result[setting.key] = setting.value;
+            }
+        }
+        return result;
+    }
+
     async getApiKey() {
         const setting = await this.settingRepository.findByKey('SYSTEM_API_KEY');
         return setting?.value || null;
