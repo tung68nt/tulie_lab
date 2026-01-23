@@ -1,7 +1,12 @@
-// Remove /api suffix if present to get clean base URL
 const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-// Strip trailing slash and /api suffix to get a clean base URL
-const BASE_URL = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
+// If we are on the client, we want to use the Next.js rewrite proxy (relative path)
+// to avoid CORS issues. If on server, we use the full URL.
+const isServer = typeof window === 'undefined';
+// Strip trailing slash first
+const cleanEnvUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
+
+// Use relative path for client, full URL for server
+const BASE_URL = isServer ? cleanEnvUrl : '';
 
 console.log('Using BASE_URL for API:', BASE_URL);
 

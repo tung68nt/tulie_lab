@@ -89,7 +89,10 @@ jobs:
             --max-instances 10 \
             --memory 512Mi \
             --cpu 1 \
+            --memory 512Mi \
+            --cpu 1 \
             --timeout 300 \
+            --set-env-vars "NEXT_PUBLIC_API_URL=$API_URL" \
             --port 3000
 
       - name: Verify Deployment
