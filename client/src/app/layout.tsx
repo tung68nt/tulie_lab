@@ -29,7 +29,9 @@ async function getSettings() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
-  const favicon = settings?.site_favicon || '/favicon.ico';
+  const favicon = settings?.site_favicon
+    ? (settings.site_favicon.includes('?') ? `${settings.site_favicon}&v=${Date.now()}` : `${settings.site_favicon}?v=${Date.now()}`)
+    : '/favicon.ico';
 
   return {
     title: {
