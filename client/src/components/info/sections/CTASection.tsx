@@ -12,7 +12,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                 <div className="absolute inset-0 bg-dot-white"></div>
             </div>
 
-            <div className="container text-center max-w-3xl mx-auto relative z-10">
+            <div className="container text-center relative z-10">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                     {section.title}
                 </h2>

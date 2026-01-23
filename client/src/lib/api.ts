@@ -7,6 +7,7 @@ const cleanEnvUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
 
 // Use relative path for client, full URL for server
 const BASE_URL = isServer ? cleanEnvUrl : '';
+// Build trigger: 2026-01-24 - Standardizing max-width and fixing connectivity
 
 console.log('Using BASE_URL for API:', BASE_URL);
 

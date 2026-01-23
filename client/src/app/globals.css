@@ -286,13 +286,13 @@
 
 /* Page Container Max Width */
 .page-container {
-  @apply max-w-7xl mx-auto;
+  @apply container;
 }
 
 .content-container {
-  @apply max-w-4xl mx-auto;
+  @apply container;
 }
 
 .admin-container {
-  @apply max-w-screen-2xl mx-auto;
+  @apply max-w-[1200px] mx-auto;
 }

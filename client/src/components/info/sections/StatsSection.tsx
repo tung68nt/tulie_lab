@@ -5,7 +5,7 @@ export function StatsSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-24 bg-background relative overflow-hidden">
             <div className="absolute inset-0 bg-dot-black dark:bg-dot-white"></div>
-            <div className="container px-4 md:px-6 relative z-10">
+            <div className="container relative z-10">
                 <div className="text-center mb-20 max-w-3xl mx-auto">
                     {section.subtitle && (
                         <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-4 py-1.5 text-sm font-medium text-foreground mb-8 backdrop-blur-sm">

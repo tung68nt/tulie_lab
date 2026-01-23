@@ -77,8 +77,8 @@ export default function OrdersPage() {
     }
 
     return (
-        <div className="min-h-screen bg-background">
-            <div className="content-container px-4 py-10 max-w-7xl mx-auto">
+        <div className="min-h-screen bg-background pt-24 pb-20">
+            <div className="container">
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold">Lịch sử đơn hàng</h1>
@@ -174,10 +174,10 @@ export default function OrdersPage() {
                                                                 <button
                                                                     onClick={() => handleDeleteOrder(order.id, order.code)}
                                                                     disabled={deletingOrder === order.id}
-                                                                    className="p-2 hover:bg-red-50 dark:hover:bg-red-950/30 rounded transition-colors disabled:opacity-50"
+                                                                    className="p-2 hover:bg-muted rounded transition-colors disabled:opacity-50"
                                                                     title="Xóa đơn hàng"
                                                                 >
-                                                                    <Trash2 className={`w-4 h-4 text-red-600 ${deletingOrder === order.id ? 'animate-pulse' : ''}`} />
+                                                                    <Trash2 className={`w-4 h-4 text-muted-foreground hover:text-foreground ${deletingOrder === order.id ? 'animate-pulse' : ''}`} />
                                                                 </button>
                                                             </>
                                                         ) : (order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) ? (

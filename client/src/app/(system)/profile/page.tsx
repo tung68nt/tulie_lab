@@ -125,139 +125,141 @@ export default function ProfilePage() {
     if (!user) return <div className="container py-10">Vui lòng đăng nhập</div>;
 
     return (
-        <div className="container py-10 max-w-2xl min-h-screen">
-            <h1 className="text-3xl font-bold mb-8">Hồ sơ cá nhân</h1>
+        <div className="container pt-24 pb-32">
+            <div className="max-w-2xl mx-auto">
+                <h1 className="text-3xl font-bold mb-8">Hồ sơ cá nhân</h1>
 
-            <div className="grid gap-6">
-                {/* Avatar Section */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Ảnh đại diện</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex flex-col items-center gap-4">
-                        <div className="relative group">
-                            <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-muted">
-                                {user.avatar ? (
-                                    <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" />
-                                ) : (
-                                    <div className="h-full w-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
-                                        {(user.name || user.email || 'U').charAt(0).toUpperCase()}
-                                    </div>
-                                )}
+                <div className="grid gap-6">
+                    {/* Avatar Section */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Ảnh đại diện</CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col items-center gap-4">
+                            <div className="relative group">
+                                <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-muted">
+                                    {user.avatar ? (
+                                        <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" />
+                                    ) : (
+                                        <div className="h-full w-full bg-primary/10 flex items-center justify-center text-4xl font-bold text-primary">
+                                            {(user.name || user.email || 'U').charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
+                                </div>
+                                <div
+                                    className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    <span className="text-white font-medium text-sm">Đổi ảnh</span>
+                                </div>
                             </div>
-                            <div
-                                className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                className="hidden"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                            />
+
+                            <Button
+                                variant="outline"
+                                size="sm"
                                 onClick={() => fileInputRef.current?.click()}
                             >
-                                <span className="text-white font-medium text-sm">Đổi ảnh</span>
+                                Tải ảnh mới
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    {/* Basic Info Section */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Thông tin cơ bản</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div>
+                                <label className="text-sm font-medium mb-1 block">Email</label>
+                                <Input value={user.email} disabled className="bg-muted text-muted-foreground" />
                             </div>
-                        </div>
+                            <div>
+                                <label className="text-sm font-medium mb-1 block">Họ tên</label>
+                                <Input
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    placeholder="Nhập họ tên của bạn"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-sm font-medium mb-1 block">Số điện thoại</label>
+                                    <Input
+                                        value={formData.phone}
+                                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                        placeholder="0901234567"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-sm font-medium mb-1 block">Ngày sinh</label>
+                                    <Input
+                                        type="date"
+                                        value={formData.birthDate}
+                                        onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
 
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            className="hidden"
-                            accept="image/*"
-                            onChange={handleAvatarChange}
-                        />
+                    {/* Address & Work Section */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Địa chỉ & Công việc</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div>
+                                <label className="text-sm font-medium mb-1 block">Địa chỉ</label>
+                                <Input
+                                    value={formData.address}
+                                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                    placeholder="Số nhà, đường, quận/huyện"
+                                />
+                            </div>
+                            <div>
+                                <label className="text-sm font-medium mb-1 block">Thành phố</label>
+                                <Input
+                                    value={formData.city}
+                                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                                    placeholder="TP. Hồ Chí Minh"
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-sm font-medium mb-1 block">Nghề nghiệp</label>
+                                    <Input
+                                        value={formData.occupation}
+                                        onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
+                                        placeholder="Developer, Designer..."
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-sm font-medium mb-1 block">Công ty</label>
+                                    <Input
+                                        value={formData.company}
+                                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                                        placeholder="Tên công ty"
+                                    />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
 
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => fileInputRef.current?.click()}
-                        >
-                            Tải ảnh mới
+                    {/* Save Button */}
+                    <div className="flex justify-end mb-20">
+                        <Button onClick={handleUpdateProfile} disabled={saving} size="lg">
+                            {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
                         </Button>
-                    </CardContent>
-                </Card>
-
-                {/* Basic Info Section */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Thông tin cơ bản</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">Email</label>
-                            <Input value={user.email} disabled className="bg-muted text-muted-foreground" />
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">Họ tên</label>
-                            <Input
-                                value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                placeholder="Nhập họ tên của bạn"
-                            />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Số điện thoại</label>
-                                <Input
-                                    value={formData.phone}
-                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                    placeholder="0901234567"
-                                />
-                            </div>
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Ngày sinh</label>
-                                <Input
-                                    type="date"
-                                    value={formData.birthDate}
-                                    onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                                />
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Address & Work Section */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Địa chỉ & Công việc</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">Địa chỉ</label>
-                            <Input
-                                value={formData.address}
-                                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                placeholder="Số nhà, đường, quận/huyện"
-                            />
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium mb-1 block">Thành phố</label>
-                            <Input
-                                value={formData.city}
-                                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                placeholder="TP. Hồ Chí Minh"
-                            />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Nghề nghiệp</label>
-                                <Input
-                                    value={formData.occupation}
-                                    onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
-                                    placeholder="Developer, Designer..."
-                                />
-                            </div>
-                            <div>
-                                <label className="text-sm font-medium mb-1 block">Công ty</label>
-                                <Input
-                                    value={formData.company}
-                                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                    placeholder="Tên công ty"
-                                />
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-
-                {/* Save Button */}
-                <div className="flex justify-end mb-20">
-                    <Button onClick={handleUpdateProfile} disabled={saving} size="lg">
-                        {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
-                    </Button>
+                    </div>
                 </div>
             </div>
         </div>

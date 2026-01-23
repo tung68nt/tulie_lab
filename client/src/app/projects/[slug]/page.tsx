@@ -30,7 +30,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
     return (
         <div className="min-h-screen bg-background pt-24 pb-20">
-            <div className="container px-4 mx-auto max-w-5xl">
+            <div className="container">
                 <Link
                     href="/#projects"
                     className="inline-flex items-center text-muted-foreground hover:text-primary mb-8 transition-colors"

@@ -43,16 +43,16 @@ export default function Error({
                     Tải lại trang
                 </Button>
                 <Button
-                    variant="ghost"
+                    variant="outline"
                     onClick={() => {
                         localStorage.clear();
                         window.location.reload();
                     }}
-                    className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20"
+                    className="text-muted-foreground hover:text-foreground"
                 >
                     Xoá bộ nhớ đệm
                 </Button>
             </div>
-        </div>
+        </div >
     );
 }

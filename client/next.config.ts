@@ -27,11 +27,19 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'academy-api-beta-863772349164.asia-southeast1.run.app',
+      },
+      {
+        protocol: 'https',
         hostname: 'pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev',
       },
       {
         protocol: 'https',
         hostname: 'thelab.tulie.vn',
+      },
+      {
+        protocol: 'https',
+        hostname: 'beta.thelab.tulie.vn',
       },
       {
         protocol: 'https',

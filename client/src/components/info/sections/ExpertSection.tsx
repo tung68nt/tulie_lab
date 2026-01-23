@@ -27,7 +27,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
             {/* Dotted Background */}
             <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark opacity-30 pointer-events-none" />
 
-            <div className="container px-4 mx-auto relative z-10">
+            <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
 
                     {/* Left: Image (Portrait) - Stylized */}

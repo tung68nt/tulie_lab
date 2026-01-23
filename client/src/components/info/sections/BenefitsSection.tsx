@@ -27,8 +27,8 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
         <section className="py-16 md:py-20 bg-background relative overflow-hidden">
             {/* Soft Background Accents - REMOVED */}
 
-            <div className="container px-4 mx-auto">
-                <div className="max-w-3xl mx-auto text-center mb-10 md:mb-12">
+            <div className="container">
+                <div className="text-center mb-10 md:mb-12">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-foreground">
                         {title}
                     </h2>
@@ -37,7 +37,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                     </p>
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-6">
                     {displayItems.map((item: any, idx) => (
                         <div
                             key={idx}

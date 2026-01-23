@@ -183,7 +183,7 @@ export default function AdminContactPage() {
                                                     </button>
                                                 )}
                                                 <button
-                                                    className="h-8 w-8 flex items-center justify-center rounded-md hover:bg-slate-100 transition-colors text-black hover:text-red-600"
+                                                    className="h-8 w-8 flex items-center justify-center rounded-md hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
                                                     onClick={() => handleDelete(item.id)}
                                                     title="Xóa"
                                                 >

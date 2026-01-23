@@ -18,8 +18,8 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
 
     return (
         <section className="py-24 bg-background bg-dot-grid-light overflow-hidden">
-            <div className="container px-4 mx-auto">
-                <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24">
+            <div className="container">
+                <div className="text-center mb-16 md:mb-24">
                     <h2 className="text-4xl font-bold mb-4">{section.title}</h2>
                     <p className="text-xl text-muted-foreground">{section.subtitle}</p>
                 </div>
@@ -75,7 +75,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                 ) : (
                     // STANDARD GRID LAYOUT (Modern 4 Columns)
                     <div className={`grid gap-6 ${section.items.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' :
-                        section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto' :
+                        section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
                             section.items.length === 3 ? 'grid-cols-1 md:grid-cols-3' :
                                 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
                         } justify-center`}>

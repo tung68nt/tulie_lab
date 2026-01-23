@@ -61,7 +61,7 @@ export default function MyProductsPage() {
 
     return (
         <div className="min-h-screen bg-background pt-24 pb-20">
-            <div className="container px-4 mx-auto max-w-7xl">
+            <div className="container">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold">Sản phẩm số của tôi</h1>
                     <p className="text-muted-foreground mt-2">Quản lý và tải xuống các tài nguyên bạn đã sở hữu</p>
@@ -101,7 +101,7 @@ export default function MyProductsPage() {
                             <svg className="w-10 h-10 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                         </div>
                         <h3 className="text-xl font-bold mb-2">Chưa có sản phẩm nào</h3>
-                        <p className="text-muted-foreground mb-8 max-w-md mx-auto">Bạn chưa mua sản phẩm số nào. Hãy khám phá kho tài nguyên chất lượng cao của chúng tôi.</p>
+                        <p className="text-muted-foreground mb-8 mx-auto">Bạn chưa mua sản phẩm số nào. Hãy khám phá kho tài nguyên chất lượng cao của chúng tôi.</p>
                         <Link href="/shop">
                             <Button as="div" size="lg" className="rounded-xl font-bold shadow-lg shadow-primary/25">Khám phá Cửa hàng</Button>
                         </Link>
