@@ -97,8 +97,9 @@ jobs:
           echo "🚀 Running Prisma generate..."
           npx prisma generate
 
-          echo "🚀 Running DB Push (Emergency Mode)..."
-          npx prisma db push --accept-data-loss
+          # DANGEROUS: Disabled to prevent production data loss
+          # echo "🚀 Running DB Push (Emergency Mode)..."
+          # npx prisma db push --accept-data-loss
 
   # 2. Deploy only if migrations succeed
   deploy:
