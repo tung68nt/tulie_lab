@@ -294,5 +294,5 @@
 }
 
 .admin-container {
-  @apply max-w-screen-2xl mx-auto;
+  @apply max-w-[1200px] mx-auto;
 }
