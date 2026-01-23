@@ -20,7 +20,7 @@ jobs:
   # 1. Run database migrations FIRST (Optional - continues even on failure)
   migrate:
     runs-on: ubuntu-latest
-    continue-on-error: false  # Stop deploy if migrations fail
+    continue-on-error: true  # Don't block deploy if migrations fail (common in prod)
     
     steps:
       - name: Checkout code
