@@ -64,7 +64,6 @@ export const webhook = async (req: Request, res: Response) => {
         console.log('=== WEBHOOK RECEIVED ===');
         console.log('Headers:', JSON.stringify(req.headers, null, 2));
         console.log('Body:', JSON.stringify(req.body, null, 2));
-        console.log('Query:', JSON.stringify(req.query, null, 2));
 
         // Validate API Key from Authorization header (flexible validation)
         const authHeader = req.headers.authorization || req.headers['x-api-key'] as string;
@@ -75,24 +74,15 @@ export const webhook = async (req: Request, res: Response) => {
             // If API key is configured, validate it with flexible matching
             let receivedKey = '';
             if (authHeader) {
-                // Extract key from various formats:
-                // - "Apikey sk_xxx"
-                // - "Bearer sk_xxx"
-                // - "sk_xxx"
                 const match = authHeader.match(/^(?:Apikey|Bearer)\s+(.+)$/i);
                 receivedKey = match?.[1] ?? authHeader;
             }
 
-            // Trim both keys for comparison to avoid whitespace issues
             const cleanReceivedKey = receivedKey.trim();
             const cleanStoredKey = storedApiKey.trim();
 
             if (!authHeader || cleanReceivedKey !== cleanStoredKey) {
                 console.warn('=== WEBHOOK AUTH FAILED ===');
-                console.warn('Received header:', authHeader);
-                console.warn('Extracted key:', cleanReceivedKey);
-                console.warn('Expected key:', cleanStoredKey);
-                console.warn('Keys match:', cleanReceivedKey === cleanStoredKey);
                 return res.status(401).json({ success: false, message: 'Invalid API key' });
             }
             console.log('✅ Webhook: API key validated successfully');
@@ -100,7 +90,7 @@ export const webhook = async (req: Request, res: Response) => {
             console.log('⚠️  Webhook: No API key configured, skipping validation');
         }
 
-        // Sepay payload - be flexible with field names
+        // Sepay payload mapping
         const {
             id,
             transferAmount,
@@ -109,84 +99,57 @@ export const webhook = async (req: Request, res: Response) => {
             description,
             content,
             code: paymentCode,
-            gateway
+            gateway,
+            transactionDate,
+            accountNumber,
+            subAccount,
+            accumulated
         } = req.body;
 
-        console.log('=== WEBHOOK PARSED DATA ===');
-        console.log('Transaction ID:', id);
-        console.log('Amount:', transferAmount);
-        console.log('Payment Code:', paymentCode);
-        console.log('Transfer Content:', transferContent);
-        console.log('Reference Code:', referenceCode);
-        console.log('Gateway:', gateway);
-        console.log('Full body:', JSON.stringify(req.body, null, 2));
+        console.log('=== SEPAY PAYLOAD ===');
+        console.log(`- Transaction ID: ${id}`);
+        console.log(`- Gateway: ${gateway}`);
+        console.log(`- Date: ${transactionDate}`);
+        console.log(`- Account: ${accountNumber}`);
+        console.log(`- Amount: ${transferAmount}`);
+        console.log(`- Content: ${content}`);
+        console.log(`- Description: ${description}`);
+        console.log('=====================');
 
-        // Try to get order code from multiple sources
+        // Try to get order code
         let orderCode: string | null = null;
 
-        // 1. Try payment code field first (SePay's "Code thanh toán")
+        // 1. Try payment code field
         if (paymentCode && typeof paymentCode === 'string' && paymentCode.trim()) {
             orderCode = paymentCode.trim().toUpperCase();
-            console.log('✅ Found order code from payment code field:', orderCode);
         }
 
-        // 2. Try extracting from transfer content
+        // 2. Try extracting from transfer content/description
         if (!orderCode) {
             const actualTransferContent = transferContent || content || description || '';
             if (actualTransferContent && typeof actualTransferContent === 'string') {
                 const trimmedContent = actualTransferContent.trim().toUpperCase();
 
-                // First try to match SEVQR prefix pattern (VietinBank specific)
-                const sevqrMatch = trimmedContent.match(/SEVQR([A-Z0-9]{10,})/);
-                if (sevqrMatch && sevqrMatch[1]) {
-                    orderCode = sevqrMatch[1];
-                    console.log('✅ Found order code from SEVQR pattern:', orderCode);
-                } else {
-                    // Fallback to generic 10-character alphanumeric pattern
-                    const genericMatch = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
-                    if (genericMatch) {
-                        orderCode = genericMatch[0];
-                        console.log('✅ Found order code from generic pattern:', orderCode);
-                    }
+                // Regex for Order Code (10 chars, alphanumeric)
+                const genericMatch = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
+                if (genericMatch) {
+                    orderCode = genericMatch[0];
+                    console.log(`✅ Extracted Order Code from content: ${orderCode}`);
                 }
-            }
-        }
-
-        // 3. Try reference code
-        if (!orderCode && referenceCode && typeof referenceCode === 'string') {
-            const trimmedRef = referenceCode.trim().toUpperCase();
-            const match = trimmedRef.match(/\b[A-Z0-9]{10}\b/);
-            if (match) {
-                orderCode = match[0];
-                console.log('✅ Found order code from reference code:', orderCode);
             }
         }
 
         if (!orderCode) {
-            console.error('=== WEBHOOK ERROR: No order code found ===');
-            console.error('Payment Code:', paymentCode);
-            console.error('Transfer Content:', transferContent);
-            console.error('Reference Code:', referenceCode);
-            console.error('Content:', content);
-            console.error('Description:', description);
-            console.error('Full Body:', JSON.stringify(req.body, null, 2));
-            console.error('Query Params:', JSON.stringify(req.query, null, 2));
-
-            // Return 200 but log as failure - don't block SePay from sending more webhooks
-            return res.status(200).json({
-                success: false,
-                message: 'No order code found in webhook payload',
-                receivedData: {
-                    paymentCode,
-                    transferContent,
-                    referenceCode,
-                    bodyKeys: Object.keys(req.body),
-                    queryKeys: Object.keys(req.query)
-                }
-            });
+            console.warn('⚠️ No Order Code found in webhook payload');
+            // Return 200 success to SePay even if processing failed logic logic, to stop retries if it's a data issue.
+            // But strictly speaking, if we want them to retry, 500.
+            // SePay documentation says: "Nếu kết quả trả về không thỏa mãn... SePay sẽ xem là webhook thất bại."
+            // Here we return { success: true } but log error internally if we can't process it?
+            // Actually, if we can't find order code, it's likely unrelated transaction.
+            return res.status(200).json({ success: true, message: 'Received but no order code found' });
         }
 
-        console.log('✅ Using order code:', orderCode);
+        console.log(`Processing Order: ${orderCode} with Amount: ${transferAmount}`);
 
         // Process payment
         await paymentService.processWebhook({
@@ -195,22 +158,21 @@ export const webhook = async (req: Request, res: Response) => {
             transactionId: String(id)
         });
 
-        console.log('✅ Order processed successfully:', orderCode);
-        console.log('=== WEBHOOK COMPLETED ===\n');
+        console.log('✅ Webhook processed successfully');
 
-        res.json({ success: true, message: 'Payment processed successfully', orderCode });
+        // Strict SePay Response Format
+        return res.status(200).json({ success: true });
+
     } catch (error: any) {
-        console.error('=== WEBHOOK ERROR ===');
-        console.error('Error:', error);
-        console.error('Stack:', error.stack);
+        console.error('=== WEBHOOK ERROR ===', error);
 
-        // Return 500 for actual errors so SePay will retry
-        // Only return 200 for "expected" errors like duplicate processing
-        if (error.message === 'Order not found' || error.message.includes('already')) {
-            return res.status(200).json({ success: false, message: error.message });
+        // Return 200 for duplicate/idempotency errors to stop SePay retries
+        if (error.message === 'Order not found' || error.message.includes('already') || error.message.includes('completed')) {
+            return res.status(200).json({ success: true, message: error.message });
         }
 
-        res.status(500).json({ success: false, message: error.message });
+        // Return 500 for actual server errors
+        return res.status(500).json({ success: false, message: error.message });
     }
 };
 
