@@ -110,12 +110,12 @@ export default function OrdersPage() {
                             <table className="w-full">
                                 <thead className="bg-muted/50">
                                     <tr className="text-left text-sm">
-                                        <th className="px-4 py-3 font-medium">Mã đơn</th>
-                                        <th className="px-4 py-3 font-medium">Ngày tạo</th>
+                                        <th className="px-4 py-3 font-medium w-[120px]">Mã đơn</th>
+                                        <th className="px-4 py-3 font-medium w-[120px]">Ngày tạo</th>
                                         <th className="px-4 py-3 font-medium">Nội dung đơn hàng</th>
-                                        <th className="px-4 py-3 font-medium text-right">Số tiền</th>
-                                        <th className="px-4 py-3 font-medium text-center">Trạng thái</th>
-                                        <th className="px-4 py-3 font-medium text-right">Thao tác</th>
+                                        <th className="px-4 py-3 font-medium text-right w-[120px]">Số tiền</th>
+                                        <th className="px-4 py-3 font-medium text-center w-[140px]">Trạng thái</th>
+                                        <th className="px-4 py-3 font-medium text-right w-[100px]">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
