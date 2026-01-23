@@ -161,153 +161,138 @@ export default function OrderPage({ params }: { params: any }) {
     const qrUrl = `https://qr.sepay.vn/img?acc=${accountNo}&bank=${bankName}&amount=${order.amount}&des=${transferContent}`;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 py-8 md:py-16">
-            <div className="container max-w-6xl">
-                {/* Header */}
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-3">Thanh toán đơn hàng</h1>
-                    <p className="text-muted-foreground">
-                        Mã đơn hàng: <span className="font-mono font-bold text-foreground">{order.code}</span>
-                    </p>
+        <div className="min-h-screen bg-background py-12 md:py-20 px-4">
+            <div className="container max-w-5xl">
+                {/* Header Section */}
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+                        Thanh toán đơn hàng
+                    </h1>
+                    <div className="inline-flex items-center px-4 py-2 rounded-full bg-muted/50 border border-border/50 text-sm font-medium">
+                        Mã đơn hàng: <span className="ml-2 font-mono text-primary">{order.code}</span>
+                    </div>
                 </div>
 
-                {/* Main Content */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                    {/* Left Column - Amount & QR Code */}
-                    <div className="bg-card border rounded-2xl p-8 shadow-xl space-y-6">
-                        {/* Amount */}
-                        <div className="text-center pb-6 border-b">
-                            <p className="text-sm text-muted-foreground mb-2">Số tiền cần thanh toán</p>
-                            <p className="text-5xl md:text-6xl font-bold text-foreground">
-                                {new Intl.NumberFormat('vi-VN').format(Number(order.amount))} ₫
-                            </p>
-                        </div>
-
-                        {/* QR Code */}
-                        <div className="flex flex-col items-center">
-                            <div className="relative w-full max-w-[320px] aspect-square">
-                                <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-2xl"></div>
-                                <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-                                    <img src={qrUrl} alt="QR Code Payment" className="w-full h-full object-contain" />
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    {/* Left Panel: QR and Amount */}
+                    <div className="lg:col-span-5 space-y-6">
+                        <div className="relative group">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                            <div className="relative bg-card border border-border/50 rounded-[2rem] p-8 shadow-2xl backdrop-blur-sm">
+                                <div className="text-center mb-8">
+                                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Số tiền thanh toán</p>
+                                    <p className="text-4xl md:text-5xl font-black text-foreground">
+                                        {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}
+                                        <span className="ml-1 text-2xl md:text-3xl font-bold">₫</span>
+                                    </p>
                                 </div>
+
+                                <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100">
+                                    <img src={qrUrl} alt="QR Code Payment" className="w-full h-auto" />
+                                </div>
+
+                                <p className="text-center mt-6 text-sm text-muted-foreground font-medium flex items-center justify-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                                    Quét mã bằng ứng dụng Ngân hàng
+                                </p>
                             </div>
-                            <p className="text-sm text-muted-foreground mt-4 text-center">
-                                Quét mã QR bằng app ngân hàng
-                            </p>
                         </div>
 
-                        {/* Payment Status */}
-                        <div className={`p-4 rounded-xl transition-all duration-300 ${
-                            isChecking ? 'bg-primary/5' : 'bg-muted/30'
-                        }`}>
-                            <div className="flex items-center justify-center gap-3">
-                                {isChecking ? (
-                                    <>
-                                        <div className="w-5 h-5 border-3 border-primary/30 border-t-primary rounded-full animate-spin"></div>
-                                        <span className="text-sm font-medium text-primary animate-pulse">Đang kiểm tra thanh toán...</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                                        <span className="text-sm text-muted-foreground">Chờ xác nhận thanh toán</span>
-                                    </>
-                                )}
-                            </div>
+                        {/* Status Widget */}
+                        <div className={`rounded-2xl border p-4 transition-all duration-500 flex items-center justify-center gap-3 ${isChecking
+                                ? 'bg-primary/[0.03] border-primary/20 shadow-inner'
+                                : 'bg-muted/30 border-border/50'
+                            }`}>
+                            {isChecking ? (
+                                <>
+                                    <div className="relative flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+                                    </div>
+                                    <span className="text-sm font-bold text-primary tracking-wide">Đang xác thực giao dịch...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="w-2 h-2 bg-muted-foreground/30 rounded-full"></div>
+                                    <span className="text-sm text-muted-foreground">Đang chờ tín hiệu thanh toán</span>
+                                </>
+                            )}
                         </div>
                     </div>
 
-                    {/* Right Column - Bank Info & Actions */}
-                    <div className="space-y-6">
-                        {/* Bank Information */}
-                        <div className="bg-card border rounded-2xl p-6 shadow-xl space-y-4">
-                            <h3 className="text-xl font-bold mb-4">Thông tin chuyển khoản</h3>
+                    {/* Right Panel: Bank Details & Action */}
+                    <div className="lg:col-span-7 space-y-6">
+                        <div className="bg-card border border-border/50 rounded-[2rem] p-8 shadow-2xl backdrop-blur-sm">
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
+                                    <Info className="w-5 h-5" />
+                                </div>
+                                <h3 className="text-2xl font-bold tracking-tight">Chi tiết chuyển khoản</h3>
+                            </div>
 
-                            {/* Single table-like layout */}
-                            <div className="space-y-3">
-                                <div className="flex justify-between items-center py-3 border-b">
-                                    <span className="text-muted-foreground">Ngân hàng</span>
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-bold">{bankName}</span>
+                            <div className="space-y-1">
+                                {[
+                                    { label: 'Ngân hàng', value: bankName, id: 'bank' },
+                                    { label: 'Số tài khoản', value: accountNo, id: 'account', mono: true },
+                                    { label: 'Chủ tài khoản', value: accountName, id: 'name' },
+                                    { label: 'Nội dung', value: transferContent, id: 'content', mono: true, highlight: true },
+                                ].map((item, index) => (
+                                    <div
+                                        key={item.id}
+                                        className={`group relative flex items-center justify-between p-4 rounded-xl transition-all duration-300 hover:bg-muted/50 ${index !== 3 ? 'border-b border-border/10' : ''
+                                            }`}
+                                    >
+                                        <div className="space-y-0.5">
+                                            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{item.label}</p>
+                                            <p className={`text-base font-bold ${item.mono ? 'font-mono' : ''} ${item.highlight ? 'text-primary' : 'text-foreground'}`}>
+                                                {item.value}
+                                            </p>
+                                        </div>
                                         <button
-                                            onClick={() => copyToClipboard(bankName, 'bank')}
-                                            className="p-1.5 hover:bg-muted rounded transition-colors"
+                                            onClick={() => copyToClipboard(item.value, item.id)}
+                                            className={`p-2.5 rounded-lg border border-border/50 transition-all duration-300 ${copiedField === item.id
+                                                    ? 'bg-green-500/10 border-green-500/50 text-green-600'
+                                                    : 'bg-background hover:bg-foreground hover:text-background text-muted-foreground opacity-0 group-hover:opacity-100'
+                                                }`}
                                         >
-                                            {copiedField === 'bank' ? (
-                                                <Check className="w-4 h-4 text-green-600" />
+                                            {copiedField === item.id ? (
+                                                <Check className="w-4 h-4" />
                                             ) : (
-                                                <Copy className="w-4 h-4 text-muted-foreground" />
+                                                <Copy className="w-4 h-4" />
                                             )}
                                         </button>
-                                    </div>
-                                </div>
 
-                                <div className="flex justify-between items-center py-3 border-b">
-                                    <span className="text-muted-foreground">Số tài khoản</span>
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-mono font-bold">{accountNo}</span>
+                                        {/* Mobile visible copy button */}
                                         <button
-                                            onClick={() => copyToClipboard(accountNo, 'account')}
-                                            className="p-1.5 hover:bg-muted rounded transition-colors"
+                                            onClick={() => copyToClipboard(item.value, item.id)}
+                                            className="md:hidden p-2 text-muted-foreground active:text-primary"
                                         >
-                                            {copiedField === 'account' ? (
-                                                <Check className="w-4 h-4 text-green-600" />
-                                            ) : (
-                                                <Copy className="w-4 h-4 text-muted-foreground" />
-                                            )}
+                                            <Copy className="w-4 h-4" />
                                         </button>
                                     </div>
-                                </div>
-
-                                <div className="flex justify-between items-center py-3 border-b">
-                                    <span className="text-muted-foreground">Chủ tài khoản</span>
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-bold">{accountName}</span>
-                                        <button
-                                            onClick={() => copyToClipboard(accountName, 'name')}
-                                            className="p-1.5 hover:bg-muted rounded transition-colors"
-                                        >
-                                            {copiedField === 'name' ? (
-                                                <Check className="w-4 h-4 text-green-600" />
-                                            ) : (
-                                                <Copy className="w-4 h-4 text-muted-foreground" />
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="flex justify-between items-center py-3">
-                                    <span className="text-muted-foreground">Nội dung chuyển khoản</span>
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-mono font-bold text-primary">{transferContent}</span>
-                                        <button
-                                            onClick={() => copyToClipboard(transferContent, 'content')}
-                                            className="p-1.5 hover:bg-muted rounded transition-colors"
-                                        >
-                                            {copiedField === 'content' ? (
-                                                <Check className="w-4 h-4 text-green-600" />
-                                            ) : (
-                                                <Copy className="w-4 h-4 text-muted-foreground" />
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
 
-                        {/* Action Button */}
-                        <Button
-                            className="w-full h-14 text-base font-semibold shadow-lg hover:shadow-xl transition-all"
-                            size="lg"
-                            onClick={() => window.location.reload()}
-                        >
-                            Tôi đã chuyển khoản
-                        </Button>
+                        {/* Action and Note */}
+                        <div className="space-y-4">
+                            <Button
+                                className="w-full h-16 text-lg font-black tracking-wide shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] hover:scale-[1.01] active:scale-[0.99] transition-all rounded-2xl"
+                                size="lg"
+                                onClick={() => window.location.reload()}
+                            >
+                                Tôi đã hoàn tất chuyển khoản
+                            </Button>
 
-                        {/* Auto Verification Note */}
-                        <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4">
-                            <p className="text-sm text-blue-900 dark:text-blue-100 text-center leading-relaxed">
-                                💡 Hệ thống tự động kích hoạt sau khi nhận thanh toán (1-2 phút)
-                            </p>
+                            <div className="relative overflow-hidden p-5 rounded-2xl bg-blue-500/[0.03] border border-blue-500/10 group">
+                                <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-blue-500/5 rounded-full blur-xl group-hover:bg-blue-500/10 transition-colors"></div>
+                                <p className="text-sm font-medium text-blue-700 dark:text-blue-300 flex items-start gap-3">
+                                    <Sparkles className="w-5 h-5 flex-shrink-0 animate-pulse" />
+                                    <span>
+                                        Hệ thống sẽ tự động xác minh và kích hoạt khóa học trong vòng <strong>1-2 phút</strong> sau khi nhận được tiền.
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
