@@ -161,142 +161,66 @@ export default function OrderPage({ params }: { params: any }) {
     const qrUrl = `https://qr.sepay.vn/img?acc=${accountNo}&bank=${bankName}&amount=${order.amount}&des=${transferContent}`;
 
     return (
-        <div className="min-h-screen bg-background py-12 md:py-20 px-4">
-            <div className="container max-w-5xl">
-                {/* Header Section */}
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-                        Thanh toán đơn hàng
-                    </h1>
-                    <div className="inline-flex items-center px-4 py-2 rounded-full bg-muted/50 border border-border/50 text-sm font-medium">
-                        Mã đơn hàng: <span className="ml-2 font-mono text-primary">{order.code}</span>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    {/* Left Panel: QR and Amount */}
-                    <div className="lg:col-span-5 space-y-6">
-                        <div className="relative group">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-[2rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                            <div className="relative bg-card border border-border/50 rounded-[2rem] p-8 shadow-2xl backdrop-blur-sm">
-                                <div className="text-center mb-8">
-                                    <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2">Số tiền thanh toán</p>
-                                    <p className="text-4xl md:text-5xl font-black text-foreground">
-                                        {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}
-                                        <span className="ml-1 text-2xl md:text-3xl font-bold">₫</span>
-                                    </p>
-                                </div>
-
-                                <div className="bg-white rounded-2xl p-6 shadow-md border border-slate-100">
-                                    <img src={qrUrl} alt="QR Code Payment" className="w-full h-auto" />
-                                </div>
-
-                                <p className="text-center mt-6 text-sm text-muted-foreground font-medium flex items-center justify-center gap-2">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                                    Quét mã bằng ứng dụng Ngân hàng
-                                </p>
-                            </div>
+        <div className="min-h-[calc(100vh-64px)] flex items-center justify-center p-4 md:p-6 bg-zinc-50/50">
+            <div className="w-full max-w-4xl bg-white rounded-2xl shadow-sm border border-zinc-100 overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                    {/* Left: QR Code */}
+                    <div className="p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-zinc-100 bg-zinc-50/30">
+                        <div className="text-center mb-6">
+                            <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-1.5">Thanh toán đơn hàng</h2>
+                            <p className="font-mono text-zinc-400 text-xs px-2 py-0.5 bg-zinc-100/50 rounded inline-block">{order.code}</p>
                         </div>
 
-                        {/* Status Widget */}
-                        <div className={`rounded-2xl border p-4 transition-all duration-500 flex items-center justify-center gap-3 ${isChecking
-                            ? 'bg-primary/[0.03] border-primary/20 shadow-inner'
-                            : 'bg-muted/30 border-border/50'
-                            }`}>
-                            {isChecking ? (
-                                <>
-                                    <div className="relative flex h-3 w-3">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-                                    </div>
-                                    <span className="text-sm font-bold text-primary tracking-wide">Đang xác thực giao dịch...</span>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="w-2 h-2 bg-muted-foreground/30 rounded-full"></div>
-                                    <span className="text-sm text-muted-foreground">Đang chờ tín hiệu thanh toán</span>
-                                </>
-                            )}
+                        <div className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm mb-6">
+                            <img src={qrUrl} alt="QR Code Payment" className="w-48 h-48 md:w-56 md:h-56 object-contain" />
+                        </div>
+
+                        <div className="text-center">
+                            <p className="text-[10px] text-zinc-400 mb-1 uppercase tracking-wide">Số tiền cần thanh toán</p>
+                            <p className="text-3xl font-semibold text-zinc-800 tracking-tight">
+                                {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}
+                                <span className="text-lg text-zinc-500 ml-0.5 align-top">đ</span>
+                            </p>
                         </div>
                     </div>
 
-                    {/* Right Panel: Bank Details & Action */}
-                    <div className="lg:col-span-7 space-y-6">
-                        <div className="bg-card border border-border/50 rounded-[2rem] p-8 shadow-2xl backdrop-blur-sm">
-                            <div className="flex items-center gap-3 mb-8">
-                                <div className="p-2.5 rounded-xl bg-primary/10 text-primary">
-                                    <Info className="w-5 h-5" />
-                                </div>
-                                <h3 className="text-2xl font-bold tracking-tight">Chi tiết chuyển khoản</h3>
-                            </div>
+                    {/* Right: Info & Actions */}
+                    <div className="p-8 flex flex-col justify-center">
+                        <div className="mb-8">
+                            <h3 className="text-base font-medium text-zinc-800 mb-6 flex items-center gap-2">
+                                <Info className="w-4 h-4 text-zinc-400" />
+                                Thông tin chuyển khoản
+                            </h3>
 
-                            <div className="space-y-1">
+                            <div className="space-y-4">
                                 {[
                                     { label: 'Ngân hàng', value: bankName, id: 'bank' },
                                     { label: 'Số tài khoản', value: accountNo, id: 'account', mono: true },
                                     { label: 'Chủ tài khoản', value: accountName, id: 'name' },
                                     { label: 'Nội dung', value: transferContent, id: 'content', mono: true, highlight: true },
-                                ].map((item, index) => (
-                                    <div
-                                        key={item.id}
-                                        className={`group relative flex items-center justify-between p-4 rounded-xl transition-all duration-300 hover:bg-muted/50 ${index !== 3 ? 'border-b border-border/10' : ''
-                                            }`}
-                                    >
-                                        <div className="space-y-0.5">
-                                            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{item.label}</p>
-                                            <p className={`text-base font-bold ${item.mono ? 'font-mono' : ''} ${item.highlight ? 'text-primary' : 'text-foreground'}`}>
+                                ].map((item) => (
+                                    <div key={item.id} className="group flex items-center justify-between text-sm">
+                                        <span className="text-zinc-500 min-w-[100px] text-xs font-medium">{item.label}</span>
+                                        <div className="flex items-center gap-2">
+                                            <span className={`text-zinc-700 ${item.mono ? 'font-mono' : ''} ${item.highlight ? 'text-blue-600 font-medium' : ''}`}>
                                                 {item.value}
-                                            </p>
+                                            </span>
+                                            <button
+                                                onClick={() => copyToClipboard(item.value, item.id)}
+                                                className="text-zinc-300 hover:text-zinc-600 transition-colors p-1"
+                                                title="Sao chép"
+                                            >
+                                                {copiedField === item.id ? (
+                                                    <Check className="w-3.5 h-3.5 text-green-500" />
+                                                ) : (
+                                                    <Copy className="w-3.5 h-3.5" />
+                                                )}
+                                            </button>
                                         </div>
-                                        <button
-                                            onClick={() => copyToClipboard(item.value, item.id)}
-                                            className={`p-2.5 rounded-lg border border-border/50 transition-all duration-300 ${copiedField === item.id
-                                                ? 'bg-green-500/10 border-green-500/50 text-green-600'
-                                                : 'bg-background hover:bg-foreground hover:text-background text-muted-foreground opacity-0 group-hover:opacity-100'
-                                                }`}
-                                        >
-                                            {copiedField === item.id ? (
-                                                <Check className="w-4 h-4" />
-                                            ) : (
-                                                <Copy className="w-4 h-4" />
-                                            )}
-                                        </button>
-
-                                        {/* Mobile visible copy button */}
-                                        <button
-                                            onClick={() => copyToClipboard(item.value, item.id)}
-                                            className="md:hidden p-2 text-muted-foreground active:text-primary"
-                                        >
-                                            <Copy className="w-4 h-4" />
-                                        </button>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        {/* Action and Note */}
-                        <div className="space-y-4">
-                            <Button
-                                className="w-full h-16 text-lg font-black tracking-wide shadow-[0_10px_40px_-10px_rgba(0,0,0,0.3)] hover:scale-[1.01] active:scale-[0.99] transition-all rounded-2xl"
-                                size="lg"
-                                onClick={() => window.location.reload()}
-                            >
-                                Tôi đã hoàn tất chuyển khoản
-                            </Button>
-
-                            <div className="relative overflow-hidden p-5 rounded-2xl bg-blue-500/[0.03] border border-blue-500/10 group">
-                                <div className="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-blue-500/5 rounded-full blur-xl group-hover:bg-blue-500/10 transition-colors"></div>
-                                <p className="text-sm font-medium text-blue-700 dark:text-blue-300 flex items-start gap-3">
-                                    <Sparkles className="w-5 h-5 flex-shrink-0 animate-pulse" />
-                                    <span>
-                                        Hệ thống sẽ tự động xác minh và kích hoạt khóa học trong vòng <strong>1-2 phút</strong> sau khi nhận được tiền.
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+                        );
 }

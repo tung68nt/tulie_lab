@@ -47,3 +47,7 @@ server/uploads/*
 
 # TypeScript
 *.tsbuildinfo
+
+# Diagnostic scripts
+scripts/check-db.ts
+scripts/get-api-key.ts

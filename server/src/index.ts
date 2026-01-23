@@ -65,6 +65,8 @@ async function initializeApp() {
           'https://beta.thelab.tulie.vn',
           'https://academy-web-863772349164.asia-southeast1.run.app',
           'https://academy-web-beta-863772349164.asia-southeast1.run.app',
+          'https://academy-api-863772349164.asia-southeast1.run.app',
+          'https://academy-api-beta-863772349164.asia-southeast1.run.app',
           'https://the-tulie-lab.vercel.app',
           'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003',
           'http://127.0.0.1:3000'
