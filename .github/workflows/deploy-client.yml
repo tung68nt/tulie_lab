@@ -56,7 +56,8 @@ jobs:
         run: |
           docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
                        -t gcr.io/$PROJECT_ID/$SERVICE_NAME:latest \
-                       --build-arg NEXT_PUBLIC_API_URL=$API_URL \
+                       -t gcr.io/$PROJECT_ID/$SERVICE_NAME:latest \
+                       --build-arg NEXT_PUBLIC_API_URL=${{ env.API_URL }} \
                        ./client
 
       - name: Push Docker image
@@ -73,7 +74,8 @@ jobs:
             --allow-unauthenticated \
             --min-instances 0 \
             --max-instances 10 \
-            --memory 512Mi \
+            --max-instances 10 \
+            --memory 1Gi \
             --cpu 1 \
             --timeout 300 \
             --port 3000
