@@ -4,7 +4,7 @@ import { use, useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
-import { Info, CircleCheck, Copy, Check } from 'lucide-react';
+import { Info, CircleCheck, Copy, Check, Sparkles } from 'lucide-react';
 
 export default function OrderPage({ params }: { params: any }) {
     const [code, setCode] = useState<string>('');
@@ -200,8 +200,8 @@ export default function OrderPage({ params }: { params: any }) {
 
                         {/* Status Widget */}
                         <div className={`rounded-2xl border p-4 transition-all duration-500 flex items-center justify-center gap-3 ${isChecking
-                                ? 'bg-primary/[0.03] border-primary/20 shadow-inner'
-                                : 'bg-muted/30 border-border/50'
+                            ? 'bg-primary/[0.03] border-primary/20 shadow-inner'
+                            : 'bg-muted/30 border-border/50'
                             }`}>
                             {isChecking ? (
                                 <>
@@ -251,8 +251,8 @@ export default function OrderPage({ params }: { params: any }) {
                                         <button
                                             onClick={() => copyToClipboard(item.value, item.id)}
                                             className={`p-2.5 rounded-lg border border-border/50 transition-all duration-300 ${copiedField === item.id
-                                                    ? 'bg-green-500/10 border-green-500/50 text-green-600'
-                                                    : 'bg-background hover:bg-foreground hover:text-background text-muted-foreground opacity-0 group-hover:opacity-100'
+                                                ? 'bg-green-500/10 border-green-500/50 text-green-600'
+                                                : 'bg-background hover:bg-foreground hover:text-background text-muted-foreground opacity-0 group-hover:opacity-100'
                                                 }`}
                                         >
                                             {copiedField === item.id ? (
