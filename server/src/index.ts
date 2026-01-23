@@ -10,6 +10,9 @@ dotenv.config({ path: path.join(__dirname, '../.env') }); // Load .env from serv
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+// Trust proxy is required for Cloud Run to see the real user IP
+app.set('trust proxy', true);
+
 // --- CRITICAL: Register health check FIRST, before any blocking operations ---
 // This ensures Cloud Run's health check always passes.
 app.get('/api/health', (req, res) => {
