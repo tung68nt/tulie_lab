@@ -136,17 +136,17 @@ export const webhook = async (req: Request, res: Response) => {
             if (actualTransferContent && typeof actualTransferContent === 'string') {
                 const trimmedContent = actualTransferContent.trim().toUpperCase();
 
-                // First try SEVQR pattern (SePay's QR code format: SEVQR + alphanumeric)
-                let match = trimmedContent.match(/\bSEVQR[A-Z0-9]{8,12}\b/);
-                if (match) {
-                    orderCode = match[0];
-                    console.log('✅ Found order code from transfer content (SEVQR pattern):', orderCode);
+                // First try to match SEVQR prefix pattern (VietinBank specific)
+                const sevqrMatch = trimmedContent.match(/SEVQR([A-Z0-9]{10,})/);
+                if (sevqrMatch && sevqrMatch[1]) {
+                    orderCode = sevqrMatch[1];
+                    console.log('✅ Found order code from SEVQR pattern:', orderCode);
                 } else {
-                    // Fallback to general alphanumeric pattern (10-16 chars)
-                    match = trimmedContent.match(/\b[A-Z0-9]{10,16}\b/);
-                    if (match) {
-                        orderCode = match[0];
-                        console.log('✅ Found order code from transfer content (general pattern):', orderCode);
+                    // Fallback to generic 10-character alphanumeric pattern
+                    const genericMatch = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
+                    if (genericMatch) {
+                        orderCode = genericMatch[0];
+                        console.log('✅ Found order code from generic pattern:', orderCode);
                     }
                 }
             }
@@ -155,17 +155,10 @@ export const webhook = async (req: Request, res: Response) => {
         // 3. Try reference code
         if (!orderCode && referenceCode && typeof referenceCode === 'string') {
             const trimmedRef = referenceCode.trim().toUpperCase();
-            // Try SEVQR pattern first
-            let match = trimmedRef.match(/\bSEVQR[A-Z0-9]{8,12}\b/);
+            const match = trimmedRef.match(/\b[A-Z0-9]{10}\b/);
             if (match) {
                 orderCode = match[0];
-                console.log('✅ Found order code from reference code (SEVQR):', orderCode);
-            } else {
-                match = trimmedRef.match(/\b[A-Z0-9]{10,16}\b/);
-                if (match) {
-                    orderCode = match[0];
-                    console.log('✅ Found order code from reference code:', orderCode);
-                }
+                console.log('✅ Found order code from reference code:', orderCode);
             }
         }
 
