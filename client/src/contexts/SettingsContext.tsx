@@ -17,6 +17,9 @@ interface Settings {
     pricing_membership_premium_original?: string;
     pricing_membership_premium_description?: string;
     pricing_membership_premium_features?: string;
+    pricing_single_sale?: string;
+    pricing_single_original?: string;
+    pricing_single_description?: string;
     pricing_vibe_coding_sale?: string;
     pricing_vibe_coding_original?: string;
 }
@@ -34,6 +37,9 @@ const defaultSettings: Settings = {
     pricing_membership_premium_original: '15.000k',
     pricing_membership_premium_description: 'All-in-one + Tư vấn 1-1 trực tiếp',
     pricing_membership_premium_features: '["Tư vấn 1-1 trực tiếp", "Source code các dự án", "Hỗ trợ ưu tiên 24/7"]',
+    pricing_single_sale: '250k',
+    pricing_single_original: '500k',
+    pricing_single_description: 'Sở hữu vĩnh viễn template này',
     pricing_vibe_coding_sale: '1.790k',
     pricing_vibe_coding_original: '3.500k',
 };
