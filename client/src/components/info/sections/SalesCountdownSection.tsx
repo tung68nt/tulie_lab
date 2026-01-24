@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { ArrowLeft, ArrowRight, Timer, TrendingDown } from 'lucide-react';
 import { Section } from '@/types/sections';
+import { useSectionPreview } from '@/components/SectionRenderer';
 
 interface TimeLeft {
     days: number;
@@ -39,6 +40,7 @@ export function SalesCountdownSection({ section }: { section: Section }) {
     const INITIAL_MINUTES = 39;
     const [targetDate, setTargetDate] = useState<Date | null>(null);
     const [isSticky, setIsSticky] = useState(false); // This state is no longer used due to portal
+    const isPreview = useSectionPreview();
 
     useEffect(() => {
         if (section.highlight) {
@@ -105,8 +107,8 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                     {/* Urgency Badge - Hidden on very small screens */}
                     <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20">
                         <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                         </span>
                         <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-500">Ưu đãi sắp hết</span>
                     </div>
@@ -165,8 +167,9 @@ export function SalesCountdownSection({ section }: { section: Section }) {
     );
     if (!mounted) return null;
 
+    // Use portal only if NOT in preview mode
     const portalTarget = typeof document !== 'undefined' ? document.getElementById('top-banner-portal') : null;
-    if (portalTarget) {
+    if (portalTarget && !isPreview) {
         return createPortal(content, portalTarget);
     }
 

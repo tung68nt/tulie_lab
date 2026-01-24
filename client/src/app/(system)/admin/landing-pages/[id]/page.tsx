@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
-import { ArrowLeft, Save, AlertTriangle, ArrowUp, ArrowDown, X, Edit, Eye, EyeOff, PlusCircle, Trash2, Zap } from 'lucide-react';
+import { ArrowLeft, Save, AlertTriangle, ArrowUp, ArrowDown, X, Edit, Eye, EyeOff, PlusCircle, Trash2, Zap, BookOpen, Package } from 'lucide-react';
 import Link from 'next/link';
 import { Switch } from '@/components/Switch';
 
@@ -328,16 +328,16 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     <button
                                         type="button"
                                         onClick={() => setFormData({ ...formData, useMainCourse: !formData.useMainCourse })}
-                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useMainCourse ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
+                                        className={`flex items-center justify-center gap-2 flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useMainCourse ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
                                     >
-                                        📚 Khóa học
+                                        <BookOpen size={16} /> Khóa học
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setFormData({ ...formData, useMainProduct: !formData.useMainProduct })}
-                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useMainProduct ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
+                                        className={`flex items-center justify-center gap-2 flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useMainProduct ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
                                     >
-                                        📦 Template
+                                        <Package size={16} /> Template
                                     </button>
                                 </div>
 
@@ -390,16 +390,16 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     <button
                                         type="button"
                                         onClick={() => setFormData({ ...formData, useUpsellCourse: !formData.useUpsellCourse })}
-                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useUpsellCourse ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
+                                        className={`flex items-center justify-center gap-2 flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useUpsellCourse ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
                                     >
-                                        📚 Khóa học
+                                        <BookOpen size={16} /> Khóa học
                                     </button>
                                     <button
                                         type="button"
                                         onClick={() => setFormData({ ...formData, useUpsellProduct: !formData.useUpsellProduct })}
-                                        className={`flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useUpsellProduct ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
+                                        className={`flex items-center justify-center gap-2 flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useUpsellProduct ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
                                     >
-                                        📦 Template
+                                        <Package size={16} /> Template
                                     </button>
                                 </div>
 
@@ -479,25 +479,25 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 <Card>
                     <CardContent className="p-4 md:p-6 pt-6 space-y-4">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-muted/30 p-3 rounded-lg mb-4 gap-4">
-                            <div className="flex items-center gap-1 md:gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                            <div className="flex items-center gap-1 md:gap-2 w-full md:w-auto overflow-x-auto p-1">
                                 <button
                                     type="button"
                                     onClick={() => setMode('builder')}
-                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'builder' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+                                    className={`h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'builder' ? 'bg-white shadow text-black' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
                                     Page Builder
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setMode('json')}
-                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'json' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+                                    className={`h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'json' ? 'bg-white shadow text-black' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
                                     JSON
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setMode('html')}
-                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'html' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+                                    className={`h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'html' ? 'bg-white shadow text-black' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
                                     HTML
                                 </button>

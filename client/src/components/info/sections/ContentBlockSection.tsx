@@ -11,7 +11,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
             <div className="container px-4 mx-auto space-y-24">
                 {section.title && (
                     <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">{section.title}</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3]">{section.title}</h2>
                         <p className="text-xl text-muted-foreground">{section.subtitle}</p>
                     </div>
                 )}

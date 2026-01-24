@@ -69,7 +69,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                         </span>
                         Thành viên đã làm được gì?
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3]">
                         {section.title || "Kết quả thực tế từ những người như bạn"}
                     </h2>
                     <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">

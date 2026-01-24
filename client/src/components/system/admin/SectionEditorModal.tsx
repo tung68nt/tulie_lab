@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Save, RefreshCw, Smartphone, Tablet, Monitor } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { SectionRenderer } from '@/components/SectionRenderer';
@@ -30,7 +31,10 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
         }
     }, [section, isOpen]);
 
-    if (!isOpen || !editedSection) return null;
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+
+    if (!isOpen || !editedSection || !mounted) return null;
 
     const handleChange = (field: keyof Section, value: any) => {
         setEditedSection(prev => prev ? { ...prev, [field]: value } : null);
@@ -46,7 +50,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
         }
     };
 
-    return (
+    return createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
             <div className="bg-white dark:bg-neutral-900 rounded-xl shadow-2xl w-full max-w-7xl h-[90vh] flex flex-col border border-neutral-200 dark:border-neutral-800 overflow-hidden">
                 {/* Header */}
@@ -170,7 +174,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                     <div className="flex-1 bg-neutral-100 dark:bg-black overflow-y-auto relative flex flex-col">
                         <div className="sticky top-0 z-10 bg-white/80 dark:bg-black/80 backdrop-blur px-4 py-2 border-b border-neutral-200 dark:border-neutral-800 flex justify-between items-center gap-4">
                             <div className="flex items-center gap-4">
-                                <span className="text-xs font-bold uppercase tracking-wider text-neutral-500 whitespace-nowrap">Live Preview</span>
+                                <span className="text-xs font-bold tracking-wider text-neutral-500 whitespace-nowrap">Live view</span>
                             </div>
 
                             <div className="flex items-center gap-4">
@@ -244,33 +248,31 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                             </div>
                         </div>
 
-                        <div className="flex-1 overflow-auto bg-neutral-200/50 dark:bg-neutral-900/50 p-8 flex justify-center items-start">
+                        <div className="flex-1 overflow-auto bg-neutral-200/50 dark:bg-neutral-900/50 p-8 flex items-start">
                             {/* Outer Frame - This stays fixed on screen (at viewportWidth) */}
                             <div
                                 style={{
                                     width: viewportWidth,
-                                    maxWidth: '100%',
-                                    transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                }}
+                                    zoom: zoomLevel,
+                                } as any}
                                 className={`bg-white dark:bg-black shadow-xl mx-auto flex-shrink-0 overflow-hidden relative ${viewportWidth !== '100%' ? 'border border-neutral-300 dark:border-neutral-700' : 'w-full'}`}
                             >
                                 {/* Inner Scored Content - This scales but its visual bounds match the parent because of 100%/zoom width */}
                                 <div
-                                    className="origin-top"
+                                    className=""
                                     style={{
-                                        transform: `scale(${zoomLevel})`,
-                                        width: `calc(100% / ${zoomLevel})`,
+                                        width: '100%',
                                         height: 'auto',
-                                        transition: 'transform 0.2s ease-out'
                                     }}
                                 >
-                                    <SectionRenderer section={editedSection} />
+                                    <SectionRenderer section={editedSection} isPreview={true} />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { SECTION_TEMPLATES, SectionTemplate } from '@/lib/section-templates';
 import { Button } from '@/components/Button';
 import { Plus, X, Layout, Users, Zap, Star, Monitor } from 'lucide-react';
@@ -13,8 +14,10 @@ interface SectionLibraryModalProps {
 
 export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibraryModalProps) {
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
 
-    if (!isOpen) return null;
+    if (!isOpen || !mounted) return null;
 
     const categories = ['All', ...Array.from(new Set(SECTION_TEMPLATES.map(t => t.category)))];
     const filteredTemplates = selectedCategory === 'All'
@@ -32,7 +35,7 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
         }
     };
 
-    return (
+    return createPortal(
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-0 md:p-4 bg-black/50 backdrop-blur-sm">
             <div className="bg-white dark:bg-neutral-900 rounded-none md:rounded-xl shadow-2xl w-full h-full md:w-[95vw] md:max-w-7xl md:h-[90vh] flex flex-col overflow-hidden border-0 md:border border-neutral-200 dark:border-neutral-800">
 
@@ -116,6 +119,7 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
                     </div>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

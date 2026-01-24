@@ -16,7 +16,7 @@ export function StatsSection({ section }: { section: Section }) {
                             {section.subtitle}
                         </div>
                     )}
-                    <h2 className="text-4xl font-bold md:text-6xl mb-8 text-foreground tracking-tight">
+                    <h2 className="text-4xl font-bold md:text-6xl mb-8 text-foreground tracking-tight leading-[1.3]">
                         {section.title}
                     </h2>
                     {section.content && (

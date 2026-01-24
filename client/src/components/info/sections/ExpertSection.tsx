@@ -76,7 +76,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             <div className="inline-block px-4 py-1.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 font-bold text-xs tracking-wider uppercase mb-6">
                                 VỀ GIẢNG VIÊN
                             </div>
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight text-foreground">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.3] tracking-tight text-foreground">
                                 {expert.name}
                             </h2>
                             <p className="text-xl md:text-2xl text-primary font-bold">

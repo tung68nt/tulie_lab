@@ -133,7 +133,7 @@ export function Footer() {
                         <img
                             src={footerData.logoUrl}
                             alt={footerData.companyName}
-                            className="h-10 w-auto object-contain"
+                            className="h-10 w-auto object-contain dark:brightness-0 dark:invert"
                             onError={() => setLogoError(true)}
                         />
                     </div>
@@ -237,7 +237,6 @@ export function Footer() {
                     <p className="text-sm text-muted-foreground text-center">
                         © {new Date().getFullYear()} {footerData.copyrightText}
                     </p>
-                    <span className="text-[10px] text-zinc-500 font-semibold opacity-30">v0.1.7</span>
                 </div>
             </div>
         </footer>

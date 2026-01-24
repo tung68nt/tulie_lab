@@ -21,7 +21,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                         </span>
                         Showcase thành viên
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.3]">
                         {section.title || "Sản phẩm thành viên đã làm được"}
                     </h2>
                     <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">

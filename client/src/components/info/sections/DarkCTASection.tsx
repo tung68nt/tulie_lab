@@ -16,7 +16,7 @@ export const DarkCTASection = ({ section }: { section: Section }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-[#0a0a0a]"></div>
 
             <div className="container relative z-10 text-center px-4 max-w-4xl mx-auto">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight leading-tight">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight leading-[1.3]">
                     {section.title}
                 </h2>
                 <div className="flex flex-col items-center gap-4">

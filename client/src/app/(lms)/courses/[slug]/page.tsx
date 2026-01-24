@@ -7,7 +7,7 @@ import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
-import { Clock } from 'lucide-react';
+import { Clock, ChevronDown, ChevronUp, Lock } from 'lucide-react';
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
 import { CourseChapter } from '@/components/lms/CourseChapter';
@@ -196,9 +196,9 @@ export default function CoursePage({ params }: { params: any }) {
                     <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
                             <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm font-medium text-zinc-400">
-                                <span className={`mr-2 h-2 w-2 rounded-full ${course.deploymentStatus === 'COMING_SOON' ? 'bg-yellow-500'
-                                    : course.deploymentStatus === 'UPDATING' ? 'bg-blue-500'
-                                        : 'bg-emerald-500'
+                                <span className={`mr-2 h-2 w-2 rounded-full ${course.deploymentStatus === 'COMING_SOON' ? 'bg-white'
+                                    : course.deploymentStatus === 'UPDATING' ? 'bg-white'
+                                        : 'bg-white'
                                     }`}></span>
                                 {course.deploymentStatus === 'COMING_SOON' ? 'Khóa học Sắp ra mắt'
                                     : course.deploymentStatus === 'UPDATING' ? 'Khóa học Đang nâng cấp'
@@ -326,7 +326,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                 <Button
                                                     size="lg"
                                                     disabled={isPurchasing}
-                                                    className="w-full font-bold text-sm shadow-xl border-0 relative h-10"
+                                                    className="w-full font-bold text-sm shadow-xl border-0 relative h-10 animate-pulse-slow"
                                                     style={{ backgroundColor: 'white', color: 'black' }}
                                                     onClick={handleBuyNow}
                                                 >
@@ -438,8 +438,8 @@ export default function CoursePage({ params }: { params: any }) {
                                                                                 <div className="flex-1">
                                                                                     <div className="flex items-center gap-2">
                                                                                         <h4 className="font-medium text-sm">{lesson.title}</h4>
-                                                                                        <span className="text-[10px] text-muted-foreground">
-                                                                                            {isExpanded ? '▲' : '▼'}
+                                                                                        <span className="text-muted-foreground">
+                                                                                            {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                                                                                         </span>
                                                                                     </div>
                                                                                     {lesson.duration && (
@@ -459,7 +459,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                                                 </Link>
                                                                             ) : !isEnrolled ? (
                                                                                 <span className="text-[10px] text-muted-foreground flex items-center gap-1 bg-muted px-2 py-1 rounded">
-                                                                                    <span className="opacity-60 text-xs">🔒</span> Khóa
+                                                                                    <Lock size={12} className="opacity-60" /> Khóa
                                                                                 </span>
                                                                             ) : (
                                                                                 <Link href={`/learn/${course.slug}/${lesson.slug}`}>

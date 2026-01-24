@@ -1,3 +1,4 @@
+import { createContext, useContext } from 'react';
 import { HeroSection } from '@/components/info/sections/HeroSection';
 import { StatsSection } from '@/components/info/sections/StatsSection';
 import { BenefitsSection } from '@/components/info/sections/BenefitsSection';
@@ -53,11 +54,20 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     faq: FAQSection,
 };
 
-export const SectionRenderer = ({ section }: { section: any }) => {
+// Context for checking if section is in preview mode (e.g. editor)
+export const SectionPreviewContext = createContext<boolean>(false);
+
+export const useSectionPreview = () => useContext(SectionPreviewContext);
+
+export const SectionRenderer = ({ section, isPreview = false }: { section: any; isPreview?: boolean }) => {
     const Component = SECTION_COMPONENTS[section.type];
     if (!Component) {
         // Fallback or Null
         return <div className="p-4 border border-dashed border-red-500 rounded text-red-500 text-xs text-center">Unknown Section: {section.type}</div>;
     }
-    return <Component section={section} />;
+    return (
+        <SectionPreviewContext.Provider value={isPreview}>
+            <Component section={section} />
+        </SectionPreviewContext.Provider>
+    );
 };

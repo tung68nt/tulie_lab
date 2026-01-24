@@ -112,7 +112,7 @@ export default function AdminUserDetailPage() {
                         <Button
                             variant="outline"
                             size="sm"
-                            className="text-green-600 border-green-200 bg-green-50 hover:bg-green-100"
+                            className="bg-zinc-50 hover:bg-zinc-100"
                             onClick={() => handleAction(() => api.admin.unblockUser(id as string), 'Đã kích hoạt lại tài khoản')}
                         >
                             Kích hoạt lại
@@ -121,7 +121,7 @@ export default function AdminUserDetailPage() {
                         <Button
                             variant="outline"
                             size="sm"
-                            className="text-amber-600 border-amber-200 bg-amber-50 hover:bg-amber-100"
+                            className="hover:bg-zinc-100"
                             onClick={() => handleAction(() => api.admin.blockUser(id as string), 'Đã chặn người dùng này', 'Chặn người dùng này? Họ sẽ không thể đăng nhập.')}
                         >
                             <Ban size={14} className="mr-1" /> Chặn
@@ -130,7 +130,7 @@ export default function AdminUserDetailPage() {
                     <Button
                         variant="outline"
                         size="sm"
-                        className="text-red-600 border-red-200 bg-red-50 hover:bg-red-100"
+                        className="hover:bg-zinc-100"
                         onClick={() => handleAction(async () => {
                             await api.admin.deleteUser(id as string);
                             router.push('/admin/users');
@@ -144,16 +144,11 @@ export default function AdminUserDetailPage() {
             {/* Quick Stats Banner */}
             <div className="grid gap-4 md:grid-cols-4">
                 <Card>
-                    <CardContent className="pt-6">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <p className="text-xs font-medium text-muted-foreground mb-1">Trạng thái Membership</p>
-                                <h3 className="text-lg font-bold">
-                                    {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
-                                </h3>
-                            </div>
-                            <Shield size={24} className={isMemberActive ? 'text-zinc-900' : 'opacity-30'} />
-                        </div>
+                    <CardContent className="pt-6 flex flex-col items-center justify-center text-center">
+                        <p className="text-xs font-medium text-muted-foreground mb-1">Membership</p>
+                        <h3 className="text-lg font-bold">
+                            {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
+                        </h3>
                         {isMemberActive && (
                             <p className="text-[10px] mt-2 text-muted-foreground">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</p>
                         )}
@@ -186,21 +181,19 @@ export default function AdminUserDetailPage() {
             </div>
 
             {/* Tabs Navigation */}
+            {/* Tabs Navigation */}
             <div className="flex flex-wrap items-center gap-1 border-b pb-px overflow-x-auto no-scrollbar">
                 {tabs.map(tab => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all relative ${activeTab === tab.id
-                            ? 'text-foreground'
-                            : 'text-muted-foreground hover:text-foreground'
+                        className={`flex items-center gap-2 px-4 py-3 text-sm font-bold transition-all rounded-t-lg ${activeTab === tab.id
+                            ? 'bg-zinc-100 text-zinc-900 border-b-2 border-zinc-900'
+                            : 'text-muted-foreground hover:bg-zinc-50 hover:text-zinc-900'
                             }`}
                     >
                         <tab.icon size={16} />
-                        {tab.label}
-                        {activeTab === tab.id && (
-                            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
-                        )}
+                        <span className="whitespace-nowrap">{tab.label}</span>
                     </button>
                 ))}
             </div>
@@ -301,7 +294,7 @@ export default function AdminUserDetailPage() {
                                 <CardContent className="space-y-6">
                                     <div className="flex gap-4">
                                         <div className="h-10 w-10 shrink-0 bg-background rounded-full flex items-center justify-center border">
-                                            <BookOpen size={20} className="text-blue-500" />
+                                            <BookOpen size={20} className="text-zinc-900" />
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold">{user.stats?.totalEnrollments || 0}</p>
@@ -310,7 +303,7 @@ export default function AdminUserDetailPage() {
                                     </div>
                                     <div className="flex gap-4">
                                         <div className="h-10 w-10 shrink-0 bg-background rounded-full flex items-center justify-center border">
-                                            <Package size={20} className="text-purple-500" />
+                                            <Package size={20} className="text-zinc-900" />
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold">{user.purchasedProducts?.length || 0}</p>
@@ -319,7 +312,7 @@ export default function AdminUserDetailPage() {
                                     </div>
                                     <div className="flex gap-4">
                                         <div className="h-10 w-10 shrink-0 bg-background rounded-full flex items-center justify-center border">
-                                            <CreditCard size={20} className="text-emerald-500" />
+                                            <CreditCard size={20} className="text-zinc-900" />
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold">{user.orders?.length || 0}</p>
@@ -391,9 +384,9 @@ export default function AdminUserDetailPage() {
                                                 <Clock size={10} /> Đã kích hoạt: {formatDate(enroll.createdAt)}
                                             </p>
                                             <div className="flex gap-2">
-                                                <Link href={`/admin/courses/${enroll.courseId}`} className="text-[10px] font-bold uppercase text-blue-500 hover:underline">Quản lý nội dung</Link>
+                                                <Link href={`/admin/courses/${enroll.courseId}`} className="text-[10px] font-bold text-zinc-900 hover:underline">Quản lý nội dung</Link>
                                                 <button
-                                                    className="text-[10px] font-bold uppercase text-red-500 hover:underline opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    className="text-[10px] font-bold text-zinc-500 hover:underline hover:text-zinc-900"
                                                     onClick={() => handleAction(() => api.admin.unenrollUser(id as string, enroll.courseId), 'Đã gỡ quyền truy cập khóa học', 'Gỡ quyền truy cập khóa học này?')}
                                                 >
                                                     Gỡ quyền
@@ -441,7 +434,7 @@ export default function AdminUserDetailPage() {
                                                         <span className="font-bold">{p.title}</span>
                                                     </div>
                                                 </td>
-                                                <td className="py-4 px-4 font-mono text-xs text-blue-500">v{p.currentVersion || '1.0.0'}</td>
+                                                <td className="py-4 px-4 font-mono text-xs text-zinc-900">v{p.currentVersion || '1.0.0'}</td>
                                                 <td className="py-4 px-4 text-muted-foreground">{formatDate(p.purchasedAt)}</td>
                                                 <td className="py-4 px-4 text-center">
                                                     <Button variant="outline" size="sm" onClick={() => window.open(`/admin/products/${p.id}`, '_blank')}>
@@ -470,40 +463,48 @@ export default function AdminUserDetailPage() {
                                 <CardDescription>Cấp quyền hội viên Premium để truy cập tất cả nội dung.</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
-                                <div className={`p-6 rounded-2xl border-2 ${isMemberActive ? 'bg-amber-50 border-amber-200' : 'bg-muted/30 border-dashed'}`}>
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className={`h-12 w-12 rounded-full flex items-center justify-center ${isMemberActive ? 'bg-amber-100 text-amber-600' : 'bg-muted text-muted-foreground'}`}>
-                                                <Shield size={24} />
-                                            </div>
-                                            <div>
-                                                <h4 className="font-bold text-lg">{isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Gói miễn phí'}</h4>
-                                                <p className="text-xs text-muted-foreground">
-                                                    {isMemberActive
-                                                        ? `Gói đang kích hoạt, hết hạn vào ${new Date(activeSub.endDate).toLocaleDateString('vi-VN')}`
-                                                        : 'Người dùng hiện chỉ có quyền truy cập nội dung miễn phí.'}
-                                                </p>
-                                            </div>
+                                <div className="flex items-center justify-between p-4 border rounded-xl bg-zinc-50/50">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`h-12 w-12 rounded-full flex items-center justify-center ${isMemberActive ? 'bg-zinc-100 text-zinc-900 border' : 'bg-muted text-muted-foreground'}`}>
+                                            <Shield size={24} />
                                         </div>
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold tracking-wider ${isMemberActive ? 'bg-zinc-100 text-zinc-900 border' : 'bg-muted text-muted-foreground'}`}>
-                                            {isMemberActive ? 'ACTIVE' : 'NONE'}
-                                        </span>
+                                        <div>
+                                            <h4 className="font-bold text-lg">{isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Gói miễn phí'}</h4>
+                                            <p className="text-xs text-muted-foreground">
+                                                {isMemberActive
+                                                    ? `Gói đang kích hoạt, hết hạn vào ${new Date(activeSub.endDate).toLocaleDateString('vi-VN')}`
+                                                    : 'Người dùng hiện chỉ có quyền truy cập nội dung miễn phí.'}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="flex gap-3">
-                                        <Button
-                                            size="sm"
-                                            className="bg-amber-500 hover:bg-amber-600 border-0 text-white font-bold"
-                                            onClick={() => handleAction(() => api.admin.grantMembership(id as string, 365), 'Đã cấp gói Premium 365 ngày thành công', 'Cấp gói hội viên 1 năm cho người dùng này?')}
-                                        >
-                                            {isMemberActive ? 'Gia hạn 1 Năm' : 'Cấp Premium 1 Năm'}
-                                        </Button>
-                                        <Button size="sm" variant="outline" className="font-bold" onClick={() => handleAction(() => api.admin.grantMembership(id as string, 30), 'Đã cấp gói 30 ngày')}>
-                                            Cấp 30 Ngày
-                                        </Button>
-                                    </div>
+                                    <span className={`px-3 py-1 rounded-full text-xs font-bold tracking-wider ${isMemberActive ? 'bg-zinc-900 text-zinc-100' : 'bg-muted text-muted-foreground'}`}>
+                                        {isMemberActive ? 'ACTIVE' : 'NONE'}
+                                    </span>
                                 </div>
 
-                                <div className="space-y-3">
+                                <div className="flex gap-2 flex-wrap">
+                                    <Button
+                                        size="sm"
+                                        className="bg-zinc-900 hover:bg-zinc-800 text-white font-bold"
+                                        onClick={() => handleAction(() => api.admin.grantMembership(id as string, 365), 'Đã cấp gói Premium 365 ngày thành công', 'Cấp gói hội viên 1 năm cho người dùng này?')}
+                                    >
+                                        {isMemberActive ? 'Gia hạn 1 Năm' : 'Cấp Premium 1 Năm'}
+                                    </Button>
+                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => handleAction(() => api.admin.grantMembership(id as string, -1), 'Đã hạ gói thành viên', 'Hạ gói hội viên của người dùng này?')}>
+                                        Hạ gói
+                                    </Button>
+                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => handleAction(() => api.admin.grantMembership(id as string, 365), 'Đã nâng cấp gói thành viên')}>
+                                        Nâng gói
+                                    </Button>
+                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => addToast('Tính năng chỉnh hạn thủ công đang phát triển', 'info')}>
+                                        Chỉnh hạn
+                                    </Button>
+                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => addToast('Tính năng gia hạn thủ công đang phát triển', 'info')}>
+                                        Gia hạn thủ công
+                                    </Button>
+                                </div>
+
+                                <div className="space-y-3 pt-4 border-t">
                                     <h4 className="text-xs font-bold tracking-tight text-muted-foreground">Lịch sử Membership</h4>
                                     <div className="space-y-2 border rounded-xl overflow-hidden">
                                         {user.subscriptions?.map((s: any) => (
@@ -516,7 +517,7 @@ export default function AdminUserDetailPage() {
                                                     <span className="text-[10px] text-muted-foreground">
                                                         {new Date(s.startDate).toLocaleDateString('vi-VN')} - {new Date(s.endDate).toLocaleDateString('vi-VN')}
                                                     </span>
-                                                    <span className={`text-[10px] font-bold ${s.status === 'ACTIVE' ? 'text-green-600' : 'text-muted-foreground'}`}>
+                                                    <span className={`text-[10px] font-bold ${s.status === 'ACTIVE' ? 'text-zinc-900 border px-1.5 py-0.5 rounded-full' : 'text-muted-foreground'}`}>
                                                         {s.status}
                                                     </span>
                                                 </div>
@@ -555,171 +556,176 @@ export default function AdminUserDetailPage() {
                         </Card>
                     </div>
                 )}
+}
 
-                {activeTab === 'orders' && (
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="text-base">Lịch sử đơn hàng</CardTitle>
-                            <CardDescription>Tất cả các giao dịch thanh toán và đơn hàng chờ xử lý.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
-                                    <thead>
-                                        <tr className="border-b bg-muted/30">
-                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Mã đơn</th>
-                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Nội dung</th>
-                                            <th className="text-right py-3 px-4 font-bold text-[10px]">Số tiền</th>
-                                            <th className="text-center py-3 px-4 font-bold text-[10px]">Trạng thái</th>
-                                            <th className="text-right py-3 px-4 font-bold text-[10px]">Ngày tạo</th>
-                                            <th className="text-center py-3 px-4 font-bold text-[10px]">Thao tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y text-xs">
-                                        {user.orders?.map((order: any) => (
-                                            <tr key={order.id} className="hover:bg-muted/10 transition-colors">
-                                                <td className="py-3 px-4 font-bold font-mono tracking-tighter">
-                                                    {order.code}
-                                                </td>
-                                                <td className="py-3 px-4 max-w-[250px] truncate font-medium">
-                                                    {order.items?.map((item: any) => item.course?.title || item.product?.title).join(', ') || 'N/A'}
-                                                </td>
-                                                <td className="py-3 px-4 text-right font-bold text-sm">
-                                                    {formatCurrency(order.amount)}
-                                                </td>
-                                                <td className="py-3 px-4 text-center">
-                                                    <span className={`px-2 py-0.5 rounded-full font-bold text-[9px] ${order.status === 'PAID' ? 'bg-green-100 text-green-700' :
-                                                        order.status === 'PENDING' ? 'bg-amber-100 text-amber-700' :
-                                                            'bg-muted text-muted-foreground'
-                                                        }`}>
-                                                        {order.status}
-                                                    </span>
-                                                </td>
-                                                <td className="py-3 px-4 text-right text-muted-foreground font-medium">
-                                                    {new Date(order.createdAt).toLocaleDateString('vi-VN')}
-                                                </td>
-                                                <td className="py-3 px-4 text-center">
-                                                    <Button variant="outline" size="sm" onClick={() => router.push(`/admin/orders?search=${order.code}`)}>
-                                                        Chi tiết
-                                                    </Button>
-                                                </td>
+                {
+                    activeTab === 'orders' && (
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-base">Lịch sử đơn hàng</CardTitle>
+                                <CardDescription>Tất cả các giao dịch thanh toán và đơn hàng chờ xử lý.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                            <tr className="border-b bg-muted/30">
+                                                <th className="text-left py-3 px-4 font-bold text-[10px]">Mã đơn</th>
+                                                <th className="text-left py-3 px-4 font-bold text-[10px]">Nội dung</th>
+                                                <th className="text-right py-3 px-4 font-bold text-[10px]">Số tiền</th>
+                                                <th className="text-center py-3 px-4 font-bold text-[10px]">Trạng thái</th>
+                                                <th className="text-right py-3 px-4 font-bold text-[10px]">Ngày tạo</th>
+                                                <th className="text-center py-3 px-4 font-bold text-[10px]">Thao tác</th>
                                             </tr>
-                                        ))}
-                                        {(!user.orders || user.orders.length === 0) && (
-                                            <tr>
-                                                <td colSpan={6} className="text-center py-20 text-muted-foreground">Không có dữ liệu đơn hàng.</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody className="divide-y text-xs">
+                                            {user.orders?.map((order: any) => (
+                                                <tr key={order.id} className="hover:bg-muted/10 transition-colors">
+                                                    <td className="py-3 px-4 font-bold font-mono tracking-tighter">
+                                                        {order.code}
+                                                    </td>
+                                                    <td className="py-3 px-4 max-w-[250px] truncate font-medium">
+                                                        {order.items?.map((item: any) => item.course?.title || item.product?.title).join(', ') || 'N/A'}
+                                                    </td>
+                                                    <td className="py-3 px-4 text-right font-bold text-sm">
+                                                        {formatCurrency(order.amount)}
+                                                    </td>
+                                                    <td className="py-3 px-4 text-center">
+                                                        <span className={`px-2 py-0.5 rounded-full font-bold text-[9px] ${order.status === 'PAID' ? 'bg-zinc-900 text-zinc-100' :
+                                                            order.status === 'PENDING' ? 'bg-zinc-100 text-zinc-900' :
+                                                                'bg-muted text-muted-foreground'
+                                                            }`}>
+                                                            {order.status}
+                                                        </span>
+                                                    </td>
+                                                    <td className="py-3 px-4 text-right text-muted-foreground font-medium">
+                                                        {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+                                                    </td>
+                                                    <td className="py-3 px-4 text-center">
+                                                        <Button variant="outline" size="sm" onClick={() => router.push(`/admin/orders?search=${order.code}`)}>
+                                                            Chi tiết
+                                                        </Button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {(!user.orders || user.orders.length === 0) && (
+                                                <tr>
+                                                    <td colSpan={6} className="text-center py-20 text-muted-foreground">Không có dữ liệu đơn hàng.</td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    )
+                }
+
+                {
+                    activeTab === 'logs' && (
+                        <div className="space-y-6">
+                            <div className="grid gap-6 md:grid-cols-2">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="text-base flex items-center gap-2">
+                                            <ShieldAlert size={18} className="text-red-500" /> Cảnh báo bảo mật
+                                        </CardTitle>
+                                        <CardDescription>Các hành vi bất thường hoặc vi phạm chính sách.</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-4">
+                                            {user.securityLogs?.filter((l: any) => ['FAILED_LOGIN', 'ACCESS_DENIED'].includes(l.action)).map((log: any) => (
+                                                <div key={log.id} className="p-3 bg-red-50 border border-red-100 rounded-lg flex gap-3">
+                                                    <Ban size={16} className="text-red-500 shrink-0 mt-0.5" />
+                                                    <div className="flex-1">
+                                                        <p className="text-xs font-bold text-red-900">{log.action}</p>
+                                                        <p className="text-[10px] text-red-700 mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
+                                                        <p className="text-[9px] text-red-600/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {(!user.securityLogs || user.securityLogs.length === 0) && (
+                                                <div className="py-10 text-center text-xs text-muted-foreground flex flex-col items-center gap-2">
+                                                    <CheckCircle2 size={24} className="text-green-500 opacity-30" />
+                                                    Tài khoản sạch, không có cảnh báo bảo mật nào.
+                                                </div>
+                                            )}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="text-base flex items-center gap-2">
+                                            <Laptop size={18} className="text-blue-500" /> Lịch sử đăng nhập & IP
+                                        </CardTitle>
+                                        <CardDescription>Theo dõi danh sách các địa chỉ IP và trình duyệt gần đây.</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-3">
+                                            {user.activities?.filter((l: any) => l.action === 'login').slice(0, 10).map((act: any) => (
+                                                <div key={act.id} className="flex justify-between items-center p-2 rounded hover:bg-muted/30 transition-colors">
+                                                    <div className="flex items-center gap-3">
+                                                        <Globe size={14} className="text-muted-foreground" />
+                                                        <code className="text-[10px] font-mono font-bold bg-muted px-1.5 py-0.5 rounded">{act.ipAddress}</code>
+                                                    </div>
+                                                    <span className="text-[10px] text-muted-foreground">{formatDate(act.createdAt)}</span>
+                                                </div>
+                                            ))}
+                                            {(!user.activities || user.activities.filter((l: any) => l.action === 'login').length === 0) && (
+                                                <p className="text-center py-10 text-xs text-muted-foreground">Chưa có lịch sử đăng nhập.</p>
+                                            )}
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             </div>
-                        </CardContent>
-                    </Card>
-                )}
 
-                {activeTab === 'logs' && (
-                    <div className="space-y-6">
-                        <div className="grid gap-6 md:grid-cols-2">
                             <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <ShieldAlert size={18} className="text-red-500" /> Cảnh báo bảo mật
-                                    </CardTitle>
-                                    <CardDescription>Các hành vi bất thường hoặc vi phạm chính sách.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        {user.securityLogs?.filter((l: any) => ['FAILED_LOGIN', 'ACCESS_DENIED'].includes(l.action)).map((log: any) => (
-                                            <div key={log.id} className="p-3 bg-red-50 border border-red-100 rounded-lg flex gap-3">
-                                                <Ban size={16} className="text-red-500 shrink-0 mt-0.5" />
-                                                <div className="flex-1">
-                                                    <p className="text-xs font-bold text-red-900">{log.action}</p>
-                                                    <p className="text-[10px] text-red-700 mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
-                                                    <p className="text-[9px] text-red-600/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {(!user.securityLogs || user.securityLogs.length === 0) && (
-                                            <div className="py-10 text-center text-xs text-muted-foreground flex flex-col items-center gap-2">
-                                                <CheckCircle2 size={24} className="text-green-500 opacity-30" />
-                                                Tài khoản sạch, không có cảnh báo bảo mật nào.
-                                            </div>
-                                        )}
+                                <CardHeader className="flex flex-row items-center justify-between">
+                                    <div>
+                                        <CardTitle className="text-base flex items-center gap-2">
+                                            <History size={18} className="text-muted-foreground" /> Nhật ký hành vi chi tiết
+                                        </CardTitle>
+                                        <CardDescription>Toàn bộ hành động của người dùng trên hệ thống.</CardDescription>
                                     </div>
-                                </CardContent>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <Laptop size={18} className="text-blue-500" /> Lịch sử đăng nhập & IP
-                                    </CardTitle>
-                                    <CardDescription>Theo dõi danh sách các địa chỉ IP và trình duyệt gần đây.</CardDescription>
+                                    <span className="text-[10px] font-bold bg-muted px-2 py-1 rounded">Latest 100 Logs</span>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="space-y-3">
-                                        {user.activities?.filter((l: any) => l.action === 'login').slice(0, 10).map((act: any) => (
-                                            <div key={act.id} className="flex justify-between items-center p-2 rounded hover:bg-muted/30 transition-colors">
-                                                <div className="flex items-center gap-3">
-                                                    <Globe size={14} className="text-muted-foreground" />
-                                                    <code className="text-[10px] font-mono font-bold bg-muted px-1.5 py-0.5 rounded">{act.ipAddress}</code>
+                                    <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 no-scrollbar border rounded-xl overflow-hidden divide-y">
+                                        {user.activities?.map((act: any) => (
+                                            <div key={act.id} className="p-3 hover:bg-muted/30 transition-colors flex items-center gap-4 group">
+                                                <div className="shrink-0">
+                                                    <div className={`h-8 w-8 rounded-full flex items-center justify-center ${act.action.includes('buy') || act.action.includes('order') ? 'bg-emerald-100 text-emerald-600' :
+                                                        act.action.includes('error') || act.action.includes('failed') ? 'bg-red-100 text-red-600' :
+                                                            'bg-blue-50 text-blue-500'
+                                                        }`}>
+                                                        <Activity size={14} />
+                                                    </div>
                                                 </div>
-                                                <span className="text-[10px] text-muted-foreground">{formatDate(act.createdAt)}</span>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-xs font-bold capitalize">{act.action.replace(/_/g, ' ')}</span>
+                                                        {act.path && <span className="text-[10px] bg-muted px-1.5 py-0.2 rounded text-muted-foreground truncate max-w-[200px]">{act.path}</span>}
+                                                    </div>
+                                                    <div className="flex items-center gap-3 mt-0.5">
+                                                        <span className="text-[9px] text-muted-foreground font-medium">{formatDate(act.createdAt)}</span>
+                                                        <span className="text-[9px] text-muted-foreground">• IP: {act.ipAddress}</span>
+                                                        {act.metadata && <span className="text-[9px] text-muted-foreground hidden group-hover:inline">• Meta: {act.metadata.length > 50 ? act.metadata.substring(0, 50) + '...' : act.metadata}</span>}
+                                                    </div>
+                                                </div>
+                                                <ChevronRight size={14} className="text-muted-foreground opacity-30 group-hover:opacity-100 transition-opacity" />
                                             </div>
                                         ))}
-                                        {(!user.activities || user.activities.filter((l: any) => l.action === 'login').length === 0) && (
-                                            <p className="text-center py-10 text-xs text-muted-foreground">Chưa có lịch sử đăng nhập.</p>
+                                        {(!user.activities || user.activities.length === 0) && (
+                                            <p className="text-center py-20 text-sm text-muted-foreground italic">Không có nhật ký hành vi được ghi nhận.</p>
                                         )}
                                     </div>
                                 </CardContent>
                             </Card>
                         </div>
-
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between">
-                                <div>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <History size={18} className="text-muted-foreground" /> Nhật ký hành vi chi tiết
-                                    </CardTitle>
-                                    <CardDescription>Toàn bộ hành động của người dùng trên hệ thống.</CardDescription>
-                                </div>
-                                <span className="text-[10px] font-bold bg-muted px-2 py-1 rounded">Latest 100 Logs</span>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 no-scrollbar border rounded-xl overflow-hidden divide-y">
-                                    {user.activities?.map((act: any) => (
-                                        <div key={act.id} className="p-3 hover:bg-muted/30 transition-colors flex items-center gap-4 group">
-                                            <div className="shrink-0">
-                                                <div className={`h-8 w-8 rounded-full flex items-center justify-center ${act.action.includes('buy') || act.action.includes('order') ? 'bg-emerald-100 text-emerald-600' :
-                                                    act.action.includes('error') || act.action.includes('failed') ? 'bg-red-100 text-red-600' :
-                                                        'bg-blue-50 text-blue-500'
-                                                    }`}>
-                                                    <Activity size={14} />
-                                                </div>
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-xs font-bold capitalize">{act.action.replace(/_/g, ' ')}</span>
-                                                    {act.path && <span className="text-[10px] bg-muted px-1.5 py-0.2 rounded text-muted-foreground truncate max-w-[200px]">{act.path}</span>}
-                                                </div>
-                                                <div className="flex items-center gap-3 mt-0.5">
-                                                    <span className="text-[9px] text-muted-foreground font-medium">{formatDate(act.createdAt)}</span>
-                                                    <span className="text-[9px] text-muted-foreground">• IP: {act.ipAddress}</span>
-                                                    {act.metadata && <span className="text-[9px] text-muted-foreground hidden group-hover:inline">• Meta: {act.metadata.length > 50 ? act.metadata.substring(0, 50) + '...' : act.metadata}</span>}
-                                                </div>
-                                            </div>
-                                            <ChevronRight size={14} className="text-muted-foreground opacity-30 group-hover:opacity-100 transition-opacity" />
-                                        </div>
-                                    ))}
-                                    {(!user.activities || user.activities.length === 0) && (
-                                        <p className="text-center py-20 text-sm text-muted-foreground italic">Không có nhật ký hành vi được ghi nhận.</p>
-                                    )}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                )}
-            </div>
-        </div>
+                    )
+                }
+            </div >
+        </div >
     );
 }
