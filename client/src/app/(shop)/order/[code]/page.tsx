@@ -182,114 +182,107 @@ export default function OrderPage({ params }: { params: any }) {
     return (
         <div className="min-h-screen bg-background pt-8 pb-20">
             <div className="container max-w-4xl px-4">
-                {/* Header Section - More Compact */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-100 mb-4">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+                {/* Header Section - Minimal */}
+                <div className="text-center mb-10">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-xs font-medium border border-zinc-200 dark:border-zinc-700 mb-4">
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 animate-pulse" />
                         Chờ thanh toán
                     </div>
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">Thanh toán đơn hàng</h1>
                 </div>
 
-                <div className="max-w-2xl mx-auto">
-                    {/* Unified Payment Card */}
+                <div className="max-w-[500px] mx-auto">
+                    {/* Unified Payment Card - B&W Single Column */}
                     <div className="bg-white dark:bg-zinc-950 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
-                        <div className="grid grid-cols-1 md:grid-cols-2">
-                            {/* Left Side: QR Code */}
-                            <div className="p-8 flex flex-col items-center justify-center bg-zinc-50/50 dark:bg-zinc-900/30 border-b md:border-b-0 md:border-r border-zinc-100 dark:border-zinc-800">
-                                <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-4">Quét mã QR</p>
-                                <div className="bg-white p-3 rounded-2xl border border-zinc-200 shadow-sm w-full max-w-[200px] mb-4">
+                        <div className="p-8 space-y-8">
+                            {/* QR Section - Centered at top */}
+                            <div className="flex flex-col items-center justify-center pb-8 border-b border-zinc-100 dark:border-zinc-800">
+                                <p className="text-xs font-semibold text-zinc-400 mb-4">Quét mã QR để thanh toán</p>
+                                <div className="bg-white p-3 rounded-2xl border border-zinc-100 shadow-sm w-[200px]">
                                     <img src={qrUrl} alt="QR Code Payment" className="w-full h-auto object-contain" />
-                                </div>
-                                <div className="text-center">
-                                    <p className="text-xs text-zinc-500 leading-relaxed px-4">
-                                        Mở App ngân hàng quét mã QR để thanh toán tự động
-                                    </p>
                                 </div>
                             </div>
 
-                            {/* Right Side: Manual Info */}
-                            <div className="p-8 flex flex-col justify-center">
-                                <div className="flex items-center gap-2 mb-6">
-                                    <div className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                                        <CreditCard className="w-4 h-4 text-zinc-600 dark:text-zinc-400" />
-                                    </div>
-                                    <h3 className="font-bold text-zinc-900 dark:text-zinc-100">Chi tiết chuyển khoản</h3>
+                            {/* Details Section - Single Column */}
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <CreditCard className="w-4 h-4 text-zinc-400" />
+                                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">Chi tiết chuyển khoản</h3>
                                 </div>
 
-                                <div className="space-y-4">
-                                    {/* Bank & Account Group */}
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex-1">
-                                            <label className="text-[11px] font-bold text-zinc-400 uppercase mb-1 block">Ngân hàng</label>
-                                            <p className="font-bold text-zinc-900 dark:text-zinc-100">{bankName}</p>
-                                        </div>
-                                        <div className="flex-1">
-                                            <label className="text-[11px] font-bold text-zinc-400 uppercase mb-1 block">Tài khoản</label>
-                                            <p className="font-bold text-zinc-900 dark:text-zinc-100">{accountNo}</p>
+                                <div className="space-y-5">
+                                    <div className="flex justify-between items-center py-1 border-b border-zinc-50 dark:border-zinc-900">
+                                        <span className="text-sm text-zinc-500">Ngân hàng</span>
+                                        <span className="font-semibold text-zinc-900 dark:text-zinc-100">{bankName}</span>
+                                    </div>
+
+                                    <div className="flex justify-between items-center py-1 border-b border-zinc-50 dark:border-zinc-900">
+                                        <span className="text-sm text-zinc-500">Số tài khoản</span>
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">{accountNo}</span>
+                                            <button onClick={() => copyToClipboard(accountNo, 'account')} className="text-zinc-400 hover:text-zinc-600">
+                                                {copiedField === 'account' ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                                            </button>
                                         </div>
                                     </div>
 
-                                    {/* Name */}
-                                    <div>
-                                        <label className="text-[11px] font-bold text-zinc-400 uppercase mb-1 block">Chủ tài khoản</label>
-                                        <p className="font-bold text-zinc-900 dark:text-zinc-100">{accountName}</p>
+                                    <div className="flex justify-between items-center py-1 border-b border-zinc-50 dark:border-zinc-900">
+                                        <span className="text-sm text-zinc-500">Chủ tài khoản</span>
+                                        <span className="font-semibold text-zinc-900 dark:text-zinc-100">{accountName}</span>
                                     </div>
 
-                                    {/* Transfer Content - Highlighted */}
+                                    {/* Transfer Content - Vertical Highlight */}
                                     <div className="pt-2">
-                                        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800/50">
-                                            <div className="flex justify-between items-center mb-1">
-                                                <label className="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase">Nội dung (Quan trọng)</label>
-                                                <button onClick={() => copyToClipboard(transferContent, 'content')} className="text-blue-600 dark:text-blue-400 text-[10px] font-bold hover:underline flex items-center gap-1">
-                                                    {copiedField === 'content' ? 'Đã sao chép' : 'Sao chép'}
+                                        <div className="bg-zinc-50 dark:bg-zinc-900/50 p-5 rounded-2xl border border-zinc-100 dark:border-zinc-800">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <label className="text-[11px] font-semibold text-zinc-500">Nội dung chuyển khoản (Quan trọng)</label>
+                                                <button onClick={() => copyToClipboard(transferContent, 'content')} className="text-zinc-900 dark:text-zinc-100 text-[10px] font-bold hover:underline">
+                                                    {copiedField === 'content' ? 'Đã sao chép' : 'Sao chép nội dung'}
                                                 </button>
                                             </div>
-                                            <p className="font-bold text-blue-700 dark:text-blue-300 text-xl tracking-tight">{transferContent}</p>
+                                            <p className="font-black text-zinc-900 dark:text-white text-2xl tracking-tight">{transferContent}</p>
                                         </div>
+                                        <p className="text-[10px] text-zinc-500 mt-2 text-center">
+                                            Nhập chính xác nội dung này để hệ thống tự động kích hoạt
+                                        </p>
                                     </div>
 
-                                    {/* Amount - Highlighted */}
-                                    <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-end">
-                                        <div className="text-left">
-                                            <label className="text-[11px] font-bold text-zinc-400 uppercase block">Số tiền cần trả</label>
-                                            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                                                {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}₫
-                                            </p>
-                                        </div>
-                                        <div className="text-right">
-                                            <label className="text-[11px] font-bold text-zinc-400 uppercase block">Mã đơn hàng</label>
-                                            <p className="font-mono text-zinc-500 text-xs">{order.code}</p>
-                                        </div>
+                                    {/* Amount & Order Code */}
+                                    <div className="pt-4 flex flex-col items-center gap-1">
+                                        <span className="text-xs text-zinc-500">Số tiền cần thanh toán</span>
+                                        <p className="text-3xl font-black text-zinc-900 dark:text-white">
+                                            {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}₫
+                                        </p>
+                                        <p className="text-[10px] text-zinc-400 mt-2">Mã đơn hàng: {order.code}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Status Indicator - Tighter integration */}
+                    {/* Status Indicator - Neutral */}
                     <div className="mt-8">
-                        <div className="relative flex items-center gap-4 p-5 rounded-3xl bg-amber-50/50 dark:bg-amber-900/10 border border-amber-200/50 dark:border-amber-800/20">
-                            <div className="relative flex h-3 w-3 shrink-0">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                        <div className="flex items-center gap-4 p-5 rounded-3xl bg-zinc-50 dark:bg-zinc-900/20 border border-zinc-100 dark:border-zinc-800">
+                            <div className="relative flex h-2.5 w-2.5 shrink-0">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-zinc-500"></span>
                             </div>
                             <div className="flex-1">
-                                <h4 className="font-bold text-amber-900 dark:text-amber-400 text-sm">
+                                <h4 className="font-semibold text-zinc-900 dark:text-zinc-200 text-sm">
                                     Đang chờ hệ thống xác nhận thanh toán...
                                 </h4>
-                                <p className="text-xs text-amber-800/70 dark:text-amber-500/60 mt-0.5">
-                                    Tự động kích hoạt sau 10 - 60 giây. Vui lòng giữ trình duyệt mở.
+                                <p className="text-[11px] text-zinc-500 mt-0.5">
+                                    Tự động kích hoạt sau vài giây. Vui lòng giữ cửa sổ này.
                                 </p>
                             </div>
                         </div>
                     </div>
 
                     {/* Help Link - Minimal */}
-                    <div className="mt-8 text-center">
-                        <Link href="/contact" className="text-xs text-zinc-400 hover:text-primary transition-colors inline-flex items-center gap-1">
+                    <div className="mt-10 text-center">
+                        <Link href="/contact" className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors inline-flex items-center gap-1.5">
                             <Info className="w-3.5 h-3.5" />
-                            Hỗ trợ kỹ thuật 24/7
+                            Cần hỗ trợ? Liên hệ bộ phận kỹ thuật 24/7
                         </Link>
                     </div>
                 </div>
