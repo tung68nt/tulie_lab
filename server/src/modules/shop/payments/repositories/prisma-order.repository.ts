@@ -66,10 +66,10 @@ export class PrismaOrderRepository implements IOrderRepository {
         where?: Prisma.OrderWhereInput;
         orderBy?: Prisma.OrderOrderByWithRelationInput;
         include?: Prisma.OrderInclude;
-    }): Promise<{ orders: Order[]; total: number }> {
+    }): Promise<{ orders: Order[]; total: number; stats?: { total: number; paid: number; pending: number; cancelled: number; totalRevenue: number } }> {
         const { skip, take, where, orderBy, include } = params as any;
 
-        const [orders, total] = await Promise.all([
+        const [orders, total, statsData] = await Promise.all([
             prisma.order.findMany({
                 skip,
                 take,
@@ -103,9 +103,38 @@ export class PrismaOrderRepository implements IOrderRepository {
                     }
                 }
             }),
-            prisma.order.count({ where: where || {} })
+            prisma.order.count({ where: where || {} }),
+            prisma.order.groupBy({
+                by: ['status'],
+                where: where || {},
+                _count: {
+                    _all: true
+                },
+                _sum: {
+                    amount: true
+                }
+            })
         ]);
 
-        return { orders, total };
+        const stats = {
+            total,
+            paid: 0,
+            pending: 0,
+            cancelled: 0,
+            totalRevenue: 0
+        };
+
+        statsData.forEach((group: any) => {
+            if (group.status === 'PAID' || group.status === 'COMPLETED') {
+                stats.paid += group._count._all;
+                stats.totalRevenue += Number(group._sum.amount || 0);
+            } else if (group.status === 'PENDING') {
+                stats.pending = group._count._all;
+            } else if (group.status === 'CANCELLED') {
+                stats.cancelled = group._count._all;
+            }
+        });
+
+        return { orders, total, stats };
     }
 }

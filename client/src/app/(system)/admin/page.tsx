@@ -166,8 +166,8 @@ export default function AdminDashboardPage() {
             const paidOrders = orders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED');
             const pendingOrders = orders.filter((o: any) => o.status === 'PENDING');
 
-            // Use backend stats if available, otherwise fallback (dashboard might show 0 if Limit < Total)
-            const totalRevenue = orderStats.totalRevenue || paidOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0);
+            // Use backend stats if available, otherwise fallback
+            const totalRevenue = Number(orderStats.totalRevenue || paidOrders.reduce((sum: number, o: any) => sum + Number(o.amount || 0), 0));
 
             // Generate chart data... (logic remains, utilizing the 1000 orders fetched)
             // ...
@@ -208,7 +208,7 @@ export default function AdminDashboardPage() {
 
                             result.push({
                                 month: dateStr,
-                                revenue: dayOrders.reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+                                revenue: dayOrders.reduce((sum: number, o: any) => sum + Number(o.amount || 0), 0),
                                 orders: dayOrders.length,
                                 users: dayUsers.length
                             });
@@ -321,7 +321,7 @@ export default function AdminDashboardPage() {
                         const now = new Date();
                         return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear();
                     })
-                    .reduce((sum: number, o: any) => sum + (o.amount || 0), 0),
+                    .reduce((sum: number, o: any) => sum + Number(o.amount || 0), 0),
                 totalOrders: orderStats.total || orders.length,
                 paidOrders: orderStats.paid || paidOrders.length,
                 pendingOrders: orderStats.pending || pendingOrders.length,

@@ -93,7 +93,13 @@ export default function AdminOrdersPage() {
 
             setOrders(ordersData);
             setTotalPages(Math.ceil((totalCount || 0) / 10));
-            setStats(prev => ({ ...prev, total: totalCount || 0 }));
+
+            // Use server-side stats if available
+            if (res.meta?.stats) {
+                setStats(res.meta.stats);
+            } else {
+                setStats(prev => ({ ...prev, total: totalCount || 0 }));
+            }
         } catch (error) {
             console.error('Failed to load orders:', error);
             addToast('Không thể tải danh sách đơn hàng', 'error');

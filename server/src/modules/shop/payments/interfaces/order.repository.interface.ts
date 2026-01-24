@@ -12,5 +12,5 @@ export interface IOrderRepository {
         where?: Prisma.OrderWhereInput;
         orderBy?: Prisma.OrderOrderByWithRelationInput;
         include?: Prisma.OrderInclude;
-    }): Promise<{ orders: Order[]; total: number }>;
+    }): Promise<{ orders: Order[]; total: number; stats?: { total: number; paid: number; pending: number; cancelled: number; totalRevenue: number } }>;
 }

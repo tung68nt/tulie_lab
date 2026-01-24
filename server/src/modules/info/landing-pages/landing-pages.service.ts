@@ -14,7 +14,7 @@ export class LandingPageService {
             title: data.title,
             slug: data.slug,
             description: data.description ?? null,
-            sections: data.sections || [],
+            sections: data.sections ? JSON.stringify(data.sections) : null,
             isActive: data.isActive ?? true,
             type: data.type || 'LANDING',
             htmlContent: data.htmlContent ?? null,
@@ -33,14 +33,25 @@ export class LandingPageService {
         if (data.title !== undefined) updateData.title = data.title;
         if (data.slug !== undefined) updateData.slug = data.slug;
         if (data.description !== undefined) updateData.description = data.description;
-        if (data.sections !== undefined) updateData.sections = data.sections;
+        if (data.sections !== undefined) updateData.sections = data.sections ? JSON.stringify(data.sections) : null;
         if (data.htmlContent !== undefined) updateData.htmlContent = data.htmlContent;
         if (data.isActive !== undefined) updateData.isActive = data.isActive;
         if (data.type !== undefined) updateData.type = data.type;
-        if (data.courseId !== undefined) updateData.courseId = data.courseId;
-        if (data.productId !== undefined) updateData.productId = data.productId;
-        if (data.upsellCourseId !== undefined) updateData.upsellCourseId = data.upsellCourseId;
-        if (data.upsellProductId !== undefined) updateData.upsellProductId = data.upsellProductId;
+
+        // Handle relations
+        if (data.courseId !== undefined) {
+            updateData.course = data.courseId ? { connect: { id: data.courseId } } : { disconnect: true };
+        }
+        if (data.productId !== undefined) {
+            updateData.product = data.productId ? { connect: { id: data.productId } } : { disconnect: true };
+        }
+        if (data.upsellCourseId !== undefined) {
+            updateData.upsellCourse = data.upsellCourseId ? { connect: { id: data.upsellCourseId } } : { disconnect: true };
+        }
+        if (data.upsellProductId !== undefined) {
+            updateData.upsellProduct = data.upsellProductId ? { connect: { id: data.upsellProductId } } : { disconnect: true };
+        }
+
         if (data.upsellPrice !== undefined) updateData.upsellPrice = data.upsellPrice || null;
 
         const updatedPage = await this.landingPageRepository.update(id, updateData);

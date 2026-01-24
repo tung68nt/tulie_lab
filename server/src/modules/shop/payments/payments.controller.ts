@@ -158,11 +158,22 @@ export const webhook = async (req: Request, res: Response) => {
         console.log(`Processing Order: ${orderCode} with Amount: ${transferAmount}`);
 
         // Process payment
-        await paymentService.processWebhook({
+        const webhookData: any = {
             code: orderCode,
             amount: Number(transferAmount),
-            transactionId: String(id)
-        });
+            transactionId: String(id),
+            accumulated: (accumulated !== undefined && accumulated !== null) ? Number(accumulated) : undefined
+        };
+
+        if (gateway) webhookData.gateway = String(gateway);
+        if (transactionDate) webhookData.transactionDate = String(transactionDate);
+        if (accountNumber) webhookData.accountNumber = String(accountNumber);
+        if (subAccount) webhookData.subAccount = String(subAccount);
+        if (content) webhookData.content = String(content);
+        if (referenceCode) webhookData.referenceCode = String(referenceCode);
+        if (description) webhookData.description = String(description);
+
+        await paymentService.processWebhook(webhookData);
 
         console.log('✅ Webhook processed successfully');
 
@@ -191,8 +202,16 @@ export const getAllOrders = async (req: Request, res: Response) => {
         const search = req.query.search as string;
         const status = req.query.status as string;
 
-        const result = await paymentService.getAllOrders({ page, limit, search, status });
-        res.json(result);
+        const { orders, total, stats } = await paymentService.getAllOrders({ page, limit, search, status });
+        res.json({
+            data: orders,
+            meta: {
+                total,
+                stats,
+                page,
+                limit
+            }
+        });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }

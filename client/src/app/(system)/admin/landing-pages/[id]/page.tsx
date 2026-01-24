@@ -163,7 +163,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 description: formData.description,
                 isActive: formData.isActive,
                 type: formData.type,
-                sections: mode === 'builder' ? JSON.parse(formData.sectionsJSON) : [],
+                sections: mode !== 'html' ? JSON.parse(formData.sectionsJSON || '[]') : [],
                 htmlContent: mode === 'html' ? formData.htmlContent : null,
 
                 // Send IDs only if their respective flags are enabled
@@ -478,7 +478,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
 
                 <Card>
                     <CardContent className="p-4 md:p-6 pt-6 space-y-4">
-                        <div className="flex flex-col justify-between items-start bg-muted/30 p-3 rounded-lg mb-4 gap-4">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-muted/30 p-3 rounded-lg mb-4 gap-4">
                             <div className="flex items-center gap-1 md:gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
                                 <button
                                     type="button"

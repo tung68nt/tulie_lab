@@ -172,15 +172,41 @@ export class PaymentService {
         code: string,
         amount: number,
         transactionId: string,
-        signature?: string
+        gateway?: string,
+        transactionDate?: string,
+        accountNumber?: string,
+        subAccount?: string,
+        content?: string,
+        referenceCode?: string,
+        description?: string,
+        accumulated?: number
     }): Promise<Order> {
-        // Signature validation is handled in controller via API key
-        // No need to verify again here
+        const prisma = require('../../../config/prisma').default;
+
+        // 1. Record the transaction first (Always record even if order not found for auditing)
+        await prisma.paymentTransaction.create({
+            data: {
+                gateway: data.gateway,
+                amountIn: data.amount,
+                transactionDate: data.transactionDate ? new Date(data.transactionDate) : new Date(),
+                accountNumber: data.accountNumber,
+                subAccount: data.subAccount,
+                code: data.code,
+                content: data.content,
+                referenceCode: data.referenceCode,
+                description: data.description,
+                accumulated: data.accumulated,
+                id: data.transactionId // Use the gateway's transaction ID if possible
+            }
+        }).catch((err: any) => {
+            console.error('Failed to record transaction:', err);
+            // Don't throw, we still want to try processing the order
+        });
 
         const order = await this.orderRepository.findByCode(data.code);
         if (!order) throw new Error('Order not found');
 
-        // Check amount
+        // Check amount (allow for small differences if needed, but strictly for now)
         if (Number(data.amount) < Number(order.amount)) {
             throw new Error('Insufficient amount');
         }
@@ -189,9 +215,10 @@ export class PaymentService {
             return order;
         }
 
-        // Update Order
+        // Update Order with status and transactionId
         const updatedOrder = await this.orderRepository.update(order.id, {
             status: OrderStatus.PAID,
+            transactionId: data.transactionId,
             updatedAt: new Date()
         });
 
