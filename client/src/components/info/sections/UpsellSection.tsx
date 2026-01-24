@@ -16,59 +16,73 @@ export function UpsellSection({ section }: { section: Section }) {
                     <p className="text-muted-foreground">{section.subtitle}</p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    {section.items.map((item: any, index: number) => (
-                        <div key={item.id || index} className="relative group rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300">
-                            {item.tag && (
-                                <div className="absolute -top-3 right-4 bg-foreground text-background text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
-                                    {item.tag}
-                                </div>
-                            )}
-
-                            <div className="flex items-start gap-4 mb-6">
-                                <div className={`p-3 rounded-xl bg-gradient-to-br ${item.color || 'from-gray-100 to-gray-200'} text-foreground shadow-inner`}>
-                                    <DynamicIcon name={item.icon || 'Package'} className="w-8 h-8" />
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold mb-1">{item.title}</h3>
-                                    <div className="flex items-baseline gap-2">
-                                        <span className="text-2xl font-bold text-primary">{item.price}</span>
-                                        {item.originalPrice && (
-                                            <span className="text-sm text-muted-foreground line-through decoration-red-500/50">{item.originalPrice}</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <p className="text-muted-foreground text-sm mb-6 min-h-[3rem]">{item.description}</p>
-
-                            <ul className="space-y-3 mb-8">
-                                {item.features?.map((feature: string, i: number) => (
-                                    <li key={i} className="flex items-center gap-2 text-sm">
-                                        <DynamicIcon name="Check" className="w-4 h-4 text-green-500 shrink-0" />
-                                        <span>{feature}</span>
-                                    </li>
-                                ))}
-                            </ul>
-
+                <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    {section.items.map((item: any, index: number) => {
+                        const isRetail = item.id?.includes('retail') || item.title?.includes('Mua lẻ');
+                        const ButtonComponent = (
                             <Button
                                 onClick={() => {
-                                    const el = document.getElementById('payment-section');
-                                    if (el) {
-                                        const offset = 80;
-                                        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-                                        window.scrollTo({
-                                            top: elementPosition - offset,
-                                            behavior: 'smooth'
-                                        });
+                                    if (!item.link || item.link === '#payment') {
+                                        const el = document.getElementById('payment-section');
+                                        if (el) {
+                                            const offset = 80;
+                                            const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+                                            window.scrollTo({
+                                                top: elementPosition - offset,
+                                                behavior: 'smooth'
+                                            });
+                                        }
                                     }
                                 }}
-                                className="w-full font-bold group-hover:scale-[1.02] transition-transform"
+                                variant={isRetail ? "outline" : "default"}
+                                className={`w-full font-bold group-hover:scale-[1.02] transition-transform ${isRetail ? "bg-white text-black border-2 border-black hover:bg-gray-50" : ""}`}
                             >
-                                Thêm vào lộ trình của tôi
+                                {item.ctaText || "Thêm vào lộ trình của tôi"}
                             </Button>
-                        </div>
-                    ))}
+                        );
+
+                        return (
+                            <div key={item.id || index} className="relative group rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300 flex flex-col">
+                                {item.tag && (
+                                    <div className={`absolute -top-3 right-4 text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10 uppercase ${isRetail ? "bg-gray-200 text-gray-800" : "bg-black text-white"}`}>
+                                        {item.tag}
+                                    </div>
+                                )}
+
+                                <div className="flex items-start gap-4 mb-6">
+                                    <div className={`p-3 rounded-xl bg-gradient-to-br ${item.color || 'from-gray-100 to-gray-200'} text-foreground shadow-inner`}>
+                                        <DynamicIcon name={item.icon || 'Package'} className="w-8 h-8" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-bold mb-1">{item.title}</h3>
+                                        <div className="flex items-baseline gap-2">
+                                            <span className="text-2xl font-bold text-primary">{item.price}</span>
+                                            {item.originalPrice && (
+                                                <span className="text-sm text-muted-foreground line-through decoration-red-500/50">{item.originalPrice}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p className="text-muted-foreground text-sm mb-6 min-h-[3rem]">{item.description}</p>
+
+                                <ul className="space-y-3 mb-8 flex-1">
+                                    {item.features?.map((feature: string, i: number) => (
+                                        <li key={i} className="flex items-center gap-2 text-sm">
+                                            <DynamicIcon name="Check" className="w-4 h-4 text-green-500 shrink-0" />
+                                            <span>{feature}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {item.link && item.link !== '#payment' ? (
+                                    <Link href={item.link} className="w-full block">
+                                        {ButtonComponent}
+                                    </Link>
+                                ) : ButtonComponent}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

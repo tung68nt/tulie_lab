@@ -437,20 +437,19 @@ const PAGES_TO_SEED = [
                             pricing: [
                                 {
                                     id: "plan-retail",
-                                    title: "Gói Mua Lẻ",
-                                    price: "0đ/năm",
+                                    title: "Mua lẻ (Single)",
+                                    price: "Lựa chọn",
                                     originalPrice: "",
-                                    description: "Mua lẻ từng sản phẩm số",
-                                    tag: "Linh hoạt",
+                                    description: "Lựa chọn và mua lẻ từng Template/Ứng dụng AI phù hợp với nhu cầu sử dụng thực tế.",
+                                    tag: "LINH HOẠT",
                                     features: [
-                                        "Thanh toán theo từng sản phẩm",
-                                        "Sở hữu trọn đời sản phẩm đã mua",
-                                        "Nhận đầy đủ bản cập nhật",
-                                        "Phù hợp nhu cầu sử dụng ít",
-                                        "Truy cập đầy đủ kho tài nguyên"
+                                        "Mua lẻ theo túi tiền",
+                                        "Sở hữu vĩnh viễn file",
+                                        "Tiết kiệm chi phí ban đầu",
+                                        "Hỗ trợ setup cơ bản"
                                     ],
                                     link: "/shop",
-                                    ctaText: "Khám phá Cửa hàng",
+                                    ctaText: "Xem cửa hàng",
                                     isPopular: false
                                 },
                                 {
@@ -459,7 +458,7 @@ const PAGES_TO_SEED = [
                                     price: "1.990k/năm",
                                     originalPrice: "3.500k",
                                     description: "Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template Google Sheets & Apps Script.",
-                                    tag: "Phổ biến",
+                                    tag: "PHỔ BIẾN",
                                     features: [
                                         "Tải xuống Unlimited Template",
                                         "Truy cập Template Premium mới nhất",
@@ -477,7 +476,7 @@ const PAGES_TO_SEED = [
                                     price: "4.990k/năm",
                                     originalPrice: "15.000k",
                                     description: "Giải pháp thiết kế riêng và hỗ trợ kỹ thuật 1:1 cho Doanh nghiệp/Cá nhân chuyên nghiệp.",
-                                    tag: "VIP Support",
+                                    tag: "VIP SUPPORT",
                                     features: [
                                         "Tất cả quyền lợi Gói Cơ Bản",
                                         "Thiết kế Custom Template (theo yêu cầu)",
@@ -628,7 +627,7 @@ async function main() {
                 data: {
                     title: page.title,
                     description: page.description,
-                    sections: (existing.sections as any[])?.length > 0 ? undefined : (page.sections as any),
+                    sections: page.sections as any,
                     isActive: page.isActive
                 }
             });
