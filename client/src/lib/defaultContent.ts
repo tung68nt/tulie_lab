@@ -1,4 +1,5 @@
 import { Section } from '@/types/sections';
+import { MEMBERSHIP_PRICING } from '@/constants/pricing';
 
 export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
     {
@@ -714,14 +715,14 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
         subtitle: 'Tiết kiệm thời gian xây dựng hệ thống quản lý với các Template chuyên nghiệp.',
         items: [
             {
-                title: 'Gói Cơ Bản',
-                price: '1.990k/năm',
+                title: MEMBERSHIP_PRICING.BASIC.title,
+                price: `${MEMBERSHIP_PRICING.BASIC.priceDisplay}${MEMBERSHIP_PRICING.BASIC.period}`,
                 topBadge: 'Khuyên dùng',
-                originalPrice: '3.500k',
+                originalPrice: MEMBERSHIP_PRICING.BASIC.originalPriceDisplay,
                 description: 'Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template Google Sheets & Apps Script.',
                 tag: 'Phổ biến',
                 icon: 'Zap',
-                ctaText: 'Đăng ký gói Cơ bản',
+                ctaText: `Đăng ký ${MEMBERSHIP_PRICING.BASIC.title}`,
                 link: '/checkout/pro-template',
                 features: [
                     'Tải xuống Unlimited Template',
@@ -732,9 +733,9 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
                 ]
             },
             {
-                title: 'Gói Premium',
-                price: '7.990k/năm',
-                originalPrice: '15.000k',
+                title: MEMBERSHIP_PRICING.PREMIUM.title,
+                price: `${MEMBERSHIP_PRICING.PREMIUM.priceDisplay}${MEMBERSHIP_PRICING.PREMIUM.period}`,
+                originalPrice: MEMBERSHIP_PRICING.PREMIUM.originalPriceDisplay,
                 description: 'Giải pháp thiết kế riêng và hỗ trợ kỹ thuật 1:1 cho Doanh nghiệp/Cá nhân chuyên nghiệp.',
                 tag: 'VIP Support',
                 icon: 'Crown',

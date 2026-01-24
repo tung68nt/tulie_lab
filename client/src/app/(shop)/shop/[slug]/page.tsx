@@ -7,6 +7,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
+import { MEMBERSHIP_PRICING } from '@/constants/pricing';
 
 export default function ProductDetailPage() {
     const { slug } = useParams();

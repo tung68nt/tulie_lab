@@ -1,4 +1,5 @@
 import { Section } from '@/types/sections';
+import { MEMBERSHIP_PRICING, COURSE_PRICING } from '@/constants/pricing';
 
 export const VIBE_CODING_SECTIONS: Section[] = [
     {
@@ -6,7 +7,7 @@ export const VIBE_CODING_SECTIONS: Section[] = [
         type: 'hero',
         title: 'BIẾN Ý TƯỞNG THÀNH ỨNG DỤNG THỰC TẾ TRONG 30 PHÚT',
         subtitle: 'Làm chủ tư duy "Vibe Coding": Tự tay xây dựng 10 Mini Apps giải quyết công việc Marketing, Sales, Admin và Đời sống ngay lập tức.',
-        ctaText: 'ĐĂNG KÝ HỌC NGAY - CHỈ 1.790.000Đ',
+        ctaText: `ĐĂNG KÝ HỌC NGAY - CHỈ ${COURSE_PRICING.VIBE_CODING.priceDisplay}`,
         image: '/hero_vibe_coding.png', // Assuming images are moved to public
         highlight: 'Ưu đãi Early Bird cho 50 học viên đăng ký sớm',
         items: [
@@ -133,6 +134,6 @@ export const VIBE_CODING_SECTIONS: Section[] = [
         variant: 'dark',
         title: 'Đừng để AI thay thế bạn. Hãy học cách điều khiển nó.',
         subtitle: 'Nhận trọn bộ 10 Source Code + Quà tặng độc quyền.',
-        ctaText: 'ĐĂNG KÝ KHÓA HỌC NGAY - 1.790.000Đ'
+        ctaText: `ĐĂNG KÝ KHÓA HỌC NGAY - ${COURSE_PRICING.VIBE_CODING.priceDisplay}`
     }
 ];
