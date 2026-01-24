@@ -72,7 +72,7 @@ export default function BlogPage() {
                     <div className="container relative z-10">
                         <div className="text-center">
                             {/* Badge */}
-                            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary mb-4">
+                            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary mb-6 shadow-sm">
                                 <span className="relative flex h-2 w-2">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -81,7 +81,7 @@ export default function BlogPage() {
                             </div>
 
                             {/* Title */}
-                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
                                 Tin tức & Xu hướng
                             </h1>
 

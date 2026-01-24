@@ -102,7 +102,7 @@ export default function ShopPage() {
     }
 
     return (
-        <div className="min-h-screen pt-12 pb-20 bg-background relative overflow-hidden">
+        <div className="min-h-screen pt-32 pb-20 bg-background relative overflow-hidden">
             {/* Background Accents */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[128px] -z-10" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] -z-10" />
@@ -110,12 +110,15 @@ export default function ShopPage() {
 
             <div className="container relative z-10">
                 {/* Header */}
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white dark:bg-zinc-900 px-4 py-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-2 shadow-sm">
-                        <span className="w-2 h-2 rounded-full bg-zinc-900 dark:bg-white animate-pulse" />
+                <div className="flex flex-col items-center justify-center text-center mb-16">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white dark:bg-zinc-900 px-4 py-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-6 shadow-sm">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-400"></span>
+                        </span>
                         Tulie Academy Store
                     </div>
-                    <h1 className="text-5xl font-bold sm:text-6xl md:text-7xl tracking-tight">
+                    <h1 className="text-5xl font-bold sm:text-6xl md:text-7xl tracking-tight mb-4">
                         Cửa hàng Trực tuyến
                     </h1>
                     <p className="mx-auto max-w-2xl text-xl text-muted-foreground leading-relaxed">
