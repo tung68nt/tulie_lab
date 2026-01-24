@@ -430,25 +430,47 @@ const PAGES_TO_SEED = [
                         },
                         {
                             id: "vibe-payment",
-                            type: "payment", // Map to PaymentSection for pricing/upsell
+                            type: "payment",
                             title: "Đầu tư cho bản thân ngay hôm nay",
                             subtitle: "Cam kết hoàn tiền trong 7 ngày nếu không hài lòng",
                             content: "Sở hữu trọn đời khóa học + Tất cả tài nguyên đi kèm.",
                             pricing: [
                                 {
-                                    id: "vibe-course",
-                                    title: "Vibe Coding Full Course",
-                                    price: "1.290.000đ",
-                                    originalPrice: "2.500.000đ",
-                                    discount: "-48%",
+                                    id: "plan-basic",
+                                    title: "Gói Cơ Bản",
+                                    price: "1.990k/năm",
+                                    originalPrice: "3.500k",
+                                    description: "Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template Google Sheets & Apps Script.",
+                                    tag: "Phổ biến",
                                     features: [
-                                        "Truy cập trọn đời",
-                                        "Source code dự án mẫu",
-                                        "Support 1:1 qua Discord",
-                                        "Chứng chỉ hoàn thành"
+                                        "Tải xuống Unlimited Template",
+                                        "Truy cập Template Premium mới nhất",
+                                        "Tiết kiệm >90% chi phí mua lẻ",
+                                        "Cập nhật mẫu mới hàng tuần",
+                                        "Hỗ trợ kỹ thuật qua Group"
                                     ],
-                                    link: "/checkout?product=vibe-coding",
+                                    link: "/checkout/yearly-shop",
+                                    ctaText: "Đăng ký Gói Cơ Bản",
                                     isPopular: true
+                                },
+                                {
+                                    id: "plan-premium",
+                                    title: "Gói Premium",
+                                    price: "4.990k/năm",
+                                    originalPrice: "15.000k",
+                                    description: "Giải pháp thiết kế riêng và hỗ trợ kỹ thuật 1:1 cho Doanh nghiệp/Cá nhân chuyên nghiệp.",
+                                    tag: "VIP Support",
+                                    features: [
+                                        "Tất cả quyền lợi Gói Cơ Bản",
+                                        "Thiết kế Custom Template (theo yêu cầu)",
+                                        "Support 1:1 qua Zoom/UltraViewer",
+                                        "Setup hệ thống Automation riêng",
+                                        "Tư vấn quy trình vận hành tối ưu",
+                                        "Ưu tiên hỗ trợ 24/7"
+                                    ],
+                                    link: "/contact",
+                                    ctaText: "Liên hệ tư vấn",
+                                    isPopular: false
                                 }
                             ],
                             isVisible: true,
