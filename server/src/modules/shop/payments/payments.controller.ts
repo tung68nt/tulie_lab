@@ -130,10 +130,13 @@ export const webhook = async (req: Request, res: Response) => {
             if (actualTransferContent && typeof actualTransferContent === 'string') {
                 const trimmedContent = actualTransferContent.trim().toUpperCase();
 
-                // Regex for Order Code (10 chars, alphanumeric)
-                const genericMatch = trimmedContent.match(/\b[A-Z0-9]{10}\b/);
-                if (genericMatch) {
-                    orderCode = genericMatch[0];
+                // Regex for Order Code (6 digits + 4 alphanumeric = 10 chars)
+                // We use a pattern that matches our generator to avoid false positives with random IDs
+                const orderCodePattern = /\d{6}[A-Z0-9]{4}/;
+                const match = trimmedContent.match(orderCodePattern);
+
+                if (match) {
+                    orderCode = match[0];
                     console.log(`✅ Extracted Order Code from content: ${orderCode}`);
                 }
             }
