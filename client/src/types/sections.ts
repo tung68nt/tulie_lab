@@ -6,9 +6,9 @@ export interface SectionItem {
     description?: string;
     icon?: string;
     image?: string;
-    price?: string;
-    originalPrice?: string;
-    salePrice?: string; // For upsells
+    price?: string | number;
+    originalPrice?: string | number;
+    salePrice?: string | number; // For upsells
     productId?: string; // ID for backend order
     features?: string[] | string;
     [key: string]: any;
@@ -29,8 +29,8 @@ export interface Section {
     isVisible?: boolean;
     highlight?: string; // Used for countdown deadline or special highlight text
     html?: string; // Raw HTML content
-    price?: string;
-    oldPrice?: string;
+    price?: string | number;
+    oldPrice?: string | number;
     icon?: string;
     buttons?: any[];
     imagePosition?: 'left' | 'right';
