@@ -322,125 +322,159 @@ const PAGES_TO_SEED = [
 {
     title: "Vibe Coding Cho Người Mới Bắt Đầu - Khóa Học Lập Trình Cùng AI",
         slug: "vibe-coding-nguoi-moi",
-            description: "Khóa học Vibe Coding toàn diện dành cho người mới bắt đầu.",
+            description: "Biến ý tưởng thành ứng dụng thực tế trong 30 phút - Không cần kinh nghiệm lập trình.",
                 isActive: true,
                     sections: [
                         {
-                            id: "vibe-newbie-hero",
+                            id: "vibe-hero",
                             type: "hero",
-                            title: "Vibe Coding: Lập Trình Cùng AI",
-                            subtitle: "Không cần kinh nghiệm code. Chỉ cần ý tưởng sáng tạo.",
-                            content: "Khóa học tiên phong giúp bạn làm chủ sức mạnh của AI để xây dựng phần mềm, website và ứng dụng chỉ trong thời gian ngắn. Biến ý tưởng thành hiện thực ngay hôm nay.",
+                            title: "BIẾN Ý TƯỞNG THÀNH ỨNG DỤNG THỰC TẾ TRONG 30 PHÚT",
+                            subtitle: "Làm chủ tư duy \"Vibe Coding\": Tự tay xây dựng 10 Mini Apps giải quyết công việc Marketing, Sales, Admin và Đời sống ngay lập tức.",
+                            content: "✅ Không cần học code phức tạp.\n✅ Sở hữu vĩnh viễn Source Code 10 ứng dụng thực chiến.\n✅ Tiết kiệm hàng chục triệu đồng thuê Dev.",
                             image: "/images/heroes/vibe-coding.png",
-                            ctaText: "Đăng ký ưu đãi ngay",
+                            ctaText: "ĐĂNG KÝ HỌC NGAY - 1.790.000Đ",
                             ctaLink: "#payment",
                             isVisible: true,
                             order: 1
                         },
                         {
-                            id: "vibe-countdown",
-                            type: "sales-countdown",
-                            highlight: null, // Use duration
-                            duration: 1020, // 17 hours * 60 minutes
-                            ctaText: "Nhận ưu đãi giảm 50%",
-                            ctaLink: "#payment",
+                            id: "vibe-pain",
+                            type: "content-block",
+                            title: "Dừng ngay việc lãng phí thời gian và tiền bạc",
+                            subtitle: "Bạn có đang rơi vào những tình cảnh này?",
+                            items: [
+                                {
+                                    title: "Thao tác thủ công lặp lại",
+                                    description: "Ngày nào cũng phải copy-paste dữ liệu giữa 10 file Excel, sửa từng dòng báo cáo. Cảm giác như một \"cỗ máy chạy cơm\".",
+                                    image: "/images/pain-manual.jpg"
+                                },
+                                {
+                                    title: "Bế tắc ý tưởng công nghệ",
+                                    description: "Muốn có app tính lương, tool viết content nhưng nghĩ đến chi phí thuê chục triệu lại thôi.",
+                                    image: "/images/pain-idea.jpg"
+                                },
+                                {
+                                    title: "Dùng AI chưa tới",
+                                    description: "Chỉ biết chat với ChatGPT mà chưa biết biến nó thành \"nhân viên lập trình\" để tạo ra công cụ làm việc.",
+                                    image: "/images/pain-ai.jpg"
+                                }
+                            ],
                             isVisible: true,
                             order: 2
                         },
                         {
-                            id: "vibe-intro",
+                            id: "vibe-solution",
                             type: "content",
-                            title: "Tại sao chọn Vibe Coding?",
-                            subtitle: "Kỷ nguyên mới của lập trình",
-                            content: "Vibe Coding không nhắm đến việc đào tạo bạn trở thành một kỹ sư phần mềm chuyên sâu về thuật toán. Chúng tôi hướng dẫn bạn cách **\"chơi nhạc\" cùng AI**.\n\nSử dụng Prompt Engineering, tư duy hệ thống và các công cụ AI (Cursor, Claude 3.5 Sonnet, v0.dev) để tạo ra sản phẩm thực tế mà không cần gõ từng dòng code thủ công.",
-                            image: "/images/vibe-coding-intro.jpg",
+                            title: "Kỷ nguyên mới: Lập trình bằng Ngôn ngữ tự nhiên",
+                            subtitle: "Vibe Coding - Lối tắt cho người không chuyên",
+                            content: "**Vibe Coding** không bắt bạn học cú pháp khô khan.\n\n* **Bạn là Kiến Trúc Sư:** Đưa ra ý tưởng và luồng đi (Flow).\n* **AI là Thợ Xây:** AI (Cursor, Claude...) sẽ viết code và hoàn thiện sản phẩm.\n\nTôi không dạy bạn làm Dev đi xin việc. Tôi dạy bạn tư duy dùng AI để tạo công cụ phục vụ chính mình.",
+                            image: "/images/vibe-solution.jpg",
                             imagePosition: "right",
                             isVisible: true,
                             order: 3
                         },
                         {
-                            id: "vibe-benefits",
-                            type: "benefits",
-                            title: "Bạn sẽ đạt được gì?",
-                            subtitle: "Kết quả sau khóa học",
+                            id: "vibe-curriculum",
+                            type: "curriculum",
+                            title: "Lộ Trình Thực Chiến 10 Ngày",
+                            subtitle: "Cầm tay chỉ việc - Từ con số 0 đến 10 Apps",
                             items: [
-                                { title: "Tư duy Lập trình AI", description: "Hiểu cách AI 'suy nghĩ' và cách ra lệnh hiệu quả.", icon: "Brain" },
-                                { title: "Xây dựng 3 Dự án", description: "Hoàn thiện 3 ứng dụng thực tế: Landing Page, To-Do App, AI Chatbot.", icon: "Layers" },
-                                { title: "Làm chủ Công cụ", description: "Thành thạo Cursor, Vercel, Supabase và v0.dev.", icon: "Tool" },
-                                { title: "Kiếm tiền từ Code", description: "Biết cách đóng gói sản phẩm số để kinh doanh hoặc freelance.", icon: "DollarSign" }
+                                {
+                                    title: "Module 1: Khởi động & Tư duy (Móng nhà)",
+                                    description: "Thiết lập môi trường và cài đặt tư duy đúng.",
+                                    lessons: [
+                                        "Bài 1: Thiết lập môi trường Vibe Coding (Cursor, Bolt.new)",
+                                        "Bài 2: Product Mindset - Phân rã vấn đề",
+                                        "Bài 3: Prompt Engineering - Thần chú ra lệnh cho AI"
+                                    ]
+                                },
+                                {
+                                    title: "Module 2: Xây dựng 10 Super Apps (Thực hành)",
+                                    description: "Code từng dòng cho 10 ứng dụng thực tế.",
+                                    lessons: [
+                                        "Marketing: Caption Generator, QR Branding, Watermark Tool",
+                                        "Văn phòng: Excel Merger, PDF Invoice, Salary Calculator",
+                                        "Cá nhân: Eisenhower Todo, AI Flashcard, Voice to Note",
+                                        "Tổng hợp: Personal Dashboard"
+                                    ]
+                                },
+                                {
+                                    title: "Module 3: Triển khai & Kiếm tiền",
+                                    description: "Đưa ứng dụng lên Internet và kinh doanh.",
+                                    lessons: [
+                                        "Bài 11: Deploy miễn phí lên Vercel/Netlify",
+                                        "Bài 12: Business Model - Đóng gói bán lại hoặc Freelance"
+                                    ]
+                                }
                             ],
                             isVisible: true,
                             order: 4
                         },
                         {
-                            id: "vibe-curriculum",
-                            type: "curriculum",
-                            title: "Lộ trình học tập chi tiết",
-                            subtitle: "Đi từ con số 0 đến khi có sản phẩm đầu tay",
+                            id: "vibe-value",
+                            type: "benefits",
+                            title: "Bài toán kinh tế: 1.790k là Đắt hay Rẻ?",
+                            subtitle: "So sánh chi phí nếu bạn KHÔNG học khoá này",
                             items: [
-                                {
-                                    title: "Phần 1: Tư Duy & Setup (The Vibe)",
-                                    description: "Thiết lập môi trường làm việc 'cực chill' và cài đặt tư duy đúng đắn.",
-                                    image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
-                                    lessons: [
-                                        "Bài 1: Vibe Coding là gì? Tại sao lại Hot?",
-                                        "Bài 2: Setup góc làm việc tạo cảm hứng (Desk Setup)",
-                                        "Bài 3: Cài đặt Cursor & AI Tools cần thiết",
-                                        "Tài liệu: Checklist setup môi trường"
-                                    ]
-                                },
-                                {
-                                    title: "Phần 2: Nền tảng HTML/CSS/JS cùng AI",
-                                    description: "Học cú pháp cơ bản siêu tốc nhờ sự trợ giúp của AI.",
-                                    image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800&q=80",
-                                    lessons: [
-                                        "Bài 4: Prompt Engineering cho Frontend",
-                                        "Bài 5: Dựng giao diện với v0.dev trong 5 phút",
-                                        "Bài 6: Tùy chỉnh CSS/Tailwind không cần nhớ code",
-                                        "Project 1: Portfolio cá nhân"
-                                    ]
-                                },
-                                {
-                                    title: "Phần 3: Xây dựng Ứng dụng Thực chiến",
-                                    description: "Kết nối Backend, Database và triển khai ứng dụng.",
-                                    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
-                                    lessons: [
-                                        "Bài 7: React & Next.js Crash Course (AI hỗ trợ)",
-                                        "Bài 8: Kết nối Database Supabase/Firebase",
-                                        "Bài 9: Deploy lên Vercel & Custom Domain",
-                                        "Project 2: Ứng dụng quản lý công việc (SaaS Mini)"
-                                    ]
-                                }
+                                { title: "Thuê Freelancer/Dev", description: "~5.000.000đ/năm (cho 2 app đơn giản)", icon: "DollarSign" },
+                                { title: "Mua phần mềm SaaS", description: "~3.600.000đ/năm (300k/tháng)", icon: "CreditCard" },
+                                { title: "Thời gian lãng phí", description: "~30.000.000đ/năm (1h/ngày)", icon: "Clock" }
                             ],
                             isVisible: true,
                             order: 5
                         },
                         {
-                            id: "vibe-bonus",
+                            id: "vibe-bonuses",
                             type: "bonus",
-                            title: "Quà tặng đặc biệt",
-                            subtitle: "Chỉ dành cho học viên đăng ký hôm nay",
+                            title: "Quà tặng độc quyền (Trị giá 5.000.000đ)",
+                            subtitle: "Dành cho học viên đăng ký hôm nay",
                             items: [
-                                { title: "Bộ Prompt Vip", description: "Thư viện 500+ Prompts tối ưu cho Coding.", value: "Trị giá 2.000.000đ" },
-                                { title: "Ebook: Freelance Guide", description: "Hướng dẫn tìm việc và deal giá dự án với khách hàng.", value: "Trị giá 500.000đ" },
-                                { title: "Community Access", description: "Tham gia Discord kín, support 1:1 trọn đời.", value: "Vô giá" }
+                                { title: "Ebook 'Vibe Coding Playbook'", description: "Cẩm nang tra cứu thuật ngữ & UI.", value: "Trị giá 500k" },
+                                { title: "Thư viện 'Thần Chú' Prompt", description: "Copy & Paste để code chạy ngay.", value: "Trị giá 2M" },
+                                { title: "Full Source Code 10 Mini Apps", description: "Toàn quyền chỉnh sửa và kinh doanh.", value: "Trị giá 10M" },
+                                { title: "Private Group Support", description: "Hỗ trợ trọn đời, cập nhật công nghệ mới.", value: "Vô giá" }
                             ],
                             isVisible: true,
                             order: 6
                         },
                         {
+                            id: "vibe-instructor",
+                            type: "content",
+                            title: "Giảng viên: Liên",
+                            subtitle: "Người đi trước chia sẻ con đường ngắn nhất",
+                            content: "Tôi không xuất thân là dân IT. Tôi là dân Marketing & Quản trị giống bạn.\n\nTừng chật vật với quy trình thủ công và tốn kém thuê Dev, tôi tìm ra Vibe Coding và thay đổi hoàn toàn cách làm việc. Tôi ở đây để giúp bạn làm chủ nó.",
+                            image: "/images/instructor-lien.jpg",
+                            imagePosition: "left",
+                            isVisible: true,
+                            order: 7
+                        },
+                        {
+                            id: "vibe-faq",
+                            type: "faq",
+                            title: "Câu hỏi thường gặp",
+                            subtitle: "Giải đáp thắc mắc",
+                            items: [
+                                { question: "Tôi mù công nghệ có học được không?", answer: "Được. Công cụ hiểu tiếng Việt, chỉ cần tư duy logic." },
+                                { question: "Máy tính yếu có học được không?", answer: "Được. Chúng ta code trên Cloud (Web)." },
+                                { question: "Học qua hình thức nào?", answer: "Video quay sẵn 4K, xem lại trọn đời." },
+                                { question: "Có hỗ trợ khi gặp lỗi không?", answer: "Có đội ngũ support 1:1 trong nhóm kín." }
+                            ],
+                            isVisible: true,
+                            order: 8
+                        },
+                        {
                             id: "vibe-payment",
                             type: "payment",
-                            title: "Đầu tư cho bản thân ngay hôm nay",
-                            subtitle: "Cam kết hoàn tiền trong 7 ngày nếu không hài lòng",
-                            content: "Sở hữu trọn đời khóa học + Tất cả tài nguyên đi kèm.",
+                            title: "Đầu tư cho tương lai ngay hôm nay",
+                            subtitle: "Đừng để AI thay thế bạn. Hãy học cách điều khiển nó.",
+                            content: "Cam kết hoàn tiền trong 3 ngày nếu không làm được App đầu tiên.",
                             pricing: [
                                 {
                                     id: "plan-retail",
                                     title: "Mua lẻ (Single)",
                                     price: "Lựa chọn",
                                     originalPrice: "",
-                                    description: "Lựa chọn và mua lẻ từng Template/Ứng dụng AI phù hợp với nhu cầu sử dụng thực tế.",
+                                    description: "Mua lẻ từng Template/Ứng dụng AI phù hợp nhu cầu.",
                                     tag: "LINH HOẠT",
                                     features: [
                                         "Mua lẻ theo túi tiền",
@@ -453,45 +487,25 @@ const PAGES_TO_SEED = [
                                     isPopular: false
                                 },
                                 {
-                                    id: "plan-basic",
-                                    title: "Gói Cơ Bản",
-                                    price: "1.990k/năm",
-                                    originalPrice: "3.500k",
-                                    description: "Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template Google Sheets & Apps Script.",
-                                    tag: "PHỔ BIẾN",
+                                    id: "plan-course",
+                                    title: "Khoá học Vibe Coding",
+                                    price: "1.790.000đ",
+                                    originalPrice: "5.000.000đ",
+                                    description: "Trọn bộ Khoá học + 10 Source Code + Quà tặng.",
+                                    tag: "ƯU ĐÃI FLASH SALE",
                                     features: [
-                                        "Tải xuống Unlimited Template",
-                                        "Truy cập Template Premium mới nhất",
-                                        "Tiết kiệm >90% chi phí mua lẻ",
-                                        "Cập nhật mẫu mới hàng tuần",
-                                        "Hỗ trợ kỹ thuật qua Group"
+                                        "Truy cập trọn đời",
+                                        "Sở hữu 10 Source Apps",
+                                        "Support 1:1 qua Nhóm kín",
+                                        "Tặng Bộ Prompt Thần chú"
                                     ],
-                                    link: "/checkout/yearly-shop",
-                                    ctaText: "Đăng ký Gói Cơ Bản",
+                                    link: "/checkout?product=vibe-coding",
+                                    ctaText: "ĐĂNG KÝ HỌC NGAY",
                                     isPopular: true
-                                },
-                                {
-                                    id: "plan-premium",
-                                    title: "Gói Premium",
-                                    price: "4.990k/năm",
-                                    originalPrice: "15.000k",
-                                    description: "Giải pháp thiết kế riêng và hỗ trợ kỹ thuật 1:1 cho Doanh nghiệp/Cá nhân chuyên nghiệp.",
-                                    tag: "VIP SUPPORT",
-                                    features: [
-                                        "Tất cả quyền lợi Gói Cơ Bản",
-                                        "Thiết kế Custom Template (theo yêu cầu)",
-                                        "Support 1:1 qua Zoom/UltraViewer",
-                                        "Setup hệ thống Automation riêng",
-                                        "Tư vấn quy trình vận hành tối ưu",
-                                        "Ưu tiên hỗ trợ 24/7"
-                                    ],
-                                    link: "/contact",
-                                    ctaText: "Liên hệ tư vấn",
-                                    isPopular: false
                                 }
                             ],
                             isVisible: true,
-                            order: 7
+                            order: 9
                         }
                     ]
 },

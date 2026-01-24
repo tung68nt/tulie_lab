@@ -296,21 +296,21 @@ export default function ProductDetailPage() {
                                             <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-bold border border-border">
                                                 Phổ biến
                                             </div>
-                                            <div className="mb-4 mt-2">
-                                                <h3 className="text-lg font-bold mb-1">{MEMBERSHIP_PRICING.BASIC.title}</h3>
+                                            <div className="mb-6 mt-4">
+                                                <h3 className="text-xl font-bold mb-2">{MEMBERSHIP_PRICING.BASIC.title}</h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
-                                                    <span className="text-2xl font-bold">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
-                                                    <span className="text-xs text-muted-foreground font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
+                                                    <span className="text-3xl font-bold">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
+                                                    <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
                                                 </div>
-                                                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
+                                                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-10 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
+                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
                                                     Đăng ký gói này
                                                 </Button>
                                             </Link>
-                                            <div className="mt-4 space-y-2 text-[11px]">
+                                            <div className="mt-6 space-y-2.5 text-[12px]">
                                                 {safeParse(settings.pricing_membership_basic_features, ['Tải không giới hạn', 'Tiết kiệm 80%', 'Update hàng tuần']).map((f: string, i: number) => (
                                                     <div key={i} className="flex items-center gap-2">
                                                         <Check className="w-3.5 h-3.5 text-primary shrink-0" />
@@ -325,24 +325,24 @@ export default function ProductDetailPage() {
                                             <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold shadow-lg">
                                                 Best Value
                                             </div>
-                                            <div className="mb-4 mt-2">
-                                                <div className="flex items-center gap-2 opacity-60 mb-1">
-                                                    <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                                                    <span className="text-[10px] font-bold tracking-wider uppercase">{MEMBERSHIP_PRICING.PREMIUM.title}</span>
-                                                </div>
+                                            <div className="mb-6 mt-4">
+                                                <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                                                    {MEMBERSHIP_PRICING.PREMIUM.title}
+                                                    <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
+                                                </h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
-                                                    <span className="text-2xl font-bold">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
-                                                    <span className="text-xs text-muted-foreground font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
+                                                    <span className="text-3xl font-bold">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
+                                                    <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
                                                 </div>
-                                                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
+                                                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-10 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
+                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
                                                     Nâng cấp Premium
                                                 </Button>
                                             </Link>
-                                            <div className="mt-4 space-y-2 text-[11px]">
+                                            <div className="mt-6 space-y-2.5 text-[12px]">
                                                 {safeParse(settings.pricing_membership_premium_features, ['Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7']).map((f: string, i: number) => (
                                                     <div key={i} className="flex items-center gap-2">
                                                         <Check className="w-3.5 h-3.5 text-primary shrink-0" />
