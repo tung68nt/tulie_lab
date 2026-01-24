@@ -142,11 +142,27 @@ export class PaymentService {
     }
 
     async getOrder(code: string): Promise<Order | null> {
-        return this.orderRepository.findByCode(code);
+        const order = await this.orderRepository.findByCode(code);
+        if (order) {
+            const transactions = await prisma.paymentTransaction.findMany({
+                where: { code: order.code },
+                orderBy: { createdAt: 'desc' }
+            });
+            (order as any).transactions = transactions;
+        }
+        return order;
     }
 
     async getOrderById(id: string): Promise<Order | null> {
-        return this.orderRepository.findById(id);
+        const order = await this.orderRepository.findById(id);
+        if (order) {
+            const transactions = await prisma.paymentTransaction.findMany({
+                where: { code: order.code },
+                orderBy: { createdAt: 'desc' }
+            });
+            (order as any).transactions = transactions;
+        }
+        return order;
     }
 
     async deleteOrder(id: string): Promise<void> {

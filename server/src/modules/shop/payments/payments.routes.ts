@@ -10,6 +10,7 @@ router.post('/checkout', authenticateOptional, apiLimiter, PaymentController.che
 
 // Admin routes - MUST be before /:code
 router.get('/orders', authenticate, authorize([Role.ADMIN]), apiLimiter, PaymentController.getAllOrders);
+router.get('/orders/:id', authenticate, authorize([Role.ADMIN]), apiLimiter, PaymentController.getOrderById);
 router.put('/orders/:id/status', authenticate, authorize([Role.ADMIN]), apiLimiter, PaymentController.updateStatus);
 router.delete('/orders/:id', authenticate, apiLimiter, PaymentController.deleteOrder); // User can delete their own pending orders
 router.get('/transactions', authenticate, authorize([Role.ADMIN]), apiLimiter, PaymentController.getTransactions);

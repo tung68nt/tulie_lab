@@ -218,6 +218,22 @@ export const getAllOrders = async (req: Request, res: Response) => {
     }
 };
 
+export const getOrderById = async (req: Request, res: Response) => {
+    try {
+        const paymentService = container.resolve<PaymentService>('PaymentService');
+        const id = String(req.params.id);
+        if (!id) return res.status(400).json({ message: 'Missing order ID' });
+
+        const order = await paymentService.getOrderById(id);
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        res.json(order);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const updateStatus = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');

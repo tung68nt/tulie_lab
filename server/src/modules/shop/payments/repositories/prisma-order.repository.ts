@@ -23,7 +23,11 @@ export class PrismaOrderRepository implements IOrderRepository {
                         product: true
                     }
                 },
-                user: true
+                user: {
+                    include: {
+                        profile: true
+                    }
+                }
             }
         });
     }
@@ -38,7 +42,11 @@ export class PrismaOrderRepository implements IOrderRepository {
                         product: true
                     }
                 },
-                user: true
+                user: {
+                    include: {
+                        profile: true
+                    }
+                }
             }
         });
     }
