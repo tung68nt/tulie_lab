@@ -130,9 +130,6 @@ export default function ProductDetailPage() {
                                     <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-2 px-4 rounded-xl text-xs font-bold">
                                         {product.type}
                                     </Badge>
-                                    <Badge className="bg-primary/90 text-white border-0 py-2 px-4 rounded-xl text-xs font-bold backdrop-blur-md">
-                                        Premium Asset
-                                    </Badge>
                                 </div>
                             </div>
                         </div>
