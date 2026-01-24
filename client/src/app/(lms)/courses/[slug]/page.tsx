@@ -200,9 +200,9 @@ export default function CoursePage({ params }: { params: any }) {
                                     : course.deploymentStatus === 'UPDATING' ? 'bg-blue-500'
                                         : 'bg-emerald-500'
                                     }`}></span>
-                                {course.deploymentStatus === 'COMING_SOON' ? 'Workshop Sắp ra mắt'
-                                    : course.deploymentStatus === 'UPDATING' ? 'Workshop Đang nâng cấp'
-                                        : 'Workshop Chính thức'}
+                                {course.deploymentStatus === 'COMING_SOON' ? 'Khóa học Sắp ra mắt'
+                                    : course.deploymentStatus === 'UPDATING' ? 'Khóa học Đang nâng cấp'
+                                        : 'Khóa học Chính thức'}
                             </div>
                             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                                 {course.title}

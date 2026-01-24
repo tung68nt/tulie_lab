@@ -4,7 +4,8 @@ export type EventType =
     | 'ORDER_CREATED'
     | 'ORDER_PAID'
     | 'ORDER_FAILED'
-    | 'USER_REGISTERED';
+    | 'USER_REGISTERED'
+    | 'SECURITY_ALERT';
 
 export interface BaseEvent {
     type: EventType;

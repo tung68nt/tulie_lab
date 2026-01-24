@@ -24,4 +24,9 @@ router.post('/enroll', authenticate, authorize([Role.ADMIN]), (req, res) => user
 router.post('/unenroll', authenticate, authorize([Role.ADMIN]), (req, res) => userController.unenrollManual(req, res));
 router.post('/grant-membership', authenticate, authorize([Role.ADMIN]), (req, res) => userController.grantMembership(req, res));
 
+// Admin Actions
+router.post('/:id/block', authenticate, authorize([Role.ADMIN]), (req, res) => userController.blockUser(req, res));
+router.post('/:id/unblock', authenticate, authorize([Role.ADMIN]), (req, res) => userController.unblockUser(req, res));
+router.delete('/:id', authenticate, authorize([Role.ADMIN]), (req, res) => userController.deleteUser(req, res));
+
 export default router;

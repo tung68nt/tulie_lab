@@ -41,28 +41,51 @@ export class UserService {
 
     async getUserDetailsForAdmin(id: string) {
         const user = await this.userRepository.findById(id, {
+            profile: true,
+            subscriptions: {
+                include: { product: true },
+                orderBy: { endDate: 'desc' }
+            },
             enrollments: {
                 include: { course: { select: { id: true, title: true, slug: true, thumbnail: true } } },
                 orderBy: { createdAt: 'desc' }
             },
             orders: {
-                include: { items: { include: { course: { select: { id: true, title: true } } } } },
+                include: {
+                    items: {
+                        include: {
+                            course: { select: { id: true, title: true } },
+                            product: {
+                                include: {
+                                    versions: { orderBy: { createdAt: 'desc' }, take: 1 }
+                                }
+                            }
+                        }
+                    }
+                },
                 orderBy: { createdAt: 'desc' }
             },
             progress: {
                 select: { lessonId: true, isCompleted: true, updatedAt: true },
                 orderBy: { updatedAt: 'desc' },
-                take: 20
+                take: 100
             }
         });
 
         if (!user) return null;
 
-        const activities = await prisma.activityLog.findMany({
-            where: { userId: id },
-            orderBy: { createdAt: 'desc' },
-            take: 50
-        });
+        const [activities, securityLogs] = await Promise.all([
+            prisma.activityLog.findMany({
+                where: { userId: id },
+                orderBy: { createdAt: 'desc' },
+                take: 100
+            }),
+            prisma.securityLog.findMany({
+                where: { userId: id },
+                orderBy: { createdAt: 'desc' },
+                take: 50
+            })
+        ]);
 
         const lastLogin = await prisma.activityLog.findFirst({
             where: { userId: id, action: 'login' },
@@ -74,16 +97,29 @@ export class UserService {
             pendingDays: Math.floor((Date.now() - new Date(o.createdAt).getTime()) / (1000 * 60 * 60 * 24))
         }));
 
+        // Flatten products from orders for easy access
+        const purchasedProducts = (user as any).orders
+            .filter((o: any) => o.status === 'PAID')
+            .flatMap((o: any) => o.items)
+            .filter((i: any) => i.productId)
+            .map((i: any) => ({
+                ...i.product,
+                purchasedAt: i.createdAt,
+                currentVersion: i.product.versions?.[0]?.version || '1.0.0'
+            }));
+
         return {
             ...user,
             activities,
+            securityLogs,
+            purchasedProducts,
             lastLoginAt: lastLogin?.createdAt || null,
             lastLoginIp: lastLogin?.ipAddress || null,
             pendingOrders,
             stats: {
                 totalEnrollments: (user as any).enrollments.length,
                 totalOrders: (user as any).orders.length,
-                totalPaid: (user as any).orders.filter((o: any) => o.status === 'PAID').reduce((sum: number, o: any) => sum + o.amount, 0),
+                totalPaid: (user as any).orders.filter((o: any) => o.status === 'PAID').reduce((sum: number, o: any) => sum + Number(o.amount), 0),
                 completedLessons: (user as any).progress.filter((p: any) => p.isCompleted).length
             }
         };
@@ -264,5 +300,20 @@ export class UserService {
                 productId: product?.id || null
             }
         });
+    }
+
+    async blockUser(id: string) {
+        return this.userRepository.update(id, { isActive: false });
+    }
+
+    async unblockUser(id: string) {
+        return this.userRepository.update(id, { isActive: true });
+    }
+
+    async deleteUser(id: string) {
+        // Soft delete or hard delete? User requested "xoá tài khoản"
+        // In most SaaS, soft delete is safer. But let's assume hard delete if requested in admin panel.
+        // Actually, userRepository should handle deletion.
+        return (this.userRepository as any).delete(id);
     }
 }

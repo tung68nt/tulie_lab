@@ -28,6 +28,7 @@ import { PaymentService } from './modules/shop/payments/payments.service';
 import redisService from './services/redis.service';
 import { EventRepository } from './modules/lms/events/events.repository';
 import { EventService } from './modules/lms/events/events.service';
+import { TelegramEventSubscriber } from './modules/system/notifications/telegram-subscriber';
 
 /**
  * Initializes all dependencies and registers them in the DI container.
@@ -135,6 +136,9 @@ export const bootstrapDI = () => {
         courseRepository,
         userRepository
     );
+
+    // Telegram Notifications
+    TelegramEventSubscriber.getInstance();
 
     console.log('📦 Dependency Injection initialized');
 };

@@ -129,6 +129,9 @@ export const api = {
         unenrollUser: (userId: string, courseId: string) => request<void>('/users/unenroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
         grantMembership: (userId: string, days: number = 365) => request<void>('/users/grant-membership', { method: 'POST', body: JSON.stringify({ userId, days }) }),
         getInactiveUsers: (days?: number) => request<User[]>(`/users/inactive${days ? `?days=${days}` : ''}`),
+        blockUser: (id: string) => request<void>(`/users/${id}/block`, { method: 'POST' }),
+        unblockUser: (id: string) => request<void>(`/users/${id}/unblock`, { method: 'POST' }),
+        deleteUser: (id: string) => request<void>(`/users/${id}`, { method: 'DELETE' }),
         courses: {
             list: () => request<Course[]>('/courses/admin/list'),
             get: (id: string) => request<Course>(`/courses/admin/${id}`),

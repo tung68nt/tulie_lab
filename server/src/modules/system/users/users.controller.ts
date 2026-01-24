@@ -90,6 +90,33 @@ export class UserController {
         }
     }
 
+    async blockUser(req: Request, res: Response) {
+        try {
+            await this.userService.blockUser(req.params.id as string);
+            res.json({ success: true, message: 'User blocked' });
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async unblockUser(req: Request, res: Response) {
+        try {
+            await this.userService.unblockUser(req.params.id as string);
+            res.json({ success: true, message: 'User unblocked' });
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async deleteUser(req: Request, res: Response) {
+        try {
+            await this.userService.deleteUser(req.params.id as string);
+            res.json({ success: true, message: 'User deleted' });
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async getUserOrders(req: AuthRequest, res: Response) {
         try {
             if (!req.user) return res.status(401).json({ message: 'Unauthorized' });

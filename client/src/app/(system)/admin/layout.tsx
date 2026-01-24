@@ -30,7 +30,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             title: 'LMS (Đào tạo)',
             icon: BookOpen,
             items: [
-                { href: '/admin/courses', label: 'Khóa học / Workshop' },
+                { href: '/admin/courses', label: 'Khóa học' },
                 { href: '/admin/categories', label: 'Chuyên mục' },
                 { href: '/admin/instructors', label: 'Instructors' },
                 { href: '/admin/events', label: 'Sự kiện' },

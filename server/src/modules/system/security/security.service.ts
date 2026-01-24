@@ -1,4 +1,5 @@
 import prisma from '../../../config/prisma';
+import { EventBus } from '../../../core/event-bus';
 
 export const SecurityService = {
     async logEvent(data: {
@@ -8,9 +9,20 @@ export const SecurityService = {
         userAgent?: string;
         details?: string;
     }) {
-        return await prisma.securityLog.create({
+        const log = await prisma.securityLog.create({
             data
         });
+
+        // Publish alert for critical actions
+        if (['FAILED_LOGIN', 'ACCESS_DENIED', 'ADMIN_ACTION'].includes(data.action)) {
+            EventBus.getInstance().publish({
+                type: 'SECURITY_ALERT',
+                payload: { action: data.action, details: data.details, ipAddress: data.ipAddress, userId: data.userId },
+                timestamp: new Date()
+            });
+        }
+
+        return log;
     },
 
     async listLogs(limit = 100, offset = 0) {

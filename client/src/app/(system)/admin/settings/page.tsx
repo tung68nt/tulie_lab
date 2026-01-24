@@ -6,7 +6,7 @@ import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Upload } from 'lucide-react';
+import { Loader2, Upload, Send } from 'lucide-react';
 import { Switch } from '@/components/Switch';
 import { useSettings } from '@/contexts/SettingsContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -291,8 +291,77 @@ export default function AdminSettingsPage() {
                     </Card>
 
 
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Send size={20} className="text-blue-500" />
+                                Thông báo Telegram
+                            </CardTitle>
+                            <CardDescription>
+                                Cấu hình Bot Telegram để nhận thông báo tức thì về các hoạt động trên hệ thống.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="grid gap-4 md:grid-cols-2">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Bot Token</label>
+                                    <Input
+                                        type="password"
+                                        value={settings.telegram_bot_token || ''}
+                                        onChange={(e) => handleChange('telegram_bot_token', e.target.value)}
+                                        placeholder="7890123456:AA..."
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Chat ID</label>
+                                    <Input
+                                        value={settings.telegram_chat_id || ''}
+                                        onChange={(e) => handleChange('telegram_chat_id', e.target.value)}
+                                        placeholder="-100..."
+                                    />
+                                </div>
+                            </div>
 
-                    <div className="flex justify-end">
+                            <div className="space-y-4 pt-2">
+                                <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Các loại thông báo</h4>
+
+                                <div className="flex items-center justify-between p-3 border rounded-lg">
+                                    <div className="space-y-0.5">
+                                        <label className="text-sm font-bold">Đơn hàng & Thanh toán</label>
+                                        <p className="text-[10px] text-muted-foreground">Thông báo khi có đơn hàng mới hoặc giao dịch thành công.</p>
+                                    </div>
+                                    <Switch
+                                        checked={settings.telegram_notify_orders === 'true'}
+                                        onChange={(checked) => handleChange('telegram_notify_orders', checked ? 'true' : 'false')}
+                                    />
+                                </div>
+
+                                <div className="flex items-center justify-between p-3 border rounded-lg">
+                                    <div className="space-y-0.5">
+                                        <label className="text-sm font-bold">Đăng ký thành viên</label>
+                                        <p className="text-[10px] text-muted-foreground">Thông báo khi có người dùng mới đăng ký tài khoản.</p>
+                                    </div>
+                                    <Switch
+                                        checked={settings.telegram_notify_registrations === 'true'}
+                                        onChange={(checked) => handleChange('telegram_notify_registrations', checked ? 'true' : 'false')}
+                                    />
+                                </div>
+
+                                <div className="flex items-center justify-between p-3 border rounded-lg">
+                                    <div className="space-y-0.5">
+                                        <label className="text-sm font-bold">Cảnh báo bảo mật</label>
+                                        <p className="text-[10px] text-muted-foreground">Thông báo khi có đăng nhập thất bại hoặc truy cập trái phép.</p>
+                                    </div>
+                                    <Switch
+                                        checked={settings.telegram_notify_security === 'true'}
+                                        onChange={(checked) => handleChange('telegram_notify_security', checked ? 'true' : 'false')}
+                                    />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <div className="flex justify-end pt-4">
                         <Button type="submit" disabled={loading}>
                             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             Lưu cấu hình

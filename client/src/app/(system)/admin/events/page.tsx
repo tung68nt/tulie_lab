@@ -23,7 +23,6 @@ interface Event {
 
 const EVENT_TYPES = [
     { value: 'WEBINAR', label: 'Webinar' },
-    { value: 'WORKSHOP', label: 'Workshop' },
     { value: 'COURSE', label: 'Khóa học' },
     { value: 'MEETUP', label: 'Meetup' },
     { value: 'OTHER', label: 'Khác' },

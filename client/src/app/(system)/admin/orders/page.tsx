@@ -139,7 +139,7 @@ export default function AdminOrdersPage() {
 
     const exportToCSV = () => {
         // Export current view (or implement backend export later)
-        const headers = ['Mã đơn', 'Member', 'Email', 'Workshop', 'Số tiền', 'Trạng thái', 'Ngày tạo'];
+        const headers = ['Mã đơn', 'Member', 'Email', 'Khóa học', 'Số tiền', 'Trạng thái', 'Ngày tạo'];
         const rows = orders.map(o => [
             o.code,
             o.user?.profile?.name || o.user?.name || o.user?.fullName || 'N/A',
@@ -313,7 +313,7 @@ export default function AdminOrdersPage() {
                                         <tr className="border-b bg-muted/50">
                                             <th className="text-left py-3 px-3 font-medium">Mã đơn</th>
                                             <th className="text-left py-3 px-3 font-medium">Member</th>
-                                            <th className="text-left py-3 px-3 font-medium">Workshop</th>
+                                            <th className="text-left py-3 px-3 font-medium">Khóa học</th>
                                             <th className="text-right py-3 px-3 font-medium">Số tiền</th>
                                             <th className="text-center py-3 px-3 font-medium">Trạng thái</th>
                                             <th className="text-right py-3 px-3 font-medium">Ngày tạo</th>
