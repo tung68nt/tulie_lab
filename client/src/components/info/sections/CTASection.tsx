@@ -6,17 +6,22 @@ import Link from 'next/link';
 
 export const CTASection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-12 md:py-16 bg-foreground text-background relative overflow-hidden">
+        <section className="py-20 md:py-32 bg-zinc-950 text-white relative overflow-hidden">
             {/* Background pattern */}
-            <div className="absolute inset-0 opacity-100">
-                <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-            </div>
+            {/* Background pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(#fab005_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.1] pointer-events-none" />
+
+            {/* Corner Gradients */}
+            <div className="absolute -top-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute -top-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
 
             <div className="container text-center relative z-10">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-[1.3]">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-8 leading-relaxed tracking-tight">
                     {section.title}
                 </h2>
-                <p className="text-lg md:text-xl text-background/80 mb-8 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed">
                     {section.subtitle}
                 </p>
                 {section.ctaLink && (
@@ -34,7 +39,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                                 });
                             }
                         }}
-                        className="text-lg px-8 py-6 font-semibold text-foreground"
+                        className="text-lg px-8 py-6 font-bold bg-white text-black hover:bg-zinc-200 transition-colors shadow-xl"
                     >
                         {(section.ctaText?.includes('50%') || section.ctaText?.includes('tư vấn') || section.ctaText === 'Bắt đầu ngay' || !section.ctaText) ? 'Đăng ký ngay' : section.ctaText}
                     </Button>

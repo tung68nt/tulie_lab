@@ -555,8 +555,8 @@ export default function AdminDashboardPage() {
                 </Card>
             </div>
 
-            {/* Charts - Grid layout */}
-            <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+            {/* Charts - Single Column Layout */}
+            <div className="grid gap-6 grid-cols-1">
                 <Card>
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Doanh thu</CardTitle>
@@ -599,13 +599,13 @@ export default function AdminDashboardPage() {
                 {/* Recent Orders Table */}
                 {data.recentOrders.length > 0 && (
                     <Card className="overflow-hidden border shadow-none border-zinc-200">
-                        <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b">
-                            <div>
+                        <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b space-y-0">
+                            <div className="flex-1">
                                 <CardTitle className="text-sm font-bold">Đơn hàng mới nhất</CardTitle>
                                 <p className="text-sm text-muted-foreground">5 đơn hàng vừa phát sinh trên hệ thống</p>
                             </div>
                             <Link href="/admin/orders">
-                                <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold">Chi tiết →</Button>
+                                <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold bg-white">Chi tiết →</Button>
                             </Link>
                         </CardHeader>
                         <CardContent className="p-0">
@@ -651,13 +651,13 @@ export default function AdminDashboardPage() {
 
                 {/* Recent Transactions Table */}
                 <Card className="overflow-hidden border shadow-none border-zinc-200">
-                    <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b">
-                        <div>
+                    <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b space-y-0">
+                        <div className="flex-1">
                             <CardTitle className="text-sm font-bold">Lịch sử Giao dịch</CardTitle>
                             <p className="text-sm text-muted-foreground">Các giao dịch tài chính vừa được đồng bộ</p>
                         </div>
                         <Link href="/admin/payments">
-                            <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold">Chi tiết →</Button>
+                            <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold bg-white">Chi tiết →</Button>
                         </Link>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -683,7 +683,7 @@ export default function AdminDashboardPage() {
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan={4} className="py-12 text-center text-muted-foreground italic text-xs">Chưa có giao dịch nào được đồng bộ</td>
+                                            <td colSpan={4} className="py-12 text-center text-muted-foreground text-xs">Chưa có giao dịch nào được đồng bộ</td>
                                         </tr>
                                     )}
                                 </tbody>
