@@ -20,23 +20,23 @@ export function PricingSection({ section }: { section: Section }) {
                         return (
                             <div key={item.id || index} className={`relative group rounded-2xl border ${isPopular ? 'border-primary shadow-2xl scale-105 z-10' : 'border-border shadow-sm'} bg-card p-6 md:p-8 flex flex-col transition-all duration-300 w-full max-w-md`}>
                                 {item.tag && (
-                                    <div className={`absolute -top-4 left-1/2 -translate-x-1/2 ${isPopular ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'} text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm z-10`}>
+                                    <div className={`absolute -top-3.5 left-6 ${isPopular ? 'bg-zinc-900 text-white' : 'bg-muted text-muted-foreground'} text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm z-10`}>
                                         {item.tag}
                                     </div>
                                 )}
 
                                 <div className="mb-6 text-center">
-                                    <div className="mb-4 inline-flex p-3 rounded-2xl bg-muted/50 text-foreground">
-                                        <DynamicIcon name={item.icon || 'Package'} className="w-8 h-8" />
+                                    <div className="mb-4 inline-flex p-2.5 rounded-xl bg-muted/30 text-foreground">
+                                        <DynamicIcon name={item.icon || 'Package'} className="w-6 h-6" />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                                    <div className="flex items-center justify-center gap-2 mb-2">
-                                        <span className="text-4xl font-bold text-primary">{item.price}</span>
+                                    <h3 className="text-lg font-bold mb-1">{item.title}</h3>
+                                    <div className="flex items-center justify-center gap-1.5 mb-2">
+                                        <span className="text-3xl font-bold text-foreground">{item.price}</span>
                                         {item.originalPrice && (
-                                            <span className="text-lg text-muted-foreground line-through decoration-red-500/50">{item.originalPrice}</span>
+                                            <span className="text-base text-muted-foreground line-through decoration-red-500/40">{item.originalPrice}</span>
                                         )}
                                     </div>
-                                    <p className="text-muted-foreground text-sm">{item.description}</p>
+                                    <p className="text-muted-foreground text-xs leading-relaxed max-w-[200px] mx-auto">{item.description}</p>
                                 </div>
 
                                 <div className="space-y-4 mb-8 flex-1">
@@ -54,7 +54,7 @@ export function PricingSection({ section }: { section: Section }) {
                                     <Button
                                         variant={isPopular ? 'default' : 'outline'}
                                         size="lg"
-                                        className={`w-full font-bold h-12 rounded-xl text-base ${isPopular ? 'shadow-sm hover:shadow-md transition-all' : ''}`}
+                                        className={`w-full font-bold h-11 rounded-xl text-sm ${isPopular ? 'shadow-lg shadow-zinc-900/10' : ''}`}
                                     >
                                         {item.ctaText || 'Đăng ký ngay'}
                                     </Button>

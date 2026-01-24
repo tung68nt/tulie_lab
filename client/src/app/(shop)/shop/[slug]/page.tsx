@@ -262,14 +262,14 @@ export default function ProductDetailPage() {
                                         <div className="relative z-10">
                                             <div className="flex items-center justify-between mb-6">
                                                 <div>
-                                                    <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-zinc-900 text-white dark:bg-white dark:text-black text-[10px] font-black uppercase tracking-wider mb-3 shadow-lg">
+                                                    <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-zinc-900 text-white dark:bg-white dark:text-black text-[10px] font-bold tracking-wider mb-3 shadow-lg">
                                                         Mua một lần
                                                     </div>
-                                                    <h3 className="text-2xl font-black uppercase tracking-tight text-zinc-900 dark:text-white">Sở hữu trọn đời</h3>
+                                                    <h3 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">Sở hữu trọn đời</h3>
                                                     <p className="text-sm text-muted-foreground mt-1">{settings.pricing_single_description || 'Sở hữu vĩnh viễn template này'}</p>
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className="text-3xl font-black text-zinc-900 dark:text-white">
+                                                    <div className="text-3xl font-bold text-zinc-900 dark:text-white">
                                                         {product.price === 0 || product.price === '0'
                                                             ? 'Miễn phí'
                                                             : `${new Intl.NumberFormat('vi-VN').format(product.price)}đ`}
@@ -280,12 +280,12 @@ export default function ProductDetailPage() {
                                                 </div>
                                             </div>
                                             <Link href={`/checkout?productId=${product.id}`}>
-                                                <Button as="div" variant="default" className="w-full text-lg font-black h-14 rounded-2xl group overflow-hidden relative shadow-xl shadow-zinc-900/10 active:scale-95 transition-all">
+                                                <Button as="div" variant="default" className="w-full text-base font-bold h-12 rounded-xl group overflow-hidden relative shadow-lg shadow-zinc-900/10 active:scale-[0.98] transition-all">
                                                     <span className="relative z-10 flex items-center justify-center gap-2">
                                                         <Wallet className="w-5 h-5" />
-                                                        SỞ HỮU NGAY
+                                                        Sở hữu ngay
                                                     </span>
-                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
+                                                    <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
                                                 </Button>
                                             </Link>
                                         </div>
@@ -295,8 +295,8 @@ export default function ProductDetailPage() {
                                         <div className="absolute inset-0 flex items-center" aria-hidden="true">
                                             <div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div>
                                         </div>
-                                        <div className="relative flex justify-center text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
-                                            <span className="bg-background px-4">Hoặc tiết kiệm với Membership</span>
+                                        <div className="relative flex justify-center text-xs font-semibold tracking-wider text-muted-foreground">
+                                            <span className="bg-background px-4 whitespace-nowrap">Hoặc tiết kiệm với Membership</span>
                                         </div>
                                     </div>
 
@@ -310,7 +310,7 @@ export default function ProductDetailPage() {
                                             <div className="mb-8 mt-4">
                                                 <h3 className="text-xl font-bold mb-2">{MEMBERSHIP_PRICING.BASIC.title}</h3>
                                                 <div className="flex items-baseline gap-1">
-                                                    <span className="text-3xl font-black text-zinc-900 dark:text-white">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
+                                                    <span className="text-3xl font-bold text-zinc-900 dark:text-white">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
                                                     <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
                                                 </div>
                                                 <p className="text-sm text-muted-foreground mt-4 leading-relaxed line-clamp-2">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
@@ -342,7 +342,7 @@ export default function ProductDetailPage() {
                                                     <span className="text-[10px] font-bold uppercase tracking-wider">{MEMBERSHIP_PRICING.PREMIUM.title}</span>
                                                 </div>
                                                 <div className="flex items-baseline gap-1">
-                                                    <span className="text-3xl font-black">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
+                                                    <span className="text-3xl font-bold">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
                                                     <span className="text-sm opacity-60 font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
                                                 </div>
                                                 <p className="text-sm opacity-70 mt-4 leading-relaxed line-clamp-2">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>

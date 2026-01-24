@@ -8,7 +8,7 @@ import rateLimit from 'express-rate-limit';
 // General API rate limiting - 100 requests per 15 minutes
 export const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 300,
+    max: 1000,
     message: { message: 'Too many requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,

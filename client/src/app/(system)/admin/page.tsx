@@ -597,7 +597,7 @@ export default function AdminDashboardPage() {
             )}
 
             {/* System Stats Widget - Realtime Chart */}
-            <div className="h-[300px]">
+            <div className="h-auto">
                 <RealtimeHealthChart />
             </div>
 

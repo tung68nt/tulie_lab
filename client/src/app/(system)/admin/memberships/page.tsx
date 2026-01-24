@@ -15,6 +15,7 @@ interface MembershipState {
         sale: string;
         original: string;
         description: string;
+        features: string[];
     };
     basic: {
         sale: string;
@@ -36,7 +37,7 @@ export default function AdminMembershipsPage() {
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
     const [state, setState] = useState<MembershipState>({
-        single: { sale: '', original: '', description: '' },
+        single: { sale: '', original: '', description: '', features: [] },
         basic: { sale: '', original: '', description: '', features: [] },
         premium: { sale: '', original: '', description: '', features: [] }
     });
@@ -52,7 +53,8 @@ export default function AdminMembershipsPage() {
                 single: {
                     sale: res.pricing_single_sale || '250k',
                     original: res.pricing_single_original || '500k',
-                    description: res.pricing_single_description || 'Sở hữu vĩnh viễn template này'
+                    description: res.pricing_single_description || 'Sở hữu vĩnh viễn template này',
+                    features: safeParse(res.pricing_single_features, ['Mua lẻ theo túi tiền', 'Sở hữu vĩnh viễn', 'Hỗ trợ setup cơ bản'])
                 },
                 basic: {
                     sale: res.pricing_membership_basic_sale || '1.990k',
@@ -91,19 +93,21 @@ export default function AdminMembershipsPage() {
         }));
     };
 
-    const handleFeatureAction = (pkg: 'basic' | 'premium', action: 'add' | 'remove', index?: number, value?: string) => {
-        setState(prev => {
-            const features = [...prev[pkg].features];
-            if (action === 'add' && value) {
-                features.push(value);
-            } else if (action === 'remove' && index !== undefined) {
-                features.splice(index, 1);
-            }
-            return {
-                ...prev,
-                [pkg]: { ...prev[pkg], features }
-            };
-        });
+    const handleFeatureAction = (pkg: keyof MembershipState, action: 'add' | 'remove', index?: number, value?: string) => {
+        if (pkg === 'single' || pkg === 'basic' || pkg === 'premium') {
+            setState(prev => {
+                const features = [...prev[pkg].features];
+                if (action === 'add' && value) {
+                    features.push(value);
+                } else if (action === 'remove' && index !== undefined) {
+                    features.splice(index, 1);
+                }
+                return {
+                    ...prev,
+                    [pkg]: { ...prev[pkg], features }
+                };
+            });
+        }
     };
 
     const handleSave = async () => {
@@ -113,6 +117,7 @@ export default function AdminMembershipsPage() {
                 pricing_single_sale: state.single.sale,
                 pricing_single_original: state.single.original,
                 pricing_single_description: state.single.description,
+                pricing_single_features: JSON.stringify(state.single.features),
                 pricing_membership_basic_sale: state.basic.sale,
                 pricing_membership_basic_original: state.basic.original,
                 pricing_membership_basic_description: state.basic.description,
@@ -178,6 +183,41 @@ export default function AdminMembershipsPage() {
                                     onChange={e => handleUpdateField('single', 'description', e.target.value)}
                                     placeholder="Sở hữu vĩnh viễn..."
                                 />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3 pt-4 border-t">
+                            <label className="text-sm font-medium flex items-center justify-between">
+                                Danh sách Quyền lợi (Show trên Pricing Table)
+                                <Button size="sm" variant="outline" onClick={() => {
+                                    const val = window.prompt('Nhập quyền lợi mới:');
+                                    if (val) handleFeatureAction('single', 'add', 0, val);
+                                }}>
+                                    <Plus className="w-3 h-3 mr-1" /> Thêm
+                                </Button>
+                            </label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                {state.single.features.map((f, i) => (
+                                    <div key={i} className="flex gap-2 items-center group">
+                                        <Input
+                                            value={f}
+                                            onChange={e => {
+                                                const newFeatures = [...state.single.features];
+                                                newFeatures[i] = e.target.value;
+                                                setState(prev => ({ ...prev, single: { ...prev.single, features: newFeatures } }));
+                                            }}
+                                            className="flex-1 text-sm font-medium bg-zinc-50/50"
+                                        />
+                                        <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            className="text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 px-2"
+                                            onClick={() => handleFeatureAction('single', 'remove', i)}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </CardContent>
@@ -252,7 +292,7 @@ export default function AdminMembershipsPage() {
                                             <Button
                                                 size="sm"
                                                 variant="ghost"
-                                                className="text-red-500 hover:text-red-600 hover:bg-red-50 px-2"
+                                                className="text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 px-2"
                                                 onClick={() => handleFeatureAction('basic', 'remove', i)}
                                             >
                                                 <Trash2 className="w-4 h-4" />
@@ -325,7 +365,7 @@ export default function AdminMembershipsPage() {
                                             <Button
                                                 size="sm"
                                                 variant="ghost"
-                                                className="text-red-500 hover:text-red-600 hover:bg-red-50 px-2"
+                                                className="text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 px-2"
                                                 onClick={() => handleFeatureAction('premium', 'remove', i)}
                                             >
                                                 <Trash2 className="w-4 h-4" />
