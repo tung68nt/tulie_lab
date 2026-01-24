@@ -6,19 +6,14 @@ import Link from 'next/link';
 
 export const CTASection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-20 md:py-32 bg-zinc-950 text-white relative overflow-hidden">
+        <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden">
             {/* Background pattern */}
-            {/* Background pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(#fab005_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.1] pointer-events-none" />
-
-            {/* Corner Gradients */}
-            <div className="absolute -top-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute -top-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+                <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+            </div>
 
             <div className="container text-center relative z-10">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-8 leading-relaxed tracking-tight">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-relaxed tracking-tight">
                     {section.title}
                 </h2>
                 <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed">
