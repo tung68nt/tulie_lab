@@ -351,11 +351,11 @@ export default function AdminOrdersPage() {
                                                         <Link href={`/admin/orders/${order.id}`}>
                                                             <Button
                                                                 size="sm"
-                                                                variant="ghost"
-                                                                className="h-7 w-7 p-0 hover:bg-muted"
-                                                                title="Xem chi tiết"
+                                                                variant="outline"
+                                                                className="h-7 px-2 text-[11px] gap-1 hover:bg-muted"
                                                             >
-                                                                <Eye size={14} />
+                                                                <Eye size={12} />
+                                                                Detail
                                                             </Button>
                                                         </Link>
                                                         {order.status === 'PENDING' && (
