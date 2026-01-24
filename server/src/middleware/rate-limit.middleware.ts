@@ -12,6 +12,7 @@ export const apiLimiter = rateLimit({
     message: { message: 'Too many requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
+    validate: { trustProxy: false },
 });
 
 // Auth endpoints - stricter limits (5 requests per 15 minutes)
@@ -22,6 +23,7 @@ export const authLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     skipSuccessfulRequests: true, // Don't count successful auth requests
+    validate: { trustProxy: false },
 });
 
 // Webhook endpoints - moderate limits (30 requests per minute)
@@ -38,6 +40,7 @@ export const webhookLimiter = rateLimit({
         const ip = req.ip || req.socket.remoteAddress || 'unknown';
         return apiKey ? `${ip}:${apiKey}` : ip;
     },
+    validate: { trustProxy: false },
 });
 
 // Password reset - very strict (3 requests per hour)
@@ -47,6 +50,7 @@ export const passwordResetLimiter = rateLimit({
     message: { message: 'Too many password reset attempts, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
+    validate: { trustProxy: false },
 });
 
 // Email sending - moderate limits (10 per hour)
@@ -56,4 +60,5 @@ export const emailLimiter = rateLimit({
     message: { message: 'Too many email requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
+    validate: { trustProxy: false },
 });

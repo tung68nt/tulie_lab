@@ -180,7 +180,12 @@ async function initializeApp() {
     app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
       console.error('[Global Error]', err);
       const status = err.status || err.statusCode || 500;
-      res.status(status).json({ error: err.message || 'Internal Server Error', status });
+      // Return both error and message to be compatible with different client versions
+      res.status(status).json({
+        message: err.message || 'Internal Server Error',
+        error: err.message || 'Internal Server Error',
+        status
+      });
     });
 
     console.log('✅ All routes and services initialized successfully.');
