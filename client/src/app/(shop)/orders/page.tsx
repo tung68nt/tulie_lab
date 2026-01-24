@@ -135,13 +135,13 @@ export default function OrdersPage() {
                                                     <div className="flex flex-col gap-1">
                                                         {order.courses && order.courses.length > 0 && order.courses.map((c: any) => (
                                                             <div key={c.id} className="text-sm font-medium flex items-center gap-2">
-                                                                <span className="p-1 rounded bg-blue-100 text-blue-700 text-[10px] whitespace-nowrap">KHÓA HỌC</span>
+                                                                <span className="p-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] whitespace-nowrap">Khóa học</span>
                                                                 <span className="line-clamp-1">{c.title}</span>
                                                             </div>
                                                         ))}
                                                         {order.products && order.products.length > 0 && order.products.map((p: any) => (
                                                             <div key={p.id} className="text-sm font-medium flex items-center gap-2">
-                                                                <span className="p-1 rounded bg-purple-100 text-purple-700 text-[10px] whitespace-nowrap">SẢN PHẨM</span>
+                                                                <span className="p-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] whitespace-nowrap">Sản phẩm</span>
                                                                 <span className="line-clamp-1">{p.title}</span>
                                                             </div>
                                                         ))}

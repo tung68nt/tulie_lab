@@ -33,12 +33,41 @@ export default function ShopPage() {
     const [selectedType, setSelectedType] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [showMobileFilter, setShowMobileFilter] = useState(false);
+    const [ownedProductIds, setOwnedProductIds] = useState<Set<string>>(new Set());
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const res: any = await api.products.list({ isPublished: true });
                 setProducts(res.data || []);
+
+                // Check ownership logic (similar to product detail page)
+                try {
+                    const profile = await api.users.getProfile() as any;
+                    if (profile) {
+                        const orders = await api.users.getMyOrders() as any[];
+                        const ownedIds = new Set<string>();
+
+                        // Check orders for owned products
+                        orders.forEach((o: any) => {
+                            if (o.status === 'PAID' || o.status === 'COMPLETED') {
+                                if (o.items) {
+                                    o.items.forEach((i: any) => {
+                                        if (i.productId) ownedIds.add(i.productId);
+                                    });
+                                }
+                                // Also check flattened products if available
+                                if (o.products) {
+                                    o.products.forEach((p: any) => ownedIds.add(p.id));
+                                }
+                            }
+                        });
+                        setOwnedProductIds(ownedIds);
+                    }
+                } catch (e) {
+                    // Not logged in or error fetching profile
+                    console.log('User not logged in or error checking ownership');
+                }
             } catch (error) {
                 console.error(error);
             } finally {
@@ -250,74 +279,85 @@ export default function ShopPage() {
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                {filteredProducts.map((product) => (
-                                    <div
-                                        key={product.id}
-                                        className="group relative bg-card/50 backdrop-blur-xl border border-border/50 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 transition-all duration-500 flex flex-col h-full"
-                                    >
-                                        {product.thumbnail && (
-                                            <div className="aspect-[16/10] w-full overflow-hidden relative">
-                                                <img
-                                                    src={product.thumbnail}
-                                                    alt={product.title}
-                                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                                />
-                                                <div className="absolute top-4 right-4 flex gap-2">
-                                                    <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-1 px-2.5 text-xs">
-                                                        {product.type}
-                                                    </Badge>
+                                {filteredProducts.map((product) => {
+                                    const isOwned = ownedProductIds.has(product.id);
+                                    return (
+                                        <div
+                                            key={product.id}
+                                            className="group relative bg-card/50 backdrop-blur-xl border border-border/50 rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-2 transition-all duration-500 flex flex-col h-full"
+                                        >
+                                            {product.thumbnail && (
+                                                <div className="aspect-[16/10] w-full overflow-hidden relative">
+                                                    <img
+                                                        src={product.thumbnail}
+                                                        alt={product.title}
+                                                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    />
+                                                    <div className="absolute top-4 right-4 flex gap-2">
+                                                        <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-1 px-2.5 text-xs">
+                                                            {product.type}
+                                                        </Badge>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
 
-                                        <div className="p-6 flex flex-col flex-1">
-                                            <div className="mb-4">
-                                                <div className="flex items-center gap-2 mb-3">
-                                                    <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-primary/20 to-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/30 shadow-sm">
-                                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                                                        </svg>
-                                                        {product.field}
-                                                    </span>
-                                                </div>
-                                                <h3 className="text-lg font-semibold group-hover:text-primary transition-colors mb-2 line-clamp-2 leading-normal">
-                                                    {product.title}
-                                                </h3>
-                                                <p className="text-sm text-muted-foreground line-clamp-2 leading-normal">
-                                                    {product.description}
-                                                </p>
-                                            </div>
-
-                                            <div className="mt-auto pt-4 flex flex-col gap-3 border-t border-border/50">
-                                                {/* Price Section */}
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-end gap-2">
-                                                        <span className="text-xl font-semibold text-foreground leading-none">
-                                                            {product.price === 0 || product.price === '0'
-                                                                ? 'Miễn phí'
-                                                                : `${new Intl.NumberFormat('vi-VN').format(product.price)} ₫`}
+                                            <div className="p-6 flex flex-col flex-1">
+                                                <div className="mb-4">
+                                                    <div className="flex items-center gap-2 mb-3">
+                                                        <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-primary/20 to-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/30 shadow-sm">
+                                                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                                                            </svg>
+                                                            {product.field}
                                                         </span>
-                                                        {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
-                                                            <span className="text-[11px] font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded leading-none mb-0.5">
-                                                                -{Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)}%
-                                                            </span>
-                                                        )}
                                                     </div>
+                                                    <h3 className="text-lg font-semibold group-hover:text-primary transition-colors mb-2 line-clamp-2 leading-normal">
+                                                        {product.title}
+                                                    </h3>
+                                                    <p className="text-sm text-muted-foreground line-clamp-2 leading-normal">
+                                                        {product.description}
+                                                    </p>
                                                 </div>
-                                                {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
-                                                    <div className="text-xs text-muted-foreground line-through -mt-1">
-                                                        {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)} ₫
+
+                                                <div className="mt-auto pt-4 flex flex-col gap-3 border-t border-border/50">
+                                                    {/* Price Section */}
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-end gap-2">
+                                                            {!isOwned ? (
+                                                                <>
+                                                                    <span className="text-xl font-semibold text-foreground leading-none">
+                                                                        {product.price === 0 || product.price === '0'
+                                                                            ? 'Miễn phí'
+                                                                            : `${new Intl.NumberFormat('vi-VN').format(product.price)} ₫`}
+                                                                    </span>
+                                                                    {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
+                                                                        <span className="text-[11px] font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded leading-none mb-0.5">
+                                                                            -{Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)}%
+                                                                        </span>
+                                                                    )}
+                                                                </>
+                                                            ) : (
+                                                                <span className="text-sm font-medium text-primary bg-primary/10 px-2 py-1 rounded-md">
+                                                                    Đã sở hữu
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                )}
-                                                <Link href={`/shop/${product.slug}`} className="w-full">
-                                                    <Button as="div" size="sm" className="w-full rounded-lg font-medium shadow-sm hover:shadow transition-all">
-                                                        Xem chi tiết
-                                                    </Button>
-                                                </Link>
+                                                    {(!isOwned && Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
+                                                        <div className="text-xs text-muted-foreground line-through -mt-1">
+                                                            {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)} ₫
+                                                        </div>
+                                                    )}
+                                                    <Link href={`/shop/${product.slug}`} className="w-full">
+                                                        <Button as="div" size="sm" variant={isOwned ? "outline" : "default"} className="w-full rounded-lg font-medium shadow-sm hover:shadow transition-all">
+                                                            {isOwned ? 'Xem sản phẩm' : 'Xem chi tiết'}
+                                                        </Button>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         )}
                     </div>

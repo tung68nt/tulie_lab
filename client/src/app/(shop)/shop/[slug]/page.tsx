@@ -253,119 +253,121 @@ export default function ProductDetailPage() {
 
                             {/* Pricing Options - Only show if user doesn't own and isn't member */}
                             {!isOwned && !isMember && (
-                                <div className="space-y-6">
-                                    {/* Single Purchase - Premium Glass Card */}
-                                    {/* Single Purchase - Modern Minimal Card */}
-                                    <div className="group relative p-8 rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/30">
-                                        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                                            <div className="flex-1">
-                                                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 text-xs font-bold mb-3">
-                                                    Mua một lần
-                                                </div>
-                                                <h3 className="text-2xl font-bold tracking-tight">Sở hữu trọn đời</h3>
-                                                <p className="text-sm text-muted-foreground mt-1">{settings.pricing_single_description || 'Sở hữu vĩnh viễn template này'}</p>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {/* Single Purchase - Column 1 */}
+                                    <div className="group relative p-6 rounded-3xl border border-border bg-card shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/30 flex flex-col h-full">
+                                        <div className="mb-6">
+                                            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 text-xs font-bold mb-3">
+                                                Mua lẻ
                                             </div>
-                                            <div className="flex flex-col md:items-end gap-1">
-                                                <div className="text-3xl font-bold">
+                                            <h3 className="text-xl font-bold tracking-tight mb-2">Gói Cơ Bản (Lẻ)</h3>
+                                            <div className="flex items-baseline gap-1 mb-2">
+                                                <span className="text-3xl font-bold">
                                                     {product.price === 0 || product.price === '0'
                                                         ? 'Miễn phí'
                                                         : `${new Intl.NumberFormat('vi-VN').format(product.price)}đ`}
-                                                </div>
+                                                </span>
                                                 {product.compareAtPrice && product.compareAtPrice > product.price && product.price > 0 && (
-                                                    <div className="text-sm text-muted-foreground line-through decoration-red-500/50 decoration-2">{new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ</div>
+                                                    <span className="text-sm text-muted-foreground line-through">{new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ</span>
                                                 )}
                                             </div>
+                                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                                {settings.pricing_single_description || 'Sở hữu vĩnh viễn template này'}
+                                            </p>
                                         </div>
-                                        <Link href={`/checkout?productId=${product.id}`} className="block mt-6">
-                                            <Button as="div" variant="default" className="w-full text-base font-bold h-12 rounded-xl active:scale-[0.98] transition-all gap-2">
-                                                <Wallet className="w-5 h-5" />
+
+                                        <Link href={`/checkout?productId=${product.id}`} className="mt-auto">
+                                            <Button as="div" variant="default" className="w-full text-sm font-bold h-12 rounded-xl active:scale-[0.98] transition-all gap-2">
+                                                <Wallet className="w-4 h-4" />
                                                 Sở hữu ngay
                                             </Button>
                                         </Link>
-                                    </div>
 
-                                    <div className="relative">
-                                        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                                            <div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div>
-                                        </div>
-                                        <div className="relative flex justify-center text-xs font-semibold tracking-wider text-muted-foreground">
-                                            <span className="bg-background px-4 whitespace-nowrap">Hoặc tiết kiệm với Membership</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Membership Grid - 2 Columns */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        {/* Membership - Gói Cơ Bản */}
-                                        <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-bold border border-border">
-                                                Phổ biến
+                                        {/* Single Features - Optional or simplified */}
+                                        <div className="mt-6 space-y-2.5 text-[12px]">
+                                            <div className="flex items-center gap-2">
+                                                <Check className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                <span className="font-medium">Sở hữu vĩnh viễn</span>
                                             </div>
-                                            <div className="mb-8 mt-4">
-                                                <h3 className="text-xl font-bold mb-2">{MEMBERSHIP_PRICING.BASIC.title}</h3>
-                                                <div className="flex items-baseline gap-1">
-                                                    <span className="text-3xl font-bold">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
-                                                    <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
-                                                </div>
-                                                <p className="text-sm text-muted-foreground mt-4 leading-relaxed line-clamp-2">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
-                                            </div>
-
-                                            <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
-                                                    Đăng ký gói này
-                                                </Button>
-                                            </Link>
-                                            <div className="mt-6 space-y-2.5 text-[12px]">
-                                                {safeParse(settings.pricing_membership_basic_features, ['Tải không giới hạn', 'Tiết kiệm 80%', 'Update hàng tuần']).map((f: string, i: number) => (
-                                                    <div key={i} className="flex items-center gap-2">
-                                                        <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                        <span className="font-medium">{f}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Membership - Gói Premium */}
-                                        <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                                            <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold shadow-lg">
-                                                Best Value
-                                            </div>
-                                            <div className="mb-8 mt-4">
-                                                <div className="flex items-center gap-2 opacity-60 mb-1">
-                                                    <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
-                                                    <span className="text-xs font-bold tracking-wider">{MEMBERSHIP_PRICING.PREMIUM.title}</span>
-                                                </div>
-                                                <div className="flex items-baseline gap-1">
-                                                    <span className="text-3xl font-bold">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
-                                                    <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
-                                                </div>
-                                                <p className="text-sm text-muted-foreground mt-4 leading-relaxed line-clamp-2">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
-                                            </div>
-
-                                            <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
-                                                    Nâng cấp Premium
-                                                </Button>
-                                            </Link>
-                                            <div className="mt-6 space-y-2.5 text-[12px]">
-                                                {safeParse(settings.pricing_membership_premium_features, ['Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7']).map((f: string, i: number) => (
-                                                    <div key={i} className="flex items-center gap-2">
-                                                        <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                        <span className="font-medium">{f}</span>
-                                                    </div>
-                                                ))}
+                                            <div className="flex items-center gap-2">
+                                                <Check className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                <span className="font-medium">Cập nhật miễn phí</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Preview Demo Button */}
-                                    {product.previewUrl && (
-                                        <a href={product.previewUrl} target="_blank" rel="noopener noreferrer" className="block pt-2">
-                                            <Button as="div" variant="outline" className="w-full border-zinc-200 dark:border-zinc-800">
-                                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                                Xem bản demo
+                                    {/* Membership - Gói Cơ Bản - Column 2 */}
+                                    <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+                                        <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-bold border border-border">
+                                            Phổ biến
+                                        </div>
+                                        <div className="mb-6 mt-4">
+                                            <h3 className="text-xl font-bold mb-2">{MEMBERSHIP_PRICING.BASIC.title}</h3>
+                                            <div className="flex items-baseline gap-1 mb-2">
+                                                <span className="text-3xl font-bold">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
+                                                <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
+                                        </div>
+
+                                        <Link href="/pricing" className="mt-auto">
+                                            <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
+                                                Đăng ký gói này
                                             </Button>
-                                        </a>
-                                    )}
+                                        </Link>
+                                        <div className="mt-6 space-y-2.5 text-[12px]">
+                                            {safeParse(settings.pricing_membership_basic_features, ['Tải không giới hạn', 'Tiết kiệm 80%', 'Update hàng tuần']).map((f: string, i: number) => (
+                                                <div key={i} className="flex items-center gap-2">
+                                                    <Check className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                    <span className="font-medium">{f}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Membership - Gói Premium - Column 3 */}
+                                    <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+                                        <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold shadow-lg">
+                                            Best Value
+                                        </div>
+                                        <div className="mb-6 mt-4">
+                                            <div className="flex items-center gap-2 opacity-60 mb-1">
+                                                <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
+                                                <span className="text-xs font-bold tracking-wider">{MEMBERSHIP_PRICING.PREMIUM.title}</span>
+                                            </div>
+                                            <div className="flex items-baseline gap-1 mb-2">
+                                                <span className="text-3xl font-bold">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
+                                                <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
+                                            </div>
+                                            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
+                                        </div>
+
+                                        <Link href="/pricing" className="mt-auto">
+                                            <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all">
+                                                Nâng cấp Premium
+                                            </Button>
+                                        </Link>
+                                        <div className="mt-6 space-y-2.5 text-[12px]">
+                                            {safeParse(settings.pricing_membership_premium_features, ['Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7']).map((f: string, i: number) => (
+                                                <div key={i} className="flex items-center gap-2">
+                                                    <Check className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                    <span className="font-medium">{f}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Preview Demo Button */}
+                            {(!isOwned && !isMember && product.previewUrl) && (
+                                <div className="mt-6">
+                                    <a href={product.previewUrl} target="_blank" rel="noopener noreferrer" className="block">
+                                        <Button as="div" variant="outline" className="w-full border-zinc-200 dark:border-zinc-800">
+                                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                            Xem bản demo
+                                        </Button>
+                                    </a>
                                 </div>
                             )}
 
