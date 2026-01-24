@@ -7,12 +7,24 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
+
+const safeParse = (val: any, fallback: string[]) => {
+    if (!val) return fallback;
+    if (Array.isArray(val)) return val;
+    try {
+        return JSON.parse(val);
+    } catch (e) {
+        return typeof val === 'string' ? val.split(',').map((s: string) => s.trim()) : fallback;
+    }
+};
 
 export default function ProductDetailPage() {
     const { slug } = useParams();
     const router = useRouter();
     const { addToast } = useToast();
+    const { settings } = useSettings();
     const [product, setProduct] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [isMember, setIsMember] = useState(false);
@@ -275,12 +287,12 @@ export default function ProductDetailPage() {
                                                 Khuyên dùng
                                             </div>
                                             <div className="mb-6 mt-2">
-                                                <h3 className="text-lg font-bold mb-1">Gói Cơ Bản</h3>
+                                                <h3 className="text-lg font-bold mb-1">{MEMBERSHIP_PRICING.BASIC.title}</h3>
                                                 <div className="flex items-baseline gap-1">
-                                                    <span className="text-2xl font-black">1.990k</span>
-                                                    <span className="text-xs text-muted-foreground">/năm</span>
+                                                    <span className="text-2xl font-black">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
+                                                    <span className="text-xs text-muted-foreground">{MEMBERSHIP_PRICING.BASIC.period}</span>
                                                 </div>
-                                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Tải không giới hạn tất cả các templates</p>
+                                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
@@ -289,7 +301,7 @@ export default function ProductDetailPage() {
                                                 </Button>
                                             </Link>
                                             <div className="mt-6 space-y-2.5 text-[12px]">
-                                                {['Tải không giới hạn', 'Tiết kiệm 80%', 'Update hàng tuần'].map((f, i) => (
+                                                {safeParse(settings.pricing_membership_basic_features, ['Tải không giới hạn', 'Tiết kiệm 80%', 'Update hàng tuần']).map((f: string, i: number) => (
                                                     <div key={i} className="flex items-center gap-2">
                                                         <svg className="w-3.5 h-3.5 text-zinc-900 dark:text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                                                         <span className="font-medium">{f}</span>
@@ -304,12 +316,12 @@ export default function ProductDetailPage() {
                                                 VIP
                                             </div>
                                             <div className="mb-6 mt-2">
-                                                <h3 className="text-lg font-bold mb-1">Gói Premium</h3>
+                                                <h3 className="text-lg font-bold mb-1">{MEMBERSHIP_PRICING.PREMIUM.title}</h3>
                                                 <div className="flex items-baseline gap-1">
-                                                    <span className="text-2xl font-black">4.990k</span>
-                                                    <span className="text-xs text-muted-foreground">/năm</span>
+                                                    <span className="text-2xl font-black">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
+                                                    <span className="text-xs text-muted-foreground">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
                                                 </div>
-                                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">All-in-one + Tư vấn 1-1 trực tiếp</p>
+                                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
@@ -318,7 +330,7 @@ export default function ProductDetailPage() {
                                                 </Button>
                                             </Link>
                                             <div className="mt-6 space-y-2.5 text-[12px]">
-                                                {['Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7'].map((f, i) => (
+                                                {safeParse(settings.pricing_membership_premium_features, ['Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7']).map((f: string, i: number) => (
                                                     <div key={i} className="flex items-center gap-2">
                                                         <svg className="w-3.5 h-3.5 text-zinc-900 dark:text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                                                         <span className="font-medium">{f}</span>

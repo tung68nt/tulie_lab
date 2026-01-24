@@ -11,8 +11,12 @@ interface Settings {
     // Pricing
     pricing_membership_basic_sale?: string;
     pricing_membership_basic_original?: string;
+    pricing_membership_basic_description?: string;
+    pricing_membership_basic_features?: string;
     pricing_membership_premium_sale?: string;
     pricing_membership_premium_original?: string;
+    pricing_membership_premium_description?: string;
+    pricing_membership_premium_features?: string;
     pricing_vibe_coding_sale?: string;
     pricing_vibe_coding_original?: string;
 }
@@ -24,8 +28,12 @@ const defaultSettings: Settings = {
     show_site_name: 'true',
     pricing_membership_basic_sale: '1.990k',
     pricing_membership_basic_original: '3.500k',
+    pricing_membership_basic_description: 'Tải không giới hạn tất cả các templates',
+    pricing_membership_basic_features: '["Tải không giới hạn", "Tiết kiệm 80%", "Update hàng tuần"]',
     pricing_membership_premium_sale: '4.990k',
     pricing_membership_premium_original: '15.000k',
+    pricing_membership_premium_description: 'All-in-one + Tư vấn 1-1 trực tiếp',
+    pricing_membership_premium_features: '["Tư vấn 1-1 trực tiếp", "Source code các dự án", "Hỗ trợ ưu tiên 24/7"]',
     pricing_vibe_coding_sale: '1.790k',
     pricing_vibe_coding_original: '3.500k',
 };

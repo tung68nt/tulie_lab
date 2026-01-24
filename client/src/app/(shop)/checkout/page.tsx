@@ -251,8 +251,6 @@ function CheckoutContent() {
                         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">Hoàn tất đơn hàng</h1>
                         <p className="text-muted-foreground text-lg">Chỉ còn một bước nữa để sở hữu sản phẩm</p>
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-bold">Hoàn tất đơn hàng</h1>
-                    <p className="text-muted-foreground mt-2">Chỉ còn một bước nữa để sở hữu sản phẩm</p>
                 </div>
 
                 <div className="grid gap-6 lg:grid-cols-3">
@@ -489,7 +487,6 @@ function CheckoutContent() {
                 </div>
             </div>
         </div>
-        </div >
     );
 }
 

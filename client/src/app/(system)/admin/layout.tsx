@@ -41,6 +41,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             icon: ShoppingBag,
             items: [
                 { href: '/admin/products', label: 'Sản phẩm số' },
+                { href: '/admin/memberships', label: 'Gói cước' },
                 { href: '/admin/bundles', label: 'Combo / Bundle' },
                 { href: '/admin/orders', label: 'Đơn hàng' },
                 { href: '/admin/coupons', label: 'Mã giảm giá' },
