@@ -213,7 +213,11 @@ export const api = {
             }),
         },
         payments: {
-            listTransactions: () => request<unknown[]>('/payments/transactions'),
+            getTransactions: () => request<unknown[]>('/payments/transactions'),
+            syncTransactions: (accountNumber?: string) => request<{ message: string, result: any }>('/payments/sync', {
+                method: 'POST',
+                body: JSON.stringify({ accountNumber })
+            }),
             sendReminder: (orderId: string, customMessage?: string) => request<void>(`/payments/orders/${orderId}/send-reminder`, {
                 method: 'POST',
                 body: JSON.stringify({ customMessage })

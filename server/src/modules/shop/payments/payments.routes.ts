@@ -15,6 +15,7 @@ router.get('/transactions', authenticate, authorize(['ADMIN']), apiLimiter, Paym
 router.post('/orders/:id/send-reminder', authenticate, authorize(['ADMIN']), emailLimiter, PaymentController.sendPaymentReminder);
 
 router.get('/:code', authenticate, apiLimiter, PaymentController.getOrder);
+router.post('/sync', authenticate, authorize(['ADMIN']), apiLimiter, PaymentController.syncTransactions);
 router.post('/webhook', webhookLimiter, PaymentController.webhook); // Generic public callback
 router.post('/sepay-webhook', webhookLimiter, PaymentController.webhook); // Legacy SePay callback (for backwards compatibility)
 

@@ -284,4 +284,69 @@ export class PaymentService {
         const prisma = require('../../../config/prisma').default;
         return prisma.paymentTransaction.findMany({ orderBy: { createdAt: 'desc' } });
     }
+
+    async syncTransactions(accountNumber?: string) {
+        const axios = require('axios');
+        const { env } = require('../../../config/env');
+        const apiKey = env.SEPAY_API_KEY;
+
+        if (!apiKey) throw new Error('Payment gateway API key is not configured');
+
+        let url = `https://api.sepay.vn/user/transactions/list`;
+        if (accountNumber) {
+            url += `?account_number=${accountNumber}`;
+        }
+
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`
+                }
+            });
+
+            if (response.data && response.data.transactions) {
+                const transactions = response.data.transactions;
+                console.log(`Syncing ${transactions.length} transactions from SePay`);
+
+                const results = {
+                    total: transactions.length,
+                    processed: 0,
+                    errors: 0
+                };
+
+                for (const tx of transactions) {
+                    try {
+                        // Map SePay API response to our processWebhook format
+                        const webhookData: any = {
+                            code: tx.content, // content usually contains the order code
+                            amount: Number(tx.amount_in || 0),
+                            transactionId: String(tx.id),
+                            accumulated: tx.accumulated ? Number(tx.accumulated) : undefined
+                        };
+
+                        if (tx.bank_name || tx.gateway) webhookData.gateway = tx.bank_name || tx.gateway;
+                        if (tx.transaction_date) webhookData.transactionDate = tx.transaction_date;
+                        if (tx.account_number) webhookData.accountNumber = tx.account_number;
+                        if (tx.sub_account) webhookData.subAccount = tx.sub_account;
+                        if (tx.content) webhookData.content = tx.content;
+                        if (tx.reference_number) webhookData.referenceCode = tx.reference_number;
+                        if (tx.description) webhookData.description = tx.description;
+
+                        await this.processWebhook(webhookData);
+                        results.processed++;
+                    } catch (err) {
+                        console.error(`Failed to process transaction ${tx.id}:`, err);
+                        results.errors++;
+                    }
+                }
+
+                return results;
+            }
+
+            return { total: 0, processed: 0, errors: 0 };
+        } catch (error: any) {
+            console.error('Payment Sync Error:', error.response?.data || error.message);
+            throw new Error(`Payment Sync Failed: ${error.message}`);
+        }
+    }
 }

@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
-import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, UserX, Loader2 } from 'lucide-react';
+import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, RefreshCw, UserX, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { RealtimeHealthChart } from '@/components/system/analytics/RealtimeHealthChart';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { useToast } from '@/contexts/ToastContext';
 
 interface DashboardData {
     totalRevenue: number;
@@ -131,6 +132,9 @@ export default function AdminDashboardPage() {
     const [inactiveUsers, setInactiveUsers] = useState<any[]>([]);
     const [loadingInactive, setLoadingInactive] = useState(false);
     const [systemStats, setSystemStats] = useState<any>(null);
+    const [syncing, setSyncing] = useState(false);
+    const [transactions, setTransactions] = useState<any[]>([]);
+    const { addToast } = useToast();
 
     useEffect(() => {
         loadData();
@@ -331,7 +335,7 @@ export default function AdminDashboardPage() {
                 monthlyData,
                 recentOrders: orders.slice(0, 5).map((o: any) => ({
                     id: o.id,
-                    code: o.orderCode || `ORD-${o.id?.slice(-6)}`,
+                    code: o.code || o.orderCode || `ORD-${o.id?.slice(-6)}`,
                     amount: o.amount || 0,
                     status: o.status,
                     createdAt: new Date(o.createdAt).toLocaleDateString('vi-VN'),
@@ -354,7 +358,33 @@ export default function AdminDashboardPage() {
                 recentOrders: []
             });
         }
+
+        // Load recent transactions as well
+        fetchTransactions();
+
         setLoading(false);
+    };
+
+    const fetchTransactions = async () => {
+        try {
+            const res = await api.admin.payments.getTransactions();
+            setTransactions(Array.isArray(res) ? res.slice(0, 5) : []);
+        } catch (e) {
+            console.error('Error fetching transactions:', e);
+        }
+    };
+
+    const handleSync = async () => {
+        setSyncing(true);
+        try {
+            const res = await api.admin.payments.syncTransactions();
+            addToast(`Đã đồng bộ thành công ${res.result?.processed || 0} giao dịch`, 'success');
+            loadData(); // Reload everything
+        } catch (error: any) {
+            addToast(error.response?.data?.message || 'Lỗi đồng bộ giao dịch', 'error');
+        } finally {
+            setSyncing(false);
+        }
     };
 
     const exportToCSV = () => {
@@ -474,45 +504,61 @@ export default function AdminDashboardPage() {
                     >
                         Xuất CSV
                     </Button>
+                    <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={handleSync}
+                        disabled={syncing}
+                        className="h-9 whitespace-nowrap gap-2"
+                    >
+                        <RefreshCw size={14} className={syncing ? 'animate-spin' : ''} />
+                        {syncing ? 'Đang đồng bộ...' : 'Đồng bộ giao dịch'}
+                    </Button>
                 </div>
             </AdminPageHeader>
 
 
             {/* Stats Cards */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                <Card>
+                <Card className="border-l-4 border-l-blue-500">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm text-muted-foreground">Tổng doanh thu</div>
-                        <div className="text-2xl font-bold my-1">{formatCurrency(data.totalRevenue)}</div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-sm text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Doanh thu</div>
+                        <div className="text-2xl font-bold text-blue-600">{formatCurrency(data.totalRevenue)}</div>
+                        <div className="text-xs text-muted-foreground mt-1">
                             {data.totalRevenue > 0
                                 ? `Tháng này: ${formatCurrency(data.monthlyRevenue)}`
                                 : 'Chưa có doanh thu'}
                         </div>
                     </CardContent>
                 </Card>
-                <Card>
+
+                <Card className="border-l-4 border-l-emerald-500 overflow-hidden relative">
+                    <div className="absolute top-2 right-2 opacity-10">
+                        <CheckCircle2 size={40} className="text-emerald-500" />
+                    </div>
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm text-muted-foreground">Tổng đơn hàng</div>
-                        <div className="text-2xl font-bold my-1">{data.totalOrders}</div>
-                        <div className="flex gap-3 text-xs text-muted-foreground mt-0.5">
-                            <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-foreground" /> {data.paidOrders} paid</span>
-                            <span className="flex items-center gap-1"><Clock size={12} className="text-muted-foreground" /> {data.pendingOrders} pending</span>
-                        </div>
+                        <div className="text-sm text-emerald-600 mb-1 uppercase tracking-wider font-semibold">Đơn đã thanh toán</div>
+                        <div className="text-3xl font-bold text-emerald-700">{data.paidOrders}</div>
+                        <div className="text-xs text-emerald-600/70 font-medium">Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%</div>
                     </CardContent>
                 </Card>
-                <Card>
+
+                <Card className="border-l-4 border-l-amber-500 overflow-hidden relative">
+                    <div className="absolute top-2 right-2 opacity-10">
+                        <Clock size={40} className="text-amber-500" />
+                    </div>
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm text-muted-foreground">Tổng Member</div>
-                        <div className="text-2xl font-bold my-1">{data.totalUsers}</div>
-                        <div className="text-xs text-muted-foreground">{data.activeUsers} đang hoạt động</div>
+                        <div className="text-sm text-amber-600 mb-1 uppercase tracking-wider font-semibold">Đơn chờ xử lý</div>
+                        <div className="text-3xl font-bold text-amber-700">{data.pendingOrders}</div>
+                        <div className="text-xs text-amber-600/70 font-medium">Cần xử lý: {data.pendingOrders} đơn</div>
                     </CardContent>
                 </Card>
-                <Card>
+
+                <Card className="border-l-4 border-l-indigo-500">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm text-muted-foreground">Tổng Workshop</div>
-                        <div className="text-2xl font-bold my-1">{data.totalCourses}</div>
-                        <div className="text-xs text-muted-foreground">Đang hoạt động</div>
+                        <div className="text-sm text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Tổng Member</div>
+                        <div className="text-2xl font-bold text-indigo-600">{data.totalUsers}</div>
+                        <div className="text-xs text-muted-foreground mt-1">{data.activeUsers} đang hoạt động</div>
                     </CardContent>
                 </Card>
             </div>
@@ -554,47 +600,87 @@ export default function AdminDashboardPage() {
                 </Card>
             </div>
 
-            {/* Recent Orders Table */}
-            {data.recentOrders.length > 0 && (
+            {/* Recent Tables Section */}
+            <div className="grid gap-6 grid-cols-1 xl:grid-cols-2">
+                {/* Recent Orders Table */}
+                {data.recentOrders.length > 0 && (
+                    <Card>
+                        <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+                            <CardTitle className="text-base">Đơn hàng gần đây</CardTitle>
+                            <Link href="/admin/orders" className="text-xs text-primary hover:underline">Xem tất cả</Link>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="border-b">
+                                            <th className="text-left py-2 px-3 font-medium text-muted-foreground">Mã đơn</th>
+                                            <th className="text-left py-2 px-3 font-medium text-muted-foreground">Số tiền</th>
+                                            <th className="text-center py-2 px-3 font-medium text-muted-foreground">Trạng thái</th>
+                                            <th className="text-right py-2 px-3 font-medium text-muted-foreground">Ngày</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data.recentOrders.map(order => (
+                                            <tr key={order.id} className="border-b hover:bg-muted/50 transition-colors">
+                                                <td className="py-2.5 px-3 text-xs font-mono">{order.code}</td>
+                                                <td className="py-2.5 px-3 text-right font-medium">{formatCurrency(order.amount)}</td>
+                                                <td className="py-2.5 px-3 text-center">
+                                                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${order.status === 'PAID' || order.status === 'COMPLETED'
+                                                        ? 'bg-emerald-100 text-emerald-700'
+                                                        : 'bg-amber-100 text-amber-700'
+                                                        }`}>
+                                                        {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Paid' : 'Pending'}
+                                                    </span>
+                                                </td>
+                                                <td className="py-2.5 px-3 text-right text-xs text-muted-foreground">{order.createdAt}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
+
+                {/* Recent Transactions Table */}
                 <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-base">Đơn hàng gần đây</CardTitle>
+                    <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
+                        <CardTitle className="text-base">Giao dịch thanh toán mới nhất</CardTitle>
+                        <Link href="/admin/payments" className="text-xs text-primary hover:underline">Chi tiết</Link>
                     </CardHeader>
                     <CardContent>
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b">
-                                        <th className="text-left py-2 px-3 font-medium">Mã đơn</th>
-                                        <th className="text-left py-2 px-3 font-medium">Member</th>
-                                        <th className="text-right py-2 px-3 font-medium">Số tiền</th>
-                                        <th className="text-center py-2 px-3 font-medium">Trạng thái</th>
-                                        <th className="text-right py-2 px-3 font-medium">Ngày</th>
+                                        <th className="text-left py-2 px-3 font-medium text-muted-foreground">Ngày</th>
+                                        <th className="text-left py-2 px-3 font-medium text-muted-foreground">Nội dung</th>
+                                        <th className="text-right py-2 px-3 font-medium text-muted-foreground">Số tiền</th>
+                                        <th className="text-right py-2 px-3 font-medium text-muted-foreground">Mã GD</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {data.recentOrders.map(order => (
-                                        <tr key={order.id} className="border-b hover:bg-muted/50">
-                                            <td className="py-2 px-3 text-xs">{order.code}</td>
-                                            <td className="py-2 px-3">{order.userName}</td>
-                                            <td className="py-2 px-3 text-right font-medium">{formatCurrency(order.amount)}</td>
-                                            <td className="py-2 px-3 text-center">
-                                                <span className={`px-2 py-0.5 rounded text-xs ${order.status === 'PAID' || order.status === 'COMPLETED'
-                                                    ? 'bg-muted text-foreground'
-                                                    : 'bg-muted/50 text-muted-foreground'
-                                                    }`}>
-                                                    {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Paid' : 'Pending'}
-                                                </span>
-                                            </td>
-                                            <td className="py-2 px-3 text-right text-muted-foreground">{order.createdAt}</td>
+                                    {transactions.length > 0 ? (
+                                        transactions.map((tx: any) => (
+                                            <tr key={tx.id} className="border-b hover:bg-muted/50 transition-colors">
+                                                <td className="py-2.5 px-3 text-[10px] text-muted-foreground">{new Date(tx.transactionDate).toLocaleDateString('vi-VN')}</td>
+                                                <td className="py-2.5 px-3 max-w-[150px] truncate" title={tx.content}>{tx.content}</td>
+                                                <td className="py-2.5 px-3 text-right font-medium text-emerald-600">{formatCurrency(Number(tx.amountIn))}</td>
+                                                <td className="py-2.5 px-3 text-right text-[10px] font-mono">{tx.referenceCode || tx.id.slice(-8)}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan={4} className="py-8 text-center text-muted-foreground italic">Chưa có giao dịch nào</td>
                                         </tr>
-                                    ))}
+                                    )}
                                 </tbody>
                             </table>
                         </div>
                     </CardContent>
                 </Card>
-            )}
+            </div>
 
             {/* System Stats Widget - Realtime Chart */}
             <div className="h-auto">
