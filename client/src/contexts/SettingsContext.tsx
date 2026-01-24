@@ -8,13 +8,26 @@ interface Settings {
     site_logo: string;
     site_favicon: string;
     show_site_name: string; // 'true' or 'false'
+    // Pricing
+    pricing_membership_basic_sale?: string;
+    pricing_membership_basic_original?: string;
+    pricing_membership_premium_sale?: string;
+    pricing_membership_premium_original?: string;
+    pricing_vibe_coding_sale?: string;
+    pricing_vibe_coding_original?: string;
 }
 
 const defaultSettings: Settings = {
     site_name: 'The Tulie Lab',
     site_logo: '',
     site_favicon: '',
-    show_site_name: 'true'
+    show_site_name: 'true',
+    pricing_membership_basic_sale: '1.990k',
+    pricing_membership_basic_original: '3.500k',
+    pricing_membership_premium_sale: '4.990k',
+    pricing_membership_premium_original: '15.000k',
+    pricing_vibe_coding_sale: '1.790k',
+    pricing_vibe_coding_original: '3.500k',
 };
 
 const SettingsContext = createContext<{ settings: Settings, updateSettings: () => Promise<void> }>({
@@ -30,10 +43,8 @@ export const SettingsProvider = ({ children, initialSettings }: { children: Reac
             const res: any = await api.settings.getPublic();
             if (res) {
                 setSettings({
-                    site_name: res.site_name || defaultSettings.site_name,
-                    site_logo: res.site_logo || defaultSettings.site_logo,
-                    site_favicon: res.site_favicon || defaultSettings.site_favicon,
-                    show_site_name: res.show_site_name || defaultSettings.show_site_name
+                    ...defaultSettings,
+                    ...res,
                 });
             }
         } catch (error) {

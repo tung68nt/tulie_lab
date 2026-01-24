@@ -273,6 +273,81 @@ export default function AdminSettingsPage() {
 
                     <Card>
                         <CardHeader>
+                            <CardTitle>Cấu hình Giá tiền</CardTitle>
+                            <CardDescription>
+                                Quản lý giá hiển thị cho các gói thành viên và khóa học chính.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            {/* Membership Pricing */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 border-b">
+                                <div className="space-y-4">
+                                    <h4 className="text-sm font-bold uppercase text-muted-foreground">Gói Cơ Bản</h4>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Giá bán (Ví dụ: 1.990k)</label>
+                                        <Input
+                                            value={settings.pricing_membership_basic_sale || ''}
+                                            onChange={(e) => handleChange('pricing_membership_basic_sale', e.target.value)}
+                                            placeholder="1.990k"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Giá gốc (Ví dụ: 3.500k)</label>
+                                        <Input
+                                            value={settings.pricing_membership_basic_original || ''}
+                                            onChange={(e) => handleChange('pricing_membership_basic_original', e.target.value)}
+                                            placeholder="3.500k"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-4">
+                                    <h4 className="text-sm font-bold uppercase text-muted-foreground">Gói Premium</h4>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Giá bán (Ví dụ: 4.990k)</label>
+                                        <Input
+                                            value={settings.pricing_membership_premium_sale || ''}
+                                            onChange={(e) => handleChange('pricing_membership_premium_sale', e.target.value)}
+                                            placeholder="4.990k"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Giá gốc (Ví dụ: 15.000k)</label>
+                                        <Input
+                                            value={settings.pricing_membership_premium_original || ''}
+                                            onChange={(e) => handleChange('pricing_membership_premium_original', e.target.value)}
+                                            placeholder="15.000k"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Vibe Coding Course Pricing */}
+                            <div className="space-y-4">
+                                <h4 className="text-sm font-bold uppercase text-muted-foreground">Khóa học Vibe Coding</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Giá bán (Ví dụ: 1.790k)</label>
+                                        <Input
+                                            value={settings.pricing_vibe_coding_sale || ''}
+                                            onChange={(e) => handleChange('pricing_vibe_coding_sale', e.target.value)}
+                                            placeholder="1.790k"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium">Giá gốc (Ví dụ: 3.500k)</label>
+                                        <Input
+                                            value={settings.pricing_vibe_coding_original || ''}
+                                            onChange={(e) => handleChange('pricing_vibe_coding_original', e.target.value)}
+                                            placeholder="3.500k"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
                             <CardTitle>Cấu hình Admin</CardTitle>
                             <CardDescription>
                                 Cấu hình nhận thông báo hệ thống.
