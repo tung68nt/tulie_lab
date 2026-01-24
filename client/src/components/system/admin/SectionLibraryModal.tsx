@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { SECTION_TEMPLATES, SectionTemplate } from '@/lib/section-templates';
 import { Button } from '@/components/Button';
-import { Plus, X, Layout, Users, Zap, Star, Monitor } from 'lucide-react';
+import { Plus, X, Layout, Users, Zap, Star, Monitor, Settings } from 'lucide-react';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { SectionRenderer } from '@/components/SectionRenderer';
 
@@ -31,6 +31,7 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
             case 'Social Proof': return <Users className="w-4 h-4" />;
             case 'Conversion': return <Zap className="w-4 h-4" />;
             case 'Special': return <Star className="w-4 h-4" />;
+            case 'System': return <Settings className="w-4 h-4" />;
             default: return <Layout className="w-4 h-4" />;
         }
     };
