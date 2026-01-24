@@ -192,8 +192,17 @@ export default function CoursePage({ params }: { params: any }) {
     return (
         <div className="min-h-screen bg-background pb-20">
             {/* Hero Section */}
-            <div className="bg-zinc-950 pt-24 md:pt-28 pb-16 text-white md:pb-24">
-                <div className="container">
+            <div className="bg-zinc-950 pt-24 md:pt-28 pb-16 text-white md:pb-24 relative overflow-hidden">
+                {/* Background pattern */}
+                <div className="absolute inset-0 bg-[radial-gradient(#fab005_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.1] pointer-events-none" />
+
+                {/* Corner Gradients */}
+                <div className="absolute -top-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+                <div className="absolute -top-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+                <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
+
+                <div className="container relative z-10">
                     <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
                             <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm font-medium text-zinc-400">
