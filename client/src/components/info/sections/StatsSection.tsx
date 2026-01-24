@@ -4,7 +4,7 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 export function StatsSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-16 bg-background relative overflow-hidden">
-            <div className="absolute inset-0 bg-dot-black dark:bg-dot-white"></div>
+            <div className="absolute inset-0 bg-dot-black dark:bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             <div className="container relative z-10">
                 <div className="text-center mb-20 max-w-3xl mx-auto">
                     {section.subtitle && (

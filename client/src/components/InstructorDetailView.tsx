@@ -16,7 +16,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
             <div className="relative h-[280px] md:h-[320px] w-full overflow-hidden">
                 <div className="absolute inset-0 bg-zinc-950">
                     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
-                    <div className="absolute inset-0 bg-dot-white"></div>
+                    <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
                 </div>
                 {/* Decorative Elements - Subtle Monochrome Glows */}
                 <div className="absolute -top-24 -right-24 w-96 h-96 bg-zinc-800/50 rounded-full blur-3xl opacity-50" />

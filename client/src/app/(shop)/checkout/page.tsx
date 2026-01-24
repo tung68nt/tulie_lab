@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
-import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt } from 'lucide-react';
 
 function CheckoutContent() {
     const router = useRouter();
@@ -265,7 +265,7 @@ function CheckoutContent() {
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
-                                    <Sparkles className="w-5 h-5 text-primary" />
+                                    <ShoppingBag className="w-5 h-5 text-foreground" />
                                     {itemType === 'COURSE' ? 'Khóa học' : 'Sản phẩm'} của bạn
                                 </CardTitle>
                             </CardHeader>
@@ -370,8 +370,8 @@ function CheckoutContent() {
                             <Card>
                                 <CardHeader>
                                     <div className="flex items-center gap-2">
-                                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                                            <Sparkles className="w-4 h-4" />
+                                        <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
+                                            <Ticket className="w-4 h-4" />
                                         </div>
                                         <CardTitle className="text-lg">Mã giảm giá</CardTitle>
                                     </div>
@@ -435,7 +435,7 @@ function CheckoutContent() {
                                                 : 'bg-background text-foreground border-border hover:border-primary/50'
                                                 }`}
                                         >
-                                            <span className="text-xs font-bold uppercase tracking-wider mb-1">Kích hoạt ngay</span>
+                                            <span className="text-xs font-bold tracking-wider mb-1">Kích hoạt ngay</span>
                                             <span className="text-[10px] opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
                                         </button>
                                         <button
@@ -445,7 +445,7 @@ function CheckoutContent() {
                                                 : 'bg-background text-foreground border-border hover:border-primary/50'
                                                 }`}
                                         >
-                                            <span className="text-xs font-bold uppercase tracking-wider mb-1">Mua mã quà tặng</span>
+                                            <span className="text-xs font-bold tracking-wider mb-1">Mua mã quà tặng</span>
                                             <span className="text-[10px] opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
                                         </button>
                                     </div>
@@ -464,7 +464,7 @@ function CheckoutContent() {
                                     Tóm tắt đơn hàng
                                 </CardTitle>
                                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                                    <Sparkles className="w-20 h-20" />
+                                    <Receipt className="w-20 h-20" />
                                 </div>
                             </div>
                             <CardContent className="space-y-6 pt-8 p-6 bg-white dark:bg-zinc-950">

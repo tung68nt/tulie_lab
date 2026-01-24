@@ -21,7 +21,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
     return (
         <section className="py-24 md:py-32 bg-[#050505] text-white relative overflow-hidden">
             {/* Dotted Background */}
-            <div className="absolute inset-0 bg-dot-grid-dark opacity-30 pointer-events-none" />
+            <div className="absolute inset-0 bg-dot-grid-dark opacity-30 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
 
             {/* Decorative Ribbons - Breathing Animation */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-full max-w-sm">

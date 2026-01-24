@@ -4,7 +4,8 @@ import { Check } from 'lucide-react';
 
 export function ComparisonSection({ section }: { section: Section }) {
     return (
-        <section className="w-full py-12 bg-background bg-dot-grid-light">
+        <section className="w-full py-12 bg-background relative overflow-hidden">
+            <div className="absolute inset-0 bg-dot-grid-light pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             <div className="container">
                 <div className="text-center mb-12">
                     {section.subtitle && (

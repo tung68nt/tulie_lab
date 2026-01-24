@@ -30,7 +30,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
 
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(!isNew);
-    const [mode, setMode] = useState<'builder' | 'html'>('builder'); // 'builder' or 'html'
+    const [mode, setMode] = useState<'builder' | 'html' | 'json'>('builder'); // 'builder', 'html', or 'json'
 
     // UI States
     const [isLibraryOpen, setIsLibraryOpen] = useState(false);
@@ -461,6 +461,13 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                 </button>
                                 <button
                                     type="button"
+                                    onClick={() => setMode('json')}
+                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${mode === 'json' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+                                >
+                                    JSON Config
+                                </button>
+                                <button
+                                    type="button"
                                     onClick={() => setMode('html')}
                                     className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${mode === 'html' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
@@ -585,6 +592,36 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                             <p>Chưa có section nào. Nhấn "Thêm Section" để bắt đầu.</p>
                                         </div>
                                     )}
+                                </div>
+                            </div>
+                        ) : mode === 'json' ? (
+                            <div className="relative space-y-2">
+                                <textarea
+                                    className="flex min-h-[500px] w-full rounded-md border border-input bg-zinc-950 text-zinc-100 font-mono px-4 py-4 text-sm leading-relaxed"
+                                    value={formData.sectionsJSON}
+                                    onChange={e => setFormData({ ...formData, sectionsJSON: e.target.value })}
+                                    spellCheck={false}
+                                    placeholder='[{"id": "hero", "type": "hero", ...}]'
+                                />
+                                <div className="flex justify-between text-xs text-muted-foreground">
+                                    <p>
+                                        Chỉnh sửa trực tiếp cấu hình JSON. Cẩn thận với cú pháp!
+                                    </p>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            try {
+                                                const formatted = JSON.stringify(JSON.parse(formData.sectionsJSON), null, 2);
+                                                setFormData({ ...formData, sectionsJSON: formatted });
+                                                addToast('Đã định dạng JSON', 'success');
+                                            } catch (e) {
+                                                addToast('JSON không hợp lệ, không thể định dạng', 'error');
+                                            }
+                                        }}
+                                        className="text-primary hover:underline"
+                                    >
+                                        Format JSON
+                                    </button>
                                 </div>
                             </div>
                         ) : (

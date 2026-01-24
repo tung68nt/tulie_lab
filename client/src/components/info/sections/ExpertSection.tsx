@@ -25,7 +25,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
             {/* Dotted Background */}
-            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark opacity-30 pointer-events-none" />
+            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark opacity-30 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
 
             <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">

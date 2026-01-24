@@ -17,7 +17,8 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
     if (!section.items) return null;
 
     return (
-        <section className="py-24 bg-background bg-dot-grid-light overflow-hidden">
+        <section className="py-24 bg-background relative overflow-hidden">
+            <div className="absolute inset-0 bg-dot-grid-light pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             <div className="container">
                 <div className="text-center mb-16 md:mb-24">
                     <h2 className="text-4xl font-bold mb-4">{section.title}</h2>
