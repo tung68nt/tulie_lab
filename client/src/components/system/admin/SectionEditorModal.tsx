@@ -88,6 +88,17 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                 </div>
 
                                 <div className="space-y-2">
+                                    <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Tag / Badge</label>
+                                    <input
+                                        type="text"
+                                        value={editedSection.tag || ''}
+                                        onChange={e => handleChange('tag', e.target.value)}
+                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm"
+                                        placeholder="e.g. 🚀 Best Seller"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
                                     <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Subtitle</label>
                                     <textarea
                                         value={editedSection.subtitle || ''}

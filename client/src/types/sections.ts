@@ -20,6 +20,7 @@ export interface Section {
     name?: string; // Descriptive name for templates
     title?: string;
     subtitle?: string;
+    tag?: string;
     content?: string;
     items?: SectionItem[];
     variant?: string;

@@ -16,7 +16,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                 <div className="text-center mb-16 md:mb-24">
                     <div className="flex justify-center">
                         <SectionTag>
-                            Showcase thành viên
+                            {section.tag || "Showcase thành viên"}
                         </SectionTag>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.3]">

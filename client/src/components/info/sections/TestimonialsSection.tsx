@@ -65,7 +65,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                 <div className="text-center mb-10">
                     <div className="flex justify-center">
                         <SectionTag>
-                            Thành viên đã làm được gì?
+                            {section.tag || "Thành viên đã làm được gì?"}
                         </SectionTag>
                     </div>
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3]">

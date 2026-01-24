@@ -25,7 +25,7 @@ export function HeroSection({ section }: { section: Section }) {
                         {/* Badge tag */}
                         <div className="flex justify-center lg:justify-start">
                             <SectionTag>
-                                🚀 Học để làm được
+                                {section.tag || "🚀 Học để làm được"}
                             </SectionTag>
                         </div>
 
