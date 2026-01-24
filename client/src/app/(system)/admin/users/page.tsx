@@ -173,8 +173,14 @@ export default function AdminUsersPage() {
                                         <span className={`text-xs px-2 py-1 rounded font-medium ${user.role === 'ADMIN' ? 'bg-foreground text-background' : 'bg-muted text-foreground'}`}>
                                             {user.role === 'ADMIN' ? 'Admin' : 'Thành viên'}
                                         </span>
-                                        <span className="text-sm text-muted-foreground">
-                                            {new Date(user.createdAt).toLocaleDateString('vi-VN')}
+                                        <span className="text-sm text-muted-foreground whitespace-nowrap">
+                                            {new Date(user.createdAt).toLocaleDateString('vi-VN', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
                                         </span>
                                         <span className="text-muted-foreground">
                                             {expandedUser === user.id ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
@@ -196,8 +202,14 @@ export default function AdminUsersPage() {
                                                                 <div className="flex items-center gap-2">
                                                                     <CheckCircle2 size={16} className="text-foreground" />
                                                                     <span className="font-medium">{enr.course?.title || 'Khóa học'}</span>
-                                                                    <span className="text-[10px] text-muted-foreground px-1.5 py-0.5 bg-muted rounded">
-                                                                        {new Date(enr.enrolledAt).toLocaleDateString('vi-VN')}
+                                                                    <span className="text-[10px] text-muted-foreground px-1.5 py-0.5 bg-muted rounded whitespace-nowrap">
+                                                                        {new Date(enr.enrolledAt).toLocaleDateString('vi-VN', {
+                                                                            day: '2-digit',
+                                                                            month: '2-digit',
+                                                                            year: 'numeric',
+                                                                            hour: '2-digit',
+                                                                            minute: '2-digit'
+                                                                        })}
                                                                     </span>
                                                                 </div>
                                                                 <button

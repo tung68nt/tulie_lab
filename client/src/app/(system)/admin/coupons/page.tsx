@@ -97,10 +97,10 @@ export default function CouponsPage() {
                                         <td className="px-4 py-4">
                                             {coupon.minPurchase ? `${coupon.minPurchase.toLocaleString()}đ` : '-'}
                                         </td>
-                                        <td className="px-4 py-4 text-muted-foreground text-xs">
-                                            {coupon.startDate ? new Date(coupon.startDate).toLocaleDateString('vi-VN') : 'Hiện tại'}
+                                        <td className="px-4 py-4 text-muted-foreground text-xs whitespace-nowrap">
+                                            {coupon.startDate ? new Date(coupon.startDate).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Hiện tại'}
                                             {' -> '}
-                                            {coupon.endDate ? new Date(coupon.endDate).toLocaleDateString('vi-VN') : 'Vĩnh viễn'}
+                                            {coupon.endDate ? new Date(coupon.endDate).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Vĩnh viễn'}
                                         </td>
                                         <td className="px-4 py-4">
                                             {coupon._count?.usages || 0} / {coupon.usageLimit || '∞'}

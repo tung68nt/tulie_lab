@@ -7,12 +7,17 @@ import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
 import { Plus, ExternalLink, Edit, Trash2, Copy } from 'lucide-react';
 
+import { useConfirm } from '@/components/ConfirmDialog';
+import { useToast } from '@/contexts/ToastContext';
+
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
 
 export default function LandingPagesAdmin() {
     const [pages, setPages] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const confirmDialog = useConfirm();
+    const { addToast } = useToast();
 
     useEffect(() => {
         loadPages();
@@ -30,22 +35,40 @@ export default function LandingPagesAdmin() {
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Bạn có chắc chắn muốn xóa trang này?')) return;
+        const isConfirmed = await confirmDialog({
+            title: 'Xóa Landing Page',
+            message: 'Bạn có chắc chắn muốn xóa trang này? Hành động này không thể hoàn tác.',
+            variant: 'danger',
+            confirmText: 'Xóa ngay'
+        });
+
+        if (!isConfirmed) return;
+
         try {
             await api.landingPages.delete(id);
+            addToast('Đã xóa trang thành công', 'success');
             loadPages();
-        } catch (error) {
-            alert('Xóa thất bại');
+        } catch (error: any) {
+            console.error('Delete failed:', error);
+            addToast(error.message || 'Xóa thất bại. Vui lòng kiểm tra lại.', 'error');
         }
     };
 
     const handleDuplicate = async (id: string) => {
-        if (!confirm('Bạn có muốn nhân bản trang này không?')) return;
+        const isConfirmed = await confirmDialog({
+            title: 'Nhân bản trang',
+            message: 'Bạn có muốn nhân bản trang này không?',
+            variant: 'info'
+        });
+
+        if (!isConfirmed) return;
+
         try {
             await api.landingPages.duplicate(id);
+            addToast('Đã nhân bản trang thành công', 'success');
             loadPages();
-        } catch (error) {
-            alert('Nhân bản thất bại');
+        } catch (error: any) {
+            addToast(error.message || 'Nhân bản thất bại', 'error');
         }
     };
 

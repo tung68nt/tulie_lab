@@ -83,7 +83,13 @@ export default function MyProductsPage() {
                             </h3>
                             <p className="text-sm text-muted-foreground">
                                 {user?.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date())
-                                    ? `Hạn sử dụng: ${new Date(user.subscriptions.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()).endDate).toLocaleDateString('vi-VN')}`
+                                    ? `Hạn sử dụng: ${new Date(user.subscriptions.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()).endDate).toLocaleDateString('vi-VN', {
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}`
                                     : 'Nâng cấp để tải không giới hạn tài nguyên.'}
                             </p>
                         </div>
@@ -164,7 +170,13 @@ function ProductCard({ product }: { product: any }) {
                             >
                                 {product.versions.map((v: any) => (
                                     <option key={v.id} value={v.id}>
-                                        Phiên bản {v.version} ({new Date(v.createdAt).toLocaleDateString('vi-VN')})
+                                        Phiên bản {v.version} ({new Date(v.createdAt).toLocaleDateString('vi-VN', {
+                                            day: '2-digit',
+                                            month: '2-digit',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })})
                                     </option>
                                 ))}
                             </select>

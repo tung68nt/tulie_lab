@@ -141,7 +141,13 @@ export default function AdminOrdersPage() {
             getOrderItems(o),
             o.amount.toString(),
             o.status,
-            new Date(o.createdAt).toLocaleDateString('vi-VN')
+            new Date(o.createdAt).toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })
         ]);
 
         const csvContent = [headers, ...rows].map(r => r.join(',')).join('\n');

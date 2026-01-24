@@ -64,7 +64,7 @@ export default function BlogPage() {
         <>
             <div className="min-h-screen bg-background">
                 {/* Hero Section - Matching other pages */}
-                <div className="relative bg-gradient-to-br from-background via-muted/10 to-background pt-32 pb-16 overflow-hidden">
+                <div className="relative bg-gradient-to-br from-background via-muted/10 to-background pt-24 pb-16 overflow-hidden">
                     {/* Background Accents */}
                     <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] -z-10" />
                     <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[128px] -z-10" />
@@ -74,8 +74,8 @@ export default function BlogPage() {
                             {/* Badge */}
                             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary mb-6 shadow-sm">
                                 <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
                                 </span>
                                 Bắt đầu học ngay
                             </div>

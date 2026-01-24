@@ -23,13 +23,13 @@ export default async function CoursesPage({
 
     return (
         <>
-            <div className="container pt-32 pb-20 md:pb-32">
+            <div className="container pt-24 pb-20 md:pb-32">
                 {/* Header */}
                 <div className="flex flex-col items-center justify-center text-center mb-12">
                     <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary mb-6 shadow-sm">
                         <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
                         </span>
                         Bắt đầu học ngay
                     </div>

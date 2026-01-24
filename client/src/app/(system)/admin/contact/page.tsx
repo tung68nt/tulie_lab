@@ -148,9 +148,14 @@ export default function AdminContactPage() {
                             ) : (
                                 submissions.map((item) => (
                                     <tr key={item.id} className="border-b transition-colors hover:bg-muted/50">
-                                        <td className="p-4 align-middle">
-                                            {new Date(item.createdAt).toLocaleDateString('vi-VN')} <br />
-                                            <span className="text-xs text-muted-foreground">{new Date(item.createdAt).toLocaleTimeString('vi-VN')}</span>
+                                        <td className="p-4 align-middle text-xs text-muted-foreground whitespace-nowrap">
+                                            {new Date(item.createdAt).toLocaleDateString('vi-VN', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
                                         </td>
                                         <td className="p-4 align-middle">
                                             <div className="font-medium">{item.name}</div>

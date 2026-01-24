@@ -11,11 +11,13 @@ import {
     BookOpen, CreditCard, Activity, ArrowLeft, Send, Loader2
 } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { useConfirm } from '@/components/ConfirmDialog';
 
 export default function AdminUserDetailPage() {
     const { id } = useParams();
     const router = useRouter();
     const { addToast } = useToast();
+    const confirmDialog = useConfirm();
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [courses, setCourses] = useState<any[]>([]);
@@ -94,8 +96,13 @@ export default function AdminUserDetailPage() {
                 backUrl="/admin/users"
             >
                 <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={() => {
-                        if (confirm('Bạn có chắc chắn muốn cấp gói thành viên 1 năm cho người dùng này?')) {
+                    <Button variant="outline" size="sm" onClick={async () => {
+                        const confirmed = await confirmDialog({
+                            title: 'Cấp Member',
+                            message: 'Bạn có chắc chắn muốn cấp gói thành viên 1 năm cho người dùng này?',
+                            variant: 'info'
+                        });
+                        if (confirmed) {
                             api.admin.grantMembership(id as string).then(() => {
                                 addToast('Đã cấp gói thành viên thành công', 'success');
                                 // Refresh logic could go here

@@ -6,7 +6,7 @@ import { Section } from '@/types/sections';
 
 export function HeroSection({ section }: { section: Section }) {
     return (
-        <section className="w-full pt-12 pb-4 md:pt-20 md:pb-8 lg:pt-32 lg:pb-16 bg-background relative transition-colors duration-300">
+        <section className="w-full pt-8 pb-4 md:pt-10 md:pb-8 lg:pt-16 lg:pb-16 bg-background relative transition-colors duration-300">
             {/* Background decorations - isolated for scrolling overflow */}
             <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
                 {/* Gradient orbs */}
@@ -22,10 +22,10 @@ export function HeroSection({ section }: { section: Section }) {
                     <div className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
                         {/* Badge tag */}
                         <div className="flex justify-center lg:justify-start">
-                            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 dark:bg-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+                            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-4 py-1.5 text-sm font-medium text-foreground backdrop-blur-sm">
                                 <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
                                 </span>
                                 🚀 Học để làm được
                             </span>
@@ -57,7 +57,7 @@ export function HeroSection({ section }: { section: Section }) {
                                             });
                                         }
                                     }}
-                                    className="w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+                                    className="w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
                                 >
                                     {(section.ctaText?.includes('50%') || section.ctaText?.includes('tư vấn') || section.ctaText === 'Bắt đầu ngay' || !section.ctaText) ? 'Đăng ký ngay' : section.ctaText}
                                     <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

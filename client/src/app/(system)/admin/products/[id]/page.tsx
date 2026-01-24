@@ -11,11 +11,13 @@ import { ArrowLeft, Save, Loader2, UploadCloud } from 'lucide-react';
 import Link from 'next/link';
 import { Switch } from '@/components/Switch';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { useConfirm } from '@/components/ConfirmDialog';
 
 export default function ProductEditorPage() {
     const { id } = useParams();
     const router = useRouter();
     const { addToast } = useToast();
+    const confirmDialog = useConfirm();
     const isNew = id === 'new';
 
     const [loading, setLoading] = useState(!isNew);
@@ -37,7 +39,7 @@ export default function ProductEditorPage() {
     });
 
     // Gallery State
-    const [gallery, setGallery] = useState<Array<{type: 'image' | 'video'; url: string; thumbnail?: string}>>([]);
+    const [gallery, setGallery] = useState<Array<{ type: 'image' | 'video'; url: string; thumbnail?: string }>>([]);
 
     // Rich Content State
     const [detailedContent, setDetailedContent] = useState('');
@@ -142,7 +144,13 @@ export default function ProductEditorPage() {
     };
 
     const handleDeleteVersion = async (versionId: string) => {
-        if (!confirm('Bạn có chắc chắn muốn xóa phiên bản này?')) return;
+        const isConfirmed = await confirmDialog({
+            title: 'Xóa phiên bản',
+            message: 'Bạn có chắc chắn muốn xóa phiên bản này?',
+            variant: 'danger'
+        });
+
+        if (!isConfirmed) return;
 
         try {
             await api.products.deleteVersion(versionId);
@@ -178,7 +186,13 @@ export default function ProductEditorPage() {
     };
 
     const handleRemoveUpsell = async (upsellId: string, type: 'product' | 'course') => {
-        if (!confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách upsell?')) return;
+        const isConfirmed = await confirmDialog({
+            title: 'Xóa Upsell',
+            message: 'Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách upsell?',
+            variant: 'danger'
+        });
+
+        if (!isConfirmed) return;
 
         try {
             await api.products.removeUpsell(id as string, upsellId);
@@ -459,243 +473,243 @@ export default function ProductEditorPage() {
                                         <span className="text-xs text-muted-foreground">{versions.length} phiên bản</span>
                                     </div>
 
-                                <div className="space-y-4 border p-4 rounded-md bg-muted/20">
-                                    <h4 className="font-medium text-sm">Thêm phiên bản mới</h4>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <Input
-                                            placeholder="Version (VD: 1.0.1)"
-                                            value={newVersion.version}
-                                            onChange={(e) => setNewVersion({ ...newVersion, version: e.target.value })}
+                                    <div className="space-y-4 border p-4 rounded-md bg-muted/20">
+                                        <h4 className="font-medium text-sm">Thêm phiên bản mới</h4>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <Input
+                                                placeholder="Version (VD: 1.0.1)"
+                                                value={newVersion.version}
+                                                onChange={(e) => setNewVersion({ ...newVersion, version: e.target.value })}
+                                            />
+                                            <Input
+                                                placeholder="Link tài liệu (URL)"
+                                                value={newVersion.fileUrl}
+                                                onChange={(e) => setNewVersion({ ...newVersion, fileUrl: e.target.value })}
+                                            />
+                                        </div>
+                                        <textarea
+                                            placeholder="Changelog: Những thay đổi trong phiên bản này..."
+                                            value={newVersion.changelog}
+                                            onChange={(e) => setNewVersion({ ...newVersion, changelog: e.target.value })}
+                                            className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm"
                                         />
-                                        <Input
-                                            placeholder="Link tài liệu (URL)"
-                                            value={newVersion.fileUrl}
-                                            onChange={(e) => setNewVersion({ ...newVersion, fileUrl: e.target.value })}
-                                        />
+                                        <Button type="button" onClick={handleAddVersion} disabled={addingVersion} size="sm">
+                                            {addingVersion && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
+                                            Thêm phiên bản
+                                        </Button>
                                     </div>
-                                    <textarea
-                                        placeholder="Changelog: Những thay đổi trong phiên bản này..."
-                                        value={newVersion.changelog}
-                                        onChange={(e) => setNewVersion({ ...newVersion, changelog: e.target.value })}
-                                        className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm"
-                                    />
-                                    <Button type="button" onClick={handleAddVersion} disabled={addingVersion} size="sm">
-                                        {addingVersion && <Loader2 className="mr-2 h-3 w-3 animate-spin" />}
-                                        Thêm phiên bản
-                                    </Button>
+
+                                    <div className="space-y-2">
+                                        {versions.length === 0 ? (
+                                            <div className="text-center py-4 text-muted-foreground text-sm">Chưa có phiên bản nào</div>
+                                        ) : (
+                                            versions.map((ver) => (
+                                                <div key={ver.id} className="flex justify-between items-start p-3 border rounded-md bg-background">
+                                                    <div>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="font-bold">v{ver.version}</span>
+                                                            <span className="text-xs text-muted-foreground">{new Date(ver.createdAt).toLocaleDateString('vi-VN')}</span>
+                                                        </div>
+                                                        {ver.changelog && <p className="text-xs text-muted-foreground mt-1 whitespace-pre-wrap">{ver.changelog}</p>}
+                                                        <a href={ver.fileUrl} target="_blank" className="text-xs text-blue-500 hover:underline mt-1 block truncate max-w-[200px]">{ver.fileUrl}</a>
+                                                    </div>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        type="button"
+                                                        onClick={() => handleDeleteVersion(ver.id)}
+                                                        className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                    </Button>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    {versions.length === 0 ? (
-                                        <div className="text-center py-4 text-muted-foreground text-sm">Chưa có phiên bản nào</div>
-                                    ) : (
-                                        versions.map((ver) => (
-                                            <div key={ver.id} className="flex justify-between items-start p-3 border rounded-md bg-background">
-                                                <div>
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="font-bold">v{ver.version}</span>
-                                                        <span className="text-xs text-muted-foreground">{new Date(ver.createdAt).toLocaleDateString('vi-VN')}</span>
-                                                    </div>
-                                                    {ver.changelog && <p className="text-xs text-muted-foreground mt-1 whitespace-pre-wrap">{ver.changelog}</p>}
-                                                    <a href={ver.fileUrl} target="_blank" className="text-xs text-blue-500 hover:underline mt-1 block truncate max-w-[200px]">{ver.fileUrl}</a>
-                                                </div>
+                                {/* Upsell Management */}
+                                <div className="border rounded-lg p-6 bg-card space-y-4">
+                                    <div className="flex justify-between items-center">
+                                        <h3 className="font-semibold text-lg">Sản phẩm Upsell</h3>
+                                        <span className="text-xs text-muted-foreground">
+                                            {(upsells.products?.length || 0) + (upsells.courses?.length || 0)} items
+                                        </span>
+                                    </div>
+
+                                    <p className="text-sm text-muted-foreground">
+                                        Thêm sản phẩm hoặc khóa học liên quan để hiển thị tại trang thanh toán
+                                    </p>
+
+                                    <div className="flex gap-2">
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => {
+                                                setUpsellType('product');
+                                                setShowUpsellSelector(true);
+                                            }}
+                                        >
+                                            + Thêm Sản phẩm
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => {
+                                                setUpsellType('course');
+                                                setShowUpsellSelector(true);
+                                            }}
+                                        >
+                                            + Thêm Khóa học
+                                        </Button>
+                                    </div>
+
+                                    {/* Upsell Selector Modal */}
+                                    {showUpsellSelector && (
+                                        <div className="border rounded-lg p-4 bg-muted/30 space-y-3">
+                                            <div className="flex justify-between items-center">
+                                                <h4 className="font-medium text-sm">
+                                                    Chọn {upsellType === 'product' ? 'sản phẩm' : 'khóa học'}
+                                                </h4>
                                                 <Button
-                                                    variant="ghost"
-                                                    size="sm"
                                                     type="button"
-                                                    onClick={() => handleDeleteVersion(ver.id)}
-                                                    className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    onClick={() => setShowUpsellSelector(false)}
                                                 >
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                    Đóng
                                                 </Button>
                                             </div>
-                                        ))
+                                            <div className="max-h-60 overflow-y-auto space-y-2">
+                                                {upsellType === 'product' ? (
+                                                    allProducts.length === 0 ? (
+                                                        <div className="text-center py-4 text-muted-foreground text-sm">
+                                                            Không có sản phẩm nào
+                                                        </div>
+                                                    ) : (
+                                                        allProducts
+                                                            .filter((p: any) => !upsells.products?.some((u: any) => u.item?.id === p.id))
+                                                            .map((product: any) => (
+                                                                <div
+                                                                    key={product.id}
+                                                                    className="flex justify-between items-center p-2 border rounded bg-background hover:bg-muted/50 transition-colors"
+                                                                >
+                                                                    <div className="flex-1">
+                                                                        <p className="font-medium text-sm">{product.title}</p>
+                                                                        <p className="text-xs text-muted-foreground">
+                                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
+                                                                        </p>
+                                                                    </div>
+                                                                    <Button
+                                                                        type="button"
+                                                                        size="sm"
+                                                                        onClick={() => handleAddUpsell(product.id, 'product')}
+                                                                    >
+                                                                        Thêm
+                                                                    </Button>
+                                                                </div>
+                                                            ))
+                                                    )
+                                                ) : (
+                                                    allCourses.length === 0 ? (
+                                                        <div className="text-center py-4 text-muted-foreground text-sm">
+                                                            Không có khóa học nào
+                                                        </div>
+                                                    ) : (
+                                                        allCourses
+                                                            .filter((c: any) => !upsells.courses?.some((u: any) => u.item?.id === c.id))
+                                                            .map((course: any) => (
+                                                                <div
+                                                                    key={course.id}
+                                                                    className="flex justify-between items-center p-2 border rounded bg-background hover:bg-muted/50 transition-colors"
+                                                                >
+                                                                    <div className="flex-1">
+                                                                        <p className="font-medium text-sm">{course.title}</p>
+                                                                        <p className="text-xs text-muted-foreground">
+                                                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
+                                                                        </p>
+                                                                    </div>
+                                                                    <Button
+                                                                        type="button"
+                                                                        size="sm"
+                                                                        onClick={() => handleAddUpsell(course.id, 'course')}
+                                                                    >
+                                                                        Thêm
+                                                                    </Button>
+                                                                </div>
+                                                            ))
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
                                     )}
-                                </div>
-                            </div>
 
-                            {/* Upsell Management */}
-                            <div className="border rounded-lg p-6 bg-card space-y-4">
-                                <div className="flex justify-between items-center">
-                                    <h3 className="font-semibold text-lg">Sản phẩm Upsell</h3>
-                                    <span className="text-xs text-muted-foreground">
-                                        {(upsells.products?.length || 0) + (upsells.courses?.length || 0)} items
-                                    </span>
-                                </div>
-
-                                <p className="text-sm text-muted-foreground">
-                                    Thêm sản phẩm hoặc khóa học liên quan để hiển thị tại trang thanh toán
-                                </p>
-
-                                <div className="flex gap-2">
-                                    <Button
-                                        type="button"
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={() => {
-                                            setUpsellType('product');
-                                            setShowUpsellSelector(true);
-                                        }}
-                                    >
-                                        + Thêm Sản phẩm
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={() => {
-                                            setUpsellType('course');
-                                            setShowUpsellSelector(true);
-                                        }}
-                                    >
-                                        + Thêm Khóa học
-                                    </Button>
-                                </div>
-
-                                {/* Upsell Selector Modal */}
-                                {showUpsellSelector && (
-                                    <div className="border rounded-lg p-4 bg-muted/30 space-y-3">
-                                        <div className="flex justify-between items-center">
-                                            <h4 className="font-medium text-sm">
-                                                Chọn {upsellType === 'product' ? 'sản phẩm' : 'khóa học'}
-                                            </h4>
-                                            <Button
-                                                type="button"
-                                                size="sm"
-                                                variant="ghost"
-                                                onClick={() => setShowUpsellSelector(false)}
-                                            >
-                                                Đóng
-                                            </Button>
-                                        </div>
-                                        <div className="max-h-60 overflow-y-auto space-y-2">
-                                            {upsellType === 'product' ? (
-                                                allProducts.length === 0 ? (
-                                                    <div className="text-center py-4 text-muted-foreground text-sm">
-                                                        Không có sản phẩm nào
-                                                    </div>
-                                                ) : (
-                                                    allProducts
-                                                        .filter((p: any) => !upsells.products?.some((u: any) => u.item?.id === p.id))
-                                                        .map((product: any) => (
-                                                            <div
-                                                                key={product.id}
-                                                                className="flex justify-between items-center p-2 border rounded bg-background hover:bg-muted/50 transition-colors"
-                                                            >
-                                                                <div className="flex-1">
-                                                                    <p className="font-medium text-sm">{product.title}</p>
-                                                                    <p className="text-xs text-muted-foreground">
-                                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}
-                                                                    </p>
-                                                                </div>
-                                                                <Button
-                                                                    type="button"
-                                                                    size="sm"
-                                                                    onClick={() => handleAddUpsell(product.id, 'product')}
-                                                                >
-                                                                    Thêm
-                                                                </Button>
+                                    {/* Current Upsells */}
+                                    <div className="space-y-2">
+                                        {(upsells.products?.length || 0) + (upsells.courses?.length || 0) === 0 ? (
+                                            <div className="text-center py-4 text-muted-foreground text-sm">
+                                                Chưa có sản phẩm upsell nào
+                                            </div>
+                                        ) : (
+                                            <>
+                                                {upsells.products?.map((upsell: any) => (
+                                                    <div key={upsell.id} className="flex justify-between items-start p-3 border rounded-md bg-background">
+                                                        <div className="flex gap-3 flex-1">
+                                                            {upsell.item?.thumbnail && (
+                                                                <img src={upsell.item.thumbnail} alt="" className="w-12 h-12 rounded object-cover" />
+                                                            )}
+                                                            <div>
+                                                                <p className="font-medium text-sm">{upsell.item?.title}</p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    Sản phẩm • {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(upsell.item?.price)}
+                                                                </p>
                                                             </div>
-                                                        ))
-                                                )
-                                            ) : (
-                                                allCourses.length === 0 ? (
-                                                    <div className="text-center py-4 text-muted-foreground text-sm">
-                                                        Không có khóa học nào
+                                                        </div>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            type="button"
+                                                            onClick={() => handleRemoveUpsell(upsell.id, 'product')}
+                                                            className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
+                                                        >
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                            </svg>
+                                                        </Button>
                                                     </div>
-                                                ) : (
-                                                    allCourses
-                                                        .filter((c: any) => !upsells.courses?.some((u: any) => u.item?.id === c.id))
-                                                        .map((course: any) => (
-                                                            <div
-                                                                key={course.id}
-                                                                className="flex justify-between items-center p-2 border rounded bg-background hover:bg-muted/50 transition-colors"
-                                                            >
-                                                                <div className="flex-1">
-                                                                    <p className="font-medium text-sm">{course.title}</p>
-                                                                    <p className="text-xs text-muted-foreground">
-                                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
-                                                                    </p>
-                                                                </div>
-                                                                <Button
-                                                                    type="button"
-                                                                    size="sm"
-                                                                    onClick={() => handleAddUpsell(course.id, 'course')}
-                                                                >
-                                                                    Thêm
-                                                                </Button>
+                                                ))}
+                                                {upsells.courses?.map((upsell: any) => (
+                                                    <div key={upsell.id} className="flex justify-between items-start p-3 border rounded-md bg-background">
+                                                        <div className="flex gap-3 flex-1">
+                                                            {upsell.item?.thumbnail && (
+                                                                <img src={upsell.item.thumbnail} alt="" className="w-12 h-12 rounded object-cover" />
+                                                            )}
+                                                            <div>
+                                                                <p className="font-medium text-sm">{upsell.item?.title}</p>
+                                                                <p className="text-xs text-muted-foreground">
+                                                                    Khóa học • {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(upsell.item?.price)}
+                                                                </p>
                                                             </div>
-                                                        ))
-                                                )
-                                            )}
-                                        </div>
+                                                        </div>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            type="button"
+                                                            onClick={() => handleRemoveUpsell(upsell.id, 'course')}
+                                                            className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
+                                                        >
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                            </svg>
+                                                        </Button>
+                                                    </div>
+                                                ))}
+                                            </>
+                                        )}
                                     </div>
-                                )}
-
-                                {/* Current Upsells */}
-                                <div className="space-y-2">
-                                    {(upsells.products?.length || 0) + (upsells.courses?.length || 0) === 0 ? (
-                                        <div className="text-center py-4 text-muted-foreground text-sm">
-                                            Chưa có sản phẩm upsell nào
-                                        </div>
-                                    ) : (
-                                        <>
-                                            {upsells.products?.map((upsell: any) => (
-                                                <div key={upsell.id} className="flex justify-between items-start p-3 border rounded-md bg-background">
-                                                    <div className="flex gap-3 flex-1">
-                                                        {upsell.item?.thumbnail && (
-                                                            <img src={upsell.item.thumbnail} alt="" className="w-12 h-12 rounded object-cover" />
-                                                        )}
-                                                        <div>
-                                                            <p className="font-medium text-sm">{upsell.item?.title}</p>
-                                                            <p className="text-xs text-muted-foreground">
-                                                                Sản phẩm • {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(upsell.item?.price)}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        type="button"
-                                                        onClick={() => handleRemoveUpsell(upsell.id, 'product')}
-                                                        className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
-                                                    >
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                                        </svg>
-                                                    </Button>
-                                                </div>
-                                            ))}
-                                            {upsells.courses?.map((upsell: any) => (
-                                                <div key={upsell.id} className="flex justify-between items-start p-3 border rounded-md bg-background">
-                                                    <div className="flex gap-3 flex-1">
-                                                        {upsell.item?.thumbnail && (
-                                                            <img src={upsell.item.thumbnail} alt="" className="w-12 h-12 rounded object-cover" />
-                                                        )}
-                                                        <div>
-                                                            <p className="font-medium text-sm">{upsell.item?.title}</p>
-                                                            <p className="text-xs text-muted-foreground">
-                                                                Khóa học • {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(upsell.item?.price)}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        type="button"
-                                                        onClick={() => handleRemoveUpsell(upsell.id, 'course')}
-                                                        className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
-                                                    >
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                                        </svg>
-                                                    </Button>
-                                                </div>
-                                            ))}
-                                        </>
-                                    )}
                                 </div>
-                            </div>
                             </>
                         )}
                     </div>

@@ -105,8 +105,8 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                     {/* Urgency Badge - Hidden on very small screens */}
                     <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20">
                         <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-500 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
                         </span>
                         <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-500">Ưu đãi sắp hết</span>
                     </div>

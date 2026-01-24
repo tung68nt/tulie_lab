@@ -331,8 +331,14 @@ export default function AdminBlogPage() {
                                                     {post.isPublished ? 'Live' : 'Draft'}
                                                 </button>
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-muted-foreground">
-                                                {new Date(post.createdAt).toLocaleDateString('vi-VN')}
+                                            <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">
+                                                {new Date(post.createdAt).toLocaleDateString('vi-VN', {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                })}
                                             </td>
                                             <td className="px-4 py-3 text-right">
                                                 <div className="flex items-center justify-end gap-2">

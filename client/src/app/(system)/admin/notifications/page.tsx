@@ -188,8 +188,14 @@ export default function NotificationsPage() {
                                             <span className="bg-muted text-muted-foreground px-2 py-0.5 rounded-full font-bold text-[10px] capitalize">Draft</span>
                                         )}
                                     </td>
-                                    <td className="p-4 align-middle text-muted-foreground">
-                                        {new Date(n.createdAt).toLocaleDateString('vi-VN')}
+                                    <td className="p-4 align-middle text-muted-foreground whitespace-nowrap text-xs">
+                                        {new Date(n.createdAt).toLocaleDateString('vi-VN', {
+                                            day: '2-digit',
+                                            month: '2-digit',
+                                            year: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
                                     </td>
                                     <td className="p-4 align-middle text-right">
                                         <TableActions

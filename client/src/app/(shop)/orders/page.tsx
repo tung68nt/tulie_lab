@@ -128,8 +128,14 @@ export default function OrdersPage() {
                                                 <td className="px-4 py-4">
                                                     <span className="text-sm font-medium">{order.code}</span>
                                                 </td>
-                                                <td className="px-4 py-4 text-sm text-muted-foreground">
-                                                    {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+                                                <td className="px-4 py-4 text-sm text-muted-foreground whitespace-nowrap">
+                                                    {new Date(order.createdAt).toLocaleDateString('vi-VN', {
+                                                        day: '2-digit',
+                                                        month: '2-digit',
+                                                        year: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}
                                                 </td>
                                                 <td className="px-4 py-4">
                                                     <div className="flex flex-col gap-1">
