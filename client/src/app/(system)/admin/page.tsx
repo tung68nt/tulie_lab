@@ -161,11 +161,9 @@ export default function AdminDashboardPage() {
             ]);
 
             const courses = Array.isArray(coursesRes) ? coursesRes : [];
-            const users = Array.isArray(usersRes) ? usersRes : [];
-
-            // Handle orders response structure (paginated)
-            const orders = ordersRes.data || [];
-            const orderStats = ordersRes.meta?.stats || {};
+            const users = usersRes?.data || [];
+            const orders = ordersRes?.data || [];
+            const orderStats = ordersRes?.meta?.stats || {};
 
             const paidOrders = orders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED');
             const pendingOrders = orders.filter((o: any) => o.status === 'PENDING');

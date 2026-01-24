@@ -33,7 +33,7 @@ export default function AdminWebhooksPage() {
     const fetchTransactions = async () => {
         try {
             setLoading(true);
-            const data = await api.admin.payments.listTransactions() as any[];
+            const data = await api.admin.payments.getTransactions() as any[];
             setTransactions(data);
         } catch (e) {
             console.error(e);

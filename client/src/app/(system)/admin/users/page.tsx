@@ -29,25 +29,36 @@ export default function AdminUsersPage() {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const [usersResult, coursesData] = await Promise.all([
+                const response: any = await Promise.all([
                     api.admin.listUsers({ page, limit: ITEMS_PER_PAGE }),
                     api.courses.list()
                 ]);
 
-                if (usersResult && usersResult.users) {
-                    setUsers(usersResult.users);
+                const usersResult = response[0];
+                const coursesData = response[1];
 
-                    if (usersResult.total) {
-                        setStats(prev => ({ ...prev, total: usersResult.total }));
-                        setTotalPages(Math.ceil(usersResult.total / ITEMS_PER_PAGE));
+                if (usersResult && usersResult.data) {
+                    setUsers(usersResult.data);
+
+                    if (usersResult.stats) {
+                        setStats({
+                            total: usersResult.stats.total || 0,
+                            admins: usersResult.stats.admins || 0,
+                            users: usersResult.stats.users || 0
+                        });
+                        setTotalPages(Math.ceil((usersResult.stats.total || 0) / ITEMS_PER_PAGE));
+                    } else if (usersResult.pagination) {
+                        setStats(prev => ({ ...prev, total: usersResult.pagination.total }));
+                        setTotalPages(usersResult.pagination.totalPages);
                     }
                 } else if (Array.isArray(usersResult)) {
-                    // Fallback if API somehow returns array
+                    // Fallback for array response
                     setUsers(usersResult);
+                    const admins = usersResult.filter((u: any) => u.role === 'ADMIN').length;
                     setStats({
                         total: usersResult.length,
-                        admins: usersResult.filter((u: any) => u.role === 'ADMIN').length,
-                        users: usersResult.filter((u: any) => u.role !== 'ADMIN').length
+                        admins: admins,
+                        users: usersResult.length - admins
                     });
                 }
                 setCourses(coursesData as any[]);
@@ -81,7 +92,7 @@ export default function AdminUsersPage() {
     const handleUnenroll = async (userId: string, courseId: string) => {
         const confirmed = await confirm({
             title: 'Xác nhận gỡ khóa học',
-            message: 'Bạn có chắc muốn gỡ khóa học này khỏi học viên?',
+            message: 'Bạn có chắc muốn gỡ khóa học này khỏi thành viên?',
             variant: 'danger',
             confirmText: 'Gỡ khóa học',
             cancelText: 'Hủy'
@@ -121,8 +132,8 @@ export default function AdminUsersPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý học viên"
-                subtitle="Quản lý thông tin học viên và phân quyền hệ thống"
+                title="Quản lý thành viên"
+                subtitle="Quản lý thông tin thành viên và phân quyền hệ thống"
             />
 
             {/* Stats Cards */}

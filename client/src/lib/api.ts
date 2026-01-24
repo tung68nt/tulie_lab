@@ -122,7 +122,7 @@ export const api = {
                 if (params.limit) searchParams.append('limit', String(params.limit));
                 if (params.search) searchParams.append('search', params.search);
             }
-            return request<{ users: User[], total: number }>(`/users?${searchParams.toString()}`);
+            return request<{ data: User[], pagination: any, stats: any }>(`/users?${searchParams.toString()}`);
         },
         getUser: (id: string) => request<User>(`/users/${id}`),
         enrollUser: (userId: string, courseId: string) => request<void>('/users/enroll', { method: 'POST', body: JSON.stringify({ userId, courseId }) }),
@@ -141,7 +141,7 @@ export const api = {
             addAttachment: (lessonId: string, data: unknown) => request<unknown>(`/courses/lessons/${lessonId}/attachments`, { method: 'POST', body: JSON.stringify(data) }),
         },
         users: {
-            list: () => request<User[]>('/users'),
+            list: () => request<{ data: User[], pagination: any, stats: any }>('/users'),
             get: (id: string) => request<User>(`/users/${id}`),
         },
         orders: {
@@ -154,7 +154,7 @@ export const api = {
                         }
                     });
                 }
-                return request<{ orders: Order[], total: number }>(`/payments/orders?${searchParams.toString()}`);
+                return request<{ data: Order[], meta: any }>(`/payments/orders?${searchParams.toString()}`);
             },
             updateStatus: (id: string, status: string) => request<Order>(`/payments/orders/${id}/status`, {
                 method: 'PUT',
