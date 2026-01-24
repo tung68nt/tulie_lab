@@ -436,6 +436,24 @@ const PAGES_TO_SEED = [
                             content: "Sở hữu trọn đời khóa học + Tất cả tài nguyên đi kèm.",
                             pricing: [
                                 {
+                                    id: "plan-retail",
+                                    title: "Gói Mua Lẻ",
+                                    price: "0đ/năm",
+                                    originalPrice: "",
+                                    description: "Mua lẻ từng sản phẩm số",
+                                    tag: "Linh hoạt",
+                                    features: [
+                                        "Thanh toán theo từng sản phẩm",
+                                        "Sở hữu trọn đời sản phẩm đã mua",
+                                        "Nhận đầy đủ bản cập nhật",
+                                        "Phù hợp nhu cầu sử dụng ít",
+                                        "Truy cập đầy đủ kho tài nguyên"
+                                    ],
+                                    link: "/shop",
+                                    ctaText: "Khám phá Cửa hàng",
+                                    isPopular: false
+                                },
+                                {
                                     id: "plan-basic",
                                     title: "Gói Cơ Bản",
                                     price: "1.990k/năm",
