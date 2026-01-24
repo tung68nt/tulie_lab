@@ -20,7 +20,7 @@ export function BottomCTA({
         <section className="py-12 md:py-16 bg-foreground text-background relative overflow-hidden">
             {/* Background pattern */}
             <div className="absolute inset-0 opacity-100">
-                <div className="absolute inset-0 bg-dot-inverted"></div>
+                <div className="absolute inset-0 bg-dot-inverted [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             </div>
 
             <div className="container text-center max-w-3xl mx-auto relative z-10">
