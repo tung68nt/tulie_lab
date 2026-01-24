@@ -208,11 +208,20 @@ export default function OrdersPage() {
                                                                 }
 
                                                                 return (
-                                                                    <Link href={buttonLink} className="shrink-0">
-                                                                        <Button as="div" variant="outline" size="sm" className="whitespace-nowrap">{buttonText}</Button>
-                                                                    </Link>
+                                                                    <div className="flex items-center gap-2">
+                                                                        <Link href={`/orders/${order.code}`} className="shrink-0">
+                                                                            <Button as="div" variant="ghost" size="sm" className="whitespace-nowrap underline">Chi tiết</Button>
+                                                                        </Link>
+                                                                        <Link href={buttonLink} className="shrink-0">
+                                                                            <Button as="div" variant="outline" size="sm" className="whitespace-nowrap">{buttonText}</Button>
+                                                                        </Link>
+                                                                    </div>
                                                                 );
                                                             })()
+                                                        ) : order.status === 'CANCELLED' ? (
+                                                            <Link href={`/orders/${order.code}`} className="shrink-0">
+                                                                <Button as="div" variant="ghost" size="sm" className="whitespace-nowrap underline opacity-50">Chi tiết</Button>
+                                                            </Link>
                                                         ) : null}
                                                     </div>
                                                 </td>
