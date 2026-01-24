@@ -143,19 +143,19 @@ export default function AdminUserDetailPage() {
 
             {/* Quick Stats Banner */}
             <div className="grid gap-4 md:grid-cols-4">
-                <Card className="bg-foreground text-background">
+                <Card>
                     <CardContent className="pt-6">
                         <div className="flex justify-between items-start">
                             <div>
-                                <p className="text-xs font-medium opacity-70 mb-1">Trạng thái Membership</p>
+                                <p className="text-xs font-medium text-muted-foreground mb-1">Trạng thái Membership</p>
                                 <h3 className="text-lg font-bold">
                                     {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
                                 </h3>
                             </div>
-                            <Shield size={24} className={isMemberActive ? 'text-yellow-400' : 'opacity-30'} />
+                            <Shield size={24} className={isMemberActive ? 'text-zinc-900' : 'opacity-30'} />
                         </div>
                         {isMemberActive && (
-                            <p className="text-[10px] mt-2 opacity-80">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</p>
+                            <p className="text-[10px] mt-2 text-muted-foreground">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</p>
                         )}
                     </CardContent>
                 </Card>
@@ -219,46 +219,46 @@ export default function AdminUserDetailPage() {
                                 <CardContent className="grid gap-6 md:grid-cols-2">
                                     <div className="space-y-4">
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Họ và tên</span>
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Họ và tên</span>
                                             <span className="text-sm font-medium">{user.profile?.name || 'Chưa cập nhật'}</span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Email</span>
-                                            <span className="text-sm font-medium flex items-center gap-2">
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Email</span>
+                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
                                                 {user.email} <Mail size={12} className="text-muted-foreground" />
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Số điện thoại</span>
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Số điện thoại</span>
                                             <span className="text-sm font-medium">{user.profile?.phone || 'Chưa cập nhật'}</span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Ngày sinh</span>
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Ngày sinh</span>
                                             <span className="text-sm font-medium">{user.profile?.birthDate ? new Date(user.profile.birthDate).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}</span>
                                         </div>
                                     </div>
                                     <div className="space-y-4">
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Nghề nghiệp</span>
-                                            <span className="text-sm font-medium flex items-center gap-2">
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Nghề nghiệp</span>
+                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
                                                 <Briefcase size={14} className="text-muted-foreground" /> {user.profile?.occupation || 'Chưa cập nhật'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Công ty</span>
-                                            <span className="text-sm font-medium flex items-center gap-2">
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Công ty</span>
+                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
                                                 <Building size={14} className="text-muted-foreground" /> {user.profile?.company || 'Chưa cập nhật'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Địa chỉ</span>
-                                            <span className="text-sm font-medium flex items-center gap-2">
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Địa chỉ</span>
+                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
                                                 <MapPin size={14} className="text-muted-foreground" />
                                                 {[user.profile?.address, user.profile?.city].filter(Boolean).join(', ') || 'Chưa cập nhật'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground uppercase font-bold tracking-tight">Ngày tham gia</span>
+                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Ngày tham gia</span>
                                             <span className="text-sm font-medium flex items-center gap-2">
                                                 <Calendar size={14} className="text-muted-foreground" /> {formatDate(user.createdAt)}
                                             </span>
@@ -296,7 +296,7 @@ export default function AdminUserDetailPage() {
                         <div className="space-y-6">
                             <Card className="bg-muted/30">
                                 <CardHeader>
-                                    <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Tóm tắt hoạt động</CardTitle>
+                                    <CardTitle className="text-sm font-bold tracking-wider text-muted-foreground">Tóm tắt hoạt động</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
                                     <div className="flex gap-4">
@@ -305,7 +305,7 @@ export default function AdminUserDetailPage() {
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold">{user.stats?.totalEnrollments || 0}</p>
-                                            <p className="text-[10px] text-muted-foreground uppercase font-bold">Khóa học đăng ký</p>
+                                            <p className="text-[10px] text-muted-foreground font-bold">Khóa học đăng ký</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-4">
@@ -314,7 +314,7 @@ export default function AdminUserDetailPage() {
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold">{user.purchasedProducts?.length || 0}</p>
-                                            <p className="text-[10px] text-muted-foreground uppercase font-bold">Sản phẩm sở hữu</p>
+                                            <p className="text-[10px] text-muted-foreground font-bold">Sản phẩm sở hữu</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-4">
@@ -323,7 +323,7 @@ export default function AdminUserDetailPage() {
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold">{user.orders?.length || 0}</p>
-                                            <p className="text-[10px] text-muted-foreground uppercase font-bold">Tổng đơn hàng</p>
+                                            <p className="text-[10px] text-muted-foreground font-bold">Tổng đơn hàng</p>
                                         </div>
                                     </div>
                                 </CardContent>
@@ -424,10 +424,10 @@ export default function AdminUserDetailPage() {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b bg-muted/30">
-                                            <th className="text-left py-3 px-4 font-bold uppercase text-[10px]">Tên sản phẩm</th>
-                                            <th className="text-left py-3 px-4 font-bold uppercase text-[10px]">Phiên bản ghi nhận</th>
-                                            <th className="text-left py-3 px-4 font-bold uppercase text-[10px]">Ngày mua</th>
-                                            <th className="text-center py-3 px-4 font-bold uppercase text-[10px]">Tính năng</th>
+                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Tên sản phẩm</th>
+                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Phiên bản ghi nhận</th>
+                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Ngày mua</th>
+                                            <th className="text-center py-3 px-4 font-bold text-[10px]">Tính năng</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y">
@@ -485,7 +485,7 @@ export default function AdminUserDetailPage() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${isMemberActive ? 'bg-amber-200 text-amber-800' : 'bg-muted text-muted-foreground'}`}>
+                                        <span className={`px-3 py-1 rounded-full text-xs font-bold tracking-wider ${isMemberActive ? 'bg-zinc-100 text-zinc-900 border' : 'bg-muted text-muted-foreground'}`}>
                                             {isMemberActive ? 'ACTIVE' : 'NONE'}
                                         </span>
                                     </div>
@@ -504,7 +504,7 @@ export default function AdminUserDetailPage() {
                                 </div>
 
                                 <div className="space-y-3">
-                                    <h4 className="text-xs font-bold uppercase tracking-tight text-muted-foreground">Lịch sử Membership</h4>
+                                    <h4 className="text-xs font-bold tracking-tight text-muted-foreground">Lịch sử Membership</h4>
                                     <div className="space-y-2 border rounded-xl overflow-hidden">
                                         {user.subscriptions?.map((s: any) => (
                                             <div key={s.id} className="flex justify-between items-center p-3 border-b last:border-0 hover:bg-muted/20">
@@ -530,25 +530,25 @@ export default function AdminUserDetailPage() {
                             </CardContent>
                         </Card>
 
-                        <Card className="bg-foreground text-background">
+                        <Card>
                             <CardHeader>
-                                <CardTitle className="text-sm font-bold uppercase tracking-wider opacity-70">Quyền lợi gói hội viên</CardTitle>
+                                <CardTitle className="text-sm font-bold tracking-wider opacity-70">Quyền lợi gói hội viên</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-amber-400 mt-0.5 shrink-0" />
+                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
                                     <p className="text-xs">Truy cập toàn bộ khóa học hiện có trên hệ thống.</p>
                                 </div>
                                 <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-amber-400 mt-0.5 shrink-0" />
+                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
                                     <p className="text-xs">Tải xuống các templates & tài liệu premium.</p>
                                 </div>
                                 <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-amber-400 mt-0.5 shrink-0" />
+                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
                                     <p className="text-xs">Cập nhật miễn phí các phiên bản sản phẩm mới.</p>
                                 </div>
                                 <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-amber-400 mt-0.5 shrink-0" />
+                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
                                     <p className="text-xs">Ưu tiên hỗ trợ kỹ thuật qua Telegram/Email.</p>
                                 </div>
                             </CardContent>
@@ -567,18 +567,18 @@ export default function AdminUserDetailPage() {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b bg-muted/30">
-                                            <th className="text-left py-3 px-4 font-bold uppercase text-[10px]">Mã đơn</th>
-                                            <th className="text-left py-3 px-4 font-bold uppercase text-[10px]">Nội dung</th>
-                                            <th className="text-right py-3 px-4 font-bold uppercase text-[10px]">Số tiền</th>
-                                            <th className="text-center py-3 px-4 font-bold uppercase text-[10px]">Trạng thái</th>
-                                            <th className="text-right py-3 px-4 font-bold uppercase text-[10px]">Ngày tạo</th>
-                                            <th className="text-center py-3 px-4 font-bold uppercase text-[10px]">Thao tác</th>
+                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Mã đơn</th>
+                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Nội dung</th>
+                                            <th className="text-right py-3 px-4 font-bold text-[10px]">Số tiền</th>
+                                            <th className="text-center py-3 px-4 font-bold text-[10px]">Trạng thái</th>
+                                            <th className="text-right py-3 px-4 font-bold text-[10px]">Ngày tạo</th>
+                                            <th className="text-center py-3 px-4 font-bold text-[10px]">Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y text-xs">
                                         {user.orders?.map((order: any) => (
                                             <tr key={order.id} className="hover:bg-muted/10 transition-colors">
-                                                <td className="py-3 px-4 font-bold font-mono uppercase tracking-tighter text-blue-500">
+                                                <td className="py-3 px-4 font-bold font-mono tracking-tighter">
                                                     {order.code}
                                                 </td>
                                                 <td className="py-3 px-4 max-w-[250px] truncate font-medium">
@@ -681,9 +681,9 @@ export default function AdminUserDetailPage() {
                                     <CardTitle className="text-base flex items-center gap-2">
                                         <History size={18} className="text-muted-foreground" /> Nhật ký hành vi chi tiết
                                     </CardTitle>
-                                    <CardDescription>Toàn bộ hành động của người dùng trên hệ thống (Sắp xếp theo thời gian).</CardDescription>
+                                    <CardDescription>Toàn bộ hành động của người dùng trên hệ thống.</CardDescription>
                                 </div>
-                                <span className="text-[10px] font-bold uppercase bg-muted px-2 py-1 rounded">Latest 100 Logs</span>
+                                <span className="text-[10px] font-bold bg-muted px-2 py-1 rounded">Latest 100 Logs</span>
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 no-scrollbar border rounded-xl overflow-hidden divide-y">

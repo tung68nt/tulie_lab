@@ -518,11 +518,11 @@ export default function AdminDashboardPage() {
 
             {/* Stats Cards */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                <Card className="border shadow-none bg-zinc-900 text-white">
+                <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-zinc-400 mb-1 uppercase tracking-widest font-bold">Doanh thu</div>
+                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Doanh thu</div>
                         <div className="text-2xl font-bold">{formatCurrency(data.totalRevenue)}</div>
-                        <div className="text-[10px] text-zinc-500 mt-1">
+                        <div className="text-[10px] text-muted-foreground mt-1">
                             {data.totalRevenue > 0
                                 ? `Tháng này: ${formatCurrency(data.monthlyRevenue)}`
                                 : 'Chưa có doanh thu'}
@@ -532,7 +532,7 @@ export default function AdminDashboardPage() {
 
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-muted-foreground mb-1 uppercase tracking-widest font-bold">Đã thanh toán</div>
+                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Đã thanh toán</div>
                         <div className="text-3xl font-bold">{data.paidOrders}</div>
                         <div className="text-[10px] text-muted-foreground font-medium">Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%</div>
                     </CardContent>
@@ -540,7 +540,7 @@ export default function AdminDashboardPage() {
 
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-muted-foreground mb-1 uppercase tracking-widest font-bold">Đợi xử lý</div>
+                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Đợi xử lý</div>
                         <div className="text-3xl font-bold">{data.pendingOrders}</div>
                         <div className="text-[10px] text-muted-foreground font-medium">Cần duyệt: {data.pendingOrders} đơn</div>
                     </CardContent>
@@ -548,7 +548,7 @@ export default function AdminDashboardPage() {
 
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-muted-foreground mb-1 uppercase tracking-widest font-bold">Học viên</div>
+                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Học viên</div>
                         <div className="text-2xl font-extrabold">{data.totalUsers}</div>
                         <div className="text-[10px] text-muted-foreground mt-1">{data.activeUsers} đang hoạt động</div>
                     </CardContent>
@@ -577,11 +577,11 @@ export default function AdminDashboardPage() {
                     <Card className="overflow-hidden border shadow-none border-zinc-200">
                         <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b">
                             <div>
-                                <CardTitle className="text-sm font-bold uppercase tracking-wider">Đơn hàng mới nhất</CardTitle>
+                                <CardTitle className="text-sm font-bold tracking-wider">Đơn hàng mới nhất</CardTitle>
                                 <p className="text-[10px] text-muted-foreground">5 đơn hàng vừa phát sinh trên hệ thống</p>
                             </div>
                             <Link href="/admin/orders">
-                                <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold uppercase tracking-tight">Chi tiết →</Button>
+                                <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold tracking-tight">Chi tiết →</Button>
                             </Link>
                         </CardHeader>
                         <CardContent className="p-0">
@@ -589,11 +589,11 @@ export default function AdminDashboardPage() {
                                 <table className="w-full text-sm">
                                     <thead className="bg-zinc-50/50">
                                         <tr className="border-b">
-                                            <th className="text-left py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Mã đơn</th>
-                                            <th className="text-left py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Member</th>
-                                            <th className="text-right py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Số tiền</th>
-                                            <th className="text-center py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Trạng thái</th>
-                                            <th className="text-right py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Thời gian</th>
+                                            <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Mã đơn</th>
+                                            <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Member</th>
+                                            <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Số tiền</th>
+                                            <th className="text-center py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Trạng thái</th>
+                                            <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Thời gian</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-zinc-100">
@@ -607,9 +607,9 @@ export default function AdminDashboardPage() {
                                                 <td className="py-3 px-4 text-xs font-semibold">{order.userName}</td>
                                                 <td className="py-3 px-4 text-right font-bold text-zinc-900">{formatCurrency(order.amount)}</td>
                                                 <td className="py-3 px-4 text-center">
-                                                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[9px] font-bold uppercase ${order.status === 'PAID' || order.status === 'COMPLETED'
-                                                        ? 'bg-foreground text-background'
-                                                        : 'bg-muted text-muted-foreground'
+                                                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[9px] font-bold ${order.status === 'PAID' || order.status === 'COMPLETED'
+                                                        ? 'bg-zinc-900 text-zinc-100'
+                                                        : 'bg-zinc-100 text-zinc-500'
                                                         }`}>
                                                         {order.status === 'PAID' || order.status === 'COMPLETED' ? <CheckCircle2 size={10} /> : <Clock size={10} />}
                                                         {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Paid' : 'Pending'}
@@ -629,11 +629,11 @@ export default function AdminDashboardPage() {
                 <Card className="overflow-hidden border shadow-none border-zinc-200">
                     <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b">
                         <div>
-                            <CardTitle className="text-sm font-bold uppercase tracking-wider">Lịch sử Giao dịch</CardTitle>
+                            <CardTitle className="text-sm font-bold tracking-wider">Lịch sử Giao dịch</CardTitle>
                             <p className="text-[10px] text-muted-foreground">Các giao dịch tài chính vừa được đồng bộ</p>
                         </div>
                         <Link href="/admin/payments">
-                            <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold uppercase tracking-tight">Chi tiết →</Button>
+                            <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold tracking-tight">Chi tiết →</Button>
                         </Link>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -641,10 +641,10 @@ export default function AdminDashboardPage() {
                             <table className="w-full text-sm">
                                 <thead className="bg-zinc-50/50">
                                     <tr className="border-b">
-                                        <th className="text-left py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Ngày</th>
-                                        <th className="text-left py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Nội dung</th>
-                                        <th className="text-right py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Số tiền</th>
-                                        <th className="text-right py-3 px-4 font-bold text-[10px] uppercase tracking-wider text-muted-foreground/70">Ref</th>
+                                        <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Ngày</th>
+                                        <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Nội dung</th>
+                                        <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Số tiền</th>
+                                        <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Ref</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-zinc-100">
@@ -707,7 +707,7 @@ export default function AdminDashboardPage() {
                                     <Link key={user.id} href={`/admin/users/${user.id}`} className="block group">
                                         <div className="flex items-center justify-between p-4 bg-white hover:bg-zinc-900 hover:text-white rounded-xl border border-zinc-100 shadow-sm transition-all duration-200">
                                             <div className="flex-1 min-w-0 pr-4">
-                                                <p className="font-bold text-sm truncate uppercase tracking-tight">{user.name || user.email?.split('@')[0]}</p>
+                                                <p className="font-bold text-sm truncate tracking-tight">{user.name || user.email?.split('@')[0]}</p>
                                                 <p className="text-[10px] opacity-70 truncate font-medium">
                                                     {user.courses?.slice(0, 1).join(', ') || 'Chưa vào học'}
                                                 </p>
@@ -733,6 +733,6 @@ export default function AdminDashboardPage() {
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </div >
     );
 }

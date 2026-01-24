@@ -205,9 +205,9 @@ export default function AdminOrdersPage() {
         const isCancelled = status === 'CANCELLED';
 
         return (
-            <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold ${isPaid ? 'bg-foreground text-background' :
-                isPending ? 'bg-muted text-muted-foreground' :
-                    'bg-muted/50 text-muted-foreground/50'
+            <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold ${isPaid ? 'bg-zinc-900 text-zinc-100' :
+                isPending ? 'bg-zinc-100 text-zinc-500' :
+                    'bg-zinc-100 text-zinc-400'
                 }`}>
                 {isPaid ? <CheckCircle2 size={12} /> : isPending ? <Clock size={12} /> : <XCircle size={12} />}
                 {isPaid ? 'Paid' : isPending ? 'Pending' : 'Cancelled'}

@@ -75,7 +75,7 @@ export default function AdminUsersPage() {
                                 <div className="text-2xl font-bold">{stats.total}</div>
                                 <p className="text-sm text-muted-foreground">Tổng người dùng</p>
                             </div>
-                            <User className="text-muted-foreground opacity-20" size={32} />
+                            <User className="text-zinc-900 opacity-20" size={32} />
                         </div>
                     </CardContent>
                 </Card>
@@ -86,7 +86,7 @@ export default function AdminUsersPage() {
                                 <div className="text-2xl font-bold">{stats.users}</div>
                                 <p className="text-sm text-muted-foreground">Thành viên</p>
                             </div>
-                            <User className="text-blue-500 opacity-20" size={32} />
+                            <User className="text-zinc-500 opacity-20" size={32} />
                         </div>
                     </CardContent>
                 </Card>
@@ -97,7 +97,7 @@ export default function AdminUsersPage() {
                                 <div className="text-2xl font-bold">{stats.admins}</div>
                                 <p className="text-sm text-muted-foreground">Quản trị viên</p>
                             </div>
-                            <Shield className="text-amber-500 opacity-20" size={32} />
+                            <Shield className="text-zinc-900 opacity-20" size={32} />
                         </div>
                     </CardContent>
                 </Card>
@@ -126,7 +126,7 @@ export default function AdminUsersPage() {
                                 </div>
                                 <div className="flex items-center gap-6">
                                     <div className="hidden md:flex flex-col items-end">
-                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${user.role === 'ADMIN' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider ${user.role === 'ADMIN' ? 'bg-zinc-900 text-zinc-100' : 'bg-zinc-100 text-zinc-900'
                                             }`}>
                                             {user.role}
                                         </span>
