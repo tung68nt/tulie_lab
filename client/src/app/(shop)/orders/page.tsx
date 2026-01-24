@@ -114,8 +114,8 @@ export default function OrdersPage() {
                                         <th className="px-4 py-3 font-medium w-[120px]">Ngày tạo</th>
                                         <th className="px-4 py-3 font-medium">Nội dung đơn hàng</th>
                                         <th className="px-4 py-3 font-medium text-right w-[120px]">Số tiền</th>
-                                        <th className="px-4 py-3 font-medium text-center w-[140px]">Trạng thái</th>
-                                        <th className="px-4 py-3 font-medium text-right w-[100px]">Thao tác</th>
+                                        <th className="px-4 py-3 font-medium text-center w-[160px]">Trạng thái</th>
+                                        <th className="px-4 py-3 font-medium text-right w-[130px]">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
@@ -135,14 +135,14 @@ export default function OrdersPage() {
                                                     <div className="flex flex-col gap-1">
                                                         {order.courses && order.courses.length > 0 && order.courses.map((c: any) => (
                                                             <div key={c.id} className="text-sm font-medium flex items-center gap-2">
-                                                                <span className="p-1 rounded bg-blue-100 text-blue-700 text-[10px]">KHÓA HỌC</span>
-                                                                {c.title}
+                                                                <span className="p-1 rounded bg-blue-100 text-blue-700 text-[10px] whitespace-nowrap">KHÓA HỌC</span>
+                                                                <span className="line-clamp-1">{c.title}</span>
                                                             </div>
                                                         ))}
                                                         {order.products && order.products.length > 0 && order.products.map((p: any) => (
                                                             <div key={p.id} className="text-sm font-medium flex items-center gap-2">
-                                                                <span className="p-1 rounded bg-purple-100 text-purple-700 text-[10px]">SẢN PHẨM</span>
-                                                                {p.title}
+                                                                <span className="p-1 rounded bg-purple-100 text-purple-700 text-[10px] whitespace-nowrap">SẢN PHẨM</span>
+                                                                <span className="line-clamp-1">{p.title}</span>
                                                             </div>
                                                         ))}
                                                         {(!order.courses?.length && !order.products?.length) && (
@@ -151,12 +151,12 @@ export default function OrdersPage() {
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-4 text-right">
-                                                    <span className={`text-sm font-medium ${order.amount === 0 ? 'text-muted-foreground' : ''}`}>
+                                                    <span className={`text-sm font-medium whitespace-nowrap ${order.amount === 0 ? 'text-muted-foreground' : ''}`}>
                                                         {formatCurrency(order.amount)}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-4 text-center">
-                                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium
+                                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap
                                                         ${status.variant === 'success' ? 'bg-foreground text-background' : ''}
                                                         ${status.variant === 'pending' ? 'bg-muted text-foreground' : ''}
                                                         ${status.variant === 'cancelled' ? 'bg-muted text-muted-foreground line-through' : ''}
@@ -168,13 +168,13 @@ export default function OrdersPage() {
                                                     <div className="flex items-center gap-2 justify-end">
                                                         {order.status === 'PENDING' && order.amount > 0 ? (
                                                             <>
-                                                                <Link href={`/order/${order.code}`}>
-                                                                    <Button as="div" size="sm">Thanh toán</Button>
+                                                                <Link href={`/order/${order.code}`} className="shrink-0">
+                                                                    <Button as="div" size="sm" className="whitespace-nowrap">Thanh toán</Button>
                                                                 </Link>
                                                                 <button
                                                                     onClick={() => handleDeleteOrder(order.id, order.code)}
                                                                     disabled={deletingOrder === order.id}
-                                                                    className="p-2 hover:bg-muted rounded transition-colors disabled:opacity-50"
+                                                                    className="p-2 hover:bg-muted rounded transition-colors disabled:opacity-50 shrink-0"
                                                                     title="Xóa đơn hàng"
                                                                 >
                                                                     <Trash2 className={`w-4 h-4 text-muted-foreground hover:text-foreground ${deletingOrder === order.id ? 'animate-pulse' : ''}`} />
@@ -202,8 +202,8 @@ export default function OrdersPage() {
                                                                 }
 
                                                                 return (
-                                                                    <Link href={buttonLink}>
-                                                                        <Button as="div" variant="outline" size="sm">{buttonText}</Button>
+                                                                    <Link href={buttonLink} className="shrink-0">
+                                                                        <Button as="div" variant="outline" size="sm" className="whitespace-nowrap">{buttonText}</Button>
                                                                     </Link>
                                                                 );
                                                             })()

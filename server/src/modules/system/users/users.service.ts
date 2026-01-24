@@ -5,7 +5,7 @@ export class UserService {
     constructor(private userRepository: IUserRepository) { }
 
     async getUserById(id: string) {
-        return this.userRepository.findById(id, {
+        const user = await this.userRepository.findById(id, {
             profile: true,
             subscriptions: true,
             enrollments: { include: { course: true } },
@@ -27,6 +27,16 @@ export class UserService {
                 orderBy: { createdAt: 'desc' }
             }
         });
+
+        if (user && (user as any).orders) {
+            (user as any).orders = (user as any).orders.map((order: any) => ({
+                ...order,
+                courses: order.items.filter((i: any) => i.courseId).map((i: any) => i.course),
+                products: order.items.filter((i: any) => i.productId).map((i: any) => i.product)
+            }));
+        }
+
+        return user;
     }
 
     async getUserDetailsForAdmin(id: string) {
@@ -166,11 +176,24 @@ export class UserService {
     }
 
     async getUserOrders(userId: string) {
-        return prisma.order.findMany({
+        const orders = await prisma.order.findMany({
             where: { userId },
-            include: { items: { include: { course: { select: { id: true, title: true, slug: true } } } } },
+            include: {
+                items: {
+                    include: {
+                        course: { select: { id: true, title: true, slug: true } },
+                        product: { select: { id: true, title: true, slug: true, thumbnail: true, type: true } }
+                    }
+                }
+            },
             orderBy: { createdAt: 'desc' }
         });
+
+        return orders.map((order: any) => ({
+            ...order,
+            courses: order.items.filter((i: any) => i.courseId).map((i: any) => i.course),
+            products: order.items.filter((i: any) => i.productId).map((i: any) => i.product)
+        }));
     }
 
     async unenrollUser(userId: string, courseId: string) {
