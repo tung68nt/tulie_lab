@@ -1,98 +1,101 @@
-
-'use client';
-
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
-import { DynamicIcon } from '@/components/DynamicIcon';
+import { Check, Wallet, Zap, Crown, ShoppingBag } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export function PricingSection({ section }: { section: Section }) {
-    if (!section.items) return null;
+export const PricingSection = ({ section }: { section: Section }) => {
+    const items = section.items || [];
+
+    const getIcon = (iconName: string) => {
+        switch (iconName) {
+            case 'ShoppingBag': return <ShoppingBag className="w-5 h-5" />;
+            case 'Wallet': return <Wallet className="w-5 h-5" />;
+            case 'Zap': return <Zap className="w-5 h-5" />;
+            case 'Crown': return <Crown className="w-5 h-5" />;
+            default: return null;
+        }
+    };
 
     return (
-        <section className="py-16 bg-background">
-            <div className="container px-4 mx-auto">
-
-
-                <div className="space-y-12">
-                    {/* Main Pricing Grid (Includes Single and Membership Packages) */}
-                    <div className={`gap-8 mx-auto ${section.items.length === 1 ? 'flex justify-center max-w-md' : section.items.length === 2 ? 'grid md:grid-cols-2 max-w-4xl' : 'grid md:grid-cols-3 max-w-6xl'}`}>
-                        {[...section.items]
-                            .sort((a, b) => {
-                                const aSingle = a.title?.toLowerCase().includes('mua lẻ') || a.title?.toLowerCase().includes('single');
-                                const bSingle = b.title?.toLowerCase().includes('mua lẻ') || b.title?.toLowerCase().includes('single');
-                                if (aSingle && !bSingle) return -1;
-                                if (!aSingle && bSingle) return 1;
-                                return 0;
-                            })
-                            .map((item: any, index: number) => {
-                                const isPopular = item.tag === 'Best Value' || item.tag === 'VIP' || item.tag === 'Phổ biến' || item.tag === 'VIP Support';
-                                const isSingle = item.title?.toLowerCase().includes('mua lẻ') || item.title?.toLowerCase().includes('single');
-
-                                return (
-                                    <div key={item.id || index} className={`relative group rounded-3xl border ${isPopular ? 'border-primary/50 shadow-lg' : 'border-border shadow-sm'} bg-card p-6 md:p-8 flex flex-col transition-all duration-300 w-full max-w-md mx-auto hover:shadow-xl hover:border-primary/30`}>
-                                        {item.tag && (
-                                            <div className={`absolute -top-3.5 left-1/2 -translate-x-1/2 text-xs font-bold px-4 py-1.5 rounded-full shadow-sm z-10 whitespace-nowrap ${item.tag === 'Best Value'
-                                                ? 'bg-red-600 text-white shadow-red-200'
-                                                : isSingle
-                                                    ? 'bg-zinc-900 text-white'
-                                                    : 'bg-muted text-muted-foreground border border-border'
-                                                }`}>
-                                                {item.tag}
-                                            </div>
-                                        )}
-
-                                        <div className="mb-6 text-center">
-                                            <div className="mb-4 inline-flex p-2.5 rounded-xl bg-muted/30 text-foreground">
-                                                <DynamicIcon name={item.icon || (isSingle ? 'Package' : 'Zap')} className="w-6 h-6" />
-                                            </div>
-
-                                            {/* Header Content Alignment Area */}
-                                            <div className="min-h-[140px] flex flex-col justify-start">
-                                                <h3 className="text-xl font-bold mb-1">{item.title}</h3>
-                                                <div className="flex items-center justify-center gap-1.5 mb-3">
-                                                    <span className="text-3xl font-bold text-foreground">{item.price}</span>
-                                                    {item.originalPrice && (
-                                                        <span className="text-base text-muted-foreground line-through decoration-red-500/40">{item.originalPrice}</span>
-                                                    )}
-                                                </div>
-                                                <p className="text-muted-foreground text-xs leading-relaxed max-w-[220px] mx-auto min-h-[3rem]">
-                                                    {item.description}
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-4 mb-8 flex-1">
-                                            {item.features?.map((feature: string, i: number) => (
-                                                <div key={i} className="flex items-start gap-3 text-sm">
-                                                    <div className="mt-0.5 rounded-full bg-green-500/10 p-1">
-                                                        <DynamicIcon name="Check" className="w-3 h-3 text-green-600 shrink-0" />
-                                                    </div>
-                                                    <span className="text-left font-medium text-zinc-700 dark:text-zinc-300">
-                                                        {feature}
-                                                    </span>
-                                                </div>
-                                            ))}
-                                        </div>
-
-                                        <Link href={item.link || (isSingle ? '/shop' : '/checkout')} className="w-full mt-auto">
-                                            <Button
-                                                variant={isPopular ? 'default' : 'outline'}
-                                                size="lg"
-                                                className={`w-full font-bold h-12 rounded-xl text-sm transition-all ${isPopular
-                                                    ? 'shadow-md translate-y-0 active:translate-y-0.5'
-                                                    : 'hover:bg-primary/5 border-2'
-                                                    }`}
-                                            >
-                                                {item.ctaText || (isSingle ? 'Xem cửa hàng' : 'Đăng ký ngay')}
-                                            </Button>
-                                        </Link>
-                                    </div>
-                                );
-                            })}
-                    </div>
+        <section className="container py-12 md:py-20" id={section.id}>
+            {(section.title || section.subtitle) && (
+                <div className="text-center mb-12 space-y-4">
+                    {section.title && <h2 className="text-3xl md:text-5xl font-bold">{section.title}</h2>}
+                    {section.subtitle && <p className="text-xl text-muted-foreground">{section.subtitle}</p>}
                 </div>
+            )}
+
+            <div className={`grid grid-cols-1 md:grid-cols-${Math.min(items.length, 3)} gap-6 max-w-7xl mx-auto`}>
+                {items.map((item: any, index: number) => (
+                    <div
+                        key={index}
+                        className={cn(
+                            "group relative p-8 rounded-3xl border bg-card flex flex-col h-full transition-all duration-300 hover:shadow-xl",
+                            item.tag === 'Best Value' ? "border-primary/50 ring-1 ring-primary/20 shadow-lg shadow-primary/5" : "border-border hover:border-primary/30"
+                        )}
+                    >
+                        {item.tag && (
+                            <div className={cn(
+                                "absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold border shadow-sm whitespace-nowrap uppercase tracking-wider",
+                                item.tag === 'Best Value' ? "bg-red-600 text-white border-red-600" :
+                                    item.tag === 'Phổ biến' ? "bg-primary text-white border-primary" :
+                                        "bg-zinc-900 text-white border-zinc-800"
+                            )}>
+                                {item.tag}
+                            </div>
+                        )}
+
+                        <div className="mb-8 mt-4">
+                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                                {item.icon && getIcon(item.icon)}
+                                {item.title}
+                            </h3>
+                            <div className="flex items-baseline gap-1 mb-3">
+                                <span className="text-4xl font-bold tracking-tight">{item.price}</span>
+                                {item.originalPrice && (
+                                    <span className="text-lg text-muted-foreground line-through font-medium ml-2">
+                                        {item.originalPrice}
+                                    </span>
+                                )}
+                            </div>
+                            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                                {item.description}
+                            </p>
+                        </div>
+
+                        {/* CTA Button */}
+                        <div className="mt-auto mb-8">
+                            <Link href={item.link || '#'}>
+                                <Button
+                                    as="div"
+                                    variant={item.tag === 'Best Value' ? 'default' : 'outline'}
+                                    className={cn(
+                                        "w-full text-sm font-bold h-12 rounded-xl transition-all shadow-sm",
+                                        item.tag === 'Best Value' ? "shadow-primary/25" : "group-hover:bg-primary group-hover:text-white"
+                                    )}
+                                >
+                                    {item.ctaText || 'Chọn gói này'}
+                                </Button>
+                            </Link>
+                        </div>
+
+                        {/* Features List */}
+                        {item.features && (
+                            <div className="space-y-3 pt-6 border-t border-border">
+                                {item.features.map((feature: string, idx: number) => (
+                                    <div key={idx} className="flex items-start gap-3">
+                                        <div className="mt-0.5 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                            <Check className="w-3 h-3 text-primary" />
+                                        </div>
+                                        <span className="text-sm font-medium text-foreground/80 leading-tight">{feature}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ))}
             </div>
         </section>
     );
-}
+};

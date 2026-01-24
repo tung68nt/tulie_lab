@@ -520,3 +520,34 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
         ]
     }
 ];
+
+export const DEFAULT_CALENDAR_SECTIONS: Section[] = [
+    {
+        id: 'calendar-hero',
+        type: 'hero',
+        title: 'Lịch hoạt động',
+        subtitle: 'Đừng bỏ lỡ các sự kiện nổi bật',
+        content: 'Cập nhật lịch khai giảng, webinar và workshop mới nhất từ The Tulie Lab.',
+        image: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=2668&auto=format&fit=crop',
+        isVisible: true,
+        order: 1
+    },
+    {
+        id: 'calendar-main',
+        type: 'calendar',
+        title: 'Sự kiện sắp tới',
+        subtitle: 'Lịch trình các hoạt động trong tháng',
+        isVisible: true,
+        order: 2
+    },
+    {
+        id: 'calendar-cta',
+        type: 'cta',
+        title: 'Không tìm thấy lịch phù hợp?',
+        subtitle: 'Liên hệ với chúng tôi để được tư vấn lộ trình riêng.',
+        ctaText: 'Liên hệ tư vấn',
+        ctaLink: '/contact',
+        isVisible: true,
+        order: 3
+    }
+];

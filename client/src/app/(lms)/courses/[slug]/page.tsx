@@ -50,15 +50,16 @@ export default function CoursePage({ params }: { params: any }) {
         }
     }, [params]);
 
-    // Mock discount end date (e.g., 24 hours from now) for demo purposes
-    // In a real app, this should come from the backend course data (course.discountEndDate)
-    // Mock discount end date (e.g., 24 hours from now) for demo purposes
-    // In a real app, this should come from the backend course data (course.discountEndDate)
+    // Discount End Date logic
+    // Currently, backend does not support discountEndDate, so we default to null to avoid showing a fake timer.
+    // If we want to show a timer, we should add discountEndDate to the Course model and API.
     const [discountEndDate, setDiscountEndDate] = useState<Date | null>(null);
 
     useEffect(() => {
-        setDiscountEndDate(new Date(Date.now() + 24 * 60 * 60 * 1000));
-    }, []);
+        if (course?.discountEndDate) {
+            setDiscountEndDate(new Date(course.discountEndDate));
+        }
+    }, [course]);
 
     useEffect(() => {
         // Guard: Don't fetch if slug is empty

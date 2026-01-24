@@ -272,7 +272,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 backUrl="/admin/landing-pages"
             >
                 {!isNew && formData.slug && (
-                    <Link href={`/p/${formData.slug}`} target="_blank">
+                    <Link href={formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`} target="_blank">
                         <Button variant="outline" className="gap-2">
                             <Eye size={16} /> Xem trang thực tế
                         </Button>
@@ -305,7 +305,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     required
                                     placeholder="vi-du-trang-khuyen-mai"
                                 />
-                                <p className="text-xs text-muted-foreground">URL: /p/{formData.slug}</p>
+                                <p className="text-xs text-muted-foreground">URL: {formData.type === 'SYSTEM' ? '/' : '/p/'}{formData.slug}</p>
                             </div>
                         </div>
 

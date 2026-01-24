@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 import { DEFAULT_PRICING_SECTIONS } from '@/lib/defaultContent';
 
 export default function PricingPage() {
-    return <LandingPageRenderer slug="pricing" fallbackSections={DEFAULT_PRICING_SECTIONS} forceFallback={true} />;
+    return <LandingPageRenderer slug="pricing" fallbackSections={DEFAULT_PRICING_SECTIONS} />;
 }

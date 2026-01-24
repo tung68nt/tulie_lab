@@ -285,7 +285,7 @@ export default function AdminWebhooksPage() {
             {/* QR Code Generator */}
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-lg">🔧 Công cụ tạo mã QR</CardTitle>
+                    <CardTitle className="text-lg">Công cụ tạo mã QR</CardTitle>
                     <CardDescription>Tạo mã QR thanh toán thủ công để test hoặc gửi cho khách.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -310,28 +310,109 @@ export default function AdminWebhooksPage() {
                     </div>
                     {bankConfig.bank_account_no && qrAmount && (
                         <div className="flex flex-col items-center justify-center gap-4 p-6 bg-muted/50 rounded-lg border">
-                            <img
-                                src={`https://qr.sepay.vn/img?acc=${bankConfig.bank_account_no}&bank=${bankConfig.bank_name || 'MB'}&amount=${qrAmount}&des=${encodeURIComponent(qrDescription || 'Thanh toan')}`}
-                                alt="QR Code"
-                                className="w-48 h-48 rounded-lg bg-white p-2 border shadow-sm"
-                            />
-                            <div className="text-center text-sm">
-                                <p><span className="text-muted-foreground">Ngân hàng:</span> <strong>{bankConfig.bank_name || 'N/A'}</strong></p>
-                                <p><span className="text-muted-foreground">STK:</span> <strong>{bankConfig.bank_account_no}</strong></p>
-                                <p><span className="text-muted-foreground">Số tiền:</span> <strong>{formatVND(Number(qrAmount) || 0)}</strong></p>
-                                <p><span className="text-muted-foreground">Nội dung:</span> <strong>{qrDescription || 'Thanh toan'}</strong></p>
+                            <div className="bg-white p-4 rounded-xl shadow-sm border" id="qr-preview">
+                                <img
+                                    src={`https://qr.sepay.vn/img?acc=${bankConfig.bank_account_no}&bank=${bankConfig.bank_name || 'MB'}&amount=${qrAmount}&des=${encodeURIComponent(qrDescription || 'Thanh toan')}`}
+                                    alt="QR Code"
+                                    className="w-48 h-48 rounded-lg bg-white p-2"
+                                    crossOrigin="anonymous"
+                                />
+                                <div className="text-center text-xs mt-4 space-y-1">
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Ngân hàng:</span> <strong className="font-bold">{bankConfig.bank_name || 'N/A'}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">STK:</span> <strong className="font-bold font-mono text-sm">{bankConfig.bank_account_no}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Chủ TK:</span> <strong className="font-bold uppercase">{bankConfig.bank_account_name || 'Unknown'}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Số tiền:</span> <strong className="font-bold text-lg">{formatVND(Number(qrAmount) || 0)}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Nội dung:</span> <strong className="font-bold font-mono">{qrDescription || 'Thanh toan'}</strong></p>
+                                </div>
                             </div>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => {
-                                    const qrUrl = `https://qr.sepay.vn/img?acc=${bankConfig.bank_account_no}&bank=${bankConfig.bank_name || 'MB'}&amount=${qrAmount}&des=${encodeURIComponent(qrDescription || 'Thanh toan')}`;
-                                    navigator.clipboard.writeText(qrUrl);
-                                    addToast('Đã sao chép URL mã QR', 'success');
-                                }}
-                            >
-                                <Copy size={14} className="mr-2" /> Sao chép URL QR
-                            </Button>
+
+                            <div className="flex gap-3">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                        const qrUrl = `https://qr.sepay.vn/img?acc=${bankConfig.bank_account_no}&bank=${bankConfig.bank_name || 'MB'}&amount=${qrAmount}&des=${encodeURIComponent(qrDescription || 'Thanh toan')}`;
+                                        navigator.clipboard.writeText(qrUrl);
+                                        addToast('Đã sao chép URL mã QR', 'success');
+                                    }}
+                                >
+                                    <Copy size={14} className="mr-2" /> URL
+                                </Button>
+                                <Button
+                                    size="sm"
+                                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                                    onClick={async () => {
+                                        try {
+                                            const canvas = document.createElement('canvas');
+                                            const ctx = canvas.getContext('2d');
+                                            if (!ctx) return;
+
+                                            // Configure canvas
+                                            const width = 450;
+                                            const height = 600;
+                                            canvas.width = width;
+                                            canvas.height = height;
+
+                                            // Draw Background
+                                            ctx.fillStyle = '#ffffff';
+                                            ctx.fillRect(0, 0, width, height);
+
+                                            // Load Image
+                                            const img = new Image();
+                                            img.crossOrigin = "anonymous";
+                                            img.src = `https://qr.sepay.vn/img?acc=${bankConfig.bank_account_no}&bank=${bankConfig.bank_name || 'MB'}&amount=${qrAmount}&des=${encodeURIComponent(qrDescription || 'Thanh toan')}`;
+
+                                            await new Promise((resolve) => {
+                                                img.onload = resolve;
+                                                img.onerror = () => {
+                                                    addToast('Lỗi tải ảnh QR (CORS?)', 'error');
+                                                    resolve(null);
+                                                }
+                                            });
+
+                                            // Draw Image
+                                            const qrSize = 250;
+                                            const qrX = (width - qrSize) / 2;
+                                            ctx.drawImage(img, qrX, 60, qrSize, qrSize);
+
+                                            // Draw Text
+                                            ctx.fillStyle = '#18181b'; // zinc-900
+                                            ctx.textAlign = 'center';
+
+                                            ctx.font = 'bold 20px Inter, sans-serif';
+                                            ctx.fillText(bankConfig.bank_name || 'NGAN HANG', width / 2, 360);
+
+                                            ctx.font = 'bold 28px Inter, monospace';
+                                            ctx.fillText(bankConfig.bank_account_no || '0000000000', width / 2, 400);
+
+                                            ctx.font = 'bold 20px Inter, sans-serif';
+                                            ctx.fillText((bankConfig.bank_account_name || '').toUpperCase(), width / 2, 440);
+
+                                            ctx.font = 'bold 36px Inter, sans-serif';
+                                            ctx.fillText(formatVND(Number(qrAmount) || 0), width / 2, 500);
+
+                                            ctx.font = '18px Inter, sans-serif';
+                                            ctx.fillStyle = '#52525b'; // zinc-600
+                                            ctx.fillText(qrDescription || 'Noi dung', width / 2, 540);
+
+                                            canvas.toBlob(blob => {
+                                                if (blob) {
+                                                    navigator.clipboard.write([
+                                                        new ClipboardItem({ 'image/png': blob })
+                                                    ]);
+                                                    addToast('Đã copy ảnh QR vào clipboard!', 'success');
+                                                }
+                                            });
+
+                                        } catch (e) {
+                                            console.error(e);
+                                            addToast('Lỗi tạo ảnh', 'error');
+                                        }
+                                    }}
+                                >
+                                    <Copy size={14} className="mr-2" /> Sao chép ảnh
+                                </Button>
+                            </div>
                         </div>
                     )}
                     {!bankConfig.bank_account_no && (

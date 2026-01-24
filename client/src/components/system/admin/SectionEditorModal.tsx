@@ -149,6 +149,23 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                 </div>
                             </div>
 
+                            {/* Special Fields for Sales Countdown */}
+                            {editedSection.type === 'sales-countdown' && (
+                                <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">
+                                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Countdown Settings</h3>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">End Date (Target Time)</label>
+                                        <input
+                                            type="datetime-local"
+                                            value={editedSection.highlight ? new Date(editedSection.highlight).toISOString().slice(0, 16) : ''}
+                                            onChange={e => handleChange('highlight', new Date(e.target.value).toISOString())}
+                                            className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm"
+                                        />
+                                        <p className="text-xs text-neutral-500">The countdown will count down to this date.</p>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Advanced Items (JSON Editor) */}
                             {editedSection.items && (
                                 <div className="space-y-2 border-t border-neutral-200 dark:border-neutral-800 pt-4">

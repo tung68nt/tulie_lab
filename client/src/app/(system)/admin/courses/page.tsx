@@ -82,7 +82,7 @@ export default function AdminCoursesPage() {
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Tên khóa học</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Đường dẫn (Slug)</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Giá</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Trạng thái</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Status</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Thao tác</th>
                                 </tr>
                             </thead>
@@ -101,6 +101,7 @@ export default function AdminCoursesPage() {
                                         </td>
                                         <td className="p-4 align-middle text-right">
                                             <TableActions
+                                                viewUrl={`/courses/${course.slug}`}
                                                 editUrl={`/admin/courses/${course.id}`}
                                                 onDelete={() => handleDelete(course.id)}
                                             />

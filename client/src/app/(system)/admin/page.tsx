@@ -50,7 +50,7 @@ function BarChart({ data, label }: { data: { month: string; value: number; date?
         <div className="w-full pt-6">
             <div className="flex gap-2">
                 {/* Y-Axis Labels */}
-                <div className="flex flex-col justify-between h-[140px] text-[10px] text-muted-foreground w-auto text-right min-w-[30px] select-none py-0">
+                <div className="flex flex-col justify-between h-[140px] text-xs text-muted-foreground w-auto text-right min-w-[30px] select-none py-0">
                     {ticks.map((tick, i) => (
                         <div key={i} className={`leading-none ${i === 0 ? '-mt-1' : i === 4 ? '-mb-1' : ''}`}>
                             {tick.toLocaleString('vi-VN', { notation: 'compact', maximumFractionDigits: 1 })}
@@ -77,7 +77,7 @@ function BarChart({ data, label }: { data: { month: string; value: number; date?
                                     <div key={index} className="flex-1 flex flex-col items-center min-w-0 group h-full justify-end">
                                         <div className="relative w-full flex justify-center" style={{ height: `${Math.max((item.value / maxValue) * 100, 1)}%` }}>
                                             {/* Value label */}
-                                            <div className={`text-[10px] sm:text-xs mb-1 text-center 
+                                            <div className={`text-xs sm:text-xs mb-1 text-center 
                                                 ${!weekend ? 'text-foreground font-semibold' : 'text-muted-foreground'}
                                                 ${isDense
                                                     ? 'opacity-0 group-hover:opacity-100 absolute bottom-full left-1/2 -translate-x-1/2 bg-popover text-popover-foreground px-2 py-1 rounded shadow-md z-20 border text-xs whitespace-nowrap pointer-events-none w-auto'
@@ -105,7 +105,7 @@ function BarChart({ data, label }: { data: { month: string; value: number; date?
                                     key={i}
                                     className="flex-1 relative min-w-0"
                                 >
-                                    <span className={`absolute left-1/2 whitespace-nowrap text-[8px] ${!weekend ? 'text-foreground font-bold' : ''} 
+                                    <span className={`absolute left-1/2 whitespace-nowrap text-xs ${!weekend ? 'text-foreground font-bold' : ''} 
                                     transform origin-top-right -rotate-45 -translate-x-full`}>
                                         {d.month}
                                     </span>
@@ -520,9 +520,9 @@ export default function AdminDashboardPage() {
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Doanh thu</div>
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Doanh thu</div>
                         <div className="text-2xl font-bold">{formatCurrency(data.totalRevenue)}</div>
-                        <div className="text-[10px] text-muted-foreground mt-1">
+                        <div className="text-sm text-muted-foreground mt-1">
                             {data.totalRevenue > 0
                                 ? `Tháng này: ${formatCurrency(data.monthlyRevenue)}`
                                 : 'Chưa có doanh thu'}
@@ -532,31 +532,31 @@ export default function AdminDashboardPage() {
 
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Đã thanh toán</div>
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Đã thanh toán</div>
                         <div className="text-3xl font-bold">{data.paidOrders}</div>
-                        <div className="text-[10px] text-muted-foreground font-medium">Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%</div>
+                        <div className="text-sm text-muted-foreground mt-1">Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%</div>
                     </CardContent>
                 </Card>
 
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Đợi xử lý</div>
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Đợi xử lý</div>
                         <div className="text-3xl font-bold">{data.pendingOrders}</div>
-                        <div className="text-[10px] text-muted-foreground font-medium">Cần duyệt: {data.pendingOrders} đơn</div>
+                        <div className="text-sm text-muted-foreground mt-1">Cần duyệt: {data.pendingOrders} đơn</div>
                     </CardContent>
                 </Card>
 
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-[10px] text-muted-foreground mb-1 font-bold tracking-widest">Học viên</div>
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Học viên</div>
                         <div className="text-2xl font-extrabold">{data.totalUsers}</div>
-                        <div className="text-[10px] text-muted-foreground mt-1">{data.activeUsers} đang hoạt động</div>
+                        <div className="text-sm text-muted-foreground mt-1">{data.activeUsers} đang hoạt động</div>
                     </CardContent>
                 </Card>
             </div>
 
-            {/* Charts - Full width, one per row for better visibility */}
-            <div className="grid gap-4">
+            {/* Charts - Grid layout */}
+            <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
                 <Card>
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Doanh thu</CardTitle>
@@ -565,6 +565,30 @@ export default function AdminDashboardPage() {
                         <BarChart
                             data={data.monthlyData.map(m => ({ month: m.month, value: m.revenue / 1000000 }))}
                             label="Triệu VND"
+                        />
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-base">Đơn hàng mới</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <BarChart
+                            data={data.monthlyData.map(m => ({ month: m.month, value: m.orders }))}
+                            label="Đơn"
+                        />
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-base">Học viên mới</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <BarChart
+                            data={data.monthlyData.map(m => ({ month: m.month, value: m.users }))}
+                            label="Học viên"
                         />
                     </CardContent>
                 </Card>
@@ -577,11 +601,11 @@ export default function AdminDashboardPage() {
                     <Card className="overflow-hidden border shadow-none border-zinc-200">
                         <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b">
                             <div>
-                                <CardTitle className="text-sm font-bold tracking-wider">Đơn hàng mới nhất</CardTitle>
-                                <p className="text-[10px] text-muted-foreground">5 đơn hàng vừa phát sinh trên hệ thống</p>
+                                <CardTitle className="text-sm font-bold">Đơn hàng mới nhất</CardTitle>
+                                <p className="text-sm text-muted-foreground">5 đơn hàng vừa phát sinh trên hệ thống</p>
                             </div>
                             <Link href="/admin/orders">
-                                <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold tracking-tight">Chi tiết →</Button>
+                                <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold">Chi tiết →</Button>
                             </Link>
                         </CardHeader>
                         <CardContent className="p-0">
@@ -589,25 +613,25 @@ export default function AdminDashboardPage() {
                                 <table className="w-full text-sm">
                                     <thead className="bg-zinc-50/50">
                                         <tr className="border-b">
-                                            <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Mã đơn</th>
-                                            <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Member</th>
-                                            <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Số tiền</th>
-                                            <th className="text-center py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Trạng thái</th>
-                                            <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Thời gian</th>
+                                            <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Mã đơn</th>
+                                            <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Member</th>
+                                            <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Số tiền</th>
+                                            <th className="text-center py-3 px-4 font-bold text-xs text-muted-foreground/70">Trạng thái</th>
+                                            <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Thời gian</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-zinc-100">
                                         {data.recentOrders.map(order => (
                                             <tr key={order.id} className="hover:bg-zinc-50/30 transition-colors">
                                                 <td className="py-3 px-4">
-                                                    <span className="text-[10px] bg-muted px-2 py-1 rounded font-mono font-bold">
+                                                    <span className="text-xs bg-muted px-2 py-1 rounded font-mono font-bold">
                                                         {order.code}
                                                     </span>
                                                 </td>
                                                 <td className="py-3 px-4 text-xs font-semibold">{order.userName}</td>
                                                 <td className="py-3 px-4 text-right font-bold text-zinc-900">{formatCurrency(order.amount)}</td>
                                                 <td className="py-3 px-4 text-center">
-                                                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[9px] font-bold ${order.status === 'PAID' || order.status === 'COMPLETED'
+                                                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold ${order.status === 'PAID' || order.status === 'COMPLETED'
                                                         ? 'bg-zinc-900 text-zinc-100'
                                                         : 'bg-zinc-100 text-zinc-500'
                                                         }`}>
@@ -615,7 +639,7 @@ export default function AdminDashboardPage() {
                                                         {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Paid' : 'Pending'}
                                                     </span>
                                                 </td>
-                                                <td className="py-3 px-4 text-right text-[10px] text-muted-foreground font-medium">{order.createdAt}</td>
+                                                <td className="py-3 px-4 text-right text-xs text-muted-foreground font-medium">{order.createdAt}</td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -629,11 +653,11 @@ export default function AdminDashboardPage() {
                 <Card className="overflow-hidden border shadow-none border-zinc-200">
                     <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b">
                         <div>
-                            <CardTitle className="text-sm font-bold tracking-wider">Lịch sử Giao dịch</CardTitle>
-                            <p className="text-[10px] text-muted-foreground">Các giao dịch tài chính vừa được đồng bộ</p>
+                            <CardTitle className="text-sm font-bold">Lịch sử Giao dịch</CardTitle>
+                            <p className="text-sm text-muted-foreground">Các giao dịch tài chính vừa được đồng bộ</p>
                         </div>
                         <Link href="/admin/payments">
-                            <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold tracking-tight">Chi tiết →</Button>
+                            <Button variant="outline" size="sm" className="h-7 text-[10px] px-3 font-bold">Chi tiết →</Button>
                         </Link>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -641,20 +665,20 @@ export default function AdminDashboardPage() {
                             <table className="w-full text-sm">
                                 <thead className="bg-zinc-50/50">
                                     <tr className="border-b">
-                                        <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Ngày</th>
-                                        <th className="text-left py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Nội dung</th>
-                                        <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Số tiền</th>
-                                        <th className="text-right py-3 px-4 font-bold text-[10px] tracking-wider text-muted-foreground/70">Ref</th>
+                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Ngày</th>
+                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Nội dung</th>
+                                        <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Số tiền</th>
+                                        <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Ref</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-zinc-100">
                                     {transactions.length > 0 ? (
                                         transactions.map((tx: any) => (
                                             <tr key={tx.id} className="hover:bg-zinc-50/30 transition-colors">
-                                                <td className="py-3 px-4 text-[10px] font-bold text-muted-foreground">{new Date(tx.transactionDate).toLocaleDateString('vi-VN')}</td>
+                                                <td className="py-3 px-4 text-xs font-bold text-muted-foreground">{new Date(tx.transactionDate).toLocaleDateString('vi-VN')}</td>
                                                 <td className="py-3 px-4 max-w-[250px] truncate text-xs font-medium" title={tx.content}>{tx.content}</td>
                                                 <td className="py-3 px-4 text-right font-bold text-zinc-900">{formatCurrency(Number(tx.amountIn))}</td>
-                                                <td className="py-3 px-4 text-right text-[10px] font-mono font-bold text-muted-foreground">{tx.referenceCode || tx.id.slice(-8)}</td>
+                                                <td className="py-3 px-4 text-right text-xs font-mono font-bold text-muted-foreground">{tx.referenceCode || tx.id.slice(-8)}</td>
                                             </tr>
                                         ))
                                     ) : (
@@ -682,7 +706,7 @@ export default function AdminDashboardPage() {
                             </div>
                             <div>
                                 <CardTitle className="text-base font-bold">Học viên nghỉ học ({'>'}14 ngày)</CardTitle>
-                                <p className="text-[10px] text-muted-foreground">Danh sách học viên không đăng nhập hệ thống trong 14 ngày qua</p>
+                                <p className="text-sm text-muted-foreground">Danh sách học viên không đăng nhập hệ thống trong 14 ngày qua</p>
                             </div>
                         </div>
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-zinc-100" onClick={loadInactiveUsers} disabled={loadingInactive}>

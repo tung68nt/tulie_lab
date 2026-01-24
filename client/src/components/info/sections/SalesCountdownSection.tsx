@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { ArrowLeft, ArrowRight, Timer, TrendingDown } from 'lucide-react';
 import { Section } from '@/types/sections';
-import { useSectionPreview } from '@/components/SectionRenderer';
+import { useSectionPreview } from '@/contexts/SectionPreviewContext';
 
 interface TimeLeft {
     days: number;
@@ -28,7 +28,7 @@ function TimeUnit({ value, label, className }: { value: number; label: string; c
                     {String(value).padStart(2, '0')}
                 </span>
             </div>
-            <span className="text-[7px] md:text-[8px] uppercase font-bold text-neutral-500 tracking-wider drop-shadow-sm px-1">
+            <span className="text-[7px] md:text-[8px] uppercase font-bold text-zinc-400 tracking-wider drop-shadow-sm px-1">
                 {label}
             </span>
         </div>
@@ -102,6 +102,15 @@ export function SalesCountdownSection({ section }: { section: Section }) {
             {/* Background Effects */}
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-900/10 via-transparent to-yellow-900/10 animate-pulse-slow pointer-events-none" />
 
+            {/* Dot Pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(#fab005_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.15] pointer-events-none" />
+
+            {/* Corner Gradients */}
+            <div className="absolute -top-10 -left-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
+
             <div className="container relative z-10 px-4">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 lg:gap-12">
                     {/* Urgency Badge - Hidden on very small screens */}
@@ -110,7 +119,7 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                         </span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-500">Ưu đãi sắp hết</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-400">Ưu đãi sắp hết</span>
                     </div>
 
                     {/* Countdown */}

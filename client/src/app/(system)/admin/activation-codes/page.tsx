@@ -27,9 +27,9 @@ export default function ActivationCodesPage() {
                 api.admin.courses.list(),
                 api.products.list({ limit: 100 })
             ]);
-            setCodes(codesData.data || []);
-            setCourses(coursesData);
-            setProducts(productsData.data || []);
+            setCodes(Array.isArray(codesData) ? codesData : codesData.data || []);
+            setCourses(Array.isArray(coursesData) ? coursesData : coursesData.data || []);
+            setProducts(Array.isArray(productsData) ? productsData : productsData.data || []);
         } catch (error) {
             console.error(error);
             addToast('Không thể tải dữ liệu', 'error');
@@ -132,9 +132,12 @@ export default function ActivationCodesPage() {
                             onChange={e => setFormData({ ...formData, count: parseInt(e.target.value) })}
                         />
                     </div>
-                    <Button type="submit" disabled={isCreating || !currentTargetId}>
-                        {isCreating ? 'Đang tạo...' : '+ Tạo mã'}
-                    </Button>
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium opacity-0">Thao tác</label>
+                        <Button type="submit" disabled={isCreating || !currentTargetId} className="h-10 w-full">
+                            {isCreating ? 'Đang tạo...' : '+ Tạo mã'}
+                        </Button>
+                    </div>
                 </form>
             </div>
 

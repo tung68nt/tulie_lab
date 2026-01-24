@@ -10,6 +10,8 @@ import { TableActions } from '@/components/system/admin/TableActions';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 
+import { Switch } from '@/components/Switch';
+
 interface Event {
     id: string;
     title: string;
@@ -148,7 +150,7 @@ export default function EventsAdmin() {
 
             {showForm && (
                 <Card>
-                    <CardContent className="p-6">
+                    <CardContent className="p-6 pt-8">
                         <h3 className="font-bold text-lg mb-4">
                             {editingEvent ? 'Chỉnh sửa sự kiện' : 'Tạo sự kiện mới'}
                         </h3>
@@ -225,14 +227,12 @@ export default function EventsAdmin() {
                             </div>
 
                             <div>
-                                <label className="flex items-center gap-2">
-                                    <input
-                                        type="checkbox"
+                                <label className="flex items-center gap-3 cursor-pointer">
+                                    <Switch
                                         checked={formData.isActive}
-                                        onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                                        className="rounded"
+                                        onChange={(checked) => setFormData({ ...formData, isActive: checked })}
                                     />
-                                    <span className="text-sm font-medium">Hiển thị sự kiện</span>
+                                    <span className="text-sm font-medium select-none">Hiển thị sự kiện</span>
                                 </label>
                             </div>
 

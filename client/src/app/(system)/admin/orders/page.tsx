@@ -8,7 +8,7 @@ import { Input } from '@/components/Input';
 import { Pagination } from '@/components/Pagination';
 import { useToast } from '@/contexts/ToastContext';
 import Link from 'next/link';
-import { CheckCircle2, Clock, XCircle, Search, Download, RotateCcw, Loader2, Mail } from 'lucide-react';
+import { CheckCircle2, Clock, XCircle, Search, Download, RotateCcw, Loader2, Mail, Eye } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface Order {
@@ -347,7 +347,17 @@ export default function AdminOrdersPage() {
                                                     {formatDate(order.createdAt)}
                                                 </td>
                                                 <td className="py-3 px-3">
-                                                    <div className="flex gap-1 justify-center">
+                                                    <div className="flex gap-1 justify-center items-center">
+                                                        <Link href={`/admin/orders/${order.id}`}>
+                                                            <Button
+                                                                size="sm"
+                                                                variant="ghost"
+                                                                className="h-7 w-7 p-0 hover:bg-muted"
+                                                                title="Xem chi tiết"
+                                                            >
+                                                                <Eye size={14} />
+                                                            </Button>
+                                                        </Link>
                                                         {order.status === 'PENDING' && (
                                                             <>
                                                                 <Button
@@ -381,10 +391,10 @@ export default function AdminOrdersPage() {
                                                             </>
                                                         )}
                                                         {(order.status === 'PAID' || order.status === 'COMPLETED') && (
-                                                            <span className="text-xs text-foreground">Done</span>
+                                                            <span className="text-xs text-foreground px-2">Done</span>
                                                         )}
                                                         {order.status === 'CANCELLED' && (
-                                                            <span className="text-xs text-muted-foreground">Cancelled</span>
+                                                            <span className="text-xs text-muted-foreground px-2">Cancelled</span>
                                                         )}
                                                     </div>
                                                 </td>

@@ -24,6 +24,8 @@ const CodingMethodsSection = dynamic(() => import('@/components/info/sections/Co
 import { InstructorGridSection } from '@/components/info/sections/InstructorGridSection';
 
 import { FAQSection } from '@/components/info/sections/FAQSection';
+import { PricingSection } from '@/components/info/sections/PricingSection';
+import { CalendarSection } from '@/components/info/sections/CalendarSection';
 
 // Map section types to components
 export const SECTION_COMPONENTS: Record<string, any> = {
@@ -43,7 +45,9 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'sales-countdown': SalesCountdownSection,
     upsell: UpsellSection,
     payment: PaymentSection,
+    pricing: PricingSection,
     'custom-html': CustomHtmlSection,
+
     // New Sections
     'instructor-bio': ExpertSection,
     expert: ExpertSection,
@@ -52,12 +56,11 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'instructor-grid': InstructorGridSection,
     'coding-methods': CodingMethodsSection,
     faq: FAQSection,
+    calendar: CalendarSection,
 };
 
 // Context for checking if section is in preview mode (e.g. editor)
-export const SectionPreviewContext = createContext<boolean>(false);
-
-export const useSectionPreview = () => useContext(SectionPreviewContext);
+import { SectionPreviewContext } from '@/contexts/SectionPreviewContext';
 
 export const SectionRenderer = ({ section, isPreview = false }: { section: any; isPreview?: boolean }) => {
     const Component = SECTION_COMPONENTS[section.type];

@@ -30,6 +30,19 @@ export default function AdminUserDetailPage() {
     const [selectedCourse, setSelectedCourse] = useState('');
     const [activeTab, setActiveTab] = useState<UserTab>('overview');
     const [processingAction, setProcessingAction] = useState<string | null>(null);
+    const [membershipForm, setMembershipForm] = useState<{ tier: string, expiryDate: string }>({ tier: 'FREE', expiryDate: '' });
+
+    useEffect(() => {
+        if (user) {
+            const isMemberActive = user.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+            const activeSub = user.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+
+            setMembershipForm({
+                tier: isMemberActive ? 'PREMIUM' : 'FREE',
+                expiryDate: activeSub ? new Date(activeSub.endDate).toISOString().split('T')[0] : ''
+            });
+        }
+    }, [user]);
 
     const fetchData = async () => {
         if (!id) return;
@@ -85,16 +98,29 @@ export default function AdminUserDetailPage() {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(amount));
     };
 
+    const handleSaveMembership = async () => {
+        if (membershipForm.tier === 'FREE') {
+            await handleAction(() => api.admin.grantMembership(id as string, -1), 'Đã hủy gói thành viên');
+        } else {
+            if (!membershipForm.expiryDate) {
+                addToast('Vui lòng chọn ngày hết hạn', 'error');
+                return;
+            }
+            const days = Math.ceil((new Date(membershipForm.expiryDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+            await handleAction(() => api.admin.grantMembership(id as string, days), 'Đã cập nhật gói thành viên');
+        }
+    };
+
     if (loading) return <div className="flex items-center justify-center py-40"><Loader2 className="h-10 w-10 animate-spin text-muted-foreground" /></div>;
     if (!user) return <div className="text-center py-20">Không tìm thấy thành viên</div>;
 
     const tabs: { id: UserTab, label: string, icon: any }[] = [
-        { id: 'overview', label: 'Thông tin chung', icon: User },
+        { id: 'overview', label: 'Info', icon: User },
         { id: 'courses', label: 'Khóa học', icon: BookOpen },
         { id: 'products', label: 'Sản phẩm', icon: Package },
         { id: 'membership', label: 'Hội viên', icon: Shield },
         { id: 'orders', label: 'Đơn hàng', icon: CreditCard },
-        { id: 'logs', label: 'Bảo mật & Log', icon: ShieldAlert },
+        { id: 'logs', label: 'Logs', icon: ShieldAlert },
     ];
 
     const isMemberActive = user.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
@@ -144,35 +170,35 @@ export default function AdminUserDetailPage() {
             {/* Quick Stats Banner */}
             <div className="grid gap-4 md:grid-cols-4">
                 <Card>
-                    <CardContent className="pt-6 flex flex-col items-center justify-center text-center">
+                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
                         <p className="text-xs font-medium text-muted-foreground mb-1">Membership</p>
                         <h3 className="text-lg font-bold">
                             {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
                         </h3>
                         {isMemberActive && (
-                            <p className="text-[10px] mt-2 text-muted-foreground">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</p>
+                            <p className="text-[10px] mt-1 text-muted-foreground">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</p>
                         )}
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardContent className="pt-6">
+                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
                         <p className="text-xs text-muted-foreground font-medium mb-1">Chi tiêu (Paid)</p>
                         <div className="text-2xl font-bold">{formatCurrency(user.stats?.totalPaid || 0)}</div>
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardContent className="pt-6">
+                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
                         <p className="text-xs text-muted-foreground font-medium mb-1">Tỷ lệ hoàn thành học</p>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 justify-center">
                             <div className="text-2xl font-bold">{user.stats?.completedLessons || 0}</div>
                             <span className="text-xs text-muted-foreground">bài học</span>
                         </div>
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardContent className="pt-6">
+                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
                         <p className="text-xs text-muted-foreground font-medium mb-1">Đăng nhập cuối</p>
-                        <div className="text-sm font-bold flex items-center gap-2">
+                        <div className="text-sm font-bold flex items-center gap-2 justify-center">
                             <Clock size={14} className="text-muted-foreground" />
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
@@ -482,25 +508,38 @@ export default function AdminUserDetailPage() {
                                     </span>
                                 </div>
 
-                                <div className="flex gap-2 flex-wrap">
+                                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border rounded-xl bg-zinc-50/50">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold text-muted-foreground">Membership</label>
+                                        <select
+                                            className="w-full text-sm border rounded-md px-3 h-10 bg-background focus:outline-none focus:ring-1 focus:ring-foreground cursor-pointer"
+                                            value={membershipForm.tier}
+                                            onChange={(e) => setMembershipForm({ ...membershipForm, tier: e.target.value })}
+                                        >
+                                            <option value="FREE">Miễn phí (Free)</option>
+                                            <option value="BASIC">Cơ bản (Basic)</option>
+                                            <option value="PREMIUM">Hội viên (Premium)</option>
+                                        </select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold text-muted-foreground">Ngày hết hạn</label>
+                                        <div className="relative">
+                                            <input
+                                                type="date"
+                                                className="w-full text-sm border rounded-md px-3 h-10 bg-background focus:outline-none focus:ring-1 focus:ring-foreground disabled:opacity-50 cursor-pointer"
+                                                value={membershipForm.expiryDate}
+                                                onChange={(e) => setMembershipForm({ ...membershipForm, expiryDate: e.target.value })}
+                                                disabled={membershipForm.tier === 'FREE'}
+                                            />
+                                        </div>
+                                    </div>
                                     <Button
                                         size="sm"
-                                        className="bg-zinc-900 hover:bg-zinc-800 text-white font-bold"
-                                        onClick={() => handleAction(() => api.admin.grantMembership(id as string, 365), 'Đã cấp gói Premium 365 ngày thành công', 'Cấp gói hội viên 1 năm cho người dùng này?')}
+                                        className="bg-zinc-900 hover:bg-zinc-800 text-white font-bold h-10"
+                                        onClick={handleSaveMembership}
+                                        disabled={!!processingAction}
                                     >
-                                        {isMemberActive ? 'Gia hạn 1 Năm' : 'Cấp Premium 1 Năm'}
-                                    </Button>
-                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => handleAction(() => api.admin.grantMembership(id as string, -1), 'Đã hạ gói thành viên', 'Hạ gói hội viên của người dùng này?')}>
-                                        Hạ gói
-                                    </Button>
-                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => handleAction(() => api.admin.grantMembership(id as string, 365), 'Đã nâng cấp gói thành viên')}>
-                                        Nâng gói
-                                    </Button>
-                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => addToast('Tính năng chỉnh hạn thủ công đang phát triển', 'info')}>
-                                        Chỉnh hạn
-                                    </Button>
-                                    <Button size="sm" variant="outline" className="font-bold" onClick={() => addToast('Tính năng gia hạn thủ công đang phát triển', 'info')}>
-                                        Gia hạn thủ công
+                                        {processingAction === 'loading' ? <Loader2 size={16} className="animate-spin mr-2" /> : <div className="flex items-center gap-2"><CheckCircle2 size={16} /> Lưu thay đổi</div>}
                                     </Button>
                                 </div>
 
@@ -529,7 +568,7 @@ export default function AdminUserDetailPage() {
                                     </div>
                                 </div>
                             </CardContent>
-                        </Card>
+                        </Card >
 
                         <Card>
                             <CardHeader>
@@ -554,8 +593,9 @@ export default function AdminUserDetailPage() {
                                 </div>
                             </CardContent>
                         </Card>
-                    </div>
-                )}
+                    </div >
+                )
+                }
 
 
                 {
