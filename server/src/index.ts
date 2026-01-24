@@ -173,7 +173,12 @@ async function initializeApp() {
     // JSON 404 Handler - MUST be after all routes
     app.use('/api', (req, res) => {
       console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
-      res.status(404).json({ error: 'Endpoint not found', method: req.method, path: req.originalUrl });
+      res.status(404).json({
+        message: 'Endpoint not found',
+        error: 'Endpoint not found',
+        method: req.method,
+        path: req.originalUrl
+      });
     });
 
     // Global Error Handler - MUST be last

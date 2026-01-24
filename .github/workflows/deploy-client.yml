@@ -44,9 +44,9 @@ jobs:
         run: |
           # Use hardcoded URLs to prevent gcloud lookup failures
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            API_URL="https://academy-api-863772349164.asia-southeast1.run.app/api"
+            API_URL="https://academy-api-863772349164.asia-southeast1.run.app"
           else
-            API_URL="https://academy-api-beta-863772349164.asia-southeast1.run.app/api"
+            API_URL="https://academy-api-beta-863772349164.asia-southeast1.run.app"
           fi
           
           echo "✅ Using Backend URL: $API_URL"

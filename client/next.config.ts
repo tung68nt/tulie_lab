@@ -59,11 +59,8 @@ const nextConfig: NextConfig = {
     let apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
     // Defensive: strip /api if it was accidentally included in the env var
-    if (apiUrl.endsWith('/api')) {
-      apiUrl = apiUrl.slice(0, -4);
-    }
-    // Remove trailing slash
-    apiUrl = apiUrl.replace(/\/$/, '');
+    // Standardize: Remove trailing slashes and /api suffix
+    apiUrl = apiUrl.replace(/\/+$/, '').replace(/\/api$/, '');
 
     return [
       {
