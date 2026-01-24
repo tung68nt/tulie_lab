@@ -20,6 +20,9 @@ import { ExpertSection } from '@/components/info/sections/ExpertSection';
 import { StudentShowcaseSection } from '@/components/info/sections/StudentShowcaseSection';
 import { BonusSection } from '@/components/info/sections/BonusSection';
 import { InstructorGridSection } from '@/components/info/sections/InstructorGridSection';
+import { PricingSection } from '@/components/info/sections/PricingSection';
+import { CalendarSection } from '@/components/info/sections/CalendarSection';
+import { FAQSection } from '@/components/info/sections/FAQSection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -46,6 +49,9 @@ const SECTION_COMPONENTS: Record<string, any> = {
     'student-showcase': StudentShowcaseSection,
     bonus: BonusSection,
     'instructor-grid': InstructorGridSection,
+    pricing: PricingSection,
+    calendar: CalendarSection,
+    faq: FAQSection,
     'coding-methods': ContentSection, // Fallback for coding-methods if no specific component
 };
 
