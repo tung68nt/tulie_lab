@@ -49,12 +49,12 @@ export class TelegramService {
 
     async sendOrderAlert(order: any) {
         const message = `
-<b>🔔 Đơn hàng mới!</b>
+🔔 <b>Đơn hàng mới!</b>
 ━━━━━━━━━━━━━━━━━━
-<b>Mã đơn:</b> <code>${order.code}</code>
-<b>Khách hàng:</b> ${order.user?.profile?.name || order.user?.email || 'N/A'}
-<b>Số tiền:</b> ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
-<b>Trạng thái:</b> ${order.status}
+<b>Mã:</b> <code>#${order.code}</code>
+<b>Khách:</b> ${order.user?.profile?.name || order.user?.email || 'N/A'}
+<b>Tiền:</b> ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
+<b>Trạng thái:</b> <code>${order.status}</code>
 <b>Nội dung:</b> ${order.items?.map((i: any) => i.course?.title || i.product?.title).join(', ') || 'N/A'}
 ━━━━━━━━━━━━━━━━━━
 <i>Hệ thống Academy Tulie</i>
@@ -65,9 +65,9 @@ export class TelegramService {
 
     async sendSecurityAlert(action: string, details: string, ip?: string) {
         const message = `
-<b>⚠️ Cảnh báo Bảo mật!</b>
+⚠️ <b>Cảnh báo Bảo mật!</b>
 ━━━━━━━━━━━━━━━━━━
-<b>Hành vi:</b> ${action}
+<b>Hành vi:</b> <code>${action}</code>
 <b>Chi tiết:</b> ${details}
 <b>IP:</b> <code>${ip || 'N/A'}</code>
 <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}
@@ -78,13 +78,39 @@ export class TelegramService {
         return this.sendMessage(message);
     }
 
+    async sendRegistrationAlert(name: string, email: string) {
+        const message = `
+👤 <b>Thành viên mới!</b>
+━━━━━━━━━━━━━━━━━━
+<b>Tên:</b> ${name}
+<b>Email:</b> ${email}
+<b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}
+━━━━━━━━━━━━━━━━━━
+        `.trim();
+
+        return this.sendMessage(message);
+    }
+
     async sendSystemHealthAlert(subject: string, details: string) {
         const message = `
-<b>🖥️ Hệ thống: ${subject}</b>
+🖥️ <b>Hệ thống: ${subject}</b>
 ━━━━━━━━━━━━━━━━━━
 <b>Chi tiết:</b> ${details}
 <b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}
 ━━━━━━━━━━━━━━━━━━
+        `.trim();
+
+        return this.sendMessage(message);
+    }
+
+    async sendDailyReport(pendingOrdersCount: number, inactiveUsersCount: number) {
+        const message = `
+<b>📊 Báo cáo định kỳ</b>
+━━━━━━━━━━━━━━━━━━
+⏳ <b>Đơn hàng pending:</b> ${pendingOrdersCount} đơn chưa thanh toán
+😴 <b>Học viên "ngủ đông":</b> ${inactiveUsersCount} người (>30 ngày)
+━━━━━━━━━━━━━━━━━━
+<i>Vui lòng kiểm tra và chăm sóc khách hàng!</i>
         `.trim();
 
         return this.sendMessage(message);

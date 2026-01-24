@@ -9,6 +9,7 @@ export class TelegramEventSubscriber {
     private constructor() {
         this.eventBus = EventBus.getInstance();
         this.init();
+        this.startReportingJob();
     }
 
     public static getInstance(): TelegramEventSubscriber {
@@ -75,14 +76,7 @@ export class TelegramEventSubscriber {
         // Handle New User Registration
         this.eventBus.subscribe('USER_REGISTERED', async (payload) => {
             if (!(await this.isEnabled('telegram_notify_registrations'))) return;
-            await telegramService.sendMessage(`
-<b>👤 Thành viên mới!</b>
-━━━━━━━━━━━━━━━━━━
-<b>Tên:</b> ${payload.name}
-<b>Email:</b> ${payload.email}
-<b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}
-━━━━━━━━━━━━━━━━━━
-            `.trim());
+            await telegramService.sendRegistrationAlert(payload.name, payload.email);
         });
 
         // Handle Security Alerts
@@ -94,5 +88,40 @@ export class TelegramEventSubscriber {
                 payload.ipAddress
             );
         });
+    }
+
+    private startReportingJob() {
+        // Run every 12 hours
+        const INTERVAL = 12 * 60 * 60 * 1000;
+
+        setInterval(async () => {
+            if (!(await this.isEnabled('telegram_notify_reports'))) return;
+
+            try {
+                // 1. Count pending orders
+                const pendingOrdersCount = await prisma.order.count({
+                    where: { status: 'PENDING' }
+                });
+
+                // 2. Count inactive users (> 30 days)
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+                // Check lastSession expiry or createdAt/updatedAt if no session tracking
+                // Since we have ActivityLog, we can check latest log
+                const inactiveUsers = await prisma.user.count({
+                    where: {
+                        role: 'USER',
+                        isActive: true,
+                        updatedAt: { lt: thirtyDaysAgo },
+                        // Optional: Join with activity logs or sessions if they exist
+                    }
+                });
+
+                await telegramService.sendDailyReport(pendingOrdersCount, inactiveUsers);
+            } catch (error) {
+                console.error('[TelegramSubscriber] Error generating daily report:', error);
+            }
+        }, INTERVAL);
     }
 }

@@ -294,7 +294,6 @@ export default function AdminSettingsPage() {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                <Send size={20} className="text-blue-500" />
                                 Thông báo Telegram
                             </CardTitle>
                             <CardDescription>
@@ -323,39 +322,86 @@ export default function AdminSettingsPage() {
                             </div>
 
                             <div className="space-y-4 pt-2">
-                                <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Các loại thông báo</h4>
+                                <h4 className="text-xs font-bold tracking-wider text-muted-foreground">Các loại thông báo</h4>
 
-                                <div className="flex items-center justify-between p-3 border rounded-lg">
-                                    <div className="space-y-0.5">
-                                        <label className="text-sm font-bold">Đơn hàng & Thanh toán</label>
-                                        <p className="text-[10px] text-muted-foreground">Thông báo khi có đơn hàng mới hoặc giao dịch thành công.</p>
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                    {/* Groups settings but shows more info */}
+                                    <div className="p-4 border rounded-xl space-y-4 flex flex-col">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <div className="space-y-0.5 min-w-0">
+                                                <label className="text-sm font-bold block truncate">Đơn hàng & Thanh toán</label>
+                                                <p className="text-[10px] text-muted-foreground">Thông báo đơn hàng mới hoặc giao dịch thành công.</p>
+                                            </div>
+                                            <Switch
+                                                checked={settings.telegram_notify_orders === 'true'}
+                                                onChange={(checked) => handleChange('telegram_notify_orders', checked ? 'true' : 'false')}
+                                            />
+                                        </div>
+                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
+                                            <p className="font-bold text-blue-500 mb-1">Mẫu tin nhắn:</p>
+                                            🔔 <b>Đơn hàng mới!</b><br />
+                                            Mã: <code>#ABC123</code><br />
+                                            Khách: Nguyễn Văn A<br />
+                                            Tiền: 500.000 ₫
+                                        </div>
                                     </div>
-                                    <Switch
-                                        checked={settings.telegram_notify_orders === 'true'}
-                                        onChange={(checked) => handleChange('telegram_notify_orders', checked ? 'true' : 'false')}
-                                    />
-                                </div>
 
-                                <div className="flex items-center justify-between p-3 border rounded-lg">
-                                    <div className="space-y-0.5">
-                                        <label className="text-sm font-bold">Đăng ký thành viên</label>
-                                        <p className="text-[10px] text-muted-foreground">Thông báo khi có người dùng mới đăng ký tài khoản.</p>
+                                    <div className="p-4 border rounded-xl space-y-4 flex flex-col">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <div className="space-y-0.5 min-w-0">
+                                                <label className="text-sm font-bold block truncate">Đăng ký thành viên</label>
+                                                <p className="text-[10px] text-muted-foreground">Thông báo khi có tài khoản mới đăng ký.</p>
+                                            </div>
+                                            <Switch
+                                                checked={settings.telegram_notify_registrations === 'true'}
+                                                onChange={(checked) => handleChange('telegram_notify_registrations', checked ? 'true' : 'false')}
+                                            />
+                                        </div>
+                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
+                                            <p className="font-bold text-blue-500 mb-1">Mẫu tin nhắn:</p>
+                                            👤 <b>Thành viên mới!</b><br />
+                                            Tên: Nguyễn Văn A<br />
+                                            Email: user@example.com
+                                        </div>
                                     </div>
-                                    <Switch
-                                        checked={settings.telegram_notify_registrations === 'true'}
-                                        onChange={(checked) => handleChange('telegram_notify_registrations', checked ? 'true' : 'false')}
-                                    />
-                                </div>
 
-                                <div className="flex items-center justify-between p-3 border rounded-lg">
-                                    <div className="space-y-0.5">
-                                        <label className="text-sm font-bold">Cảnh báo bảo mật</label>
-                                        <p className="text-[10px] text-muted-foreground">Thông báo khi có đăng nhập thất bại hoặc truy cập trái phép.</p>
+                                    <div className="p-4 border rounded-xl space-y-4 flex flex-col">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <div className="space-y-0.5 min-w-0">
+                                                <label className="text-sm font-bold block truncate">Cảnh báo bảo mật</label>
+                                                <p className="text-[10px] text-muted-foreground">Thông báo đăng nhập lỗi hoặc truy cập lạ.</p>
+                                            </div>
+                                            <Switch
+                                                checked={settings.telegram_notify_security === 'true'}
+                                                onChange={(checked) => handleChange('telegram_notify_security', checked ? 'true' : 'false')}
+                                            />
+                                        </div>
+                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
+                                            <p className="font-bold text-red-500 mb-1">Mẫu tin nhắn:</p>
+                                            ⚠️ <b>Cảnh báo Bảo mật!</b><br />
+                                            Hành vi: FAILED_LOGIN<br />
+                                            IP: <code>1.2.3.4</code>
+                                        </div>
                                     </div>
-                                    <Switch
-                                        checked={settings.telegram_notify_security === 'true'}
-                                        onChange={(checked) => handleChange('telegram_notify_security', checked ? 'true' : 'false')}
-                                    />
+
+                                    <div className="p-4 border rounded-xl space-y-4 flex flex-col">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <div className="space-y-0.5 min-w-0">
+                                                <label className="text-sm font-bold block truncate">Báo cáo & Nhắc nhở</label>
+                                                <p className="text-[10px] text-muted-foreground">Cảnh báo đơn pending và học viên "ngủ đông".</p>
+                                            </div>
+                                            <Switch
+                                                checked={settings.telegram_notify_reports === 'true'}
+                                                onChange={(checked) => handleChange('telegram_notify_reports', checked ? 'true' : 'false')}
+                                            />
+                                        </div>
+                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
+                                            <p className="font-bold text-amber-500 mb-1">Mẫu tin nhắn:</p>
+                                            📊 <b>Báo cáo định kỳ</b><br />
+                                            ⏳ <b>Đơn pending:</b> 5 đơn<br />
+                                            😴 <b>Nghỉ học lâu:</b> 12 người (&gt;30d)
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </CardContent>
