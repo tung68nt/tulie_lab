@@ -105,7 +105,7 @@ function BarChart({ data, label }: { data: { month: string; value: number; date?
                                     key={i}
                                     className="flex-1 relative min-w-0"
                                 >
-                                    <span className={`absolute left-1/2 whitespace-nowrap text-xs ${!weekend ? 'text-foreground font-bold' : ''} 
+                                    <span className={`absolute left-1/2 whitespace-nowrap text-[10px] ${!weekend ? 'text-foreground font-bold' : ''} 
                                     transform origin-top-right -rotate-45 -translate-x-full`}>
                                         {d.month}
                                     </span>
