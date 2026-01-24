@@ -409,8 +409,8 @@ function CheckoutContent() {
 
                     {/* Right Column - Order Summary */}
                     <div className="lg:col-span-1">
-                        {/* Order Summary Summary - CINEMATIC */}
-                        <Card className="sticky top-4 shadow-2xl border-zinc-900 border-2 overflow-hidden group rounded-2xl">
+                        {/* Order Summary Summary - LIGHTWEIGHT */}
+                        <Card className="sticky top-4 shadow-xl border-zinc-200 dark:border-zinc-800 border overflow-hidden group rounded-2xl">
                             <div className="bg-zinc-900 text-white p-6 relative overflow-hidden">
                                 <CardTitle className="relative z-10 flex items-center gap-2 text-white">
                                     <ShieldCheck className="w-5 h-5 text-green-400" />
@@ -424,18 +424,18 @@ function CheckoutContent() {
                                 {/* Price Breakdown */}
                                 <div className="space-y-4">
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-muted-foreground font-medium">Sản phẩm chính</span>
-                                        <span className="font-bold text-zinc-900 dark:text-zinc-100">
+                                        <span className="text-muted-foreground">Sản phẩm chính</span>
+                                        <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
                                         </span>
                                     </div>
 
                                     {selectedUpsells.length > 0 && (
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-muted-foreground font-medium">
+                                            <span className="text-muted-foreground">
                                                 Sản phẩm thêm ({selectedUpsells.length})
                                             </span>
-                                            <span className="font-bold text-zinc-900 dark:text-zinc-100">
+                                            <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(upsellTotal)}
                                             </span>
                                         </div>
@@ -443,22 +443,22 @@ function CheckoutContent() {
 
                                     {discount > 0 && (
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-muted-foreground font-medium">Giảm giá</span>
-                                            <span className="font-bold text-green-600">
+                                            <span className="text-muted-foreground">Giảm giá</span>
+                                            <span className="font-semibold text-green-600">
                                                 -{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discount)}
                                             </span>
                                         </div>
                                     )}
 
-                                    <div className="h-px bg-zinc-100 dark:bg-zinc-800 my-2" />
+                                    <div className="h-px bg-zinc-100/50 dark:bg-zinc-800/50 my-2" />
 
                                     <div className="flex justify-between items-center pt-2">
-                                        <span className="font-bold text-lg">Tổng thanh toán</span>
+                                        <span className="font-semibold text-lg text-zinc-600">Tổng thanh toán</span>
                                         <div className="text-right">
-                                            <span className="text-3xl font-black text-zinc-900 dark:text-white block tracking-tighter">
+                                            <span className="text-3xl font-bold text-zinc-900 dark:text-white block tracking-tight">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalAmount)}
                                             </span>
-                                            <span className="text-xs text-muted-foreground font-medium mt-1 block opacity-80">
+                                            <span className="text-[10px] text-muted-foreground mt-1 block opacity-70">
                                                 Bao gồm phí kích hoạt tự động
                                             </span>
                                         </div>
@@ -469,7 +469,7 @@ function CheckoutContent() {
                                     <Button
                                         onClick={handleCheckout}
                                         disabled={processing}
-                                        className="w-full text-lg font-black h-16 rounded-2xl bg-zinc-900 hover:bg-black text-white dark:bg-white dark:text-black dark:hover:bg-zinc-100 shadow-xl shadow-zinc-900/10 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                                        className="w-full text-lg font-bold h-14 rounded-2xl bg-zinc-900 hover:bg-black text-white dark:bg-white dark:text-black dark:hover:bg-zinc-100 shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
                                     >
                                         {processing ? (
                                             <span className="flex items-center gap-2">

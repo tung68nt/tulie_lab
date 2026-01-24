@@ -245,7 +245,7 @@ export default function OrderPage({ params }: { params: any }) {
                                                     {copiedField === 'content' ? 'Đã sao chép' : 'Sao chép'}
                                                 </button>
                                             </div>
-                                            <p className="font-black text-blue-700 dark:text-blue-300 text-xl tracking-tight">{transferContent}</p>
+                                            <p className="font-bold text-blue-700 dark:text-blue-300 text-xl tracking-tight">{transferContent}</p>
                                         </div>
                                     </div>
 
@@ -253,7 +253,7 @@ export default function OrderPage({ params }: { params: any }) {
                                     <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800 flex justify-between items-end">
                                         <div className="text-left">
                                             <label className="text-[11px] font-bold text-zinc-400 uppercase block">Số tiền cần trả</label>
-                                            <p className="text-2xl font-black text-zinc-900 dark:text-zinc-100">
+                                            <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
                                                 {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}₫
                                             </p>
                                         </div>
