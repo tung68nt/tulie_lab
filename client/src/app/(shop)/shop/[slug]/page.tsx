@@ -337,7 +337,7 @@ export default function ProductDetailPage() {
                                         </a>
                                     )}
                                 </div>
-                            )}}
+                            )}
 
                             {/* Value Props - Redesigned with black/white icons */}
                             <div className="space-y-3 pt-4 border-t">
