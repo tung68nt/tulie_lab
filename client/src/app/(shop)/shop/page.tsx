@@ -369,17 +369,19 @@ export default function ShopPage() {
 
             {/* CTA Section */}
             <div className="container mt-32 mb-16">
-                <div className="relative rounded-2xl bg-[#1a1a1a] p-12 md:p-16 overflow-hidden text-center md:text-left">
-                    {/* Dotted Grid Pattern */}
-                    <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-10" />
+                <div className="relative rounded-3xl bg-[#141414] p-12 md:p-16 overflow-hidden text-center md:text-left border border-white/5 shadow-2xl">
+                    {/* Faded Dot Grid Pattern */}
+                    <div className="absolute inset-0 opacity-20 pointer-events-none">
+                        <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]"></div>
+                    </div>
 
-                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-primary/10 blur-3xl opacity-30" />
-                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-primary/5 blur-2xl opacity-30" />
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-96 h-96 rounded-full bg-primary/10 blur-3xl opacity-20" />
+                    <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-primary/5 blur-2xl opacity-20" />
 
                     <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
-                        <div className="max-w-2xl">
-                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-relaxed">
-                                Bạn cần giải pháp <br /> <span className="text-white/60">thiết kế riêng biệt?</span>
+                        <div className="max-w-2xl text-left">
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 leading-[1.4] tracking-tight">
+                                Bạn cần giải pháp <br /> <span className="text-white/40">thiết kế riêng biệt?</span>
                             </h2>
                             <p className="text-lg text-white/60 md:text-xl leading-relaxed mb-0">
                                 Đội ngũ chuyên gia tại Tulie Academy sẵn sàng tư vấn và xây dựng giải pháp tối ưu nhất.
@@ -387,7 +389,7 @@ export default function ShopPage() {
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4 shrink-0">
                             <Link href="/contact">
-                                <Button as="div" size="lg" className="rounded-2xl h-14 px-8 text-base font-bold bg-white text-black hover:bg-gray-200 border-none transition-all">
+                                <Button as="div" size="lg" className="rounded-2xl h-14 px-10 text-base font-bold bg-white !text-black hover:bg-zinc-200 border-none transition-all shadow-xl">
                                     Liên hệ tư vấn
                                 </Button>
                             </Link>
