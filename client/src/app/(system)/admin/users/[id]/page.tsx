@@ -556,7 +556,7 @@ export default function AdminUserDetailPage() {
                         </Card>
                     </div>
                 )}
-}
+
 
                 {
                     activeTab === 'orders' && (
