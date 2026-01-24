@@ -338,6 +338,8 @@ model Product {
   // Landing page relations
   landingPages       LandingPage[]         @relation("LandingPageProduct")
   landingPagesUpsell LandingPage[]         @relation("LandingPageUpsellProduct")
+  // Activation
+  activationCodes    ActivationCode[]
   // Upsell relations
   upsellProducts     ProductUpsell[]       @relation("ProductToUpsellProducts")
   upsellFor          ProductUpsell[]       @relation("UpsellProductToProduct")
@@ -469,7 +471,8 @@ model CouponUsage {
 model ActivationCode {
   id           String               @id @default(uuid())
   code         String               @unique
-  courseId     String
+  courseId     String?
+  productId    String?
   orderId      String?
   buyerId      String?
   redeemedById String?
@@ -478,7 +481,8 @@ model ActivationCode {
   createdAt    DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
   buyer        User?                @relation("BoughtCodes", fields: [buyerId], references: [id])
-  course       Course               @relation(fields: [courseId], references: [id])
+  course       Course?              @relation(fields: [courseId], references: [id])
+  product      Product?             @relation(fields: [productId], references: [id])
   order        Order?               @relation(fields: [orderId], references: [id], onDelete: Cascade)
   redeemedBy   User?                @relation("RedeemedCodes", fields: [redeemedById], references: [id])
 

@@ -16,15 +16,15 @@ export class PrismaActivationCodeRepository implements IActivationCodeRepository
     }
 
     async findById(id: string): Promise<ActivationCode | null> {
-        return prisma.activationCode.findUnique({ where: { id }, include: { course: true, buyer: { include: { profile: true } }, redeemedBy: { include: { profile: true } } } });
+        return prisma.activationCode.findUnique({ where: { id }, include: { course: true, product: true, buyer: { include: { profile: true } }, redeemedBy: { include: { profile: true } } } });
     }
 
     async findByCode(code: string, include?: Prisma.ActivationCodeInclude): Promise<ActivationCode | null> {
-        return prisma.activationCode.findUnique({ where: { code }, include: include || { course: true } });
+        return prisma.activationCode.findUnique({ where: { code }, include: include || { course: true, product: true } });
     }
 
     async findByOrderId(orderId: string): Promise<ActivationCode[]> {
-        return prisma.activationCode.findMany({ where: { orderId }, include: { course: true } });
+        return prisma.activationCode.findMany({ where: { orderId }, include: { course: true, product: true } });
     }
 
     async findAll(params: any): Promise<{ data: ActivationCode[]; meta: any }> {
@@ -37,7 +37,7 @@ export class PrismaActivationCodeRepository implements IActivationCodeRepository
                 where,
                 skip,
                 take,
-                include: { course: true, buyer: { include: { profile: true } }, redeemedBy: { include: { profile: true } } },
+                include: { course: true, product: true, buyer: { include: { profile: true } }, redeemedBy: { include: { profile: true } } },
                 orderBy: { createdAt: 'desc' }
             }),
             prisma.activationCode.count({ where })

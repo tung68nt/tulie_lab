@@ -28,6 +28,34 @@ function CheckoutContent() {
     const [processing, setProcessing] = useState(false);
     const [upsellProducts, setUpsellProducts] = useState<any[]>([]);
     const [selectedUpsells, setSelectedUpsells] = useState<string[]>([]);
+    const [activationCode, setActivationCode] = useState('');
+    const [validatingActivation, setValidatingActivation] = useState(false);
+
+    const handleRedeemActivation = async () => {
+        if (!activationCode.trim()) {
+            addToast('Vui lòng nhập mã kích hoạt', 'warning');
+            return;
+        }
+
+        setValidatingActivation(true);
+        try {
+            const result: any = await api.activationCodes.redeem(activationCode);
+            addToast('Kích hoạt sản phẩm thành công!', 'success');
+
+            // Redirect based on type returned from backend
+            if (result.type === 'COURSE') {
+                router.push('/my-learning');
+            } else {
+                // For products, redirect to order history or profile
+                router.push('/users/profile?tab=orders');
+            }
+        } catch (e: any) {
+            console.error('Activation error:', e);
+            addToast(e.message || 'Mã kích hoạt không hợp lệ', 'error');
+        } finally {
+            setValidatingActivation(false);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -359,52 +387,90 @@ function CheckoutContent() {
                             </Card>
                         )}
 
-                        {/* Promo Code */}
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Mã khuyến mại</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex gap-2">
-                                    <Input
-                                        placeholder="Nhập mã giảm giá"
-                                        value={promoCode}
-                                        onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-                                        disabled={!!appliedPromo}
-                                        className="flex-1"
-                                    />
-                                    {appliedPromo ? (
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => {
-                                                setAppliedPromo(null);
-                                                setPromoCode('');
-                                            }}
-                                        >
-                                            Hủy
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            onClick={handleValidatePromo}
-                                            disabled={validatingPromo}
-                                        >
-                                            {validatingPromo ? 'Đang kiểm tra...' : 'Áp dụng'}
-                                        </Button>
-                                    )}
-                                </div>
-                                {appliedPromo && (
-                                    <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                                        <p className="text-sm text-green-700 dark:text-green-300">
-                                            ✓ Mã <span className="font-bold">{appliedPromo.code}</span> đã được áp dụng
-                                            {appliedPromo.type === 'PERCENTAGE'
-                                                ? ` (Giảm ${appliedPromo.discount}%)`
-                                                : ` (Giảm ${new Intl.NumberFormat('vi-VN').format(appliedPromo.discount)}₫)`
-                                            }
-                                        </p>
+                        {/* Discount & Activation */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                            {/* Promo Code */}
+                            <Card>
+                                <CardHeader>
+                                    <div className="flex items-center gap-2">
+                                        <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                                            <Sparkles className="w-4 h-4" />
+                                        </div>
+                                        <CardTitle className="text-lg">Mã giảm giá</CardTitle>
                                     </div>
-                                )}
-                            </CardContent>
-                        </Card>
+                                    <p className="text-xs text-muted-foreground mt-1">Giảm trực tiếp vào giá thanh toán</p>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex gap-2">
+                                        <Input
+                                            placeholder="GAVE20, NEWYEAR..."
+                                            value={promoCode}
+                                            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                                            disabled={!!appliedPromo}
+                                            className="flex-1"
+                                        />
+                                        {appliedPromo ? (
+                                            <Button
+                                                variant="outline"
+                                                onClick={() => {
+                                                    setAppliedPromo(null);
+                                                    setPromoCode('');
+                                                }}
+                                            >
+                                                Hủy
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                onClick={handleValidatePromo}
+                                                disabled={validatingPromo}
+                                            >
+                                                {validatingPromo ? '...' : 'Áp dụng'}
+                                            </Button>
+                                        )}
+                                    </div>
+                                    {appliedPromo && (
+                                        <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                                            <p className="text-xs text-green-700 dark:text-green-300 font-medium">
+                                                ✓ Đã áp dụng: -{new Intl.NumberFormat('vi-VN').format(appliedPromo.discount)}₫
+                                            </p>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+
+                            {/* Activation Code */}
+                            <Card className="border-primary/20 bg-primary/[0.02]">
+                                <CardHeader>
+                                    <div className="flex items-center gap-2">
+                                        <div className="p-2 rounded-lg bg-foreground/10 text-foreground">
+                                            <CheckCircle2 className="w-4 h-4" />
+                                        </div>
+                                        <CardTitle className="text-lg">Mã kích hoạt</CardTitle>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground mt-1">Sở hữu sản phẩm ngay không cần thanh toán</p>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex gap-2">
+                                        <Input
+                                            placeholder="Nhập mã quà tặng/kích hoạt"
+                                            value={activationCode}
+                                            onChange={(e) => setActivationCode(e.target.value.toUpperCase())}
+                                            className="flex-1"
+                                        />
+                                        <Button
+                                            variant="secondary"
+                                            onClick={handleRedeemActivation}
+                                            disabled={validatingActivation}
+                                        >
+                                            {validatingActivation ? '...' : 'Kích hoạt'}
+                                        </Button>
+                                    </div>
+                                    <p className="text-[10px] text-muted-foreground mt-3 italic">
+                                        * Dành cho thẻ quà tặng hoặc mã ưu đãi 100%
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
 
                     {/* Right Column - Order Summary */}

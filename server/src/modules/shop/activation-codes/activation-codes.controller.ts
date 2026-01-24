@@ -10,8 +10,8 @@ export class ActivationCodeController {
 
     async generate(req: Request, res: Response) {
         try {
-            const { courseId, count, buyerId, orderId } = req.body;
-            const codes = await this.activationCodeService.generateCodes(courseId, count, buyerId, orderId);
+            const { courseId, count, buyerId, orderId, productId } = req.body;
+            const codes = await this.activationCodeService.generateCodes(courseId, count, buyerId, orderId, productId);
             res.status(201).json(codes);
         } catch (error: any) {
             res.status(400).json({ message: error.message });

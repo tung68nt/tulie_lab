@@ -384,7 +384,7 @@ export const api = {
     },
     activationCodes: {
         list: () => request<unknown[]>('/activation-codes/admin/list'),
-        create: (courseId: string, count: number) => request<unknown[]>('/activation-codes/admin/create', { method: 'POST', body: JSON.stringify({ courseId, count }) }),
+        create: (courseId: string | null, count: number, productId?: string) => request<unknown[]>('/activation-codes/admin/create', { method: 'POST', body: JSON.stringify({ courseId, count, productId }) }),
         delete: (id: string) => request<void>(`/activation-codes/admin/${id}`, { method: 'DELETE' }),
         redeem: (code: string) => request<void>('/activation-codes/redeem', { method: 'POST', body: JSON.stringify({ code }) }),
     }

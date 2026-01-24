@@ -104,7 +104,7 @@ export const bootstrapDI = () => {
     const settingService = new SettingService(settingRepository);
     container.register('SettingService', settingService);
 
-    const activationCodeService = new ActivationCodeService(activationCodeRepository, courseRepository, progressRepository);
+    const activationCodeService = new ActivationCodeService(activationCodeRepository, courseRepository, progressRepository, productRepository, orderRepository);
     container.register('ActivationCodeService', activationCodeService);
 
     const blogService = new BlogService(blogPostRepository, redisService);
