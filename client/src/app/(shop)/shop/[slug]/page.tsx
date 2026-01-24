@@ -284,10 +284,6 @@ export default function ProductDetailPage() {
                                                     Sở hữu ngay
                                                 </Button>
                                             </Link>
-                                            <div className="mt-3 flex items-center justify-center gap-2 text-[11px] text-muted-foreground">
-                                                <Check className="w-3.5 h-3.5 text-primary" />
-                                                <span className="font-medium">Sở hữu vĩnh viễn & Support cơ bản</span>
-                                            </div>
                                         </div>
                                     </div>
 
