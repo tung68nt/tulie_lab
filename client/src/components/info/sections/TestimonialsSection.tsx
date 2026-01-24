@@ -1,3 +1,4 @@
+import { SectionTag } from '@/components/SectionTag';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -62,12 +63,10 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
             <div className="container relative z-10">
                 {/* Header */}
                 <div className="text-center mb-10">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 text-sm font-semibold text-foreground mb-6">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
-                        </span>
-                        Thành viên đã làm được gì?
+                    <div className="flex justify-center">
+                        <SectionTag>
+                            Thành viên đã làm được gì?
+                        </SectionTag>
                     </div>
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3]">
                         {section.title || "Kết quả thực tế từ những người như bạn"}

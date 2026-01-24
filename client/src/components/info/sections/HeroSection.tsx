@@ -1,5 +1,7 @@
 'use client';
 
+import { SectionTag } from '@/components/SectionTag';
+
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Section } from '@/types/sections';
@@ -22,13 +24,9 @@ export function HeroSection({ section }: { section: Section }) {
                     <div className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
                         {/* Badge tag */}
                         <div className="flex justify-center lg:justify-start">
-                            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background/50 px-4 py-1.5 text-sm font-medium text-foreground backdrop-blur-sm">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
-                                </span>
+                            <SectionTag>
                                 🚀 Học để làm được
-                            </span>
+                            </SectionTag>
                         </div>
 
                         {/* Title with proper line height for Vietnamese */}

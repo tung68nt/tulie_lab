@@ -1,9 +1,9 @@
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-
 import Link from 'next/link';
 import { PROJECTS_DATA } from '@/lib/projects';
+import { SectionTag } from '@/components/SectionTag';
 
 export const StudentProjectsSection = ({ section }: { section: Section }) => {
     return (
@@ -14,12 +14,10 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
             <div className="container relative z-10">
                 {/* Header */}
                 <div className="text-center mb-16 md:mb-24">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary mb-6">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
-                        </span>
-                        Showcase thành viên
+                    <div className="flex justify-center">
+                        <SectionTag>
+                            Showcase thành viên
+                        </SectionTag>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.3]">
                         {section.title || "Sản phẩm thành viên đã làm được"}
