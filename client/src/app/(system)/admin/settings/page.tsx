@@ -21,6 +21,7 @@ export default function AdminSettingsPage() {
     const [uploadingFavicon, setUploadingFavicon] = useState(false);
     const logoInputRef = useRef<HTMLInputElement>(null);
     const faviconInputRef = useRef<HTMLInputElement>(null);
+    const [testLoading, setTestLoading] = useState(false);
 
     useEffect(() => {
         loadSettings();
@@ -101,6 +102,18 @@ export default function AdminSettingsPage() {
             addToast(error.message || 'Tải favicon thất bại', 'error');
         } finally {
             setUploadingFavicon(false);
+        }
+    };
+
+    const handleTestTelegram = async () => {
+        setTestLoading(true);
+        try {
+            await api.admin.settings.testTelegram();
+            addToast('Đã gửi tin nhắn thử nghiệm! Vui lòng kiểm tra Telegram của bạn.', 'success');
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi kiểm tra kết nối', 'error');
+        } finally {
+            setTestLoading(false);
         }
     };
 
@@ -304,12 +317,26 @@ export default function AdminSettingsPage() {
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Bot Token</label>
-                                    <Input
-                                        type="password"
-                                        value={settings.telegram_bot_token || ''}
-                                        onChange={(e) => handleChange('telegram_bot_token', e.target.value)}
-                                        placeholder="7890123456:AA..."
-                                    />
+                                    <div className="flex gap-2">
+                                        <Input
+                                            type="password"
+                                            value={settings.telegram_bot_token || ''}
+                                            onChange={(e) => handleChange('telegram_bot_token', e.target.value)}
+                                            placeholder="7890123456:AA..."
+                                            className="flex-1"
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={handleTestTelegram}
+                                            disabled={testLoading || !settings.telegram_bot_token}
+                                            className="whitespace-nowrap flex items-center gap-1"
+                                        >
+                                            {testLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send size={14} />}
+                                            <span className="hidden sm:inline">Thử</span>
+                                        </Button>
+                                    </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Chat ID</label>
@@ -399,7 +426,7 @@ export default function AdminSettingsPage() {
                                             <p className="font-bold text-amber-500 mb-1">Mẫu tin nhắn:</p>
                                             📊 <b>Báo cáo định kỳ</b><br />
                                             ⏳ <b>Đơn pending:</b> 5 đơn<br />
-                                            😴 <b>Nghỉ học lâu:</b> 12 người (&gt;30d)
+                                            😴 <b>Nghỉ học lâu:</b> 12 người (&gt;14d)
                                         </div>
                                     </div>
                                 </div>

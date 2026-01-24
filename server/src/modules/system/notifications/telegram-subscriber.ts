@@ -103,9 +103,9 @@ export class TelegramEventSubscriber {
                     where: { status: 'PENDING' }
                 });
 
-                // 2. Count inactive users (> 30 days)
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                // 2. Count inactive users (> 14 days)
+                const fourteenDaysAgo = new Date();
+                fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
 
                 // Check lastSession expiry or createdAt/updatedAt if no session tracking
                 // Since we have ActivityLog, we can check latest log
@@ -113,7 +113,7 @@ export class TelegramEventSubscriber {
                     where: {
                         role: 'USER',
                         isActive: true,
-                        updatedAt: { lt: thirtyDaysAgo },
+                        updatedAt: { lt: fourteenDaysAgo },
                         // Optional: Join with activity logs or sessions if they exist
                     }
                 });

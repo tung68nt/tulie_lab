@@ -201,6 +201,7 @@ export const api = {
                 method: 'POST'
             }),
             getEmailLogs: () => request<unknown[]>('/settings/email-logs'),
+            testTelegram: () => request<{ message: string }>('/settings/telegram/test', { method: 'POST' }),
         },
         blog: {
             create: (data: unknown) => request<unknown>('/blog', {

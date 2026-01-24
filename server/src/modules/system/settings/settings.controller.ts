@@ -67,6 +67,16 @@ export class SettingController {
             res.status(500).json({ message: error.message });
         }
     }
+
+    async testTelegram(req: Request, res: Response) {
+        try {
+            const { telegramService } = await import('../notifications/telegram.service');
+            await telegramService.sendMessage('🚀 <b>Test Connection!</b>\n\nChúc mừng! Bot Telegram của bạn đã được cấu hình thành công cho Academy Tulie.');
+            res.json({ message: 'Đã gửi tin nhắn thử nghiệm thành công!' });
+        } catch (error: any) {
+            res.status(500).json({ message: `Lỗi gửi tin nhắn: ${error.message}` });
+        }
+    }
 }
 
 export const settingController = new SettingController();

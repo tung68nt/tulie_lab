@@ -492,14 +492,14 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     onClick={() => setMode('json')}
                                     className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'json' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
-                                    JSON Config
+                                    JSON
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setMode('html')}
                                     className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'html' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
-                                    Custom HTML
+                                    HTML
                                 </button>
                             </div>
                             {mode === 'builder' && (
@@ -565,7 +565,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         title="Thêm tất cả các loại section để test"
                                     >
                                         <Zap size={16} />
-                                        <span className="text-xs font-bold hidden sm:inline">Test Full</span>
+                                        <span className="text-xs font-bold hidden sm:inline">Nạp Demo</span>
                                     </Button>
                                 </div>
                             )}

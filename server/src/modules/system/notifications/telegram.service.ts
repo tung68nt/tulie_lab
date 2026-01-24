@@ -1,4 +1,5 @@
 import axios from 'axios';
+import prisma from '../../../config/prisma';
 
 export class TelegramService {
     private botToken: string | undefined;
@@ -12,7 +13,6 @@ export class TelegramService {
 
     private async refreshSettings() {
         try {
-            const prisma = require('../../../config/prisma').default;
             const [tokenSetting, idSetting] = await Promise.all([
                 prisma.systemSetting.findUnique({ where: { key: 'telegram_bot_token' } }),
                 prisma.systemSetting.findUnique({ where: { key: 'telegram_chat_id' } })
@@ -108,7 +108,7 @@ export class TelegramService {
 <b>📊 Báo cáo định kỳ</b>
 ━━━━━━━━━━━━━━━━━━
 ⏳ <b>Đơn hàng pending:</b> ${pendingOrdersCount} đơn chưa thanh toán
-😴 <b>Học viên "ngủ đông":</b> ${inactiveUsersCount} người (>30 ngày)
+😴 <b>Học viên "ngủ đông":</b> ${inactiveUsersCount} người (>14 ngày)
 ━━━━━━━━━━━━━━━━━━
 <i>Vui lòng kiểm tra và chăm sóc khách hàng!</i>
         `.trim();

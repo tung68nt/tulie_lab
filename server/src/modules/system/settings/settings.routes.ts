@@ -19,4 +19,7 @@ router.post('/api-key/regenerate', authenticate, authorize([Role.ADMIN]), (req, 
 // Email logs
 router.get('/email-logs', authenticate, authorize([Role.ADMIN]), (req, res) => settingController.getEmailLogs(req, res));
 
+// Telegram test
+router.post('/telegram/test', authenticate, authorize([Role.ADMIN]), (req, res) => settingController.testTelegram(req, res));
+
 export default router;

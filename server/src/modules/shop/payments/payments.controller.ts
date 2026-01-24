@@ -3,6 +3,7 @@ import { AuthRequest } from '../../../middleware/auth.middleware';
 import { container } from '../../../core/container';
 import { PaymentService } from './payments.service';
 import prisma from '../../../config/prisma';
+import emailService from '../../../services/email.service';
 
 export const checkout = async (req: Request, res: Response) => {
     try {
@@ -308,12 +309,11 @@ export const sendPaymentReminder = async (req: Request, res: Response) => {
         const courseTitles = orderFull.items.map((i: any) => i.course?.title || i.product?.title || 'Sản phẩm').filter(Boolean);
 
         // Send email
-        const emailService = require('../../../services/email.service').default;
         const success = await emailService.sendPaymentReminderEmail({
             to: orderFull.user.email,
             userName: (orderFull.user as any).profile?.name || 'Bạn',
             orderCode: orderFull.code,
-            amount: orderFull.amount,
+            amount: Number(orderFull.amount),
             courses: courseTitles,
             bankName,
             accountNo,

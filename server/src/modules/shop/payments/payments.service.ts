@@ -6,6 +6,9 @@ import { IUserRepository } from '../../system/users/interfaces/user.repository.i
 import { ICourseRepository } from '../../lms/courses/interfaces/course.repository.interface';
 import { IProductRepository } from '../products/interfaces/product.repository.interface';
 import { IActivationCodeRepository } from '../activation-codes/interfaces/activation-code.repository.interface';
+import prisma from '../../../config/prisma';
+import axios from 'axios';
+import { env } from '../../../config/env';
 
 export class PaymentService {
     constructor(
@@ -181,21 +184,20 @@ export class PaymentService {
         description?: string,
         accumulated?: number
     }): Promise<Order> {
-        const prisma = require('../../../config/prisma').default;
 
         // 1. Record the transaction first (Always record even if order not found for auditing)
         await prisma.paymentTransaction.create({
             data: {
-                gateway: data.gateway,
+                gateway: data.gateway ?? null,
                 amountIn: data.amount,
                 transactionDate: data.transactionDate ? new Date(data.transactionDate) : new Date(),
-                accountNumber: data.accountNumber,
-                subAccount: data.subAccount,
-                code: data.code,
-                content: data.content,
-                referenceCode: data.referenceCode,
-                description: data.description,
-                accumulated: data.accumulated,
+                accountNumber: data.accountNumber ?? null,
+                subAccount: data.subAccount ?? null,
+                code: data.code ?? null,
+                content: data.content ?? null,
+                referenceCode: data.referenceCode ?? null,
+                description: data.description ?? null,
+                accumulated: data.accumulated ?? null,
                 id: data.transactionId // Use the gateway's transaction ID if possible
             }
         }).catch((err: any) => {
@@ -279,15 +281,10 @@ export class PaymentService {
     }
 
     async getTransactions() {
-        // Implementation remains similar or moved to repo
-        // For now, keeping simple
-        const prisma = require('../../../config/prisma').default;
         return prisma.paymentTransaction.findMany({ orderBy: { createdAt: 'desc' } });
     }
 
     async syncTransactions(accountNumber?: string) {
-        const axios = require('axios');
-        const { env } = require('../../../config/env');
         const apiKey = env.SEPAY_API_KEY;
 
         if (!apiKey) throw new Error('Payment gateway API key is not configured');
