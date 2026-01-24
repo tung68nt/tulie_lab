@@ -317,110 +317,249 @@ const PAGES_TO_SEED = [
             }
         ]
     },
-    {
-        title: "Vibe Coding",
-        slug: "vibe-coding",
-        description: "Phong cách lập trình hiện đại, sáng tạo.",
-        isActive: true,
-        sections: [
-            {
-                id: 'vibe-hero',
-                type: 'hero',
-                title: 'Vibe Coding',
-                subtitle: 'Khơi nguồn cảm hứng - Sáng tạo không giới hạn',
-                content: 'Trải nghiệm phong cách lập trình mới mẻ, nơi code không chỉ là những dòng lệnh khô khan mà là một tác phẩm nghệ thuật đầy cảm hứng.',
-                image: '/images/heroes/vibe-coding.png',
-                buttons: [
-                    { label: 'Khám phá ngay', href: '/courses', variant: 'primary' },
-                    { label: 'Xem demo', href: '#demo', variant: 'outline' }
-                ],
-                isVisible: true,
-                order: 1
-            },
-            {
-                id: 'vibe-intro',
-                type: 'content',
-                title: 'Vibe Coding là gì?',
-                subtitle: 'Hơn cả việc viết mã',
-                content: 'Vibe Coding là phương pháp tiếp cận lập trình tập trung vào trạng thái dòng chảy (flow state) và trải nghiệm thẩm mỹ.\n\nChúng tôi tin rằng **môi trường làm việc đẹp**, **công cụ tối ưu** và **tư duy nghệ thuật** sẽ giúp lập trình viên không chỉ làm việc hiệu quả hơn mà còn tìm thấy niềm vui trong từng dòng code.',
-                image: '/images/vibe-coding-intro.jpg',
-                imagePosition: 'right',
-                isVisible: true,
-                order: 2
-            },
-            {
-                id: 'vibe-core',
-                type: 'content-block',
-                title: 'Triết lý Vibe Coding',
-                subtitle: 'Nghệ thuật & Hiệu suất',
-                isVisible: true,
-                order: 3,
-                items: [
-                    {
-                        title: 'Không gian (The Setup)',
-                        subtitle: 'Nơi cảm hứng bắt đầu',
-                        description: '"Không gian định hình tư duy. Setup đẹp, Code sạch." Một setup chuẩn Vibe Coding không chỉ đẹp mà còn tối ưu cho sức khỏe.',
-                        image: '/images/vibe-setup.jpg',
-                        features: [
-                            'Ánh sáng Ambient bảo vệ mắt',
-                            'Âm thanh Lo-fi/Synthwave tập trung',
-                            'Gear công thái học cao cấp'
-                        ]
-                    },
-                    {
-                        title: 'Trạng thái Dòng chảy (Flow)',
-                        subtitle: 'Đỉnh cao tập trung',
-                        description: 'Khi bạn ở trong "The Zone", code tuôn trào như một bản nhạc. Học cách loại bỏ xao nhãng và tối đa hóa năng suất.',
-                        image: '/images/vibe-flow.jpg',
-                        features: [
-                            'Loại bỏ xao nhãng Digital',
-                            'Kỹ thuật Deep Work & Pomodoro',
-                            'Mindfulness cho Developer'
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'vibe-benefits',
-                type: 'benefits',
-                title: 'Lợi ích của Vibe Coding',
-                subtitle: 'Tại sao bạn nên theo đuổi?',
-                items: [
-                    { title: 'Tăng sự tập trung', description: 'Đạt trạng thái Flow nhanh chóng nhờ môi trường và tư duy tối ưu.', icon: 'Zap' },
-                    { title: 'Cảm hứng sáng tạo', description: 'Biến việc code thành quá trình sáng tạo nghệ thuật.', icon: 'Palette' },
-                    { title: 'Hiệu suất cao', description: 'Tối ưu hóa quy trình làm việc với các công cụ và setup chuẩn.', icon: 'TrendingUp' }
-                ],
-                isVisible: true,
-                order: 3
-            },
-            {
-                id: 'vibe-cta',
-                type: 'cta',
-                title: 'Bắt đầu hành trình Vibe Coding',
-                subtitle: 'Tham gia cộng đồng những lập trình viên nghệ sĩ ngay hôm nay',
-                buttons: [
-                    { label: 'Đăng ký khoá học', href: '/courses', variant: 'primary' }
-                ],
-                isVisible: true,
-                order: 4
-            }
-        ]
+]
     },
-    {
-        title: "Template Landing Page (Mẫu)",
+{
+    title: "Vibe Coding Cho Người Mới Bắt Đầu - Khóa Học Lập Trình Cùng AI",
+        slug: "vibe-coding-nguoi-moi",
+            description: "Khóa học Vibe Coding toàn diện dành cho người mới bắt đầu.",
+                isActive: true,
+                    sections: [
+                        {
+                            id: "vibe-newbie-hero",
+                            type: "hero",
+                            title: "Vibe Coding: Lập Trình Cùng AI",
+                            subtitle: "Không cần kinh nghiệm code. Chỉ cần ý tưởng sáng tạo.",
+                            content: "Khóa học tiên phong giúp bạn làm chủ sức mạnh của AI để xây dựng phần mềm, website và ứng dụng chỉ trong thời gian ngắn. Biến ý tưởng thành hiện thực ngay hôm nay.",
+                            image: "/images/heroes/vibe-coding.png",
+                            ctaText: "Đăng ký ưu đãi ngay",
+                            ctaLink: "#payment",
+                            isVisible: true,
+                            order: 1
+                        },
+                        {
+                            id: "vibe-countdown",
+                            type: "sales-countdown",
+                            highlight: null, // Use duration
+                            duration: 1020, // 17 hours * 60 minutes
+                            ctaText: "Nhận ưu đãi giảm 50%",
+                            ctaLink: "#payment",
+                            isVisible: true,
+                            order: 2
+                        },
+                        {
+                            id: "vibe-intro",
+                            type: "content",
+                            title: "Tại sao chọn Vibe Coding?",
+                            subtitle: "Kỷ nguyên mới của lập trình",
+                            content: "Vibe Coding không nhắm đến việc đào tạo bạn trở thành một kỹ sư phần mềm chuyên sâu về thuật toán. Chúng tôi hướng dẫn bạn cách **\"chơi nhạc\" cùng AI**.\n\nSử dụng Prompt Engineering, tư duy hệ thống và các công cụ AI (Cursor, Claude 3.5 Sonnet, v0.dev) để tạo ra sản phẩm thực tế mà không cần gõ từng dòng code thủ công.",
+                            image: "/images/vibe-coding-intro.jpg",
+                            imagePosition: "right",
+                            isVisible: true,
+                            order: 3
+                        },
+                        {
+                            id: "vibe-benefits",
+                            type: "benefits",
+                            title: "Bạn sẽ đạt được gì?",
+                            subtitle: "Kết quả sau khóa học",
+                            items: [
+                                { title: "Tư duy Lập trình AI", description: "Hiểu cách AI 'suy nghĩ' và cách ra lệnh hiệu quả.", icon: "Brain" },
+                                { title: "Xây dựng 3 Dự án", description: "Hoàn thiện 3 ứng dụng thực tế: Landing Page, To-Do App, AI Chatbot.", icon: "Layers" },
+                                { title: "Làm chủ Công cụ", description: "Thành thạo Cursor, Vercel, Supabase và v0.dev.", icon: "Tool" },
+                                { title: "Kiếm tiền từ Code", description: "Biết cách đóng gói sản phẩm số để kinh doanh hoặc freelance.", icon: "DollarSign" }
+                            ],
+                            isVisible: true,
+                            order: 4
+                        },
+                        {
+                            id: "vibe-curriculum",
+                            type: "curriculum",
+                            title: "Lộ trình học tập chi tiết",
+                            subtitle: "Đi từ con số 0 đến khi có sản phẩm đầu tay",
+                            items: [
+                                {
+                                    title: "Phần 1: Tư Duy & Setup (The Vibe)",
+                                    description: "Thiết lập môi trường làm việc 'cực chill' và cài đặt tư duy đúng đắn.",
+                                    image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
+                                    lessons: [
+                                        "Bài 1: Vibe Coding là gì? Tại sao lại Hot?",
+                                        "Bài 2: Setup góc làm việc tạo cảm hứng (Desk Setup)",
+                                        "Bài 3: Cài đặt Cursor & AI Tools cần thiết",
+                                        "Tài liệu: Checklist setup môi trường"
+                                    ]
+                                },
+                                {
+                                    title: "Phần 2: Nền tảng HTML/CSS/JS cùng AI",
+                                    description: "Học cú pháp cơ bản siêu tốc nhờ sự trợ giúp của AI.",
+                                    image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800&q=80",
+                                    lessons: [
+                                        "Bài 4: Prompt Engineering cho Frontend",
+                                        "Bài 5: Dựng giao diện với v0.dev trong 5 phút",
+                                        "Bài 6: Tùy chỉnh CSS/Tailwind không cần nhớ code",
+                                        "Project 1: Portfolio cá nhân"
+                                    ]
+                                },
+                                {
+                                    title: "Phần 3: Xây dựng Ứng dụng Thực chiến",
+                                    description: "Kết nối Backend, Database và triển khai ứng dụng.",
+                                    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
+                                    lessons: [
+                                        "Bài 7: React & Next.js Crash Course (AI hỗ trợ)",
+                                        "Bài 8: Kết nối Database Supabase/Firebase",
+                                        "Bài 9: Deploy lên Vercel & Custom Domain",
+                                        "Project 2: Ứng dụng quản lý công việc (SaaS Mini)"
+                                    ]
+                                }
+                            ],
+                            isVisible: true,
+                            order: 5
+                        },
+                        {
+                            id: "vibe-bonus",
+                            type: "bonus",
+                            title: "Quà tặng đặc biệt",
+                            subtitle: "Chỉ dành cho học viên đăng ký hôm nay",
+                            items: [
+                                { title: "Bộ Prompt Vip", description: "Thư viện 500+ Prompts tối ưu cho Coding.", value: "Trị giá 2.000.000đ" },
+                                { title: "Ebook: Freelance Guide", description: "Hướng dẫn tìm việc và deal giá dự án với khách hàng.", value: "Trị giá 500.000đ" },
+                                { title: "Community Access", description: "Tham gia Discord kín, support 1:1 trọn đời.", value: "Vô giá" }
+                            ],
+                            isVisible: true,
+                            order: 6
+                        },
+                        {
+                            id: "vibe-payment",
+                            type: "payment", // Map to PaymentSection for pricing/upsell
+                            title: "Đầu tư cho bản thân ngay hôm nay",
+                            subtitle: "Cam kết hoàn tiền trong 7 ngày nếu không hài lòng",
+                            content: "Sở hữu trọn đời khóa học + Tất cả tài nguyên đi kèm.",
+                            pricing: [
+                                {
+                                    id: "vibe-course",
+                                    title: "Vibe Coding Full Course",
+                                    price: "1.290.000đ",
+                                    originalPrice: "2.500.000đ",
+                                    discount: "-48%",
+                                    features: [
+                                        "Truy cập trọn đời",
+                                        "Source code dự án mẫu",
+                                        "Support 1:1 qua Discord",
+                                        "Chứng chỉ hoàn thành"
+                                    ],
+                                    link: "/checkout?product=vibe-coding",
+                                    isPopular: true
+                                }
+                            ],
+                            isVisible: true,
+                            order: 7
+                        }
+                    ]
+},
+{
+    title: "Vibe Coding",
+        slug: "vibe-coding",
+            description: "Phong cách lập trình hiện đại, sáng tạo.",
+                isActive: true,
+                    sections: [
+                        {
+                            id: 'vibe-hero',
+                            type: 'hero',
+                            title: 'Vibe Coding',
+                            subtitle: 'Khơi nguồn cảm hứng - Sáng tạo không giới hạn',
+                            content: 'Trải nghiệm phong cách lập trình mới mẻ, nơi code không chỉ là những dòng lệnh khô khan mà là một tác phẩm nghệ thuật đầy cảm hứng.',
+                            image: '/images/heroes/vibe-coding.png',
+                            buttons: [
+                                { label: 'Khám phá ngay', href: '/courses', variant: 'primary' },
+                                { label: 'Xem demo', href: '#demo', variant: 'outline' }
+                            ],
+                            isVisible: true,
+                            order: 1
+                        },
+                        {
+                            id: 'vibe-intro',
+                            type: 'content',
+                            title: 'Vibe Coding là gì?',
+                            subtitle: 'Hơn cả việc viết mã',
+                            content: 'Vibe Coding là phương pháp tiếp cận lập trình tập trung vào trạng thái dòng chảy (flow state) và trải nghiệm thẩm mỹ.\n\nChúng tôi tin rằng **môi trường làm việc đẹp**, **công cụ tối ưu** và **tư duy nghệ thuật** sẽ giúp lập trình viên không chỉ làm việc hiệu quả hơn mà còn tìm thấy niềm vui trong từng dòng code.',
+                            image: '/images/vibe-coding-intro.jpg',
+                            imagePosition: 'right',
+                            isVisible: true,
+                            order: 2
+                        },
+                        {
+                            id: 'vibe-core',
+                            type: 'content-block',
+                            title: 'Triết lý Vibe Coding',
+                            subtitle: 'Nghệ thuật & Hiệu suất',
+                            isVisible: true,
+                            order: 3,
+                            items: [
+                                {
+                                    title: 'Không gian (The Setup)',
+                                    subtitle: 'Nơi cảm hứng bắt đầu',
+                                    description: '"Không gian định hình tư duy. Setup đẹp, Code sạch." Một setup chuẩn Vibe Coding không chỉ đẹp mà còn tối ưu cho sức khỏe.',
+                                    image: '/images/vibe-setup.jpg',
+                                    features: [
+                                        'Ánh sáng Ambient bảo vệ mắt',
+                                        'Âm thanh Lo-fi/Synthwave tập trung',
+                                        'Gear công thái học cao cấp'
+                                    ]
+                                },
+                                {
+                                    title: 'Trạng thái Dòng chảy (Flow)',
+                                    subtitle: 'Đỉnh cao tập trung',
+                                    description: 'Khi bạn ở trong "The Zone", code tuôn trào như một bản nhạc. Học cách loại bỏ xao nhãng và tối đa hóa năng suất.',
+                                    image: '/images/vibe-flow.jpg',
+                                    features: [
+                                        'Loại bỏ xao nhãng Digital',
+                                        'Kỹ thuật Deep Work & Pomodoro',
+                                        'Mindfulness cho Developer'
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            id: 'vibe-benefits',
+                            type: 'benefits',
+                            title: 'Lợi ích của Vibe Coding',
+                            subtitle: 'Tại sao bạn nên theo đuổi?',
+                            items: [
+                                { title: 'Tăng sự tập trung', description: 'Đạt trạng thái Flow nhanh chóng nhờ môi trường và tư duy tối ưu.', icon: 'Zap' },
+                                { title: 'Cảm hứng sáng tạo', description: 'Biến việc code thành quá trình sáng tạo nghệ thuật.', icon: 'Palette' },
+                                { title: 'Hiệu suất cao', description: 'Tối ưu hóa quy trình làm việc với các công cụ và setup chuẩn.', icon: 'TrendingUp' }
+                            ],
+                            isVisible: true,
+                            order: 3
+                        },
+                        {
+                            id: 'vibe-cta',
+                            type: 'cta',
+                            title: 'Bắt đầu hành trình Vibe Coding',
+                            subtitle: 'Tham gia cộng đồng những lập trình viên nghệ sĩ ngay hôm nay',
+                            buttons: [
+                                { label: 'Đăng ký khoá học', href: '/courses', variant: 'primary' }
+                            ],
+                            isVisible: true,
+                            order: 4
+                        }
+                    ]
+},
+{
+    title: "Template Landing Page (Mẫu)",
         slug: "mau-landing-page",
-        description: "Trang mẫu demo tất cả các component.",
-        isActive: false,
-        sections: [
-            {
-                "id": "hero-1",
-                "type": "hero",
-                "title": "Mẫu Landing Page",
-                "subtitle": "Đây là trang mẫu để tham khảo cấu trúc.",
-                "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
-            }
-        ]
-    }
+            description: "Trang mẫu demo tất cả các component.",
+                isActive: false,
+                    sections: [
+                        {
+                            "id": "hero-1",
+                            "type": "hero",
+                            "title": "Mẫu Landing Page",
+                            "subtitle": "Đây là trang mẫu để tham khảo cấu trúc.",
+                            "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
+                        }
+                    ]
+}
 ];
 
 const SLUGS_TO_REMOVE = ["mau-day-du-tinh-nang", "gioi-thieu", "introduction"];

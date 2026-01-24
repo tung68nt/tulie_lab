@@ -44,7 +44,8 @@ export function SalesCountdownSection({ section }: { section: Section }) {
         if (section.highlight) {
             setTargetDate(new Date(section.highlight));
         } else {
-            setTargetDate(new Date(new Date().getTime() + INITIAL_MINUTES * 60 * 1000));
+            const duration = (section as any).duration || (section as any).settings?.duration || INITIAL_MINUTES;
+            setTargetDate(new Date(new Date().getTime() + duration * 60 * 1000));
         }
 
         // Measure height and set global CSS variable
