@@ -28,34 +28,11 @@ function CheckoutContent() {
     const [processing, setProcessing] = useState(false);
     const [upsellProducts, setUpsellProducts] = useState<any[]>([]);
     const [selectedUpsells, setSelectedUpsells] = useState<string[]>([]);
-    const [activationCode, setActivationCode] = useState('');
-    const [validatingActivation, setValidatingActivation] = useState(false);
+    const [selectedActivationType, setSelectedActivationType] = useState<'EMAIL' | 'CODE'>('EMAIL');
 
-    const handleRedeemActivation = async () => {
-        if (!activationCode.trim()) {
-            addToast('Vui lòng nhập mã kích hoạt', 'warning');
-            return;
-        }
-
-        setValidatingActivation(true);
-        try {
-            const result: any = await api.activationCodes.redeem(activationCode);
-            addToast('Kích hoạt sản phẩm thành công!', 'success');
-
-            // Redirect based on type returned from backend
-            if (result.type === 'COURSE') {
-                router.push('/my-learning');
-            } else {
-                // For products, redirect to order history or profile
-                router.push('/users/profile?tab=orders');
-            }
-        } catch (e: any) {
-            console.error('Activation error:', e);
-            addToast(e.message || 'Mã kích hoạt không hợp lệ', 'error');
-        } finally {
-            setValidatingActivation(false);
-        }
-    };
+    useEffect(() => {
+        if (activationType === 'CODE') setSelectedActivationType('CODE');
+    }, [activationType]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -177,7 +154,7 @@ function CheckoutContent() {
             const cart: any[] = [{
                 id: item.id,
                 type: itemType,
-                options: activationType ? { activationType } : undefined
+                options: { activationType: selectedActivationType }
             }];
 
             // Add selected upsell products
@@ -438,36 +415,40 @@ function CheckoutContent() {
                                 </CardContent>
                             </Card>
 
-                            {/* Activation Code */}
+                            {/* Activation Options */}
                             <Card className="border-primary/20 bg-primary/[0.02]">
                                 <CardHeader>
                                     <div className="flex items-center gap-2">
                                         <div className="p-2 rounded-lg bg-foreground/10 text-foreground">
-                                            <CheckCircle2 className="w-4 h-4" />
+                                            <ShieldCheck className="w-4 h-4" />
                                         </div>
-                                        <CardTitle className="text-lg">Mã kích hoạt</CardTitle>
+                                        <CardTitle className="text-lg">Cấu hình kích hoạt</CardTitle>
                                     </div>
-                                    <p className="text-xs text-muted-foreground mt-1">Sở hữu sản phẩm ngay không cần thanh toán</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Chọn cách bạn muốn nhận sản phẩm</p>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            placeholder="Nhập mã quà tặng/kích hoạt"
-                                            value={activationCode}
-                                            onChange={(e) => setActivationCode(e.target.value.toUpperCase())}
-                                            className="flex-1"
-                                        />
-                                        <Button
-                                            variant="secondary"
-                                            onClick={handleRedeemActivation}
-                                            disabled={validatingActivation}
+                                    <div className="grid grid-cols-1 gap-2">
+                                        <button
+                                            onClick={() => setSelectedActivationType('EMAIL')}
+                                            className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'EMAIL'
+                                                ? 'bg-foreground text-background border-foreground shadow-md'
+                                                : 'bg-background text-foreground border-border hover:border-primary/50'
+                                                }`}
                                         >
-                                            {validatingActivation ? '...' : 'Kích hoạt'}
-                                        </Button>
+                                            <span className="text-xs font-bold uppercase tracking-wider mb-1">Kích hoạt ngay</span>
+                                            <span className="text-[10px] opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
+                                        </button>
+                                        <button
+                                            onClick={() => setSelectedActivationType('CODE')}
+                                            className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'CODE'
+                                                ? 'bg-foreground text-background border-foreground shadow-md'
+                                                : 'bg-background text-foreground border-border hover:border-primary/50'
+                                                }`}
+                                        >
+                                            <span className="text-xs font-bold uppercase tracking-wider mb-1">Mua mã quà tặng</span>
+                                            <span className="text-[10px] opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
+                                        </button>
                                     </div>
-                                    <p className="text-[10px] text-muted-foreground mt-3 italic">
-                                        * Dành cho thẻ quà tặng hoặc mã ưu đãi 100%
-                                    </p>
                                 </CardContent>
                             </Card>
                         </div>

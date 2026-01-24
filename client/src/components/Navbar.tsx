@@ -367,6 +367,10 @@ export function Navbar() {
                                                 <Link href="/profile" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
                                                     Hồ sơ của tôi
                                                 </Link>
+                                                <Link href="/activate" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-emerald-500/10 hover:text-emerald-500 font-semibold" onClick={() => setDropdownOpen(false)}>
+                                                    Kích hoạt bằng mã
+                                                    <span className="ml-auto">✨</span>
+                                                </Link>
                                                 <Link href="/orders" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
                                                     Lịch sử đơn hàng
                                                     {pendingOrdersCount > 0 && <span className="ml-auto bg-foreground text-background text-[10px] w-5 h-5 flex items-center justify-center rounded-full">{pendingOrdersCount}</span>}
@@ -507,6 +511,9 @@ export function Navbar() {
                                 Quản trị hệ thống
                             </Link>
                         )}
+                        <Link href="/activate" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base font-semibold text-emerald-500 hover:bg-emerald-500/5 transition-colors">
+                            Kích hoạt bằng mã ✨
+                        </Link>
                         <Link href="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-3 text-base hover:bg-muted transition-colors">
                             Hồ sơ cá nhân
                         </Link>

@@ -421,42 +421,64 @@ export default function CoursePage({ params }: { params: any }) {
                                             if (!hasStructure && !hasChapters) {
                                                 return (
                                                     <div className="divide-y">
-                                                        {course.lessons.map((lesson: any, index: number) => (
-                                                            lesson && (
-                                                                <div key={lesson.id || index} className="p-4 hover:bg-muted/50 transition-colors">
-                                                                    <div className="flex items-center justify-between">
+                                                        {course.lessons.map((lesson: any, index: number) => {
+                                                            if (!lesson) return null;
+                                                            const isExpanded = expandedLessonId === lesson.id;
+                                                            return (
+                                                                <div key={lesson.id || index} className="group flex flex-col transition-colors border-t border-border/50 first:border-t-0 hover:bg-muted/10">
+                                                                    <div
+                                                                        className="flex items-start p-4 gap-3 cursor-pointer"
+                                                                        onClick={() => setExpandedLessonId(isExpanded ? null : (lesson.id || String(index)))}
+                                                                    >
                                                                         <div className="flex-1">
                                                                             <div className="flex items-center gap-3">
                                                                                 <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-sm font-bold text-primary">
                                                                                     {index + 1}
                                                                                 </span>
-                                                                                <div>
-                                                                                    <h4 className="font-medium">{lesson.title}</h4>
+                                                                                <div className="flex-1">
+                                                                                    <div className="flex items-center gap-2">
+                                                                                        <h4 className="font-medium text-sm">{lesson.title}</h4>
+                                                                                        <span className="text-[10px] text-muted-foreground">
+                                                                                            {isExpanded ? '▲' : '▼'}
+                                                                                        </span>
+                                                                                    </div>
                                                                                     {lesson.duration && (
-                                                                                        <p className="text-xs text-muted-foreground mt-0.5">
+                                                                                        <p className="text-[10px] text-muted-foreground mt-0.5">
                                                                                             {lesson.duration}
                                                                                         </p>
                                                                                     )}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        {lesson.isFree ? (
-                                                                            <Link href={`/learn/${course.slug}/${lesson.slug}`}>
-                                                                                <Button as="div" size="sm" variant="outline">
-                                                                                    Học thử miễn phí
-                                                                                </Button>
-                                                                            </Link>
-                                                                        ) : !isEnrolled ? (
-                                                                            <span className="text-xs text-muted-foreground">Khóa</span>
-                                                                        ) : (
-                                                                            <Link href={`/learn/${course.slug}/${lesson.slug}`}>
-                                                                                <Button as="div" size="sm">Vào học</Button>
-                                                                            </Link>
-                                                                        )}
+                                                                        <div className="shrink-0 flex items-center gap-3" onClick={e => e.stopPropagation()}>
+                                                                            {lesson.isFree ? (
+                                                                                <Link href={`/learn/${course.slug}/${lesson.slug}`}>
+                                                                                    <Button as="div" size="sm" variant="outline" className="h-8 text-xs">
+                                                                                        Học thử miễn phí
+                                                                                    </Button>
+                                                                                </Link>
+                                                                            ) : !isEnrolled ? (
+                                                                                <span className="text-[10px] text-muted-foreground flex items-center gap-1 bg-muted px-2 py-1 rounded">
+                                                                                    <span className="opacity-60 text-xs">🔒</span> Khóa
+                                                                                </span>
+                                                                            ) : (
+                                                                                <Link href={`/learn/${course.slug}/${lesson.slug}`}>
+                                                                                    <Button as="div" size="sm" className="h-8 text-xs">Vào học</Button>
+                                                                                </Link>
+                                                                            )}
+                                                                        </div>
                                                                     </div>
+                                                                    {/* Expandable Description */}
+                                                                    {isExpanded && lesson.description && (
+                                                                        <div className="px-4 pb-4 pt-0 pl-14">
+                                                                            <p className="text-xs text-muted-foreground leading-relaxed">
+                                                                                {lesson.description}
+                                                                            </p>
+                                                                        </div>
+                                                                    )}
                                                                 </div>
-                                                            )
-                                                        ))}
+                                                            );
+                                                        })}
                                                     </div>
                                                 );
                                             }

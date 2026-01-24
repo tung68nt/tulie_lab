@@ -1053,6 +1053,31 @@ function LessonItem({
                             )}
                         </div>
 
+                        {/* Content/Description Section */}
+                        <div className="md:col-span-2 space-y-2">
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-semibold text-muted-foreground">Mô tả / Nội dung bài học</label>
+                                {isEditingContent ? (
+                                    <div className="flex gap-2">
+                                        <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveContent}>Lưu nội dung</Button>
+                                        <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
+                                            setContent(lesson.content || '');
+                                            setIsEditingContent(false);
+                                        }}>Hủy</Button>
+                                    </div>
+                                ) : (
+                                    <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={() => setIsEditingContent(true)}>Chỉnh sửa nội dung</Button>
+                                )}
+                            </div>
+                            <textarea
+                                className="flex min-h-[120px] w-full rounded-md border border-input bg-background/50 px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 resize-y"
+                                value={content}
+                                onChange={e => setContent(e.target.value)}
+                                disabled={!isEditingContent}
+                                placeholder="Nhập mô tả chi tiết hoặc nội dung bài học..."
+                            />
+                        </div>
+
                         {/* Free View Section */}
                         <div className="space-y-2">
                             <label className="text-xs font-semibold text-muted-foreground block">Xem miễn phí</label>
