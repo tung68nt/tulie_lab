@@ -65,24 +65,22 @@ export default function ActivatePage() {
     }
 
     return (
-        <div className="min-h-[80vh] relative flex items-center justify-center px-4 overflow-hidden">
-            {/* Background Accents */}
-            <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px] -z-10" />
-            <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] -z-10" />
-
-            <div className="max-w-lg w-full">
-                <div className="text-center mb-10">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-4">
-                        <Sparkles className="w-3 h-3" />
-                        Mở khoá nội dung
-                    </div>
-                    <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">Kích hoạt tài khoản</h1>
-                    <p className="text-muted-foreground">
-                        Nhập mã kích hoạt bạn đã nhận được qua email hoặc thẻ quà tặng để bắt đầu học tập.
-                    </p>
+        <div className="min-h-[80vh] relative flex flex-col items-center pt-20 pb-20 px-4 overflow-hidden">
+            <div className="max-w-3xl w-full text-center mb-12">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-zinc-200 bg-white shadow-sm mb-6">
+                    <span className="w-2 h-2 rounded-full bg-zinc-400"></span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-900">Mở khoá nội dung</span>
                 </div>
+                <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+                    Kích hoạt tài khoản
+                </h1>
+                <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                    Nhập mã kích hoạt bạn đã nhận được qua email hoặc thẻ quà tặng để bắt đầu học tập.
+                </p>
+            </div>
 
-                <Card className="border-border shadow-xl">
+            <div className="max-w-lg w-full relative z-10">
+                <Card className="border-border shadow-2xl rounded-2xl overflow-hidden">
                     <CardContent className="pt-6">
                         <form onSubmit={handleRedeem} className="space-y-6">
                             <div className="space-y-2">
