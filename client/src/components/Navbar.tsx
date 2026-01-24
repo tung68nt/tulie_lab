@@ -459,7 +459,7 @@ export function Navbar() {
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                                    className={`block py-3 px-4 text-base font-medium rounded-md transition-colors ${isActive ? 'bg-muted text-foreground font-semibold' : 'text-foreground/70 hover:bg-muted'}`}
+                                    className={`block py-2 px-4 text-base font-medium rounded-md transition-colors ${isActive ? 'bg-muted text-foreground font-semibold' : 'text-foreground/70 hover:bg-muted'}`}
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     {link.label}

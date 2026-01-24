@@ -61,6 +61,29 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
         type: 'LANDING',
     });
 
+    const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
+
+    // Helper: Slugify function
+    const slugify = (text: string) => {
+        return text
+            .toString()
+            .toLowerCase()
+            .normalize('NFD') // Split accents
+            .replace(/[\u0300-\u036f]/g, '') // Remove accents
+            .replace(/\s+/g, '-') // Spaces to hyphens
+            .replace(/[^\w\-]+/g, '') // Remove non-word chars
+            .replace(/\-\-+/g, '-') // Collapse hyphens
+            .replace(/^-+/, '') // Trim start
+            .replace(/-+$/, ''); // Trim end
+    };
+
+    // Auto-generate slug when title changes (if not manually edited)
+    useEffect(() => {
+        if (isNew && !isSlugManuallyEdited && formData.title) {
+            setFormData(prev => ({ ...prev, slug: slugify(formData.title) }));
+        }
+    }, [formData.title, isNew, isSlugManuallyEdited]);
+
     useEffect(() => {
         if (isNew && typeParam) {
             setFormData(prev => ({ ...prev, type: typeParam }));
@@ -169,7 +192,9 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
             }
         } catch (error: any) {
             console.error('Submit error:', error);
-            addToast(error.response?.data?.message || 'Có lỗi xảy ra', 'error');
+            // Fix: Check for error.response.data.error as well
+            const message = error.response?.data?.error || error.response?.data?.message || 'Có lỗi xảy ra';
+            addToast(message, 'error');
         } finally {
             setLoading(false);
         }
@@ -273,7 +298,10 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                 <input
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
                                     value={formData.slug}
-                                    onChange={e => setFormData({ ...formData, slug: e.target.value })}
+                                    onChange={e => {
+                                        setFormData({ ...formData, slug: e.target.value });
+                                        setIsSlugManuallyEdited(true);
+                                    }}
                                     required
                                     placeholder="vi-du-trang-khuyen-mai"
                                 />
@@ -290,7 +318,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                             />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-6 pt-4 border-t border-border">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4 border-t border-border">
                             {/* Main Product Selection */}
                             <div className="space-y-3">
                                 <label className="text-sm font-medium">Sản phẩm chính (Được đăng ký khi thanh toán)</label>
@@ -449,39 +477,39 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 </Card>
 
                 <Card>
-                    <CardContent className="p-6 pt-6 space-y-4">
-                        <div className="flex justify-between items-center bg-muted/30 p-2 rounded-lg mb-4">
-                            <div className="flex items-center gap-2">
+                    <CardContent className="p-4 md:p-6 pt-6 space-y-4">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-muted/30 p-2 rounded-lg mb-4 gap-3 md:gap-0">
+                            <div className="flex items-center gap-1 md:gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
                                 <button
                                     type="button"
                                     onClick={() => setMode('builder')}
-                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${mode === 'builder' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'builder' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
                                     Page Builder
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setMode('json')}
-                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${mode === 'json' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'json' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
                                     JSON Config
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setMode('html')}
-                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${mode === 'html' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+                                    className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all whitespace-nowrap ${mode === 'html' ? 'bg-white shadow text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
                                 >
                                     Custom HTML
                                 </button>
                             </div>
                             {mode === 'builder' && (
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-2 w-full md:w-auto flex-wrap">
                                     <Button
                                         type="button"
                                         size="sm"
                                         variant="outline"
                                         onClick={() => setIsLibraryOpen(true)}
-                                        className="flex items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
+                                        className="flex-1 md:flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
                                     >
                                         <PlusCircle size={16} />
                                         Thêm Section
@@ -502,11 +530,11 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast('Đã xóa tất cả sections', 'success');
                                             }
                                         }}
-                                        className="flex items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
+                                        className="flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
                                         title="Xóa tất cả sections"
                                     >
                                         <Trash2 size={16} />
-                                        <span className="text-xs font-bold">Clear All</span>
+                                        <span className="text-xs font-bold hidden sm:inline">Clear All</span>
                                     </Button>
                                     <Button
                                         type="button"
@@ -533,11 +561,11 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast(`Đã thêm ${testSections.length} section mẫu`, 'success');
                                             }
                                         }}
-                                        className="flex items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
+                                        className="flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
                                         title="Thêm tất cả các loại section để test"
                                     >
                                         <Zap size={16} />
-                                        <span className="text-xs font-bold">Test Full</span>
+                                        <span className="text-xs font-bold hidden sm:inline">Test Full</span>
                                     </Button>
                                 </div>
                             )}

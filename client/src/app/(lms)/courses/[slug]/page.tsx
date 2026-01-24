@@ -193,7 +193,7 @@ export default function CoursePage({ params }: { params: any }) {
             {/* Hero Section */}
             <div className="bg-zinc-950 pt-24 md:pt-28 pb-16 text-white md:pb-24">
                 <div className="container">
-                    <div className="grid gap-12 md:grid-cols-2 lg:gap-20">
+                    <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
                             <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm font-medium text-zinc-400">
                                 <span className={`mr-2 h-2 w-2 rounded-full ${course.deploymentStatus === 'COMING_SOON' ? 'bg-yellow-500'
@@ -404,7 +404,7 @@ export default function CoursePage({ params }: { params: any }) {
 
             {/* Content Section */}
             <div className="container py-16 mt-12 bg-background md:mt-20">
-                <div className="grid gap-12 md:grid-cols-3">
+                <div className="grid gap-8 md:gap-12 md:grid-cols-3">
                     <div className="md:col-span-2">
                         {/* Course Curriculum */}
                         <section className="mb-12">

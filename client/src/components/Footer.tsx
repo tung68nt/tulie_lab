@@ -138,9 +138,9 @@ export function Footer() {
                         />
                     </div>
                 )}
-                <div className="grid gap-8 md:grid-cols-5">
+                <div className="grid gap-8 grid-cols-2 md:grid-cols-5">
                     {/* Left - Company Info */}
-                    <div className="space-y-4 md:col-span-2">
+                    <div className="space-y-4 col-span-2">
 
                         <p className="text-sm font-bold uppercase tracking-wide">{footerData.companyName}</p>
                         <p className="text-sm text-muted-foreground">
@@ -213,7 +213,7 @@ export function Footer() {
                     </div>
 
                     {/* Social Links */}
-                    <div className="space-y-4">
+                    <div className="space-y-4 col-span-2 md:col-span-1">
                         <p className="text-sm font-bold tracking-wide">Theo dõi The Tulie Lab</p>
                         <div className="flex flex-wrap gap-3">
                             {footerData.socialLinks.map((link, index) => (
