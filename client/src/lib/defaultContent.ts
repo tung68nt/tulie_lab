@@ -163,13 +163,75 @@ The Tulie Lab cung cấp tất cả điều đó trong các Khoá học thực h
 
 
 
-export const DEFAULT_HOME_SECTIONS: Section[] = [
+export const DEFAULT_VIBE_CODING_SECTIONS: Section[] = [
+    {
+        id: "vibe-hero",
+        type: "hero",
+        title: "VIBE CODING - KỶ NGUYÊN XÂY DỰNG SẢN PHẨM MỚI",
+        subtitle: "The Tulie Lab tiên phong ứng dụng phương pháp Vibe Coding để giúp cá nhân và doanh nghiệp hiện thực hoá ý tưởng phần mềm chỉ bằng ngôn ngữ tự nhiên và tư duy hệ thống.",
+        image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2070&auto=format&fit=crop",
+        ctaText: "Tìm hiểu phương pháp",
+        ctaLink: "#vibe-methodology",
+        isVisible: true,
+        order: 1
+    },
+    {
+        id: "vibe-stats",
+        type: "stats",
+        title: "Tại sao nên dùng Vibe Coding?",
+        subtitle: "Tốc độ và Hiệu quả vượt trội",
+        items: [
+            { title: "Tốc độ xây dựng", value: "x10", icon: "Zap", description: "Nhanh hơn 10 lần so với lập trình truyền thống" },
+            { title: "Chi phí vận hành", value: "-80%", icon: "DollarSign", description: "Tiết kiệm tối đa nguồn lực nhân sự IT" },
+            { title: "Khả năng tuỳ biến", value: "100%", icon: "Settings", description: "Thay đổi tính năng ngay lập tức theo yêu cầu" }
+        ],
+        isVisible: true,
+        order: 2
+    },
+    {
+        id: "vibe-methodology",
+        type: "process",
+        title: "Quy trình triển khai tại The Lab",
+        subtitle: "Từ ý tưởng đến sản phẩm thực thụ",
+        items: [
+            { title: "Tư vấn & Phác thảo", description: "Đội ngũ chuyên gia giúp bạn định hình Flow và cấu trúc logic cho ứng dụng." },
+            { title: "Tạo nguyên mẫu (MVP)", description: "Sử dụng các công cụ Vibe Coding (Cursor, Claude) để dựng nhanh bản demo trong vài giờ." },
+            { title: "Kiểm thử & Nâng cấp", description: "Tối ưu hoá prompt và logic để đảm bảo ứng dụng vận hành mượt mà, chính xác." },
+            { title: "Bàn giao & Hướng dẫn", description: "Chúng tôi chuyển giao source code và hướng dẫn bạn cách tự bảo trì bằng AI." }
+        ],
+        isVisible: true,
+        order: 3
+    },
+    {
+        id: "vibe-values",
+        type: "benefits",
+        title: "Giá trị cốt lõi",
+        subtitle: "Không chỉ là code, đó là tư duy sản phẩm",
+        items: [
+            { title: "Tư duy Prompting", description: "Làm chủ cách giao tiếp với AI để tạo ra output chất lượng nhất.", icon: "MessageSquare" },
+            { title: "Cấu trúc hệ thống", description: "Hiểu được cách các thành phần app kết nối với nhau một cách chuyên nghiệp.", icon: "Layers" },
+            { title: "Khả năng mở rộng", description: "Sẵn sàng scale ứng dụng từ một công cụ đơn giản lên hệ thống phức tạp.", icon: "Maximize" }
+        ],
+        isVisible: true,
+        order: 4
+    },
+    {
+        id: "vibe-cta",
+        type: "cta",
+        title: "Bắt đầu hành trình Vibe Coding của bạn",
+        subtitle: "Chúng tôi sẵn sàng đồng hành cùng bạn xây dựng những giải pháp đột phá.",
+        ctaText: "Liên hệ tư vấn dịch vụ",
+        ctaLink: "/contact"
+    }
+];
+
+export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-hero",
         type: "hero",
         title: "BIẾN Ý TƯỞNG THÀNH ỨNG DỤNG THỰC TẾ TRONG 30 PHÚT",
         subtitle: "Làm chủ tư duy \"Vibe Coding\": Tự tay xây dựng 10 Mini Apps giải quyết công việc Marketing, Sales, Admin và Đời sống ngay lập tức.",
-        content: "✅ Không cần học code phức tạp – Chỉ cần biết tiếng Việt và tư duy logic.\n✅ Sở hữu vĩnh viễn Source Code của 10 ứng dụng thực chiến.\n✅ Tiết kiệm hàng chục triệu đồng tiền thuê Dev và mua phần mềm mỗi năm.",
+        content: "✅ Không cần học code phức tạp – Chỉ cần biết tiếng Việt và tư duy logic. \n ✅ Sở hữu vĩnh viễn Source Code của 10 ứng dụng thực chiến. \n ✅ Tiết kiệm hàng chục triệu đồng tiền thuê Dev và mua phần mềm mỗi năm.",
         image: "/images/heroes/vibe-coding.png",
         ctaText: "ĐĂNG KÝ HỌC NGAY - 1.790.000Đ",
         ctaLink: "/courses/vibe-coding-nguoi-moi",
@@ -267,7 +329,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         order: 9
     },
     {
-        id: "cta-1",
+        id: "vibe-cta-sales",
         type: "cta",
         title: "Bắt đầu hành trình Vibe Coding của bạn ngay hôm nay",
         subtitle: "Làm chủ AI, giải phóng sức lao động và tự tay xây dựng những ứng dụng tuyệt vời.",
@@ -275,6 +337,58 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         ctaLink: "/courses/vibe-coding-nguoi-moi"
     }
 ];
+
+export const DEFAULT_HOME_SECTIONS: Section[] = [
+    {
+        id: "general-hero",
+        type: "hero",
+        title: "KHAI PHÁ SỨC MẠNH AI TRONG CÔNG VIỆC THỰC CHIẾN",
+        subtitle: "Tại The Tulie Lab, chúng tôi giúp bạn làm chủ công nghệ và AI để tự động hóa quy trình, xây dựng ứng dụng chuyên sâu và tối ưu hiệu suất công việc vượt trội.",
+        image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
+        ctaText: "Khám phá Khoá học",
+        ctaLink: "/courses",
+        isVisible: true,
+        order: 1
+    },
+    {
+        id: "tulie-stats",
+        type: "stats",
+        title: "Tulie Lab qua những con số",
+        subtitle: "Đồng hành cùng sự phát triển của bạn",
+        items: [
+            { title: "Thành viên", value: "10,000+", icon: "Users", description: "Cộng đồng học tập năng động" },
+            { title: "Kho tài nguyên", value: "500+", icon: "Package", description: "Templates & Scripts thực chiến" },
+            { title: "Khoá học", value: "20+", icon: "GraduationCap", description: "Lộ trình từ cơ bản đến nâng cao" },
+            { title: "Hệ sinh thái", value: "100%", icon: "Zap", description: "Hỗ trợ trọn đời & Cập nhật mới" }
+        ],
+        isVisible: true,
+        order: 2
+    },
+    {
+        id: "tulie-benefits",
+        type: "benefits",
+        title: "Tạo sao chọn chúng tôi?",
+        subtitle: "Phương pháp học tập hiện đại và hiệu quả",
+        items: [
+            { title: "Học qua dự án thật", description: "Không chỉ là lý thuyết, bạn học bằng cách trực tiếp xây dựng sản phẩm có thể sử dụng ngay.", icon: "Sparkles" },
+            { title: "Sức mạnh từ AI", description: "Ứng dụng các công cụ AI hàng đầu (ChatGPT, Claude, Cursor) để tăng tốc độ làm việc gấp 10 lần.", icon: "Bot" },
+            { title: "Cộng đồng hỗ trợ", description: "Tham gia nhóm kín để trao đổi, giải đáp thắc mắc và kết nối cùng những người cùng đam mê.", icon: "MessageCircle" }
+        ],
+        isVisible: true,
+        order: 3
+    },
+    {
+        id: "general-cta",
+        type: "cta",
+        title: "Sẵn sàng nâng tầm kỹ năng của bạn?",
+        subtitle: "Khám phá ngay các khoá học và bộ công cụ giúp bạn bứt phá trong kỷ nguyên AI.",
+        ctaText: "Xem tất cả Khoá học",
+        ctaLink: "/courses",
+        isVisible: true,
+        order: 4
+    }
+];
+
 
 export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
     {

@@ -50,7 +50,7 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="container pt-24 md:pt-32" style={{ paddingBottom: '120px' }}>
+        <div className="container pt-12 md:pt-16" style={{ paddingBottom: '120px' }}>
             <div className="mx-auto max-w-2xl">
                 <Card>
                     <CardHeader>

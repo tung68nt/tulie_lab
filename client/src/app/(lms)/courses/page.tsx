@@ -23,7 +23,7 @@ export default async function CoursesPage({
 
     return (
         <>
-            <div className="container pt-24 pb-20 md:pb-32">
+            <div className="container pt-12 md:pt-16 pb-20 md:pb-32">
                 {/* Header */}
                 <div className="flex flex-col items-center justify-center text-center mb-12">
                     <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 px-4 py-1.5 text-sm font-medium text-primary mb-6 shadow-sm">

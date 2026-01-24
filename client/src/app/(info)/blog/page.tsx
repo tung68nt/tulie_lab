@@ -64,7 +64,7 @@ export default function BlogPage() {
         <>
             <div className="min-h-screen bg-background">
                 {/* Hero Section - Matching other pages */}
-                <div className="relative bg-gradient-to-br from-background via-muted/10 to-background pt-24 pb-16 overflow-hidden">
+                <div className="relative bg-gradient-to-br from-background via-muted/10 to-background pt-12 md:pt-16 pb-16 overflow-hidden">
                     {/* Background Accents */}
                     <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] -z-10" />
                     <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[128px] -z-10" />

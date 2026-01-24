@@ -1,13 +1,12 @@
-
 import { LandingPageRenderer } from '@/components/info/LandingPageRenderer';
+import { DEFAULT_VIBE_CODING_SECTIONS } from '@/lib/defaultContent';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Vibe Coding - Lập trình sáng tạo cùng AI | The Tulie Lab',
-    description: 'Khám phá phong cách lập trình Vibe Coding - kết hợp trạng thái dòng chảy và trí tuệ nhân tạo để kiến tạo sản phẩm công nghệ đầy cảm hứng.',
-    keywords: ['Vibe Coding', 'AI Coding', 'Lập trình sáng tạo', 'Học lập trình AI'],
+    title: 'Vibe Coding - Giải pháp lập trình bằng ngôn ngữ tự nhiên | The Tulie Lab',
+    description: 'Tìm hiểu về phương pháp Vibe Coding tại The Tulie Lab - giúp bạn tự tay xây dựng ứng dụng phần mềm mà không cần biết code chuyên sâu.',
 };
 
-export default function VibeCodingInfoPage() {
-    return <LandingPageRenderer slug="vibe-coding" />;
+export default function VibeCodingPage() {
+    return <LandingPageRenderer slug="vibe-coding" fallbackSections={DEFAULT_VIBE_CODING_SECTIONS} />;
 }

@@ -34,7 +34,7 @@ export function BottomCTA({
                     <Button
                         variant="light"
                         size="lg"
-                        className="text-lg px-8 py-6 font-semibold"
+                        className="text-lg px-8 py-6 font-semibold text-foreground"
                     >
                         {buttonText}
                     </Button>

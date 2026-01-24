@@ -34,7 +34,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                                 });
                             }
                         }}
-                        className="text-lg px-8 py-6 font-semibold"
+                        className="text-lg px-8 py-6 font-semibold text-foreground"
                     >
                         {(section.ctaText?.includes('50%') || section.ctaText?.includes('tư vấn') || section.ctaText === 'Bắt đầu ngay' || !section.ctaText) ? 'Đăng ký ngay' : section.ctaText}
                     </Button>

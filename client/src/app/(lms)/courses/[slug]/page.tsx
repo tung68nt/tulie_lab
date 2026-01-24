@@ -191,7 +191,7 @@ export default function CoursePage({ params }: { params: any }) {
     return (
         <div className="min-h-screen bg-background pb-20">
             {/* Hero Section */}
-            <div className="bg-zinc-950 pt-32 pb-16 text-white md:pt-40 md:pb-24">
+            <div className="bg-zinc-950 pt-24 md:pt-28 pb-16 text-white md:pb-24">
                 <div className="container">
                     <div className="grid gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
