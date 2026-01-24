@@ -461,93 +461,92 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Đăng Ký Khóa Học',
             subtitle: 'Hoàn tất đăng ký để bắt đầu học ngay.',
         }
-    }
     },
-{
-    id: 'calendar-module',
+    {
+        id: 'calendar-module',
         name: 'Calendar System',
-            category: 'System',
-                description: 'Full calendar module for events and schedule.',
-                    previewImage: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=500',
-                        data: {
-        id: 'calendar-sys',
+        category: 'System',
+        description: 'Full calendar module for events and schedule.',
+        previewImage: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'calendar-sys',
             type: 'calendar',
-                name: 'Calendar System',
-                    title: 'Sự kiện sắp tới',
-                        subtitle: 'Lịch trình các hoạt động trong tháng'
-    }
-},
-{
-    id: 'pricing-module',
+            name: 'Calendar System',
+            title: 'Sự kiện sắp tới',
+            subtitle: 'Lịch trình các hoạt động trong tháng'
+        }
+    },
+    {
+        id: 'pricing-module',
         name: 'Pricing System',
-            category: 'System',
-                description: 'Complete pricing table with 3 monthly plans.',
-                    previewImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=500',
-                        data: {
-        id: 'pricing-sys',
+        category: 'System',
+        description: 'Complete pricing table with 3 monthly plans.',
+        previewImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'pricing-sys',
             type: 'pricing',
-                name: 'Pricing System',
-                    title: 'Các gói phổ biến',
-                        subtitle: 'Được nhiều thành viên lựa chọn',
-                            items: [
-                                {
-                                    id: 'plan-retail',
-                                    title: 'Mua lẻ (Single)',
-                                    price: 'Mua theo tool',
-                                    description: 'Mua lẻ từng sản phẩm số phù hợp với nhu cầu sử dụng thực tế.',
-                                    tag: 'Linh hoạt',
-                                    features: [
-                                        'Thanh toán theo từng sản phẩm',
-                                        'Sở hữu vĩnh viễn file',
-                                        'Nhận đầy đủ bản cập nhật',
-                                        'Tiết kiệm chi phí đầu tư',
-                                        'Hỗ trợ setup cơ bản'
-                                    ],
-                                    link: '/shop',
-                                    icon: 'ShoppingBag',
-                                    ctaText: 'Xem cửa hàng'
-                                },
-                                {
-                                    id: 'plan-yearly',
-                                    title: 'Gói Cơ Bản 1 năm',
-                                    price: '1.990k',
-                                    originalPrice: '3.600k',
-                                    description: 'Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template.',
-                                    tag: 'Phổ biến',
-                                    features: [
-                                        'Tải xuống Unlimited Template',
-                                        'Truy cập Template Premium mới nhất',
-                                        'Tải Google Apps Script & Plug-ins',
-                                        'Cập nhật tài nguyên mới hàng tuần',
-                                        'Tiết kiệm 80% so với mua lẻ',
-                                        'Tham gia nhóm kín Zalo/Discord',
-                                        'Hỗ trợ qua thư viện câu hỏi ưu tiên'
-                                    ],
-                                    link: '/checkout/pro-template',
-                                    icon: 'Zap',
-                                    ctaText: 'Nâng cấp gói'
-                                },
-                                {
-                                    id: 'plan-vip',
-                                    title: 'Gói Premium 1 năm',
-                                    price: '7.990k',
-                                    originalPrice: '15.000k',
-                                    description: 'Giải pháp toàn diện & Support 1:1 trực tiếp.',
-                                    tag: 'Best Value',
-                                    features: [
-                                        'Tất cả quyền lợi gói Cơ bản',
-                                        'Support custom template theo yêu cầu',
-                                        'Tư vấn giải pháp tối ưu quy trình',
-                                        'Setup hệ thống Automation riêng',
-                                        'Hỗ trợ kỹ thuật ưu tiên 24/7',
-                                        'Coaching 1:1 trực tiếp với Mentor',
-                                        'Quyền truy cập sớm các tài nguyên mới'
-                                    ],
-                                    link: '/contact',
-                                    icon: 'Crown',
-                                    ctaText: 'Liên hệ tư vấn'
-                                }
-                            ]
+            name: 'Pricing System',
+            title: 'Các gói phổ biến',
+            subtitle: 'Được nhiều thành viên lựa chọn',
+            items: [
+                {
+                    id: 'plan-retail',
+                    title: 'Mua lẻ (Single)',
+                    price: 'Mua theo tool',
+                    description: 'Mua lẻ từng sản phẩm số phù hợp với nhu cầu sử dụng thực tế.',
+                    tag: 'Linh hoạt',
+                    features: [
+                        'Thanh toán theo từng sản phẩm',
+                        'Sở hữu vĩnh viễn file',
+                        'Nhận đầy đủ bản cập nhật',
+                        'Tiết kiệm chi phí đầu tư',
+                        'Hỗ trợ setup cơ bản'
+                    ],
+                    link: '/shop',
+                    icon: 'ShoppingBag',
+                    ctaText: 'Xem cửa hàng'
+                },
+                {
+                    id: 'plan-yearly',
+                    title: 'Gói Cơ Bản 1 năm',
+                    price: '1.990k',
+                    originalPrice: '3.600k',
+                    description: 'Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template.',
+                    tag: 'Phổ biến',
+                    features: [
+                        'Tải xuống Unlimited Template',
+                        'Truy cập Template Premium mới nhất',
+                        'Tải Google Apps Script & Plug-ins',
+                        'Cập nhật tài nguyên mới hàng tuần',
+                        'Tiết kiệm 80% so với mua lẻ',
+                        'Tham gia nhóm kín Zalo/Discord',
+                        'Hỗ trợ qua thư viện câu hỏi ưu tiên'
+                    ],
+                    link: '/checkout/pro-template',
+                    icon: 'Zap',
+                    ctaText: 'Nâng cấp gói'
+                },
+                {
+                    id: 'plan-vip',
+                    title: 'Gói Premium 1 năm',
+                    price: '7.990k',
+                    originalPrice: '15.000k',
+                    description: 'Giải pháp toàn diện & Support 1:1 trực tiếp.',
+                    tag: 'Best Value',
+                    features: [
+                        'Tất cả quyền lợi gói Cơ bản',
+                        'Support custom template theo yêu cầu',
+                        'Tư vấn giải pháp tối ưu quy trình',
+                        'Setup hệ thống Automation riêng',
+                        'Hỗ trợ kỹ thuật ưu tiên 24/7',
+                        'Coaching 1:1 trực tiếp với Mentor',
+                        'Quyền truy cập sớm các tài nguyên mới'
+                    ],
+                    link: '/contact',
+                    icon: 'Crown',
+                    ctaText: 'Liên hệ tư vấn'
+                }
+            ]
+        }
     }
-}
 ];
