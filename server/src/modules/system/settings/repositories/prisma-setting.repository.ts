@@ -21,9 +21,10 @@ export class PrismaSettingRepository implements ISettingRepository {
 
     async updateMany(data: { key: string, value: any }[]): Promise<void> {
         await prisma.$transaction(
-            data.map(item => prisma.systemSetting.update({
+            data.map(item => prisma.systemSetting.upsert({
                 where: { key: item.key },
-                data: { value: item.value }
+                update: { value: item.value },
+                create: { key: item.key, value: item.value, type: 'text' }
             }))
         );
     }
