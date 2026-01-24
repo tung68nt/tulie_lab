@@ -75,14 +75,14 @@ export default function ProductDetailPage() {
     const currentMedia = mediaGallery[selectedMediaIndex] || { type: 'image', url: product.thumbnail };
 
     return (
-        <div className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
+        <div className="min-h-screen pt-12 pb-20 bg-background relative overflow-hidden">
             {/* Background Accents */}
             <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[128px] -z-10" />
             <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[128px] -z-10" />
 
             <div className="container relative z-10">
                 {/* Breadcrumbs */}
-                <Link href="/shop" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-12 group">
+                <Link href="/shop" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-6 group">
                     <span className="p-2 rounded-full border border-border group-hover:border-primary/50 transition-colors">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                     </span>
