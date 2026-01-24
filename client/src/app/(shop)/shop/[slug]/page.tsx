@@ -270,7 +270,7 @@ export default function ProductDetailPage() {
                                                     <span className="text-sm text-muted-foreground line-through">{new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ</span>
                                                 )}
                                             </div>
-                                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                            <p className="text-sm text-muted-foreground leading-relaxed hidden">
                                                 {settings.pricing_single_description || 'Sở hữu vĩnh viễn template này'}
                                             </p>
                                         </div>
@@ -293,7 +293,7 @@ export default function ProductDetailPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {/* Membership - Gói Cơ Bản */}
                                         <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-bold border border-border">
+                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-bold border border-border whitespace-nowrap">
                                                 Phổ biến
                                             </div>
                                             <div className="mb-6 mt-4">
@@ -322,13 +322,13 @@ export default function ProductDetailPage() {
 
                                         {/* Membership - Gói Premium */}
                                         <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                                            <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold shadow-lg">
+                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold shadow-lg whitespace-nowrap">
                                                 Best Value
                                             </div>
                                             <div className="mb-6 mt-4">
                                                 <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
                                                     {MEMBERSHIP_PRICING.PREMIUM.title}
-                                                    <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
+                                                    <span className="text-xl">👑</span>
                                                 </h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
                                                     <span className="text-3xl font-bold">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>

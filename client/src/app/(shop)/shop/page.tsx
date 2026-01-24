@@ -330,7 +330,7 @@ export default function ShopPage() {
                                                                             ? 'Miễn phí'
                                                                             : `${new Intl.NumberFormat('vi-VN').format(product.price)} ₫`}
                                                                     </span>
-                                                                    {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
+                                                                    {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
                                                                         <span className="text-[11px] font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded leading-none mb-0.5">
                                                                             -{Math.round((1 - Number(product.price) / Number(product.compareAtPrice)) * 100)}%
                                                                         </span>
@@ -343,7 +343,7 @@ export default function ShopPage() {
                                                             )}
                                                         </div>
                                                     </div>
-                                                    {(!isOwned && Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0 && product.price > 0) && (
+                                                    {(!isOwned && Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
                                                         <div className="text-xs text-muted-foreground line-through -mt-1">
                                                             {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)} ₫
                                                         </div>
