@@ -63,7 +63,7 @@ export default function ShopPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen pt-24 bg-background">
+            <div className="min-h-screen pt-12 bg-background">
                 <div className="container flex flex-col items-center justify-center py-20">
                     <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
                     <p className="text-muted-foreground animate-pulse">Đang tải cửa hàng...</p>
@@ -73,26 +73,23 @@ export default function ShopPage() {
     }
 
     return (
-        <div className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
+        <div className="min-h-screen pt-12 pb-20 bg-background relative overflow-hidden">
             {/* Background Accents */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[128px] -z-10" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[128px] -z-10" />
-            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:32px_32px] opacity-30 -z-10" />
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[128px] -z-10" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[128px] -z-10" />
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:32px_32px] opacity-20 -z-10" />
 
             <div className="container relative z-10">
                 {/* Header */}
-                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-background/50 backdrop-blur-sm px-4 py-1.5 text-sm font-medium text-primary mb-2">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                        </span>
+                <div className="flex flex-col items-center justify-center space-y-4 text-center mb-16">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white dark:bg-zinc-900 px-4 py-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-2 shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-zinc-900 dark:bg-white animate-pulse" />
                         Tulie Academy Store
                     </div>
-                    <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl">
+                    <h1 className="text-5xl font-bold sm:text-6xl md:text-7xl tracking-tight">
                         Cửa hàng Trực tuyến
                     </h1>
-                    <p className="mx-auto text-xl text-muted-foreground leading-relaxed">
+                    <p className="mx-auto max-w-2xl text-xl text-muted-foreground leading-relaxed">
                         Khám phá bộ sưu tập website templates, app scripts và tài nguyên được thiết kế chuyên sâu.
                     </p>
                 </div>

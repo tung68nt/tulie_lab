@@ -78,10 +78,10 @@ export default function OrderPage({ params }: { params: any }) {
         return () => clearInterval(interval);
     }, [code]);
 
-    if (loading) return <div className="min-h-screen pt-24 text-center">Đang tải thông tin đơn hàng...</div>;
+    if (loading) return <div className="min-h-screen pt-12 text-center">Đang tải thông tin đơn hàng...</div>;
 
     if (!order) return (
-        <div className="min-h-screen pt-24 container text-center">
+        <div className="min-h-screen pt-12 container text-center">
             <div className="mx-auto max-w-md py-12">
                 <h1 className="text-2xl font-bold mb-4">Đơn hàng không tồn tại</h1>
                 <Link href="/courses">
@@ -136,16 +136,33 @@ export default function OrderPage({ params }: { params: any }) {
         }
 
         return (
-            <div className="min-h-screen pt-24 container">
-                <div className="mx-auto max-w-md rounded-xl border bg-card p-8 shadow-lg text-center">
-                    <div className="flex justify-center mb-6">
-                        <CircleCheck className="h-16 w-16 text-green-500" />
+            <div className="min-h-screen pt-12 pb-20 bg-background relative overflow-hidden">
+                <div className="container flex flex-col items-center justify-center relative z-10">
+                    {/* Header */}
+                    <div className="mb-12 text-center">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100/50 dark:bg-zinc-800/50 px-4 py-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-4 shadow-sm">
+                            <CircleCheck className="w-4 h-4 text-green-500" />
+                            Thanh toán bảo mật
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">Hoàn tất đơn hàng</h1>
+                        <p className="text-muted-foreground text-lg">{description}</p>
                     </div>
-                    <h1 className="text-2xl font-bold mb-2">{message}</h1>
-                    <p className="text-muted-foreground mb-6">{description}</p>
-                    <Link href={buttonLink}>
-                        <Button as="div" className="w-full">{buttonText}</Button>
-                    </Link>
+
+                    <div className="mx-auto max-w-md w-full rounded-2xl border border-zinc-200 bg-card p-8 shadow-xl text-center">
+                        <div className="flex justify-center mb-6">
+                            <div className="w-20 h-20 bg-green-50 dark:bg-green-500/10 rounded-full flex items-center justify-center">
+                                <CircleCheck className="h-10 w-10 text-green-500" />
+                            </div>
+                        </div>
+                        <h2 className="text-2xl font-bold mb-2">{message}</h2>
+                        <p className="text-muted-foreground mb-8">Hệ thống đã ghi nhận thanh toán của bạn.</p>
+                        <Link href={buttonLink}>
+                            <Button as="div" size="lg" className="w-full font-bold h-12 rounded-xl">
+                                {buttonText}
+                                <MoveRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -163,16 +180,16 @@ export default function OrderPage({ params }: { params: any }) {
     const qrUrl = `https://qr.sepay.vn/img?acc=${accountNo}&bank=${bankName}&amount=${order.amount}&des=${transferContent}`;
 
     return (
-        <div className="min-h-screen bg-background pt-24 pb-20">
+        <div className="min-h-screen bg-background pt-12 pb-20">
             <div className="container max-w-5xl">
                 {/* Header Section */}
                 <div className="mb-8 md:mb-12">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-medium mb-3">
-                        <CreditCard className="w-3.5 h-3.5" />
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wider mb-4 border border-blue-100">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
                         Chờ thanh toán
                     </div>
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Thanh toán đơn hàng</h1>
-                    <p className="text-muted-foreground mt-2 text-lg">
+                    <h1 className="text-4xl font-bold tracking-tight text-foreground">Thanh toán đơn hàng</h1>
+                    <p className="text-muted-foreground mt-3 text-lg max-w-2xl">
                         Thực hiện chuyển khoản theo thông tin dưới đây để kích hoạt khóa học.
                     </p>
                 </div>
