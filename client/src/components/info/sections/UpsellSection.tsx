@@ -20,7 +20,7 @@ export function UpsellSection({ section }: { section: Section }) {
                     {section.items.map((item: any, index: number) => (
                         <div key={item.id || index} className="relative group rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-lg hover:border-primary/50 transition-all duration-300">
                             {item.tag && (
-                                <div className="absolute -top-3 right-4 bg-foreground text-background text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
+                                <div className="absolute -top-3 right-4 bg-foreground text-background text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
                                     {item.tag}
                                 </div>
                             )}

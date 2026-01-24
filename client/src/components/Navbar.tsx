@@ -141,11 +141,11 @@ export function Navbar() {
         { label: 'Trang chủ', href: '/' },
         {
             label: 'Ứng dụng',
-            href: '/applications',
+            href: '#',
             children: [
                 { label: 'Vibe coding', href: '/vibe-coding' },
-                { label: 'Ứng dụng AI', href: '/applications/ai' },
-                { label: 'Google Sheets & Apps Script', href: '/applications/google-sheets' },
+                { label: 'Ứng dụng AI', href: '/ai' },
+                { label: 'Google Sheets & Apps Script', href: '/google-sheets' },
             ],
         },
         {

@@ -118,21 +118,24 @@ export const webhook = async (req: Request, res: Response) => {
 
         // Try to get order code
         let orderCode: string | null = null;
+        const orderCodePattern = /\d{6}[A-Z0-9]{4}/;
 
-        // 1. Try payment code field
-        if (paymentCode && typeof paymentCode === 'string' && paymentCode.trim()) {
-            orderCode = paymentCode.trim().toUpperCase();
+        // 1. Try payment code field first, but still validate/clean with regex
+        const rawPaymentCode = paymentCode || referenceCode || '';
+        if (rawPaymentCode && typeof rawPaymentCode === 'string' && rawPaymentCode.trim()) {
+            const cleanRaw = rawPaymentCode.trim().toUpperCase();
+            const match = cleanRaw.match(orderCodePattern);
+            if (match) {
+                orderCode = match[0];
+                console.log(`✅ Extracted Order Code from code field: ${orderCode}`);
+            }
         }
 
-        // 2. Try extracting from transfer content/description
+        // 2. Try extracting from transfer content/description if not found yet
         if (!orderCode) {
             const actualTransferContent = transferContent || content || description || '';
             if (actualTransferContent && typeof actualTransferContent === 'string') {
                 const trimmedContent = actualTransferContent.trim().toUpperCase();
-
-                // Regex for Order Code (6 digits + 4 alphanumeric = 10 chars)
-                // We use a pattern that matches our generator to avoid false positives with random IDs
-                const orderCodePattern = /\d{6}[A-Z0-9]{4}/;
                 const match = trimmedContent.match(orderCodePattern);
 
                 if (match) {

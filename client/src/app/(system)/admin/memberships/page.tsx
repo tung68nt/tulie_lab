@@ -147,83 +147,6 @@ export default function AdminMembershipsPage() {
                 subtitle="Cấu hình giá bán, mô tả và quyền lợi cho các gói thành viên và mua lẻ."
             />
 
-            {/* Single Purchase Section */}
-            <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">
-                    <Sparkles className="w-4 h-4" />
-                    Bán lẻ sản phẩm
-                </div>
-                <Card className="overflow-hidden border-zinc-200 shadow-sm">
-                    <CardHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
-                        <CardTitle>Gói Lẻ (Single Product)</CardTitle>
-                        <CardDescription>Mặc định hiển thị cho khách hàng mua lẻ từng Template/App.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6 pt-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Giá bán mặc định (k)</label>
-                                <Input
-                                    value={state.single.sale}
-                                    onChange={e => handleUpdateField('single', 'sale', e.target.value)}
-                                    placeholder="250k"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Giá gốc mặc định (k)</label>
-                                <Input
-                                    value={state.single.original}
-                                    onChange={e => handleUpdateField('single', 'original', e.target.value)}
-                                    placeholder="500k"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Dòng mô tả phụ</label>
-                                <Input
-                                    value={state.single.description}
-                                    onChange={e => handleUpdateField('single', 'description', e.target.value)}
-                                    placeholder="Sở hữu vĩnh viễn..."
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-3 pt-4 border-t">
-                            <label className="text-sm font-medium flex items-center justify-between">
-                                Danh sách Quyền lợi (Show trên Pricing Table)
-                                <Button size="sm" variant="outline" onClick={() => {
-                                    const val = window.prompt('Nhập quyền lợi mới:');
-                                    if (val) handleFeatureAction('single', 'add', 0, val);
-                                }}>
-                                    <Plus className="w-3 h-3 mr-1" /> Thêm
-                                </Button>
-                            </label>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                {state.single.features.map((f, i) => (
-                                    <div key={i} className="flex gap-2 items-center group">
-                                        <Input
-                                            value={f}
-                                            onChange={e => {
-                                                const newFeatures = [...state.single.features];
-                                                newFeatures[i] = e.target.value;
-                                                setState(prev => ({ ...prev, single: { ...prev.single, features: newFeatures } }));
-                                            }}
-                                            className="flex-1 text-sm font-medium bg-zinc-50/50"
-                                        />
-                                        <Button
-                                            size="sm"
-                                            variant="ghost"
-                                            className="text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 px-2"
-                                            onClick={() => handleFeatureAction('single', 'remove', i)}
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                        </Button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-
             {/* Membership Section */}
             <div className="space-y-4">
                 <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">
@@ -377,6 +300,67 @@ export default function AdminMembershipsPage() {
                         </CardContent>
                     </Card>
                 </div>
+            </div>
+
+            {/* Single Purchase Section */}
+            <div className="space-y-4">
+                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">
+                    <Sparkles className="w-4 h-4" />
+                    Bán lẻ sản phẩm
+                </div>
+                <Card className="overflow-hidden border-zinc-200 shadow-sm">
+                    <CardHeader className="bg-zinc-50/50 dark:bg-zinc-900/50">
+                        <CardTitle>Gói Lẻ (Single Product)</CardTitle>
+                        <CardDescription>Mặc định hiển thị cho khách hàng mua lẻ từng Template/App.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6 pt-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Dòng mô tả phụ</label>
+                                <Input
+                                    value={state.single.description}
+                                    onChange={e => handleUpdateField('single', 'description', e.target.value)}
+                                    placeholder="Sở hữu vĩnh viễn..."
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3 pt-4 border-t">
+                            <label className="text-sm font-medium flex items-center justify-between">
+                                Danh sách Quyền lợi (Show trên Pricing Table)
+                                <Button size="sm" variant="outline" onClick={() => {
+                                    const val = window.prompt('Nhập quyền lợi mới:');
+                                    if (val) handleFeatureAction('single', 'add', 0, val);
+                                }}>
+                                    <Plus className="w-3 h-3 mr-1" /> Thêm
+                                </Button>
+                            </label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                {state.single.features.map((f, i) => (
+                                    <div key={i} className="flex gap-2 items-center group">
+                                        <Input
+                                            value={f}
+                                            onChange={e => {
+                                                const newFeatures = [...state.single.features];
+                                                newFeatures[i] = e.target.value;
+                                                setState(prev => ({ ...prev, single: { ...prev.single, features: newFeatures } }));
+                                            }}
+                                            className="flex-1 text-sm font-medium bg-zinc-50/50"
+                                        />
+                                        <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            className="text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 px-2"
+                                            onClick={() => handleFeatureAction('single', 'remove', i)}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
 
             <div className="flex justify-end gap-3 pt-6 border-t sticky bottom-0 bg-background/80 backdrop-blur-md py-4 z-50">

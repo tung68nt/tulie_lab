@@ -452,13 +452,13 @@ function CheckoutContent() {
 
                                     <div className="h-px bg-zinc-100 dark:bg-zinc-800 my-2" />
 
-                                    <div className="flex justify-between items-baseline pt-2">
-                                        <span className="font-black text-lg uppercase tracking-tight">Tổng thanh toán</span>
+                                    <div className="flex justify-between items-center pt-2">
+                                        <span className="font-bold text-lg">Tổng thanh toán</span>
                                         <div className="text-right">
                                             <span className="text-3xl font-black text-zinc-900 dark:text-white block tracking-tighter">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalAmount)}
                                             </span>
-                                            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mt-1 block italic opacity-60">
+                                            <span className="text-xs text-muted-foreground font-medium mt-1 block opacity-80">
                                                 Bao gồm phí kích hoạt tự động
                                             </span>
                                         </div>
@@ -474,11 +474,11 @@ function CheckoutContent() {
                                         {processing ? (
                                             <span className="flex items-center gap-2">
                                                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                                ĐANG XỬ LÝ...
+                                                Đang xử lý...
                                             </span>
                                         ) : (
                                             <>
-                                                <span className="relative z-10 uppercase tracking-wide">
+                                                <span className="relative z-10 tracking-wide">
                                                     {finalAmount === 0 ? 'Đăng ký ngay' : 'Thanh toán ngay'}
                                                 </span>
                                                 <MoveRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform relative z-10" />
@@ -487,14 +487,14 @@ function CheckoutContent() {
                                         <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500" />
                                     </Button>
 
-                                    <div className="pt-3 space-y-2 border-t">
-                                        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground opacity-60">
-                                            <Lock className="w-3.5 h-3.5 text-green-600" />
-                                            <span>Thanh toán bảo mật 256-bit SSL</span>
+                                    <div className="pt-4 space-y-2 border-t">
+                                        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                                            <Lock className="w-4 h-4 text-green-600" />
+                                            <span>Thanh toán bảo mật SSL</span>
                                         </div>
-                                        <p className="text-[10px] text-center text-muted-foreground opacity-50">
+                                        <p className="text-xs text-center text-muted-foreground">
                                             Bằng việc thanh toán, bạn đồng ý với{' '}
-                                            <Link href="/terms" className="underline hover:text-primary">
+                                            <Link href="/terms" className="underline hover:text-primary transition-colors">
                                                 Điều khoản dịch vụ
                                             </Link>
                                         </p>

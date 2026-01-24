@@ -23,11 +23,11 @@ const DEFAULT_MENU: MenuItem[] = [
     {
         id: 'apps',
         label: 'Ứng dụng',
-        href: '/applications',
+        href: '#',
         children: [
             { id: 'vibe-coding', label: 'Vibe Coding', href: '/vibe-coding' },
-            { id: 'ai', label: 'Ứng dụng AI', href: '/applications/ai' },
-            { id: 'google-sheets', label: 'Google Sheets & Apps Script', href: '/applications/google-sheets' },
+            { id: 'ai', label: 'Ứng dụng AI', href: '/ai' },
+            { id: 'google-sheets', label: 'Google Sheets & Apps Script', href: '/google-sheets' },
         ]
     },
     {

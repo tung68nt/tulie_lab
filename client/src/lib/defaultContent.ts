@@ -715,21 +715,6 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
         subtitle: 'Tiết kiệm thời gian xây dựng hệ thống quản lý với các Template chuyên nghiệp.',
         items: [
             {
-                title: 'Mua lẻ (Single)',
-                price: 'Tùy chọn',
-                description: 'Lựa chọn và mua lẻ từng Template/Ứng dụng AI phù hợp với nhu cầu sử dụng thực tế.',
-                tag: 'Linh hoạt',
-                icon: 'Package',
-                ctaText: 'Xem cửa hàng',
-                link: '/shop',
-                features: [
-                    'Mua lẻ theo túi tiền',
-                    'Sở hữu vĩnh viễn file',
-                    'Tiết kiệm chi phí ban đầu',
-                    'Hỗ trợ setup cơ bản',
-                ]
-            },
-            {
                 title: MEMBERSHIP_PRICING.BASIC.title,
                 price: `${MEMBERSHIP_PRICING.BASIC.priceDisplay}${MEMBERSHIP_PRICING.BASIC.period}`,
                 originalPrice: MEMBERSHIP_PRICING.BASIC.originalPriceDisplay,
@@ -762,6 +747,21 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
                     'Setup hệ thống Automation riêng',
                     'Tư vấn quy trình vận hành tối ưu',
                     'Ưu tiên hỗ trợ 24/7'
+                ]
+            },
+            {
+                title: 'Mua lẻ (Single)',
+                price: '',
+                description: 'Lựa chọn và mua lẻ từng Template/Ứng dụng AI phù hợp với nhu cầu sử dụng thực tế.',
+                tag: 'Linh hoạt',
+                icon: 'Package',
+                ctaText: 'Xem cửa hàng',
+                link: '/shop',
+                features: [
+                    'Mua lẻ theo túi tiền',
+                    'Sở hữu vĩnh viễn file',
+                    'Tiết kiệm chi phí ban đầu',
+                    'Hỗ trợ setup cơ bản',
                 ]
             }
         ]
