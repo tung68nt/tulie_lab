@@ -25,7 +25,7 @@ const DEFAULT_MENU: MenuItem[] = [
         label: 'Ứng dụng',
         href: '/applications',
         children: [
-            { id: 'vibe-coding', label: 'Vibe Coding', href: '/applications/vibe-coding' },
+            { id: 'vibe-coding', label: 'Vibe Coding', href: '/vibe-coding' },
             { id: 'ai', label: 'Ứng dụng AI', href: '/applications/ai' },
             { id: 'google-sheets', label: 'Google Sheets & Apps Script', href: '/applications/google-sheets' },
         ]

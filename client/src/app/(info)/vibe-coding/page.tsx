@@ -1,35 +1,13 @@
-'use client';
 
-import { DEFAULT_ABOUT_PAGE_SECTIONS } from '@/lib/defaultContent';
-import { HeroSection } from '@/components/info/sections/HeroSection';
-import { StatsSection } from '@/components/info/sections/StatsSection';
-import { ComparisonSection } from '@/components/info/sections/ComparisonSection';
-import { FeatureGridSection } from '@/components/info/sections/FeatureGridSection';
-import { ProcessSection } from '@/components/info/sections/ProcessSection';
-import { ContentSection } from '@/components/info/sections/ContentSection';
-import { CTASection } from '@/components/info/sections/CTASection';
-import { Section } from '@/types/sections';
+import { LandingPageRenderer } from '@/components/info/LandingPageRenderer';
+import { Metadata } from 'next';
 
-const SECTION_COMPONENTS: Record<string, React.ComponentType<{ section: Section }>> = {
-    hero: HeroSection,
-    stats: StatsSection,
-    comparison: ComparisonSection,
-    features: FeatureGridSection,
-    process: ProcessSection,
-    content: ContentSection,
-    cta: CTASection,
+export const metadata: Metadata = {
+    title: 'Vibe Coding - Lập trình sáng tạo cùng AI | The Tulie Lab',
+    description: 'Khám phá phong cách lập trình Vibe Coding - kết hợp trạng thái dòng chảy và trí tuệ nhân tạo để kiến tạo sản phẩm công nghệ đầy cảm hứng.',
+    keywords: ['Vibe Coding', 'AI Coding', 'Lập trình sáng tạo', 'Học lập trình AI'],
 };
 
 export default function VibeCodingInfoPage() {
-    return (
-        <div className="flex flex-col min-h-screen">
-            <main className="flex-1">
-                {DEFAULT_ABOUT_PAGE_SECTIONS.map((section) => {
-                    const Component = SECTION_COMPONENTS[section.type];
-                    if (!Component) return null;
-                    return <Component key={section.id} section={section} />;
-                })}
-            </main>
-        </div>
-    );
+    return <LandingPageRenderer slug="vibe-coding" />;
 }

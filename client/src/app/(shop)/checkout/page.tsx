@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
-import { ShieldCheck, Sparkles, TrendingUp } from 'lucide-react';
+import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2 } from 'lucide-react';
 
 function CheckoutContent() {
     const router = useRouter();
@@ -409,26 +409,33 @@ function CheckoutContent() {
 
                     {/* Right Column - Order Summary */}
                     <div className="lg:col-span-1">
-                        <Card className="sticky top-4 shadow-lg">
-                            <CardHeader>
-                                <CardTitle>Tóm tắt đơn hàng</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4 p-6">
+                        {/* Order Summary Summary - CINEMATIC */}
+                        <Card className="sticky top-4 shadow-2xl border-zinc-900 border-2 overflow-hidden group rounded-2xl">
+                            <div className="bg-zinc-900 text-white p-6 relative overflow-hidden">
+                                <CardTitle className="relative z-10 flex items-center gap-2 text-white">
+                                    <ShieldCheck className="w-5 h-5 text-green-400" />
+                                    Tóm tắt đơn hàng
+                                </CardTitle>
+                                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                                    <Sparkles className="w-20 h-20" />
+                                </div>
+                            </div>
+                            <CardContent className="space-y-6 pt-8 p-6 bg-white dark:bg-zinc-950">
                                 {/* Price Breakdown */}
-                                <div className="space-y-3">
+                                <div className="space-y-4">
                                     <div className="flex justify-between text-sm">
-                                        <span className="text-muted-foreground">Sản phẩm chính</span>
-                                        <span className="font-medium">
+                                        <span className="text-muted-foreground font-medium">Sản phẩm chính</span>
+                                        <span className="font-bold text-zinc-900 dark:text-zinc-100">
                                             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
                                         </span>
                                     </div>
 
                                     {selectedUpsells.length > 0 && (
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-muted-foreground">
+                                            <span className="text-muted-foreground font-medium">
                                                 Sản phẩm thêm ({selectedUpsells.length})
                                             </span>
-                                            <span className="font-medium">
+                                            <span className="font-bold text-zinc-900 dark:text-zinc-100">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(upsellTotal)}
                                             </span>
                                         </div>
@@ -436,50 +443,62 @@ function CheckoutContent() {
 
                                     {discount > 0 && (
                                         <div className="flex justify-between text-sm">
-                                            <span className="text-muted-foreground">Giảm giá</span>
-                                            <span className="font-medium text-green-600">
+                                            <span className="text-muted-foreground font-medium">Giảm giá</span>
+                                            <span className="font-bold text-green-600">
                                                 -{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discount)}
                                             </span>
                                         </div>
                                     )}
 
-                                    <div className="border-t pt-3 flex justify-between items-baseline">
-                                        <span className="font-bold text-base">Tổng thanh toán</span>
-                                        <span className="text-2xl font-bold text-primary">
-                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalAmount)}
-                                        </span>
+                                    <div className="h-px bg-zinc-100 dark:bg-zinc-800 my-2" />
+
+                                    <div className="flex justify-between items-baseline pt-2">
+                                        <span className="font-black text-lg uppercase tracking-tight">Tổng thanh toán</span>
+                                        <div className="text-right">
+                                            <span className="text-3xl font-black text-zinc-900 dark:text-white block tracking-tighter">
+                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalAmount)}
+                                            </span>
+                                            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest mt-1 block italic opacity-60">
+                                                Bao gồm phí kích hoạt tự động
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
-                                {/* CTA Button */}
-                                <Button
-                                    className="w-full h-12 text-base font-bold shadow-lg"
-                                    size="lg"
-                                    onClick={handleCheckout}
-                                    disabled={processing}
-                                >
-                                    {processing ? (
-                                        <span className="flex items-center gap-2">
-                                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                            Đang xử lý...
-                                        </span>
-                                    ) : (
-                                        finalAmount === 0 ? 'Đăng ký ngay' : 'Thanh toán ngay'
-                                    )}
-                                </Button>
+                                <div className="space-y-4 pt-4">
+                                    <Button
+                                        onClick={handleCheckout}
+                                        disabled={processing}
+                                        className="w-full text-lg font-black h-16 rounded-2xl bg-zinc-900 hover:bg-black text-white dark:bg-white dark:text-black dark:hover:bg-zinc-100 shadow-xl shadow-zinc-900/10 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                                    >
+                                        {processing ? (
+                                            <span className="flex items-center gap-2">
+                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                ĐANG XỬ LÝ...
+                                            </span>
+                                        ) : (
+                                            <>
+                                                <span className="relative z-10 uppercase tracking-wide">
+                                                    {finalAmount === 0 ? 'Đăng ký ngay' : 'Thanh toán ngay'}
+                                                </span>
+                                                <MoveRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform relative z-10" />
+                                            </>
+                                        )}
+                                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500" />
+                                    </Button>
 
-                                {/* Trust Badges */}
-                                <div className="pt-3 space-y-2 border-t">
-                                    <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-                                        <ShieldCheck className="w-4 h-4 text-green-600" />
-                                        <span>Thanh toán bảo mật 100%</span>
+                                    <div className="pt-3 space-y-2 border-t">
+                                        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground opacity-60">
+                                            <Lock className="w-3.5 h-3.5 text-green-600" />
+                                            <span>Thanh toán bảo mật 256-bit SSL</span>
+                                        </div>
+                                        <p className="text-[10px] text-center text-muted-foreground opacity-50">
+                                            Bằng việc thanh toán, bạn đồng ý với{' '}
+                                            <Link href="/terms" className="underline hover:text-primary">
+                                                Điều khoản dịch vụ
+                                            </Link>
+                                        </p>
                                     </div>
-                                    <p className="text-xs text-center text-muted-foreground">
-                                        Bằng việc thanh toán, bạn đồng ý với{' '}
-                                        <Link href="/terms" className="underline hover:text-primary">
-                                            Điều khoản dịch vụ
-                                        </Link>
-                                    </p>
                                 </div>
                             </CardContent>
                         </Card>

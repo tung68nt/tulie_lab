@@ -9,6 +9,7 @@ import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
+import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Star, Clock, Zap, Info, Copy } from 'lucide-react';
 
 const safeParse = (val: any, fallback: string[]) => {
     if (!val) return fallback;
@@ -253,57 +254,77 @@ export default function ProductDetailPage() {
                             {/* Pricing Options - Only show if user doesn't own and isn't member */}
                             {!isOwned && !isMember && (
                                 <div className="space-y-6">
-                                    {/* Single Purchase - Full Width */}
-                                    <div className="p-6 rounded-2xl border-2 border-zinc-900 bg-zinc-50/50 dark:bg-zinc-900/10 transition-all hover:shadow-xl hover:-translate-y-1">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <div>
-                                                <h3 className="text-xl font-black uppercase tracking-tight">Mua lẻ</h3>
-                                                <p className="text-sm text-muted-foreground mt-1">Sở hữu vĩnh viễn template này</p>
-                                            </div>
-                                            <div className="text-right">
-                                                <div className="text-2xl font-black">
-                                                    {product.price === 0 || product.price === '0'
-                                                        ? 'Miễn phí'
-                                                        : `${new Intl.NumberFormat('vi-VN').format(product.price)}đ`}
+                                    {/* Single Purchase - Premium Glass Card */}
+                                    <div className="group relative p-8 rounded-3xl border-2 border-zinc-900 bg-zinc-50 dark:bg-zinc-900/40 backdrop-blur-xl transition-all duration-500 hover:shadow-[0_20px_50px_-15px_rgba(0,0,0,0.3)] hover:-translate-y-1 overflow-hidden">
+                                        {/* Decorative Glow */}
+                                        <div className="absolute -right-20 -top-20 w-40 h-40 bg-zinc-900/5 dark:bg-white/5 rounded-full blur-3xl group-hover:bg-zinc-900/10 dark:group-hover:bg-white/10 transition-colors" />
+
+                                        <div className="relative z-10">
+                                            <div className="flex items-center justify-between mb-6">
+                                                <div>
+                                                    <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-zinc-900 text-white dark:bg-white dark:text-black text-[10px] font-black uppercase tracking-wider mb-3 shadow-lg">
+                                                        Mua một lần
+                                                    </div>
+                                                    <h3 className="text-2xl font-black uppercase tracking-tight text-zinc-900 dark:text-white">Sở hữu trọn đời</h3>
+                                                    <p className="text-sm text-muted-foreground mt-1">{settings.pricing_single_description || 'Sở hữu vĩnh viễn template này'}</p>
                                                 </div>
-                                                {product.compareAtPrice && product.compareAtPrice > product.price && product.price > 0 && (
-                                                    <div className="text-xs text-muted-foreground line-through decoration-red-500/50">{new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ</div>
-                                                )}
+                                                <div className="text-right">
+                                                    <div className="text-3xl font-black text-zinc-900 dark:text-white">
+                                                        {product.price === 0 || product.price === '0'
+                                                            ? 'Miễn phí'
+                                                            : `${new Intl.NumberFormat('vi-VN').format(product.price)}đ`}
+                                                    </div>
+                                                    {product.compareAtPrice && product.compareAtPrice > product.price && product.price > 0 && (
+                                                        <div className="text-sm text-muted-foreground line-through decoration-red-500/50 decoration-2">{new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ</div>
+                                                    )}
+                                                </div>
                                             </div>
+                                            <Link href={`/checkout?productId=${product.id}`}>
+                                                <Button as="div" variant="default" className="w-full text-lg font-black h-14 rounded-2xl group overflow-hidden relative shadow-xl shadow-zinc-900/10 active:scale-95 transition-all">
+                                                    <span className="relative z-10 flex items-center justify-center gap-2">
+                                                        <Wallet className="w-5 h-5" />
+                                                        SỞ HỮU NGAY
+                                                    </span>
+                                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
+                                                </Button>
+                                            </Link>
                                         </div>
-                                        <Link href={`/checkout?productId=${product.id}`}>
-                                            <Button as="div" variant="default" className="w-full text-base font-bold h-12 rounded-xl group overflow-hidden relative">
-                                                <span className="relative z-10">Sở hữu ngay</span>
-                                                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
-                                            </Button>
-                                        </Link>
+                                    </div>
+
+                                    <div className="relative">
+                                        <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                                            <div className="w-full border-t border-zinc-200 dark:border-zinc-800"></div>
+                                        </div>
+                                        <div className="relative flex justify-center text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                                            <span className="bg-background px-4">Hoặc tiết kiệm với Membership</span>
+                                        </div>
                                     </div>
 
                                     {/* Membership Grid - 2 Columns */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Membership - Gói Cơ Bản */}
-                                        <div className="relative p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex flex-col h-full transition-all hover:border-zinc-900 dark:hover:border-white">
-                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-black text-[10px] font-black uppercase tracking-widest shadow-xl">
-                                                Khuyên dùng
+                                        <div className="group relative p-6 rounded-3xl border border-zinc-200 dark:border-white/5 bg-white dark:bg-zinc-900/20 flex flex-col h-full transition-all duration-300 hover:border-zinc-900 dark:hover:border-white hover:shadow-xl">
+                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 text-[10px] font-black uppercase tracking-widest border border-zinc-200 dark:border-zinc-700">
+                                                Phổ biến
                                             </div>
-                                            <div className="mb-6 mt-2">
-                                                <h3 className="text-lg font-bold mb-1">{MEMBERSHIP_PRICING.BASIC.title}</h3>
+                                            <div className="mb-8 mt-4">
+                                                <h3 className="text-xl font-bold mb-2">{MEMBERSHIP_PRICING.BASIC.title}</h3>
                                                 <div className="flex items-baseline gap-1">
-                                                    <span className="text-2xl font-black">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
-                                                    <span className="text-xs text-muted-foreground">{MEMBERSHIP_PRICING.BASIC.period}</span>
+                                                    <span className="text-3xl font-black text-zinc-900 dark:text-white">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
+                                                    <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
                                                 </div>
-                                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
+                                                <p className="text-sm text-muted-foreground mt-4 leading-relaxed line-clamp-2">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="inverted" className="w-full text-xs font-bold h-10 rounded-lg">
-                                                    Đăng ký ngay
+                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-zinc-900 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-all">
+                                                    Đăng ký gói này
                                                 </Button>
                                             </Link>
                                             <div className="mt-6 space-y-2.5 text-[12px]">
                                                 {safeParse(settings.pricing_membership_basic_features, ['Tải không giới hạn', 'Tiết kiệm 80%', 'Update hàng tuần']).map((f: string, i: number) => (
                                                     <div key={i} className="flex items-center gap-2">
-                                                        <svg className="w-3.5 h-3.5 text-zinc-900 dark:text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900 dark:text-white shrink-0" />
                                                         <span className="font-medium">{f}</span>
                                                     </div>
                                                 ))}
@@ -311,28 +332,31 @@ export default function ProductDetailPage() {
                                         </div>
 
                                         {/* Membership - Gói Premium */}
-                                        <div className="relative p-6 rounded-2xl border-2 border-zinc-900 dark:border-white bg-zinc-50 dark:bg-zinc-900 flex flex-col h-full transition-all shadow-lg overflow-hidden group">
-                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-yellow-400 text-black text-[10px] font-black uppercase tracking-widest shadow-xl">
-                                                VIP
+                                        <div className="group relative p-6 rounded-3xl border-2 border-zinc-900 dark:border-white bg-zinc-900 dark:bg-white text-white dark:text-black flex flex-col h-full shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+                                            <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-red-600 text-white text-[10px] font-black uppercase tracking-widest shadow-lg animate-pulse-slow">
+                                                BEST VALUE
                                             </div>
-                                            <div className="mb-6 mt-2">
-                                                <h3 className="text-lg font-bold mb-1">{MEMBERSHIP_PRICING.PREMIUM.title}</h3>
-                                                <div className="flex items-baseline gap-1">
-                                                    <span className="text-2xl font-black">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
-                                                    <span className="text-xs text-muted-foreground">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
+                                            <div className="mb-8 mt-4">
+                                                <div className="flex items-center gap-2 opacity-60 mb-1">
+                                                    <Sparkles className="w-4 h-4 text-amber-400 fill-amber-400" />
+                                                    <span className="text-[10px] font-bold uppercase tracking-wider">{MEMBERSHIP_PRICING.PREMIUM.title}</span>
                                                 </div>
-                                                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
+                                                <div className="flex items-baseline gap-1">
+                                                    <span className="text-3xl font-black">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
+                                                    <span className="text-sm opacity-60 font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
+                                                </div>
+                                                <p className="text-sm opacity-70 mt-4 leading-relaxed line-clamp-2">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="inverted" className="w-full text-xs font-bold h-10 rounded-lg group-hover:bg-zinc-800 dark:group-hover:bg-zinc-200 transition-colors">
-                                                    Nâng cấp ngay
+                                                <Button as="div" variant="light" className="w-full text-sm font-bold h-12 rounded-xl bg-white text-black dark:bg-black dark:text-white hover:opacity-90 transition-all border-none">
+                                                    Nâng cấp Premium
                                                 </Button>
                                             </Link>
                                             <div className="mt-6 space-y-2.5 text-[12px]">
                                                 {safeParse(settings.pricing_membership_premium_features, ['Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7']).map((f: string, i: number) => (
                                                     <div key={i} className="flex items-center gap-2">
-                                                        <svg className="w-3.5 h-3.5 text-zinc-900 dark:text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                                                        <Check className="w-3.5 h-3.5 shrink-0" />
                                                         <span className="font-medium">{f}</span>
                                                     </div>
                                                 ))}

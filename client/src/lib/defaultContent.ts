@@ -573,7 +573,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
                 title: 'Vibe Coding',
                 description: 'Phương pháp lập trình sáng tạo, tập trung vào trải nghiệm và trạng thái dòng chảy (Flow State). Biến code thành nghệ thuật.',
                 icon: 'Code',
-                href: '/applications/vibe-coding'
+                href: '/vibe-coding'
             },
             {
                 title: 'Ứng dụng AI',

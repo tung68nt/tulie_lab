@@ -143,7 +143,7 @@ export function Navbar() {
             label: 'Ứng dụng',
             href: '/applications',
             children: [
-                { label: 'Vibe coding', href: '/applications/vibe-coding' },
+                { label: 'Vibe coding', href: '/vibe-coding' },
                 { label: 'Ứng dụng AI', href: '/applications/ai' },
                 { label: 'Google Sheets & Apps Script', href: '/applications/google-sheets' },
             ],

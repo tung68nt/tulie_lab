@@ -297,17 +297,36 @@ export default function OrderPage({ params }: { params: any }) {
                             </div>
                         </div>
 
-                        <div className="mt-6 flex items-start gap-4 p-4 rounded-xl bg-yellow-50 border border-yellow-100">
-                            <div className="relative flex h-3 w-3 mt-1.5 shrink-0">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+                        <div className="mt-8 relative group">
+                            <div className="absolute inset-0 bg-yellow-400/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                            <div className="relative flex items-start gap-5 p-6 rounded-2xl bg-yellow-50/50 dark:bg-yellow-900/10 border border-yellow-200/50 backdrop-blur-sm overflow-hidden">
+                                <div className="absolute top-0 right-0 p-4 opacity-5">
+                                    <Sparkles className="w-20 h-20 text-yellow-600" />
+                                </div>
+                                <div className="relative flex h-4 w-4 mt-2 shrink-0">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-4 w-4 bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]"></span>
+                                </div>
+                                <div className="relative z-10 flex-1">
+                                    <h4 className="font-bold text-yellow-900 dark:text-yellow-400 text-lg mb-1 flex items-center gap-2">
+                                        Đang chờ hệ thống xác nhận...
+                                    </h4>
+                                    <p className="text-sm text-yellow-800 dark:text-yellow-500/80 leading-relaxed">
+                                        Giao dịch của bạn sẽ được tự động nhận diện trong <span className="font-black">10 - 60 giây</span> sau khi chuyển khoản thành công. <br className="hidden md:block" />
+                                        Vui lòng <span className="underline decoration-2 underline-offset-2">không đóng trình duyệt</span> lúc này.
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 className="font-semibold text-yellow-800 text-sm">Hệ thống đang chờ nhận tiền...</h4>
-                                <p className="text-sm text-yellow-700 mt-0.5">
-                                    Trạng thái đơn hàng sẽ tự động cập nhật sau mỗi 5 giây. Không cần refresh trang.
-                                </p>
-                            </div>
+                        </div>
+
+                        {/* Additional Help */}
+                        <div className="mt-12 p-8 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 text-center">
+                            <p className="text-zinc-500 text-sm mb-4">Gặp khó khăn khi thanh toán?</p>
+                            <Link href="/contact">
+                                <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white">
+                                    Liên hệ bộ phận kỹ thuật
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>
