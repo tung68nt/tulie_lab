@@ -159,6 +159,7 @@ export const api = {
                 }
                 return request<{ data: Order[], meta: any }>(`/payments/orders?${searchParams.toString()}`);
             },
+            get: (id: string) => request<Order>(`/payments/orders/${id}`),
             updateStatus: (id: string, status: string) => request<Order>(`/payments/orders/${id}/status`, {
                 method: 'PUT',
                 body: JSON.stringify({ status })
