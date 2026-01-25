@@ -113,6 +113,25 @@ export class UserService {
             where: { courseId: { in: enrollmentIds } }
         });
 
+        // Fetch and Attach Transactions for orders
+        const orderCodes = (user as any).orders.map((o: any) => o.code);
+        const allTransactions = await prisma.paymentTransaction.findMany({
+            where: { code: { in: orderCodes } },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        (user as any).orders = (user as any).orders.map((o: any) => ({
+            ...o,
+            transactions: allTransactions
+                .filter((tx: any) => tx.code === o.code)
+                .map((tx: any) => ({
+                    ...tx,
+                    amount: Number(tx.amountIn || 0),
+                    bankName: tx.gateway || 'Chuyển khoản ngân hàng',
+                    createdAt: tx.transactionDate || tx.createdAt
+                }))
+        }));
+
         return {
             ...user,
             activities,

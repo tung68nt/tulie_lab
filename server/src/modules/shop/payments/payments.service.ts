@@ -148,7 +148,12 @@ export class PaymentService {
                 where: { code: order.code },
                 orderBy: { createdAt: 'desc' }
             });
-            (order as any).transactions = transactions;
+            (order as any).transactions = transactions.map((tx: any) => ({
+                ...tx,
+                amount: Number(tx.amountIn || 0),
+                bankName: tx.gateway || 'Chuyển khoản ngân hàng',
+                createdAt: tx.transactionDate || tx.createdAt
+            }));
         }
         return order;
     }
@@ -160,7 +165,12 @@ export class PaymentService {
                 where: { code: order.code },
                 orderBy: { createdAt: 'desc' }
             });
-            (order as any).transactions = transactions;
+            (order as any).transactions = transactions.map((tx: any) => ({
+                ...tx,
+                amount: Number(tx.amountIn || 0),
+                bankName: tx.gateway || 'Chuyển khoản ngân hàng',
+                createdAt: tx.transactionDate || tx.createdAt
+            }));
         }
         return order;
     }
