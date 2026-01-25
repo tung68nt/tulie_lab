@@ -196,7 +196,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 <span className="font-medium ml-2">{formatDate(order.createdAt)}</span>
                             </div>
                             <div className="mt-4">
-                                <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase
+                                <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold
                                     ${order.status === 'PAID' || order.status === 'COMPLETED' ? 'bg-zinc-950 text-white' : 'bg-zinc-100 text-zinc-500'}
                                 `}>
                                     {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chưa thanh toán'}
