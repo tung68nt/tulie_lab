@@ -108,6 +108,9 @@ async function initializeApp() {
       console.error('❌ DI Initialization Failed:', error);
     }
 
+    // Capture mounting errors
+    const mountingErrors: any[] = [];
+
     // --- Mount Routes ---
     console.log('🛣️  Mounting routes...');
     try {
@@ -121,6 +124,7 @@ async function initializeApp() {
         { path: '/api/uploads', module: './modules/system/uploads/uploads.routes' },
         { path: '/api/blog', module: './modules/info/blog/blog.routes' },
         { path: '/api/notifications', module: './modules/system/notifications/notifications.routes' },
+        // ... other routes
         { path: '/api/categories', module: './modules/lms/categories/categories.routes' },
         { path: '/api/bundles', module: './modules/shop/bundles/bundles.routes' },
         { path: '/api/coupons', module: './modules/shop/coupons/coupons.routes' },
@@ -143,6 +147,7 @@ async function initializeApp() {
           console.log(`   - Mounted ${route.path}`);
         } catch (err: any) {
           console.error(`❌ Failed to mount ${route.path}:`, err.message);
+          mountingErrors.push({ path: route.path, error: err.message, stack: err.stack });
         }
       }
 
@@ -163,9 +168,10 @@ async function initializeApp() {
           status: 'online',
           database: dbStatus,
           mediaModel: mediaModelStatus,
+          mountingErrors: mountingErrors,
           timestamp: new Date().toISOString(),
           env: process.env.NODE_ENV,
-          version: 'v1.0.8-debug-media'
+          version: 'v1.0.9-debug-mount'
         });
       });
 
