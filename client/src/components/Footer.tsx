@@ -60,7 +60,7 @@ const defaultFooterData: FooterData = {
     ],
     certificationImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Bo_Cong_Thuong_Vietnam.svg/200px-Bo_Cong_Thuong_Vietnam.svg.png',
     certificationLink: 'http://online.gov.vn/',
-    copyrightText: 'The Tulie Lab. Bảo lưu mọi quyền.',
+    copyrightText: 'TULIE TSS. All Rights Reserved.',
 };
 
 // Social Icons
@@ -235,7 +235,7 @@ export function Footer() {
                 {/* Bottom Bar - Copyright only */}
                 <div className="mt-12 pt-6 border-t flex flex-col items-center gap-2">
                     <p className="text-sm text-muted-foreground text-center">
-                        © {new Date().getFullYear()} {footerData.copyrightText}
+                        Copyright © {new Date().getFullYear()} {footerData.copyrightText}
                     </p>
                 </div>
             </div>
