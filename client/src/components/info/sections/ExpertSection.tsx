@@ -14,7 +14,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
         name: section.title || "TuLie",
         role: section.subtitle || "Expert Fullstack Developer & Solopreneur",
         bio: section.content || "Với 10+ năm kinh nghiệm trong lĩnh vực lập trình và xây dựng sản phẩm số. Tôi đã giúp hàng ngàn học viên từ con số 0 trở thành lập trình viên chuyên nghiệp và tự xây dựng business riêng.",
-        image: section.image || "https://thelab.tulie.vn/assets/images/tulie-avatar.jpg", // Replace with real default or uploaded image
+        image: section.image || "/assets/images/tulie-avatar.jpg", // Relative path for multi-domain support
         achievements: section.items?.map(item => item.title) || [
             "Founder Tulie Agency & The Tulie Lab",
             "1000+ Học viên thành công",

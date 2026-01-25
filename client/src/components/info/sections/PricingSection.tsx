@@ -46,7 +46,8 @@ export const PricingSection = ({ section }: { section: Section }) => {
                             </div>
                         )}
 
-                        <div className="mb-8 mt-4 flex-1 min-h-[160px]">
+                        {/* Header Section with standardized height for alignment */}
+                        <div className="min-h-[160px] md:min-h-[180px] flex flex-col mb-4">
                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                 {item.icon && getIcon(item.icon)}
                                 {item.title}
@@ -64,34 +65,36 @@ export const PricingSection = ({ section }: { section: Section }) => {
                             </p>
                         </div>
 
-                        {/* Features List - Aligned across cards */}
-                        {item.features && (
-                            <div className="space-y-4 mb-8 pt-8 border-t border-zinc-100">
-                                {item.features.map((feature: string, idx: number) => (
-                                    <div key={idx} className="flex items-start gap-3">
-                                        <div className="mt-0.5 w-5 h-5 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
-                                            <Check className="w-3.5 h-3.5 text-zinc-900" />
+                        {/* Features List - Line now aligns across cards */}
+                        <div className="flex-1 flex flex-col border-t border-zinc-100 pt-8 mt-2">
+                            {item.features && (
+                                <div className="space-y-4 mb-8">
+                                    {item.features.map((feature: string, idx: number) => (
+                                        <div key={idx} className="flex items-start gap-3">
+                                            <div className="mt-0.5 w-5 h-5 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
+                                                <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                            </div>
+                                            <span className="text-[13px] font-medium text-foreground/80 leading-tight">{feature}</span>
                                         </div>
-                                        <span className="text-[13px] font-medium text-foreground/80 leading-tight">{feature}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                                    ))}
+                                </div>
+                            )}
 
-                        {/* CTA Button */}
-                        <div className="mt-auto">
-                            <Link href={item.link || '#'}>
-                                <Button
-                                    as="div"
-                                    variant={item.tag === 'Best Value' ? 'default' : 'outline'}
-                                    className={cn(
-                                        "w-full text-sm font-bold h-12 rounded-xl transition-all shadow-sm",
-                                        item.tag === 'Best Value' ? "shadow-primary/25" : "group-hover:bg-primary group-hover:text-white"
-                                    )}
-                                >
-                                    {item.ctaText || 'Chọn gói này'}
-                                </Button>
-                            </Link>
+                            {/* CTA Button - Pushed to bottom */}
+                            <div className="mt-auto">
+                                <Link href={item.link || '#'}>
+                                    <Button
+                                        as="div"
+                                        variant={item.tag === 'Best Value' ? 'default' : 'outline'}
+                                        className={cn(
+                                            "w-full text-sm font-bold h-12 rounded-xl transition-all shadow-sm",
+                                            item.tag === 'Best Value' ? "shadow-primary/25" : "group-hover:bg-primary group-hover:text-white"
+                                        )}
+                                    >
+                                        {item.ctaText || 'Chọn gói này'}
+                                    </Button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 ))}
