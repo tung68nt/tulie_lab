@@ -333,7 +333,6 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         setFormData({ ...formData, slug: e.target.value });
                                         setIsSlugManuallyEdited(true);
                                     }}
-                                    required
                                     placeholder="vi-du-trang-khuyen-mai"
                                 />
                                 <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">

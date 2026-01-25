@@ -267,7 +267,6 @@ export default function AdminBlogPage() {
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                                         placeholder="url-bai-viet"
-                                        required
                                     />
                                 </div>
                             </div>
