@@ -17,7 +17,7 @@ interface BlogPost {
     slug: string;
     excerpt: string;
     content: string;
-    coverImage?: string;
+    thumbnail?: string;
     isPublished: boolean;
     createdAt: string;
     updatedAt: string;
@@ -37,7 +37,7 @@ export default function AdminBlogPage() {
         slug: '',
         excerpt: '',
         content: '',
-        coverImage: '',
+        thumbnail: '',
         isPublished: false
     });
 
@@ -106,7 +106,7 @@ export default function AdminBlogPage() {
             slug: post.slug,
             excerpt: post.excerpt || '',
             content: post.content,
-            coverImage: post.coverImage || '',
+            thumbnail: post.thumbnail || '',
             isPublished: post.isPublished
         });
         setShowForm(true);
@@ -149,7 +149,7 @@ export default function AdminBlogPage() {
             slug: '',
             excerpt: '',
             content: '',
-            coverImage: '',
+            thumbnail: '',
             isPublished: false
         });
     };
@@ -168,7 +168,7 @@ export default function AdminBlogPage() {
                 title="Quản lý bài viết"
                 subtitle="Tạo và quản lý các bài viết tin tức."
             >
-                <Button onClick={() => setShowForm(!showForm)}>
+                <Button variant="inverted" onClick={() => setShowForm(!showForm)}>
                     {showForm ? 'Hủy' : 'Thêm bài viết'}
                 </Button>
             </AdminPageHeader>
@@ -214,8 +214,8 @@ export default function AdminBlogPage() {
                             <div>
                                 <label className="text-sm font-medium">Ảnh bìa (URL)</label>
                                 <Input
-                                    value={formData.coverImage}
-                                    onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+                                    value={formData.thumbnail}
+                                    onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
                                     placeholder="https://example.com/image.jpg"
                                 />
                             </div>
@@ -243,7 +243,7 @@ export default function AdminBlogPage() {
                             </div>
 
                             <div className="flex gap-2">
-                                <Button type="submit">
+                                <Button type="submit" variant="inverted">
                                     {editingPost ? 'Cập nhật' : 'Tạo bài viết'}
                                 </Button>
                                 <Button type="button" variant="outline" onClick={resetForm}>
