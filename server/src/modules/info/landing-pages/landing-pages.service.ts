@@ -12,7 +12,7 @@ export class LandingPageService {
     async createLandingPage(data: any) {
         return this.landingPageRepository.create({
             title: data.title,
-            slug: data.slug,
+            slug: data.slug || 'home', // Default to 'home' if empty, serving as root
             description: data.description ?? null,
             sections: data.sections ? JSON.stringify(data.sections) : null,
             isActive: data.isActive ?? true,
@@ -31,7 +31,7 @@ export class LandingPageService {
 
         const updateData: any = {};
         if (data.title !== undefined) updateData.title = data.title;
-        if (data.slug !== undefined) updateData.slug = data.slug;
+        if (data.slug !== undefined) updateData.slug = data.slug || 'home';
         if (data.description !== undefined) updateData.description = data.description;
         if (data.sections !== undefined) updateData.sections = data.sections ? JSON.stringify(data.sections) : null;
         if (data.htmlContent !== undefined) updateData.htmlContent = data.htmlContent;

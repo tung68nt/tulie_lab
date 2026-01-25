@@ -302,8 +302,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         setFormData({ ...formData, slug: e.target.value });
                                         setIsSlugManuallyEdited(true);
                                     }}
-                                    required
-                                    placeholder="vi-du-trang-khuyen-mai"
+                                    placeholder="vi-du-trang-khuyen-mai (Để trống nếu là trang chủ)"
                                 />
                                 <p className="text-xs text-muted-foreground">URL: {formData.type === 'SYSTEM' ? '/' : '/p/'}{formData.slug}</p>
                             </div>
