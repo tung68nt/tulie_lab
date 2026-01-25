@@ -172,10 +172,14 @@ export default function OrdersPage() {
                                                 </td>
                                                 <td className="px-4 py-4">
                                                     <div className="flex items-center gap-2 justify-end">
-                                                        {order.status === 'PENDING' && order.amount > 0 ? (
+                                                        <Link href={`/orders/${order.code}`} className="shrink-0">
+                                                            <Button as="div" variant="outline" size="sm" className="whitespace-nowrap">Chi tiết</Button>
+                                                        </Link>
+
+                                                        {order.status === 'PENDING' && order.amount > 0 && (
                                                             <>
                                                                 <Link href={`/order/${order.code}`} className="shrink-0">
-                                                                    <Button as="div" size="sm" className="whitespace-nowrap">Thanh toán</Button>
+                                                                    <Button as="div" size="sm" className="whitespace-nowrap bg-zinc-950 text-white hover:bg-zinc-800">Thanh toán</Button>
                                                                 </Link>
                                                                 <button
                                                                     onClick={() => handleDeleteOrder(order.id, order.code)}
@@ -186,13 +190,13 @@ export default function OrdersPage() {
                                                                     <Trash2 className={`w-4 h-4 text-muted-foreground hover:text-foreground ${deletingOrder === order.id ? 'animate-pulse' : ''}`} />
                                                                 </button>
                                                             </>
-                                                        ) : (order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) ? (
+                                                        )}
+
+                                                        {(order.status === 'PAID' || order.status === 'COMPLETED' || isFreeCompleted) && (
                                                             (() => {
-                                                                // Check if order contains courses or products
                                                                 const hasCourses = order.courses && order.courses.length > 0;
                                                                 const hasProducts = order.products && order.products.length > 0;
 
-                                                                // Determine button text and link
                                                                 let buttonText = 'Xem';
                                                                 let buttonLink = '/dashboard';
 
@@ -208,21 +212,12 @@ export default function OrdersPage() {
                                                                 }
 
                                                                 return (
-                                                                    <div className="flex items-center gap-2">
-                                                                        <Link href={`/orders/${order.code}`} className="shrink-0">
-                                                                            <Button as="div" variant="ghost" size="sm" className="whitespace-nowrap underline">Chi tiết</Button>
-                                                                        </Link>
-                                                                        <Link href={buttonLink} className="shrink-0">
-                                                                            <Button as="div" variant="outline" size="sm" className="whitespace-nowrap">{buttonText}</Button>
-                                                                        </Link>
-                                                                    </div>
+                                                                    <Link href={buttonLink} className="shrink-0">
+                                                                        <Button as="div" variant="outline" size="sm" className="whitespace-nowrap">{buttonText}</Button>
+                                                                    </Link>
                                                                 );
                                                             })()
-                                                        ) : order.status === 'CANCELLED' ? (
-                                                            <Link href={`/orders/${order.code}`} className="shrink-0">
-                                                                <Button as="div" variant="ghost" size="sm" className="whitespace-nowrap underline opacity-50">Chi tiết</Button>
-                                                            </Link>
-                                                        ) : null}
+                                                        )}
                                                     </div>
                                                 </td>
                                             </tr>

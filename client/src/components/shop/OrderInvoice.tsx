@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Printer, Download, Mail, Globe, MapPin, FileText } from 'lucide-react';
+import { Printer, Download, Mail, Globe, MapPin, FileText, Phone } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
 import { useSettings } from '@/contexts/SettingsContext';
@@ -178,20 +178,31 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     </>
                                 )}
                             </div>
-                            <div className="text-xs text-zinc-500 leading-relaxed max-w-md">
-                                <div className="font-bold text-zinc-950 text-base mb-1.5">{footerData?.companyName}</div>
+                            <div className="text-[11px] text-zinc-500 leading-relaxed max-w-md">
+                                <div className="font-bold text-zinc-950 text-sm mb-1 uppercase tracking-tight">{footerData?.companyName}</div>
                                 <div className="flex items-start gap-2 mb-1">
-                                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                                    <span>{footerData?.address}</span>
+                                    <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
+                                    <span>
+                                        {footerData?.address?.split('Thành phố Hà Nội').map((part: string, i: number, arr: any[]) => (
+                                            <React.Fragment key={i}>
+                                                {part}
+                                                {i < arr.length - 1 && <><br />Thành phố Hà Nội</>}
+                                            </React.Fragment>
+                                        ))}
+                                    </span>
                                 </div>
-                                <div className="flex gap-4">
-                                    <div className="flex items-center gap-2"><Globe className="w-3.5 h-3.5" /> {footerData?.website || 'academy.tulie.vn'}</div>
-                                    <div className="flex items-center gap-2 font-medium"><FileText className="w-3.5 h-3.5" /> MST: {footerData?.taxId}</div>
+                                <div className="space-y-0.5">
+                                    <div className="flex items-center gap-2"><Globe className="w-3 h-3" /> {footerData?.website || 'academy.tulie.vn'}</div>
+                                    <div className="flex items-center gap-2"><FileText className="w-3 h-3" /> MST: {footerData?.taxId}</div>
+                                    <div className="flex items-center gap-4 mt-1 opacity-80">
+                                        <div className="flex items-center gap-1.5"><Mail className="w-3 h-3" /> {footerData?.email || 'support@tulielab.vn'}</div>
+                                        <div className="flex items-center gap-1.5"><Phone className="w-3 h-3" /> {footerData?.hotline || '0901.234.567'}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div className="text-right space-y-2">
-                            <h1 className="text-3xl font-bold tracking-tighter">HÓA ĐƠN</h1>
+                            <h1 className="text-3xl font-bold tracking-tighter uppercase">ĐƠN HÀNG</h1>
                             <div className="text-sm">
                                 <span className="text-zinc-500">Mã đơn hàng:</span>
                                 <span className="font-bold ml-2">{order.code}</span>
