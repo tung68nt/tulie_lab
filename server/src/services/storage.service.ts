@@ -18,17 +18,29 @@ export class StorageService {
         this.publicDomain = process.env.R2_PUBLIC_DOMAIN || '';
 
         if (!accountId || !accessKeyId || !secretAccessKey) {
-            console.warn('⚠️ R2 Storage configuration missing. Uploads may fail.');
+            console.warn('⚠️ R2 Storage configuration missing. Uploads will fail safely.');
+            // Initialize with dummy creds to prevent crash, but operations will fail later
+            this.client = new S3Client({
+                region: 'auto',
+                credentials: { accessKeyId: 'missing', secretAccessKey: 'missing' }
+            });
+            return;
         }
 
-        this.client = new S3Client({
-            region: 'auto',
-            endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-            credentials: {
-                accessKeyId: accessKeyId || '',
-                secretAccessKey: secretAccessKey || ''
-            }
-        });
+        try {
+            this.client = new S3Client({
+                region: 'auto',
+                endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+                credentials: {
+                    accessKeyId: accessKeyId,
+                    secretAccessKey: secretAccessKey
+                }
+            });
+        } catch (error) {
+            console.error('❌ Failed to initialize S3 Client:', error);
+            // Fallback to prevent app crash
+            this.client = new S3Client({ region: 'auto' });
+        }
     }
 
     /**
