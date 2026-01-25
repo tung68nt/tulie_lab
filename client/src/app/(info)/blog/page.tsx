@@ -129,10 +129,10 @@ export default function BlogPage() {
             <div className="container py-12 px-4">
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Sidebar Filter - Stuck on scroll for Desktop */}
-                    <aside className="w-full lg:w-72 shrink-0 space-y-10 lg:sticky lg:top-24 lg:self-start">
+                    <aside className="w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-24 lg:self-start">
                         {/* Search Bar */}
-                        <div className="space-y-4">
-                            <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Tìm kiếm</h3>
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Tìm kiếm</h3>
                             <div className="relative group">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 w-4 h-4 group-focus-within:text-primary transition-colors" />
                                 <input
@@ -144,13 +144,13 @@ export default function BlogPage() {
                         </div>
 
                         {/* Categories List */}
-                        <div className="space-y-4">
-                            <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Chuyên mục</h3>
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Chuyên mục</h3>
                             <nav className="flex flex-col gap-1.5">
                                 <button
                                     onClick={() => toggleCategory('all')}
                                     className={cn(
-                                        "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                        "group flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm transition-all",
                                         selectedCategories.length === 0
                                             ? "bg-muted/50 text-foreground font-bold"
                                             : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
@@ -169,7 +169,7 @@ export default function BlogPage() {
                                         key={cat.id}
                                         onClick={() => toggleCategory(cat.id)}
                                         className={cn(
-                                            "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                            "group flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm transition-all",
                                             selectedCategories.includes(cat.id)
                                                 ? "bg-muted/50 text-foreground font-bold"
                                                 : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
@@ -255,13 +255,10 @@ export default function BlogPage() {
                                                         {stripContent(post.excerpt || post.content || '')}
                                                     </p>
 
-                                                    <div className="pt-2">
-                                                        <div className="inline-flex items-center gap-2 text-[15px] font-bold text-foreground transition-all group/btn">
-                                                            <span className="relative pb-1">
-                                                                Đọc thêm
-                                                                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-foreground/20 transition-all group-hover/btn:bg-primary group-hover/btn:h-[2px]"></span>
-                                                            </span>
-                                                            <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform group-hover/btn:text-primary" />
+                                                    <div className="pt-4">
+                                                        <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-muted/50 text-[14px] font-bold text-foreground transition-all group/btn hover:bg-primary hover:text-primary-foreground">
+                                                            <span>Đọc thêm</span>
+                                                            <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
                                                         </div>
                                                     </div>
                                                 </div>

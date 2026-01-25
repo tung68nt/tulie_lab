@@ -76,7 +76,7 @@ function CourseFilterInner() {
         <button
             onClick={onClick}
             className={cn(
-                "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                "group flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm transition-all",
                 active
                     ? "bg-muted/50 text-foreground font-bold"
                     : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
@@ -93,10 +93,10 @@ function CourseFilterInner() {
     );
 
     return (
-        <aside className="w-full md:w-72 shrink-0 space-y-10 md:sticky md:top-24 md:self-start">
+        <aside className="w-full md:w-72 shrink-0 space-y-8 md:sticky md:top-24 md:self-start">
             {/* Search */}
-            <div className="space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Tìm kiếm</h3>
+            <div className="space-y-3">
+                <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Tìm kiếm</h3>
                 <div className="relative group">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 w-4 h-4 group-focus-within:text-primary transition-colors" />
                     <input
@@ -110,8 +110,8 @@ function CourseFilterInner() {
             </div>
 
             {/* Categories */}
-            <div className="space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Danh mục</h3>
+            <div className="space-y-3">
+                <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Danh mục</h3>
                 <nav className="flex flex-col gap-1.5">
                     <FilterItem active={isSelected('category', '')} label="Tất cả danh mục" onClick={() => updateFilter('category', '')} />
                     {categories.map((cat) => (
@@ -121,8 +121,8 @@ function CourseFilterInner() {
             </div>
 
             {/* Level */}
-            <div className="space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Trình độ</h3>
+            <div className="space-y-3">
+                <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Trình độ</h3>
                 <nav className="flex flex-col gap-1.5">
                     <FilterItem active={isSelected('level', '')} label="Tất cả trình độ" onClick={() => updateFilter('level', '')} />
                     {levelOptions.map((opt) => (
@@ -132,8 +132,8 @@ function CourseFilterInner() {
             </div>
 
             {/* Price */}
-            <div className="space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Mức giá</h3>
+            <div className="space-y-3">
+                <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Mức giá</h3>
                 <nav className="flex flex-col gap-1.5">
                     <FilterItem active={isSelected('price', '')} label="Tất cả mức giá" onClick={() => updateFilter('price', '')} />
                     {priceOptions.map((opt) => (

@@ -125,10 +125,10 @@ export default function ShopPage() {
 
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Sidebar Filter - Desktop & Tablet */}
-                    <aside className={`w-full lg:w-72 shrink-0 space-y-10 lg:sticky lg:top-24 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
+                    <aside className={`w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-24 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
                         {/* Search Bar */}
-                        <div className="space-y-4">
-                            <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Tìm kiếm</h3>
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Tìm kiếm</h3>
                             <div className="relative group">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 w-4 h-4 group-focus-within:text-primary transition-colors" />
                                 <input
@@ -142,8 +142,8 @@ export default function ShopPage() {
                         </div>
 
                         {/* Categories List */}
-                        <div className="space-y-4">
-                            <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Lĩnh vực</h3>
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Lĩnh vực</h3>
                             <nav className="flex flex-col gap-1.5">
                                 {CATEGORIES.map((cat) => {
                                     const isAll = cat.id === 'all';
@@ -163,7 +163,7 @@ export default function ShopPage() {
                                                 }
                                             }}
                                             className={cn(
-                                                "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                                "group flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm transition-all",
                                                 isActive
                                                     ? "bg-muted/50 text-foreground font-bold"
                                                     : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
@@ -183,8 +183,8 @@ export default function ShopPage() {
                         </div>
 
                         {/* Product Types */}
-                        <div className="space-y-4">
-                            <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Loại hình</h3>
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-bold tracking-tight text-muted-foreground/80 px-1">Loại hình</h3>
                             <nav className="flex flex-col gap-1.5">
                                 {PRODUCT_TYPES.map((type) => {
                                     const isAll = type.id === 'all';
@@ -204,7 +204,7 @@ export default function ShopPage() {
                                                 }
                                             }}
                                             className={cn(
-                                                "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                                "group flex items-center gap-3 px-4 py-2.5 rounded-2xl text-sm transition-all",
                                                 isActive
                                                     ? "bg-muted/50 text-foreground font-bold"
                                                     : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
