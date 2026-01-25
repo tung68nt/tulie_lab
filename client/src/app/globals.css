@@ -174,27 +174,27 @@
 
 /* Background Patterns */
 .bg-dot-grid-light {
-  background-image: radial-gradient(hsl(var(--foreground) / 0.15) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(hsl(var(--foreground) / 0.25) 1.5px, transparent 1.5px);
   background-size: 32px 32px;
 }
 
 .bg-dot-grid-dark {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px);
   background-size: 32px 32px;
 }
 
 .bg-dot-white {
-  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.35) 1.5px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.5) 1.5px, transparent 0);
   background-size: 32px 32px;
 }
 
 .bg-dot-black {
-  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.35) 1.5px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.5) 1.5px, transparent 0);
   background-size: 32px 32px;
 }
 
 .bg-dot-inverted {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.5) 1.5px, transparent 1.5px);
   background-size: 32px 32px;
 }
 

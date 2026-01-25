@@ -10,9 +10,9 @@ export const DarkCTASection = ({ section }: { section: Section }) => {
         <section className="py-8 md:py-16 bg-[#0a0a0a] text-white relative overflow-hidden flex items-center justify-center">
             {/* Background pattern */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-dot-white opacity-40"></div>
+                <div className="absolute inset-0 bg-dot-white opacity-60"></div>
                 {/* Radial gradient to settle the dots */}
-                <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,#0a0a0a_100%)]"></div>
+                <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,#0a0a0a_90%)]"></div>
             </div>
 
             <div className="container relative z-10 text-center px-4 max-w-4xl mx-auto">
