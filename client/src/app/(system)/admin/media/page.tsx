@@ -29,7 +29,7 @@ interface MediaFile {
     key: string;
     url: string;
     size: number;
-    lastModified: string;
+    mimeType?: string;
 }
 
 export default function MediaManagerPage() {
