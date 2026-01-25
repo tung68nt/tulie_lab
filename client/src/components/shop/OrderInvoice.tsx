@@ -214,7 +214,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     )}
                                 </div>
                                 <div className="text-[13px] text-zinc-500 leading-relaxed max-w-sm space-y-1">
-                                    <div className="font-extrabold text-zinc-950 text-base mb-2 uppercase">{footerData?.companyName}</div>
+                                    <div className="font-extrabold text-zinc-950 text-base mb-2 uppercase whitespace-nowrap">{footerData?.companyName}</div>
                                     <div className="flex items-start gap-2">
                                         <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
                                         <span>
@@ -232,8 +232,8 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> Hotline: {footerData?.hotline || '0336.883.242'}</div>
                                 </div>
                             </div>
-                            <div className="text-left md:text-right print:text-right space-y-2">
-                                <h1 className="text-3xl md:text-4xl print:text-4xl font-bold uppercase">ĐƠN HÀNG</h1>
+                            <div className="text-left md:text-right print:text-right space-y-2 self-start md:pt-1">
+                                <h1 className="text-3xl md:text-4xl print:text-4xl font-bold uppercase leading-none">ĐƠN HÀNG</h1>
                                 <div className="text-sm">
                                     <span className="text-zinc-600">Mã đơn hàng:</span>
                                     <span className="font-bold ml-2 text-base">{order.code}</span>
