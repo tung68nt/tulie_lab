@@ -149,19 +149,23 @@ async function initializeApp() {
       // Basic Diagnostic Endpoint
       app.get('/api/diag', async (req, res) => {
         let dbStatus = 'checking...';
+        let mediaModelStatus = 'unknown';
         try {
           const prisma = (await import('./config/prisma')).default;
           await prisma.$queryRaw`SELECT 1`;
           dbStatus = 'connected';
+          // @ts-ignore
+          mediaModelStatus = prisma.media ? 'exists' : 'missing';
         } catch (error: any) {
           dbStatus = `error: ${error.message}`;
         }
         res.json({
           status: 'online',
           database: dbStatus,
+          mediaModel: mediaModelStatus,
           timestamp: new Date().toISOString(),
           env: process.env.NODE_ENV,
-          version: 'v1.0.7-resilient-init'
+          version: 'v1.0.8-debug-media'
         });
       });
 
