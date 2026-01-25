@@ -255,16 +255,13 @@ export default function BlogPage() {
                                                         {post.title}
                                                     </h2>
 
-                                                    <p className="text-[14px] md:text-[15px] text-muted-foreground line-clamp-2 leading-relaxed font-normal flex-1">
+                                                    <p className="text-[14px] md:text-[15px] text-muted-foreground line-clamp-3 leading-relaxed font-normal flex-1">
                                                         {stripContent(post.excerpt || post.content || '')}
                                                     </p>
 
                                                     <div className="pt-3">
-                                                        <div className="inline-flex items-center gap-1.5 text-[14px] font-bold text-foreground transition-all group/btn hover:text-primary">
-                                                            <span className="relative">
-                                                                Đọc thêm
-                                                                <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all group-hover/btn:w-full opacity-0 group-hover/btn:opacity-100"></span>
-                                                            </span>
+                                                        <div className="inline-flex items-center gap-1.5 text-[14px] font-bold text-foreground/80 transition-all group/btn hover:text-primary">
+                                                            <span>Đọc thêm</span>
                                                             <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
                                                         </div>
                                                     </div>
