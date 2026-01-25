@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Switch } from '@/components/Switch';
 import { api } from '@/lib/api';
@@ -307,6 +308,14 @@ export default function AdminBlogPage() {
                                             </td>
                                             <td className="px-4 py-3 text-right">
                                                 <div className="flex items-center justify-end gap-2">
+                                                    <Link href={`/blog/${post.slug}`} target="_blank">
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                        >
+                                                            Xem
+                                                        </Button>
+                                                    </Link>
                                                     <Button
                                                         variant="outline"
                                                         size="sm"
