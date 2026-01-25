@@ -25,6 +25,7 @@ interface BlogPost {
         name: string;
         avatar?: string;
     };
+    content?: string;
 }
 
 interface Category {
@@ -309,14 +310,6 @@ export default function BlogPage() {
                 buttonHref="/courses"
             />
         </div>
-
-            <BottomCTA
-                title="Sẵn sàng chuyển đổi quy trình với AI?"
-                subtitle="Đăng ký khoá học ngay hôm nay để nhận lộ trình đào tạo bài bản từ chuyên gia."
-                buttonText="Khám phá khoá học"
-                buttonHref="/courses"
-            />
-        </div >
     );
 }
 
