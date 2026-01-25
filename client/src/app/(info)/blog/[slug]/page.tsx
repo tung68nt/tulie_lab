@@ -74,6 +74,20 @@ export default function BlogPostPage() {
         }
     }, [slug]);
 
+    const generateId = (text: string) => {
+        return text.toLowerCase()
+            .replace(/[đ/]/g, 'd')
+            .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
+            .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
+            .replace(/[ìíịỉĩ]/g, 'i')
+            .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
+            .replace(/[ùúụủũưừứựửữ]/g, 'u')
+            .replace(/[ỳýỵỷỹ]/g, 'y')
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .trim();
+    };
+
     const extractToc = (markdown: string) => {
         const lines = markdown.split('\n');
         const headings: TocItem[] = [];
@@ -84,17 +98,7 @@ export default function BlogPostPage() {
             if (match) {
                 const level = match[1].length;
                 const text = match[2].trim();
-                const id = text.toLowerCase()
-                    .replace(/[đ/]/g, 'd')
-                    .replace(/[àáạảãâầấậẩẫăằắặẳẵ]/g, 'a')
-                    .replace(/[èéẹẻẽêềếệểễ]/g, 'e')
-                    .replace(/[ìíịỉĩ]/g, 'i')
-                    .replace(/[òóọỏõôồốộổỗơờớợởỡ]/g, 'o')
-                    .replace(/[ùúụủũưừứựửữ]/g, 'u')
-                    .replace(/[ỳýỵỷỹ]/g, 'y')
-                    .replace(/[^a-z0-9\s-]/g, '')
-                    .replace(/\s+/g, '-')
-                    .trim();
+                const id = generateId(text);
                 headings.push({ id, text, level });
             }
         });
@@ -190,7 +194,14 @@ export default function BlogPostPage() {
                                 prose-img:rounded-xl prose-img:shadow-lg prose-img:border
                                 prose-blockquote:border-l-primary prose-blockquote:font-medium
                                 prose-a:text-primary prose-a:font-semibold">
-                                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        h1: ({ children }) => <h1 id={generateId(String(children))}>{children}</h1>,
+                                        h2: ({ children }) => <h2 id={generateId(String(children))}>{children}</h2>,
+                                        h3: ({ children }) => <h3 id={generateId(String(children))}>{children}</h3>,
+                                    }}
+                                >
                                     {post.content}
                                 </ReactMarkdown>
                             </article>
