@@ -98,96 +98,93 @@ async function initializeApp() {
 
     app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-    // --- Initialize Dependency Injection (Heavy) ---
-    console.log('Initializing Dependency Injection...');
-    const { bootstrapDI } = await import('./bootstrap');
-    bootstrapDI();
-    console.log('Dependency Injection initialized.');
+    // --- Initialize Dependency Injection ---
+    try {
+      console.log('📦 Initializing Dependency Injection...');
+      const { bootstrapDI } = await import('./bootstrap');
+      bootstrapDI();
+      console.log('✅ Dependency Injection initialized.');
+    } catch (error: any) {
+      console.error('❌ DI Initialization Failed:', error);
+    }
 
-    // --- Mount Routes (After DI) ---
-    const authRoutes = (await import('./modules/system/auth/auth.routes')).default;
-    const userRoutes = (await import('./modules/system/users/users.routes')).default;
-    const courseRoutes = (await import('./modules/lms/courses/courses.routes')).default;
-    const paymentRoutes = (await import('./modules/shop/payments/payments.routes')).default;
-    const cmsRoutes = (await import('./modules/info/cms/cms.routes')).default;
-    const instructorRoutes = (await import('./modules/lms/instructors/instructors.routes')).default;
-    const uploadRoutes = (await import('./modules/system/uploads/uploads.routes')).default;
-    const blogRoutes = (await import('./modules/info/blog/blog.routes')).default;
-    const notificationRoutes = (await import('./modules/system/notifications/notifications.routes')).default;
-    const categoryRoutes = (await import('./modules/lms/categories/categories.routes')).default;
-    const bundleRoutes = (await import('./modules/shop/bundles/bundles.routes')).default;
-    const couponRoutes = (await import('./modules/shop/coupons/coupons.routes')).default;
-    const contactRoutes = (await import('./modules/info/contact/contact.routes')).default;
-    const settingsRoutes = (await import('./modules/system/settings/settings.routes')).default;
-    const securityRoutes = (await import('./modules/system/security/security.routes')).default;
-    const activityRoutes = (await import('./modules/lms/activity/activity.routes')).default;
-    const proxyRoutes = (await import('./modules/system/proxy/proxy.routes')).default;
-    const landingPageRoutes = (await import('./modules/info/landing-pages/landing-pages.routes')).default;
-    const systemRoutes = (await import('./modules/system/system/system.routes')).default;
-    const activationCodeRoutes = (await import('./modules/shop/activation-codes/activation-codes.routes')).default;
-    const productRoutes = (await import('./modules/shop/products/products.routes')).default;
-    const eventRoutes = (await import('./modules/lms/events/events.routes')).default;
+    // --- Mount Routes ---
+    console.log('🛣️  Mounting routes...');
+    try {
+      const routes = [
+        { path: '/api/auth', module: './modules/system/auth/auth.routes' },
+        { path: '/api/users', module: './modules/system/users/users.routes' },
+        { path: '/api/courses', module: './modules/lms/courses/courses.routes' },
+        { path: '/api/payments', module: './modules/shop/payments/payments.routes' },
+        { path: '/api/cms', module: './modules/info/cms/cms.routes' },
+        { path: '/api/instructors', module: './modules/lms/instructors/instructors.routes' },
+        { path: '/api/uploads', module: './modules/system/uploads/uploads.routes' },
+        { path: '/api/blog', module: './modules/info/blog/blog.routes' },
+        { path: '/api/notifications', module: './modules/system/notifications/notifications.routes' },
+        { path: '/api/categories', module: './modules/lms/categories/categories.routes' },
+        { path: '/api/bundles', module: './modules/shop/bundles/bundles.routes' },
+        { path: '/api/coupons', module: './modules/shop/coupons/coupons.routes' },
+        { path: '/api/contact', module: './modules/info/contact/contact.routes' },
+        { path: '/api/settings', module: './modules/system/settings/settings.routes' },
+        { path: '/api/security', module: './modules/system/security/security.routes' },
+        { path: '/api/activity', module: './modules/lms/activity/activity.routes' },
+        { path: '/api/proxy', module: './modules/system/proxy/proxy.routes' },
+        { path: '/api/landing-pages', module: './modules/info/landing-pages/landing-pages.routes' },
+        { path: '/api/system', module: './modules/system/system/system.routes' },
+        { path: '/api/activation-codes', module: './modules/shop/activation-codes/activation-codes.routes' },
+        { path: '/api/products', module: './modules/shop/products/products.routes' },
+        { path: '/api/events', module: './modules/lms/events/events.routes' }
+      ];
 
-    app.use('/api/auth', authRoutes);
-    app.use('/api/users', userRoutes);
-    app.use('/api/courses', courseRoutes);
-    app.use('/api/payments', paymentRoutes);
-    app.use('/api/cms', cmsRoutes);
-    app.use('/api/instructors', instructorRoutes);
-    app.use('/api/uploads', uploadRoutes);
-    app.use('/api/blog', blogRoutes);
-    app.use('/api/notifications', notificationRoutes);
-    app.use('/api/categories', categoryRoutes);
-    app.use('/api/bundles', bundleRoutes);
-    app.use('/api/coupons', couponRoutes);
-    app.use('/api/contact', contactRoutes);
-    app.use('/api/settings', settingsRoutes);
-    app.use('/api/security', securityRoutes);
-    app.use('/api/activity', activityRoutes);
-    app.use('/api/proxy', proxyRoutes);
-    app.use('/api/landing-pages', landingPageRoutes);
-    app.use('/api/system', systemRoutes);
-    app.use('/api/activation-codes', activationCodeRoutes);
-    app.use('/api/products', productRoutes);
-    app.use('/api/events', eventRoutes);
-
-    // Basic Diagnostic Endpoint (safe to keep)
-    app.get('/api/diag', async (req, res) => {
-      let dbStatus = 'checking...';
-      try {
-        const prisma = (await import('./config/prisma')).default;
-        await prisma.$queryRaw`SELECT 1`;
-        dbStatus = 'connected';
-      } catch (error: any) {
-        dbStatus = `error: ${error.message}`;
+      for (const route of routes) {
+        try {
+          const routeModule = (await import(route.module)).default;
+          app.use(route.path, routeModule);
+          console.log(`   - Mounted ${route.path}`);
+        } catch (err: any) {
+          console.error(`❌ Failed to mount ${route.path}:`, err.message);
+        }
       }
-      res.json({
-        status: 'online', database: dbStatus, timestamp: new Date().toISOString(),
-        env: process.env.NODE_ENV
-      });
-    });
 
-    // NOTE: Dangerous debug endpoints removed for security:
-    // - /api/diag/schema - Lists DB columns
-    // - /api/diag/update-test/:id - Modifies data
-    // - /api/diag/fix-schema - DANGEROUS: Runs ALTER TABLE
-
-    // JSON 404 Handler - MUST be after all routes
-    app.use('/api', (req, res) => {
-      console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
-      res.status(404).json({
-        message: 'Endpoint not found',
-        error: 'Endpoint not found',
-        method: req.method,
-        path: req.originalUrl
+      // Basic Diagnostic Endpoint
+      app.get('/api/diag', async (req, res) => {
+        let dbStatus = 'checking...';
+        try {
+          const prisma = (await import('./config/prisma')).default;
+          await prisma.$queryRaw`SELECT 1`;
+          dbStatus = 'connected';
+        } catch (error: any) {
+          dbStatus = `error: ${error.message}`;
+        }
+        res.json({
+          status: 'online',
+          database: dbStatus,
+          timestamp: new Date().toISOString(),
+          env: process.env.NODE_ENV,
+          version: 'v1.0.7-resilient-init'
+        });
       });
-    });
+
+      // JSON 404 Handler - MUST be after all routes
+      app.use('/api', (req, res) => {
+        console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
+        res.status(404).json({
+          message: 'Endpoint not found',
+          error: 'Endpoint not found',
+          method: req.method,
+          path: req.originalUrl
+        });
+      });
+
+      console.log('✅ All possible routes mounted.');
+    } catch (error: any) {
+      console.error('❌ Fatal error during route mounting:', error);
+    }
 
     // Global Error Handler - MUST be last
     app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
       console.error('[Global Error]', err);
       const status = err.status || err.statusCode || 500;
-      // Return both error and message to be compatible with different client versions
       res.status(status).json({
         message: err.message || 'Internal Server Error',
         error: err.message || 'Internal Server Error',
@@ -195,11 +192,9 @@ async function initializeApp() {
       });
     });
 
-    console.log('✅ All routes and services initialized successfully.');
-
-  } catch (error) {
+    console.log('🏁 Initialization sequence complete.');
+  } catch (error: any) {
     console.error('❌ Fatal error during app initialization:', error);
-    // Optionally, could shut down server here, but for resilience, keep health check alive.
   }
 }
 
