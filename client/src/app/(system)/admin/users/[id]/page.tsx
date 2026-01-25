@@ -176,7 +176,7 @@ export default function AdminUserDetailPage() {
                             {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
                         </div>
                         {isMemberActive && (
-                            <div className="text-[10px] text-muted-foreground mt-1.5">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</div>
+                            <div className="text-xs text-muted-foreground mt-1.5 font-medium">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</div>
                         )}
                     </CardContent>
                 </Card>
@@ -184,7 +184,7 @@ export default function AdminUserDetailPage() {
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-bold text-muted-foreground mb-2">Chi tiêu (Paid)</div>
                         <div className="text-xl font-bold">{formatCurrency(user.stats?.totalPaid || 0)}</div>
-                        <div className="text-[10px] text-muted-foreground mt-1.5 leading-tight">Tổng cộng đơn hàng<br />đã thanh toán</div>
+                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium">Tổng cộng đơn hàng<br />đã thanh toán</div>
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
@@ -195,7 +195,7 @@ export default function AdminUserDetailPage() {
                                 ? Math.round((user.stats?.completedLessons / user.stats?.totalLessons) * 100)
                                 : 0}%
                         </div>
-                        <div className="text-[10px] text-muted-foreground mt-1.5 leading-tight">
+                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium">
                             Đã hoàn thành {user.stats?.completedLessons || 0}/{user.stats?.totalLessons || 0}<br />bài học
                         </div>
                     </CardContent>
@@ -207,7 +207,7 @@ export default function AdminUserDetailPage() {
                             <Clock size={16} className="text-zinc-400" />
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
-                        <div className="text-[10px] text-muted-foreground mt-1.5 leading-tight">Lần truy cập hệ<br />thống gần nhất</div>
+                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium">Lần truy cập hệ<br />thống gần nhất</div>
                     </CardContent>
                 </Card>
             </div>
