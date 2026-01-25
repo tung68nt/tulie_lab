@@ -110,6 +110,7 @@ const toVietnameseWords = (amount: number): string => {
 export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
     const { settings } = useSettings();
     const [footerData, setFooterData] = useState<any>(null);
+    const invoiceRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const loadFooterData = async () => {
@@ -143,6 +144,28 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
         }
     };
 
+    const handleDownload = async () => {
+        if (onDownload) {
+            onDownload();
+            return;
+        }
+
+        if (!invoiceRef.current) return;
+
+        // Use dynamic import for html2pdf
+        const html2pdf = (await import('html2pdf.js')).default;
+
+        const opt = {
+            margin: 10,
+            filename: `Don-hang-${order.code}.pdf`,
+            image: { type: 'jpeg' as const, quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+            jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
+        };
+
+        html2pdf().set(opt).from(invoiceRef.current).save();
+    };
+
     // Accounting Calculations (VAT 10%)
     const totalPayment = order.amount;
     const subtotalBeforeVat = Math.round(totalPayment / 1.1);
@@ -152,7 +175,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
         <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500 font-sans">
             {/* Action Bar - Hidden during print */}
             <div className="flex justify-end gap-3 print:hidden">
-                <Button variant="outline" onClick={onDownload} className="gap-2">
+                <Button variant="outline" onClick={handleDownload} className="gap-2">
                     <Download className="w-4 h-4" />
                     Tải PDF
                 </Button>
@@ -164,7 +187,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
             {/* Invoice Container */}
             <Card className="border-none shadow-2xl print:shadow-none overflow-hidden bg-white text-zinc-950">
-                <CardContent className="p-8 md:p-12 space-y-12">
+                <CardContent ref={invoiceRef} className="pt-20 pb-12 px-6 md:p-12 space-y-12">
                     {/* Header: Company & Invoice Info */}
                     <div className="flex flex-col md:flex-row justify-between gap-8 border-b border-zinc-100 pb-12 text-zinc-950">
                         <div className="space-y-4">
@@ -179,16 +202,17 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 )}
                             </div>
                             <div className="text-[11px] text-zinc-500 leading-relaxed max-w-md">
-                                <div className="font-bold text-zinc-950 text-sm mb-1 uppercase tracking-tight">{footerData?.companyName}</div>
+                                <div className="font-bold text-zinc-950 text-[13px] mb-1 uppercase tracking-tight whitespace-nowrap">{footerData?.companyName}</div>
                                 <div className="flex items-start gap-2 mb-1">
                                     <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
                                     <span>
-                                        {footerData?.address?.split('Thành phố Hà Nội').map((part: string, i: number, arr: any[]) => (
-                                            <React.Fragment key={i}>
-                                                {part}
-                                                {i < arr.length - 1 && <><br />Thành phố Hà Nội</>}
-                                            </React.Fragment>
-                                        ))}
+                                        {footerData?.address?.includes('Thành phố Hà Nội') ? (
+                                            <>
+                                                {footerData.address.split('Thành phố Hà Nội')[0]}
+                                                <br />
+                                                Thành phố Hà Nội{footerData.address.split('Thành phố Hà Nội')[1]}
+                                            </>
+                                        ) : footerData?.address}
                                     </span>
                                 </div>
                                 <div className="space-y-0.5">

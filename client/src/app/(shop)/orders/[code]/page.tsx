@@ -71,7 +71,6 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
 
                 <OrderInvoice
                     order={order}
-                    onDownload={() => window.print()}
                 />
             </div>
         </div>
