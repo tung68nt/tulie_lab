@@ -25,8 +25,8 @@ export default function LandingPagesAdmin() {
 
     const loadPages = async () => {
         try {
-            const res = (await api.landingPages.list('LANDING')) as any[];
-            setPages(res);
+            const res = (await api.landingPages.list('LANDING')) as any;
+            setPages(Array.isArray(res) ? res : (res.data || []));
         } catch (error) {
             console.error('Failed to load pages', error);
         } finally {

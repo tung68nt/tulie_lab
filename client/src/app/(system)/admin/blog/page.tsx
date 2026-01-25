@@ -44,7 +44,7 @@ export default function AdminBlogPage() {
     const fetchPosts = async () => {
         try {
             const data: any = await api.admin.blog.list();
-            setPosts(data);
+            setPosts(Array.isArray(data) ? data : (data.data || []));
         } catch (error) {
             console.error('Failed to fetch posts:', error);
             addToast('Không thể tải danh sách bài viết', 'error');

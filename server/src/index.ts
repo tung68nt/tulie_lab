@@ -60,6 +60,8 @@ async function initializeApp() {
         const cleanOrigin = origin.replace(/\/$/, '');
         const allowed = [
           process.env.CLIENT_URL,
+          'https://academy.tulie.vn',
+          'https://www.academy.tulie.vn',
           'https://thelab.tulie.vn',
           'https://www.thelab.tulie.vn',
           'https://beta.thelab.tulie.vn',
