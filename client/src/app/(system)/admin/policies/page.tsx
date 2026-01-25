@@ -93,8 +93,8 @@ export default function AdminPoliciesPage() {
                             key={policy.id}
                             onClick={() => setActiveTab(policy.id)}
                             className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === policy.id
-                                    ? 'bg-zinc-100 text-zinc-950 border border-zinc-200 shadow-sm'
-                                    : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-700'
+                                ? 'bg-zinc-100 text-zinc-950 border border-zinc-200 shadow-sm'
+                                : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-700'
                                 }`}
                         >
                             {policy.title}
@@ -122,7 +122,7 @@ export default function AdminPoliciesPage() {
                                         placeholder={`Nhập nội dung ${currentPolicy.title.toLowerCase()} tại đây...`}
                                         className="w-full min-h-[500px] p-4 text-sm font-mono border rounded-xl focus:outline-none focus:ring-2 focus:ring-zinc-950 bg-zinc-50/50 resize-y"
                                     />
-                                    <p className="text-[11px] text-zinc-500 italic">
+                                    <p className="text-[11px] text-zinc-500">
                                         * Bạn có thể sử dụng các ký tự Markdown như # H1, ## H2, - Danh sách, **Chữ đậm**, v.v.
                                     </p>
                                 </div>
