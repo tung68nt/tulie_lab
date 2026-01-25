@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import { settingController } from '../../system/settings/settings.controller';
+import * as CMSController from './cms.controller';
 import { authenticate, authorize } from '../../../middleware/auth.middleware';
 import { Role } from '@prisma/client';
 
 const router = Router();
 
-// Wrap Settings specifically for CMS module
-router.get('/', (req, res) => settingController.getSettings(req, res));
-router.get('/settings', (req, res) => settingController.getSettings(req, res));
-router.put('/settings', authenticate, authorize([Role.ADMIN]), (req, res) => settingController.updateSettings(req, res));
+// CMS Settings Routes
+router.get('/', CMSController.getSettings);
+router.post('/', authenticate, authorize([Role.ADMIN]), CMSController.updateSetting);
 
 export default router;
