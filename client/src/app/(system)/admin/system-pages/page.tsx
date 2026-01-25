@@ -25,8 +25,8 @@ export default function SystemPagesAdmin() {
 
     const loadPages = async () => {
         try {
-            const res = (await api.landingPages.list('SYSTEM')) as any[];
-            setPages(res);
+            const res: any = await api.landingPages.list('SYSTEM');
+            setPages(res.data || []);
         } catch (error) {
             console.error('Failed to load pages', error);
         } finally {

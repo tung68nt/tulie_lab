@@ -19,7 +19,7 @@ function CourseFilterInner() {
 
     useEffect(() => {
         api.categories.list()
-            .then((res: any) => setCategories(Array.isArray(res) ? res : []))
+            .then((res: any) => setCategories(res.data || []))
             .catch(() => { });
     }, []);
 

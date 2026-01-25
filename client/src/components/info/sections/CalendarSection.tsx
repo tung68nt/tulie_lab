@@ -38,8 +38,8 @@ export const CalendarSection = ({ section }: { section: Section }) => {
 
     const loadEvents = async () => {
         try {
-            const res = await api.events.getUpcoming() as Event[];
-            setEvents(res);
+            const res: any = await api.events.getUpcoming();
+            setEvents(res.data || []);
         } catch (error) {
             console.error('Failed to load events', error);
         } finally {

@@ -5,8 +5,8 @@ import { CourseFilter } from '@/components/CourseFilter';
 
 async function getCourses(params?: any) {
     try {
-        const courses = await api.courses.list(params) as any[];
-        return courses;
+        const res: any = await api.courses.list(params);
+        return res.data || [];
     } catch (e) {
         console.error("Failed to fetch courses", e);
         return [];
