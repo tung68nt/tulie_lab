@@ -178,11 +178,16 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     </>
                                 )}
                             </div>
-                            <div className="text-sm text-zinc-500 space-y-1">
-                                <div className="font-bold text-zinc-950 text-base mb-1">{footerData?.companyName}</div>
-                                <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> {footerData?.address}</div>
-                                <div className="flex items-center gap-2"><Globe className="w-3 h-3" /> {footerData?.website || 'academy.tulie.vn'}</div>
-                                <div className="flex items-center gap-2 font-medium"><FileText className="w-3 h-3" /> MST: {footerData?.taxId}</div>
+                            <div className="text-xs text-zinc-500 leading-relaxed max-w-md">
+                                <div className="font-bold text-zinc-950 text-base mb-1.5">{footerData?.companyName}</div>
+                                <div className="flex items-start gap-2 mb-1">
+                                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                                    <span>{footerData?.address}</span>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex items-center gap-2"><Globe className="w-3.5 h-3.5" /> {footerData?.website || 'academy.tulie.vn'}</div>
+                                    <div className="flex items-center gap-2 font-medium"><FileText className="w-3.5 h-3.5" /> MST: {footerData?.taxId}</div>
+                                </div>
                             </div>
                         </div>
                         <div className="text-right space-y-2">
@@ -281,7 +286,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     <tr className="border-t border-zinc-100">
                                         <td colSpan={2} className="px-6 py-4 text-right">
                                             <span className="text-xs text-zinc-400 mr-2">Số tiền viết bằng chữ:</span>
-                                            <span className="font-bold">"{toVietnameseWords(totalPayment)}"</span>
+                                            <span className="font-bold">{toVietnameseWords(totalPayment)}</span>
                                         </td>
                                     </tr>
                                 </tfoot>
