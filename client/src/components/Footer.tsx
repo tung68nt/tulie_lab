@@ -233,13 +233,6 @@ export function Footer() {
                 </div>
                 <div className="mt-12 pt-8 border-t border-zinc-100 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
                     <p>{footerData.copyrightText}</p>
-                    <div className="flex gap-6">
-                        {footerData.policyLinks.slice(0, 2).map((link, index) => (
-                            <Link key={index} href={link.href} className="hover:text-foreground transition-colors">
-                                {link.label}
-                            </Link>
-                        ))}
-                    </div>
                 </div>
             </div>
         </footer>
