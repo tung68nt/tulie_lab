@@ -273,7 +273,7 @@ export default function AdminBlogPage() {
                                     <tr className="text-left text-sm">
                                         <th className="px-4 py-3 font-medium">Tiêu đề</th>
                                         <th className="px-4 py-3 font-medium">Slug</th>
-                                        <th className="px-4 py-3 font-medium text-center">Trạng thái</th>
+                                        <th className="px-4 py-3 font-medium text-center">Status</th>
                                         <th className="px-4 py-3 font-medium">Ngày tạo</th>
                                         <th className="px-4 py-3 font-medium text-right">Thao tác</th>
                                     </tr>
@@ -297,14 +297,13 @@ export default function AdminBlogPage() {
                                                     {post.isPublished ? 'Live' : 'Draft'}
                                                 </button>
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-muted-foreground whitespace-nowrap">
-                                                {new Date(post.createdAt).toLocaleDateString('vi-VN', {
-                                                    day: '2-digit',
-                                                    month: '2-digit',
-                                                    year: 'numeric',
-                                                    hour: '2-digit',
-                                                    minute: '2-digit'
-                                                })}
+                                            <td className="px-4 py-3 text-xs text-muted-foreground">
+                                                <div className="font-medium text-foreground">
+                                                    {new Date(post.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                                                </div>
+                                                <div>
+                                                    {new Date(post.createdAt).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                                                </div>
                                             </td>
                                             <td className="px-4 py-3 text-right">
                                                 <div className="flex items-center justify-end gap-2">
