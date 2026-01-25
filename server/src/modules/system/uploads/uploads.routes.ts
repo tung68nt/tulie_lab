@@ -6,6 +6,7 @@ import { authenticate, authorize } from '../../../middleware/auth.middleware';
 import { Role } from '@prisma/client';
 import { VideoService } from './video.service';
 import { storageService } from '../../../services/storage.service';
+import { prisma } from '../../../lib/prisma'; // Import prisma
 
 const router = express.Router();
 
@@ -59,27 +60,50 @@ const upload = multer({
     }
 });
 
-// List all files (Admin only)
+// List all files (Admin only) - FROM DB
 router.get('/', authenticate, authorize([Role.ADMIN]), async (req, res) => {
     try {
-        const files = await storageService.listFiles('uploads/');
+        const files = await prisma.media.findMany({
+            orderBy: { createdAt: 'desc' }
+        });
+
+        // Map to expected format if needed, but DB fields match frontend well
+        const mappedFiles = files.map(f => ({
+            key: f.key,
+            url: f.url,
+            // Add size/lastModified if frontend needs specifically named fields
+            size: f.size,
+            lastModified: f.createdAt,
+            name: f.name,
+            mimeType: f.mimeType
+        }));
+
         res.json({
             success: true,
-            data: files,
+            data: mappedFiles,
             meta: {
                 total: files.length
             }
         });
     } catch (error: any) {
+        console.error('List Files Error:', error);
         res.status(500).json({ message: 'Failed to list files', error: error.message });
     }
 });
 
-// Delete a file (Admin only)
+// Delete a file (Admin only) - DB + S3
 router.delete('/:key(*)', authenticate, authorize([Role.ADMIN]), async (req, res) => {
     try {
         const key = req.params.key as string;
+
+        // Delete from S3
         await storageService.deleteFile(key);
+
+        // Delete from DB
+        await prisma.media.deleteMany({
+            where: { key: key }
+        });
+
         res.json({ success: true, message: 'File deleted' });
     } catch (error: any) {
         res.status(500).json({ message: 'Failed to delete file', error: error.message });
@@ -101,22 +125,15 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
         if (req.file.mimetype.startsWith('video/')) {
             try {
                 const uploadDir = path.join(__dirname, '../../../uploads');
-                // processVideo now uploads to R2 and returns the public URL
                 const hlsUrl = await VideoService.processVideo(localFilePath, uploadDir);
                 fileUrl = hlsUrl;
                 isHls = true;
 
-                // processVideo logic might handle deletion, but let's be safe.
-                // Actually VideoService deletes the HLS folder, but maybe not the original input file?
-                // Let's check VideoService again. It says "// fs.unlinkSync(filePath);" is commented out.
-                // So we should delete the original input file here.
                 if (fs.existsSync(localFilePath)) {
                     fs.unlinkSync(localFilePath);
                 }
             } catch (error) {
                 console.error('Failed to process video to HLS:', error);
-
-                // Fallback: Upload original MP4 to R2 if HLS fails
                 const r2Key = `uploads/${req.file.filename}`;
                 fileUrl = await storageService.uploadFile(localFilePath, r2Key, req.file.mimetype);
 
@@ -125,30 +142,42 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
                 }
             }
         } else {
-            // Normal file upload -> Upload to R2 directly
+            // Normal file upload
             const r2Key = `uploads/${req.file.filename}`;
             fileUrl = await storageService.uploadFile(localFilePath, r2Key, req.file.mimetype);
 
-            // Delete local temp file
             if (fs.existsSync(localFilePath)) {
                 fs.unlinkSync(localFilePath);
             }
         }
 
+        // Save to DB
+        const r2Key = fileUrl.split('/').pop() || req.file.filename; // Approximation of key
+        const finalKey = `uploads/${req.file.filename}`; // This is the actual key used in S3 usually
+
+        const media = await prisma.media.create({
+            data: {
+                key: finalKey,
+                url: fileUrl,
+                name: req.file.originalname,
+                mimeType: isHls ? 'application/x-mpegURL' : req.file.mimetype,
+                size: req.file.size
+            }
+        });
+
         res.json({
             success: true,
             data: {
-                originalName: req.file.originalname,
-                filename: req.file.filename,
-                url: fileUrl,
-                size: req.file.size,
-                mimetype: isHls ? 'application/x-mpegURL' : req.file.mimetype,
+                originalName: media.name,
+                filename: media.key,
+                url: media.url,
+                size: media.size,
+                mimetype: media.mimeType,
                 isHls
             }
         });
     } catch (error: any) {
         console.error('Upload processing error:', error);
-        // Clean up even on error
         if (fs.existsSync(localFilePath)) {
             fs.unlinkSync(localFilePath);
         }
@@ -172,17 +201,27 @@ router.post('/multiple', authenticate, authorize([Role.ADMIN]), upload.array('fi
             try {
                 const url = await storageService.uploadFile(localFilePath, r2Key, file.mimetype);
 
-                // Delete local temp file
                 if (fs.existsSync(localFilePath)) {
                     fs.unlinkSync(localFilePath);
                 }
 
+                // Save to DB
+                const media = await prisma.media.create({
+                    data: {
+                        key: r2Key,
+                        url: url,
+                        name: file.originalname,
+                        mimeType: file.mimetype,
+                        size: file.size
+                    }
+                });
+
                 return {
-                    originalName: file.originalname,
-                    filename: file.filename,
-                    url: url,
-                    size: file.size,
-                    mimetype: file.mimetype
+                    originalName: media.name,
+                    filename: media.key,
+                    url: media.url,
+                    size: media.size,
+                    mimetype: media.mimeType
                 };
             } catch (err) {
                 console.error(`Failed to upload file ${file.originalname}:`, err);
