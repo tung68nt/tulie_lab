@@ -1,12 +1,9 @@
-import ffmpeg from 'fluent-ffmpeg';
 import path from 'path';
 import fs from 'fs';
 import { storageService } from '../../../services/storage.service';
 
-// Set ffmpeg path from the installer
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
-ffmpeg.setFfmpegPath(ffmpegPath);
+// Set ffmpeg path lazily to prevent module load failures if binary is missing
+let ffmpeg: any;
 
 export const VideoService = {
     /**
@@ -15,7 +12,19 @@ export const VideoService = {
      * @param uploadDir Absolute path to the uploads directory
      * @returns Relative path to the generated m3u8 file (e.g., /uploads/hls/xyz/master.m3u8)
      */
-    processVideo: (filePath: string, uploadDir: string): Promise<string> => {
+    processVideo: async (filePath: string, uploadDir: string): Promise<string> => {
+        // Lazy load ffmpeg and installer
+        if (!ffmpeg) {
+            try {
+                ffmpeg = (await import('fluent-ffmpeg')).default;
+                const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+                ffmpeg.setFfmpegPath(ffmpegPath);
+            } catch (err) {
+                console.error('Failed to initialize ffmpeg:', err);
+                throw new Error('Video processing unavailable: ffmpeg initialization failed');
+            }
+        }
+
         return new Promise((resolve, reject) => {
             const fileName = path.basename(filePath, path.extname(filePath));
             // Local temp dir for processing
