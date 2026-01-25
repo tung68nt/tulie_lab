@@ -101,32 +101,29 @@
   }
 
   h1 {
-    @apply text-4xl md:text-5xl font-bold tracking-tight;
+    @apply text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.2];
   }
 
   h2 {
-    @apply text-3xl md:text-4xl font-bold tracking-tight;
+    @apply text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.3];
   }
 
   h3 {
-    @apply text-2xl font-bold tracking-tight;
+    @apply text-2xl md:text-3xl font-bold tracking-tight leading-[1.4];
   }
 
   h4 {
-    @apply text-xl font-bold tracking-tight;
-  }
-
-  h5 {
-    @apply text-lg font-bold tracking-tight;
-  }
-
-  h6 {
-    @apply text-base font-bold tracking-tight;
+    @apply text-xl font-bold tracking-tight leading-normal;
   }
 
   p {
-    @apply leading-relaxed;
+    @apply text-base text-muted-foreground leading-relaxed;
   }
+}
+
+/* Premium Border & Shadow tokens */
+.border-premium {
+  @apply border border-primary/10 bg-background/50 backdrop-blur-xl shadow-sm;
 }
 
 /* Utilities (Preserved & Merged) */
@@ -172,29 +169,9 @@
   }
 }
 
-/* Background Patterns */
-.bg-dot-grid-light {
-  background-image: radial-gradient(hsl(var(--foreground) / 0.25) 1.5px, transparent 1.5px);
-  background-size: 32px 32px;
-}
-
-.bg-dot-grid-dark {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.4) 1.5px, transparent 1.5px);
-  background-size: 32px 32px;
-}
-
-.bg-dot-white {
-  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.5) 1.5px, transparent 0);
-  background-size: 32px 32px;
-}
-
-.bg-dot-black {
-  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.5) 1.5px, transparent 0);
-  background-size: 32px 32px;
-}
-
-.bg-dot-inverted {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.5) 1.5px, transparent 1.5px);
+/* Unified Background Pattern */
+.bg-dot-grid {
+  background-image: radial-gradient(circle at center, currentColor 1.5px, transparent 0);
   background-size: 32px 32px;
 }
 

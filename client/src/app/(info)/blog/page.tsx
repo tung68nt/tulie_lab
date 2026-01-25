@@ -109,148 +109,150 @@ export default function BlogPage() {
             </div>
 
             {/* Main Content with Sidebar */}
-            <div className="container py-12">
-                <div className="flex flex-col md:flex-row gap-8">
-                    {/* Sidebar Filter */}
-                    <div className="w-full md:w-64 shrink-0 space-y-8">
-                        {/* Search Bar in Sidebar */}
-                        <div className="space-y-3">
-                            <label className="text-sm font-semibold text-foreground">Tìm kiếm bài viết</label>
+            <div className="container py-12 px-4">
+                <div className="flex flex-col lg:flex-row gap-12">
+                    {/* Sidebar Filter - Stuck on scroll for Desktop */}
+                    <aside className="w-full lg:w-72 shrink-0 space-y-10 lg:sticky lg:top-24 lg:self-start">
+                        {/* Search Bar */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Tìm kiếm</h3>
                             <div className="relative group">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/70 w-4 h-4 group-focus-within:text-primary transition-colors" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 w-4 h-4 group-focus-within:text-primary transition-colors" />
                                 <input
                                     type="text"
-                                    placeholder="Tìm kiếm..."
-                                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-muted/50 border border-transparent focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all text-sm outline-none"
+                                    placeholder="Keywords..."
+                                    className="w-full pl-11 pr-4 py-3 rounded-2xl bg-muted/30 border border-transparent focus:bg-background focus:border-primary/30 focus:ring-8 focus:ring-primary/5 transition-all text-sm outline-none"
                                 />
                             </div>
                         </div>
 
-                        {/* Categories List in Sidebar */}
-                        <div className="space-y-3">
-                            <label className="text-sm font-semibold text-foreground">Chuyên mục</label>
-                            <div className="flex flex-col gap-1">
+                        {/* Categories List */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Chuyên mục</h3>
+                            <nav className="flex flex-col gap-1.5">
                                 <button
                                     onClick={() => handleCategoryChange('all')}
                                     className={cn(
-                                        "text-left px-3 py-2.5 rounded-xl text-sm transition-all flex items-center gap-3",
+                                        "group flex items-center justify-between px-4 py-3 rounded-2xl text-sm transition-all",
                                         selectedCategory === 'all'
-                                            ? "text-primary font-bold bg-primary/5"
-                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
+                                            ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
+                                            : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                                     )}
                                 >
+                                    <span>Tất cả bài viết</span>
                                     <div className={cn(
-                                        "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors",
-                                        selectedCategory === 'all' ? "bg-primary border-primary" : "border-muted-foreground/30"
+                                        "w-5 h-5 rounded-full flex items-center justify-center transition-all",
+                                        selectedCategory === 'all' ? "bg-white/20" : "bg-muted group-hover:bg-muted-foreground/20"
                                     )}>
-                                        {selectedCategory === 'all' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                        <ChevronRight size={10} />
                                     </div>
-                                    Tất cả bài viết
                                 </button>
                                 {categories.map((cat) => (
                                     <button
                                         key={cat.id}
                                         onClick={() => handleCategoryChange(cat.id)}
                                         className={cn(
-                                            "text-left px-3 py-2.5 rounded-xl text-sm transition-all flex items-center gap-3",
+                                            "group flex items-center justify-between px-4 py-3 rounded-2xl text-sm transition-all",
                                             selectedCategory === cat.id
-                                                ? "text-primary font-bold bg-primary/5"
-                                                : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
+                                                ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
+                                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                                         )}
                                     >
+                                        <span className="truncate">{cat.name}</span>
                                         <div className={cn(
-                                            "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors",
-                                            selectedCategory === cat.id ? "bg-primary border-primary" : "border-muted-foreground/30"
+                                            "w-5 h-5 rounded-full flex items-center justify-center transition-all",
+                                            selectedCategory === cat.id ? "bg-white/20" : "bg-muted group-hover:bg-muted-foreground/20"
                                         )}>
-                                            {selectedCategory === cat.id && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                            <ChevronRight size={10} />
                                         </div>
-                                        {cat.name}
                                     </button>
                                 ))}
-                            </div>
+                            </nav>
                         </div>
-                    </div>
+                    </aside>
 
                     {/* Blog Grid */}
-                    <div className="flex-1">
+                    <main className="flex-1">
                         {loading ? (
-                            <div className="grid gap-6 md:grid-cols-2">
-                                {[1, 2, 4].map((i) => (
-                                    <div key={i} className="animate-pulse space-y-4">
-                                        <div className="aspect-video bg-muted rounded-2xl" />
-                                        <div className="h-6 bg-muted rounded w-3/4" />
-                                        <div className="h-4 bg-muted rounded w-1/2" />
+                            <div className="grid gap-8 sm:grid-cols-2">
+                                {[1, 2, 3, 4].map((i) => (
+                                    <div key={i} className="animate-pulse space-y-6">
+                                        <div className="aspect-[16/10] bg-muted rounded-[2.5rem]" />
+                                        <div className="space-y-3">
+                                            <div className="h-4 bg-muted rounded w-1/4" />
+                                            <div className="h-8 bg-muted rounded w-full" />
+                                            <div className="h-4 bg-muted rounded w-2/3" />
+                                        </div>
                                     </div>
                                 ))}
                             </div>
                         ) : posts.length === 0 ? (
-                            <div className="text-center py-32 border-2 border-dashed rounded-3xl">
-                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/30 mb-4">
+                            <div className="text-center py-32 border-2 border-dashed rounded-[3rem] bg-muted/10">
+                                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-muted/50 mb-6">
                                     <Search className="w-8 h-8 text-muted-foreground" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-2">Không tìm thấy bài viết</h3>
-                                <p className="text-muted-foreground mb-6">Chúng tôi không tìm thấy bài viết nào trong chuyên mục này.</p>
+                                <h3 className="text-2xl font-bold mb-3">Trống trải quá...</h3>
+                                <p className="text-muted-foreground mb-8 text-lg">Chúng tôi chưa có bài viết nào trong mục này.</p>
                                 <Button
                                     onClick={() => handleCategoryChange('all')}
-                                    className="px-6 py-2 rounded-full"
+                                    className="px-10 py-6 rounded-full text-lg shadow-xl hover:shadow-primary/20 transition-all font-bold"
                                 >
                                     Xem tất cả bài viết
                                 </Button>
                             </div>
                         ) : (
                             <>
-                                <div className="grid gap-6 md:grid-cols-2 mb-16">
+                                <div className="grid gap-10 sm:grid-cols-2 mb-20">
                                     {posts.map((post) => (
-                                        <Link key={post.id} href={`/blog/${post.slug}`} className="group h-full">
-                                            <Card className="h-full border border-border/50 bg-card/50 hover:bg-card hover:border-border hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300 flex flex-col overflow-hidden rounded-3xl">
-                                                <div className="aspect-video bg-muted overflow-hidden relative">
+                                        <Link key={post.id} href={`/blog/${post.slug}`} className="group block">
+                                            <Card className="h-full border-none bg-transparent shadow-none hover:shadow-none transition-all duration-500 rounded-none group-hover:translate-y-[-4px]">
+                                                <div className="relative aspect-[16/10] overflow-hidden rounded-[2.5rem] bg-muted mb-6 shadow-sm group-hover:shadow-2xl group-hover:shadow-primary/10 transition-all duration-700">
                                                     {post.thumbnail ? (
                                                         <img
                                                             src={post.thumbnail}
                                                             alt={post.title}
-                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]"
                                                         />
                                                     ) : (
-                                                        <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-secondary/20">
-                                                            <div className="text-4xl font-black opacity-10">THE LAB</div>
+                                                        <div className="w-full h-full flex items-center justify-center text-muted-foreground/20 bg-muted/50">
+                                                            <div className="text-3xl font-black">THE LAB</div>
                                                         </div>
                                                     )}
 
-                                                    {/* Category Badge overlay */}
+                                                    {/* Category Floating Badge */}
                                                     {post.category && (
-                                                        <div className="absolute top-4 left-4">
-                                                            <span className="px-3 py-1 bg-background/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider rounded-full shadow-lg border border-white/10">
+                                                        <div className="absolute top-6 left-6">
+                                                            <span className="px-5 py-2 bg-background/90 backdrop-blur-xl text-[10px] font-bold uppercase tracking-[0.15em] rounded-2xl shadow-sm border border-white/20">
                                                                 {post.category.name}
                                                             </span>
                                                         </div>
                                                     )}
                                                 </div>
 
-                                                <div className="p-6 flex-1 flex flex-col space-y-4">
-                                                    <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
-                                                        <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50">
-                                                            <Calendar size={12} />
-                                                            {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('vi-VN') : 'Just now'}
+                                                <div className="space-y-4 px-2">
+                                                    <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                                                        <span className="flex items-center gap-2">
+                                                            <Calendar size={12} className="text-primary" />
+                                                            {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('vi-VN') : 'Mới'}
                                                         </span>
-                                                        <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50">
-                                                            <User size={12} />
-                                                            {post.author?.name || 'Admin'}
+                                                        <span className="flex items-center gap-2">
+                                                            <User size={12} className="text-primary" />
+                                                            {post.author?.name || 'Tulie'}
                                                         </span>
                                                     </div>
 
-                                                    <h2 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2 leading-tight tracking-tight">
+                                                    <h2 className="text-2xl font-bold leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2">
                                                         {post.title}
                                                     </h2>
 
-                                                    <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed flex-1">
-                                                        {post.excerpt}
+                                                    <p className="text-[15px] text-muted-foreground line-clamp-3 leading-relaxed font-medium opacity-80">
+                                                        {post.excerpt || (post.content ? post.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...' : '')}
                                                     </p>
-                                                    <div className="pt-4 mt-auto border-t border-border/50">
-                                                        <div className="flex items-center justify-between text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
-                                                            <span>Đọc thêm</span>
-                                                            <div className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                                                                <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                                                            </div>
+
+                                                    <div className="pt-2">
+                                                        <div className="inline-flex items-center gap-2 text-sm font-bold text-foreground group-hover:text-primary transition-all">
+                                                            <span className="border-b-2 border-primary/20 group-hover:border-primary transition-all pb-1">Đọc thêm</span>
+                                                            <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -261,13 +263,13 @@ export default function BlogPage() {
 
                                 {/* Pagination */}
                                 {totalPages > 1 && (
-                                    <div className="flex justify-center items-center gap-2">
+                                    <div className="flex justify-center items-center gap-3">
                                         <button
                                             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                             disabled={currentPage === 1}
-                                            className="h-10 w-10 flex items-center justify-center rounded-xl border border-border bg-card/50 hover:bg-muted font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="h-12 w-12 flex items-center justify-center rounded-2xl border bg-card hover:bg-muted transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
                                         >
-                                            <ChevronRight size={16} className="rotate-180" />
+                                            <ChevronRight size={20} className="rotate-180" />
                                         </button>
                                         <div className="flex items-center gap-2">
                                             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -275,10 +277,10 @@ export default function BlogPage() {
                                                     key={page}
                                                     onClick={() => setCurrentPage(page)}
                                                     className={cn(
-                                                        "w-10 h-10 rounded-xl text-sm font-bold transition-all",
+                                                        "w-12 h-12 rounded-2xl text-sm font-bold transition-all",
                                                         currentPage === page
-                                                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                                                            : "border border-border bg-card/50 hover:bg-muted"
+                                                            ? "bg-primary text-primary-foreground shadow-xl shadow-primary/20"
+                                                            : "border bg-card hover:bg-muted shadow-sm"
                                                     )}
                                                 >
                                                     {page}
@@ -288,17 +290,25 @@ export default function BlogPage() {
                                         <button
                                             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                             disabled={currentPage === totalPages}
-                                            className="h-10 w-10 flex items-center justify-center rounded-xl border border-border bg-card/50 hover:bg-muted font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="h-12 w-12 flex items-center justify-center rounded-2xl border bg-card hover:bg-muted transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
                                         >
-                                            <ChevronRight size={16} />
+                                            <ChevronRight size={20} />
                                         </button>
                                     </div>
                                 )}
                             </>
                         )}
-                    </div>
+                    </main>
                 </div>
             </div>
+
+            <BottomCTA
+                title="Sẵn sàng chuyển đổi quy trình với AI?"
+                subtitle="Đăng ký khoá học ngay hôm nay để nhận lộ trình đào tạo bài bản từ chuyên gia."
+                buttonText="Khám phá khoá học"
+                buttonHref="/courses"
+            />
+        </div>
 
             <BottomCTA
                 title="Sẵn sàng chuyển đổi quy trình với AI?"

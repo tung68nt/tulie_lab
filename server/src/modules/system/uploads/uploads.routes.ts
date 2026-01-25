@@ -15,7 +15,7 @@ console.log('📂 Uploads module loaded. StorageService status:', storageService
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../../uploads'));
+        cb(null, path.join(__dirname, '../../../../uploads'));
     },
     filename: (req, file, cb) => {
         // Generate unique filename with timestamp
@@ -132,7 +132,7 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
         // Process video files to HLS
         if (req.file.mimetype.startsWith('video/')) {
             try {
-                const uploadDir = path.join(__dirname, '../../../uploads');
+                const uploadDir = path.join(__dirname, '../../../../uploads');
                 const hlsUrl = await VideoService.processVideo(localFilePath, uploadDir);
                 fileUrl = hlsUrl;
                 isHls = true;

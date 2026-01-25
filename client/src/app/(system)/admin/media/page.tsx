@@ -30,6 +30,7 @@ interface MediaFile {
     url: string;
     size: number;
     mimeType?: string;
+    name?: string;
 }
 
 export default function MediaManagerPage() {
@@ -38,6 +39,7 @@ export default function MediaManagerPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [uploading, setUploading] = useState(false);
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
+    const [selectedFile, setSelectedFile] = useState<MediaFile | null>(null);
     const { addToast } = useToast();
     const confirm = useConfirm();
 
@@ -92,18 +94,17 @@ export default function MediaManagerPage() {
 
         try {
             await api.admin.media.delete(file.key);
-            addToast('Định dạng tệp đã được xóa', 'success');
+            addToast('Đã xóa tệp tin thành công', 'success');
             setFiles(files.filter(f => f.key !== file.key));
+            if (selectedFile?.key === file.key) setSelectedFile(null);
         } catch (error) {
             addToast('Có lỗi xảy ra khi xóa tệp', 'error');
         }
     };
 
-    const copyToClipboard = (file: MediaFile) => {
-        navigator.clipboard.writeText(file.url);
-        setCopiedKey(file.key);
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
         addToast('Đã sao chép liên kết vào bộ nhớ tạm', 'success');
-        setTimeout(() => setCopiedKey(null), 2000);
     };
 
     const formatSize = (bytes: number) => {
@@ -114,32 +115,36 @@ export default function MediaManagerPage() {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     };
 
+    const isImage = (key: string, mimeType?: string) => {
+        if (mimeType?.startsWith('image/')) return true;
+        const ext = key.split('.').pop()?.toLowerCase();
+        return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext || '');
+    };
+
+    const isVideo = (key: string, mimeType?: string) => {
+        if (mimeType?.startsWith('video/') || mimeType === 'application/x-mpegURL') return true;
+        const ext = key.split('.').pop()?.toLowerCase();
+        return ['mp4', 'webm', 'mov', 'm3u8'].includes(ext || '');
+    };
+
+    const getFileIcon = (file: MediaFile) => {
+        if (isImage(file.key, file.mimeType)) return <FileImage className="w-10 h-10 text-primary/30" />;
+        if (isVideo(file.key, file.mimeType)) return <FileVideo className="w-10 h-10 text-primary/30" />;
+        return <FileText className="w-10 h-10 text-muted-foreground/30" />;
+    };
+
     const filteredFiles = files.filter(file =>
-        file.key.toLowerCase().includes(searchQuery.toLowerCase())
+        file.key.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (file.name && file.name.toLowerCase().includes(searchQuery.toLowerCase()))
     );
-
-    const getFileIcon = (key: string) => {
-        const ext = key.split('.').pop()?.toLowerCase();
-        if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext || '')) return <FileImage className="w-8 h-8 text-neutral-400" />;
-        if (['mp4', 'webm', 'mov'].includes(ext || '')) return <FileVideo className="w-8 h-8 text-neutral-400" />;
-        return <FileText className="w-8 h-8 text-neutral-400" />;
-    };
-
-    const isImage = (key: string) => {
-        const ext = key.split('.').pop()?.toLowerCase();
-        return ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext || '');
-    };
 
     const [showImportModal, setShowImportModal] = useState(false);
     const [importUrl, setImportUrl] = useState('');
     const [importName, setImportName] = useState('');
     const [importing, setImporting] = useState(false);
 
-    // ... existing functions ...
-
     const handleImportUrl = async () => {
         if (!importUrl) return;
-
         try {
             setImporting(true);
             const res = await api.uploads.importUrl({
@@ -163,14 +168,15 @@ export default function MediaManagerPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý media"
+                title="Quản lý Media"
                 subtitle="Xem và quản lý tất cả các tệp tin đã tải lên hệ thống."
             >
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                     <Button
                         variant="outline"
                         onClick={() => setShowImportModal(true)}
                         disabled={uploading}
+                        className="rounded-2xl shadow-sm"
                     >
                         <Link className="w-4 h-4 mr-2" />
                         Import URL
@@ -182,143 +188,240 @@ export default function MediaManagerPage() {
                         className="hidden"
                         multiple
                         onChange={handleUpload}
-                        disabled={uploading}
                     />
                     <Button
                         variant="inverted"
                         onClick={() => document.getElementById('media-upload')?.click()}
                         disabled={uploading}
+                        className="rounded-2xl shadow-md"
                     >
                         {uploading ? (
                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                         ) : (
                             <Upload className="w-4 h-4 mr-2" />
                         )}
-                        Tải lên mới
+                        Tải lên
                     </Button>
                 </div>
             </AdminPageHeader>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <div className="flex flex-col sm:flex-row gap-6 items-center bg-muted/20 p-4 rounded-[2rem] border border-border/40">
                 <div className="relative flex-1 w-full">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
                     <Input
                         placeholder="Tìm kiếm tệp tin..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10"
+                        className="pl-12 bg-background/50 border-none rounded-xl focus:ring-primary/10 transition-all h-12"
                     />
                 </div>
-                <div className="text-sm text-muted-foreground whitespace-nowrap">
-                    Hiện có {files.length} tệp tin
+                <div className="px-4 py-2 bg-background/50 rounded-xl text-xs font-bold text-muted-foreground border border-border/40 whitespace-nowrap">
+                    TOTAL: {files.length} ITEMS
                 </div>
             </div>
 
-            {/* Import URL Modal */}
-            {showImportModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowImportModal(false)} />
-                    <div className="relative bg-background border rounded-lg shadow-xl max-w-md w-full mx-4 p-6 space-y-4 animate-in fade-in zoom-in-95 duration-200">
-                        <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">Import Media từ URL</h3>
-                            <button onClick={() => setShowImportModal(false)} className="p-1 hover:bg-muted rounded-full">
-                                <X className="w-4 h-4 text-muted-foreground" />
-                            </button>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">URL Media</label>
-                                <Input
-                                    placeholder="https://example.com/image.jpg"
-                                    value={importUrl}
-                                    onChange={(e) => setImportUrl(e.target.value)}
-                                    autoFocus
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Tên file (Tùy chọn)</label>
-                                <Input
-                                    placeholder="Đặt tên cho file..."
-                                    value={importName}
-                                    onChange={(e) => setImportName(e.target.value)}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex justify-end gap-3 pt-2">
-                            <Button variant="outline" onClick={() => setShowImportModal(false)}>Hủy</Button>
-                            <Button onClick={handleImportUrl} disabled={!importUrl || importing}>
-                                {importing && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                                Import
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
             {loading ? (
-                <div className="flex items-center justify-center py-20">
-                    <div className="w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin"></div>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    {[1, 2, 3, 4, 5].map(i => (
+                        <div key={i} className="aspect-square bg-muted/40 rounded-[2rem] animate-pulse" />
+                    ))}
                 </div>
             ) : filteredFiles.length === 0 ? (
-                <div className="text-center py-20 bg-muted/20 rounded-2xl border-2 border-dashed border-border">
-                    <p className="text-muted-foreground">Không tìm thấy tệp tin nào.</p>
+                <div className="text-center py-20 bg-muted/10 rounded-[3rem] border-2 border-dashed border-border/50">
+                    <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+                        <FileText className="w-8 h-8 text-muted-foreground/30" />
+                    </div>
+                    <p className="text-muted-foreground font-medium">Không tìm thấy tệp tin nào.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     {filteredFiles.map((file) => (
-                        <Card key={file.key} className="overflow-hidden group hover:border-foreground/30 transition-all border-border/50">
-                            <div className="aspect-square relative bg-muted/30 flex items-center justify-center overflow-hidden border-b">
-                                {isImage(file.key) ? (
+                        <Card
+                            key={file.key}
+                            className="overflow-hidden group hover:shadow-2xl hover:shadow-primary/5 transition-all border-border/40 hover:border-primary/20 rounded-[2rem] cursor-pointer bg-card/50"
+                            onClick={() => setSelectedFile(file)}
+                        >
+                            <div className="aspect-square relative bg-muted/20 flex items-center justify-center overflow-hidden">
+                                {isImage(file.key, file.mimeType) ? (
                                     <img
                                         src={file.url}
                                         alt={file.key}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                         loading="lazy"
+                                        onError={(e) => {
+                                            (e.target as any).src = 'https://placehold.co/400x400?text=Error';
+                                        }}
                                     />
                                 ) : (
-                                    getFileIcon(file.key)
+                                    <div className="flex flex-col items-center gap-3">
+                                        {getFileIcon(file)}
+                                        <Badge variant="outline" className="text-[9px] uppercase tracking-tighter border-muted-foreground/20 opacity-60">
+                                            {file.mimeType?.split('/').pop() || 'File'}
+                                        </Badge>
+                                    </div>
                                 )}
 
-                                {/* Overlay Actions */}
-                                <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex justify-center gap-2">
-                                    <button
-                                        onClick={() => copyToClipboard(file)}
-                                        className="p-1.5 bg-background rounded-md shadow-lg hover:scale-110 transition-transform"
-                                        title="Sao chép URL"
-                                    >
-                                        {copiedKey === file.key ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
-                                    </button>
-                                    <button
-                                        onClick={() => window.open(file.url, '_blank')}
-                                        className="p-1.5 bg-background rounded-md shadow-lg hover:scale-110 transition-transform"
-                                        title="Xem trực tiếp"
-                                    >
-                                        <ExternalLink className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(file)}
-                                        className="p-1.5 bg-background text-red-600 rounded-md shadow-lg hover:scale-110 transition-transform"
-                                        title="Xóa"
-                                    >
-                                        <Trash2 className="w-4 h-4" />
-                                    </button>
+                                {/* Hover Overlay */}
+                                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <div className="w-12 h-12 rounded-full bg-background/90 shadow-xl flex items-center justify-center scale-75 group-hover:scale-100 transition-all duration-300">
+                                        <ExternalLink size={18} className="text-primary" />
+                                    </div>
                                 </div>
                             </div>
-                            <CardContent className="p-3">
-                                <p className="text-xs font-medium truncate mb-1" title={file.key}>
-                                    {file.key.replace('uploads/', '').replace('imported/', '')}
+                            <CardContent className="p-4">
+                                <p className="text-[11px] font-bold truncate mb-1 text-foreground/80 uppercase tracking-tight">
+                                    {file.name || file.key.split('/').pop()}
                                 </p>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[10px] text-muted-foreground">{formatSize(file.size)}</span>
-                                    {isImage(file.key) && <Badge variant="outline" className="text-[8px] px-1 h-3 uppercase border-muted-foreground/30 text-muted-foreground">Image</Badge>}
+                                    <span className="text-[9px] font-bold text-muted-foreground/50">{formatSize(file.size)}</span>
+                                    <Badge variant="secondary" className="px-1.5 py-0 h-3.5 text-[8px] border-none bg-muted/50 text-muted-foreground/70 uppercase">
+                                        {file.key.startsWith('imported') ? 'Link' : 'Local'}
+                                    </Badge>
                                 </div>
                             </CardContent>
                         </Card>
                     ))}
                 </div>
             )}
+
+            {/* Media Details Modal */}
+            {selectedFile && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-background/80 backdrop-blur-xl animate-in fade-in duration-300" onClick={() => setSelectedFile(null)} />
+                    <Card className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl rounded-[3rem] border-border/50 animate-in zoom-in-95 duration-300">
+                        {/* Preview Area */}
+                        <div className="flex-1 bg-black/5 flex items-center justify-center min-h-[300px] relative overflow-hidden">
+                            {isImage(selectedFile.key, selectedFile.mimeType) ? (
+                                <img
+                                    src={selectedFile.url}
+                                    alt={selectedFile.key}
+                                    className="w-full h-full object-contain"
+                                />
+                            ) : isVideo(selectedFile.key, selectedFile.mimeType) ? (
+                                <video
+                                    src={selectedFile.url}
+                                    controls
+                                    className="max-w-full max-h-full"
+                                />
+                            ) : (
+                                <div className="flex flex-col items-center gap-4">
+                                    {getFileIcon(selectedFile)}
+                                    <span className="text-muted-foreground font-medium">Bản xem trước không khả dụng cho loại tệp này</span>
+                                </div>
+                            )}
+
+                            <button
+                                onClick={() => setSelectedFile(null)}
+                                className="absolute top-6 right-6 w-10 h-10 rounded-full bg-background/50 hover:bg-background backdrop-blur-md flex items-center justify-center transition-all border border-black/5 shadow-sm"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        {/* Info Area */}
+                        <div className="w-full md:w-80 p-8 flex flex-col justify-between bg-card">
+                            <div className="space-y-8">
+                                <div className="space-y-3">
+                                    <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black tracking-widest uppercase">
+                                        Thông tin tệp tin
+                                    </Badge>
+                                    <h2 className="text-xl font-black tracking-tight leading-tight line-clamp-3">
+                                        {selectedFile.name || selectedFile.key.split('/').pop()}
+                                    </h2>
+                                </div>
+
+                                <div className="space-y-5">
+                                    <div className="flex flex-col gap-1.5">
+                                        <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Kích thước</span>
+                                        <p className="text-sm font-bold">{formatSize(selectedFile.size)}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-1.5">
+                                        <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Loại tệp (MIME)</span>
+                                        <p className="text-sm font-bold">{selectedFile.mimeType || 'N/A'}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-1.5">
+                                        <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Đường dẫn đầy đủ</span>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <code className="text-[10px] bg-muted px-2 py-1.5 rounded-lg flex-1 truncate font-mono">
+                                                {selectedFile.url}
+                                            </code>
+                                            <button
+                                                onClick={() => copyToClipboard(selectedFile.url)}
+                                                className="p-2 hover:bg-muted rounded-lg transition-colors shrink-0 border border-border/50"
+                                            >
+                                                <Copy size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-3 pt-8 border-t border-border/50">
+                                <Button
+                                    variant="inverted"
+                                    className="w-full rounded-2xl h-12 font-bold shadow-lg shadow-black/5"
+                                    onClick={() => window.open(selectedFile.url, '_blank')}
+                                >
+                                    <ExternalLink size={16} className="mr-2" />
+                                    Mở tab mới
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="w-full rounded-2xl h-12 font-bold text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100"
+                                    onClick={() => handleDelete(selectedFile)}
+                                >
+                                    <Trash2 size={16} className="mr-2" />
+                                    Xóa vĩnh viễn
+                                </Button>
+                            </div>
+                        </div>
+                    </Card>
+                </div>
+            )}
+
+            {/* Existing Import Modal (Refined) */}
+            {showImportModal && (
+                <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-background/60 backdrop-blur-md animate-in fade-in" onClick={() => setShowImportModal(false)} />
+                    <div className="relative bg-card border rounded-[2.5rem] shadow-2xl max-w-md w-full p-8 space-y-6 animate-in zoom-in-95">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-xl font-black tracking-tight uppercase">Import từ URL</h3>
+                            <button onClick={() => setShowImportModal(false)} className="p-2 hover:bg-muted rounded-full">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <div className="space-y-5">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black tracking-widest uppercase text-muted-foreground">URL tệp tin</label>
+                                <Input
+                                    placeholder="https://"
+                                    value={importUrl}
+                                    onChange={(e) => setImportUrl(e.target.value)}
+                                    className="rounded-xl border-border/40 focus:ring-primary/10 h-11"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black tracking-widest uppercase text-muted-foreground">Tên ghi nhớ (Tùy chọn)</label>
+                                <Input
+                                    placeholder="Thumbnail..."
+                                    value={importName}
+                                    onChange={(e) => setImportName(e.target.value)}
+                                    className="rounded-xl border-border/40 focus:ring-primary/10 h-11"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex gap-3 pt-2">
+                            <Button variant="outline" className="flex-1 rounded-2xl h-12" onClick={() => setShowImportModal(false)}>Hủy</Button>
+                            <Button className="flex-1 rounded-2xl h-12 font-bold" onClick={handleImportUrl} disabled={!importUrl || importing}>
+                                {importing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Link size={16} className="mr-2" />}
+                                Bắt đầu Import
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
+    );
+}
     );
 }

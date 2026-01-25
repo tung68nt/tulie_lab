@@ -9,7 +9,7 @@ export const CTASection = ({ section }: { section: Section }) => {
         <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden">
             {/* Background pattern */}
             <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-dot-white opacity-40"></div>
+                <div className="absolute inset-0 bg-dot-grid text-white/40"></div>
                 <div className="absolute inset-0 bg-black/30"></div>
             </div>
 
