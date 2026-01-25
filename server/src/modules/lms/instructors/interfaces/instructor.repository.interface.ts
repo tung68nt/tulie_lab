@@ -1,7 +1,7 @@
 import { Instructor, Prisma } from '@prisma/client';
 
 export interface IInstructorRepository {
-    findAll(): Promise<Instructor[]>;
+    findAll(params?: any): Promise<{ data: Instructor[]; meta: any }>;
     findById(id: string): Promise<Instructor | null>;
     create(data: Prisma.InstructorCreateInput): Promise<Instructor>;
     update(id: string, data: Prisma.InstructorUpdateInput): Promise<Instructor>;

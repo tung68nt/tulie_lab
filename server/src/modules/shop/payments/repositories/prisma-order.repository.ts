@@ -68,13 +68,7 @@ export class PrismaOrderRepository implements IOrderRepository {
         });
     }
 
-    async findAll(params: {
-        skip?: number;
-        take?: number;
-        where?: Prisma.OrderWhereInput;
-        orderBy?: Prisma.OrderOrderByWithRelationInput;
-        include?: Prisma.OrderInclude;
-    }): Promise<{ orders: Order[]; total: number; stats?: { total: number; paid: number; pending: number; cancelled: number; totalRevenue: number } }> {
+    async findAll(params: any): Promise<{ data: Order[]; meta: any }> {
         const { skip, take, where, orderBy, include } = params as any;
 
         const [orders, total, statsData] = await Promise.all([
@@ -143,6 +137,6 @@ export class PrismaOrderRepository implements IOrderRepository {
             }
         });
 
-        return { orders, total, stats };
+        return { data: orders, meta: { total, stats } };
     }
 }

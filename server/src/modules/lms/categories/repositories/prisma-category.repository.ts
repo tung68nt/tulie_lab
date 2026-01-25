@@ -3,11 +3,22 @@ import prisma from '../../../../config/prisma';
 import { ICategoryRepository } from '../interfaces/category.repository.interface';
 
 export class PrismaCategoryRepository implements ICategoryRepository {
-    async findAll(params: any = {}): Promise<Category[]> {
-        return prisma.category.findMany({
-            where: params.where || { isActive: true },
-            orderBy: { name: 'asc' }
-        });
+    async findAll(params: any = {}): Promise<{ data: Category[]; meta: any }> {
+        const where = params.where || { isActive: true };
+        const skip = params.skip || 0;
+        const take = params.take || 100;
+
+        const [data, total] = await Promise.all([
+            prisma.category.findMany({
+                where,
+                skip,
+                take,
+                orderBy: { name: 'asc' }
+            }),
+            prisma.category.count({ where })
+        ]);
+
+        return { data, meta: { total } };
     }
 
     async findById(id: string): Promise<Category | null> {

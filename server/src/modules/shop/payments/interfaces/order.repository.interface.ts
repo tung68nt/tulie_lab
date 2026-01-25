@@ -6,11 +6,5 @@ export interface IOrderRepository {
     findByCode(code: string): Promise<Order | null>;
     update(id: string, data: Prisma.OrderUpdateInput): Promise<Order>;
     delete(id: string): Promise<void>;
-    findAll(params: {
-        skip?: number;
-        take?: number;
-        where?: Prisma.OrderWhereInput;
-        orderBy?: Prisma.OrderOrderByWithRelationInput;
-        include?: Prisma.OrderInclude;
-    }): Promise<{ orders: Order[]; total: number; stats?: { total: number; paid: number; pending: number; cancelled: number; totalRevenue: number } }>;
+    findAll(params: any): Promise<{ data: Order[]; meta: any }>;
 }

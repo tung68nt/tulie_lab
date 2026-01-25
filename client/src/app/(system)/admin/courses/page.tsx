@@ -25,8 +25,8 @@ export default function AdminCoursesPage() {
         const fetchCourses = async () => {
             try {
                 // Fetch all courses (including unpublished ones if the API supports it)
-                const data = await api.admin.courses.list() as any[];
-                setCourses(data);
+                const res: any = await api.admin.courses.list();
+                setCourses(res.data || []);
             } catch (e: any) {
                 console.error('Failed to fetch courses (Admin)', e);
                 addToast(`Lỗi tải khóa học: ${e?.message || 'Unknown error'}`, 'error');

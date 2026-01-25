@@ -160,7 +160,7 @@ export default function AdminDashboardPage() {
                 api.admin.orders.list({ limit: 1000 }).catch(() => ({ data: [], meta: { stats: {} } })) // Fetch more for charts
             ]);
 
-            const courses = Array.isArray(coursesRes) ? coursesRes : [];
+            const courses = coursesRes?.data || [];
             const users = usersRes?.data || [];
             const orders = ordersRes?.data || [];
             const orderStats = ordersRes?.meta?.stats || {};

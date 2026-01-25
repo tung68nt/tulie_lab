@@ -9,7 +9,9 @@ export class InstructorController {
 
     async list(req: Request, res: Response) {
         try {
-            const instructors = await this.instructorService.getAllInstructors();
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 100;
+            const instructors = await this.instructorService.getAllInstructors(page, limit);
             res.json(instructors);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

@@ -9,7 +9,12 @@ export class CategoryController {
 
     async list(req: Request, res: Response) {
         try {
-            const categories = await this.categoryService.getAllCategories();
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 100;
+            const categories = await this.categoryService.getAllCategories({
+                skip: (page - 1) * limit,
+                take: limit
+            });
             res.json(categories);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

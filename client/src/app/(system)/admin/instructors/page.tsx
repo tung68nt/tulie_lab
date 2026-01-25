@@ -56,8 +56,8 @@ export default function AdminInstructorsPage() {
     const loadInstructors = async () => {
         try {
             setLoading(true);
-            const data = await api.admin.instructors.list() as Instructor[];
-            setInstructors(data);
+            const res: any = await api.admin.instructors.list();
+            setInstructors(res.data || []);
         } catch (e: any) {
             console.error('Failed to load instructors:', e);
             addToast(`Không thể tải danh sách giảng viên: ${e?.message || 'Lỗi không xác định'}`, 'error');

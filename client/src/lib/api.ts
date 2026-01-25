@@ -111,7 +111,7 @@ export const api = {
         getMyOrders: () => request<Order[]>('/users/my-orders'),
     },
     instructors: {
-        list: () => request<Instructor[]>('/instructors'),
+        list: () => request<{ data: Instructor[], meta: any }>('/instructors'),
         get: (id: string) => request<Instructor>(`/instructors/${id}`),
     },
     admin: {
@@ -133,7 +133,7 @@ export const api = {
         unblockUser: (id: string) => request<void>(`/users/${id}/unblock`, { method: 'POST' }),
         deleteUser: (id: string) => request<void>(`/users/${id}`, { method: 'DELETE' }),
         courses: {
-            list: () => request<Course[]>('/courses/admin/list'),
+            list: () => request<{ data: Course[], meta: any }>('/courses/admin/list'),
             get: (id: string) => request<Course>(`/courses/admin/${id}`),
             create: (data: unknown) => request<Course>('/courses', { method: 'POST', body: JSON.stringify(data) }),
             update: (id: string, data: unknown) => request<Course>(`/courses/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
@@ -181,7 +181,7 @@ export const api = {
                         }
                     });
                 }
-                return request<{ items: unknown[], total: number }>(`/contact/admin?${searchParams.toString()}`);
+                return request<{ data: any[], meta: any }>(`/contact/admin?${searchParams.toString()}`);
             },
             updateStatus: (id: string, status: string) => request<unknown>(`/contact/admin/${id}`, {
                 method: 'PUT',
@@ -205,7 +205,7 @@ export const api = {
             testTelegram: () => request<{ message: string }>('/settings/telegram/test', { method: 'POST' }),
         },
         blog: {
-            list: () => request<unknown[]>('/blog/admin/list'),
+            list: () => request<{ data: any[], meta: any }>('/blog/admin/list'),
             create: (data: unknown) => request<unknown>('/blog/admin/create', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -233,7 +233,7 @@ export const api = {
             update: (data: { key: string, value: string, type?: string }) => request<unknown>('/cms', { method: 'POST', body: JSON.stringify(data) }),
         },
         instructors: {
-            list: () => request<Instructor[]>('/instructors'),
+            list: () => request<{ data: Instructor[], meta: any }>('/instructors'),
             get: (id: string) => request<Instructor>(`/instructors/${id}`),
             create: (data: unknown) => request<Instructor>('/instructors', { method: 'POST', body: JSON.stringify(data) }),
             update: (id: string, data: unknown) => request<Instructor>(`/instructors/${id}`, { method: 'PUT', body: JSON.stringify(data) }),

@@ -4,8 +4,8 @@ import { Request, Response } from 'express'; // Assuming express types are avail
 export class CategoryService {
     constructor(private categoryRepository: ICategoryRepository) { }
 
-    async getAllCategories() {
-        return this.categoryRepository.findAll();
+    async getAllCategories(params: any = {}) {
+        return this.categoryRepository.findAll(params);
     }
 
     async getCategoryBySlug(slug: string) {

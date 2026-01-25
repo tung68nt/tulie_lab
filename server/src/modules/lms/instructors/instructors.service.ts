@@ -5,8 +5,11 @@ import { IInstructorRepository } from './interfaces/instructor.repository.interf
 export class InstructorService {
     constructor(private instructorRepository: IInstructorRepository) { }
 
-    async getAllInstructors() {
-        return this.instructorRepository.findAll();
+    async getAllInstructors(page: number = 1, limit: number = 100) {
+        return this.instructorRepository.findAll({
+            skip: (page - 1) * limit,
+            take: limit
+        });
     }
 
     async getInstructorById(id: string) {

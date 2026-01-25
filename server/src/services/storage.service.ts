@@ -115,15 +115,23 @@ export class StorageService {
      * List files from R2
      */
     async listFiles(prefix?: string): Promise<any[]> {
+        console.log(`[Storage] Listing files in bucket: ${this.bucket}, prefix: ${prefix || '(none)'}`);
         try {
             const command = new ListObjectsV2Command({
                 Bucket: this.bucket,
                 Prefix: prefix
             });
 
-            const response = await this.client.send(command);
+            const response = await this.client.send(command).catch(err => {
+                console.error(`[Storage] SDK error listing files: ${err.message}`, {
+                    bucket: this.bucket,
+                    prefix: prefix,
+                    code: err.code
+                });
+                throw err;
+            });
 
-            return (response.Contents || []).map(item => ({
+            const items = (response.Contents || []).map(item => ({
                 key: item.Key,
                 size: item.Size,
                 lastModified: item.LastModified,
@@ -131,8 +139,11 @@ export class StorageService {
                     ? `${this.publicDomain.endsWith('/') ? this.publicDomain.slice(0, -1) : this.publicDomain}/${item.Key}`
                     : item.Key
             })).sort((a, b) => (b.lastModified?.getTime() || 0) - (a.lastModified?.getTime() || 0));
-        } catch (error) {
-            console.error('List R2 Files Error:', error);
+
+            console.log(`[Storage] Found ${items.length} items`);
+            return items;
+        } catch (error: any) {
+            console.error('[Storage] List R2 Files Fatal Error:', error.message);
             return [];
         }
     }
