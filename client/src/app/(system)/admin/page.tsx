@@ -599,13 +599,13 @@ export default function AdminDashboardPage() {
                 {/* Recent Orders Table */}
                 {data.recentOrders.length > 0 && (
                     <Card className="overflow-hidden border shadow-none border-zinc-200">
-                        <CardHeader className="py-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b space-y-0">
-                            <div>
-                                <CardTitle className="text-sm font-bold">Đơn hàng mới nhất</CardTitle>
+                        <CardHeader className="py-8 flex flex-col items-center justify-center bg-white border-b space-y-4">
+                            <div className="text-center">
+                                <CardTitle className="text-base font-bold">Đơn hàng mới nhất</CardTitle>
                                 <p className="text-sm text-muted-foreground">5 đơn hàng vừa phát sinh trên hệ thống</p>
                             </div>
                             <Link href="/admin/orders">
-                                <Button variant="outline" size="sm" className="h-8 text-xs px-3 font-medium bg-white hover:bg-zinc-100">Chi tiết →</Button>
+                                <Button variant="outline" size="sm" className="h-9 text-xs px-6 font-medium bg-white hover:bg-zinc-50 border-zinc-200">Chi tiết -{'>'}</Button>
                             </Link>
                         </CardHeader>
                         <CardContent className="p-0">
@@ -651,13 +651,13 @@ export default function AdminDashboardPage() {
 
                 {/* Recent Transactions Table */}
                 <Card className="overflow-hidden border shadow-none border-zinc-200">
-                    <CardHeader className="py-4 flex flex-row items-center justify-between bg-zinc-50/50 border-b space-y-0">
-                        <div>
-                            <CardTitle className="text-sm font-bold">Lịch sử Giao dịch</CardTitle>
+                    <CardHeader className="py-8 flex flex-col items-center justify-center bg-white border-b space-y-4">
+                        <div className="text-center">
+                            <CardTitle className="text-base font-bold">Lịch sử Giao dịch</CardTitle>
                             <p className="text-sm text-muted-foreground">Các giao dịch tài chính vừa được đồng bộ</p>
                         </div>
                         <Link href="/admin/payments">
-                            <Button variant="outline" size="sm" className="h-8 text-xs px-3 font-medium bg-white hover:bg-zinc-100">Chi tiết →</Button>
+                            <Button variant="outline" size="sm" className="h-9 text-xs px-6 font-medium bg-white hover:bg-zinc-50 border-zinc-200">Chi tiết -{'>'}</Button>
                         </Link>
                     </CardHeader>
                     <CardContent className="p-0">

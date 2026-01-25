@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Package, User, Printer, Download, CreditCard, Calendar, Mail, Phone, Globe, MapPin } from 'lucide-react';
+import { Printer, Download, Mail, Globe, MapPin } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
+import { useSettings } from '@/contexts/SettingsContext';
 
 interface InvoiceProps {
     order: {
@@ -12,14 +13,17 @@ interface InvoiceProps {
         amount: number;
         status: string;
         createdAt: string;
+        metadata?: any;
         user: {
             id: string;
             email: string;
             name?: string;
             profile?: {
+                id?: string;
                 name?: string;
                 phone?: string;
                 address?: string;
+                company?: string;
             };
         };
         items: {
@@ -41,6 +45,8 @@ interface InvoiceProps {
 }
 
 export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
+    const { settings } = useSettings();
+
     const formatCurrency = (val: number) =>
         new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
 
@@ -62,7 +68,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500">
+        <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500 font-sans">
             {/* Action Bar - Hidden during print */}
             <div className="flex justify-end gap-3 print:hidden">
                 <Button variant="outline" onClick={onDownload} className="gap-2">
@@ -79,11 +85,17 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
             <Card className="border-none shadow-2xl print:shadow-none overflow-hidden bg-white text-zinc-950">
                 <CardContent className="p-8 md:p-12 space-y-12">
                     {/* Header: Company & Invoice Info */}
-                    <div className="flex flex-col md:flex-row justify-between gap-8 border-b border-zinc-100 pb-12">
+                    <div className="flex flex-col md:flex-row justify-between gap-8 border-b border-zinc-100 pb-12 text-zinc-950">
                         <div className="space-y-4">
-                            <div className="flex items-center gap-2">
-                                <div className="w-10 h-10 bg-zinc-950 rounded flex items-center justify-center text-white font-bold text-xl">T</div>
-                                <span className="text-2xl font-bold tracking-tight">tulie.\lab</span>
+                            <div className="flex items-center gap-2.5">
+                                {settings.site_logo ? (
+                                    <img src={settings.site_logo} alt="Logo" className="h-10 w-auto object-contain" />
+                                ) : (
+                                    <>
+                                        <div className="w-10 h-10 bg-zinc-950 rounded flex items-center justify-center text-white font-bold text-xl">T</div>
+                                        <span className="text-2xl font-bold tracking-tight">tulie.\lab</span>
+                                    </>
+                                )}
                             </div>
                             <div className="text-sm text-zinc-500 space-y-1">
                                 <div className="flex items-center gap-2"><Globe className="w-3 h-3" /> academy.tulie.vn</div>
@@ -94,8 +106,8 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         <div className="text-right space-y-2">
                             <h1 className="text-3xl font-bold tracking-tighter">HÓA ĐƠN</h1>
                             <div className="text-sm">
-                                <span className="text-zinc-500">Mã đơn:</span>
-                                <span className="font-mono font-bold border-b-2 border-zinc-950 ml-2">{order.code}</span>
+                                <span className="text-zinc-500">Mã đơn hàng:</span>
+                                <span className="font-bold border-b-2 border-zinc-950 ml-2">{order.code}</span>
                             </div>
                             <div className="text-sm">
                                 <span className="text-zinc-500">Ngày tạo:</span>
@@ -115,21 +127,23 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div className="space-y-4">
                             <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Thông tin khách hàng</h3>
-                            <div className="space-y-2">
-                                <div className="font-bold text-lg">{order.user.profile?.name || order.user.name || 'Khách hàng'}</div>
-                                <div className="text-sm text-zinc-600 flex items-center gap-2">
-                                    <Mail className="w-3.5 h-3.5" /> {order.user.email}
+                            <div className="space-y-2 text-sm">
+                                <div className="flex gap-2">
+                                    <span className="text-zinc-500 w-44 shrink-0">Họ tên người mua hàng:</span>
+                                    <span className="font-bold">{order.metadata?.customerName || order.user.profile?.name || order.user.name || ''}</span>
                                 </div>
-                                {order.user.profile?.phone && (
-                                    <div className="text-sm text-zinc-600 flex items-center gap-2">
-                                        <Phone className="w-3.5 h-3.5" /> {order.user.profile.phone}
-                                    </div>
-                                )}
-                                {order.user.profile?.address && (
-                                    <div className="text-sm text-zinc-600 flex items-start gap-2">
-                                        <MapPin className="w-3.5 h-3.5 mt-0.5" /> <span>{order.user.profile.address}</span>
-                                    </div>
-                                )}
+                                <div className="flex gap-2">
+                                    <span className="text-zinc-500 w-44 shrink-0">Tên đơn vị:</span>
+                                    <span className="font-bold">{order.metadata?.companyName || order.user.profile?.company || ''}</span>
+                                </div>
+                                <div className="flex gap-2">
+                                    <span className="text-zinc-500 w-44 shrink-0">Mã số thuế:</span>
+                                    <span className="font-bold">{order.metadata?.taxId || ''}</span>
+                                </div>
+                                <div className="flex gap-2">
+                                    <span className="text-zinc-500 w-44 shrink-0">Địa chỉ:</span>
+                                    <span className="font-bold">{order.metadata?.address || order.user.profile?.address || ''}</span>
+                                </div>
                             </div>
                         </div>
                         <div className="space-y-4 md:text-right">
@@ -166,7 +180,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                                     {item.course ? 'KHÓA HỌC' : 'SẢN PHẨM SỐ'}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-right font-mono font-bold">
+                                            <td className="px-6 py-4 text-right font-bold">
                                                 {formatCurrency(item.price)}
                                             </td>
                                         </tr>
@@ -175,24 +189,10 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 <tfoot>
                                     <tr className="border-t border-zinc-900 border-dashed">
                                         <td colSpan={3} className="px-6 py-6 text-right font-bold text-lg">Tổng giá trị đơn hàng:</td>
-                                        <td className="px-6 py-6 text-right text-2xl font-black font-mono">{formatCurrency(order.amount)}</td>
+                                        <td className="px-6 py-6 text-right text-2xl font-black">{formatCurrency(order.amount)}</td>
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                    </div>
-
-                    {/* Footer Note */}
-                    <div className="border-t border-zinc-100 pt-12 text-center space-y-4">
-                        <p className="text-zinc-400 text-sm max-w-md mx-auto italic">
-                            Cảm ơn bạn đã lựa chọn Tulie Academy. <br /> Hóa đơn trực tuyến có giá trị xác nhận quyền sở hữu dịch vụ/sản phẩm số vĩnh viễn trên hệ thống của chúng tôi.
-                        </p>
-                        <div className="flex items-center justify-center gap-4 text-xs font-bold uppercase tracking-tighter text-zinc-300">
-                            <span>Automation</span>
-                            <span className="w-1 h-1 rounded-full bg-zinc-200" />
-                            <span>Vibe Coding</span>
-                            <span className="w-1 h-1 rounded-full bg-zinc-200" />
-                            <span>Premium Quality</span>
                         </div>
                     </div>
                 </CardContent>
