@@ -253,4 +253,71 @@ router.post('/multiple', authenticate, authorize([Role.ADMIN]), upload.array('fi
     }
 });
 
+// Import by URL
+router.post('/import-url', authenticate, authorize([Role.ADMIN]), async (req, res) => {
+    try {
+        const { url, name, mimeType } = req.body;
+
+        if (!url) {
+            return res.status(400).json({ message: 'URL is required' });
+        }
+
+        let finalName = name;
+        let finalMimeType = mimeType || 'application/octet-stream';
+        let size = 0;
+
+        // Try to fetch metadata
+        try {
+            const headRes = await fetch(url, { method: 'HEAD' });
+            if (headRes.ok) {
+                finalMimeType = headRes.headers.get('content-type') || finalMimeType;
+                const contentLength = headRes.headers.get('content-length');
+                if (contentLength) size = parseInt(contentLength, 10);
+            }
+        } catch (err) {
+            console.warn('Failed to fetch metadata for URL:', url);
+            // Ignore error, proceed with user provided or default values
+        }
+
+        // Generate filename if not provided
+        if (!finalName) {
+            try {
+                const urlObj = new URL(url);
+                finalName = path.basename(urlObj.pathname) || 'imported-file';
+            } catch {
+                finalName = 'imported-file';
+            }
+        }
+
+        // Generate a unique key for DB reference (not real S3 key)
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const key = `imported/${uniqueSuffix}/${finalName}`;
+
+        const media = await prisma.media.create({
+            data: {
+                key: key,
+                url: url,
+                name: finalName,
+                mimeType: finalMimeType,
+                size: size
+            }
+        });
+
+        res.json({
+            success: true,
+            data: {
+                originalName: media.name,
+                filename: media.key,
+                url: media.url,
+                size: media.size,
+                mimetype: media.mimeType
+            }
+        });
+
+    } catch (error: any) {
+        console.error('Import URL Error:', error);
+        res.status(500).json({ message: 'Failed to import URL', error: error.message });
+    }
+});
+
 export default router;

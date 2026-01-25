@@ -19,7 +19,9 @@ import {
     FileImage,
     Loader2,
     MoreVertical,
-    Check
+    Check,
+    Link,
+    X
 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
 
@@ -128,6 +130,36 @@ export default function MediaManagerPage() {
         return ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext || '');
     };
 
+    const [showImportModal, setShowImportModal] = useState(false);
+    const [importUrl, setImportUrl] = useState('');
+    const [importName, setImportName] = useState('');
+    const [importing, setImporting] = useState(false);
+
+    // ... existing functions ...
+
+    const handleImportUrl = async () => {
+        if (!importUrl) return;
+
+        try {
+            setImporting(true);
+            const res = await api.uploads.importUrl({
+                url: importUrl,
+                name: importName || undefined
+            });
+            if (res.success) {
+                addToast('Import media thành công', 'success');
+                setShowImportModal(false);
+                setImportUrl('');
+                setImportName('');
+                fetchFiles();
+            }
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi khi import media', 'error');
+        } finally {
+            setImporting(false);
+        }
+    };
+
     return (
         <div className="space-y-6">
             <AdminPageHeader
@@ -135,6 +167,15 @@ export default function MediaManagerPage() {
                 subtitle="Xem và quản lý tất cả các tệp tin đã tải lên hệ thống."
             >
                 <div className="flex gap-2">
+                    <Button
+                        variant="outline"
+                        onClick={() => setShowImportModal(true)}
+                        disabled={uploading}
+                    >
+                        <Link className="w-4 h-4 mr-2" />
+                        Import URL
+                    </Button>
+
                     <input
                         type="file"
                         id="media-upload"
@@ -172,6 +213,49 @@ export default function MediaManagerPage() {
                     Hiện có {files.length} tệp tin
                 </div>
             </div>
+
+            {/* Import URL Modal */}
+            {showImportModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowImportModal(false)} />
+                    <div className="relative bg-background border rounded-lg shadow-xl max-w-md w-full mx-4 p-6 space-y-4 animate-in fade-in zoom-in-95 duration-200">
+                        <div className="flex items-center justify-between">
+                            <h3 className="text-lg font-semibold">Import Media từ URL</h3>
+                            <button onClick={() => setShowImportModal(false)} className="p-1 hover:bg-muted rounded-full">
+                                <X className="w-4 h-4 text-muted-foreground" />
+                            </button>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">URL Media</label>
+                                <Input
+                                    placeholder="https://example.com/image.jpg"
+                                    value={importUrl}
+                                    onChange={(e) => setImportUrl(e.target.value)}
+                                    autoFocus
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Tên file (Tùy chọn)</label>
+                                <Input
+                                    placeholder="Đặt tên cho file..."
+                                    value={importName}
+                                    onChange={(e) => setImportName(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="flex justify-end gap-3 pt-2">
+                            <Button variant="outline" onClick={() => setShowImportModal(false)}>Hủy</Button>
+                            <Button onClick={handleImportUrl} disabled={!importUrl || importing}>
+                                {importing && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                                Import
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {loading ? (
                 <div className="flex items-center justify-center py-20">
@@ -224,7 +308,7 @@ export default function MediaManagerPage() {
                             </div>
                             <CardContent className="p-3">
                                 <p className="text-xs font-medium truncate mb-1" title={file.key}>
-                                    {file.key.replace('uploads/', '')}
+                                    {file.key.replace('uploads/', '').replace('imported/', '')}
                                 </p>
                                 <div className="flex items-center justify-between">
                                     <span className="text-[10px] text-muted-foreground">{formatSize(file.size)}</span>

@@ -354,7 +354,11 @@ export const api = {
                 throw new Error(errorData.message || 'Upload failed');
             }
             return response.json();
-        }
+        },
+        importUrl: (data: { url: string, name?: string }) => request<{ success: boolean, data: any }>('/uploads/import-url', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }),
     },
     post: (endpoint: string, data: unknown) => request<unknown>(endpoint, { method: 'POST', body: JSON.stringify(data) }),
     security: {
