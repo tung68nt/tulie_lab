@@ -130,7 +130,6 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
 
             <OrderInvoice
                 order={order as any}
-                onDownload={() => window.print()}
             />
         </div>
     );

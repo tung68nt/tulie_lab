@@ -5,6 +5,7 @@ import { Printer, Download, Mail, Globe, MapPin, FileText, Phone } from 'lucide-
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
 import { useSettings } from '@/contexts/SettingsContext';
+import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
 
 interface InvoiceProps {
@@ -109,7 +110,9 @@ const toVietnameseWords = (amount: number): string => {
 
 export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
     const { settings } = useSettings();
+    const { addToast } = useToast();
     const [footerData, setFooterData] = useState<any>(null);
+    const [isDownloading, setIsDownloading] = useState(false);
     const invoiceRef = React.useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -150,30 +153,38 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
             return;
         }
 
-        if (!invoiceRef.current) return;
+        if (!invoiceRef.current || isDownloading) return;
 
+        setIsDownloading(true);
         try {
-            // Use dynamic import for html2pdf
-            const html2pdf = (await import('html2pdf.js')).default;
+            // Dynamically import html2pdf only on client side
+            const html2pdfModule = await import('html2pdf.js');
+            const html2pdf = html2pdfModule.default;
 
             const element = invoiceRef.current;
-            const opt = {
-                margin: 0,
+            const opt: any = {
+                margin: [10, 10, 10, 10],
                 filename: `Don-hang-${order.code}.pdf`,
-                image: { type: 'jpeg' as const, quality: 1.0 },
+                image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: {
-                    scale: 3,
+                    scale: 2,
                     useCORS: true,
                     logging: false,
                     letterRendering: true,
-                    windowWidth: 1200 // Force desktop width for capture
+                    allowTaint: true,
+                    windowWidth: 1200
                 },
-                jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
+            // Capture and save
             await html2pdf().set(opt).from(element).save();
+            addToast('Đã tải xuống hóa đơn PDF thành công', 'success');
         } catch (error) {
             console.error('PDF Download Error:', error);
+            addToast('Không thể tạo file PDF. Vui lòng thử lại sau.', 'error');
+        } finally {
+            setIsDownloading(false);
         }
     };
 
@@ -186,9 +197,18 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
         <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500 font-sans print:p-0 print:m-0">
             {/* Action Bar - Hidden during print */}
             <div className="flex justify-end gap-3 print:hidden px-4 md:px-0">
-                <Button variant="outline" onClick={handleDownload} className="gap-2">
-                    <Download className="w-4 h-4" />
-                    Tải PDF
+                <Button
+                    variant="outline"
+                    onClick={handleDownload}
+                    disabled={isDownloading}
+                    className="gap-2 min-w-[120px]"
+                >
+                    {isDownloading ? (
+                        <div className="w-4 h-4 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                        <Download className="w-4 h-4" />
+                    )}
+                    {isDownloading ? 'Đang tải...' : 'Tải PDF'}
                 </Button>
                 <Button onClick={handlePrint} className="gap-2 bg-zinc-950 text-white hover:bg-zinc-800">
                     <Printer className="w-4 h-4" />
