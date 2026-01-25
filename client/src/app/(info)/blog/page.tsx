@@ -27,13 +27,10 @@ export default function BlogPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/blog`);
-                if (res.ok) {
-                    const posts = await res.json();
-                    setPosts(Array.isArray(posts) ? posts : []);
-                }
+                const res: any = await api.blog.list(1, 100); // Fetch first 100 posts
+                const postsData = Array.isArray(res) ? res : (res.data || []);
+                setPosts(postsData);
             } catch (error) {
-                // API not available yet - show empty state
                 console.warn('Blog API not available:', error);
             } finally {
                 setLoading(false);

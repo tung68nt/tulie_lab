@@ -246,6 +246,12 @@ export const api = {
             return request<Record<string, unknown>>(`/cms${query}`);
         }
     },
+    blog: {
+        list: (page?: number, limit?: number) => {
+            const query = (page || limit) ? `?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}` : '';
+            return request<any>(`/blog${query}`);
+        }
+    },
     payments: {
         checkout: (data: unknown) => request<{ url: string }>('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
         getOrder: (code: string) => request<Order>(`/payments/${code}`),
