@@ -22,7 +22,17 @@ export class ApiError extends Error {
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     // Ensure endpoint starts with /
     const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    const url = `${BASE_URL}/api${path}`;
+
+    // DEBUG FORCE: If we are calling uploads, force the full URL to bypass potential next.config.ts rewrite issues
+    // This is a temporary fix to verify if the issue is the rewrite layer
+    let url = `${BASE_URL}/api${path}`;
+
+    // Check if we are checking uploads and force absolute URL if client-side
+    if (path.includes('uploads') && !isServer) {
+        console.log('DEBUG: Forcing absolute URL for uploads');
+        // Use the cleanEnvUrl which comes from env var, defaulting to localhost if missing
+        url = `${cleanEnvUrl}/api${path}`;
+    }
 
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
