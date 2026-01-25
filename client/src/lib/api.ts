@@ -237,6 +237,7 @@ export const api = {
             get: (id: string) => request<Instructor>(`/instructors/${id}`),
             create: (data: unknown) => request<Instructor>('/instructors', { method: 'POST', body: JSON.stringify(data) }),
             update: (id: string, data: unknown) => request<Instructor>(`/instructors/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+            delete: (id: string) => request<void>(`/instructors/${id}`, { method: 'DELETE' }),
         },
         media: {
             list: () => request<{ success: boolean, files: any[] }>('/uploads'),
