@@ -145,9 +145,10 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 type: page.type || 'LANDING',
                 isHomepage: page.isHomepage || false
             });
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to load page:', error);
-            addToast('Không thể tải thông tin trang', 'error');
+            const message = error.message || 'Không thể tải thông tin trang';
+            addToast(message, 'error');
             router.push('/admin/landing-pages');
         } finally {
             setFetching(false);

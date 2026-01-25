@@ -35,7 +35,10 @@ const nextConfig = {
 
   // Redirect API calls to backend
   async rewrites() {
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const rawBackendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    // Remove trailing slash and trailing /api to avoid double /api/api paths
+    const backendUrl = rawBackendUrl.replace(/\/$/, '').replace(/\/api$/, '');
+
     return [
       {
         source: '/api/:path*',
