@@ -30,8 +30,8 @@ const PRODUCT_TYPES = [
 export default function ShopPage() {
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    const [selectedType, setSelectedType] = useState('all');
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [ownedProductIds, setOwnedProductIds] = useState<Set<string>>(new Set());
@@ -82,14 +82,14 @@ export default function ShopPage() {
     // Filter Logic
     const filteredProducts = useMemo(() => {
         return products.filter(product => {
-            const matchCategory = selectedCategory === 'all' || product.field === selectedCategory;
-            const matchType = selectedType === 'all' || product.type === selectedType;
+            const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(product.field);
+            const matchType = selectedTypes.length === 0 || selectedTypes.includes(product.type);
             const matchSearch = searchQuery === '' ||
                 product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 product.description?.toLowerCase().includes(searchQuery.toLowerCase());
             return matchCategory && matchType && matchSearch;
         });
-    }, [products, selectedCategory, selectedType, searchQuery]);
+    }, [products, selectedCategories, selectedTypes, searchQuery]);
 
     if (loading) {
         return (
@@ -145,26 +145,40 @@ export default function ShopPage() {
                         <div className="space-y-4">
                             <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Lĩnh vực</h3>
                             <nav className="flex flex-col gap-1.5">
-                                {CATEGORIES.map((cat) => (
-                                    <button
-                                        key={cat.id}
-                                        onClick={() => setSelectedCategory(cat.id)}
-                                        className={cn(
-                                            "group flex items-center justify-between px-4 py-3 rounded-2xl text-sm transition-all",
-                                            selectedCategory === cat.id
-                                                ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
-                                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                                        )}
-                                    >
-                                        <span className="truncate">{cat.label}</span>
-                                        <div className={cn(
-                                            "w-5 h-5 rounded-full flex items-center justify-center transition-all",
-                                            selectedCategory === cat.id ? "bg-white/20" : "bg-muted group-hover:bg-muted-foreground/20"
-                                        )}>
-                                            <ChevronRight size={10} />
-                                        </div>
-                                    </button>
-                                ))}
+                                {CATEGORIES.map((cat) => {
+                                    const isAll = cat.id === 'all';
+                                    const isActive = isAll ? selectedCategories.length === 0 : selectedCategories.includes(cat.id);
+                                    return (
+                                        <button
+                                            key={cat.id}
+                                            onClick={() => {
+                                                if (isAll) {
+                                                    setSelectedCategories([]);
+                                                } else {
+                                                    setSelectedCategories(prev =>
+                                                        prev.includes(cat.id)
+                                                            ? prev.filter(id => id !== cat.id)
+                                                            : [...prev, cat.id]
+                                                    );
+                                                }
+                                            }}
+                                            className={cn(
+                                                "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                                isActive
+                                                    ? "bg-muted/50 text-foreground font-bold"
+                                                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                                            )}
+                                        >
+                                            <div className={cn(
+                                                "w-5 h-5 rounded-md border flex items-center justify-center transition-all",
+                                                isActive ? "bg-black border-black" : "border-muted-foreground/30"
+                                            )}>
+                                                {isActive && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                            </div>
+                                            <span className="truncate">{cat.label}</span>
+                                        </button>
+                                    );
+                                })}
                             </nav>
                         </div>
 
@@ -172,35 +186,49 @@ export default function ShopPage() {
                         <div className="space-y-4">
                             <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Loại hình</h3>
                             <nav className="flex flex-col gap-1.5">
-                                {PRODUCT_TYPES.map((type) => (
-                                    <button
-                                        key={type.id}
-                                        onClick={() => setSelectedType(type.id)}
-                                        className={cn(
-                                            "group flex items-center justify-between px-4 py-3 rounded-2xl text-sm transition-all",
-                                            selectedType === type.id
-                                                ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
-                                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                                        )}
-                                    >
-                                        <span className="truncate">{type.label}</span>
-                                        <div className={cn(
-                                            "w-5 h-5 rounded-full flex items-center justify-center transition-all",
-                                            selectedType === type.id ? "bg-white/20" : "bg-muted group-hover:bg-muted-foreground/20"
-                                        )}>
-                                            <ChevronRight size={10} />
-                                        </div>
-                                    </button>
-                                ))}
+                                {PRODUCT_TYPES.map((type) => {
+                                    const isAll = type.id === 'all';
+                                    const isActive = isAll ? selectedTypes.length === 0 : selectedTypes.includes(type.id);
+                                    return (
+                                        <button
+                                            key={type.id}
+                                            onClick={() => {
+                                                if (isAll) {
+                                                    setSelectedTypes([]);
+                                                } else {
+                                                    setSelectedTypes(prev =>
+                                                        prev.includes(type.id)
+                                                            ? prev.filter(id => id !== type.id)
+                                                            : [...prev, type.id]
+                                                    );
+                                                }
+                                            }}
+                                            className={cn(
+                                                "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                                isActive
+                                                    ? "bg-muted/50 text-foreground font-bold"
+                                                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                                            )}
+                                        >
+                                            <div className={cn(
+                                                "w-5 h-5 rounded-md border flex items-center justify-center transition-all",
+                                                isActive ? "bg-black border-black" : "border-muted-foreground/30"
+                                            )}>
+                                                {isActive && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                            </div>
+                                            <span className="truncate">{type.label}</span>
+                                        </button>
+                                    );
+                                })}
                             </nav>
                         </div>
 
                         {/* Clear Filter Button */}
-                        {(selectedCategory !== 'all' || selectedType !== 'all' || searchQuery !== '') && (
+                        {(selectedCategories.length > 0 || selectedTypes.length > 0 || searchQuery !== '') && (
                             <div className="pt-2">
                                 <Button
                                     variant="outline"
-                                    onClick={() => { setSelectedCategory('all'); setSelectedType('all'); setSearchQuery(''); }}
+                                    onClick={() => { setSelectedCategories([]); setSelectedTypes([]); setSearchQuery(''); }}
                                     className="w-full rounded-2xl py-6 text-sm font-bold shadow-sm"
                                 >
                                     <X size={16} className="mr-2" />
@@ -231,7 +259,7 @@ export default function ShopPage() {
                                 <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-6" />
                                 <p className="text-xl font-bold text-muted-foreground mb-4">Không tìm thấy sản phẩm nào.</p>
                                 <Button
-                                    onClick={() => { setSelectedCategory('all'); setSelectedType('all'); setSearchQuery(''); }}
+                                    onClick={() => { setSelectedCategories([]); setSelectedTypes([]); setSearchQuery(''); }}
                                     className="rounded-full px-8 py-6 font-bold"
                                 >
                                     Xóa tất cả bộ lọc

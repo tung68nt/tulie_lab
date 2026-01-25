@@ -36,44 +36,59 @@ function CourseFilterInner() {
 
     const updateFilter = (key: string, value: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        if (value && value !== 'ALL') {
-            params.set(key, value);
-        } else {
+        const currentValues = params.get(key)?.split(',').filter(Boolean) || [];
+
+        if (value === '' || value === 'ALL') {
             params.delete(key);
+        } else {
+            if (currentValues.includes(value)) {
+                const newValues = currentValues.filter(v => v !== value);
+                if (newValues.length > 0) {
+                    params.set(key, newValues.join(','));
+                } else {
+                    params.delete(key);
+                }
+            } else {
+                params.set(key, [...currentValues, value].join(','));
+            }
         }
         router.push(`/courses?${params.toString()}`);
     };
 
+    const isSelected = (key: string, value: string) => {
+        const currentValues = searchParams.get(key)?.split(',').filter(Boolean) || [];
+        if (value === '') return currentValues.length === 0;
+        return currentValues.includes(value);
+    };
+
     const levelOptions = [
-        { value: '', label: 'Tất cả trình độ' },
         { value: 'BEGINNER', label: 'Cơ bản' },
         { value: 'INTERMEDIATE', label: 'Trung cấp' },
         { value: 'ADVANCED', label: 'Nâng cao' },
     ];
 
     const priceOptions = [
-        { value: '', label: 'Tất cả mức giá' },
         { value: 'free', label: 'Miễn phí' },
         { value: 'paid', label: 'Trả phí' },
     ];
 
-    const FilterItem = ({ isSelected, label, onClick }: { isSelected: boolean; label: string; onClick: () => void }) => (
+    const FilterItem = ({ active, label, onClick }: { active: boolean; label: string; onClick: () => void }) => (
         <button
             onClick={onClick}
             className={cn(
-                "group flex items-center justify-between px-4 py-3 rounded-2xl text-sm transition-all",
-                isSelected
-                    ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
+                "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                active
+                    ? "bg-muted/50 text-foreground font-bold"
                     : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
             )}
         >
-            <span className="truncate">{label}</span>
             <div className={cn(
-                "w-5 h-5 rounded-full flex items-center justify-center transition-all",
-                isSelected ? "bg-white/20" : "bg-muted group-hover:bg-muted-foreground/20"
+                "w-5 h-5 rounded-md border flex items-center justify-center transition-all",
+                active ? "bg-black border-black" : "border-muted-foreground/30"
             )}>
-                <ChevronRight size={10} />
+                {active && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
             </div>
+            <span className="truncate">{label}</span>
         </button>
     );
 
@@ -98,9 +113,9 @@ function CourseFilterInner() {
             <div className="space-y-4">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Danh mục</h3>
                 <nav className="flex flex-col gap-1.5">
-                    <FilterItem isSelected={category === ''} label="Tất cả danh mục" onClick={() => updateFilter('category', '')} />
+                    <FilterItem active={isSelected('category', '')} label="Tất cả danh mục" onClick={() => updateFilter('category', '')} />
                     {categories.map((cat) => (
-                        <FilterItem key={cat.id} isSelected={category === cat.id} label={cat.name} onClick={() => updateFilter('category', cat.id)} />
+                        <FilterItem key={cat.id} active={isSelected('category', cat.id)} label={cat.name} onClick={() => updateFilter('category', cat.id)} />
                     ))}
                 </nav>
             </div>
@@ -109,8 +124,9 @@ function CourseFilterInner() {
             <div className="space-y-4">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Trình độ</h3>
                 <nav className="flex flex-col gap-1.5">
+                    <FilterItem active={isSelected('level', '')} label="Tất cả trình độ" onClick={() => updateFilter('level', '')} />
                     {levelOptions.map((opt) => (
-                        <FilterItem key={opt.value} isSelected={level === opt.value} label={opt.label} onClick={() => updateFilter('level', opt.value)} />
+                        <FilterItem key={opt.value} active={isSelected('level', opt.value)} label={opt.label} onClick={() => updateFilter('level', opt.value)} />
                     ))}
                 </nav>
             </div>
@@ -119,8 +135,9 @@ function CourseFilterInner() {
             <div className="space-y-4">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Mức giá</h3>
                 <nav className="flex flex-col gap-1.5">
+                    <FilterItem active={isSelected('price', '')} label="Tất cả mức giá" onClick={() => updateFilter('price', '')} />
                     {priceOptions.map((opt) => (
-                        <FilterItem key={opt.value} isSelected={price === opt.value} label={opt.label} onClick={() => updateFilter('price', opt.value)} />
+                        <FilterItem key={opt.value} active={isSelected('price', opt.value)} label={opt.label} onClick={() => updateFilter('price', opt.value)} />
                     ))}
                 </nav>
             </div>

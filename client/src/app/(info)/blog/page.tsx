@@ -40,8 +40,16 @@ export default function BlogPage() {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPosts, setTotalPosts] = useState(0);
-    const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const postsPerPage = 9;
+
+    // Helper to strip markdown and HTML
+    const stripContent = (htmlOrMarkdown: string) => {
+        return htmlOrMarkdown
+            .replace(/<[^>]*>/g, '') // Remove HTML
+            .replace(/[#*`_~]/g, '') // Remove basic markdown symbols
+            .trim();
+    };
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -59,7 +67,7 @@ export default function BlogPage() {
         const fetchPosts = async () => {
             setLoading(true);
             try {
-                const categoryId = selectedCategory === 'all' ? undefined : selectedCategory;
+                const categoryId = selectedCategories.length > 0 ? selectedCategories[0] : undefined;
                 const res: any = await api.blog.list(currentPage, postsPerPage, categoryId);
                 const postsData = res.data || [];
                 const total = res.meta?.total || postsData.length;
@@ -73,12 +81,20 @@ export default function BlogPage() {
             }
         };
         fetchPosts();
-    }, [currentPage, selectedCategory]);
+    }, [currentPage, selectedCategories]);
 
     const totalPages = Math.ceil(totalPosts / postsPerPage);
 
-    const handleCategoryChange = (categoryId: string) => {
-        setSelectedCategory(categoryId);
+    const toggleCategory = (categoryId: string) => {
+        if (categoryId === 'all') {
+            setSelectedCategories([]);
+        } else {
+            setSelectedCategories(prev =>
+                prev.includes(categoryId)
+                    ? prev.filter(id => id !== categoryId)
+                    : [...prev, categoryId]
+            );
+        }
         setCurrentPage(1);
     };
 
@@ -132,40 +148,40 @@ export default function BlogPage() {
                             <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-1">Chuyên mục</h3>
                             <nav className="flex flex-col gap-1.5">
                                 <button
-                                    onClick={() => handleCategoryChange('all')}
+                                    onClick={() => toggleCategory('all')}
                                     className={cn(
-                                        "group flex items-center justify-between px-4 py-3 rounded-2xl text-sm transition-all",
-                                        selectedCategory === 'all'
-                                            ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
+                                        "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                        selectedCategories.length === 0
+                                            ? "bg-muted/50 text-foreground font-bold"
                                             : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                                     )}
                                 >
-                                    <span>Tất cả bài viết</span>
                                     <div className={cn(
-                                        "w-5 h-5 rounded-full flex items-center justify-center transition-all",
-                                        selectedCategory === 'all' ? "bg-white/20" : "bg-muted group-hover:bg-muted-foreground/20"
+                                        "w-5 h-5 rounded-md border flex items-center justify-center transition-all",
+                                        selectedCategories.length === 0 ? "bg-black border-black" : "border-muted-foreground/30"
                                     )}>
-                                        <ChevronRight size={10} />
+                                        {selectedCategories.length === 0 && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                     </div>
+                                    <span>Tất cả bài viết</span>
                                 </button>
                                 {categories.map((cat) => (
                                     <button
                                         key={cat.id}
-                                        onClick={() => handleCategoryChange(cat.id)}
+                                        onClick={() => toggleCategory(cat.id)}
                                         className={cn(
-                                            "group flex items-center justify-between px-4 py-3 rounded-2xl text-sm transition-all",
-                                            selectedCategory === cat.id
-                                                ? "bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20"
+                                            "group flex items-center gap-3 px-4 py-3 rounded-2xl text-sm transition-all",
+                                            selectedCategories.includes(cat.id)
+                                                ? "bg-muted/50 text-foreground font-bold"
                                                 : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
                                         )}
                                     >
-                                        <span className="truncate">{cat.name}</span>
                                         <div className={cn(
-                                            "w-5 h-5 rounded-full flex items-center justify-center transition-all",
-                                            selectedCategory === cat.id ? "bg-white/20" : "bg-muted group-hover:bg-muted-foreground/20"
+                                            "w-5 h-5 rounded-md border flex items-center justify-center transition-all",
+                                            selectedCategories.includes(cat.id) ? "bg-black border-black" : "border-muted-foreground/30"
                                         )}>
-                                            <ChevronRight size={10} />
+                                            {selectedCategories.includes(cat.id) && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                         </div>
+                                        <span className="truncate">{cat.name}</span>
                                     </button>
                                 ))}
                             </nav>
@@ -195,7 +211,7 @@ export default function BlogPage() {
                                 <h3 className="text-2xl font-bold mb-3">Trống trải quá...</h3>
                                 <p className="text-muted-foreground mb-8 text-lg">Chúng tôi chưa có bài viết nào trong mục này.</p>
                                 <Button
-                                    onClick={() => handleCategoryChange('all')}
+                                    onClick={() => toggleCategory('all')}
                                     className="px-10 py-6 rounded-full text-lg shadow-xl hover:shadow-primary/20 transition-all font-bold"
                                 >
                                     Xem tất cả bài viết
@@ -231,29 +247,21 @@ export default function BlogPage() {
                                                 </div>
 
                                                 <div className="space-y-4 px-2">
-                                                    <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                                                        <span className="flex items-center gap-2">
-                                                            <Calendar size={12} className="text-primary" />
-                                                            {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('vi-VN') : 'Mới'}
-                                                        </span>
-                                                        <span className="flex items-center gap-2">
-                                                            <User size={12} className="text-primary" />
-                                                            {post.author?.name || 'Tulie'}
-                                                        </span>
-                                                    </div>
-
                                                     <h2 className="text-2xl font-bold leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2">
                                                         {post.title}
                                                     </h2>
 
-                                                    <p className="text-[15px] text-muted-foreground line-clamp-3 leading-relaxed font-medium opacity-80">
-                                                        {post.excerpt || (post.content ? post.content.replace(/<[^>]*>/g, '').substring(0, 160) + '...' : '')}
+                                                    <p className="text-[15px] text-muted-foreground line-clamp-3 leading-relaxed font-normal">
+                                                        {stripContent(post.excerpt || post.content || '')}
                                                     </p>
 
                                                     <div className="pt-2">
-                                                        <div className="inline-flex items-center gap-2 text-sm font-bold text-foreground group-hover:text-primary transition-all">
-                                                            <span className="border-b-2 border-primary/20 group-hover:border-primary transition-all pb-1">Đọc thêm</span>
-                                                            <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                                        <div className="inline-flex items-center gap-2 text-[15px] font-bold text-foreground transition-all group/btn">
+                                                            <span className="relative pb-1">
+                                                                Đọc thêm
+                                                                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-foreground/20 transition-all group-hover/btn:bg-primary group-hover/btn:h-[2px]"></span>
+                                                            </span>
+                                                            <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform group-hover/btn:text-primary" />
                                                         </div>
                                                     </div>
                                                 </div>
