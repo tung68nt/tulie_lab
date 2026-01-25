@@ -72,6 +72,15 @@ export class LandingPageController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    async setHomepage(req: Request, res: Response) {
+        try {
+            const page = await this.landingPageService.setAsHomepage(req.params.id as string);
+            res.json(page);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
 }
 
 export const landingPageController = new LandingPageController();

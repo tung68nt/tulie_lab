@@ -497,6 +497,7 @@ model LandingPage {
   description      String?
   sections         String?       @db.Text
   isActive         Boolean  @default(true)
+  isHomepage       Boolean  @default(false)
   // Main product - can be either course OR product
   courseId         String?
   productId        String?

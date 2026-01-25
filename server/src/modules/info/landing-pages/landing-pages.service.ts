@@ -12,10 +12,11 @@ export class LandingPageService {
     async createLandingPage(data: any) {
         return this.landingPageRepository.create({
             title: data.title,
-            slug: data.slug || 'home', // Default to 'home' if empty, serving as root
+            slug: data.slug,
             description: data.description ?? null,
             sections: data.sections ? JSON.stringify(data.sections) : null,
             isActive: data.isActive ?? true,
+            isHomepage: false,
             type: data.type || 'LANDING',
             htmlContent: data.htmlContent ?? null,
             ...(data.courseId ? { course: { connect: { id: data.courseId } } } : {}),
@@ -31,7 +32,7 @@ export class LandingPageService {
 
         const updateData: any = {};
         if (data.title !== undefined) updateData.title = data.title;
-        if (data.slug !== undefined) updateData.slug = data.slug || 'home';
+        if (data.slug !== undefined) updateData.slug = data.slug;
         if (data.description !== undefined) updateData.description = data.description;
         if (data.sections !== undefined) updateData.sections = data.sections ? JSON.stringify(data.sections) : null;
         if (data.htmlContent !== undefined) updateData.htmlContent = data.htmlContent;
@@ -59,14 +60,17 @@ export class LandingPageService {
         if (this.cacheProvider) {
             if (existingPage) await this.cacheProvider.del(`landing_page:${existingPage.slug}`);
             await this.cacheProvider.del(`landing_page:${updatedPage.slug}`);
+            if (existingPage.isHomepage || updatedPage.isHomepage) {
+                await this.cacheProvider.del(`landing_page:home`);
+            }
         }
 
         return updatedPage;
     }
 
     async getLandingPageBySlug(slug: string) {
-        // Normalize slug: remove leading slash if present
-        const normalizedSlug = slug.startsWith('/') ? slug.slice(1) : slug;
+        // Normalize slug: remove leading slash if present. Default to 'home' if empty/root
+        const normalizedSlug = (slug.startsWith('/') ? slug.slice(1) : slug) || 'home';
         const cacheKey = `landing_page:${normalizedSlug}`;
 
         if (this.cacheProvider) {
@@ -74,7 +78,14 @@ export class LandingPageService {
             if (cached) return cached;
         }
 
-        const page = await this.landingPageRepository.findBySlug(normalizedSlug);
+        let page;
+        if (normalizedSlug === 'home') {
+            // Find the page marked as homepage
+            page = await this.landingPageRepository.findFirst({ where: { isHomepage: true } });
+        } else {
+            page = await this.landingPageRepository.findBySlug(normalizedSlug);
+        }
+
         if (!page) return null;
 
         if (page && typeof page.sections === 'string') {
@@ -116,6 +127,7 @@ export class LandingPageService {
 
         if (this.cacheProvider && page) {
             await this.cacheProvider.del(`landing_page:${page.slug}`);
+            if (page.isHomepage) await this.cacheProvider.del(`landing_page:home`);
         }
 
         return result;
@@ -135,6 +147,7 @@ export class LandingPageService {
             sections: (existingPage.sections as any) ?? [],
             htmlContent: existingPage.htmlContent,
             isActive: false,
+            isHomepage: false,
             type: existingPage.type,
             ...(existingPage.courseId ? { course: { connect: { id: existingPage.courseId } } } : {}),
             ...(existingPage.productId ? { product: { connect: { id: existingPage.productId } } } : {}),
@@ -142,5 +155,22 @@ export class LandingPageService {
             ...(existingPage.upsellProductId ? { upsellProduct: { connect: { id: existingPage.upsellProductId } } } : {}),
             upsellPrice: existingPage.upsellPrice
         });
+    }
+
+    async setAsHomepage(id: string) {
+        const targetPage = await this.landingPageRepository.findById(id);
+        if (!targetPage) throw new Error('Page not found');
+
+        // Reset all current homepages
+        await this.landingPageRepository.updateMany({ isHomepage: true }, { isHomepage: false });
+
+        // Set target as homepage
+        const updated = await this.landingPageRepository.update(id, { isHomepage: true });
+
+        if (this.cacheProvider) {
+            await this.cacheProvider.del(`landing_page:home`);
+        }
+
+        return updated;
     }
 }

@@ -14,6 +14,7 @@ router.get('/id/:id', authenticate, authorize([Role.ADMIN]), (req, res) => landi
 router.put('/:id', authenticate, authorize([Role.ADMIN]), (req, res) => landingPageController.update(req, res));
 router.delete('/:id', authenticate, authorize([Role.ADMIN]), (req, res) => landingPageController.delete(req, res));
 router.post('/:id/duplicate', authenticate, authorize([Role.ADMIN]), (req, res) => landingPageController.duplicate(req, res));
+router.post('/:id/set-homepage', authenticate, authorize([Role.ADMIN]), (req, res) => landingPageController.setHomepage(req, res));
 
 // Public dynamic route (must be last to avoid matching admin routes)
 router.get('/:slug', (req, res) => landingPageController.getBySlug(req, res));

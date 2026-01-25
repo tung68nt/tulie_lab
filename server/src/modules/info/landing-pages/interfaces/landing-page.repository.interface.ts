@@ -4,4 +4,6 @@ import { IBaseRepository } from '../../../../core/interfaces/repository.interfac
 export interface ILandingPageRepository extends IBaseRepository<LandingPage, Prisma.LandingPageCreateInput, Prisma.LandingPageUpdateInput> {
     findBySlug(slug: string, include?: Prisma.LandingPageInclude): Promise<LandingPage | null>;
     findAll(params: { type?: string }): Promise<{ data: any[]; meta: any }>;
+    findFirst(args: Prisma.LandingPageFindFirstArgs): Promise<LandingPage | null>;
+    updateMany(where: Prisma.LandingPageWhereInput, data: Prisma.LandingPageUpdateInput): Promise<Prisma.BatchPayload>;
 }

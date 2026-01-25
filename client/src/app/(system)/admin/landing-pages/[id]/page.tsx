@@ -59,6 +59,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
         upsellProductId: null as string | null,
         upsellPrice: '' as string | number,
         type: 'LANDING',
+        isHomepage: false,
     });
 
     const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
@@ -141,7 +142,8 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 upsellProductId: page.upsellProductId || null,
 
                 upsellPrice: page.upsellPrice || '',
-                type: page.type || 'LANDING'
+                type: page.type || 'LANDING',
+                isHomepage: page.isHomepage || false
             });
         } catch (error) {
             console.error('Failed to load page:', error);
@@ -294,17 +296,44 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Slug (URL)</label>
-                                <input
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-                                    value={formData.slug}
-                                    onChange={e => {
-                                        setFormData({ ...formData, slug: e.target.value });
-                                        setIsSlugManuallyEdited(true);
-                                    }}
-                                    placeholder="vi-du-trang-khuyen-mai (Để trống nếu là trang chủ)"
+                                onChange={e => {
+                                    setFormData({ ...formData, slug: e.target.value });
+                                    setIsSlugManuallyEdited(true);
+                                }}
+                                required
+                                placeholder="vi-du-trang-khuyen-mai"
                                 />
-                                <p className="text-xs text-muted-foreground">URL: {formData.type === 'SYSTEM' ? '/' : '/p/'}{formData.slug}</p>
+                                <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
+                                    <span>URL: {formData.type === 'SYSTEM' ? '/' : '/p/'}{formData.slug}</span>
+                                    {!isNew && (
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            variant={formData.isHomepage ? "default" : "outline"}
+                                            className="h-6 text-xs"
+                                            onClick={async () => {
+                                                if (formData.isHomepage) return;
+                                                if (await confirm({
+                                                    title: 'Đặt làm Trang chủ',
+                                                    message: 'Bạn có chắc chắn muốn đặt trang này làm Trang chủ? Trang chủ cũ (nếu có) sẽ bị thay thế.',
+                                                    confirmText: 'Đồng ý',
+                                                    cancelText: 'Hủy'
+                                                })) {
+                                                    try {
+                                                        await api.landingPages.setHomepage(id);
+                                                        setFormData(prev => ({ ...prev, isHomepage: true }));
+                                                        addToast('Đã đặt làm trang chủ thành công', 'success');
+                                                    } catch (error) {
+                                                        addToast('Có lỗi xảy ra', 'error');
+                                                    }
+                                                }
+                                            }}
+                                            disabled={formData.isHomepage}
+                                        >
+                                            {formData.isHomepage ? 'Đang là Trang chủ' : 'Đặt làm Trang chủ'}
+                                        </Button>
+                                    )}
+                                </div>
                             </div>
                         </div>
 
