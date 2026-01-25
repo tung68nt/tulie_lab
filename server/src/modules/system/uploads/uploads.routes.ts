@@ -10,6 +10,8 @@ import { prisma } from '../../../config/prisma';
 
 const router = express.Router();
 
+console.log('📂 Uploads module loaded. StorageService status:', storageService ? 'Active' : 'Missing');
+
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
