@@ -6,7 +6,7 @@ import { authenticate, authorize } from '../../../middleware/auth.middleware';
 import { Role } from '@prisma/client';
 import { VideoService } from './video.service';
 import { storageService } from '../../../services/storage.service';
-import { prisma } from '../../../lib/prisma'; // Import prisma
+import { prisma } from '../../../config/prisma';
 
 const router = express.Router();
 
