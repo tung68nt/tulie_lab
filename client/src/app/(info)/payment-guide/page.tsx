@@ -11,38 +11,49 @@ const DEFAULT_PAYMENT_GUIDE = `
 ---
 
 ## 1. Các phương thức thanh toán
+
 Chúng tôi hỗ trợ các phương thức thanh toán linh hoạt sau:
 
 ### 1.1. Chuyển khoản ngân hàng (Auto QR)
+
 - Đây là phương thức nhanh nhất và được hệ thống ưu tiên. 
 - Bạn chỉ cần mở ứng dụng ngân hàng và quét mã QR hiển thị tại trang thanh toán.
 - Hệ thống sẽ tự động điền **Số tiền** và **Nội dung chuyển khoản**. Vui lòng không thay đổi các thông tin này để việc kích hoạt diễn ra tự động.
 
 ### 1.2. Thanh toán qua Cổng trung gian (MoMo, ZaloPay...)
+
 - (Nếu hệ thống có tích hợp) Bạn thực hiện theo hướng dẫn trên màn hình của nhà cung cấp dịch vụ thanh toán.
 
 ---
 
 ## 2. Chính sách Giao nhận sản phẩm số
+
 Vì sản phẩm của chúng tôi là nội dung số (khóa học trực tuyến, template, mã nguồn), quy trình giao nhận được thực hiện như sau:
 
 1. **Phương thức giao hàng:** Hệ thống tự động kích hoạt quyền truy cập vào tài khoản của khách hàng hoặc gửi link tải về qua Email đăng ký.
+
 2. **Thời gian giao hàng:** 
    - Đối với thanh toán tự động (QR Code thành công): Kích hoạt ngay lập tức (trong vòng **30 giây - 02 phút**).
    - Đối với các trường hợp thanh toán thủ công hoặc có sự cố: Thời gian kích hoạt tối đa là **24 giờ** kể từ khi chúng tôi nhận được bằng chứng thanh toán thành công.
+
 3. **Phí vận chuyển:** Hoàn toàn miễn phí.
 
 ---
 
 ## 3. Bảo mật giao dịch thanh toán
+
 1. **Cam kết:** Chúng tôi cam kết đảm bảo thực hiện nghiêm túc các biện pháp bảo mật cần thiết cho mọi hoạt động thanh toán thực hiện trên website.
+
 2. **Hạ tầng bảo mật:** Website sử dụng chứng chỉ bảo mật SSL để mã hóa thông tin thanh toán của khách hàng.
+
 3. **Lưu ý:** Khách hàng không nên cung cấp chi tiết thông tin thanh toán cho bất kỳ ai bằng e-mail hoặc các hình thức liên lạc khác. Chúng tôi không chịu trách nhiệm về những mất mát khách hàng có thể gánh chịu do việc trao đổi thông tin thanh toán không an toàn.
 
 ---
 
 ## 4. Giải quyết sự cố thanh toán
+
 Trong trường hợp bạn đã thanh toán thành công nhưng chưa nhận được sản phẩm sau 10 phút:
+
 - Kiểm tra hòm thư **Spam/Rác** nếu là link tải về.
 - Chụp ảnh màn hình biên lai giao dịch thành công.
 - Liên hệ ngay với bộ phận hỗ trợ qua Hotline/Zalo: [Cập nhật số điện thoại] hoặc gửi yêu cầu tới **support@tulielab.vn**.

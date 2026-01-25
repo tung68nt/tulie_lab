@@ -11,15 +11,21 @@ Tại **The Tulie Lab**, chúng tôi cam kết mang lại trải nghiệm học 
 ---
 
 ## 1. Điều kiện được yêu cầu hoàn tiền
+
 Chúng tôi sẽ xem xét hoàn trả 100% học phí hoặc giá trị đơn hàng nếu rơi vào một trong các trường hợp sau:
+
 1. **Lỗi kỹ thuật hệ thống:** Bạn không thể truy cập khóa học hoặc sử dụng sản phẩm do lỗi từ phía máy chủ của The Tulie Lab và chúng tôi không thể khắc phục được trong vòng 48 giờ làm việc kể từ khi nhận được thông báo.
+
 2. **Nội dung sai lệch nghiêm trọng:** Nội dung khóa học thực tế khác xa (trên 50%) so với mô tả, đề cương đã được công bố trên website tại thời điểm bạn thực hiện thanh toán.
+
 3. **Thanh toán trùng:** Bạn vô tình thực hiện thanh toán nhiều lần cho cùng một sản phẩm/khóa học.
 
 ---
 
 ## 2. Các trường hợp không được hoàn tiền
+
 Chúng tôi rất tiếc không thể hỗ trợ hoàn tiền trong các tình huống sau:
+
 - Khách hàng đã mở xem quá **20% tổng số bài giảng** của khóa học (hệ thống có log record thời gian học của từng tài khoản).
 - Khách hàng đã tải xuống các tài liệu đính kèm, mã nguồn mẫu hoặc template có trong sản phẩm.
 - Các lý do chủ quan từ phía khách hàng như: máy tính không đủ cấu hình, không có thời gian học, thay đổi nhu cầu cá nhân hoặc cảm thấy kiến thức không phù hợp sau khi đã xem phần lớn nội dung.
@@ -28,20 +34,27 @@ Chúng tôi rất tiếc không thể hỗ trợ hoàn tiền trong các tình h
 ---
 
 ## 3. Thời hạn và quy trình thực hiện
+
 ### 1. Thời hạn yêu cầu
+
 Mọi yêu cầu hoàn tiền phải được gửi về cho chúng tôi trong vòng **72 giờ (03 ngày)** kể từ thời điểm giao dịch thành công.
 
 ### 2. Hồ sơ yêu cầu
+
 Khách hàng gửi yêu cầu qua email **support@tulielab.vn** với tiêu đề: **[Yêu cầu hoàn tiền] - [Mã đơn hàng] - [Họ tên]**.
+
 Trong email vui lòng ghi rõ lý do yêu cầu hoàn tiền và đính kèm hình ảnh biên lai thanh toán hoặc ảnh chụp lỗi kỹ thuật (nếu có).
 
 ### 3. Thời gian xử lý
+
 The Tulie Lab sẽ phản hồi về tính hợp lệ của yêu cầu trong vòng **02 ngày làm việc**. Nếu yêu cầu được chấp nhận, tiền sẽ được hoàn về cho khách hàng qua tài khoản ngân hàng hoặc phương thức thanh toán ban đầu trong vòng **05 - 07 ngày làm việc**.
 
 ---
 
 ## 4. Liên hệ hỗ trợ
+
 Nếu bạn có bất kỳ thắc mắc nào về chính sách này, vui lòng liên hệ:
+
 - **Email:** support@tulielab.vn
 - **Hotline/Zalo:** [Cập nhật số hotline của bạn]
 - **Địa chỉ:** [Cập nhật địa chỉ trụ sở]
