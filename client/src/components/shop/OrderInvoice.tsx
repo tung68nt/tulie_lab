@@ -52,18 +52,19 @@ const toVietnameseWords = (amount: number): string => {
 
     const digits = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
 
-    const readGroup = (group: number): string => {
+    const readGroup = (group: number, isFirst: boolean): string => {
         let res = '';
         const h = Math.floor(group / 100);
         const t = Math.floor((group % 100) / 10);
         const u = group % 10;
 
-        if (h > 0 || (h === 0 && (t > 0 || u > 0))) {
+        if (h > 0 || !isFirst) {
             res += digits[h] + ' trăm ';
         }
 
-        if (t === 0 && u > 0 && h >= 0) {
-            res += 'lẻ ' + digits[u];
+        if (t === 0 && u > 0) {
+            if (!isFirst || h > 0) res += 'lẻ ' + digits[u];
+            else res += digits[u];
         } else if (t === 1) {
             res += 'mười ';
             if (u === 5) res += 'lăm';
@@ -73,8 +74,6 @@ const toVietnameseWords = (amount: number): string => {
             if (u === 1) res += 'mốt';
             else if (u === 5) res += 'lăm';
             else if (u > 0) res += digits[u];
-        } else if (t === 0 && u === 0) {
-            // do nothing
         }
 
         return res.trim();
@@ -91,10 +90,12 @@ const toVietnameseWords = (amount: number): string => {
 
     const units = ['', ' nghìn', ' triệu', ' tỷ', ' nghìn tỷ', ' triệu tỷ'];
 
+    let firstNonZero = true;
     for (let i = groups.length - 1; i >= 0; i--) {
-        const groupStr = readGroup(groups[i]);
+        const groupStr = readGroup(groups[i], firstNonZero);
         if (groupStr !== '') {
             result += groupStr + units[i] + ' ';
+            firstNonZero = false;
         }
     }
 
@@ -261,7 +262,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     </tr>
                                     <tr className="border-t border-zinc-100">
                                         <td colSpan={2} className="px-6 py-4 text-right">
-                                            <span className="text-xs text-zinc-400 uppercase tracking-widest mr-2">Số tiền viết bằng chữ:</span>
+                                            <span className="text-xs text-zinc-400 mr-2">Số tiền viết bằng chữ:</span>
                                             <span className="font-bold italic">"{toVietnameseWords(totalPayment)}"</span>
                                         </td>
                                     </tr>
@@ -299,12 +300,6 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         </div>
                     )}
 
-                    {/* Footer Note */}
-                    <div className="pt-12 text-center">
-                        <p className="text-zinc-400 text-[10px] font-medium tracking-widest uppercase">
-                            Copyright © 2026 TULIE TSS. All Rights Reserved.
-                        </p>
-                    </div>
                 </CardContent>
             </Card>
 
