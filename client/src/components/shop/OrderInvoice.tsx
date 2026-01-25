@@ -189,8 +189,8 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
             <Card className="border-none shadow-2xl print:shadow-none overflow-hidden bg-white text-zinc-950">
                 <CardContent ref={invoiceRef} className="pt-20 pb-12 px-6 md:p-12 space-y-12">
                     {/* Header: Company & Invoice Info */}
-                    <div className="flex flex-col md:flex-row justify-between gap-8 border-b border-zinc-100 pb-12 text-zinc-950">
-                        <div className="space-y-4">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-8 border-b border-zinc-100 pb-12 text-zinc-950">
+                        <div className="space-y-4 text-left">
                             <div className="flex items-center gap-2.5">
                                 {settings.site_logo ? (
                                     <img src={settings.site_logo} alt="Logo" className="h-10 w-auto object-contain" />
@@ -201,42 +201,37 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     </>
                                 )}
                             </div>
-                            <div className="text-[11px] text-zinc-500 leading-relaxed max-w-md">
-                                <div className="font-bold text-zinc-950 text-[13px] mb-1 uppercase tracking-tight whitespace-nowrap">{footerData?.companyName}</div>
-                                <div className="flex items-start gap-2 mb-1">
-                                    <MapPin className="w-3 h-3 mt-0.5 shrink-0" />
+                            <div className="text-sm text-zinc-500 leading-relaxed max-w-md space-y-1">
+                                <div className="font-extrabold text-zinc-950 text-lg mb-2 uppercase tracking-tight">{footerData?.companyName}</div>
+                                <div className="flex items-start gap-2">
+                                    <MapPin className="w-4 h-4 mt-1 shrink-0" />
                                     <span>
                                         {footerData?.address?.includes('Thành phố Hà Nội') ? (
                                             <>
-                                                {footerData.address.split('Thành phố Hà Nội')[0]}
+                                                {footerData.address.split('Thành phố Hà Nội')[0].trim()}
                                                 <br />
                                                 Thành phố Hà Nội{footerData.address.split('Thành phố Hà Nội')[1]}
                                             </>
                                         ) : footerData?.address}
                                     </span>
                                 </div>
-                                <div className="space-y-0.5">
-                                    <div className="flex items-center gap-2"><Globe className="w-3 h-3" /> {footerData?.website || 'academy.tulie.vn'}</div>
-                                    <div className="flex items-center gap-2"><FileText className="w-3 h-3" /> MST: {footerData?.taxId}</div>
-                                    <div className="flex items-center gap-4 mt-1 opacity-80">
-                                        <div className="flex items-center gap-1.5"><Mail className="w-3 h-3" /> {footerData?.email || 'support@tulielab.vn'}</div>
-                                        <div className="flex items-center gap-1.5"><Phone className="w-3 h-3" /> {footerData?.hotline || '0901.234.567'}</div>
-                                    </div>
-                                </div>
+                                <div className="flex items-center gap-2"><FileText className="w-4 h-4" /> MST: {footerData?.taxId}</div>
+                                <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> {footerData?.email || 'support@tulielab.vn'}</div>
+                                <div className="flex items-center gap-2 font-bold text-zinc-900"><Phone className="w-4 h-4" /> Hotline: {footerData?.hotline || '0336.883.242'}</div>
                             </div>
                         </div>
                         <div className="text-right space-y-2">
-                            <h1 className="text-3xl font-bold tracking-tighter uppercase">ĐƠN HÀNG</h1>
+                            <h1 className="text-4xl font-bold tracking-tighter uppercase">ĐƠN HÀNG</h1>
                             <div className="text-sm">
                                 <span className="text-zinc-500">Mã đơn hàng:</span>
-                                <span className="font-bold ml-2">{order.code}</span>
+                                <span className="font-bold ml-2 text-base">{order.code}</span>
                             </div>
                             <div className="text-sm">
                                 <span className="text-zinc-500">Ngày tạo:</span>
                                 <span className="font-medium ml-2">{formatDate(order.createdAt)}</span>
                             </div>
                             <div className="mt-4">
-                                <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold
+                                <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold
                                     ${order.status === 'PAID' || order.status === 'COMPLETED' ? 'bg-zinc-950 text-white' : 'bg-zinc-100 text-zinc-500'}
                                 `}>
                                     {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chưa thanh toán'}
