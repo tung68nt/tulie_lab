@@ -360,10 +360,10 @@ export default function AdminUserDetailPage() {
                                 </CardHeader>
                                 <CardContent className="space-y-3">
                                     {user.activities?.[0] ? (
-                                        <div className="flex gap-3">
-                                            <Monitor size={18} className="text-muted-foreground mt-0.5" />
-                                            <div>
-                                                <p className="text-xs font-medium">{user.activities[0].device || 'Hệ điều hành / Trình duyệt'}</p>
+                                        <div className="flex gap-3 overflow-hidden">
+                                            <Monitor size={18} className="text-muted-foreground mt-0.5 shrink-0" />
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-xs font-medium break-words line-clamp-3">{user.activities[0].device || 'Hệ điều hành / Trình duyệt'}</p>
                                                 <p className="text-[10px] text-muted-foreground">{user.activities[0].ipAddress}</p>
                                             </div>
                                         </div>
