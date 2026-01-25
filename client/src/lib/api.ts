@@ -356,6 +356,7 @@ export const api = {
         update: (id: string, data: unknown) => request<unknown>(`/landing-pages/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
         delete: (id: string) => request<void>(`/landing-pages/${id}`, { method: 'DELETE' }),
         duplicate: (id: string) => request<unknown>(`/landing-pages/${id}/duplicate`, { method: 'POST' }),
+        setHomepage: (id: string) => request<void>(`/landing-pages/${id}/set-homepage`, { method: 'POST' }),
     },
     events: {
         list: (includeInactive?: boolean) => {

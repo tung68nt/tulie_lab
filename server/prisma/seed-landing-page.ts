@@ -650,7 +650,7 @@ async function main() {
                 data: {
                     title: page.title,
                     description: page.description,
-                    sections: page.sections as any,
+                    sections: JSON.stringify(page.sections),
                     isActive: page.isActive
                 }
             });
@@ -659,7 +659,7 @@ async function main() {
             await prismaClient.landingPage.create({
                 data: {
                     ...page,
-                    sections: page.sections as any
+                    sections: JSON.stringify(page.sections)
                 }
             });
         }

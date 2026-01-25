@@ -50,4 +50,12 @@ export class PrismaLandingPageRepository implements ILandingPageRepository {
 
         return { data: pages, meta: { total: pages.length } };
     }
+
+    async findFirst(args: Prisma.LandingPageFindFirstArgs): Promise<LandingPage | null> {
+        return prisma.landingPage.findFirst(args);
+    }
+
+    async updateMany(where: Prisma.LandingPageWhereInput, data: Prisma.LandingPageUpdateInput): Promise<Prisma.BatchPayload> {
+        return prisma.landingPage.updateMany({ where, data });
+    }
 }

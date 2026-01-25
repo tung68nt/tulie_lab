@@ -160,6 +160,45 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                 </div>
                             </div>
 
+                            {/* Hero Stats */}
+                            {editedSection.type === 'hero' && (
+                                <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">
+                                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Floating Badge Stats (Hero)</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Stats Value</label>
+                                            <input
+                                                type="text"
+                                                value={editedSection.statsValue || ''}
+                                                onChange={e => handleChange('statsValue', e.target.value)}
+                                                className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm"
+                                                placeholder="e.g. 10,000+"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Stats Label</label>
+                                            <input
+                                                type="text"
+                                                value={editedSection.statsTitle || ''}
+                                                onChange={e => handleChange('statsTitle', e.target.value)}
+                                                className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm"
+                                                placeholder="e.g. Thành viên"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Stats Icon (Emoji)</label>
+                                        <input
+                                            type="text"
+                                            value={editedSection.statsIcon || ''}
+                                            onChange={e => handleChange('statsIcon', e.target.value)}
+                                            className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm"
+                                            placeholder="e.g. 🎓"
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Special Fields for Sales Countdown */}
                             {editedSection.type === 'sales-countdown' && (
                                 <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">

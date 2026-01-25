@@ -273,12 +273,40 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 title={isNew ? 'Tạo trang mới' : 'Chỉnh sửa trang'}
                 backUrl="/admin/landing-pages"
             >
-                {!isNew && formData.slug && (
-                    <Link href={formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`} target="_blank">
-                        <Button variant="outline" className="gap-2">
-                            <Eye size={16} /> Xem trang thực tế
+                {!isNew && (
+                    <div className="flex items-center gap-2">
+                        {formData.slug && (
+                            <Link href={formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`} target="_blank">
+                                <Button variant="outline" className="gap-2">
+                                    <Eye size={16} /> Xem trang thực tế
+                                </Button>
+                            </Link>
+                        )}
+                        <Button
+                            type="button"
+                            variant={formData.isHomepage ? "default" : "outline"}
+                            onClick={async () => {
+                                if (formData.isHomepage) return;
+                                if (await confirm({
+                                    title: 'Đặt làm Trang chủ',
+                                    message: 'Bạn có chắc chắn muốn đặt trang này làm Trang chủ? Trang chủ cũ (nếu có) sẽ bị thay thế.',
+                                    confirmText: 'Đồng ý',
+                                    cancelText: 'Hủy'
+                                })) {
+                                    try {
+                                        await api.landingPages.setHomepage(id);
+                                        setFormData(prev => ({ ...prev, isHomepage: true }));
+                                        addToast('Đã đặt làm trang chủ thành công', 'success');
+                                    } catch (error) {
+                                        addToast('Có lỗi xảy ra', 'error');
+                                    }
+                                }
+                            }}
+                            disabled={formData.isHomepage}
+                        >
+                            {formData.isHomepage ? 'Đang là Trang chủ' : 'Đặt làm Trang chủ'}
                         </Button>
-                    </Link>
+                    </div>
                 )}
             </AdminPageHeader>
 
@@ -296,43 +324,19 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                 />
                             </div>
                             <div className="space-y-2">
-                                onChange={e => {
-                                    setFormData({ ...formData, slug: e.target.value });
-                                    setIsSlugManuallyEdited(true);
-                                }}
-                                required
-                                placeholder="vi-du-trang-khuyen-mai"
+                                <label className="text-sm font-medium">Slug (Đường dẫn)</label>
+                                <input
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+                                    value={formData.slug}
+                                    onChange={e => {
+                                        setFormData({ ...formData, slug: e.target.value });
+                                        setIsSlugManuallyEdited(true);
+                                    }}
+                                    required
+                                    placeholder="vi-du-trang-khuyen-mai"
                                 />
                                 <div className="flex justify-between items-center text-xs text-muted-foreground mt-1">
                                     <span>URL: {formData.type === 'SYSTEM' ? '/' : '/p/'}{formData.slug}</span>
-                                    {!isNew && (
-                                        <Button
-                                            type="button"
-                                            size="sm"
-                                            variant={formData.isHomepage ? "default" : "outline"}
-                                            className="h-6 text-xs"
-                                            onClick={async () => {
-                                                if (formData.isHomepage) return;
-                                                if (await confirm({
-                                                    title: 'Đặt làm Trang chủ',
-                                                    message: 'Bạn có chắc chắn muốn đặt trang này làm Trang chủ? Trang chủ cũ (nếu có) sẽ bị thay thế.',
-                                                    confirmText: 'Đồng ý',
-                                                    cancelText: 'Hủy'
-                                                })) {
-                                                    try {
-                                                        await api.landingPages.setHomepage(id);
-                                                        setFormData(prev => ({ ...prev, isHomepage: true }));
-                                                        addToast('Đã đặt làm trang chủ thành công', 'success');
-                                                    } catch (error) {
-                                                        addToast('Có lỗi xảy ra', 'error');
-                                                    }
-                                                }
-                                            }}
-                                            disabled={formData.isHomepage}
-                                        >
-                                            {formData.isHomepage ? 'Đang là Trang chủ' : 'Đặt làm Trang chủ'}
-                                        </Button>
-                                    )}
                                 </div>
                             </div>
                         </div>

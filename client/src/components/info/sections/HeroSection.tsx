@@ -15,7 +15,7 @@ export function HeroSection({ section }: { section: Section }) {
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
                 <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
                 {/* Grid pattern */}
-                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark opacity-50 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark opacity-100 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             </div>
 
             <div className="container">
@@ -57,7 +57,7 @@ export function HeroSection({ section }: { section: Section }) {
                                     }}
                                     className="w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
                                 >
-                                    {(section.ctaText?.includes('50%') || section.ctaText?.includes('tư vấn') || section.ctaText === 'Bắt đầu ngay' || !section.ctaText) ? 'Đăng ký ngay' : section.ctaText}
+                                    {section.ctaText || 'Đăng ký ngay'}
                                     <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                     </svg>
@@ -116,15 +116,17 @@ export function HeroSection({ section }: { section: Section }) {
                             </div>
 
                             {/* Floating badge - positioned relative to outer container to avoid overflow clip */}
-                            <div className="absolute bottom-0 -left-4 bg-card border shadow-lg rounded-xl p-3 flex items-center gap-3">
-                                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                                    <span className="text-lg">🎓</span>
+                            {(section.statsTitle || section.statsValue) && (
+                                <div className="absolute bottom-0 -left-4 bg-card border shadow-lg rounded-xl p-3 flex items-center gap-3">
+                                    <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                                        <span className="text-lg">{section.statsIcon || '🎓'}</span>
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-sm">{section.statsValue}</p>
+                                        <p className="text-xs text-muted-foreground">{section.statsTitle}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="font-bold text-sm">10,000+</p>
-                                    <p className="text-xs text-muted-foreground">Thành viên</p>
-                                </div>
-                            </div>
+                            )}
                         </div>
                     )}
                 </div>

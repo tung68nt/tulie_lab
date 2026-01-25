@@ -35,5 +35,8 @@ export interface Section {
     icon?: string;
     buttons?: any[];
     imagePosition?: 'left' | 'right';
+    statsTitle?: string;
+    statsValue?: string;
+    statsIcon?: string;
     order?: number;
 }

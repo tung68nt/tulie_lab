@@ -7,10 +7,10 @@ import Link from 'next/link';
 export const CTASection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden">
-            {/* Background pattern - uniform distribution across corners */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-                <div className="absolute inset-0 bg-dot-white"></div>
-                <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black_100%)]"></div>
+            {/* Background pattern */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute inset-0 bg-dot-white opacity-20"></div>
+                <div className="absolute inset-0 bg-black/40"></div>
             </div>
 
             <div className="container text-center relative z-10">
@@ -37,7 +37,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                         }}
                         className="text-lg px-8 py-6 font-bold bg-white text-black hover:bg-zinc-200 transition-colors shadow-xl"
                     >
-                        {(section.ctaText?.includes('50%') || section.ctaText?.includes('tư vấn') || section.ctaText === 'Bắt đầu ngay' || !section.ctaText) ? 'Đăng ký ngay' : section.ctaText}
+                        {section.ctaText || 'Đăng ký ngay'}
                     </Button>
                 )}
             </div>
