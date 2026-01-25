@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
-import { Printer, Download, Mail, Globe, MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Printer, Download, Mail, Globe, MapPin, FileText } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
 import { useSettings } from '@/contexts/SettingsContext';
+import { api } from '@/lib/api';
 
 interface InvoiceProps {
     order: {
@@ -47,12 +48,14 @@ interface InvoiceProps {
 }
 
 const toVietnameseWords = (amount: number): string => {
-    if (amount === 0) return 'Không đồng';
-    if (amount < 0) return 'Số tiền âm';
+    if (amount === 0) return 'Không đồng./.';
+    if (amount < 0) return 'Số tiền âm./.';
 
     const digits = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
 
     const readGroup = (group: number, isFirst: boolean): string => {
+        if (group === 0) return '';
+
         let res = '';
         const h = Math.floor(group / 100);
         const t = Math.floor((group % 100) / 10);
@@ -100,11 +103,25 @@ const toVietnameseWords = (amount: number): string => {
     }
 
     result = result.trim();
-    return result.charAt(0).toUpperCase() + result.slice(1) + ' đồng';
+    if (!result) return 'Không đồng./.';
+    return result.charAt(0).toUpperCase() + result.slice(1) + ' đồng./.';
 };
 
 export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
     const { settings } = useSettings();
+    const [footerData, setFooterData] = useState<any>(null);
+
+    useEffect(() => {
+        const loadFooterData = async () => {
+            try {
+                const cms = await api.cms.get(['footer_settings']) as any;
+                if (cms && cms.footer_settings) {
+                    setFooterData(JSON.parse(cms.footer_settings));
+                }
+            } catch (e) { }
+        };
+        loadFooterData();
+    }, []);
 
     const formatCurrency = (val: number) =>
         new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
@@ -162,16 +179,17 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 )}
                             </div>
                             <div className="text-sm text-zinc-500 space-y-1">
-                                <div className="flex items-center gap-2"><Globe className="w-3 h-3" /> academy.tulie.vn</div>
-                                <div className="flex items-center gap-2"><Mail className="w-3 h-3" /> contact@tulie.vn</div>
-                                <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> Hà Nội, Việt Nam</div>
+                                <div className="font-bold text-zinc-950 text-base mb-1">{footerData?.companyName || 'CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE'}</div>
+                                <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> {footerData?.address || 'Tầng 2 Tòa A Chelsea Residences, 48 Trần Kim Xuyến, Cầu Giấy, Hà Nội'}</div>
+                                <div className="flex items-center gap-2"><Globe className="w-3 h-3" /> {footerData?.website || 'academy.tulie.vn'}</div>
+                                <div className="flex items-center gap-2 font-medium"><FileText className="w-3 h-3" /> MST: {footerData?.taxId || '0110163102'}</div>
                             </div>
                         </div>
                         <div className="text-right space-y-2">
                             <h1 className="text-3xl font-bold tracking-tighter">HÓA ĐƠN</h1>
                             <div className="text-sm">
                                 <span className="text-zinc-500">Mã đơn hàng:</span>
-                                <span className="font-bold border-b-2 border-zinc-950 ml-2">{order.code}</span>
+                                <span className="font-bold ml-2">{order.code}</span>
                             </div>
                             <div className="text-sm">
                                 <span className="text-zinc-500">Ngày tạo:</span>
@@ -181,7 +199,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase
                                     ${order.status === 'PAID' || order.status === 'COMPLETED' ? 'bg-zinc-950 text-white' : 'bg-zinc-100 text-zinc-500'}
                                 `}>
-                                    {order.status}
+                                    {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chưa thanh toán'}
                                 </span>
                             </div>
                         </div>
@@ -190,7 +208,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                     {/* Customer & Info Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div className="space-y-4">
-                            <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Thông tin khách hàng</h3>
+                            <h3 className="text-sm font-bold text-zinc-400">Thông tin khách hàng</h3>
                             <div className="space-y-2 text-sm">
                                 <div className="flex gap-2">
                                     <span className="text-zinc-500 w-44 shrink-0">Họ tên người mua hàng:</span>
@@ -211,7 +229,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                             </div>
                         </div>
                         <div className="space-y-4 md:text-right">
-                            <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Hình thức thanh toán</h3>
+                            <h3 className="text-sm font-bold text-zinc-400">Hình thức thanh toán</h3>
                             <div className="space-y-2">
                                 <div className="text-sm font-medium">Chuyển khoản Ngân hàng (Auto QR)</div>
                                 <div className="text-xs text-zinc-500">Nội dung: {order.code}</div>
@@ -221,7 +239,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
                     {/* Items Table */}
                     <div className="space-y-4">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Chi tiết dịch vụ</h3>
+                        <h3 className="text-sm font-bold text-zinc-400">Chi tiết dịch vụ</h3>
                         <div className="overflow-x-auto rounded-xl border border-zinc-100">
                             <table className="w-full text-sm">
                                 <thead>
@@ -237,7 +255,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                                 <div className="font-bold text-zinc-900">
                                                     {item.course?.title || item.product?.title || 'Unknown Item'}
                                                 </div>
-                                                <div className="text-[10px] text-zinc-400 uppercase mt-1">
+                                                <div className="text-[10px] text-zinc-400 mt-1">
                                                     {item.course ? 'KHÓA HỌC TRỰC TUYẾN' : 'SẢN PHẨM SỐ / TEMPLATE'}
                                                 </div>
                                             </td>
@@ -248,11 +266,11 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     ))}
                                 </tbody>
                                 <tfoot className="bg-zinc-50/50">
-                                    <tr className="border-t border-zinc-100 italic">
+                                    <tr className="border-t border-zinc-100">
                                         <td className="px-6 py-3 text-right text-zinc-500">Thành tiền:</td>
                                         <td className="px-6 py-3 text-right font-medium">{formatCurrency(subtotalBeforeVat)}</td>
                                     </tr>
-                                    <tr className="italic">
+                                    <tr className="">
                                         <td className="px-6 py-3 text-right text-zinc-500">Thuế suất GTGT (VAT) 10%:</td>
                                         <td className="px-6 py-3 text-right font-medium">{formatCurrency(vatAmount)}</td>
                                     </tr>
@@ -263,7 +281,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     <tr className="border-t border-zinc-100">
                                         <td colSpan={2} className="px-6 py-4 text-right">
                                             <span className="text-xs text-zinc-400 mr-2">Số tiền viết bằng chữ:</span>
-                                            <span className="font-bold italic">"{toVietnameseWords(totalPayment)}"</span>
+                                            <span className="font-bold">"{toVietnameseWords(totalPayment)}"</span>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -272,31 +290,37 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                     </div>
 
                     {/* Transaction History Section */}
-                    {order.transactions && order.transactions.length > 0 && (
-                        <div className="space-y-4 pt-4">
-                            <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Lịch sử Giao dịch</h3>
-                            <div className="overflow-x-auto rounded-xl border border-zinc-100">
-                                <table className="w-full text-sm">
-                                    <thead>
-                                        <tr className="bg-zinc-50 border-b border-zinc-100">
-                                            <th className="px-6 py-3 text-left font-bold text-xs uppercase text-zinc-500">Ngày giao dịch</th>
-                                            <th className="px-6 py-3 text-left font-bold text-xs uppercase text-zinc-500">Cổng thanh toán</th>
-                                            <th className="px-6 py-3 text-left font-bold text-xs uppercase text-zinc-500">ID Giao dịch</th>
-                                            <th className="px-6 py-3 text-right font-bold text-xs uppercase text-zinc-500">Số tiền</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-zinc-50">
-                                        {order.transactions.map((tx, idx) => (
-                                            <tr key={idx}>
-                                                <td className="px-6 py-4 text-zinc-600">{formatDate(tx.createdAt)}</td>
-                                                <td className="px-6 py-4 font-medium">{tx.bankName || tx.paymentMethod || 'Chuyển khoản ngân hàng'}</td>
-                                                <td className="px-6 py-4 font-mono text-zinc-500 text-xs">{tx.referenceCode || tx.id}</td>
-                                                <td className="px-6 py-4 text-right font-bold">{formatCurrency(tx.amount)}</td>
+                    {(order.status === 'PAID' || order.status === 'COMPLETED') && (
+                        <div className="space-y-4 pt-4 border-t border-zinc-100">
+                            <h3 className="text-sm font-bold text-zinc-400">Chi tiết giao dịch</h3>
+                            {order.transactions && order.transactions.length > 0 ? (
+                                <div className="overflow-x-auto rounded-xl border border-zinc-100">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                            <tr className="bg-zinc-50 border-b border-zinc-100">
+                                                <th className="px-6 py-3 text-left font-bold text-xs text-zinc-500">Ngày giao dịch</th>
+                                                <th className="px-6 py-3 text-left font-bold text-xs text-zinc-500">Cổng</th>
+                                                <th className="px-6 py-3 text-left font-bold text-xs text-zinc-500">ID giao dịch</th>
+                                                <th className="px-6 py-3 text-right font-bold text-xs text-zinc-500">Số tiền</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody className="divide-y divide-zinc-50">
+                                            {order.transactions.map((tx, idx) => (
+                                                <tr key={idx}>
+                                                    <td className="px-6 py-4 text-zinc-600">{formatDate(tx.createdAt)}</td>
+                                                    <td className="px-6 py-4 font-medium">{tx.bankName || tx.paymentMethod || 'Chuyển khoản ngân hàng'}</td>
+                                                    <td className="px-6 py-4 font-mono text-zinc-500 text-xs">{tx.referenceCode || tx.id}</td>
+                                                    <td className="px-6 py-4 text-right font-bold">{formatCurrency(tx.amount)}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div className="text-sm text-zinc-500 py-4 px-6 bg-zinc-50 rounded-lg border border-dashed text-center">
+                                    Đã thanh toán (Dữ liệu giao dịch đang được đồng bộ...)
+                                </div>
+                            )}
                         </div>
                     )}
 
