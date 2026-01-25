@@ -203,7 +203,7 @@ export const getAllOrders = async (req: Request, res: Response) => {
         const search = req.query.search as string;
         const status = req.query.status as string;
 
-        const { orders, total, stats } = await paymentService.getAllOrders({ page, limit, search, status });
+        const { data: orders, meta: { total, stats } } = await paymentService.getAllOrders({ page, limit, search, status });
         res.json({
             data: orders,
             meta: {
