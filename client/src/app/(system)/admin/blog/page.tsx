@@ -20,9 +20,11 @@ interface BlogPost {
     excerpt: string;
     content: string;
     thumbnail?: string;
+    categoryId?: string;
     isPublished: boolean;
     createdAt: string;
     updatedAt: string;
+}
 interface Category {
     id: string;
     name: string;

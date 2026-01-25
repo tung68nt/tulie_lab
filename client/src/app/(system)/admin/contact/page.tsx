@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Search, Trash2, Mail, Eye, RefreshCcw, RotateCcw } from 'lucide-react';
+import { Loader2, Search, Trash2, Mail, Eye, RefreshCcw, RotateCcw, Download } from 'lucide-react';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
@@ -108,10 +108,29 @@ export default function AdminContactPage() {
                 title="Liên hệ từ khách hàng"
                 subtitle="Quản lý các tin nhắn gửi từ form liên hệ."
             >
-                <Button variant="outline" size="sm" onClick={loadSubmissions} disabled={loading}>
-                    <RefreshCcw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-                    Tải lại
-                </Button>
+                <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={loadSubmissions} disabled={loading}>
+                        <RefreshCcw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                        Tải lại
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => {
+                        const csvContent = "data:text/csv;charset=utf-8,"
+                            + "Date,Name,Email,Phone,Message,Status\n"
+                            + submissions.map(e => {
+                                return `"${new Date(e.createdAt).toLocaleDateString('vi-VN')}", "${e.name}", "${e.email}", "${e.phone || ''}", "${e.message.replace(/"/g, '""')}", "${e.status}"`;
+                            }).join("\n");
+                        const encodedUri = encodeURI(csvContent);
+                        const link = document.createElement("a");
+                        link.setAttribute("href", encodedUri);
+                        link.setAttribute("download", "contacts_export.csv");
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }} disabled={submissions.length === 0}>
+                        <Download className="h-4 w-4 mr-2" />
+                        Xuất Excel
+                    </Button>
+                </div>
             </AdminPageHeader>
 
             <div className="flex items-center gap-4">

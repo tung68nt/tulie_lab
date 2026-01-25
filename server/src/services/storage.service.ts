@@ -144,6 +144,7 @@ export class StorageService {
             return items;
         } catch (error: any) {
             console.error('[Storage] List R2 Files Fatal Error:', error.message);
+            // Return empty array instead of throwing to prevent UI crash
             return [];
         }
     }
