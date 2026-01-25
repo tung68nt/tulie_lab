@@ -12,7 +12,10 @@ export class InstructorController {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 100;
             const instructors = await this.instructorService.getAllInstructors(page, limit);
-            res.json(instructors);
+            res.json({
+                data: instructors.data,
+                meta: instructors.meta
+            });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }

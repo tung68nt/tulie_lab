@@ -15,7 +15,10 @@ export class CategoryController {
                 skip: (page - 1) * limit,
                 take: limit
             });
-            res.json(categories);
+            res.json({
+                data: categories.data,
+                meta: categories.meta
+            });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
