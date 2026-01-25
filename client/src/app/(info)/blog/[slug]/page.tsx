@@ -277,7 +277,14 @@ export default function BlogPostPage() {
                                                 <a
                                                     key={idx}
                                                     href={`#${item.id}`}
-                                                    className={`block py-1.5 text-sm transition-colors hover:text-primary
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        document.getElementById(item.id)?.scrollIntoView({
+                                                            behavior: 'smooth',
+                                                            block: 'start'
+                                                        });
+                                                    }}
+                                                    className={`block py-1.5 text-sm transition-colors hover:text-primary cursor-pointer
                                                         ${item.level === 1 ? 'font-semibold' :
                                                             item.level === 2 ? 'pl-4 text-muted-foreground' :
                                                                 'pl-8 text-muted-foreground opacity-80'}

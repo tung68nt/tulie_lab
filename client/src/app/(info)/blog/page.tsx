@@ -107,37 +107,33 @@ export default function BlogPage() {
                 </div>
             </div>
 
-            {/* Main Content */}
-            <div className="container py-12">
-                <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Sidebar / Filters */}
-                    <aside className="w-full lg:w-64 space-y-8">
-                        <div>
-                            <h3 className="font-bold mb-4 flex items-center gap-2">
-                                <Filter size={18} className="text-primary" />
-                                Chuyên mục
-                            </h3>
-                            <div className="flex flex-wrap lg:flex-col gap-2">
+            {/* Sticky Filter Bar */}
+            <div className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b">
+                <div className="container py-4">
+                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                        {/* Horizontal Scrollable Categories */}
+                        <div className="w-full md:w-auto overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                            <div className="flex items-center gap-2">
                                 <button
                                     onClick={() => handleCategoryChange('all')}
                                     className={cn(
-                                        "px-4 py-2 rounded-xl text-sm font-medium transition-all text-left",
+                                        "px-5 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap border",
                                         selectedCategory === 'all'
-                                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                                            : "bg-muted/50 hover:bg-muted text-muted-foreground"
+                                            ? "bg-primary text-primary-foreground border-primary shadow-[0_0_20px_rgba(var(--primary),0.3)]"
+                                            : "bg-muted/30 border-transparent hover:bg-muted text-muted-foreground hover:text-foreground"
                                     )}
                                 >
-                                    Tất cả bài viết
+                                    All Posts
                                 </button>
                                 {categories.map((cat) => (
                                     <button
                                         key={cat.id}
                                         onClick={() => handleCategoryChange(cat.id)}
                                         className={cn(
-                                            "px-4 py-2 rounded-xl text-sm font-medium transition-all text-left",
+                                            "px-5 py-2.5 rounded-full text-sm font-bold transition-all whitespace-nowrap border",
                                             selectedCategory === cat.id
-                                                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                                                : "bg-muted/50 hover:bg-muted text-muted-foreground"
+                                                ? "bg-primary text-primary-foreground border-primary shadow-[0_0_20px_rgba(var(--primary),0.3)]"
+                                                : "bg-muted/30 border-transparent hover:bg-muted text-muted-foreground hover:text-foreground"
                                         )}
                                     >
                                         {cat.name}
@@ -146,21 +142,26 @@ export default function BlogPage() {
                             </div>
                         </div>
 
-                        {/* Search Bar (Visual only for now) */}
-                        <div className="relative group">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                        {/* Search Bar */}
+                        <div className="w-full md:w-64 relative group">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/70 w-4 h-4 group-focus-within:text-primary transition-colors" />
                             <input
                                 type="text"
-                                placeholder="Tìm kiếm bài viết..."
-                                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-muted/50 border-none focus:ring-2 focus:ring-primary/20 transition-all text-sm"
+                                placeholder="Search articles..."
+                                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-muted/50 border border-transparent focus:bg-background focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all text-sm outline-none"
                             />
                         </div>
-                    </aside>
+                    </div>
+                </div>
+            </div>
 
+            {/* Main Content */}
+            <div className="container py-12">
+                <div className="flex flex-col">
                     {/* Blog Grid */}
                     <div className="flex-1">
                         {loading ? (
-                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+                            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                                 {[1, 2, 3, 4, 5, 6].map((i) => (
                                     <div key={i} className="animate-pulse space-y-4">
                                         <div className="aspect-video bg-muted rounded-2xl" />
@@ -170,59 +171,75 @@ export default function BlogPage() {
                                 ))}
                             </div>
                         ) : posts.length === 0 ? (
-                            <div className="text-center py-24 bg-muted/20 rounded-3xl border border-dashed border-border">
-                                <p className="text-muted-foreground text-lg">Chưa có bài viết nào trong chuyên mục này.</p>
+                            <div className="text-center py-32">
+                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/30 mb-4">
+                                    <Search className="w-8 h-8 text-muted-foreground" />
+                                </div>
+                                <h3 className="text-xl font-bold mb-2">No articles found</h3>
+                                <p className="text-muted-foreground mb-6">We couldn't find any posts in this category.</p>
                                 <button
                                     onClick={() => handleCategoryChange('all')}
-                                    className="mt-4 text-primary font-bold hover:underline"
+                                    className="px-6 py-2 rounded-full bg-foreground text-background font-bold hover:opacity-90 transition-opacity"
                                 >
-                                    Xem tất cả bài viết
+                                    View all posts
                                 </button>
                             </div>
                         ) : (
                             <>
-                                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 mb-16">
+                                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-16">
                                     {posts.map((post) => (
-                                        <Link key={post.id} href={`/blog/${post.slug}`} className="group">
-                                            <Card className="h-full border-none bg-transparent hover:shadow-none transition-none flex flex-col">
-                                                <div className="aspect-video bg-muted rounded-2xl mb-4 overflow-hidden border relative">
+                                        <Link key={post.id} href={`/blog/${post.slug}`} className="group h-full">
+                                            <Card className="h-full border border-border/50 bg-card/50 hover:bg-card hover:border-border hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300 flex flex-col overflow-hidden rounded-3xl">
+                                                <div className="aspect-video bg-muted overflow-hidden relative">
                                                     {post.thumbnail ? (
                                                         <img
                                                             src={post.thumbnail}
                                                             alt={post.title}
-                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                                         />
                                                     ) : (
-                                                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                                                            No thumbnail
+                                                        <div className="w-full h-full flex items-center justify-center text-muted-foreground bg-secondary/20">
+                                                            <div className="text-4xl font-black opacity-10">THE LAB</div>
                                                         </div>
                                                     )}
+
+                                                    {/* Category Badge overlay */}
                                                     {post.category && (
-                                                        <span className="absolute top-3 left-3 px-3 py-1 bg-white/90 dark:bg-black/80 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-sm">
-                                                            {post.category.name}
-                                                        </span>
+                                                        <div className="absolute top-4 left-4">
+                                                            <span className="px-3 py-1 bg-background/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider rounded-full shadow-lg border border-white/10">
+                                                                {post.category.name}
+                                                            </span>
+                                                        </div>
                                                     )}
                                                 </div>
-                                                <div className="space-y-3 flex-1 flex flex-col">
+
+                                                <div className="p-6 flex-1 flex flex-col space-y-4">
                                                     <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
-                                                        <span className="flex items-center gap-1">
+                                                        <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50">
                                                             <Calendar size={12} />
-                                                            {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('vi-VN') : 'Mới cập nhật'}
+                                                            {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('vi-VN') : 'Just now'}
                                                         </span>
-                                                        <span className="w-1 h-1 rounded-full bg-border" />
-                                                        <span className="flex items-center gap-1">
+                                                        <span className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50">
                                                             <User size={12} />
                                                             {post.author?.name || 'Admin'}
                                                         </span>
                                                     </div>
-                                                    <h2 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+
+                                                    <h2 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2 leading-tight tracking-tight">
                                                         {post.title}
                                                     </h2>
+
                                                     <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed flex-1">
                                                         {post.excerpt}
                                                     </p>
-                                                    <div className="pt-2 flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-widest">
-                                                        Đọc bài viết <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+
+                                                    <div className="pt-4 mt-auto border-t border-dashed">
+                                                        <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-primary">
+                                                            <span>Read Article</span>
+                                                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all">
+                                                                <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </Card>
@@ -236,9 +253,9 @@ export default function BlogPage() {
                                         <button
                                             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                             disabled={currentPage === 1}
-                                            className="h-10 px-4 rounded-xl border border-border bg-card hover:bg-muted text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="h-10 w-10 flex items-center justify-center rounded-full border border-border bg-card hover:bg-muted font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            Trước
+                                            <ChevronRight size={16} className="rotate-180" />
                                         </button>
                                         <div className="flex items-center gap-2">
                                             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -246,9 +263,9 @@ export default function BlogPage() {
                                                     key={page}
                                                     onClick={() => setCurrentPage(page)}
                                                     className={cn(
-                                                        "w-10 h-10 rounded-xl text-sm font-bold transition-all",
+                                                        "w-10 h-10 rounded-full text-sm font-bold transition-all",
                                                         currentPage === page
-                                                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                                                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 scale-110"
                                                             : "border border-border bg-card hover:bg-muted"
                                                     )}
                                                 >
@@ -259,9 +276,9 @@ export default function BlogPage() {
                                         <button
                                             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                             disabled={currentPage === totalPages}
-                                            className="h-10 px-4 rounded-xl border border-border bg-card hover:bg-muted text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                            className="h-10 w-10 flex items-center justify-center rounded-full border border-border bg-card hover:bg-muted font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
-                                            Tiếp
+                                            <ChevronRight size={16} />
                                         </button>
                                     </div>
                                 )}

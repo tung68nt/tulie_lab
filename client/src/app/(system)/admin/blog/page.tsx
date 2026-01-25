@@ -23,10 +23,14 @@ interface BlogPost {
     isPublished: boolean;
     createdAt: string;
     updatedAt: string;
+interface Category {
+    id: string;
+    name: string;
 }
 
 export default function AdminBlogPage() {
     const [posts, setPosts] = useState<any[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
@@ -41,6 +45,7 @@ export default function AdminBlogPage() {
         excerpt: '',
         content: '',
         thumbnail: '',
+        categoryId: '',
         isPublished: false
     });
     const [uploading, setUploading] = useState(false);
@@ -59,8 +64,18 @@ export default function AdminBlogPage() {
         }
     };
 
+    const fetchCategories = async () => {
+        try {
+            const res: any = await api.categories.list();
+            setCategories(res.data || []);
+        } catch (error) {
+            console.error('Failed to fetch categories:', error);
+        }
+    };
+
     useEffect(() => {
         fetchPosts();
+        fetchCategories();
     }, []);
 
     const generateSlug = (title: string) => {
@@ -132,7 +147,13 @@ export default function AdminBlogPage() {
         try {
             const res: any = await api.uploads.single(file);
             if (res.success) {
-                const imgMarkdown = `\n![${res.data.originalName}](${res.data.url})\n`;
+                // Determine caption (default to filename or user prompt if we could)
+                // Since this is standard async, we'll just use a placeholder
+                const caption = `*Hình: ${res.data.originalName}*`;
+
+                // Markdown structure: ![Alt](Url) \n *Caption*
+                const imgMarkdown = `\n![${res.data.originalName}](${res.data.url})\n<center>${caption}</center>\n`;
+
                 setFormData({ ...formData, content: formData.content + imgMarkdown });
                 addToast('Đã tải ảnh lên và chèn vào nội dung', 'success');
             }
@@ -152,6 +173,7 @@ export default function AdminBlogPage() {
             excerpt: post.excerpt || '',
             content: post.content,
             thumbnail: post.thumbnail || '',
+            categoryId: post.categoryId || '',
             isPublished: post.isPublished
         });
         setShowForm(true);
@@ -195,6 +217,7 @@ export default function AdminBlogPage() {
             excerpt: '',
             content: '',
             thumbnail: '',
+            categoryId: '',
             isPublished: false
         });
     };
@@ -245,6 +268,22 @@ export default function AdminBlogPage() {
                                         required
                                     />
                                 </div>
+                            </div>
+
+                            <div>
+                                <label className="text-sm font-medium">Chuyên mục</label>
+                                <select
+                                    value={formData.categoryId}
+                                    onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
+                                    className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    <option value="">-- Chọn chuyên mục --</option>
+                                    {categories.map((cat) => (
+                                        <option key={cat.id} value={cat.id}>
+                                            {cat.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div>
