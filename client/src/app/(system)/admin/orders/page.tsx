@@ -407,6 +407,7 @@ export default function AdminOrdersPage() {
                             <Pagination
                                 currentPage={page}
                                 totalPages={totalPages}
+                                totalItems={stats.total}
                                 onPageChange={setPage}
                             />
                         </div>

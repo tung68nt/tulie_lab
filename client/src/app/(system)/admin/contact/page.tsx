@@ -36,6 +36,7 @@ export default function AdminContactPage() {
     // Pagination state
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
 
     // Debounce search
     useEffect(() => {
@@ -60,6 +61,7 @@ export default function AdminContactPage() {
             });
             setSubmissions(res.data);
             setTotalPages(res.meta.totalPages);
+            setTotalItems(res.meta.total || 0);
         } catch (error) {
             console.error('Failed to load submissions', error);
             addToast('Không thể tải danh sách liên hệ', 'error');
@@ -207,7 +209,9 @@ export default function AdminContactPage() {
             <Pagination
                 currentPage={page}
                 totalPages={totalPages}
+                totalItems={totalItems}
                 onPageChange={setPage}
+                className="pt-2"
             />
         </div>
     );

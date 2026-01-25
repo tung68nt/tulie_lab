@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/Button';
+import { Switch } from '@/components/Switch';
+import { api } from '@/lib/api';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
@@ -41,16 +43,11 @@ export default function AdminBlogPage() {
 
     const fetchPosts = async () => {
         try {
-            const token = localStorage.getItem('token');
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/blog/admin/all`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                setPosts(data);
-            }
+            const data: any = await api.admin.blog.list();
+            setPosts(data);
         } catch (error) {
             console.error('Failed to fetch posts:', error);
+            addToast('Không thể tải danh sách bài viết', 'error');
         } finally {
             setLoading(false);
         }
@@ -87,32 +84,18 @@ export default function AdminBlogPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
-
         try {
-            const url = editingPost
-                ? `${apiUrl}/blog/admin/${editingPost.id}`
-                : `${apiUrl}/blog/admin`;
-
-            const res = await fetch(url, {
-                method: editingPost ? 'PUT' : 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (res.ok) {
-                addToast(editingPost ? 'Đã cập nhật bài viết' : 'Đã tạo bài viết mới', 'success');
-                resetForm();
-                fetchPosts();
+            if (editingPost) {
+                await api.admin.blog.update(editingPost.id, formData);
+                addToast('Đã cập nhật bài viết', 'success');
             } else {
-                addToast('Có lỗi xảy ra', 'error');
+                await api.admin.blog.create(formData);
+                addToast('Đã tạo bài viết mới', 'success');
             }
+            resetForm();
+            fetchPosts();
         } catch (error) {
-            addToast('Có lỗi xảy ra', 'error');
+            addToast('Có lỗi xảy ra khi lưu bài viết', 'error');
         }
     };
 
@@ -139,38 +122,20 @@ export default function AdminBlogPage() {
         });
         if (!confirmed) return;
 
-        const token = localStorage.getItem('token');
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/blog/admin/${id}`, {
-                method: 'DELETE',
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            if (res.ok) {
-                addToast('Đã xóa bài viết', 'success');
-                fetchPosts();
-            }
+            await api.admin.blog.delete(id);
+            addToast('Đã xóa bài viết', 'success');
+            fetchPosts();
         } catch (error) {
-            addToast('Có lỗi xảy ra', 'error');
+            addToast('Có lỗi xảy ra khi xóa', 'error');
         }
     };
 
     const togglePublish = async (post: BlogPost) => {
-        const token = localStorage.getItem('token');
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'}/blog/admin/${post.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({ ...post, isPublished: !post.isPublished })
-            });
-
-            if (res.ok) {
-                addToast(post.isPublished ? 'Đã ẩn bài viết' : 'Đã xuất bản bài viết', 'success');
-                fetchPosts();
-            }
+            await api.admin.blog.update(post.id, { ...post, isPublished: !post.isPublished });
+            addToast(post.isPublished ? 'Đã ẩn bài viết' : 'Đã xuất bản bài viết', 'success');
+            fetchPosts();
         } catch (error) {
             addToast('Có lỗi xảy ra', 'error');
         }
@@ -266,15 +231,15 @@ export default function AdminBlogPage() {
                                 />
                             </div>
 
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
+                            <div className="flex items-center gap-2 pt-2">
+                                <Switch
                                     id="isPublished"
                                     checked={formData.isPublished}
-                                    onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
-                                    className="rounded"
+                                    onChange={(checked) => setFormData({ ...formData, isPublished: checked })}
                                 />
-                                <label htmlFor="isPublished" className="text-sm">Xuất bản ngay</label>
+                                <label htmlFor="isPublished" className="text-sm cursor-pointer select-none">
+                                    Xuất bản ngay
+                                </label>
                             </div>
 
                             <div className="flex gap-2">

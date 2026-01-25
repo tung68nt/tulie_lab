@@ -205,15 +205,16 @@ export const api = {
             testTelegram: () => request<{ message: string }>('/settings/telegram/test', { method: 'POST' }),
         },
         blog: {
-            create: (data: unknown) => request<unknown>('/blog', {
+            list: () => request<unknown[]>('/blog/admin/list'),
+            create: (data: unknown) => request<unknown>('/blog/admin/create', {
                 method: 'POST',
                 body: JSON.stringify(data),
             }),
-            update: (id: string, data: unknown) => request<unknown>(`/blog/${id}`, {
+            update: (id: string, data: unknown) => request<unknown>(`/blog/admin/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(data),
             }),
-            delete: (id: string) => request<void>(`/blog/${id}`, {
+            delete: (id: string) => request<void>(`/blog/admin/${id}`, {
                 method: 'DELETE',
             }),
         },

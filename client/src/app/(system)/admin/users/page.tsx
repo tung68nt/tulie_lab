@@ -130,13 +130,13 @@ export default function AdminUsersPage() {
                         ))}
                     </div>
 
-                    <div className="mt-8 flex justify-center">
-                        <Pagination
-                            currentPage={page}
-                            totalPages={totalPages}
-                            onPageChange={setPage}
-                        />
-                    </div>
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        totalItems={stats.total}
+                        onPageChange={setPage}
+                        className="mt-8"
+                    />
                 </CardContent>
             </Card>
         </div>

@@ -8,9 +8,9 @@ export const CTASection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden">
             {/* Background pattern - uniform distribution across corners */}
-            <div className="absolute inset-0 opacity-40 pointer-events-none">
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
                 <div className="absolute inset-0 bg-dot-white"></div>
-                <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_0%,black_100%)] opacity-40"></div>
+                <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black_100%)]"></div>
             </div>
 
             <div className="container text-center relative z-10">

@@ -116,13 +116,13 @@ export default function AdminCoursesPage() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="mt-4">
-                        <Pagination
-                            currentPage={page}
-                            totalPages={totalPages}
-                            onPageChange={setPage}
-                        />
-                    </div>
+                    <Pagination
+                        currentPage={page}
+                        totalPages={totalPages}
+                        totalItems={courses.length}
+                        onPageChange={setPage}
+                        className="mt-6"
+                    />
                 </CardContent>
             </Card>
         </div>
