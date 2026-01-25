@@ -54,7 +54,8 @@ export default function BlogPostPage() {
         const fetchPost = async () => {
             try {
                 // Use API client for consistency
-                const data: any = await api.blog.get(slug);
+                const res: any = await api.blog.get(slug);
+                const data = res.data;
                 if (data) {
                     setPost(data);
 

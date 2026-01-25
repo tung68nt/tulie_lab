@@ -10,10 +10,10 @@ export class BlogController {
     async getPost(req: Request, res: Response) {
         try {
             const post = await this.blogService.getPostBySlug(req.params.slug as string);
-            if (!post) return res.status(404).json({ message: 'Post not found' });
-            res.json(post);
+            if (!post) return res.status(404).json({ success: false, message: 'Post not found' });
+            res.json({ success: true, data: post });
         } catch (error: any) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ success: false, message: error.message });
         }
     }
 
@@ -23,9 +23,9 @@ export class BlogController {
             const limit = parseInt(req.query.limit as string) || 20;
             const categoryId = req.query.categoryId as string;
             const result = await this.blogService.getPublishedPosts(page, limit, categoryId);
-            res.json(result);
+            res.json({ success: true, ...result });
         } catch (error: any) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ success: false, message: error.message });
         }
     }
 
@@ -34,27 +34,27 @@ export class BlogController {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 20;
             const result = await this.blogService.getAllPostsAdmin(page, limit);
-            res.json(result);
+            res.json({ success: true, ...result });
         } catch (error: any) {
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ success: false, message: error.message });
         }
     }
 
     async create(req: Request, res: Response) {
         try {
             const post = await this.blogService.createPost(req.body);
-            res.status(201).json(post);
+            res.status(201).json({ success: true, data: post });
         } catch (error: any) {
-            res.status(400).json({ message: error.message });
+            res.status(400).json({ success: false, message: error.message });
         }
     }
 
     async update(req: Request, res: Response) {
         try {
             const post = await this.blogService.updatePost(req.params.id as string, req.body);
-            res.json(post);
+            res.json({ success: true, data: post });
         } catch (error: any) {
-            res.status(400).json({ message: error.message });
+            res.status(400).json({ success: false, message: error.message });
         }
     }
 

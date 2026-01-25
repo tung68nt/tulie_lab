@@ -26,7 +26,8 @@ interface BlogPost {
 }
 
 export default function AdminBlogPage() {
-    const [posts, setPosts] = useState<BlogPost[]>([]);
+    const [posts, setPosts] = useState<any[]>([]);
+    const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
     const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
@@ -45,9 +46,11 @@ export default function AdminBlogPage() {
     const [uploading, setUploading] = useState(false);
 
     const fetchPosts = async () => {
+        setLoading(true);
         try {
-            const data: any = await api.admin.blog.list();
-            setPosts(Array.isArray(data) ? data : (data.data || []));
+            const res: any = await api.admin.blog.list();
+            setPosts(res.data || []);
+            setTotal(res.meta?.total || 0);
         } catch (error) {
             console.error('Failed to fetch posts:', error);
             addToast('Không thể tải danh sách bài viết', 'error');

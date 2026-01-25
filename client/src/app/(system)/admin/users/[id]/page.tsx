@@ -171,43 +171,43 @@ export default function AdminUserDetailPage() {
             <div className="grid gap-4 md:grid-cols-4">
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Membership</div>
-                        <div className="text-2xl font-bold max-w-full px-2">
+                        <div className="text-xs font-bold text-muted-foreground mb-2">Membership</div>
+                        <div className="text-xl font-bold max-w-full px-2">
                             {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
                         </div>
                         {isMemberActive && (
-                            <div className="text-sm text-muted-foreground mt-1">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</div>
+                            <div className="text-[10px] text-muted-foreground mt-1.5">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</div>
                         )}
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Chi tiêu (Paid)</div>
-                        <div className="text-2xl font-bold">{formatCurrency(user.stats?.totalPaid || 0)}</div>
-                        <div className="text-sm text-muted-foreground mt-1">Tổng cộng đơn hàng đã thanh toán</div>
+                        <div className="text-xs font-bold text-muted-foreground mb-2">Chi tiêu (Paid)</div>
+                        <div className="text-xl font-bold">{formatCurrency(user.stats?.totalPaid || 0)}</div>
+                        <div className="text-[10px] text-muted-foreground mt-1.5 leading-tight">Tổng cộng đơn hàng<br />đã thanh toán</div>
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Tỷ lệ hoàn thành học</div>
-                        <div className="text-2xl font-bold flex items-center gap-2">
+                        <div className="text-xs font-bold text-muted-foreground mb-2">Tỷ lệ hoàn thành học</div>
+                        <div className="text-xl font-bold flex items-center gap-2">
                             {user.stats?.totalLessons > 0
                                 ? Math.round((user.stats?.completedLessons / user.stats?.totalLessons) * 100)
                                 : 0}%
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">
-                            Đã hoàn thành {user.stats?.completedLessons || 0}/{user.stats?.totalLessons || 0} bài học
+                        <div className="text-[10px] text-muted-foreground mt-1.5 leading-tight">
+                            Đã hoàn thành {user.stats?.completedLessons || 0}/{user.stats?.totalLessons || 0}<br />bài học
                         </div>
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Đăng nhập cuối</div>
-                        <div className="text-2xl font-bold flex items-center gap-2">
-                            <Clock size={18} className="text-zinc-400" />
+                        <div className="text-xs font-bold text-muted-foreground mb-2">Đăng nhập cuối</div>
+                        <div className="text-xl font-bold flex items-center gap-2">
+                            <Clock size={16} className="text-zinc-400" />
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">Lần truy cập hệ thống gần nhất</div>
+                        <div className="text-[10px] text-muted-foreground mt-1.5 leading-tight">Lần truy cập hệ<br />thống gần nhất</div>
                     </CardContent>
                 </Card>
             </div>

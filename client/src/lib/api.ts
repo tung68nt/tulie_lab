@@ -205,12 +205,12 @@ export const api = {
             testTelegram: () => request<{ message: string }>('/settings/telegram/test', { method: 'POST' }),
         },
         blog: {
-            list: () => request<{ data: any[], meta: { total: number } }>('/blog/admin/list'),
-            create: (data: unknown) => request<unknown>('/blog/admin/create', {
+            list: () => request<{ success: boolean, data: any[], meta: { total: number } }>('/blog/admin/list'),
+            create: (data: unknown) => request<{ success: boolean, data: any }>('/blog/admin/create', {
                 method: 'POST',
                 body: JSON.stringify(data),
             }),
-            update: (id: string, data: unknown) => request<unknown>(`/blog/admin/${id}`, {
+            update: (id: string, data: unknown) => request<{ success: boolean, data: any }>(`/blog/admin/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(data),
             }),
@@ -251,13 +251,11 @@ export const api = {
         }
     },
     blog: {
-        list: (page?: number, limit?: number, categoryId?: string) => {
-            const query = (page || limit || categoryId)
-                ? `?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}${categoryId ? `&categoryId=${categoryId}` : ''}`
-                : '';
-            return request<{ data: any[], meta: { total: number } }>(`/blog${query}`);
+        list: (page: number = 1, limit: number = 20, categoryId?: string) => {
+            const query = `?page=${page}&limit=${limit}${categoryId && categoryId !== 'all' ? `&categoryId=${categoryId}` : ''}`;
+            return request<{ success: boolean, data: any[], meta: { total: number } }>(`/blog${query}`);
         },
-        get: (slug: string) => request<any>(`/blog/${slug}`)
+        get: (slug: string) => request<{ success: boolean, data: any }>(`/blog/${slug}`),
     },
     payments: {
         checkout: (data: unknown) => request<{ url: string }>('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
