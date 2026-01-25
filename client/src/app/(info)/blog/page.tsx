@@ -222,25 +222,25 @@ export default function BlogPage() {
                                 <div className="grid gap-10 sm:grid-cols-2 mb-20">
                                     {posts.map((post) => (
                                         <Link key={post.id} href={`/blog/${post.slug}`} className="group block h-full">
-                                            <div className="flex flex-col h-full bg-card rounded-3xl border border-border/40 overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-1">
+                                            <div className="flex flex-col h-full bg-card rounded-2xl border border-border/40 overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 hover:-translate-y-1">
                                                 {/* Thumbnail Container */}
                                                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                                                     {post.thumbnail ? (
                                                         <img
                                                             src={post.thumbnail}
                                                             alt={post.title}
-                                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                                         />
                                                     ) : (
                                                         <div className="w-full h-full flex items-center justify-center bg-muted/50 text-muted-foreground/20">
-                                                            <div className="text-3xl font-black italic tracking-tighter">THE LAB</div>
+                                                            <div className="text-2xl font-bold italic tracking-tighter">The Lab</div>
                                                         </div>
                                                     )}
 
                                                     {/* Category Floating Badge */}
                                                     {post.category && (
-                                                        <div className="absolute top-5 left-5">
-                                                            <span className="px-5 py-2 bg-background/90 backdrop-blur-xl text-[10px] font-black uppercase tracking-[0.2em] rounded-xl shadow-sm border border-white/20">
+                                                        <div className="absolute top-4 left-4">
+                                                            <span className="px-4 py-1.5 bg-background/90 backdrop-blur-xl text-[10px] font-bold tracking-wider rounded-lg shadow-sm border border-white/10 uppercase">
                                                                 {post.category.name}
                                                             </span>
                                                         </div>
@@ -250,19 +250,22 @@ export default function BlogPage() {
                                                 </div>
 
                                                 {/* Card Content Area */}
-                                                <div className="flex flex-col flex-1 p-7 md:p-8 space-y-4">
-                                                    <h2 className="text-2xl font-black leading-tight tracking-tight group-hover:text-primary transition-colors line-clamp-2">
+                                                <div className="flex flex-col flex-1 p-6 md:p-7 space-y-3">
+                                                    <h2 className="text-xl md:text-2xl font-bold leading-snug tracking-tight group-hover:text-primary transition-colors line-clamp-2">
                                                         {post.title}
                                                     </h2>
 
-                                                    <p className="text-[15px] text-muted-foreground line-clamp-2 leading-relaxed font-normal flex-1">
+                                                    <p className="text-[14px] md:text-[15px] text-muted-foreground line-clamp-2 leading-relaxed font-normal flex-1">
                                                         {stripContent(post.excerpt || post.content || '')}
                                                     </p>
 
-                                                    <div className="pt-2">
-                                                        <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-muted/60 text-[13px] font-black uppercase tracking-widest text-foreground transition-all group/btn hover:bg-primary hover:text-primary-foreground hover:shadow-lg hover:shadow-primary/30">
-                                                            <span>Đọc thêm</span>
-                                                            <ChevronRight size={14} className="group-hover/btn:translate-x-1.5 transition-transform" />
+                                                    <div className="pt-3">
+                                                        <div className="inline-flex items-center gap-1.5 text-[14px] font-bold text-foreground transition-all group/btn hover:text-primary">
+                                                            <span className="relative">
+                                                                Đọc thêm
+                                                                <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-primary transition-all group-hover/btn:w-full opacity-0 group-hover/btn:opacity-100"></span>
+                                                            </span>
+                                                            <ChevronRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
                                                         </div>
                                                     </div>
                                                 </div>
