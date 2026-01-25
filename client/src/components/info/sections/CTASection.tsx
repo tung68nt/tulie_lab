@@ -6,12 +6,13 @@ import Link from 'next/link';
 
 export const CTASection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden">
-            {/* Background pattern */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-dot-grid text-white/40"></div>
-                <div className="absolute inset-0 bg-black/30"></div>
+        <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden flex items-center justify-center">
+            {/* Background pattern matching other sections */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             </div>
+            {/* Radial gradient for fading edges (mờ 4 góc) */}
+            <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
             <div className="container text-center relative z-10">
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.4] tracking-tight">

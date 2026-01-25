@@ -173,8 +173,13 @@
 
 /* Unified Background Pattern */
 .bg-dot-grid {
-  background-image: radial-gradient(circle at center, currentColor 1.5px, transparent 0);
-  background-size: 32px 32px;
+  background-image: radial-gradient(circle at center, currentColor 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.bg-dot-white {
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
 /* Custom Float Animations (Preserved from local) */

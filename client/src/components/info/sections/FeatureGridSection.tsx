@@ -31,8 +31,8 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                     {section.items?.map((item, idx) => (
                         <div key={idx} className="flex-1 min-w-[280px] max-w-[350px] bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 p-8 rounded-2xl text-center hover:border-neutral-700 transition-colors">
                             {item.icon && (
-                                <div className="mb-6 flex justify-center">
-                                    <DynamicIcon name={item.icon} className="w-12 h-12 text-white opacity-40 group-hover:opacity-100 transition-opacity" />
+                                <div className="mb-6 flex justify-center overflow-visible">
+                                    <DynamicIcon name={item.icon} size={48} className="text-white opacity-40 group-hover:opacity-100 transition-opacity" />
                                 </div>
                             )}
                             <h3 className="text-2xl font-bold mb-2">{item.title}</h3>

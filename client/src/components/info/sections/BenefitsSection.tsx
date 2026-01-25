@@ -43,15 +43,15 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                             key={idx}
                             className="group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] min-w-[280px] flex flex-col"
                         >
-                            <Link href={item.href || item.link || `/benefits/${item.slug || '#'}`} className="h-full bg-card hover:bg-card/50 border border-border/50 hover:border-primary/30 p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative overflow-hidden block text-left">
+                            <Link href={item.href || item.link || `/blog/${item.slug || 'all'}`} className="h-full bg-card hover:bg-card/50 border border-border/50 hover:border-primary/30 p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative overflow-hidden block text-left">
                                 {/* Decorative Glow - Removed or toned down */}
 
                                 <div className="mb-6 relative">
                                     <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm">
                                         {item.icon ? (
-                                            <DynamicIcon name={item.icon} className="w-7 h-7" />
+                                            <DynamicIcon name={item.icon} size={28} strokeWidth={2} className="shrink-0" />
                                         ) : (
-                                            <div className="w-7 h-7 bg-current rounded-sm opacity-50" />
+                                            <div className="w-7 h-7 bg-current rounded-md opacity-20" />
                                         )}
                                     </div>
                                 </div>

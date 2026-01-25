@@ -107,7 +107,7 @@ export default function AdminUserDetailPage() {
                 return;
             }
             const days = Math.ceil((new Date(membershipForm.expiryDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
-            await handleAction(() => api.admin.grantMembership(id as string, days), 'Đã cập nhật gói thành viên');
+            await handleAction(() => api.admin.grantMembership(id as string, days, membershipForm.tier), 'Đã cập nhật gói thành viên');
         }
     };
 
@@ -219,9 +219,9 @@ export default function AdminUserDetailPage() {
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`flex items-center gap-2 px-4 py-3 text-sm font-bold transition-all rounded-t-lg ${activeTab === tab.id
-                            ? 'bg-zinc-100 text-zinc-900 border-b-2 border-zinc-900'
-                            : 'text-muted-foreground hover:bg-zinc-50 hover:text-zinc-900'
+                        className={`flex items-center gap-2 px-4 py-3 text-sm transition-all rounded-t-lg ${activeTab === tab.id
+                            ? 'bg-zinc-100 text-zinc-900 border-b-2 border-zinc-900 font-bold'
+                            : 'text-muted-foreground hover:bg-zinc-50 hover:text-zinc-900 font-medium'
                             }`}
                     >
                         <tab.icon size={16} />

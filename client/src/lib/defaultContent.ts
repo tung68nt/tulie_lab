@@ -441,60 +441,55 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
         items: [
             {
                 id: 'plan-retail',
-                title: 'Mua lẻ (Single)',
-                price: 'Mua theo tool',
-                description: 'Mua lẻ từng sản phẩm số phù hợp với nhu cầu sử dụng thực tế.',
-                tag: 'Linh hoạt',
+                title: 'Cửa Hàng (Retail)',
+                price: 'Từ 99k',
+                description: 'Mua lẻ từng Template/Script phục vụ nhu cầu cụ thể.',
+                tag: 'TIẾT KIỆM',
                 features: [
-                    'Thanh toán theo từng sản phẩm',
-                    'Sở hữu vĩnh viễn file',
-                    'Nhận đầy đủ bản cập nhật',
-                    'Tiết kiệm chi phí đầu tư',
-                    'Hỗ trợ setup cơ bản'
+                    'Sở hữu vĩnh viễn file đã mua',
+                    'Có video hướng dẫn sử dụng',
+                    'Hỗ trợ fix lỗi phát sinh',
+                    'Phù hợp nhu cầu ngắn hạn',
+                    'Mua 1 lần dùng mãi mãi'
                 ],
                 link: '/shop',
                 icon: 'ShoppingBag',
-                ctaText: 'Xem cửa hàng'
+                ctaText: 'Ghé Cửa Hàng'
             },
             {
-                id: 'plan-yearly',
-                title: 'Gói Cơ Bản 1 năm',
-                price: '1.990k',
-                originalPrice: '3.600k',
-                description: 'Truy cập và tải xuống KHÔNG GIỚI HẠN toàn bộ kho Template.',
-                tag: 'Phổ biến',
+                id: 'plan-pro',
+                title: 'Hội Viên (Pro)',
+                price: '499k/tháng',
+                originalPrice: '999k',
+                description: 'Truy cập toàn bộ Khóa học & Kho Template.',
+                tag: 'KHUYÊN DÙNG',
                 features: [
-                    'Tải xuống Unlimited Template',
-                    'Truy cập Template Premium mới nhất',
-                    'Tải Google Apps Script & Plug-ins',
-                    'Cập nhật tài nguyên mới hàng tuần',
-                    'Tiết kiệm 80% so với mua lẻ',
-                    'Tham gia nhóm kín Zalo/Discord',
-                    'Hỗ trợ qua thư viện câu hỏi ưu tiên'
+                    'Học Full khóa AI & Vibe Coding',
+                    'Tải miễn phí mọi Template',
+                    'Tham gia nhóm hỗ trợ kín',
+                    'Update kiến thức hàng tuần',
+                    'Tiết kiệm 90% so với mua lẻ'
                 ],
-                link: '/checkout/pro-template',
+                link: '/register',
                 icon: 'Zap',
-                ctaText: 'Nâng cấp gói'
+                ctaText: 'Đăng Ký Hội Viên'
             },
             {
-                id: 'plan-vip',
-                title: 'Gói Premium 1 năm',
-                price: '7.990k',
-                originalPrice: '15.000k',
-                description: 'Giải pháp toàn diện & Support 1:1 trực tiếp.',
-                tag: 'Best Value',
+                id: 'plan-biz',
+                title: 'Giải Pháp (Biz)',
+                price: 'Liên hệ',
+                description: 'Xây dựng hệ thống riêng cho Doanh nghiệp/Team.',
+                tag: 'CAO CẤP',
                 features: [
-                    'Tất cả quyền lợi gói Cơ bản',
-                    'Support custom template theo yêu cầu',
-                    'Tư vấn giải pháp tối ưu quy trình',
-                    'Setup hệ thống Automation riêng',
-                    'Hỗ trợ kỹ thuật ưu tiên 24/7',
-                    'Coaching 1:1 trực tiếp với Mentor',
-                    'Quyền truy cập sớm các tài nguyên mới'
+                    'Thiết kế Dashboard theo yêu cầu',
+                    'Build App nội bộ riêng',
+                    'Đào tạo nhân sự In-house',
+                    'Support 1:1 ưu tiên',
+                    'Bảo hành hệ thống 12 tháng'
                 ],
                 link: '/contact',
-                icon: 'Crown',
-                ctaText: 'Liên hệ tư vấn'
+                icon: 'ShieldCheck',
+                ctaText: 'Liên Hệ Báo Giá'
             }
         ]
     },

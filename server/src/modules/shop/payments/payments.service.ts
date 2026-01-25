@@ -126,7 +126,7 @@ export class PaymentService {
                 create: orderItemsData
             },
             metadata: metadata || undefined,
-            promoCodeId: promoCodeId || undefined
+            promoCodeId: promoCodeId || null
         });
 
         // 4. Publish Event (Instead of direct logic)

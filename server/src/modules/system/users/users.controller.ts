@@ -82,8 +82,8 @@ export class UserController {
 
     async grantMembership(req: Request, res: Response) {
         try {
-            const { userId, days } = req.body;
-            const subscription = await this.userService.grantMembership(userId, days || 365);
+            const { userId, days, tier } = req.body;
+            const subscription = await this.userService.grantMembership(userId, days || 365, tier || 'PREMIUM');
             res.json(subscription);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

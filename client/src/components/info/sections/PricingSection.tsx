@@ -46,7 +46,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                             </div>
                         )}
 
-                        <div className="mb-8 mt-4">
+                        <div className="mb-8 mt-4 flex-1 min-h-[160px]">
                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                                 {item.icon && getIcon(item.icon)}
                                 {item.title}
@@ -54,25 +54,25 @@ export const PricingSection = ({ section }: { section: Section }) => {
                             <div className="flex items-baseline gap-1 mb-3">
                                 <span className="text-4xl font-bold tracking-tight">{item.price}</span>
                                 {item.originalPrice && (
-                                    <span className="text-lg text-muted-foreground line-through font-medium ml-2">
+                                    <span className="text-lg text-neutral-400 line-through font-medium ml-2">
                                         {item.originalPrice}
                                     </span>
                                 )}
                             </div>
-                            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                            <p className="text-sm text-neutral-500 leading-relaxed">
                                 {item.description}
                             </p>
                         </div>
 
-                        {/* Features List */}
+                        {/* Features List - Aligned across cards */}
                         {item.features && (
-                            <div className="space-y-3 mb-8 pt-6 border-t border-border">
+                            <div className="space-y-4 mb-8 pt-8 border-t border-zinc-100">
                                 {item.features.map((feature: string, idx: number) => (
                                     <div key={idx} className="flex items-start gap-3">
-                                        <div className="mt-0.5 w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                                            <Check className="w-3 h-3 text-primary" />
+                                        <div className="mt-0.5 w-5 h-5 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
+                                            <Check className="w-3.5 h-3.5 text-zinc-900" />
                                         </div>
-                                        <span className="text-sm font-medium text-foreground/80 leading-tight">{feature}</span>
+                                        <span className="text-[13px] font-medium text-foreground/80 leading-tight">{feature}</span>
                                     </div>
                                 ))}
                             </div>

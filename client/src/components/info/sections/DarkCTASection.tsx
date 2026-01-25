@@ -7,13 +7,13 @@ import { ArrowRight } from 'lucide-react';
 
 export const DarkCTASection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-8 md:py-16 bg-[#0a0a0a] text-white relative overflow-hidden flex items-center justify-center">
-            {/* Background pattern */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-dot-grid text-white/60"></div>
-                {/* Radial gradient to settle the dots */}
-                <div className="absolute inset-0 [background:radial-gradient(circle_at_center,transparent_0%,#0a0a0a_90%)]"></div>
+        <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden flex items-center justify-center">
+            {/* Background pattern matching other sections */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             </div>
+            {/* Radial gradient for fading edges (mờ 4 góc) */}
+            <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
             <div className="container relative z-10 text-center px-4 max-w-4xl mx-auto">
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight leading-[1.5]">

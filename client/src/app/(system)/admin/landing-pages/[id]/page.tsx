@@ -271,8 +271,8 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
     return (
         <div className="space-y-6 max-w-5xl mx-auto pb-20">
             <AdminPageHeader
-                title={isNew ? 'Tạo trang mới' : 'Chỉnh sửa trang'}
-                backUrl="/admin/landing-pages"
+                title={isNew ? (formData.type === 'SYSTEM' ? 'Tạo trang mới' : 'Tạo Landing Page') : (formData.type === 'SYSTEM' ? 'Chỉnh sửa trang thông tin' : 'Chỉnh sửa Landing Page')}
+                backUrl={formData.type === 'SYSTEM' ? '/admin/system-pages' : '/admin/landing-pages'}
             >
                 {!isNew && (
                     <div className="flex items-center gap-2">
@@ -701,14 +701,23 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                     </CardContent>
                 </Card>
 
-                <div className="flex justify-end gap-3 pt-4">
-                    <Link href="/admin/landing-pages">
+                <div className="flex justify-between items-center pt-4">
+                    <Link href={formData.type === 'SYSTEM' ? '/admin/system-pages' : '/admin/landing-pages'}>
                         <Button type="button" variant="ghost">Hủy bỏ</Button>
                     </Link>
-                    <Button type="submit" disabled={loading} className="flex items-center gap-2">
-                        <Save size={16} />
-                        {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
-                    </Button>
+                    <div className="flex items-center gap-3">
+                        {!isNew && formData.slug && (
+                            <Link href={formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`} target="_blank">
+                                <Button type="button" variant="outline" className="gap-2">
+                                    <Eye size={16} /> Xem trang
+                                </Button>
+                            </Link>
+                        )}
+                        <Button type="submit" disabled={loading} className="flex items-center gap-2">
+                            <Save size={16} />
+                            {loading ? 'Đang lưu...' : 'Lưu thay đổi'}
+                        </Button>
+                    </div>
                 </div>
             </form>
 

@@ -307,12 +307,23 @@ export class UserService {
         return inactiveUsers.sort((a, b) => b.daysSinceActivity - a.daysSinceActivity);
     }
 
-    async grantMembership(userId: string, days: number = 365) {
+    async grantMembership(userId: string, days: number = 365, tier: string = 'PREMIUM') {
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + days);
 
+        // Map tier name to possible product slug or search keywords
+        const tierLower = tier.toLowerCase();
+
         // Try to find a subscription product to link
         const product = await prisma.product.findFirst({
+            where: {
+                type: 'SUBSCRIPTION',
+                OR: [
+                    { slug: { contains: tierLower, mode: 'insensitive' } },
+                    { title: { contains: tierLower, mode: 'insensitive' } }
+                ]
+            }
+        }) || await prisma.product.findFirst({
             where: { type: 'SUBSCRIPTION' }
         });
 
