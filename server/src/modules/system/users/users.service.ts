@@ -108,6 +108,11 @@ export class UserService {
                 currentVersion: i.product.versions?.[0]?.version || '1.0.0'
             }));
 
+        const enrollmentIds = (user as any).enrollments.map((e: any) => e.courseId);
+        const totalLessonsCount = await prisma.lesson.count({
+            where: { courseId: { in: enrollmentIds } }
+        });
+
         return {
             ...user,
             activities,
@@ -120,7 +125,8 @@ export class UserService {
                 totalEnrollments: (user as any).enrollments.length,
                 totalOrders: (user as any).orders.length,
                 totalPaid: (user as any).orders.filter((o: any) => o.status === 'PAID').reduce((sum: number, o: any) => sum + Number(o.amount), 0),
-                completedLessons: (user as any).progress.filter((p: any) => p.isCompleted).length
+                completedLessons: (user as any).progress.filter((p: any) => p.isCompleted).length,
+                totalLessons: totalLessonsCount
             }
         };
     }

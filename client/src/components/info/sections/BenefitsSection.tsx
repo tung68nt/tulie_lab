@@ -29,7 +29,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
             <div className="container">
                 <div className="text-center mb-10 md:mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-foreground">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-foreground leading-[1.4]">
                         {title}
                     </h2>
                     <p className="text-xl text-muted-foreground leading-relaxed">

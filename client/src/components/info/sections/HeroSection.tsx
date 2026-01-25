@@ -30,7 +30,7 @@ export function HeroSection({ section }: { section: Section }) {
                         </div>
 
                         {/* Title with proper line height for Vietnamese */}
-                        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl leading-[1.3] md:leading-[1.25]">
+                        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl leading-[1.4] md:leading-[1.35]">
                             {section.title}
                         </h1>
 

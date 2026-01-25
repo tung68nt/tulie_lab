@@ -25,8 +25,11 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
 
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-            {/* Dotted Background */}
-            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark opacity-30 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
+            {/* Dotted Background - uniform with subtle center fade */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none">
+                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark"></div>
+                <div className="absolute inset-0 bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_0%,black_100%)] opacity-20"></div>
+            </div>
 
             <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
@@ -77,7 +80,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             <SectionTag>
                                 {section.tag || "VỀ GIẢNG VIÊN"}
                             </SectionTag>
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.3] tracking-tight text-foreground">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.4] tracking-tight text-foreground">
                                 {expert.name}
                             </h2>
                             <p className="text-xl md:text-2xl text-primary font-bold">

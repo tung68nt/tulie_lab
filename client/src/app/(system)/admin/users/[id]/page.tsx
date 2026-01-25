@@ -12,7 +12,7 @@ import {
     BookOpen, CreditCard, Activity, ArrowLeft, Send, Loader2,
     Briefcase, Building, Monitor, ShieldAlert, Ban, Trash2,
     CheckCircle2, Download, Package, History, Laptop, Globe,
-    ChevronRight, ExternalLink
+    ChevronRight, ExternalLink, Eye
 } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useConfirm } from '@/components/ConfirmDialog';
@@ -172,7 +172,7 @@ export default function AdminUserDetailPage() {
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-sm font-medium text-muted-foreground mb-1">Membership</div>
-                        <div className="text-2xl font-bold truncate max-w-full px-2">
+                        <div className="text-2xl font-bold max-w-full px-2">
                             {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
                         </div>
                         {isMemberActive && (
@@ -191,10 +191,13 @@ export default function AdminUserDetailPage() {
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-sm font-medium text-muted-foreground mb-1">Tỷ lệ hoàn thành học</div>
                         <div className="text-2xl font-bold flex items-center gap-2">
-                            {user.stats?.completedLessons || 0}
-                            <span className="text-sm font-medium text-muted-foreground normal-case">bài học</span>
+                            {user.stats?.totalLessons > 0
+                                ? Math.round((user.stats?.completedLessons / user.stats?.totalLessons) * 100)
+                                : 0}%
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">Dựa trên tiến độ khóa học</div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                            Đã hoàn thành {user.stats?.completedLessons || 0}/{user.stats?.totalLessons || 0} bài học
+                        </div>
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
@@ -645,9 +648,13 @@ export default function AdminUserDetailPage() {
                                                         {new Date(order.createdAt).toLocaleDateString('vi-VN')}
                                                     </td>
                                                     <td className="py-3 px-4 text-center">
-                                                        <Button variant="outline" size="sm" onClick={() => router.push(`/admin/orders?search=${order.code}`)}>
-                                                            Chi tiết
-                                                        </Button>
+                                                        <button
+                                                            className="h-8 w-8 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-colors mx-auto text-zinc-400 hover:text-zinc-900"
+                                                            onClick={() => router.push(`/admin/orders?search=${order.code}`)}
+                                                            title="Xem chi tiết"
+                                                        >
+                                                            <Eye size={18} />
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             ))}

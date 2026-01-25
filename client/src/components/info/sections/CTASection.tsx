@@ -7,13 +7,14 @@ import Link from 'next/link';
 export const CTASection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden">
-            {/* Background pattern */}
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-                <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]"></div>
+            {/* Background pattern - uniform distribution across corners */}
+            <div className="absolute inset-0 opacity-40 pointer-events-none">
+                <div className="absolute inset-0 bg-dot-white"></div>
+                <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_0%,black_100%)] opacity-40"></div>
             </div>
 
             <div className="container text-center relative z-10">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-relaxed tracking-tight">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.4] tracking-tight">
                     {section.title}
                 </h2>
                 <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed">
