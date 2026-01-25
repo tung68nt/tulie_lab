@@ -6,33 +6,45 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const DEFAULT_REFUND = `
-Tại The Tulie Lab, chúng tôi cam kết mang lại giá trị thực tiễn cho học viên. Chính sách hoàn tiền này được thiết kế để đảm bảo quyền lợi của bạn khi tham gia các khóa học và sử dụng sản phẩm của chúng tôi.
+Tại **The Tulie Lab**, chúng tôi cam kết mang lại trải nghiệm học tập tốt nhất cho học viên. Tuy nhiên, do đặc thù của các sản phẩm số (khóa học trực tuyến, template, mã nguồn) là nội dung có thể được tiêu thụ ngay sau khi truy cập, chính sách hoàn tiền của chúng tôi được quy định cụ thể như sau:
 
 ---
 
-## 1. Điều kiện hoàn tiền
-Chúng tôi hỗ trợ hoàn tiền 100% trong các trường hợp sau:
-- **Lỗi kỹ thuật nghiêm trọng:** Bạn không thể truy cập nội dung khóa học hoặc sử dụng sản phẩm do lỗi từ hệ thống của chúng tôi mà không được khắc phục trong vòng 48 giờ làm việc.
-- **Nội dung không đúng mô tả:** Nội dung khóa học thực tế khác xa so với giới thiệu và đề cương đã công bố trên website.
-- **Yêu cầu trong thời hạn:** Bạn gửi yêu cầu hoàn tiền trong vòng 03 ngày kể từ thời điểm thanh toán thành công và chưa xem quá 20% tổng dung lượng bài giảng của khóa học.
+## 1. Điều kiện được yêu cầu hoàn tiền
+Chúng tôi sẽ xem xét hoàn trả 100% học phí hoặc giá trị đơn hàng nếu rơi vào một trong các trường hợp sau:
+1. **Lỗi kỹ thuật hệ thống:** Bạn không thể truy cập khóa học hoặc sử dụng sản phẩm do lỗi từ phía máy chủ của The Tulie Lab và chúng tôi không thể khắc phục được trong vòng 48 giờ làm việc kể từ khi nhận được thông báo.
+2. **Nội dung sai lệch nghiêm trọng:** Nội dung khóa học thực tế khác xa (trên 50%) so với mô tả, đề cương đã được công bố trên website tại thời điểm bạn thực hiện thanh toán.
+3. **Thanh toán trùng:** Bạn vô tình thực hiện thanh toán nhiều lần cho cùng một sản phẩm/khóa học.
 
 ---
 
 ## 2. Các trường hợp không được hoàn tiền
-- Yêu cầu gửi sau thời hạn 03 ngày kể từ ngày mua.
-- Bạn đã hoàn thành hoặc đã xem quá 20% nội dung khóa học.
-- Lý do chủ quan từ phía người học như: không còn nhu cầu học, không có thời gian, hoặc đã nắm vững kiến thức.
-- Các sản phẩm là template, mã nguồn hoặc tài liệu số có thể tải về trực tiếp.
+Chúng tôi rất tiếc không thể hỗ trợ hoàn tiền trong các tình huống sau:
+- Khách hàng đã mở xem quá **20% tổng số bài giảng** của khóa học (hệ thống có log record thời gian học của từng tài khoản).
+- Khách hàng đã tải xuống các tài liệu đính kèm, mã nguồn mẫu hoặc template có trong sản phẩm.
+- Các lý do chủ quan từ phía khách hàng như: máy tính không đủ cấu hình, không có thời gian học, thay đổi nhu cầu cá nhân hoặc cảm thấy kiến thức không phù hợp sau khi đã xem phần lớn nội dung.
+- Quá thời hạn **03 ngày** kể từ ngày thanh toán đơn hàng thành công.
 
 ---
 
-## 3. Quy trình thực hiện
-Để gửi yêu cầu hoàn tiền, vui lòng thực hiện các bước sau:
-1. Gửi email tới địa chỉ **support@tulielab.vn**.
-2. Tiêu đề email: [Yêu cầu hoàn tiền] - [Mã đơn hàng] - [Họ tên].
-3. Cung cấp lý do chi tiết và hình ảnh minh họa (nếu có lỗi kỹ thuật).
+## 3. Thời hạn và quy trình thực hiện
+### 1. Thời hạn yêu cầu
+Mọi yêu cầu hoàn tiền phải được gửi về cho chúng tôi trong vòng **72 giờ (03 ngày)** kể từ thời điểm giao dịch thành công.
 
-Chúng tôi sẽ phản hồi yêu cầu của bạn trong vòng 02 ngày làm việc. Nếu được chấp nhận, tiền sẽ được chuyển trả vào tài khoản ngân hàng của bạn trong vòng 05 - 07 ngày làm việc.
+### 2. Hồ sơ yêu cầu
+Khách hàng gửi yêu cầu qua email **support@tulielab.vn** với tiêu đề: **[Yêu cầu hoàn tiền] - [Mã đơn hàng] - [Họ tên]**.
+Trong email vui lòng ghi rõ lý do yêu cầu hoàn tiền và đính kèm hình ảnh biên lai thanh toán hoặc ảnh chụp lỗi kỹ thuật (nếu có).
+
+### 3. Thời gian xử lý
+The Tulie Lab sẽ phản hồi về tính hợp lệ của yêu cầu trong vòng **02 ngày làm việc**. Nếu yêu cầu được chấp nhận, tiền sẽ được hoàn về cho khách hàng qua tài khoản ngân hàng hoặc phương thức thanh toán ban đầu trong vòng **05 - 07 ngày làm việc**.
+
+---
+
+## 4. Liên hệ hỗ trợ
+Nếu bạn có bất kỳ thắc mắc nào về chính sách này, vui lòng liên hệ:
+- **Email:** support@tulielab.vn
+- **Hotline/Zalo:** [Cập nhật số hotline của bạn]
+- **Địa chỉ:** [Cập nhật địa chỉ trụ sở]
 `;
 
 export default function RefundPage() {

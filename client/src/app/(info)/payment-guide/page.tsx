@@ -6,36 +6,48 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const DEFAULT_PAYMENT_GUIDE = `
-Để giúp bạn tiếp cận các khóa học và sản phẩm của The Tulie Lab một cách nhanh chóng nhất, chúng tôi áp dụng quy trình thanh toán tự động hiện đại.
+Để đảm bảo quyền lợi và sự thuận tiện cho khách hàng, **The Tulie Lab** áp dụng quy trình thanh toán và giao nhận sản phẩm số theo các tiêu chuẩn thương mại điện tử hiện hành.
 
 ---
 
-## 1. Chuyển khoản ngân hàng (Auto QR)
-Đây là phương thức thanh toán nhanh nhất và được khuyến khích sử dụng. Sau khi nhấn "Thanh toán" tại giỏ hàng, hệ thống sẽ hiển thị một mã QR kèm theo số tiền và nội dung chuyển khoản được định danh duy nhất cho đơn hàng của bạn.
+## 1. Các phương thức thanh toán
+Chúng tôi hỗ trợ các phương thức thanh toán linh hoạt sau:
 
-- **Bước 1:** Mở ứng dụng Ngân hàng (Mobile Banking) của bạn.
-- **Bước 2:** Chọn tính năng "Quét mã QR".
-- **Bước 3:** Quét mã QR hiển thị trên màn hình đơn hàng. Hệ thống sẽ tự động điền Số tiền và Nội dung chuyển khoản.
-- **Bước 4:** Xác nhận giao dịch thành công.
+### 1.1. Chuyển khoản ngân hàng (Auto QR)
+- Đây là phương thức nhanh nhất và được hệ thống ưu tiên. 
+- Bạn chỉ cần mở ứng dụng ngân hàng và quét mã QR hiển thị tại trang thanh toán.
+- Hệ thống sẽ tự động điền **Số tiền** và **Nội dung chuyển khoản**. Vui lòng không thay đổi các thông tin này để việc kích hoạt diễn ra tự động.
 
-> **Lưu ý quan trọng:** Vui lòng không thay đổi nội dung chuyển khoản tự động để hệ thống có thể nhận diện và kích hoạt đơn hàng ngay lập tức.
-
----
-
-## 2. Quy trình kích hoạt tự động
-Ngay sau khi giao dịch của bạn được ngân hàng xác nhận thành công:
-- Hệ thống The Tulie Lab sẽ nhận tín hiệu và tự động chuyển trạng thái đơn hàng sang **Đã thanh toán**.
-- Khóa học/Sản phẩm sẽ được thêm vào tài khoản của bạn ngay lập tức.
-- Bạn sẽ nhận được email xác nhận kèm theo hóa đơn và hướng dẫn bắt đầu học tập.
-- Toàn bộ quy trình thường chỉ mất từ **30 giây đến 2 phút**.
+### 1.2. Thanh toán qua Cổng trung gian (MoMo, ZaloPay...)
+- (Nếu hệ thống có tích hợp) Bạn thực hiện theo hướng dẫn trên màn hình của nhà cung cấp dịch vụ thanh toán.
 
 ---
 
-## 3. Hỗ trợ sự cố thanh toán
-Nếu sau 10 phút bạn đã thanh toán thành công nhưng đơn hàng vẫn ở trạng thái "Chờ thanh toán", vui lòng thực hiện:
+## 2. Chính sách Giao nhận sản phẩm số
+Vì sản phẩm của chúng tôi là nội dung số (khóa học trực tuyến, template, mã nguồn), quy trình giao nhận được thực hiện như sau:
+
+1. **Phương thức giao hàng:** Hệ thống tự động kích hoạt quyền truy cập vào tài khoản của khách hàng hoặc gửi link tải về qua Email đăng ký.
+2. **Thời gian giao hàng:** 
+   - Đối với thanh toán tự động (QR Code thành công): Kích hoạt ngay lập tức (trong vòng **30 giây - 02 phút**).
+   - Đối với các trường hợp thanh toán thủ công hoặc có sự cố: Thời gian kích hoạt tối đa là **24 giờ** kể từ khi chúng tôi nhận được bằng chứng thanh toán thành công.
+3. **Phí vận chuyển:** Hoàn toàn miễn phí.
+
+---
+
+## 3. Bảo mật giao dịch thanh toán
+1. **Cam kết:** Chúng tôi cam kết đảm bảo thực hiện nghiêm túc các biện pháp bảo mật cần thiết cho mọi hoạt động thanh toán thực hiện trên website.
+2. **Hạ tầng bảo mật:** Website sử dụng chứng chỉ bảo mật SSL để mã hóa thông tin thanh toán của khách hàng.
+3. **Lưu ý:** Khách hàng không nên cung cấp chi tiết thông tin thanh toán cho bất kỳ ai bằng e-mail hoặc các hình thức liên lạc khác. Chúng tôi không chịu trách nhiệm về những mất mát khách hàng có thể gánh chịu do việc trao đổi thông tin thanh toán không an toàn.
+
+---
+
+## 4. Giải quyết sự cố thanh toán
+Trong trường hợp bạn đã thanh toán thành công nhưng chưa nhận được sản phẩm sau 10 phút:
+- Kiểm tra hòm thư **Spam/Rác** nếu là link tải về.
 - Chụp ảnh màn hình biên lai giao dịch thành công.
-- Liên hệ với chúng tôi qua Zalo hỗ trợ hoặc gửi email tới **support@tulielab.vn**.
-- Chúng tôi sẽ kiểm tra và kích hoạt thủ công cho bạn trong vòng 15 phút.
+- Liên hệ ngay với bộ phận hỗ trợ qua Hotline/Zalo: [Cập nhật số điện thoại] hoặc gửi yêu cầu tới **support@tulielab.vn**.
+
+Chúng tôi sẽ kiểm tra và thực hiện kích hoạt thủ công ngay khi xác nhận được dòng tiền từ tài khoản phía chúng tôi.
 `;
 
 export default function PaymentGuidePage() {

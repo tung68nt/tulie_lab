@@ -6,37 +6,53 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const DEFAULT_TERMS = `
-## 1. Chấp thuận các điều khoản
-Bằng việc truy cập và sử dụng website The Tulie Lab, bạn đồng ý tuân thủ và bị ràng buộc bởi các Điều khoản sử dụng này. Nếu bạn không đồng ý với bất kỳ phần nào của các điều khoản này, vui lòng không sử dụng dịch vụ của chúng tôi.
+Chào mừng bạn đến với **The Tulie Lab**. Website này được vận hành bởi **CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE**.
+
+Bằng việc truy cập, đăng ký tài khoản hoặc sử dụng bất kỳ dịch vụ nào từ hệ thống LMS và cửa hàng sản phẩm số của chúng tôi, bạn xác nhận đã đọc, hiểu và đồng ý tuân thủ toàn bộ các điều khoản và điều kiện được quy định dưới đây.
 
 ---
 
-## 2. Quyền sở hữu trí tuệ
-Tất cả nội dung được cung cấp trên The Tulie Lab, bao gồm nhưng không giới hạn ở: bài giảng, video, hình ảnh, mã nguồn, tài liệu mẫu và thiết kế giao diện, đều thuộc quyền sở hữu trí tuệ của **CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE**.
-
-Bạn được cấp quyền truy cập để phục vụ mục đích học tập cá nhân. Nghiêm cấm mọi hành vi sao chép, phân phối, thương mại hóa hoặc sử dụng lại nội dung mà không có sự đồng ý bằng văn bản từ chúng tôi.
-
----
-
-## 3. Tài khoản người dùng
-Khi đăng ký tài khoản, bạn có trách nhiệm bảo mật thông tin đăng nhập và mọi hoạt động xảy ra dưới tài khoản của mình. Bạn đồng ý cung cấp thông tin chính xác và cập nhật để đảm bảo quyền lợi khi sử dụng dịch vụ.
+## 1. Thông tin về Chủ sở hữu website
+- **Tên đơn vị:** CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE
+- **Mã số doanh nghiệp:** [Cập nhật MST của bạn tại đây]
+- **Địa chỉ:** [Cập nhật địa chỉ trụ sở tại đây]
+- **Đại diện pháp luật:** [Cập nhật tên người đại diện]
+- **Email hỗ trợ:** support@tulielab.vn
 
 ---
 
-## 4. Quy định sử dụng dịch vụ
-- Không sử dụng dịch vụ cho bất kỳ mục đích bất hợp pháp nào.
-- Không cố gắng can thiệp vào hoạt động của hệ thống hoặc xâm nhập trái phép dữ liệu.
-- Mỗi tài khoản khóa học chỉ dành cho một người sử dụng duy nhất. Hành vi chia sẻ tài khoản có thể dẫn đến việc đình chỉ tài khoản vĩnh viễn mà không hoàn tiền.
+## 2. Quy định về Tài khoản người dùng
+1. **Đăng ký:** Người dùng phải cung cấp thông tin cá nhân chính xác, bao gồm Họ tên, Email và Số điện thoại liên lạc chính chủ. 
+2. **Bảo mật:** Bạn có trách nhiệm bảo mật thông tin đăng nhập. Mọi hoạt động diễn ra dưới tài khoản của bạn sẽ được coi là do chính bạn thực hiện.
+3. **Quyền đình chỉ:** Chúng tôi có quyền tạm khóa hoặc chấm dứt tài khoản mà không cần thông báo trước nếu phát hiện thông tin giả mạo, hành vi vi phạm bảo mật hệ thống hoặc dùng chung tài khoản trái phép.
+
+---
+
+## 3. Quyền sở hữu trí tuệ và Bản quyền sản phẩm
+1. **Nội dung đào tạo:** Tất cả video, bài giảng, giáo trình, hình ảnh và mã nguồn mẫu trong các khóa học LMS đều thuộc quyền sở hữu độc quyền của **The Tulie Lab**.
+2. **Giấy phép sử dụng:** Khi mua khóa học hoặc sản phẩm số, bạn được cấp quyền truy cập/sử dụng cho mục đích học tập cá nhân. 
+3. **Hành vi nghiêm cấm:** 
+   - Sao chép, phân phối, bán lại, cho thuê nội dung bài giảng dưới mọi hình thức.
+   - Quay phim màn hình, tải xuống trái phép video bài giảng.
+   - Sử dụng mã nguồn mẫu để phát triển sản phẩm cạnh tranh trực tiếp mà không có sự đồng ý bằng văn bản.
+
+---
+
+## 4. Chính sách bảo vệ quyền lợi người tiêu dùng
+1. **Thông tin sản phẩm:** The Tulie Lab cam kết cung cấp thông tin trung thực về đầy đủ về nội dung bài giảng, trình độ yêu cầu và kết quả đạt được sau khóa học.
+2. **Hỗ trợ kỹ thuật:** Chúng tôi hỗ trợ học viên giải quyết các lỗi truy cập hệ thống, lỗi thanh toán trong vòng 24-48 giờ làm việc.
+3. **Giải quyết tranh chấp:** Mọi khiếu nại phát sinh từ việc sử dụng dịch vụ sẽ được ưu tiên giải quyết thông qua thương lượng, hòa giải. Trường hợp không đạt được thỏa thuận, tranh chấp sẽ được đưa ra Tòa án có thẩm quyền tại Việt Nam để giải quyết.
 
 ---
 
 ## 5. Giới hạn trách nhiệm
-Chúng tôi luôn nỗ lực để cung cấp nội dung chất lượng nhất, tuy nhiên The Tulie Lab không đảm bảo rằng dịch vụ sẽ không bao giờ có sai sót hoặc gián đoạn. Chúng tôi không chịu trách nhiệm về bất kỳ thiệt hại gián tiếp nào phát sinh từ việc sử dụng hoặc không thể sử dụng dịch vụ.
+1. **Tính sẵn sàng của hệ thống:** Chúng tôi nỗ lực để hệ thống hoạt động 24/7 nhưng không đảm bảo dịch vụ không bao giờ bị gián đoạn do lỗi kỹ thuật hoặc sự cố hạ tầng internet ngoài tầm kiểm soát.
+2. **Kết quả học tập:** Hiệu quả của việc học tập phụ thuộc vào nỗ lực cá nhân của học viên. Chúng tôi không đảm bảo kết quả đầu ra tuyệt đối nếu học viên không tuân thủ lộ trình học tập.
 
 ---
 
-## 6. Thay đổi điều khoản
-Chúng tôi có quyền cập nhật các điều khoản này bất kỳ lúc nào để phù hợp với quy định pháp luật hoặc thay đổi trong hoạt động kinh doanh. Các thay đổi sẽ có hiệu lực ngay khi được đăng tải trên website.
+## 6. Điều khoản cuối cùng
+The Tulie Lab có quyền cập nhật, sửa đổi các điều khoản này để phù hợp với quy định pháp luật và định hướng phát triển của Lab. Các thay đổi có hiệu lực ngay khi được đăng tải trên website chính thức. Việc bạn tiếp tục sử dụng dịch vụ đồng nghĩa với việc chấp nhận các điều khoản mới.
 `;
 
 export default function TermsPage() {
