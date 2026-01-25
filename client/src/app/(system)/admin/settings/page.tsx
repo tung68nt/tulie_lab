@@ -65,9 +65,7 @@ export default function AdminSettingsPage() {
         setUploadingLogo(true);
         try {
             const result: any = await api.uploads.single(file);
-            console.log('Upload result:', result); // Debug
-            // Handle different response structures
-            const url = result?.file?.url || result?.url || result?.data?.url;
+            const url = result?.data?.url;
             if (url) {
                 handleChange('site_logo', url);
                 addToast('Logo đã được tải lên', 'success');
@@ -89,8 +87,7 @@ export default function AdminSettingsPage() {
         setUploadingFavicon(true);
         try {
             const result: any = await api.uploads.single(file);
-            console.log('Favicon upload result:', result); // Debug
-            const url = result?.file?.url || result?.url || result?.data?.url;
+            const url = result?.data?.url;
             if (url) {
                 handleChange('site_favicon', url);
                 addToast('Favicon đã được tải lên', 'success');

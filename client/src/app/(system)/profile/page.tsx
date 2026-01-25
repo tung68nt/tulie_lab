@@ -89,10 +89,10 @@ export default function ProfilePage() {
 
         try {
             // Upload file
-            const uploadRes = await api.uploads.single(file);
+            const uploadRes: any = await api.uploads.single(file);
 
             if (uploadRes.success) {
-                const avatarUrl = uploadRes.file.url;
+                const avatarUrl = uploadRes.data.url;
 
                 // Update profile with new avatar
                 await api.users.updateProfile({ avatar: avatarUrl });

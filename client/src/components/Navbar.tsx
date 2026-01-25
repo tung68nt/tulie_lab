@@ -76,9 +76,9 @@ export function Navbar() {
 
         try {
             // 1. Upload file
-            const uploadResult = await api.uploads.single(file);
+            const uploadResult: any = await api.uploads.single(file);
             if (uploadResult.success) {
-                const avatarUrl = uploadResult.file.url;
+                const avatarUrl = uploadResult.data.url;
 
                 // 2. Update profile
                 await api.users.updateProfile({ avatar: avatarUrl });

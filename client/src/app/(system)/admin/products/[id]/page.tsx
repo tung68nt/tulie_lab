@@ -237,8 +237,8 @@ export default function ProductEditorPage() {
 
         try {
             addToast('Đang tải ảnh...', 'info');
-            const res = await api.uploads.single(file);
-            setFormData(prev => ({ ...prev, thumbnail: res.file.url }));
+            const res: any = await api.uploads.single(file);
+            setFormData(prev => ({ ...prev, thumbnail: res.data.url }));
             addToast('Tải ảnh thành công', 'success');
         } catch (error) {
             addToast('Lỗi tải ảnh', 'error');

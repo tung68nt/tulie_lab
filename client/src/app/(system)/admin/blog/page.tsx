@@ -108,9 +108,9 @@ export default function AdminBlogPage() {
 
         setUploading(true);
         try {
-            const res = await api.uploads.single(file);
+            const res: any = await api.uploads.single(file);
             if (res.success) {
-                setFormData({ ...formData, thumbnail: res.file.url });
+                setFormData({ ...formData, thumbnail: res.data.url });
                 addToast('Đã tải ảnh lên thành công', 'success');
             }
         } catch (error: any) {
@@ -127,9 +127,9 @@ export default function AdminBlogPage() {
 
         setUploading(true);
         try {
-            const res = await api.uploads.single(file);
+            const res: any = await api.uploads.single(file);
             if (res.success) {
-                const imgMarkdown = `\n![${res.file.originalName}](${res.file.url})\n`;
+                const imgMarkdown = `\n![${res.data.originalName}](${res.data.url})\n`;
                 setFormData({ ...formData, content: formData.content + imgMarkdown });
                 addToast('Đã tải ảnh lên và chèn vào nội dung', 'success');
             }

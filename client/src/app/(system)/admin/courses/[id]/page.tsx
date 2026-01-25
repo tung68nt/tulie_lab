@@ -600,8 +600,8 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                                             const result = await api.uploads.single(file);
                                                             if (result.success) {
                                                                 setPendingAttachments(prev => [...prev, {
-                                                                    name: result.file.originalName,
-                                                                    url: result.file.url
+                                                                    name: result.data.originalName,
+                                                                    url: result.data.url
                                                                 }]);
                                                             } else {
                                                                 addToast(`Upload thất bại: ${file.name}`, 'error');
@@ -1133,8 +1133,8 @@ function LessonItem({
                                                 const result = await api.uploads.single(file);
                                                 if (result.success) {
                                                     onAddAttachment(lesson.id, {
-                                                        title: result.file.originalName,
-                                                        url: result.file.url,
+                                                        title: result.data.originalName,
+                                                        url: result.data.url,
                                                         type: 'FILE'
                                                     });
                                                 }
