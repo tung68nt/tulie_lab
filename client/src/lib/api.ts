@@ -251,7 +251,7 @@ export const api = {
         },
         media: {
             list: () => request<{ success: boolean, data: any[], meta: { total: number } }>('/uploads'),
-            delete: (key: string) => request<void>(`/uploads/${encodeURIComponent(key)}`, { method: 'DELETE' }),
+            delete: (key: string) => request<void>(`/uploads?key=${encodeURIComponent(key)}`, { method: 'DELETE' }),
         }
     },
     cms: {

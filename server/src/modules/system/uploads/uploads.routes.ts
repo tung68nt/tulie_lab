@@ -95,9 +95,10 @@ router.get('/', authenticate, authorize([Role.ADMIN]), async (req, res) => {
 
 // Delete a file (Admin only) - DB + S3
 // Delete a file (Admin only) - DB + S3
-router.delete('/*', authenticate, authorize([Role.ADMIN]), async (req, res) => {
+// Delete a file (Admin only) - DB + S3
+router.delete('/', authenticate, authorize([Role.ADMIN]), async (req, res) => {
     try {
-        const key = req.params[0] || req.path.substring(1); // Catch-all param
+        const key = req.query.key as string;
 
         if (!key) {
             return res.status(400).json({ message: 'File key is required' });
