@@ -250,7 +250,8 @@ export const api = {
         list: (page?: number, limit?: number) => {
             const query = (page || limit) ? `?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}` : '';
             return request<any>(`/blog${query}`);
-        }
+        },
+        get: (slug: string) => request<any>(`/blog/${slug}`)
     },
     payments: {
         checkout: (data: unknown) => request<{ url: string }>('/payments/checkout', { method: 'POST', body: JSON.stringify(data) }),
