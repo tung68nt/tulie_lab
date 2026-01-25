@@ -127,15 +127,15 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                     <div className="flex items-start gap-1.5 md:gap-2">
                         <TimeUnit value={timeLeft.days} label="ngày" className={timeLeft.days > 0 ? "animate-breathe" : ""} />
                         <div className="h-9 md:h-12 flex items-center justify-center">
-                            <span className="text-sm font-bold text-yellow-500/40 animate-pulse -mt-1">:</span>
+                            <span className="text-lg font-bold text-yellow-400 animate-pulse -mt-1">:</span>
                         </div>
                         <TimeUnit value={timeLeft.hours} label="giờ" className={timeLeft.hours > 0 || timeLeft.days > 0 ? "animate-breathe" : ""} />
                         <div className="h-9 md:h-12 flex items-center justify-center">
-                            <span className="text-sm font-bold text-yellow-500/40 animate-pulse -mt-1">:</span>
+                            <span className="text-lg font-bold text-yellow-400 animate-pulse -mt-1">:</span>
                         </div>
                         <TimeUnit value={timeLeft.minutes} label="phút" className={timeLeft.minutes > 0 || timeLeft.hours > 0 || timeLeft.days > 0 ? "animate-breathe" : ""} />
                         <div className="h-9 md:h-12 flex items-center justify-center">
-                            <span className="text-sm font-bold text-yellow-500/40 animate-pulse -mt-1">:</span>
+                            <span className="text-lg font-bold text-yellow-400 animate-pulse -mt-1">:</span>
                         </div>
                         <TimeUnit value={timeLeft.seconds} label="giây" className="animate-breathe" />
                     </div>
