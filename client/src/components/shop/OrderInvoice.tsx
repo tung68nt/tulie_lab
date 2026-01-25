@@ -278,17 +278,29 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 <h3 className="text-sm font-bold text-zinc-600">Thông tin khách hàng</h3>
                                 <div className="space-y-2 text-sm">
                                     <div className="flex gap-2">
-                                        <span className="text-zinc-600 w-44 shrink-0">Họ tên người mua hàng:</span>
-                                        <span className="font-bold">{order.metadata?.customerName || order.user.profile?.name || order.user.name || ''}</span>
+                                        <span className="text-zinc-600 w-44 shrink-0">Họ tên người mua:</span>
+                                        <span className="font-bold">{order.metadata?.vatBuyerName || order.metadata?.customerName || order.user.profile?.name || order.user.name || ''}</span>
                                     </div>
                                     <div className="flex gap-2">
-                                        <span className="text-zinc-600 w-44 shrink-0">Tên đơn vị:</span>
-                                        <span className="font-bold">{order.metadata?.companyName || order.user.profile?.company || ''}</span>
+                                        <span className="text-zinc-600 w-44 shrink-0">Số điện thoại:</span>
+                                        <span className="font-bold">{order.metadata?.vatPhone || order.metadata?.phone || order.user.profile?.phone || ''}</span>
                                     </div>
                                     <div className="flex gap-2">
-                                        <span className="text-zinc-600 w-44 shrink-0">Mã số thuế:</span>
-                                        <span className="font-bold">{order.metadata?.taxId || ''}</span>
+                                        <span className="text-zinc-600 w-44 shrink-0">Email:</span>
+                                        <span className="font-bold">{order.metadata?.vatEmail || order.metadata?.email || order.user.email || ''}</span>
                                     </div>
+                                    {order.metadata?.companyName && (
+                                        <div className="flex gap-2">
+                                            <span className="text-zinc-600 w-44 shrink-0">Tên đơn vị:</span>
+                                            <span className="font-bold">{order.metadata?.companyName || order.user.profile?.company || ''}</span>
+                                        </div>
+                                    )}
+                                    {order.metadata?.taxId && (
+                                        <div className="flex gap-2">
+                                            <span className="text-zinc-600 w-44 shrink-0">Mã số thuế:</span>
+                                            <span className="font-bold">{order.metadata?.taxId || ''}</span>
+                                        </div>
+                                    )}
                                     <div className="flex gap-2">
                                         <span className="text-zinc-600 w-44 shrink-0">Địa chỉ:</span>
                                         <span className="font-bold">{order.metadata?.address || order.user.profile?.address || ''}</span>
@@ -296,10 +308,28 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 </div>
                             </div>
                             <div className="space-y-4 md:text-right">
-                                <h3 className="text-sm font-bold text-zinc-600">Hình thức thanh toán</h3>
-                                <div className="space-y-2">
-                                    <div className="text-sm font-medium">Chuyển khoản Ngân hàng (Auto QR)</div>
-                                    <div className="text-xs text-zinc-600">Nội dung: {order.code}</div>
+                                <h3 className="text-sm font-bold text-zinc-600">Thông tin bổ sung</h3>
+                                <div className="space-y-2 text-sm md:text-right">
+                                    <div className="flex justify-start md:justify-end gap-2">
+                                        <span className="text-zinc-600 shrink-0">Hình thức thanh toán:</span>
+                                        <span className="font-bold">Chuyển khoản / Auto QR</span>
+                                    </div>
+                                    {order.metadata?.isGift && (
+                                        <div className="flex justify-start md:justify-end gap-2">
+                                            <span className="text-zinc-600 shrink-0">Loại đơn hàng:</span>
+                                            <span className="font-bold text-red-600">Mua làm quà tặng</span>
+                                        </div>
+                                    )}
+                                    {order.metadata?.requireVAT && (
+                                        <div className="flex justify-start md:justify-end gap-2">
+                                            <span className="text-zinc-600 shrink-0">Yêu cầu hóa đơn:</span>
+                                            <span className="font-bold text-green-700">Đã đăng ký VAT</span>
+                                        </div>
+                                    )}
+                                    <div className="flex justify-start md:justify-end gap-2">
+                                        <span className="text-zinc-600 shrink-0">Tài khoản:</span>
+                                        <span className="font-bold">{order.metadata?.createAccount ? 'Tạo mới' : 'Đã có tài khoản'}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

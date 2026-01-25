@@ -392,6 +392,8 @@ model Order {
   marketingLead   MarketingLead?
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   items           OrderItem[]
+  metadata        Json?
+  promoCodeId     String?
 
   @@index([userId])
   @@index([status])

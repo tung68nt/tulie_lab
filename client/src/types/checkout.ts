@@ -17,6 +17,14 @@ export interface CheckoutFormState {
     createAccount: boolean;
     isGift: boolean;
     agreedToTerms: boolean;
+    // VAT Information
+    requireVAT?: boolean;
+    vatBuyerName?: string;
+    vatCompanyName?: string;
+    vatTaxId?: string;
+    vatAddress?: string;
+    vatEmail?: string;
+    vatPhone?: string;
 }
 
 export type CheckoutStep = 'form' | 'payment';

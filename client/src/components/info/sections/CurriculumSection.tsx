@@ -96,7 +96,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                                     <PlayCircle size={16} />
                                                 )}
                                             </div>
-                                            <span className={`font-medium text-base ${lesson.toLowerCase().includes('tài liệu') ? 'text-primary' : 'text-foreground/80'}`}>
+                                            <span className={`font-medium text-lg ${lesson.toLowerCase().includes('tài liệu') ? 'text-primary' : 'text-foreground/80'}`}>
                                                 {lesson}
                                             </span>
                                         </div>

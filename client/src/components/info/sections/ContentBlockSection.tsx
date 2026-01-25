@@ -72,7 +72,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                                                 <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
                                                     <DynamicIcon name="Check" className="w-3.5 h-3.5 text-primary" strokeWidth={3} />
                                                 </div>
-                                                <span className="font-medium">{feature}</span>
+                                                <span className="font-medium text-lg">{feature}</span>
                                             </li>
                                         ))}
                                     </ul>

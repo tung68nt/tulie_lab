@@ -33,7 +33,24 @@ export const checkout = async (req: Request, res: Response) => {
             items,
             marketing,
             isGift,
-            promoCodeId
+            promoCodeId,
+            metadata: {
+                customerName: form.name, // General customer name
+                phone: form.phone,
+                email: form.email,
+                isGift: !!form.isGift,
+                createAccount: !!form.createAccount,
+                ...(form.requireVAT ? {
+                    requireVAT: true,
+                    vatBuyerName: form.vatBuyerName,
+                    customerName: form.vatBuyerName, // Override for invoice consistency if VAT is requested
+                    companyName: form.vatCompanyName,
+                    taxId: form.vatTaxId,
+                    address: form.vatAddress,
+                    vatEmail: form.vatEmail,
+                    vatPhone: form.vatPhone
+                } : {})
+            }
         });
 
         res.json(result);

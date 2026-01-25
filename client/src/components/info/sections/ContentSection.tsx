@@ -54,7 +54,7 @@ export const ContentSection = ({ section }: { section: Section }) => {
                                     <div className="shrink-0 transition-transform duration-300 group-hover:scale-110">
                                         {icon}
                                     </div>
-                                    <p className="leading-relaxed text-base text-muted-foreground">
+                                    <p className="leading-relaxed text-lg text-muted-foreground">
                                         {title && <span className="font-bold text-foreground block mb-1">{title}</span>}
                                         {desc}
                                     </p>

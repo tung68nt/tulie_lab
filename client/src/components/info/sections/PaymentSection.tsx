@@ -317,6 +317,93 @@ export function PaymentSection({ section, mainCourse, upsellCourse, upsellPrice,
                         </div>
                     </div>
                 )}
+
+                {/* VAT Invoice Option */}
+                <div className="pt-4 border-t border-border/10">
+                    <div className="flex items-center space-x-2">
+                        <button
+                            type="button"
+                            onClick={() => handleFormChange('requireVAT', !state.form.requireVAT)}
+                            className={cn(
+                                "w-5 h-5 rounded border flex items-center justify-center transition-colors",
+                                state.form.requireVAT ? "bg-primary border-primary text-primary-foreground" : "border-input bg-background"
+                            )}
+                        >
+                            {state.form.requireVAT && <DynamicIcon name="Check" className="w-3.5 h-3.5" />}
+                        </button>
+                        <label className="text-sm font-bold leading-none cursor-pointer" onClick={() => handleFormChange('requireVAT', !state.form.requireVAT)}>
+                            Xuất hoá đơn VAT (Công ty/Tổ chức)
+                        </label>
+                    </div>
+
+                    {state.form.requireVAT && (
+                        <div className="mt-4 p-4 bg-muted/20 border border-border/50 rounded-xl space-y-4 animate-in slide-in-from-top-2">
+                            <div className="grid md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium">Họ tên người mua</label>
+                                    <input
+                                        required={state.form.requireVAT}
+                                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+                                        placeholder="Nguyễn Văn A"
+                                        value={state.form.vatBuyerName || ''}
+                                        onChange={e => handleFormChange('vatBuyerName', e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium">Mã số thuế</label>
+                                    <input
+                                        required={state.form.requireVAT}
+                                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+                                        placeholder="0101234567"
+                                        value={state.form.vatTaxId || ''}
+                                        onChange={e => handleFormChange('vatTaxId', e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <label className="text-xs font-medium">Tên công ty</label>
+                                    <input
+                                        required={state.form.requireVAT}
+                                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+                                        placeholder="Công ty Cổ phần ABC"
+                                        value={state.form.vatCompanyName || ''}
+                                        onChange={e => handleFormChange('vatCompanyName', e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <label className="text-xs font-medium">Địa chỉ theo thuế</label>
+                                    <input
+                                        required={state.form.requireVAT}
+                                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+                                        placeholder="Số 123, Đường XYZ, Quận..., TP..."
+                                        value={state.form.vatAddress || ''}
+                                        onChange={e => handleFormChange('vatAddress', e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium">Email nhận hoá đơn</label>
+                                    <input
+                                        required={state.form.requireVAT}
+                                        type="email"
+                                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+                                        placeholder="accounting@company.com"
+                                        value={state.form.vatEmail || ''}
+                                        onChange={e => handleFormChange('vatEmail', e.target.value)}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-medium">SĐT / Zalo</label>
+                                    <input
+                                        required={state.form.requireVAT}
+                                        className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
+                                        placeholder="0912345678"
+                                        value={state.form.vatPhone || ''}
+                                        onChange={e => handleFormChange('vatPhone', e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Main Product Selection */}

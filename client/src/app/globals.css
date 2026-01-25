@@ -116,7 +116,9 @@
     @apply text-xl font-bold tracking-tight leading-normal;
   }
 
-  p {
+  p,
+  ul,
+  ol {
     @apply text-base text-muted-foreground leading-relaxed;
   }
 }

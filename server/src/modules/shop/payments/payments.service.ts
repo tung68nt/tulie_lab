@@ -37,8 +37,9 @@ export class PaymentService {
         promoCodeId?: string;
         marketing?: any;
         isGift?: boolean;
+        metadata?: any;
     }): Promise<{ order: Order, isNewUser: boolean }> {
-        const { userId, userInfo, items, marketing, isGift } = data;
+        const { userId, userInfo, items, marketing, isGift, metadata, promoCodeId } = data;
         let finalUserId = userId;
         let isNewUser = false;
 
@@ -123,7 +124,9 @@ export class PaymentService {
             isGift: !!isGift,
             items: {
                 create: orderItemsData
-            }
+            },
+            metadata: metadata || undefined,
+            promoCodeId: promoCodeId || undefined
         });
 
         // 4. Publish Event (Instead of direct logic)
