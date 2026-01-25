@@ -20,6 +20,16 @@ export class ContactService {
         return submission;
     }
 
+    async subscribeNewsletter(email: string) {
+        // Create a contact submission with a special message/type
+        return this.contactRepository.create({
+            name: 'Newsletter Subscriber',
+            email: email,
+            message: 'SUBSCRIBE_NEWSLETTER',
+            status: 'NEW'
+        });
+    }
+
     async getSubmissions(page: number = 1, limit: number = 20, search?: string) {
         const where: any = {};
         if (search) {

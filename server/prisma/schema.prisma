@@ -177,6 +177,7 @@ model Category {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   courses     Course[]
+  blogPosts   BlogPost[]
 }
 
 model Course {
@@ -500,12 +501,14 @@ model BlogPost {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   authorId        String?
+  categoryId      String?
   isPublished     Boolean     @default(false)
   metaDescription String?
   metaKeywords    String?
   metaTitle       String?
   thumbnail       String?
   author          Instructor? @relation(fields: [authorId], references: [id])
+  category        Category?   @relation(fields: [categoryId], references: [id])
 }
 
 model ContactSubmission {

@@ -16,6 +16,18 @@ export class ContactController {
         }
     }
 
+    async subscribeNewsletter(req: Request, res: Response) {
+        try {
+            const { email } = req.body;
+            if (!email) return res.status(400).json({ message: 'Email is required' });
+
+            await this.contactService.subscribeNewsletter(email);
+            res.json({ message: 'Subscribed successfully' });
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
     async list(req: Request, res: Response) {
         try {
             const page = parseInt(req.query.page as string) || 1;

@@ -11,6 +11,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
+import { Upload, X, Loader2, Image as ImageIcon } from 'lucide-react';
 
 interface BlogPost {
     id: string;
@@ -41,6 +42,7 @@ export default function AdminBlogPage() {
         thumbnail: '',
         isPublished: false
     });
+    const [uploading, setUploading] = useState(false);
 
     const fetchPosts = async () => {
         try {
@@ -97,6 +99,45 @@ export default function AdminBlogPage() {
             fetchPosts();
         } catch (error) {
             addToast('Có lỗi xảy ra khi lưu bài viết', 'error');
+        }
+    };
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.value ? null : e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const res = await api.uploads.single(file);
+            if (res.success) {
+                setFormData({ ...formData, thumbnail: res.file.url });
+                addToast('Đã tải ảnh lên thành công', 'success');
+            }
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi khi tải ảnh lên', 'error');
+        } finally {
+            setUploading(false);
+            e.target.value = ''; // Reset input
+        }
+    };
+
+    const handleContentFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.value ? null : e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const res = await api.uploads.single(file);
+            if (res.success) {
+                const imgMarkdown = `\n![${res.file.originalName}](${res.file.url})\n`;
+                setFormData({ ...formData, content: formData.content + imgMarkdown });
+                addToast('Đã tải ảnh lên và chèn vào nội dung', 'success');
+            }
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi khi tải ảnh lên', 'error');
+        } finally {
+            setUploading(false);
+            e.target.value = ''; // Reset input
         }
     };
 
@@ -213,20 +254,102 @@ export default function AdminBlogPage() {
                             </div>
 
                             <div>
-                                <label className="text-sm font-medium">Ảnh bìa (URL)</label>
-                                <Input
-                                    value={formData.thumbnail}
-                                    onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
-                                    placeholder="https://example.com/image.jpg"
-                                />
+                                <label className="text-sm font-medium mb-1.5 block">Ảnh bìa</label>
+                                <div className="space-y-4">
+                                    <div className="flex gap-2">
+                                        <div className="flex-1">
+                                            <Input
+                                                value={formData.thumbnail}
+                                                onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+                                                placeholder="https://example.com/image.jpg"
+                                            />
+                                        </div>
+                                        <div className="relative">
+                                            <input
+                                                type="file"
+                                                id="thumbnail-upload"
+                                                className="hidden"
+                                                accept="image/*"
+                                                onChange={handleFileUpload}
+                                                disabled={uploading}
+                                            />
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                onClick={() => document.getElementById('thumbnail-upload')?.click()}
+                                                disabled={uploading}
+                                                className="h-9"
+                                            >
+                                                {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
+                                                Tải lên
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-4">
+                                        <Link
+                                            href="/admin/media"
+                                            target="_blank"
+                                            className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors"
+                                        >
+                                            <ImageIcon className="w-3.5 h-3.5" />
+                                            Mở kho media để lấy link
+                                        </Link>
+                                    </div>
+
+                                    {/* Thumbnail Preview */}
+                                    {formData.thumbnail && (
+                                        <div className="relative aspect-video w-full max-w-md rounded-lg overflow-hidden border bg-muted group">
+                                            <img
+                                                src={formData.thumbnail}
+                                                alt="Preview"
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => (e.currentTarget.style.display = 'none')}
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setFormData({ ...formData, thumbnail: '' })}
+                                                className="absolute top-2 right-2 p-1.5 bg-background/80 hover:bg-background rounded-full border shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
 
                             <div>
-                                <label className="text-sm font-medium">Nội dung</label>
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <label className="text-sm font-medium">Nội dung</label>
+                                    <div className="flex items-center gap-4">
+                                        <div className="relative">
+                                            <input
+                                                type="file"
+                                                id="content-upload"
+                                                className="hidden"
+                                                accept="image/*"
+                                                onChange={handleContentFileUpload}
+                                                disabled={uploading}
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => document.getElementById('content-upload')?.click()}
+                                                disabled={uploading}
+                                                className="text-xs flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+                                            >
+                                                {uploading ? <Loader2 className="w-3 h-3 animate-spin" /> : <ImageIcon className="w-3 h-3" />}
+                                                Chèn ảnh
+                                            </button>
+                                        </div>
+                                        <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                            Format: ![Alt text](URL)
+                                        </span>
+                                    </div>
+                                </div>
                                 <textarea
                                     value={formData.content}
                                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                    className="flex min-h-[300px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm"
+                                    className="flex min-h-[400px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                                     placeholder="Nội dung bài viết (hỗ trợ Markdown)"
                                     required
                                 />

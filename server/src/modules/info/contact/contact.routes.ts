@@ -7,6 +7,7 @@ const router = Router();
 
 // Public
 router.post('/', (req, res) => contactController.create(req, res));
+router.post('/newsletter', (req, res) => contactController.subscribeNewsletter(req, res));
 
 // Admin
 router.get('/admin', authenticate, authorize([Role.ADMIN]), (req, res) => contactController.list(req, res));

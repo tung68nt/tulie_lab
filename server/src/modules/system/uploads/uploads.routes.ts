@@ -59,6 +59,27 @@ const upload = multer({
     }
 });
 
+// List all files (Admin only)
+router.get('/', authenticate, authorize([Role.ADMIN]), async (req, res) => {
+    try {
+        const files = await storageService.listFiles('uploads/');
+        res.json({ success: true, files });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Failed to list files', error: error.message });
+    }
+});
+
+// Delete a file (Admin only)
+router.delete('/:key(*)', authenticate, authorize([Role.ADMIN]), async (req, res) => {
+    try {
+        const key = req.params.key as string;
+        await storageService.deleteFile(key);
+        res.json({ success: true, message: 'File deleted' });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Failed to delete file', error: error.message });
+    }
+});
+
 // Single file upload
 router.post('/', authenticate, upload.single('file'), async (req, res) => {
     if (!req.file) {

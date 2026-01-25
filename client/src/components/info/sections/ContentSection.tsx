@@ -1,5 +1,6 @@
 import { Section } from '@/types/sections';
-import { CheckCircle2, Sparkles, Terminal } from 'lucide-react';
+import { CheckCircle2, Sparkles } from 'lucide-react';
+import { SectionTag } from '@/components/SectionTag';
 import { cn } from '@/lib/utils';
 
 export const ContentSection = ({ section }: { section: Section }) => {
@@ -86,10 +87,17 @@ export const ContentSection = ({ section }: { section: Section }) => {
                 <div className="order-2 lg:order-1 space-y-8">
                     {section.subtitle && (
                         <div>
-                            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-1.5 text-sm font-medium text-muted-foreground backdrop-blur-sm">
-                                <Terminal className="w-4 h-4 text-foreground" />
-                                <span className="text-foreground/80">{section.subtitle}</span>
-                            </span>
+                            <SectionTag>
+                                {section.subtitle}
+                            </SectionTag>
+                        </div>
+                    )}
+                    {/* Default SectionTag if subtitle is not present */}
+                    {!section.subtitle && (
+                        <div>
+                            <SectionTag>
+                                Tin tức & Cập nhật
+                            </SectionTag>
                         </div>
                     )}
 

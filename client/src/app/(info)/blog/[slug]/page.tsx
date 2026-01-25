@@ -8,7 +8,8 @@ import remarkGfm from 'remark-gfm';
 import { api } from '@/lib/api';
 import { BottomCTA } from '@/components/BottomCTA';
 import { Card, CardContent } from '@/components/Card';
-import { Clock, User, Calendar, ChevronRight, List } from 'lucide-react';
+import { useToast } from '@/contexts/ToastContext';
+import { Clock, User, Calendar, ChevronRight, List, Loader2 } from 'lucide-react';
 
 interface BlogPost {
     id: string;
@@ -26,6 +27,10 @@ interface BlogPost {
         title?: string;
         avatar?: string;
     };
+    category?: {
+        id: string;
+        name: string;
+    };
 }
 
 interface TocItem {
@@ -41,6 +46,9 @@ export default function BlogPostPage() {
     const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [toc, setToc] = useState<TocItem[]>([]);
+    const [newsletterEmail, setNewsletterEmail] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { addToast } = useToast();
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -105,6 +113,27 @@ export default function BlogPostPage() {
         setToc(headings);
     };
 
+    const handleNewsletterSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newsletterEmail || !newsletterEmail.includes('@')) {
+            addToast('Vui lòng nhập email hợp lệ', 'error');
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            // Updated to use the correct newsletter endpoint
+            await api.newsletter.subscribe(newsletterEmail);
+            addToast('Đăng ký bản tin thành công!', 'success');
+            setNewsletterEmail('');
+        } catch (error) {
+            console.error('Newsletter error:', error);
+            addToast('Có lỗi xảy ra, vui lòng thử lại sau', 'error');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -125,7 +154,7 @@ export default function BlogPostPage() {
     }
 
     return (
-        <>
+        <div className="scroll-smooth">
             <div className="min-h-screen bg-background">
                 {/* Hero Section with Thumbnail */}
                 <div className="bg-muted/30 border-b">
@@ -134,6 +163,11 @@ export default function BlogPostPage() {
                             <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">{post.title}</h1>
 
                             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground mb-8">
+                                {post.category && (
+                                    <div className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider rounded-lg">
+                                        {post.category.name}
+                                    </div>
+                                )}
                                 {post.author && (
                                     <div className="flex items-center gap-2">
                                         <div className="w-8 h-8 rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
@@ -261,16 +295,23 @@ export default function BlogPostPage() {
                                     <p className="text-xs text-zinc-400 dark:text-zinc-600 mb-4">
                                         Nhận ngay các bí quyết Vibe Coding và AI Automation hàng tuần.
                                     </p>
-                                    <div className="flex gap-2">
+                                    <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
                                         <input
                                             type="email"
+                                            value={newsletterEmail}
+                                            onChange={(e) => setNewsletterEmail(e.target.value)}
                                             placeholder="Email của bạn"
-                                            className="flex-1 h-9 rounded-lg bg-zinc-800 dark:bg-zinc-200 border-none px-3 text-xs focus:ring-1 focus:ring-primary"
+                                            className="flex-1 h-9 rounded-lg bg-zinc-800 dark:bg-zinc-200 border-none px-3 text-xs focus:ring-1 focus:ring-primary text-zinc-100 dark:text-zinc-900"
+                                            required
                                         />
-                                        <button className="h-9 px-4 rounded-lg bg-primary text-primary-foreground text-xs font-bold whitespace-nowrap">
-                                            Gửi
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting}
+                                            className="h-9 px-4 rounded-lg bg-primary text-primary-foreground text-xs font-bold whitespace-nowrap flex items-center justify-center disabled:opacity-70"
+                                        >
+                                            {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Gửi'}
                                         </button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </aside>
@@ -322,6 +363,6 @@ export default function BlogPostPage() {
                 buttonText="Tìm hiểu khóa học"
                 buttonHref="/courses"
             />
-        </>
+        </div>
     );
 }

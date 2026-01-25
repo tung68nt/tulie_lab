@@ -21,7 +21,8 @@ export class BlogController {
         try {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 20;
-            const result = await this.blogService.getPublishedPosts(page, limit);
+            const categoryId = req.query.categoryId as string;
+            const result = await this.blogService.getPublishedPosts(page, limit, categoryId);
             res.json(result);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

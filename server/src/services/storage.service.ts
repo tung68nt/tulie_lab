@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import path from 'path';
 import fs from 'fs';
@@ -108,6 +108,32 @@ export class StorageService {
         } catch (error) {
             console.error('Delete R2 File Error:', error);
             // Don't throw, just log
+        }
+    }
+
+    /**
+     * List files from R2
+     */
+    async listFiles(prefix?: string): Promise<any[]> {
+        try {
+            const command = new ListObjectsV2Command({
+                Bucket: this.bucket,
+                Prefix: prefix
+            });
+
+            const response = await this.client.send(command);
+
+            return (response.Contents || []).map(item => ({
+                key: item.Key,
+                size: item.Size,
+                lastModified: item.LastModified,
+                url: this.publicDomain
+                    ? `${this.publicDomain.endsWith('/') ? this.publicDomain.slice(0, -1) : this.publicDomain}/${item.Key}`
+                    : item.Key
+            })).sort((a, b) => (b.lastModified?.getTime() || 0) - (a.lastModified?.getTime() || 0));
+        } catch (error) {
+            console.error('List R2 Files Error:', error);
+            return [];
         }
     }
 }

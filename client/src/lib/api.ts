@@ -237,7 +237,10 @@ export const api = {
             get: (id: string) => request<Instructor>(`/instructors/${id}`),
             create: (data: unknown) => request<Instructor>('/instructors', { method: 'POST', body: JSON.stringify(data) }),
             update: (id: string, data: unknown) => request<Instructor>(`/instructors/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-            delete: (id: string) => request<void>(`/instructors/${id}`, { method: 'DELETE' }),
+        },
+        media: {
+            list: () => request<{ success: boolean, files: any[] }>('/uploads'),
+            delete: (key: string) => request<void>(`/uploads/${encodeURIComponent(key)}`, { method: 'DELETE' }),
         }
     },
     cms: {
@@ -247,8 +250,10 @@ export const api = {
         }
     },
     blog: {
-        list: (page?: number, limit?: number) => {
-            const query = (page || limit) ? `?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}` : '';
+        list: (page?: number, limit?: number, categoryId?: string) => {
+            const query = (page || limit || categoryId)
+                ? `?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}${categoryId ? `&categoryId=${categoryId}` : ''}`
+                : '';
             return request<any>(`/blog${query}`);
         },
         get: (slug: string) => request<any>(`/blog/${slug}`)
@@ -405,5 +410,8 @@ export const api = {
         create: (courseId: string | null, count: number, productId?: string) => request<unknown[]>('/activation-codes/admin/create', { method: 'POST', body: JSON.stringify({ courseId, count, productId }) }),
         delete: (id: string) => request<void>(`/activation-codes/admin/${id}`, { method: 'DELETE' }),
         redeem: (code: string) => request<void>('/activation-codes/redeem', { method: 'POST', body: JSON.stringify({ code }) }),
+    },
+    newsletter: {
+        subscribe: (email: string) => request<void>('/contact/newsletter', { method: 'POST', body: JSON.stringify({ email }) }),
     }
 };

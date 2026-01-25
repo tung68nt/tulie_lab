@@ -24,9 +24,12 @@ export class BlogService {
         return post;
     }
 
-    async getPublishedPosts(page: number = 1, limit: number = 20) {
+    async getPublishedPosts(page: number = 1, limit: number = 20, categoryId?: string) {
+        const where: any = { isPublished: true };
+        if (categoryId) where.categoryId = categoryId;
+
         return this.blogPostRepository.findAll({
-            where: { isPublished: true },
+            where,
             skip: (page - 1) * limit,
             take: limit
         });
