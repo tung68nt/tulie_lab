@@ -60,7 +60,7 @@ export class LandingPageService {
         if (this.cacheProvider) {
             if (existingPage) await this.cacheProvider.del(`landing_page:${existingPage.slug}`);
             await this.cacheProvider.del(`landing_page:${updatedPage.slug}`);
-            if (existingPage.isHomepage || updatedPage.isHomepage) {
+            if (existingPage?.isHomepage || updatedPage.isHomepage) {
                 await this.cacheProvider.del(`landing_page:home`);
             }
         }
