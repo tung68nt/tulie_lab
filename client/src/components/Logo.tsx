@@ -54,6 +54,8 @@ export function Logo({ className = "", showText = true }: LogoProps) {
                     <img
                         src={settings.site_logo}
                         alt="Logo"
+                        width="150"
+                        height="40"
                         className={`h-full w-auto object-contain ${isDark ? 'dark:brightness-0 dark:invert' : ''}`}
                     />
                 </div>

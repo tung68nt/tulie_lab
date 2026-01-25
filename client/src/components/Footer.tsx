@@ -39,7 +39,7 @@ const defaultFooterData: FooterData = {
     phone: '0978.863.775',
     email: 'support@tulielab.vn',
     taxId: '0110163102',
-    logoUrl: '/images/logo.png',
+    logoUrl: '',
     quickLinks: [
 
         { label: 'Các khóa học', href: '/courses' },
@@ -142,7 +142,7 @@ export function Footer() {
                     {/* Left - Company Info */}
                     <div className="space-y-4 col-span-2">
 
-                        <p className="text-sm font-bold uppercase tracking-wide">{footerData.companyName}</p>
+                        <p className="text-sm font-bold tracking-wide">{footerData.companyName}</p>
                         <p className="text-sm text-muted-foreground">
                             {footerData.tagline}
                         </p>

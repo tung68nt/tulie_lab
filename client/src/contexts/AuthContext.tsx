@@ -35,6 +35,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             // Try to get user from API
             try {
+                // Check if we have a probable session first
+                const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+                if (!token) {
+                    // No token, don't even try to fetch me
+                    setUser(null);
+                    setIsLoading(false);
+                    return;
+                }
+
                 const response = await api.auth.getMe() as any;
                 const userData = response?.user || response?.data?.user || response?.data;
 

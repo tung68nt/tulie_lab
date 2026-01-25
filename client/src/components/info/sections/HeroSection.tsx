@@ -105,7 +105,10 @@ export function HeroSection({ section }: { section: Section }) {
                                     <img
                                         src={section.image}
                                         alt="Hero"
+                                        width="800"
+                                        height="600"
                                         className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
+                                        fetchPriority="high"
                                     />
                                     {/* Overlay gradient */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>

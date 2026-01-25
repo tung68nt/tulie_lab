@@ -35,7 +35,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
                                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary">
                                     <DynamicIcon name="Check" className="w-4 h-4" />
                                 </div>
-                                <span className="font-bold text-sm uppercase tracking-wide">Verified Expert</span>
+                                <span className="font-bold text-sm tracking-wide">Verified Expert</span>
                             </div>
                         </div>
                     </div>

@@ -114,7 +114,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                     <div className="space-y-4 flex-grow flex flex-col">
                                         {/* Before Column */}
                                         <div className="flex-none min-h-[10rem]">
-                                            <h4 className="text-[10px] font-bold text-red-500 uppercase tracking-wider mb-2">Trước khi học</h4>
+                                            <h4 className="text-[10px] font-bold text-red-500 tracking-wider mb-2">Trước khi học</h4>
                                             <div className="">
                                                 {testimonial.before && testimonial.before.map((point: string, i: number) => (
                                                     <div key={i} className="flex gap-3 text-sm text-neutral-500 dark:text-neutral-400 mb-2">
@@ -129,7 +129,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
 
                                         {/* After Column */}
                                         <div className="flex-1">
-                                            <h4 className="text-[10px] font-bold text-green-500 uppercase tracking-wider mb-2">Kết quả đạt được</h4>
+                                            <h4 className="text-[10px] font-bold text-green-500 tracking-wider mb-2">Kết quả đạt được</h4>
                                             {testimonial.after && testimonial.after.map((point: string, i: number) => (
                                                 <div key={i} className="flex gap-3 text-sm font-medium text-foreground mb-2">
                                                     <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
