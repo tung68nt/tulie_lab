@@ -97,7 +97,7 @@ export const VideoService = {
                         reject(uploadErr);
                     }
                 })
-                .on('error', (err) => {
+                .on('error', (err: any) => {
                     console.error('Error converting to HLS:', err);
                     reject(err);
                 })
