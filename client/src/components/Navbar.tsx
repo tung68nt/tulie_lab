@@ -192,7 +192,7 @@ export function Navbar() {
     return (
         <>
             <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
-                <div className="container flex h-16 items-center">
+                <div className="container flex h-20 items-center">
                     <div className="mr-8">
                         <Logo />
                     </div>
@@ -410,7 +410,7 @@ export function Navbar() {
             </nav>
 
             {/* Mobile Menu Drawer (Fade Down) - Below Navbar (z-49) */}
-            <div className={`fixed inset-x-0 top-16 bottom-0 z-[49] md:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+            <div className={`fixed inset-x-0 top-20 bottom-0 z-[49] md:hidden ${mobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
                 {/* Backdrop */}
                 <div
                     className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${mobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -491,7 +491,7 @@ export function Navbar() {
             </div>
 
             {/* Mobile User Menu Drawer (Fade Down) - Below Navbar (z-49) */}
-            <div className={`fixed inset-x-0 top-16 bottom-0 z-[49] md:hidden ${dropdownOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+            <div className={`fixed inset-x-0 top-20 bottom-0 z-[49] md:hidden ${dropdownOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
                 {/* Backdrop */}
                 <div
                     className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${dropdownOpen ? 'opacity-100' : 'opacity-0'}`}

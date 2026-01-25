@@ -40,7 +40,7 @@ export function Logo({ className = "", showText = true }: LogoProps) {
     return (
         <Link href="/" className={`flex items-center gap-2.5 ${className}`}>
             {settings.site_logo ? (
-                <div className="relative h-10 w-auto transition-transform hover:scale-105">
+                <div className="relative h-8 w-auto transition-transform hover:scale-105">
                     {/* 
                         If we had a site_logo_dark: 
                         <img src={isDark && settings.site_logo_dark ? settings.site_logo_dark : settings.site_logo} ... />
