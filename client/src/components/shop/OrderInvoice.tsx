@@ -179,10 +179,10 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 )}
                             </div>
                             <div className="text-sm text-zinc-500 space-y-1">
-                                <div className="font-bold text-zinc-950 text-base mb-1">{footerData?.companyName || 'CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE'}</div>
-                                <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> {footerData?.address || 'Tầng 2 Tòa A Chelsea Residences, 48 Trần Kim Xuyến, Cầu Giấy, Hà Nội'}</div>
+                                <div className="font-bold text-zinc-950 text-base mb-1">{footerData?.companyName}</div>
+                                <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> {footerData?.address}</div>
                                 <div className="flex items-center gap-2"><Globe className="w-3 h-3" /> {footerData?.website || 'academy.tulie.vn'}</div>
-                                <div className="flex items-center gap-2 font-medium"><FileText className="w-3 h-3" /> MST: {footerData?.taxId || '0110163102'}</div>
+                                <div className="flex items-center gap-2 font-medium"><FileText className="w-3 h-3" /> MST: {footerData?.taxId}</div>
                             </div>
                         </div>
                         <div className="text-right space-y-2">
