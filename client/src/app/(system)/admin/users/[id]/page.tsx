@@ -169,39 +169,42 @@ export default function AdminUserDetailPage() {
 
             {/* Quick Stats Banner */}
             <div className="grid gap-4 md:grid-cols-4">
-                <Card>
-                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-                        <p className="text-xs font-medium text-muted-foreground mb-1">Membership</p>
-                        <h3 className="text-lg font-bold">
+                <Card className="border shadow-none bg-white border-zinc-200">
+                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Membership</div>
+                        <div className="text-2xl font-bold truncate max-w-full px-2">
                             {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
-                        </h3>
+                        </div>
                         {isMemberActive && (
-                            <p className="text-[10px] mt-1 text-muted-foreground">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</p>
+                            <div className="text-sm text-muted-foreground mt-1">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</div>
                         )}
                     </CardContent>
                 </Card>
-                <Card>
-                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-                        <p className="text-xs text-muted-foreground font-medium mb-1">Chi tiêu (Paid)</p>
+                <Card className="border shadow-none bg-white border-zinc-200">
+                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Chi tiêu (Paid)</div>
                         <div className="text-2xl font-bold">{formatCurrency(user.stats?.totalPaid || 0)}</div>
+                        <div className="text-sm text-muted-foreground mt-1">Tổng cộng đơn hàng đã thanh toán</div>
                     </CardContent>
                 </Card>
-                <Card>
-                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-                        <p className="text-xs text-muted-foreground font-medium mb-1">Tỷ lệ hoàn thành học</p>
-                        <div className="flex items-center gap-2 justify-center">
-                            <div className="text-2xl font-bold">{user.stats?.completedLessons || 0}</div>
-                            <span className="text-xs text-muted-foreground">bài học</span>
+                <Card className="border shadow-none bg-white border-zinc-200">
+                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Tỷ lệ hoàn thành học</div>
+                        <div className="text-2xl font-bold flex items-center gap-2">
+                            {user.stats?.completedLessons || 0}
+                            <span className="text-sm font-medium text-muted-foreground normal-case">bài học</span>
                         </div>
+                        <div className="text-sm text-muted-foreground mt-1">Dựa trên tiến độ khóa học</div>
                     </CardContent>
                 </Card>
-                <Card>
-                    <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-                        <p className="text-xs text-muted-foreground font-medium mb-1">Đăng nhập cuối</p>
-                        <div className="text-sm font-bold flex items-center gap-2 justify-center">
-                            <Clock size={14} className="text-muted-foreground" />
+                <Card className="border shadow-none bg-white border-zinc-200">
+                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Đăng nhập cuối</div>
+                        <div className="text-2xl font-bold flex items-center gap-2">
+                            <Clock size={18} className="text-zinc-400" />
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
+                        <div className="text-sm text-muted-foreground mt-1">Lần truy cập hệ thống gần nhất</div>
                     </CardContent>
                 </Card>
             </div>

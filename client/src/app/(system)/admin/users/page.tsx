@@ -68,37 +68,25 @@ export default function AdminUsersPage() {
 
             {/* Stats Cards */}
             <div className="grid gap-4 md:grid-cols-3">
-                <Card>
-                    <CardContent className="pt-6">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <div className="text-2xl font-bold">{stats.total}</div>
-                                <p className="text-sm text-muted-foreground">Tổng người dùng</p>
-                            </div>
-                            <User className="text-zinc-900 opacity-20" size={32} />
-                        </div>
+                <Card className="border shadow-none bg-white border-zinc-200">
+                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Tổng người dùng</div>
+                        <div className="text-2xl font-bold">{stats.total}</div>
+                        <p className="text-sm text-muted-foreground mt-1">Toàn bộ tài khoản hệ thống</p>
                     </CardContent>
                 </Card>
-                <Card>
-                    <CardContent className="pt-6">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <div className="text-2xl font-bold">{stats.users}</div>
-                                <p className="text-sm text-muted-foreground">Thành viên</p>
-                            </div>
-                            <User className="text-zinc-500 opacity-20" size={32} />
-                        </div>
+                <Card className="border shadow-none bg-white border-zinc-200">
+                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Thành viên</div>
+                        <div className="text-2xl font-bold">{stats.users}</div>
+                        <p className="text-sm text-muted-foreground mt-1">Tài khoản học viên (USER)</p>
                     </CardContent>
                 </Card>
-                <Card>
-                    <CardContent className="pt-6">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <div className="text-2xl font-bold">{stats.admins}</div>
-                                <p className="text-sm text-muted-foreground">Quản trị viên</p>
-                            </div>
-                            <Shield className="text-zinc-900 opacity-20" size={32} />
-                        </div>
+                <Card className="border shadow-none bg-white border-zinc-200">
+                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
+                        <div className="text-sm font-medium text-muted-foreground mb-1">Quản trị viên</div>
+                        <div className="text-2xl font-bold">{stats.admins}</div>
+                        <p className="text-sm text-muted-foreground mt-1">Tài khoản quản lý (ADMIN)</p>
                     </CardContent>
                 </Card>
             </div>
