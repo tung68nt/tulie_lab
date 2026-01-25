@@ -333,14 +333,14 @@ export function Navbar() {
                                                 <p className="text-sm font-medium">{getDisplayName()}</p>
                                                 <div className="flex items-center gap-2">
                                                     <p className="text-xs text-muted-foreground truncate max-w-[120px]">{user?.email}</p>
-                                                    {Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status === 'ACTIVE' && !isNaN(new Date(s.endDate).getTime()) && new Date(s.endDate) > new Date()) ? (
+                                                    {(user?.role === 'ADMIN' || (Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status?.toUpperCase() === 'ACTIVE' && !isNaN(new Date(s.endDate).getTime()) && new Date(s.endDate) > new Date()))) ? (
                                                         <span className="bg-yellow-400/20 text-yellow-600 text-[10px] px-1.5 rounded-full font-bold border border-yellow-400/30">PREMIUM</span>
                                                     ) : (
                                                         <span className="bg-muted text-muted-foreground text-[10px] px-1.5 rounded-full font-bold">FREE</span>
                                                     )}
                                                 </div>
                                                 {(() => {
-                                                    const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
+                                                    const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
                                                     if (activeSub) {
                                                         const date = new Date(activeSub.endDate);
                                                         return !isNaN(date.getTime()) ? (
@@ -501,8 +501,17 @@ export function Navbar() {
                 {/* Drawer Content - Full width dropdown, fade down animation */}
                 <div className={`absolute top-0 inset-x-0 bg-background border-b border-border flex flex-col shadow-lg transition-all duration-300 ease-in-out ${dropdownOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
                     <div className="p-4 border-b bg-muted/30">
-                        <p className="font-semibold text-base">Xin chào, {getDisplayName()}!</p>
-                        <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="font-semibold text-base">Xin chào, {getDisplayName()}!</p>
+                                <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
+                            </div>
+                            {(user?.role === 'ADMIN' || (Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()))) ? (
+                                <span className="bg-yellow-400/20 text-yellow-600 text-[10px] px-2 py-1 rounded-full font-bold border border-yellow-400/30">PREMIUM</span>
+                            ) : (
+                                <span className="bg-muted text-muted-foreground text-[10px] px-2 py-1 rounded-full font-bold">FREE</span>
+                            )}
+                        </div>
                     </div>
                     <div className="flex-1 overflow-y-auto py-2">
                         {isAdmin && (

@@ -77,7 +77,14 @@ export class AuthService {
     }
 
     async getUserById(id: string) {
-        const user = await this.userRepository.findById(id, { profile: true, subscriptions: true });
+        const user = await this.userRepository.findById(id, {
+            profile: true,
+            subscriptions: {
+                include: {
+                    product: true
+                }
+            }
+        });
         if (!user) return null;
 
         const { password, ...userWithoutPassword } = user;
