@@ -205,7 +205,7 @@ export const api = {
             testTelegram: () => request<{ message: string }>('/settings/telegram/test', { method: 'POST' }),
         },
         blog: {
-            list: () => request<{ data: any[], meta: any }>('/blog/admin/list'),
+            list: () => request<{ data: any[], meta: { total: number } }>('/blog/admin/list'),
             create: (data: unknown) => request<unknown>('/blog/admin/create', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -240,7 +240,7 @@ export const api = {
             delete: (id: string) => request<void>(`/instructors/${id}`, { method: 'DELETE' }),
         },
         media: {
-            list: () => request<{ success: boolean, files: any[] }>('/uploads'),
+            list: () => request<{ success: boolean, data: any[], meta: { total: number } }>('/uploads'),
             delete: (key: string) => request<void>(`/uploads/${encodeURIComponent(key)}`, { method: 'DELETE' }),
         }
     },
@@ -255,7 +255,7 @@ export const api = {
             const query = (page || limit || categoryId)
                 ? `?${page ? `page=${page}` : ''}${limit ? `&limit=${limit}` : ''}${categoryId ? `&categoryId=${categoryId}` : ''}`
                 : '';
-            return request<any>(`/blog${query}`);
+            return request<{ data: any[], meta: { total: number } }>(`/blog${query}`);
         },
         get: (slug: string) => request<any>(`/blog/${slug}`)
     },
@@ -314,7 +314,7 @@ export const api = {
         validate: (code: string, amount: number) => request<{ valid: boolean, discount?: number }>('/coupons/validate', { method: 'POST', body: JSON.stringify({ code, amount }) }),
     },
     uploads: {
-        single: async (file: File): Promise<{ success: boolean, file: { url: string, originalName: string } }> => {
+        single: async (file: File): Promise<{ success: boolean, data: { url: string, originalName: string } }> => {
             const formData = new FormData();
             formData.append('file', file);
             const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
@@ -328,9 +328,10 @@ export const api = {
                 const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.message || 'Upload failed');
             }
-            return response.json();
+            const res = await response.json();
+            return res;
         },
-        multiple: async (files: File[]): Promise<{ success: boolean, files: { url: string, originalName: string }[] }> => {
+        multiple: async (files: File[]): Promise<{ success: boolean, data: any[], meta: any }> => {
             const formData = new FormData();
             files.forEach(file => formData.append('files', file));
             const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;

@@ -68,7 +68,7 @@ export default function BlogPostPage() {
 
                     // Fetch related posts (latest 3 excluding current)
                     const allPostsRes: any = await api.blog.list(1, 4);
-                    const allPosts = Array.isArray(allPostsRes) ? allPostsRes : (allPostsRes.data || []);
+                    const allPosts = allPostsRes.data || [];
                     setRelatedPosts(allPosts.filter((p: any) => p.slug !== slug).slice(0, 3));
                 }
             } catch (error) {

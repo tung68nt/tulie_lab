@@ -16,11 +16,11 @@ export class PrismaBlogPostRepository implements IBlogPostRepository {
     }
 
     async findById(id: string): Promise<BlogPost | null> {
-        return prisma.blogPost.findUnique({ where: { id }, include: { author: true } });
+        return prisma.blogPost.findUnique({ where: { id }, include: { author: true, category: true } });
     }
 
     async findBySlug(slug: string, include?: Prisma.BlogPostInclude): Promise<BlogPost | null> {
-        return prisma.blogPost.findUnique({ where: { slug }, include: include || { author: true } });
+        return prisma.blogPost.findUnique({ where: { slug }, include: include || { author: true, category: true } });
     }
 
     async findAll(params: any): Promise<{ data: BlogPost[]; meta: any }> {
@@ -33,7 +33,7 @@ export class PrismaBlogPostRepository implements IBlogPostRepository {
                 where,
                 skip,
                 take,
-                include: { author: true },
+                include: { author: true, category: true },
                 orderBy: { createdAt: 'desc' }
             }),
             prisma.blogPost.count({ where })

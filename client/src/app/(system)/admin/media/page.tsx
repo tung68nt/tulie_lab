@@ -44,7 +44,7 @@ export default function MediaManagerPage() {
             setLoading(true);
             const res = await api.admin.media.list();
             if (res.success) {
-                setFiles(res.files);
+                setFiles(res.data || []);
             }
         } catch (error) {
             console.error('Failed to fetch media:', error);
@@ -66,7 +66,7 @@ export default function MediaManagerPage() {
         try {
             const res = await api.uploads.multiple(selectedFiles);
             if (res.success) {
-                addToast(`Đã tải lên ${res.files.length} tệp tin`, 'success');
+                addToast(`Đã tải lên ${res.data.length} tệp tin`, 'success');
                 fetchFiles();
             }
         } catch (error: any) {

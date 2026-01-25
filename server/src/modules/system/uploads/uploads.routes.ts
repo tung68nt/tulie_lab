@@ -63,7 +63,13 @@ const upload = multer({
 router.get('/', authenticate, authorize([Role.ADMIN]), async (req, res) => {
     try {
         const files = await storageService.listFiles('uploads/');
-        res.json({ success: true, files });
+        res.json({
+            success: true,
+            data: files,
+            meta: {
+                total: files.length
+            }
+        });
     } catch (error: any) {
         res.status(500).json({ message: 'Failed to list files', error: error.message });
     }
@@ -131,7 +137,7 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
 
         res.json({
             success: true,
-            file: {
+            data: {
                 originalName: req.file.originalname,
                 filename: req.file.filename,
                 url: fileUrl,
@@ -188,8 +194,12 @@ router.post('/multiple', authenticate, authorize([Role.ADMIN]), upload.array('fi
 
         res.json({
             success: true,
-            files: successfulUploads,
-            failedCount: files.length - successfulUploads.length
+            data: successfulUploads,
+            meta: {
+                total: files.length,
+                successCount: successfulUploads.length,
+                failedCount: files.length - successfulUploads.length
+            }
         });
     } catch (error: any) {
         res.status(500).json({ message: 'Multiple upload processing failed', error: error.message });

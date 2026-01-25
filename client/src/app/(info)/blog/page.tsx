@@ -59,8 +59,7 @@ export default function BlogPage() {
             try {
                 const categoryId = selectedCategory === 'all' ? undefined : selectedCategory;
                 const res: any = await api.blog.list(currentPage, postsPerPage, categoryId);
-
-                const postsData = Array.isArray(res) ? res : (res.data || []);
+                const postsData = res.data || [];
                 const total = res.meta?.total || postsData.length;
 
                 setPosts(postsData);
