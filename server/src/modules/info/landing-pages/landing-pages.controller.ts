@@ -49,7 +49,7 @@ export class LandingPageController {
         try {
             const { type } = req.query;
             const pages = await this.landingPageService.findAll({ type: type as string });
-            res.json(pages.data);
+            res.json(pages);
         } catch (error: any) {
             res.status(400).json({ error: error.message });
         }

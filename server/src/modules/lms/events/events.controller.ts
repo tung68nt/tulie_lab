@@ -60,7 +60,12 @@ export class EventController {
         try {
             const includeInactive = req.query.includeInactive === 'true';
             const events = await this.eventService.getAllEvents(includeInactive);
-            res.json(events);
+            res.json({
+                data: events,
+                meta: {
+                    total: events.length
+                }
+            });
         } catch (error: any) {
             res.status(400).json({ error: error.message });
         }
@@ -70,7 +75,12 @@ export class EventController {
         try {
             const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
             const events = await this.eventService.getUpcomingEvents(limit);
-            res.json(events);
+            res.json({
+                data: events,
+                meta: {
+                    total: events.length
+                }
+            });
         } catch (error: any) {
             res.status(400).json({ error: error.message });
         }

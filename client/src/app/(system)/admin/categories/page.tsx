@@ -38,7 +38,7 @@ export default function AdminCategoriesPage() {
         try {
             setLoading(true);
             const res: any = await api.categories.list();
-            setCategories(Array.isArray(res) ? res : []);
+            setCategories(res.data || []);
         } catch (error) {
             console.error(error);
             addToast('Lỗi tải danh sách danh mục', 'error');

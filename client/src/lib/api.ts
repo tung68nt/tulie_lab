@@ -291,7 +291,7 @@ export const api = {
         getPublic: () => request<unknown>('/settings/public'),
     },
     categories: {
-        list: () => request<unknown[]>('/categories'),
+        list: () => request<{ data: any[], meta: any }>('/categories'),
         get: (id: string) => request<unknown>(`/categories/${id}`),
         create: (data: unknown) => request<unknown>('/categories', { method: 'POST', body: JSON.stringify(data) }),
         update: (id: string, data: unknown) => request<unknown>(`/categories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
@@ -362,7 +362,7 @@ export const api = {
     landingPages: {
         list: (type?: string) => {
             const query = type ? `?type=${type}` : '';
-            return request<unknown[]>(`/landing-pages${query}`);
+            return request<{ data: any[], meta: any }>(`/landing-pages${query}`);
         },
         get: (id: string) => request<unknown>(`/landing-pages/id/${id}`),
         create: (data: unknown) => request<unknown>('/landing-pages', { method: 'POST', body: JSON.stringify(data) }),
@@ -374,11 +374,11 @@ export const api = {
     events: {
         list: (includeInactive?: boolean) => {
             const query = includeInactive ? '?includeInactive=true' : '';
-            return request<unknown[]>(`/events${query}`);
+            return request<{ data: any[], meta: any }>(`/events${query}`);
         },
         getUpcoming: (limit?: number) => {
             const query = limit ? `?limit=${limit}` : '';
-            return request<unknown[]>(`/events/upcoming${query}`);
+            return request<{ data: any[], meta: any }>(`/events/upcoming${query}`);
         },
         get: (id: string) => request<unknown>(`/events/${id}`),
         create: (data: unknown) => request<unknown>('/events', { method: 'POST', body: JSON.stringify(data) }),
@@ -407,7 +407,7 @@ export const api = {
         removeUpsell: (id: string, upsellId: string) => request<void>(`/products/${id}/upsells/${upsellId}`, { method: 'DELETE' }),
     },
     activationCodes: {
-        list: () => request<unknown[]>('/activation-codes/admin/list'),
+        list: () => request<{ data: any[], meta: any }>('/activation-codes/admin/list'),
         create: (courseId: string | null, count: number, productId?: string) => request<unknown[]>('/activation-codes/admin/create', { method: 'POST', body: JSON.stringify({ courseId, count, productId }) }),
         delete: (id: string) => request<void>(`/activation-codes/admin/${id}`, { method: 'DELETE' }),
         redeem: (code: string) => request<void>('/activation-codes/redeem', { method: 'POST', body: JSON.stringify({ code }) }),

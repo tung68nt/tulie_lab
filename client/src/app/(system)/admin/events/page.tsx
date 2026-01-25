@@ -53,8 +53,8 @@ export default function EventsAdmin() {
 
     const loadEvents = async () => {
         try {
-            const res = await api.events.list(true) as Event[];
-            setEvents(res);
+            const res: any = await api.events.list(true);
+            setEvents(res.data || []);
         } catch (error) {
             console.error('Failed to load events', error);
             addToast('Lỗi tải danh sách sự kiện', 'error');
