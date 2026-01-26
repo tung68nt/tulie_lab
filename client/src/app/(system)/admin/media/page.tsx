@@ -73,8 +73,9 @@ export default function MediaManagerPage() {
                 addToast(`Đã tải lên ${res.data.length} tệp tin`, 'success');
                 fetchFiles();
             }
-        } catch (error: any) {
-            addToast(error.message || 'Lỗi khi tải tệp tin lên', 'error');
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Lỗi khi tải tệp tin lên';
+            addToast(message, 'error');
         } finally {
             setUploading(false);
             e.target.value = '';
@@ -158,8 +159,9 @@ export default function MediaManagerPage() {
                 setImportName('');
                 fetchFiles();
             }
-        } catch (error: any) {
-            addToast(error.message || 'Lỗi khi import media', 'error');
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Lỗi khi import media';
+            addToast(message, 'error');
         } finally {
             setImporting(false);
         }

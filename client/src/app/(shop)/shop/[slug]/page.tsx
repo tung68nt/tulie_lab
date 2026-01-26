@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -9,7 +10,7 @@ import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
-import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Star, Clock, Zap, Info, Copy } from 'lucide-react';
+import { Sparkles, Wallet, ShieldCheck, Check, MoveRight } from 'lucide-react';
 
 const safeParse = (val: unknown, fallback: string[]) => {
     if (!val) return fallback;
