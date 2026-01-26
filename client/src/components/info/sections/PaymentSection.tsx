@@ -183,36 +183,34 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
     const renderForm = () => (
         <div className="space-y-6">
-            <h3 className="text-xl font-bold flex items-center gap-2">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs">1</span>
+            <h3 className="text-xl font-semibold flex items-center gap-3 text-zinc-900">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-zinc-100 text-zinc-600 text-[10px] font-medium">1</span>
                 Thông tin cá nhân
             </h3>
             <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <label className="text-sm font-medium h-12 flex items-end pb-1 leading-tight">Họ và tên</label>
+                    <label className="text-xs font-semibold text-zinc-500 mb-1 block">Họ và tên</label>
                     <input
                         required
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-                        placeholder="Nguyễn Văn A"
+                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
+                        placeholder="Ví dụ: Nguyễn Văn A"
                         value={state.form.name}
                         onChange={e => handleFormChange('name', e.target.value)}
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-medium h-12 flex items-end pb-1 leading-tight">
-                        Số điện thoại<br />(Zalo để thêm vào nhóm hỗ trợ)
-                    </label>
+                    <label className="text-xs font-semibold text-zinc-500 mb-1 block">Số điện thoại (Zalo hỗ trợ)</label>
                     <input
                         required
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
-                        placeholder="0912345678"
+                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
+                        placeholder="0912..."
                         value={state.form.phone}
                         onChange={e => handleFormChange('phone', e.target.value)}
                         onBlur={handlePhoneBlur}
                     />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-medium">Email (để kích hoạt khoá học)</label>
+                    <label className="text-xs font-medium text-zinc-500 mb-2 block">Email nhận khoá học</label>
                     <input
                         required
                         type="email"
@@ -225,24 +223,24 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             </div>
 
             {/* Account Creation Logic */}
-            <div className="bg-secondary/30 p-4 rounded-lg space-y-4">
-                <div className="flex items-center space-x-2 border-b border-border/10 pb-4">
+            <div className="bg-zinc-50/50 p-6 rounded-2xl space-y-5 border border-zinc-100">
+                <div className="flex items-center space-x-3 pb-2">
                     <button
                         type="button"
                         onClick={() => handleFormChange('isGift', !state.form.isGift)}
                         className={cn(
-                            "w-5 h-5 rounded border flex items-center justify-center transition-colors",
-                            state.form.isGift ? "bg-primary border-primary text-primary-foreground" : "border-input bg-background"
+                            "w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all",
+                            state.form.isGift ? "bg-zinc-900 border-zinc-900 text-white" : "border-zinc-200 bg-white"
                         )}
                     >
-                        {state.form.isGift && <DynamicIcon name="Check" className="w-3.5 h-3.5" />}
+                        {state.form.isGift && <DynamicIcon name="Check" className="w-4 h-4 stroke-[3px]" />}
                     </button>
                     <div className="flex-1 cursor-pointer" onClick={() => handleFormChange('isGift', !state.form.isGift)}>
-                        <label className="text-sm font-bold leading-none block mb-1">
-                            Mua làm quà tặng (Nhận mã kích hoạt)
+                        <label className="text-sm font-semibold text-zinc-900 block">
+                            Mua làm quà tặng
                         </label>
-                        <p className="text-[11px] text-muted-foreground">
-                            Hệ thống sẽ gửi mã kích hoạt qua Email/Zalo để bạn có thể tặng lại hoặc sử dụng sau.
+                        <p className="text-[11px] text-zinc-500 mt-0.5">
+                            Nhận mã kích hoạt để tặng lại hoặc sử dụng sau.
                         </p>
                     </div>
                 </div>
@@ -415,26 +413,23 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             </div>
 
             {/* Main Product Selection */}
-            <div className="space-y-4 pt-4 border-t border-border/50">
-                <h3 className="text-lg font-bold">Chọn sản phẩm</h3>
-                <div className="p-4 rounded-xl border-2 border-primary bg-primary/5 relative cursor-pointer flex items-center gap-4">
-                    <div className="w-5 h-5 rounded-full border-2 border-primary bg-primary text-primary-foreground flex items-center justify-center shrink-0">
-                        <DynamicIcon name="Check" className="w-3 h-3" />
+            <div className="space-y-4 pt-6 mt-4 border-t border-zinc-100">
+                <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-widest opacity-40">Sản phẩm đăng ký</h3>
+                <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-white flex items-center gap-5 transition-all hover:border-zinc-400">
+                    <div className="w-14 h-14 bg-zinc-100 rounded-xl overflow-hidden shrink-0 border border-zinc-50">
+                        {state.cart[0]?.image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
                     </div>
                     <div className="flex-1">
-                        <h4 className="font-bold text-sm md:text-base">{state.cart[0]?.title || section.title || 'Khoá học trọn gói'}</h4>
-                        <div className="text-sm text-muted-foreground flex items-center gap-2">
-                            <span className="font-bold text-red-500">{formatPrice(state.cart[0]?.price || 0)}</span>
-                            {(() => {
-                                const mainItem = state.cart[0];
-                                if (!mainItem) return null;
-                                const original = mainItem.originalPrice || 0;
-                                const price = mainItem.price || 0;
-                                return original > price && (
-                                    <span className="line-through decoration-slate-400 opacity-70">{formatPrice(original)}</span>
-                                );
-                            })()}
+                        <h4 className="font-semibold text-zinc-900 leading-tight">{state.cart[0]?.title || section.title}</h4>
+                        <div className="text-sm flex items-center gap-2 mt-1">
+                            <span className="font-bold text-zinc-900">{formatPrice(state.cart[0]?.price || 0)}</span>
+                            {state.cart[0]?.originalPrice > state.cart[0]?.price && (
+                                <span className="text-xs text-zinc-400 line-through">{formatPrice(state.cart[0].originalPrice)}</span>
+                            )}
                         </div>
+                    </div>
+                    <div className="w-6 h-6 rounded-full bg-zinc-900 flex items-center justify-center">
+                        <DynamicIcon name="Check" className="w-3.5 h-3.5 text-white" />
                     </div>
                 </div>
             </div>
@@ -442,9 +437,9 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             {/* Upsells List */}
             {((section.items && section.items.length > 0) || upsellCourse) && (
                 <div className="space-y-4 pt-4">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-bold">Tổng tiền thanh toán</h3>
-                        <span className="text-xl font-bold text-foreground">{formatPrice(totalAmount)}</span>
+                    <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
+                        <h3 className="text-lg font-semibold text-zinc-900">Tổng thanh toán</h3>
+                        <span className="text-xl font-semibold text-zinc-900">{formatPrice(totalAmount)}</span>
                     </div>
 
                     <div className="grid gap-4">
@@ -664,16 +659,15 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
                     {/* Left Column: Form or Success Message */}
-                    <div className="lg:col-span-7 bg-background p-6 md:p-8 rounded-2xl shadow-sm border border-border">
+                    <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-[2.5rem] border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
                         {state.step === 'form' ? (
                             <form onSubmit={handleSubmit}>
                                 {renderForm()}
-                                {/* Mobile-only Pay Button (usually hidden on desktop if sticky bar is enough, but good to have) */}
-                                <div className="mt-8 lg:hidden">
-                                    <Button type="submit" size="lg" className="w-full font-bold text-lg h-14 shadow-xl shadow-primary/20">
+                                <div className="mt-10 lg:hidden">
+                                    <Button type="submit" size="lg" className="w-full py-7 rounded-2xl bg-zinc-950 text-white font-semibold text-lg shadow-xl shadow-zinc-200">
                                         Thanh toán ngay • {formatPrice(totalAmount)}
                                     </Button>
-                                    <p className="text-center text-xs text-muted-foreground mt-3">An toàn & Bảo mật 100%</p>
+                                    <p className="text-center text-[10px] text-zinc-400 mt-4 uppercase tracking-widest">An toàn & Bảo mật 100%</p>
                                 </div>
                             </form>
                         ) : (

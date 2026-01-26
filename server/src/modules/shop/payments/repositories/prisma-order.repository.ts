@@ -71,6 +71,13 @@ export class PrismaOrderRepository implements IOrderRepository {
     async findAll(params: any): Promise<{ data: Order[]; meta: any }> {
         const { skip, take, where, orderBy, include } = params as any;
 
+        // Statistics should usually be global or only based on search, not on the status filter itself
+        // Extract search filters if they exist to keep stats relevant to search but not to status
+        const searchWhere = { ...where };
+        if (searchWhere.status) {
+            delete searchWhere.status;
+        }
+
         const [orders, total, statsData] = await Promise.all([
             prisma.order.findMany({
                 skip,
@@ -108,7 +115,7 @@ export class PrismaOrderRepository implements IOrderRepository {
             prisma.order.count({ where: where || {} }),
             prisma.order.groupBy({
                 by: ['status'],
-                where: where || {},
+                where: searchWhere, // Use global where (search only, no status filter) for stats
                 _count: {
                     _all: true
                 },

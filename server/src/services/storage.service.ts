@@ -68,7 +68,7 @@ export class StorageService {
                 const key = destinationKey.startsWith('/') ? destinationKey.slice(1) : destinationKey;
                 return `${domain}/${key}`;
             }
-            return destinationKey;
+            return `/${destinationKey.startsWith('/') ? destinationKey.slice(1) : destinationKey}`;
         } catch (error) {
             console.error('R2 Upload Error:', error);
             throw error;
@@ -94,7 +94,7 @@ export class StorageService {
                 const key = destinationKey.startsWith('/') ? destinationKey.slice(1) : destinationKey;
                 return `${domain}/${key}`;
             }
-            return destinationKey;
+            return `/${destinationKey.startsWith('/') ? destinationKey.slice(1) : destinationKey}`;
         } catch (error) {
             console.error('R2 Buffer Upload Error:', error);
             throw error;
@@ -149,7 +149,7 @@ export class StorageService {
                 lastModified: item.LastModified,
                 url: this.publicDomain
                     ? `${this.publicDomain.endsWith('/') ? this.publicDomain.slice(0, -1) : this.publicDomain}/${item.Key}`
-                    : item.Key
+                    : `/${item.Key}`
             })).sort((a, b) => (b.lastModified?.getTime() || 0) - (a.lastModified?.getTime() || 0));
 
             console.log(`[Storage] Found ${items.length} items`);

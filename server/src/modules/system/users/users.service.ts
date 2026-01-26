@@ -92,35 +92,39 @@ export class UserService {
             orderBy: { createdAt: 'desc' }
         });
 
-        const pendingOrders = (user as any).orders.filter((o: any) => o.status === 'PENDING').map((o: any) => ({
-            ...o,
-            pendingDays: Math.floor((Date.now() - new Date(o.createdAt).getTime()) / (1000 * 60 * 60 * 24))
-        }));
+        const pendingOrders = ((user as any).orders || []).filter((o: any) => o.status === 'PENDING').map((o: any) => {
+            const createdDate = new Date(o.createdAt);
+            const pendingDays = isNaN(createdDate.getTime()) ? 0 : Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
+            return {
+                ...o,
+                pendingDays
+            };
+        });
 
         // Flatten products from orders for easy access
-        const purchasedProducts = (user as any).orders
-            .filter((o: any) => o.status === 'PAID')
-            .flatMap((o: any) => o.items)
+        const purchasedProducts = ((user as any).orders || [])
+            .filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED')
+            .flatMap((o: any) => o.items || [])
             .filter((i: any) => i.productId)
             .map((i: any) => ({
                 ...i.product,
                 purchasedAt: i.createdAt,
-                currentVersion: i.product.versions?.[0]?.version || '1.0.0'
+                currentVersion: i.product?.versions?.[0]?.version || '1.0.0'
             }));
 
-        const enrollmentIds = (user as any).enrollments.map((e: any) => e.courseId);
-        const totalLessonsCount = await prisma.lesson.count({
+        const enrollmentIds = ((user as any).enrollments || []).map((e: any) => e.courseId);
+        const totalLessonsCount = enrollmentIds.length > 0 ? await prisma.lesson.count({
             where: { courseId: { in: enrollmentIds } }
-        });
+        }) : 0;
 
         // Fetch and Attach Transactions for orders
-        const orderCodes = (user as any).orders.map((o: any) => o.code);
-        const allTransactions = await prisma.paymentTransaction.findMany({
+        const orderCodes = ((user as any).orders || []).map((o: any) => o.code);
+        const allTransactions = orderCodes.length > 0 ? await prisma.paymentTransaction.findMany({
             where: { code: { in: orderCodes } },
             orderBy: { createdAt: 'desc' }
-        });
+        }) : [];
 
-        (user as any).orders = (user as any).orders.map((o: any) => ({
+        (user as any).orders = ((user as any).orders || []).map((o: any) => ({
             ...o,
             transactions: allTransactions
                 .filter((tx: any) => tx.code === o.code)
@@ -132,19 +136,22 @@ export class UserService {
                 }))
         }));
 
+        const enrollments = (user as any).enrollments || [];
+        const orders = (user as any).orders || [];
+
         return {
             ...user,
-            activities,
-            securityLogs,
+            activities: activities || [],
+            securityLogs: securityLogs || [],
             purchasedProducts,
             lastLoginAt: lastLogin?.createdAt || null,
             lastLoginIp: lastLogin?.ipAddress || null,
             pendingOrders,
             stats: {
-                totalEnrollments: (user as any).enrollments.length,
-                totalOrders: (user as any).orders.length,
-                totalPaid: (user as any).orders.filter((o: any) => o.status === 'PAID').reduce((sum: number, o: any) => sum + Number(o.amount), 0),
-                completedLessons: (user as any).progress.filter((p: any) => p.isCompleted).length,
+                totalEnrollments: enrollments.length,
+                totalOrders: orders.length,
+                totalPaid: orders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED').reduce((sum: number, o: any) => sum + Number(o.amount), 0),
+                completedLessons: ((user as any).progress || []).filter((p: any) => p.isCompleted).length,
                 totalLessons: totalLessonsCount
             }
         };
