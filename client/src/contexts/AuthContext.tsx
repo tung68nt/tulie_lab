@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { api } from '@/lib/api';
 
-interface User {
+export interface User {
     id: string;
     email: string;
     name: string | null;
@@ -12,6 +12,11 @@ interface User {
     subscriptions?: Array<{
         status: string;
         endDate: string;
+        product?: {
+            id: string;
+            title: string;
+            slug: string;
+        };
     }>;
 }
 

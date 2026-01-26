@@ -206,8 +206,7 @@ export function Navbar() {
                                 return (
                                     <div key={link.href} className="relative group">
                                         <div
-                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'
-                                                }`}
+                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                                         >
                                             {link.label}
                                             <svg className={`w-3 h-3 opacity-50 group-hover:rotate-180 transition-transform duration-200 ${isActive ? 'stroke-[3px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,10 +241,7 @@ export function Navbar() {
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                                    className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive
-                                        ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium'
-                                        : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'
-                                        }`}
+                                    className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                                 >
                                     {link.label}
                                 </Link>
