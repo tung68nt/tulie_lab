@@ -158,17 +158,22 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
             }
         } else {
             // Normal file upload
-            const r2Key = `uploads/${req.file.filename}`;
-            fileUrl = await storageService.uploadFile(localFilePath, r2Key, req.file.mimetype);
+            // FIX: Use local storage by default to ensure images load correctly
+            // const r2Key = `uploads/${req.file.filename}`;
+            // fileUrl = await storageService.uploadFile(localFilePath, r2Key, req.file.mimetype);
 
-            if (fs.existsSync(localFilePath)) {
-                fs.unlinkSync(localFilePath);
-            }
+            // if (fs.existsSync(localFilePath)) {
+            //     fs.unlinkSync(localFilePath);
+            // }
+
+            // Generate local URL
+            fileUrl = `/uploads/${req.file.filename}`;
+            console.log(`✅ File saved locally: ${fileUrl}`);
         }
 
         // Save to DB
-        const r2Key = fileUrl.split('/').pop() || req.file.filename; // Approximation of key
-        const finalKey = `uploads/${req.file.filename}`; // This is the actual key used in S3 usually
+        // const r2Key = fileUrl.split('/').pop() || req.file.filename;
+        const finalKey = `uploads/${req.file.filename}`;
 
         const media = await prisma.media.create({
             data: {
@@ -214,11 +219,13 @@ router.post('/multiple', authenticate, authorize([Role.ADMIN]), upload.array('fi
             const r2Key = `uploads/${file.filename}`;
 
             try {
-                const url = await storageService.uploadFile(localFilePath, r2Key, file.mimetype);
+                // FIX: Use local storage by default
+                // const url = await storageService.uploadFile(localFilePath, r2Key, file.mimetype);
+                // if (fs.existsSync(localFilePath)) {
+                //     fs.unlinkSync(localFilePath);
+                // }
 
-                if (fs.existsSync(localFilePath)) {
-                    fs.unlinkSync(localFilePath);
-                }
+                const url = `/uploads/${file.filename}`;
 
                 // Save to DB
                 const media = await prisma.media.create({
@@ -239,7 +246,7 @@ router.post('/multiple', authenticate, authorize([Role.ADMIN]), upload.array('fi
                     mimetype: media.mimeType
                 };
             } catch (err) {
-                console.error(`Failed to upload file ${file.originalname}:`, err);
+                console.error(`Failed to handle file ${file.originalname}:`, err);
                 return null;
             }
         }));
