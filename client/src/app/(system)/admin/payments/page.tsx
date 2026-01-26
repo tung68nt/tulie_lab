@@ -174,6 +174,5 @@ export default function AdminPaymentsPage() {
             </Card>
 
         </div>
-        </div >
     );
 }
