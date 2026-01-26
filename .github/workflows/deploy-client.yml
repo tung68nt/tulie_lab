@@ -1,5 +1,5 @@
 # Trigger: 1
-name: Deploy Client to Cloud Run
+name: Deploy Front-End to Cloud Run
 
 on:
   push:

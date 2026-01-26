@@ -7,7 +7,7 @@ export class UserService {
     async getUserById(id: string) {
         const user = await this.userRepository.findById(id, {
             profile: true,
-            subscriptions: true,
+            subscriptions: { include: { product: true } },
             enrollments: { include: { course: true } },
             orders: {
                 include: {

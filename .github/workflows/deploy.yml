@@ -1,4 +1,4 @@
-name: Deploy to Cloud Run
+name: Deploy Back-End to Cloud Run
 
 on:
   push:
@@ -165,7 +165,7 @@ jobs:
             echo "ENV_CLIENT_URL=https://beta.thelab.tulie.vn" >> $GITHUB_ENV
           fi
 
-      - name: Deploy to Cloud Run
+      - name: Deploy Back-End to Cloud Run
         run: |
           gcloud run deploy $SERVICE_NAME \
             --image gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \

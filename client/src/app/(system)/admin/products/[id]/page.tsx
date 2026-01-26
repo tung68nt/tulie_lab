@@ -36,6 +36,7 @@ export default function ProductEditorPage() {
         fileUrl: '',
         previewUrl: '',
         isPublished: true,
+        membershipAccess: 'ALL',
     });
 
     // Gallery State
@@ -73,6 +74,7 @@ export default function ProductEditorPage() {
                         fileUrl: data.fileUrl || '',
                         previewUrl: data.previewUrl || '',
                         isPublished: data.isPublished,
+                        membershipAccess: data.membershipAccess || 'ALL',
                     });
                     if (data.versions) {
                         setVersions(data.versions);
@@ -794,6 +796,23 @@ export default function ProductEditorPage() {
                                     <option value="BUSINESS">Kinh doanh</option>
                                     <option value="CREATIVE">Thiết kế / Sáng tạo</option>
                                 </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Quyền truy cập (Hội viên)</label>
+                                <select
+                                    name="membershipAccess"
+                                    value={formData.membershipAccess}
+                                    onChange={handleChange}
+                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                >
+                                    <option value="ALL">Tất cả mọi người (Có tài khoản)</option>
+                                    <option value="PREMIUM">Chỉ hội viên PREMIUM</option>
+                                    <option value="NONE">Chỉ mua lẻ (Không gồm trong gói hội viên)</option>
+                                </select>
+                                <p className="text-xs text-muted-foreground italic">
+                                    Xác định xem sản phẩm này có được tải miễn phí bởi hội viên hay không.
+                                </p>
                             </div>
 
                             <div className="space-y-2">
