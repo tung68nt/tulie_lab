@@ -6,6 +6,7 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { ContentProtector } from './system/security/ContentProtector';
 import { ActivityTracker } from './ActivityTracker';
+import { BackToTop } from './BackToTop';
 
 interface MainLayoutProps {
     children: React.ReactNode;
@@ -31,6 +32,7 @@ export function MainLayout({ children }: MainLayoutProps) {
                 {children}
             </main>
             {!isLearnPage && <Footer />}
+            <BackToTop />
         </div>
     );
 }
