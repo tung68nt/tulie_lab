@@ -236,7 +236,7 @@ export default function AdminUserDetailPage() {
 
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Sidebar Navigation */}
-                <div className="w-full md:w-64 space-y-1 shrink-0">
+                <div className="w-full md:w-48 space-y-1 shrink-0">
                     <div className="sticky top-24 space-y-1">
                         {tabs.map(tab => (
                             <button
@@ -876,25 +876,25 @@ export default function AdminUserDetailPage() {
                                         <Card>
                                             <CardHeader>
                                                 <CardTitle className="text-base flex items-center gap-2">
-                                                    <ShieldAlert size={18} className="text-red-500" /> Cảnh báo bảo mật
+                                                    <ShieldAlert size={18} className="text-zinc-900" /> Cảnh báo bảo mật
                                                 </CardTitle>
                                                 <CardDescription>Các hành vi bất thường hoặc vi phạm chính sách.</CardDescription>
                                             </CardHeader>
                                             <CardContent>
                                                 <div className="space-y-4">
                                                     {user.securityLogs?.filter((l: any) => ['FAILED_LOGIN', 'ACCESS_DENIED'].includes(l.action)).map((log: any) => (
-                                                        <div key={log.id} className="p-3 bg-red-50 border border-red-100 rounded-lg flex gap-3">
-                                                            <Ban size={16} className="text-red-500 shrink-0 mt-0.5" />
+                                                        <div key={log.id} className="p-3 bg-zinc-50 border border-zinc-100 rounded-lg flex gap-3">
+                                                            <Ban size={16} className="text-zinc-500 shrink-0 mt-0.5" />
                                                             <div className="flex-1">
-                                                                <p className="text-xs font-medium text-red-900">{log.action}</p>
-                                                                <p className="text-[10px] text-red-700 mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
-                                                                <p className="text-[9px] text-red-600/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
+                                                                <p className="text-xs font-medium text-zinc-900">{log.action}</p>
+                                                                <p className="text-[10px] text-muted-foreground mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
+                                                                <p className="text-[9px] text-muted-foreground/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
                                                             </div>
                                                         </div>
                                                     ))}
                                                     {(!user.securityLogs || user.securityLogs.length === 0) && (
                                                         <div className="py-10 text-center text-xs text-muted-foreground flex flex-col items-center gap-2">
-                                                            <CheckCircle2 size={24} className="text-green-500 opacity-30" />
+                                                            <CheckCircle2 size={24} className="text-zinc-300 opacity-30" />
                                                             Tài khoản sạch, không có cảnh báo bảo mật nào.
                                                         </div>
                                                     )}
@@ -905,7 +905,7 @@ export default function AdminUserDetailPage() {
                                         <Card>
                                             <CardHeader>
                                                 <CardTitle className="text-base flex items-center gap-2">
-                                                    <Laptop size={18} className="text-blue-500" /> Lịch sử đăng nhập & IP
+                                                    <Laptop size={18} className="text-zinc-900" /> Lịch sử đăng nhập & IP
                                                 </CardTitle>
                                                 <CardDescription>Theo dõi danh sách các địa chỉ IP và trình duyệt gần đây.</CardDescription>
                                             </CardHeader>
@@ -943,10 +943,7 @@ export default function AdminUserDetailPage() {
                                                 {user.activities?.map((act: any) => (
                                                     <div key={act.id} className="p-3 hover:bg-muted/30 transition-colors flex items-center gap-4 group">
                                                         <div className="shrink-0">
-                                                            <div className={`h-8 w-8 rounded-full flex items-center justify-center ${act.action.includes('buy') || act.action.includes('order') ? 'bg-emerald-100 text-emerald-600' :
-                                                                act.action.includes('error') || act.action.includes('failed') ? 'bg-red-100 text-red-600' :
-                                                                    'bg-blue-50 text-blue-500'
-                                                                }`}>
+                                                            <div className={`h-8 w-8 rounded-full flex items-center justify-center bg-zinc-50 text-zinc-500 border border-zinc-100`}>
                                                                 <Activity size={14} />
                                                             </div>
                                                         </div>

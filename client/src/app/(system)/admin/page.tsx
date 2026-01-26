@@ -735,22 +735,19 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Inactive Users Widget */}
-                <Card className="border-none shadow-sm overflow-hidden">
-                    <CardHeader className="pb-4 flex flex-row items-center justify-between bg-zinc-50 border-b">
-                        <div className="flex items-center gap-2">
-                            <div className="p-1.5 bg-zinc-900 text-white rounded">
-                                <UserX size={16} />
-                            </div>
-                            <div>
-                                <CardTitle className="text-base font-bold">Học viên nghỉ học ({'>'}14 ngày)</CardTitle>
-                                <p className="text-sm text-muted-foreground">Danh sách học viên không đăng nhập hệ thống trong 14 ngày qua</p>
-                            </div>
+                <Card className="overflow-hidden border shadow-none border-zinc-200">
+                    <CardHeader className="py-8 flex flex-col items-center justify-center bg-white border-b space-y-4 relative">
+                        <div className="absolute top-4 right-4">
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-zinc-100" onClick={loadInactiveUsers} disabled={loadingInactive}>
+                                {loadingInactive ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw size={14} />}
+                            </Button>
                         </div>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-zinc-100" onClick={loadInactiveUsers} disabled={loadingInactive}>
-                            {loadingInactive ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw size={14} />}
-                        </Button>
+                        <div className="text-center">
+                            <CardTitle className="text-base font-bold">Học viên nghỉ học ({'>'}14 ngày)</CardTitle>
+                            <p className="text-sm text-muted-foreground">Danh sách học viên không đăng nhập hệ thống trong 14 ngày qua</p>
+                        </div>
                     </CardHeader>
-                    <CardContent className="p-4">
+                    <CardContent className="p-0">
                         {loadingInactive ? (
                             <div className="flex items-center justify-center py-12">
                                 <Loader2 className="h-8 w-8 animate-spin text-zinc-900" />
