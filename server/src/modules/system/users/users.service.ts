@@ -72,7 +72,12 @@ export class UserService {
             }
         });
 
-        if (!user) return null;
+        if (!user) {
+            console.warn(`[UserService] Admin requested user details, but User not found for ID: ${id}`);
+            return null;
+        }
+
+        console.log(`[UserService] Successfully fetched admin details for User: ${user.email} (${id})`);
 
         const [activities, securityLogs] = await Promise.all([
             prisma.activityLog.findMany({

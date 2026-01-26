@@ -158,21 +158,18 @@ router.post('/', authenticate, upload.single('file'), async (req, res) => {
             }
         } else {
             // Normal file upload
-            // FIX: Use local storage by default to ensure images load correctly
-            // const r2Key = `uploads/${req.file.filename}`;
-            // fileUrl = await storageService.uploadFile(localFilePath, r2Key, req.file.mimetype);
+            // Re-enabled R2 storage for persistence across redeploys
+            const r2Key = `uploads/${req.file.filename}`;
+            fileUrl = await storageService.uploadFile(localFilePath, r2Key, req.file.mimetype);
 
-            // if (fs.existsSync(localFilePath)) {
-            //     fs.unlinkSync(localFilePath);
-            // }
+            if (fs.existsSync(localFilePath)) {
+                fs.unlinkSync(localFilePath);
+            }
 
-            // Generate local URL
-            fileUrl = `/uploads/${req.file.filename}`;
-            console.log(`✅ File saved locally: ${fileUrl}`);
+            console.log(`✅ File saved to R2: ${fileUrl}`);
         }
 
         // Save to DB
-        // const r2Key = fileUrl.split('/').pop() || req.file.filename;
         const finalKey = `uploads/${req.file.filename}`;
 
         const media = await prisma.media.create({
@@ -219,13 +216,11 @@ router.post('/multiple', authenticate, authorize([Role.ADMIN]), upload.array('fi
             const r2Key = `uploads/${file.filename}`;
 
             try {
-                // FIX: Use local storage by default
-                // const url = await storageService.uploadFile(localFilePath, r2Key, file.mimetype);
-                // if (fs.existsSync(localFilePath)) {
-                //     fs.unlinkSync(localFilePath);
-                // }
-
-                const url = `/uploads/${file.filename}`;
+                // Re-enabled R2 storage for persistence
+                const url = await storageService.uploadFile(localFilePath, r2Key, file.mimetype);
+                if (fs.existsSync(localFilePath)) {
+                    fs.unlinkSync(localFilePath);
+                }
 
                 // Save to DB
                 const media = await prisma.media.create({
