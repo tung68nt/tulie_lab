@@ -11,9 +11,20 @@ const BASE_URL = isServer ? cleanEnvUrl : '';
 console.log('Using BASE_URL for API:', BASE_URL);
 // Build trigger: 2026-01-24 - Standardizing max-width and fixing connectivity
 
+// Hardcoded R2 legacy domain correction
+const LEGACY_R2_DOMAIN = 'https://pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev';
+// Current correct domain (from user)
+const CURRENT_R2_DOMAIN = 'https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev';
+
 export const getMediaUrl = (url?: string) => {
     if (!url) return '';
-    if (url.startsWith('http')) return url;
+    if (url.startsWith('http')) {
+        // Auto-fix legacy domain if present
+        if (url.includes('pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev')) {
+            return url.replace('pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev', 'pub-84306d90a5714d098ed77c04f4c85df2.r2.dev');
+        }
+        return url;
+    }
     // Prefix relative paths with the API BASE_URL (not just BASE_URL because it's empty on client)
     // Actually BASE_URL is empty on client to use proxy.
     // If we use proxy, /api/uploads will work.
