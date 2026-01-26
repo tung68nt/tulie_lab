@@ -464,7 +464,7 @@ export default function MediaManagerPage() {
                                         <span className="text-xs font-semibold text-zinc-400">Đường dẫn tệp</span>
                                         <div className="flex items-center gap-2">
                                             <div className="flex-1 bg-zinc-50 px-4 py-3 rounded-2xl border border-zinc-100/50 min-w-0">
-                                                <p className="text-[11px] truncate font-mono text-zinc-500">
+                                                <p className="text-[11px] break-all font-mono text-zinc-500 select-text">
                                                     {selectedFile.url}
                                                 </p>
                                             </div>
@@ -479,10 +479,10 @@ export default function MediaManagerPage() {
                                         </div>
                                     </div>
 
-                                    <div className="py-4 space-y-3 border-t border-zinc-50">
-                                        <div className="flex justify-between items-center text-[11px]">
-                                            <span className="text-zinc-400">Key</span>
-                                            <span className="text-zinc-900 font-mono truncate max-w-[180px]">{selectedFile.key}</span>
+                                    <div className="py-4 space-y-4 border-t border-zinc-50">
+                                        <div className="flex flex-col gap-1.5 text-[11px]">
+                                            <span className="text-zinc-400 font-medium">Key (ID)</span>
+                                            <span className="text-zinc-900 font-mono break-all bg-zinc-50 p-2 rounded-lg border border-zinc-50 select-text">{selectedFile.key}</span>
                                         </div>
                                         <div className="flex justify-between items-center text-[11px]">
                                             <span className="text-zinc-400">Mime</span>
