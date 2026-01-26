@@ -348,7 +348,7 @@ export default function AdminUserDetailPage() {
                                             <BookOpen size={18} className="text-zinc-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-semibold text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
+                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
                                             <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Khóa học đăng ký</p>
                                         </div>
                                     </div>
@@ -357,7 +357,7 @@ export default function AdminUserDetailPage() {
                                             <Package size={18} className="text-zinc-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-semibold text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
+                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
                                             <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Sản phẩm sở hữu</p>
                                         </div>
                                     </div>
@@ -366,7 +366,7 @@ export default function AdminUserDetailPage() {
                                             <CreditCard size={18} className="text-zinc-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-semibold text-zinc-900 leading-none">{user.orders?.length || 0}</p>
+                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.orders?.length || 0}</p>
                                             <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Tổng đơn hàng</p>
                                         </div>
                                     </div>
