@@ -6,7 +6,7 @@ import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Upload, Send } from 'lucide-react';
+import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check } from 'lucide-react';
 import { Switch } from '@/components/Switch';
 import { useSettings } from '@/contexts/SettingsContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -22,10 +22,44 @@ export default function AdminSettingsPage() {
     const logoInputRef = useRef<HTMLInputElement>(null);
     const faviconInputRef = useRef<HTMLInputElement>(null);
     const [testLoading, setTestLoading] = useState(false);
+    const [apiKey, setApiKey] = useState('');
+    const [copied, setCopied] = useState(false);
+    const [regenerating, setRegenerating] = useState(false);
 
     useEffect(() => {
         loadSettings();
+        loadApiKey();
     }, []);
+
+    const loadApiKey = async () => {
+        try {
+            const res = await api.admin.settings.getApiKey();
+            setApiKey(res.apiKey);
+        } catch (e) {
+            console.error('Failed to load API key', e);
+        }
+    };
+
+    const handleRegenerateKey = async () => {
+        if (!confirm('Tạo lại API Key? Key cũ sẽ không còn hiệu lực.')) return;
+        setRegenerating(true);
+        try {
+            const res = await api.admin.settings.regenerateApiKey();
+            setApiKey(res.apiKey);
+            addToast('Đã tạo API Key mới', 'success');
+        } catch (e: any) {
+            addToast(e.message || 'Lỗi khi tạo lại Key', 'error');
+        } finally {
+            setRegenerating(false);
+        }
+    };
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(apiKey);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        addToast('Đã sao chép vào bộ nhớ tạm', 'success');
+    };
 
     const loadSettings = async () => {
         try {
@@ -454,6 +488,52 @@ export default function AdminSettingsPage() {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Key className="h-5 w-5" /> Kết nối CRM & API
+                            </CardTitle>
+                            <CardDescription>
+                                Sử dụng API Key này để kết nối với các hệ thống CRM bên ngoài (ví dụ: Zoho, HubSpot).
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">CRM API Key</label>
+                                <div className="flex gap-2">
+                                    <div className="flex-1 relative">
+                                        <Input
+                                            type="text"
+                                            readOnly
+                                            value={apiKey || '••••••••••••••••••••••••••••••••'}
+                                            className="font-mono text-xs pr-10"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={copyToClipboard}
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-900"
+                                        >
+                                            {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
+                                        </button>
+                                    </div>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={handleRegenerateKey}
+                                        disabled={regenerating}
+                                        className="gap-2"
+                                    >
+                                        <RefreshCw size={14} className={regenerating ? 'animate-spin' : ''} />
+                                        <span>Làm mới</span>
+                                    </Button>
+                                </div>
+                                <p className="text-[10px] text-muted-foreground">
+                                    Giữ API Key này an toàn. Bạn có thể sử dụng endpoint <code>/api/crm/sync-order</code> để đồng bộ dữ liệu.
+                                </p>
                             </div>
                         </CardContent>
                     </Card>

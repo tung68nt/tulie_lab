@@ -28,9 +28,11 @@ model User {
   orders        Order[]
   securityLogs  SecurityLog[]
   subscriptions Subscription[]
-  notifications UserNotification[]
-  profile       UserProfile?
-  sessions      UserSession[]
+  notifications   UserNotification[]
+  profile         UserProfile?
+  sessions        UserSession[]
+  invoiceProfiles UserInvoiceProfile[]
+  notes           UserNote[]
 
   @@index([role])
   @@index([email])
@@ -389,11 +391,13 @@ model Order {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   activationCodes ActivationCode[]
-  marketingLead   MarketingLead?
-  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items           OrderItem[]
-  metadata        Json?
-  promoCodeId     String?
+  marketingLead    MarketingLead?
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items            OrderItem[]
+  metadata         Json?
+  promoCodeId      String?
+  invoiceProfileId String?
+  invoiceProfile   UserInvoiceProfile? @relation(fields: [invoiceProfileId], references: [id])
 
   @@index([userId])
   @@index([status])
@@ -759,4 +763,44 @@ model Media {
     
     @@index([createdAt])
     @@index([mimeType])
+}
+
+model UserInvoiceProfile {
+  id          String   @id @default(uuid())
+  userId      String
+  companyName String
+  taxCode     String
+  address     String
+  email       String?
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders      Order[]
+
+  @@index([userId])
+}
+
+model UserNote {
+  id        String   @id @default(uuid())
+  userId    String
+  content   String   @db.Text
+  adminId   String?  // The admin who wrote the note
+  adminName String?  // Cached admin name
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model ApiKey {
+  id          String    @id @default(uuid())
+  name        String    // e.g., "External CRM"
+  key         String    @unique
+  isActive    Boolean   @default(true)
+  lastUsedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([key])
 }

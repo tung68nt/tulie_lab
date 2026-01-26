@@ -154,6 +154,14 @@ export const api = {
         blockUser: (id: string) => request<void>(`/users/${id}/block`, { method: 'POST' }),
         unblockUser: (id: string) => request<void>(`/users/${id}/unblock`, { method: 'POST' }),
         deleteUser: (id: string) => request<void>(`/users/${id}`, { method: 'DELETE' }),
+        notes: {
+            list: (userId: string) => request<any[]>(`/users/${userId}/notes`),
+            add: (userId: string, content: string) => request<any>('/users/notes', { method: 'POST', body: JSON.stringify({ userId, content }) }),
+        },
+        invoices: {
+            listProfiles: (userId: string) => request<any[]>(`/users/${userId}/invoice-profiles`),
+            createProfile: (userId: string, data: any) => request<any>(`/users/${userId}/invoice-profiles`, { method: 'POST', body: JSON.stringify(data) }),
+        },
         courses: {
             list: () => request<{ data: Course[], meta: any }>('/courses/admin/list'),
             get: (id: string) => request<Course>(`/courses/admin/${id}`),

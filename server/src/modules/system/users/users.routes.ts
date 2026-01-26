@@ -29,4 +29,10 @@ router.post('/:id/block', authenticate, authorize([Role.ADMIN]), (req, res) => u
 router.post('/:id/unblock', authenticate, authorize([Role.ADMIN]), (req, res) => userController.unblockUser(req, res));
 router.delete('/:id', authenticate, authorize([Role.ADMIN]), (req, res) => userController.deleteUser(req, res));
 
+// Notes & Invoices
+router.get('/:id/notes', authenticate, authorize([Role.ADMIN]), (req, res) => userController.getUserNotes(req, res));
+router.post('/notes', authenticate, authorize([Role.ADMIN]), (req, res) => userController.addUserNote(req, res));
+router.get('/:id/invoice-profiles', authenticate, (req, res) => userController.getInvoiceProfiles(req, res));
+router.post('/:id/invoice-profiles', authenticate, (req, res) => userController.createInvoiceProfile(req, res));
+
 export default router;

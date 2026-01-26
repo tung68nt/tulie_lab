@@ -431,6 +431,46 @@ export class UserService {
         return this.userRepository.update(id, { isActive: true });
     }
 
+    async addUserNote(userId: string, content: string, adminId?: string, adminName?: string) {
+        return prisma.userNote.create({
+            data: {
+                userId,
+                content,
+                adminId,
+                adminName
+            }
+        });
+    }
+
+    async getUserNotes(userId: string) {
+        return prisma.userNote.findMany({
+            where: { userId },
+            orderBy: { createdAt: 'desc' }
+        });
+    }
+
+    async getInvoiceProfiles(userId: string) {
+        return prisma.userInvoiceProfile.findMany({
+            where: { userId },
+            orderBy: { isDefault: 'desc' }
+        });
+    }
+
+    async createInvoiceProfile(userId: string, data: { companyName: string, taxCode: string, address: string, email?: string, isDefault?: boolean }) {
+        if (data.isDefault) {
+            await prisma.userInvoiceProfile.updateMany({
+                where: { userId },
+                data: { isDefault: false }
+            });
+        }
+        return prisma.userInvoiceProfile.create({
+            data: {
+                ...data,
+                userId
+            }
+        });
+    }
+
     async deleteUser(id: string) {
         // Soft delete or hard delete? User requested "xoá tài khoản"
         // In most SaaS, soft delete is safer. But let's assume hard delete if requested in admin panel.

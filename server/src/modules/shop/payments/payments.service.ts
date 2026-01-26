@@ -116,6 +116,31 @@ export class PaymentService {
         // Ensure status reflects calculation
         const initialStatus = totalAmount <= 0 ? OrderStatus.PAID : OrderStatus.PENDING;
 
+        // Handle invoice info
+        let invoiceProfileId = null;
+        if (metadata?.requestInvoice && metadata?.invoiceInfo) {
+            const info = metadata.invoiceInfo;
+            if (info.id) {
+                invoiceProfileId = info.id;
+            } else {
+                try {
+                    const profile = await prisma.userInvoiceProfile.create({
+                        data: {
+                            userId: finalUserId!,
+                            companyName: info.companyName,
+                            taxCode: info.taxCode,
+                            address: info.address,
+                            email: info.email,
+                            isDefault: true
+                        }
+                    });
+                    invoiceProfileId = profile.id;
+                } catch (err) {
+                    console.error('Failed to auto-create invoice profile:', err);
+                }
+            }
+        }
+
         const order = await this.orderRepository.create({
             code,
             user: { connect: { id: finalUserId! } },
@@ -126,7 +151,8 @@ export class PaymentService {
                 create: orderItemsData
             },
             metadata: metadata || undefined,
-            promoCodeId: promoCodeId || null
+            promoCodeId: promoCodeId || null,
+            invoiceProfileId: invoiceProfileId
         });
 
         // 4. Publish Event (Instead of direct logic)

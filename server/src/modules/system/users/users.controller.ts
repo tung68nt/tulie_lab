@@ -117,6 +117,50 @@ export class UserController {
         }
     }
 
+    // --- Notes & Invoices ---
+
+    async addUserNote(req: AuthRequest, res: Response) {
+        try {
+            const { userId, content } = req.body;
+            const note = await this.userService.addUserNote(
+                userId,
+                content,
+                req.user?.id,
+                (req.user as any)?.name || (req.user as any)?.email
+            );
+            res.json(note);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async getUserNotes(req: Request, res: Response) {
+        try {
+            const notes = await this.userService.getUserNotes(req.params.id);
+            res.json(notes);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async getInvoiceProfiles(req: Request, res: Response) {
+        try {
+            const profiles = await this.userService.getInvoiceProfiles(req.params.id);
+            res.json(profiles);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async createInvoiceProfile(req: Request, res: Response) {
+        try {
+            const profile = await this.userService.createInvoiceProfile(req.params.id, req.body);
+            res.json(profile);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async getUserOrders(req: AuthRequest, res: Response) {
         try {
             if (!req.user) return res.status(401).json({ message: 'Unauthorized' });

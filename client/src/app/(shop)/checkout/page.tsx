@@ -9,6 +9,7 @@ import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt } from 'lucide-react';
+import { Switch } from '@/components/Switch';
 
 function CheckoutContent() {
     const router = useRouter();
@@ -29,6 +30,10 @@ function CheckoutContent() {
     const [upsellProducts, setUpsellProducts] = useState<any[]>([]);
     const [selectedUpsells, setSelectedUpsells] = useState<string[]>([]);
     const [selectedActivationType, setSelectedActivationType] = useState<'EMAIL' | 'CODE'>('EMAIL');
+    const [requestInvoice, setRequestInvoice] = useState(false);
+    const [selectedInvoiceProfile, setSelectedInvoiceProfile] = useState<string>('');
+    const [invoiceProfiles, setInvoiceProfiles] = useState<any[]>([]);
+    const [newInvoiceInfo, setNewInvoiceInfo] = useState({ companyName: '', taxCode: '', address: '', email: '' });
 
     useEffect(() => {
         if (activationType === 'CODE') setSelectedActivationType('CODE');
@@ -87,6 +92,15 @@ function CheckoutContent() {
                     } catch (err) {
                         console.error('Failed to fetch upsell products', err);
                     }
+                }
+                // Fetch invoice profiles
+                try {
+                    const profiles: any = await api.admin.invoices.listProfiles(profile.id);
+                    setInvoiceProfiles(profiles || []);
+                    const defaultProfile = profiles?.find((p: any) => p.isDefault);
+                    if (defaultProfile) setSelectedInvoiceProfile(defaultProfile.id);
+                } catch (err) {
+                    console.error('Failed to fetch invoice profiles', err);
                 }
             } catch (e) {
                 console.error(e);
@@ -167,7 +181,13 @@ function CheckoutContent() {
 
             const orderData: any = {
                 cart,
-                promoCodeId: appliedPromo?.id
+                promoCodeId: appliedPromo?.id,
+                metadata: {
+                    requestInvoice,
+                    invoiceInfo: requestInvoice ? (
+                        selectedInvoiceProfile === 'new' ? newInvoiceInfo : invoiceProfiles.find(p => p.id === selectedInvoiceProfile)
+                    ) : null
+                }
             };
 
             const response: any = await api.payments.checkout(orderData);
@@ -364,93 +384,171 @@ function CheckoutContent() {
                             </Card>
                         )}
 
-                        {/* Discount & Activation */}
-                        <div className="grid gap-6 md:grid-cols-2">
-                            {/* Promo Code */}
-                            <Card>
-                                <CardHeader>
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
-                                            <Ticket className="w-4 h-4" />
+                        {/* Invoice & Activation */}
+                        <div className="grid gap-6 md:grid-cols-1">
+                            {/* Invoice Request */}
+                            <Card className={requestInvoice ? 'border-zinc-900 bg-zinc-50' : ''}>
+                                <CardHeader className="pb-3">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
+                                                <Receipt className="w-4 h-4" />
+                                            </div>
+                                            <CardTitle className="text-lg">Xuất hóa đơn VAT</CardTitle>
                                         </div>
-                                        <CardTitle className="text-lg">Mã giảm giá</CardTitle>
-                                    </div>
-                                    <p className="text-xs text-muted-foreground mt-1">Giảm trực tiếp vào giá thanh toán</p>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            placeholder="GAVE20, NEWYEAR..."
-                                            value={promoCode}
-                                            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-                                            disabled={!!appliedPromo}
-                                            className="flex-1"
+                                        <Switch
+                                            checked={requestInvoice}
+                                            onChange={setRequestInvoice}
                                         />
-                                        {appliedPromo ? (
-                                            <Button
-                                                variant="outline"
-                                                onClick={() => {
-                                                    setAppliedPromo(null);
-                                                    setPromoCode('');
-                                                }}
-                                            >
-                                                Hủy
-                                            </Button>
-                                        ) : (
-                                            <Button
-                                                onClick={handleValidatePromo}
-                                                disabled={validatingPromo}
-                                            >
-                                                {validatingPromo ? '...' : 'Áp dụng'}
-                                            </Button>
-                                        )}
                                     </div>
-                                    {appliedPromo && (
-                                        <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                                            <p className="text-xs text-green-700 dark:text-green-300 font-medium">
-                                                ✓ Đã áp dụng: -{new Intl.NumberFormat('vi-VN').format(appliedPromo.discount)}₫
-                                            </p>
-                                        </div>
-                                    )}
-                                </CardContent>
+                                    <p className="text-xs text-muted-foreground mt-1">Yêu cầu cung cấp hóa đơn giá trị gia tăng (8-10%)</p>
+                                </CardHeader>
+                                {requestInvoice && (
+                                    <CardContent className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                        {invoiceProfiles.length > 0 && (
+                                            <div className="space-y-2">
+                                                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Chọn hồ sơ đã lưu</label>
+                                                <select
+                                                    className="w-full text-sm border rounded-lg px-3 h-10 bg-white"
+                                                    value={selectedInvoiceProfile}
+                                                    onChange={(e) => setSelectedInvoiceProfile(e.target.value)}
+                                                >
+                                                    <option value="">-- Chọn hồ sơ --</option>
+                                                    {invoiceProfiles.map(p => (
+                                                        <option key={p.id} value={p.id}>{p.companyName} ({p.taxCode})</option>
+                                                    ))}
+                                                    <option value="new">+ Nhập thông tin mới</option>
+                                                </select>
+                                            </div>
+                                        )}
+
+                                        {(invoiceProfiles.length === 0 || selectedInvoiceProfile === 'new') && (
+                                            <div className="grid gap-4 md:grid-cols-2 p-4 bg-white border rounded-xl shadow-sm">
+                                                <div className="space-y-1.5 md:col-span-2">
+                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Tên công ty / Đơn vị</label>
+                                                    <Input
+                                                        placeholder="Công ty TNHH Giải pháp..."
+                                                        value={newInvoiceInfo.companyName}
+                                                        onChange={(e) => setNewInvoiceInfo({ ...newInvoiceInfo, companyName: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Mã số thuế</label>
+                                                    <Input
+                                                        placeholder="0101234567"
+                                                        value={newInvoiceInfo.taxCode}
+                                                        onChange={(e) => setNewInvoiceInfo({ ...newInvoiceInfo, taxCode: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Email nhận HĐ</label>
+                                                    <Input
+                                                        placeholder="finance@company.com"
+                                                        value={newInvoiceInfo.email}
+                                                        onChange={(e) => setNewInvoiceInfo({ ...newInvoiceInfo, email: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="space-y-1.5 md:col-span-2">
+                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Địa chỉ trụ sở</label>
+                                                    <Input
+                                                        placeholder="Số 123, Đường ABC, Quận XYZ..."
+                                                        value={newInvoiceInfo.address}
+                                                        onChange={(e) => setNewInvoiceInfo({ ...newInvoiceInfo, address: e.target.value })}
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </CardContent>
+                                )}
                             </Card>
 
-                            {/* Activation Options */}
-                            <Card className="border-primary/20 bg-primary/[0.02]">
-                                <CardHeader>
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-2 rounded-lg bg-foreground/10 text-foreground">
-                                            <ShieldCheck className="w-4 h-4" />
+                            <div className="grid gap-6 md:grid-cols-2">
+                                {/* Promo Code */}
+                                <Card>
+                                    <CardHeader>
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
+                                                <Ticket className="w-4 h-4" />
+                                            </div>
+                                            <CardTitle className="text-lg">Mã giảm giá</CardTitle>
                                         </div>
-                                        <CardTitle className="text-lg">Cấu hình kích hoạt</CardTitle>
-                                    </div>
-                                    <p className="text-xs text-muted-foreground mt-1">Chọn cách bạn muốn nhận sản phẩm</p>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="grid grid-cols-1 gap-2">
-                                        <button
-                                            onClick={() => setSelectedActivationType('EMAIL')}
-                                            className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'EMAIL'
-                                                ? 'bg-foreground text-background border-foreground shadow-md'
-                                                : 'bg-background text-foreground border-border hover:border-primary/50'
-                                                }`}
-                                        >
-                                            <span className="text-xs font-bold tracking-wider mb-1">Kích hoạt ngay</span>
-                                            <span className="text-[10px] opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
-                                        </button>
-                                        <button
-                                            onClick={() => setSelectedActivationType('CODE')}
-                                            className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'CODE'
-                                                ? 'bg-foreground text-background border-foreground shadow-md'
-                                                : 'bg-background text-foreground border-border hover:border-primary/50'
-                                                }`}
-                                        >
-                                            <span className="text-xs font-bold tracking-wider mb-1">Mua mã quà tặng</span>
-                                            <span className="text-[10px] opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
-                                        </button>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                        <p className="text-xs text-muted-foreground mt-1">Giảm trực tiếp vào giá thanh toán</p>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex gap-2">
+                                            <Input
+                                                placeholder="GAVE20, NEWYEAR..."
+                                                value={promoCode}
+                                                onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                                                disabled={!!appliedPromo}
+                                                className="flex-1"
+                                            />
+                                            {appliedPromo ? (
+                                                <Button
+                                                    variant="outline"
+                                                    onClick={() => {
+                                                        setAppliedPromo(null);
+                                                        setPromoCode('');
+                                                    }}
+                                                >
+                                                    Hủy
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    onClick={handleValidatePromo}
+                                                    disabled={validatingPromo}
+                                                >
+                                                    {validatingPromo ? '...' : 'Áp dụng'}
+                                                </Button>
+                                            )}
+                                        </div>
+                                        {appliedPromo && (
+                                            <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                                                <p className="text-xs text-green-700 dark:text-green-300 font-medium">
+                                                    ✓ Đã áp dụng: -{new Intl.NumberFormat('vi-VN').format(appliedPromo.discount)}₫
+                                                </p>
+                                            </div>
+                                        )}
+                                    </CardContent>
+                                </Card>
+
+                                {/* Activation Options */}
+                                <Card className="border-primary/20 bg-primary/[0.02]">
+                                    <CardHeader>
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-2 rounded-lg bg-foreground/10 text-foreground">
+                                                <ShieldCheck className="w-4 h-4" />
+                                            </div>
+                                            <CardTitle className="text-lg">Cấu hình kích hoạt</CardTitle>
+                                        </div>
+                                        <p className="text-xs text-muted-foreground mt-1">Chọn cách bạn muốn nhận sản phẩm</p>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="grid grid-cols-1 gap-2">
+                                            <button
+                                                onClick={() => setSelectedActivationType('EMAIL')}
+                                                className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'EMAIL'
+                                                    ? 'bg-foreground text-background border-foreground shadow-md'
+                                                    : 'bg-background text-foreground border-border hover:border-primary/50'
+                                                    }`}
+                                            >
+                                                <span className="text-xs font-bold tracking-wider mb-1">Kích hoạt ngay</span>
+                                                <span className="text-[10px] opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
+                                            </button>
+                                            <button
+                                                onClick={() => setSelectedActivationType('CODE')}
+                                                className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'CODE'
+                                                    ? 'bg-foreground text-background border-foreground shadow-md'
+                                                    : 'bg-background text-foreground border-border hover:border-primary/50'
+                                                    }`}
+                                            >
+                                                <span className="text-xs font-bold tracking-wider mb-1">Mua mã quà tặng</span>
+                                                <span className="text-[10px] opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
+                                            </button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </div>
                         </div>
                     </div>
 
