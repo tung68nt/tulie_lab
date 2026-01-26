@@ -232,7 +232,7 @@ export function Footer() {
                     </div>
                 </div>
                 <div className="mt-12 pt-8 border-t border-zinc-100 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-                    <p>{footerData.copyrightText}</p>
+                    <p className="text-xs">Copyright © 2026 {footerData.copyrightText}</p>
                 </div>
             </div>
         </footer>

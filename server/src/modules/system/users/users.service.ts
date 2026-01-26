@@ -5,38 +5,11 @@ export class UserService {
     constructor(private userRepository: IUserRepository) { }
 
     async getUserById(id: string) {
-        const user = await this.userRepository.findById(id, {
+        return this.userRepository.findById(id, {
             profile: true,
             subscriptions: { include: { product: true } },
-            enrollments: { include: { course: true } },
-            orders: {
-                include: {
-                    items: {
-                        include: {
-                            course: true,
-                            product: {
-                                include: {
-                                    versions: {
-                                        orderBy: { createdAt: 'desc' }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                orderBy: { createdAt: 'desc' }
-            }
+            enrollments: { include: { course: true } }
         });
-
-        if (user && (user as any).orders) {
-            (user as any).orders = (user as any).orders.map((order: any) => ({
-                ...order,
-                courses: order.items.filter((i: any) => i.courseId).map((i: any) => i.course),
-                products: order.items.filter((i: any) => i.productId).map((i: any) => i.product)
-            }));
-        }
-
-        return user;
     }
 
     async getUserDetailsForAdmin(id: string) {

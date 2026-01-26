@@ -37,7 +37,7 @@ export default function DashboardPage() {
 
                 // Fetch orders if API available
                 try {
-                    const ordersData: any = await (api.users as any).getOrders?.() || [];
+                    const ordersData: any = await api.users.getMyOrders() || [];
                     setOrders(Array.isArray(ordersData) ? ordersData : []);
                 } catch {
                     // Orders API might not exist
