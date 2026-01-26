@@ -343,7 +343,7 @@ export class PaymentService {
             throw new Error('Cấu hình SePay API Key chưa hoàn tất. Vui lòng kiểm tra trong Cài đặt hệ thống.');
         }
 
-        let url = `https://api.sepay.vn/user/transactions/list`;
+        let url = `https://my.sepay.vn/userapi/transactions/list`;
         if (accountNumber) {
             url += `?account_number=${accountNumber}`;
         }
