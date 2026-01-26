@@ -4,13 +4,14 @@ import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
 
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+
 export const CTASection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden flex items-center justify-center">
             {/* Background pattern matching other sections */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-            </div>
+            {section.showDotPattern && <DotPatternBackground />}
+
             {/* Radial gradient for fading edges (mờ 4 góc) */}
             <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 

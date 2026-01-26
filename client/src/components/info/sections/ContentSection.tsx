@@ -2,6 +2,7 @@ import { Section } from '@/types/sections';
 import { CheckCircle2, Sparkles } from 'lucide-react';
 import { SectionTag } from '@/components/SectionTag';
 import { cn } from '@/lib/utils';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export const ContentSection = ({ section }: { section: Section }) => {
     // Simple markdown-like rendering
@@ -80,56 +81,3 @@ export const ContentSection = ({ section }: { section: Section }) => {
         });
     };
 
-    return (
-        <section className="container py-24 md:py-32 overflow-hidden">
-            <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                {/* Text content */}
-                <div className="order-2 lg:order-1 space-y-8">
-                    {section.subtitle && (
-                        <div>
-                            <SectionTag>
-                                {section.subtitle}
-                            </SectionTag>
-                        </div>
-                    )}
-                    {/* Default SectionTag if subtitle is not present */}
-                    {!section.subtitle && (
-                        <div>
-                            <SectionTag>
-                                Tin tức & Cập nhật
-                            </SectionTag>
-                        </div>
-                    )}
-
-                    <div className="space-y-6">
-                        {section.title && (
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground relative">
-                                {section.title}
-                                <span className="absolute -z-10 top-0 left-0 w-20 h-20 bg-primary/20 blur-3xl rounded-full opacity-50"></span>
-                            </h2>
-                        )}
-                        {section.content && (
-                            <div>
-                                {renderContent(section.content)}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Image */}
-                {section.image && (
-                    <div className="relative order-1 lg:order-2 group">
-                        <div className="absolute -inset-4 bg-gradient-to-tr from-primary/20 via-purple-500/20 to-blue-500/20 rounded-[2.5rem] blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-700"></div>
-                        <div className="relative rounded-3xl overflow-hidden border border-border shadow-2xl rotate-2 group-hover:rotate-0 transition-transform duration-700 ease-out">
-                            <img
-                                src={section.image}
-                                alt={section.title || 'Content image'}
-                                className="w-full object-cover aspect-[4/3] transform hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-                    </div>
-                )}
-            </div>
-        </section>
-    );
-};

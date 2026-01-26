@@ -13,12 +13,14 @@ interface ProcessSectionProps {
     variant?: 'snake' | 'grid' | string;
 }
 
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+
 export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProps) => {
     if (!section.items) return null;
 
     return (
         <section className="py-24 bg-background relative overflow-hidden">
-            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+            {section.showDotPattern && <DotPatternBackground />}
             <div className="container">
                 <div className="text-center mb-16 md:mb-24">
                     <h2 className="text-4xl font-bold mb-4 leading-[1.3]">{section.title}</h2>

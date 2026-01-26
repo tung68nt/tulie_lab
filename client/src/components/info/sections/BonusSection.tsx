@@ -3,6 +3,7 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Gift } from 'lucide-react';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 interface BonusSectionProps {
     section: Section;

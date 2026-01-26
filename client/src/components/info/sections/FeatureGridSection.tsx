@@ -2,14 +2,17 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { MonitorPlay, Check, Users, MessageCircle, Video } from 'lucide-react';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export const FeatureGridSection = ({ section }: { section: Section }) => {
     return (
-        <section className="section-dark py-24 flex items-center justify-center">
+        <section className="section-dark py-24 flex items-center justify-center relative overflow-hidden">
             {/* Unified Background pattern */}
             <div className="section-dark-dot"></div>
             {/* Fade overlay */}
             <div className="absolute inset-0 bg-black/20 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
+
+            {section.showDotPattern && <DotPatternBackground />}
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}

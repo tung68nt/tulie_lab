@@ -54,11 +54,13 @@ const testimonials = [
     }
 ];
 
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+
 export const TestimonialsSection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-            {/* Dotted Background */}
-            <div className="absolute inset-0 bg-dot-black/[0.1] dark:bg-dot-white/[0.1] pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
+            {/* Dotted Background check */}
+            {section.showDotPattern && <DotPatternBackground />}
 
             <div className="container relative z-10">
                 {/* Header */}

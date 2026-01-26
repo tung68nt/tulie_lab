@@ -2,19 +2,13 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 import Link from 'next/link';
 import { BENEFITS_DATA } from '@/lib/benefits';
 
+import { Section } from '@/types/sections';
+
 interface BenefitsSectionProps {
-    section?: {
-        title?: string;
-        subtitle?: string;
-        items?: Array<{
-            title?: string;
-            description?: string;
-            icon?: string;
-            label?: string;
-            content?: string;
-        }>;
-    };
+    section: Section;
 }
+
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export function BenefitsSection({ section }: BenefitsSectionProps) {
     const title = section?.title || 'Quyền Lợi Học Viên';
@@ -25,7 +19,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
     return (
         <section className="py-16 md:py-20 bg-background relative overflow-hidden">
-            <div className="absolute inset-0 bg-dot-black/15 dark:bg-dot-white/15 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
+            {section?.showDotPattern && <DotPatternBackground />}
 
             <div className="container">
                 <div className="text-center mb-10 md:mb-12">

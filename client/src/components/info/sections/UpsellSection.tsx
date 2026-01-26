@@ -5,45 +5,15 @@ import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+
 export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPrice }: { section: Section; upsellCourse?: any; upsellProduct?: any; upsellPrice?: any }) {
-    // If we have dynamic upsell items, we should prioritize them over static section items
-    // But for now, let's merge them or replace if dynamic exists.
-    // If upsellCourse or upsellProduct exists, we use them.
-
-    let displayItems = section.items || [];
-
-    if (upsellCourse || upsellProduct) {
-        displayItems = [];
-        if (upsellCourse) {
-            displayItems.push({
-                id: upsellCourse.id,
-                title: upsellCourse.title,
-                price: upsellPrice ? Number(upsellPrice).toLocaleString('vi-VN') + 'đ' : (upsellCourse.salePrice ? Number(upsellCourse.salePrice).toLocaleString('vi-VN') + 'đ' : Number(upsellCourse.price).toLocaleString('vi-VN') + 'đ'),
-                originalPrice: upsellCourse.salePrice ? Number(upsellCourse.price).toLocaleString('vi-VN') + 'đ' : undefined,
-                description: upsellCourse.description || 'Ưu đãi đặc biệt dành riêng cho bạn.',
-                ctaText: 'Đăng ký ngay',
-                icon: 'BookOpen',
-                color: 'from-blue-100 to-blue-200'
-            });
-        }
-        if (upsellProduct) {
-            displayItems.push({
-                id: upsellProduct.id,
-                title: upsellProduct.name,
-                price: upsellPrice ? Number(upsellPrice).toLocaleString('vi-VN') + 'đ' : (upsellProduct.price ? Number(upsellProduct.price).toLocaleString('vi-VN') + 'đ' : '0đ'),
-                originalPrice: undefined,
-                description: upsellProduct.description || 'Module bổ trợ cực kỳ hấp dẫn.',
-                ctaText: 'Thêm vào giỏ hàng',
-                icon: 'Package',
-                color: 'from-purple-100 to-purple-200'
-            });
-        }
-    }
 
     if (!displayItems || displayItems.length === 0) return null;
 
     return (
-        <section className="py-24 bg-background border-t border-zinc-100">
+        <section className="py-24 bg-background border-t border-zinc-100 relative overflow-hidden">
+            {section.showDotPattern && <DotPatternBackground />}
             <div className="container px-4 mx-auto">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
                     <h2 className="text-3xl font-semibold tracking-tight mb-4 text-zinc-900">{section.title}</h2>

@@ -330,17 +330,17 @@ export class PaymentService {
 
         if (!apiKey) {
             try {
-                // Fallback to Settings Service - check for SEPAY_API_KEY first, then SYSTEM_API_KEY
+                // Fallback to Settings Service - check for SEPAY_API_KEY
                 const settingService = container.resolve<SettingService>('SettingService');
-                const settings = await settingService.getSettings(['SEPAY_API_KEY', 'SYSTEM_API_KEY']);
-                apiKey = settings.SEPAY_API_KEY || settings.SYSTEM_API_KEY || undefined;
+                const settings = await settingService.getSettings(['SEPAY_API_KEY']);
+                apiKey = settings.SEPAY_API_KEY || undefined;
             } catch (err) {
                 console.warn('Could not resolve SettingService for API Key:', err);
             }
         }
 
         if (!apiKey) {
-            throw new Error('Cấu hình SePay API Key chưa hoàn tất. Vui lòng kiểm tra trong Cài đặt hệ thống.');
+            throw new Error('Cấu hình SePay API Key chưa hoàn tất. Vui lòng thêm SEPAY_API_KEY trong .env hoặc Cài đặt hệ thống.');
         }
 
         let url = `https://my.sepay.vn/api/v1/transactions`;
@@ -405,7 +405,10 @@ export class PaymentService {
             return { total: 0, processed: 0, errors: 0 };
         } catch (error: any) {
             console.error('Payment Sync Error:', error.response?.data || error.message);
-            throw new Error(`Payment Sync Failed: ${error.message}`);
+            if (error.response?.status === 401) {
+                throw new Error('Lỗi xác thực SePay (401). Vui lòng kiểm tra lại API Key.');
+            }
+            throw new Error(`Lỗi đồng bộ SePay: ${error.message}`);
         }
     }
 }

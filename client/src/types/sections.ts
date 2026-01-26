@@ -39,4 +39,5 @@ export interface Section {
     statsValue?: string;
     statsIcon?: string;
     order?: number;
+    showDotPattern?: boolean; // New: Toggle dot pattern visibility
 }

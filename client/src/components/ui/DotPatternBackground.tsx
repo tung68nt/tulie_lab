@@ -15,12 +15,18 @@ export function DotPatternBackground({ className, fadeClassName, withVignette = 
         <div className={cn("absolute inset-0 pointer-events-none overflow-hidden", className)}>
             {/* Dot Pattern with Radial Fade */}
             {/* The mask makes dots visible in center and fade out towards edges */}
+            {/* FIX: Use neutral gray (zinc-500) with low opacity to work on both Light (white) and Dark (black) backgrounds */}
             <div className={cn(
-                "absolute inset-0 bg-dot-grid-dark opacity-40",
+                "absolute inset-0 bg-neutral-500/30",
                 "[mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]",
                 "webk-mask-image-[radial-gradient(ellipse_at_center,black_40%,transparent_100%)]",
                 fadeClassName
-            )}></div>
+            )}
+                style={{
+                    backgroundImage: 'radial-gradient(circle at center, currentColor 1px, transparent 0)',
+                    backgroundSize: '24px 24px'
+                }}
+            ></div>
 
             {/* Vignette Overlay (Darken edges) */}
             {withVignette && (

@@ -2,10 +2,12 @@ import { Section } from '@/types/sections';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { SectionTag } from '@/components/SectionTag';
 
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+
 export function StatsSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-16 bg-background relative overflow-hidden">
-            <div className="absolute inset-0 bg-dot-black dark:bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+            {section.showDotPattern && <DotPatternBackground />}
             <div className="container relative z-10">
                 <div className="text-center mb-20 max-w-3xl mx-auto">
                     {section.subtitle && (

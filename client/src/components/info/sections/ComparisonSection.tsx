@@ -2,12 +2,13 @@ import { Section } from '@/types/sections';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Check } from 'lucide-react';
 import { SectionTag } from '@/components/SectionTag';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export function ComparisonSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-12 bg-background relative overflow-hidden">
-            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-white/15 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-            <div className="container">
+            {section.showDotPattern && <DotPatternBackground />}
+            <div className="container relative z-10">
                 <div className="text-center mb-12">
                     {section.subtitle && (
                         <div className="flex justify-center">
@@ -29,7 +30,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                 <div className="flex flex-wrap justify-center gap-6">
                     {section.items?.map((item, index) => (
                         <div key={index} className={`w-full lg:w-[calc(50%-12px)] flex flex-col`}>
-                            <Card className={`h-full border flex flex-col ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border'}`}>
+                            <Card className={`h-full border flex flex-col rounded-3xl ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border'}`}>
                                 <CardHeader className={`${index === 1 ? 'bg-primary/5' : ''}`}>
                                     <div className="flex items-center justify-between mb-2">
                                         <CardTitle className="text-xl md:text-2xl">{item.title}</CardTitle>
