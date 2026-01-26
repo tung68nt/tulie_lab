@@ -250,114 +250,102 @@ export default function ProductDetailPage() {
 
                             {/* Pricing Options - Only show if user doesn't own and isn't member */}
                             {!isOwned && !isMember && (
-                                <div className="space-y-6">
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                        {/* Single Purchase - Retail Block */}
-                                        <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-zinc-900 text-white text-xs font-bold border border-border whitespace-nowrap shadow-sm">
-                                                Mua lẻ (Single)
-                                            </div>
-                                            <div className="mb-6 mt-4">
-                                                <h3 className="text-xl font-bold mb-2">Gói Linh Hoạt</h3>
-                                                <div className="flex items-baseline gap-1 mb-2">
-                                                    <span className="text-3xl font-bold">
+                                <div className="space-y-4">
+                                    {/* Row 1: Single Purchase - Retail Block */}
+                                    <div className="group relative p-6 rounded-3xl border border-zinc-200 bg-white flex flex-col transition-all duration-300 hover:border-zinc-900 hover:shadow-lg w-full">
+                                        <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm">
+                                            Mua lẻ (Single)
+                                        </div>
+                                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-4">
+                                            <div className="flex-1">
+                                                <h3 className="text-xl font-bold mb-2 text-zinc-900">Gói Linh Hoạt</h3>
+                                                <div className="flex items-baseline gap-2 mb-2">
+                                                    <span className="text-3xl font-bold text-zinc-900">
                                                         {product.price === 0 || product.price === '0'
                                                             ? 'Miễn phí'
                                                             : `${new Intl.NumberFormat('vi-VN').format(product.price)}đ`}
                                                     </span>
                                                     {product.compareAtPrice && product.compareAtPrice > product.price && product.price > 0 && (
-                                                        <span className="text-sm text-muted-foreground line-through font-medium">
+                                                        <span className="text-sm text-zinc-400 line-through font-medium">
                                                             {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)}đ
                                                         </span>
                                                     )}
                                                 </div>
-                                                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
-                                                    {settings.pricing_single_description || 'Sở hữu vĩnh viễn template này. Nhận cập nhật trọn đời.'}
+                                                <p className="text-sm text-zinc-500 max-w-md">
+                                                    {settings.pricing_single_description || 'Sở hữu vĩnh viễn template này. Nhận cập nhật trọn đời và hỗ trợ từ đội ngũ.'}
                                                 </p>
                                             </div>
 
-                                            <Link href={`/checkout?productId=${product.id}`} className="mt-auto">
-                                                <Button as="div" variant="default" className="w-full text-sm font-bold h-12 rounded-xl active:scale-[0.98] transition-all gap-2 shadow-lg shadow-primary/20">
-                                                    <Wallet className="w-4 h-4" />
-                                                    Sở hữu ngay
-                                                </Button>
-                                            </Link>
-
-                                            <div className="mt-6 space-y-2.5 text-[12px]">
-                                                <div className="flex items-center gap-2">
-                                                    <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                    <span className="font-medium">Sở hữu trọn đời sản phẩm</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                    <span className="font-medium">Được tải các bản cập nhật</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                    <span className="font-medium">Hỗ trợ cài đặt cơ bản</span>
+                                            <div className="flex flex-col gap-4 min-w-[200px]">
+                                                <Link href={`/checkout?productId=${product.id}`}>
+                                                    <Button as="div" variant="inverted" className="w-full text-sm font-bold h-12 rounded-xl bg-zinc-950 text-white hover:bg-zinc-800 transition-all gap-2">
+                                                        <Wallet className="w-4 h-4" />
+                                                        Sở hữu ngay
+                                                    </Button>
+                                                </Link>
+                                                <div className="flex flex-wrap gap-x-4 gap-y-2">
+                                                    <div className="flex items-center gap-1.5 text-[11px] text-zinc-500">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Trọn đời</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-1.5 text-[11px] text-zinc-500">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Update</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
+                                    {/* Row 2: Membership Options */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {/* Membership - Gói Cơ Bản */}
-                                        <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-bold border border-border whitespace-nowrap shadow-sm">
+                                        <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-300 hover:bg-white hover:shadow-md">
+                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-white text-zinc-400 text-[9px] font-bold uppercase tracking-wider border border-zinc-100 whitespace-nowrap shadow-sm">
                                                 Phổ biến
                                             </div>
                                             <div className="mb-6 mt-4">
-                                                <h3 className="text-xl font-bold mb-2">{MEMBERSHIP_PRICING.BASIC.title}</h3>
+                                                <h3 className="text-lg font-bold mb-1 text-zinc-900">{MEMBERSHIP_PRICING.BASIC.title}</h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
-                                                    <span className="text-3xl font-bold">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
-                                                    <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
+                                                    <span className="text-2xl font-bold text-zinc-900">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
+                                                    <span className="text-[10px] text-zinc-400 font-medium uppercase">{MEMBERSHIP_PRICING.BASIC.period}</span>
                                                 </div>
-                                                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}</p>
+                                                <p className="text-xs text-zinc-400 leading-relaxed font-medium line-clamp-2">
+                                                    {settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}
+                                                </p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                                                <Button as="div" variant="outline" className="w-full text-xs font-bold h-10 rounded-xl bg-white border-zinc-200 text-zinc-900 hover:bg-zinc-950 hover:text-white transition-all">
                                                     Đăng ký gói này
                                                 </Button>
                                             </Link>
-                                            <div className="mt-6 space-y-2.5 text-[12px]">
-                                                {safeParse(settings.pricing_membership_basic_features, ['Tải không giới hạn', 'Tiết kiệm 80%', 'Update hàng tuần']).map((f: string, i: number) => (
-                                                    <div key={i} className="flex items-center gap-2">
-                                                        <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                        <span className="font-medium">{f}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
                                         </div>
 
                                         {/* Membership - Gói Premium */}
-                                        <div className="group relative p-6 rounded-3xl border border-border bg-card flex flex-col h-full transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
-                                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-zinc-950 text-white text-xs font-bold shadow-lg whitespace-nowrap">
+                                        <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-900 hover:bg-white hover:shadow-md">
+                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-zinc-950 text-white text-[9px] font-bold uppercase tracking-wider shadow-lg whitespace-nowrap">
                                                 Best Value
                                             </div>
                                             <div className="mb-6 mt-4">
-                                                <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                                                <h3 className="text-lg font-bold mb-1 text-zinc-900 flex items-center gap-2">
                                                     {MEMBERSHIP_PRICING.PREMIUM.title}
-                                                    <span className="text-xl">👑</span>
+                                                    <span className="text-lg">👑</span>
                                                 </h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
-                                                    <span className="text-3xl font-bold">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
-                                                    <span className="text-sm text-muted-foreground font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
+                                                    <span className="text-2xl font-bold text-zinc-900">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
+                                                    <span className="text-[10px] text-zinc-400 font-medium uppercase">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
                                                 </div>
-                                                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}</p>
+                                                <p className="text-xs text-zinc-400 leading-relaxed font-medium line-clamp-2">
+                                                    {settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}
+                                                </p>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
-                                                <Button as="div" variant="outline" className="w-full text-sm font-bold h-12 rounded-xl group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                                                <Button as="div" variant="outline" className="w-full text-xs font-bold h-10 rounded-xl bg-white border-zinc-200 text-zinc-900 hover:bg-zinc-950 hover:text-white transition-all">
                                                     Nâng cấp Premium
                                                 </Button>
                                             </Link>
-                                            <div className="mt-6 space-y-2.5 text-[12px]">
-                                                {safeParse(settings.pricing_membership_premium_features, ['Tư vấn 1-1 trực tiếp', 'Source code các dự án', 'Hỗ trợ ưu tiên 24/7']).map((f: string, i: number) => (
-                                                    <div key={i} className="flex items-center gap-2">
-                                                        <Check className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                        <span className="font-medium">{f}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

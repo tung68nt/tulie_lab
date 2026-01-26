@@ -7,9 +7,18 @@ const cleanEnvUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
 
 // Use relative path for client, full URL for server
 const BASE_URL = isServer ? cleanEnvUrl : '';
+console.log('Using BASE_URL for API:', BASE_URL);
 // Build trigger: 2026-01-24 - Standardizing max-width and fixing connectivity
 
-console.log('Using BASE_URL for API:', BASE_URL);
+export const getMediaUrl = (url?: string) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    // Prefix relative paths with the API BASE_URL (not just BASE_URL because it's empty on client)
+    // Actually BASE_URL is empty on client to use proxy.
+    // If we use proxy, /api/uploads will work.
+    const cleanUrl = url.startsWith('/') ? url : `/${url}`;
+    return isServer ? `${cleanEnvUrl}${cleanUrl}` : cleanUrl;
+};
 
 import { User, Course, Instructor, Order, Product, SearchParams } from '@/types/api';
 
