@@ -40,126 +40,132 @@ export class UserService {
     }
 
     async getUserDetailsForAdmin(id: string) {
-        const user = await this.userRepository.findById(id, {
-            profile: true,
-            subscriptions: {
-                include: { product: true },
-                orderBy: { endDate: 'desc' }
-            },
-            enrollments: {
-                include: { course: { select: { id: true, title: true, slug: true, thumbnail: true } } },
-                orderBy: { createdAt: 'desc' }
-            },
-            orders: {
-                include: {
-                    items: {
-                        include: {
-                            course: { select: { id: true, title: true } },
-                            product: {
-                                include: {
-                                    versions: { orderBy: { createdAt: 'desc' }, take: 1 }
+        try {
+            const user = await this.userRepository.findById(id, {
+                profile: true,
+                subscriptions: {
+                    include: { product: true },
+                    orderBy: { endDate: 'desc' }
+                },
+                enrollments: {
+                    include: { course: { select: { id: true, title: true, slug: true, thumbnail: true } } },
+                    orderBy: { createdAt: 'desc' }
+                },
+                orders: {
+                    include: {
+                        items: {
+                            include: {
+                                course: { select: { id: true, title: true } },
+                                product: {
+                                    include: {
+                                        versions: { orderBy: { createdAt: 'desc' }, take: 1 }
+                                    }
                                 }
                             }
                         }
-                    }
+                    },
+                    orderBy: { createdAt: 'desc' }
                 },
-                orderBy: { createdAt: 'desc' }
-            },
-            progress: {
-                select: { lessonId: true, isCompleted: true, updatedAt: true },
-                orderBy: { updatedAt: 'desc' },
-                take: 100
+                progress: {
+                    select: { lessonId: true, isCompleted: true, updatedAt: true },
+                    orderBy: { updatedAt: 'desc' },
+                    take: 100
+                }
+            });
+
+            if (!user) {
+                console.warn(`[UserService.getUserDetailsForAdmin] User not found: ${id}`);
+                return null;
             }
-        });
 
-        if (!user) {
-            console.warn(`[UserService] Admin requested user details, but User not found for ID: ${id}`);
-            return null;
-        }
+            console.log(`[UserService.getUserDetailsForAdmin] Analyzing data for: ${user.email}`);
 
-        console.log(`[UserService] Successfully fetched admin details for User: ${user.email} (${id})`);
+            const [activities, securityLogs] = await Promise.all([
+                prisma.activityLog.findMany({
+                    where: { userId: id },
+                    orderBy: { createdAt: 'desc' },
+                    take: 100
+                }).catch(err => { console.error('Error fetching activities:', err); return []; }),
+                prisma.securityLog.findMany({
+                    where: { userId: id },
+                    orderBy: { createdAt: 'desc' },
+                    take: 50
+                }).catch(err => { console.error('Error fetching security logs:', err); return []; })
+            ]);
 
-        const [activities, securityLogs] = await Promise.all([
-            prisma.activityLog.findMany({
-                where: { userId: id },
-                orderBy: { createdAt: 'desc' },
-                take: 100
-            }),
-            prisma.securityLog.findMany({
-                where: { userId: id },
-                orderBy: { createdAt: 'desc' },
-                take: 50
-            })
-        ]);
+            const lastLogin = await prisma.activityLog.findFirst({
+                where: { userId: id, action: 'login' },
+                orderBy: { createdAt: 'desc' }
+            }).catch(() => null);
 
-        const lastLogin = await prisma.activityLog.findFirst({
-            where: { userId: id, action: 'login' },
-            orderBy: { createdAt: 'desc' }
-        });
+            // Process Orders
+            const rawOrders = (user as any).orders || [];
+            const pendingOrders = rawOrders.filter((o: any) => o.status === 'PENDING').map((o: any) => {
+                const createdDate = new Date(o.createdAt);
+                const pendingDays = isNaN(createdDate.getTime()) ? 0 : Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
+                return { ...o, pendingDays };
+            });
 
-        const pendingOrders = ((user as any).orders || []).filter((o: any) => o.status === 'PENDING').map((o: any) => {
-            const createdDate = new Date(o.createdAt);
-            const pendingDays = isNaN(createdDate.getTime()) ? 0 : Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
-            return {
+            // Process Products
+            const purchasedProducts = rawOrders
+                .filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED')
+                .flatMap((o: any) => o.items || [])
+                .filter((i: any) => i.productId)
+                .map((i: any) => ({
+                    ...i.product,
+                    purchasedAt: i.createdAt,
+                    currentVersion: i.product?.versions?.[0]?.version || '1.0.0'
+                }));
+
+            // Lesson counts
+            const enrollmentIds = ((user as any).enrollments || []).map((e: any) => e.courseId).filter(Boolean);
+            const totalLessonsCount = enrollmentIds.length > 0 ? await prisma.lesson.count({
+                where: { courseId: { in: enrollmentIds } }
+            }).catch(() => 0) : 0;
+
+            // Transactions
+            const orderCodes = rawOrders.map((o: any) => o.code).filter(Boolean);
+            const allTransactions = orderCodes.length > 0 ? await prisma.paymentTransaction.findMany({
+                where: { code: { in: orderCodes } },
+                orderBy: { createdAt: 'desc' }
+            }).catch(() => []) : [];
+
+            const processedOrders = rawOrders.map((o: any) => ({
                 ...o,
-                pendingDays
-            };
-        });
-
-        // Flatten products from orders for easy access
-        const purchasedProducts = ((user as any).orders || [])
-            .filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED')
-            .flatMap((o: any) => o.items || [])
-            .filter((i: any) => i.productId)
-            .map((i: any) => ({
-                ...i.product,
-                purchasedAt: i.createdAt,
-                currentVersion: i.product?.versions?.[0]?.version || '1.0.0'
+                transactions: allTransactions
+                    .filter((tx: any) => tx.code === o.code)
+                    .map((tx: any) => ({
+                        ...tx,
+                        amount: Number(tx.amountIn || 0),
+                        bankName: tx.gateway || 'Chuyển khoản ngân hàng',
+                        createdAt: tx.transactionDate || tx.createdAt
+                    }))
             }));
 
-        const enrollmentIds = ((user as any).enrollments || []).map((e: any) => e.courseId);
-        const totalLessonsCount = enrollmentIds.length > 0 ? await prisma.lesson.count({
-            where: { courseId: { in: enrollmentIds } }
-        }) : 0;
+            const enrollments = (user as any).enrollments || [];
 
-        // Fetch and Attach Transactions for orders
-        const orderCodes = ((user as any).orders || []).map((o: any) => o.code);
-        const allTransactions = orderCodes.length > 0 ? await prisma.paymentTransaction.findMany({
-            where: { code: { in: orderCodes } },
-            orderBy: { createdAt: 'desc' }
-        }) : [];
-
-        (user as any).orders = ((user as any).orders || []).map((o: any) => ({
-            ...o,
-            transactions: allTransactions
-                .filter((tx: any) => tx.code === o.code)
-                .map((tx: any) => ({
-                    ...tx,
-                    amount: Number(tx.amountIn || 0),
-                    bankName: tx.gateway || 'Chuyển khoản ngân hàng',
-                    createdAt: tx.transactionDate || tx.createdAt
-                }))
-        }));
-
-        const enrollments = (user as any).enrollments || [];
-        const orders = (user as any).orders || [];
-
-        return {
-            ...user,
-            activities: activities || [],
-            securityLogs: securityLogs || [],
-            purchasedProducts,
-            lastLoginAt: lastLogin?.createdAt || null,
-            lastLoginIp: lastLogin?.ipAddress || null,
-            pendingOrders,
-            stats: {
-                totalEnrollments: enrollments.length,
-                totalOrders: orders.length,
-                totalPaid: orders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED').reduce((sum: number, o: any) => sum + Number(o.amount), 0),
-                completedLessons: ((user as any).progress || []).filter((p: any) => p.isCompleted).length,
-                totalLessons: totalLessonsCount
-            }
-        };
+            return {
+                ...user,
+                orders: processedOrders,
+                activities: activities || [],
+                securityLogs: securityLogs || [],
+                purchasedProducts,
+                lastLoginAt: lastLogin?.createdAt || null,
+                lastLoginIp: lastLogin?.ipAddress || null,
+                pendingOrders,
+                stats: {
+                    totalEnrollments: enrollments.length,
+                    totalOrders: processedOrders.length,
+                    totalPaid: processedOrders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED').reduce((sum: number, o: any) => sum + Number(o.amount || 0), 0),
+                    completedLessons: ((user as any).progress || []).filter((p: any) => p.isCompleted).length,
+                    totalLessons: totalLessonsCount
+                }
+            };
+        } catch (error: any) {
+            console.error(`[UserService.getUserDetailsForAdmin] Fatal crash for ID: ${id}`);
+            console.error(error);
+            throw error; // Rethrow to be caught by controller
+        }
     }
 
     async updateUser(id: string, data: any) {
