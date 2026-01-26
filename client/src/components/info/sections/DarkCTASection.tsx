@@ -10,7 +10,7 @@ export const DarkCTASection = ({ section }: { section: Section }) => {
         <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden flex items-center justify-center">
             {/* Background pattern matching other sections */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             </div>
             {/* Radial gradient for fading edges (mờ 4 góc) */}
             <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -27,7 +27,7 @@ export const DarkCTASection = ({ section }: { section: Section }) => {
                     {section.ctaLink && (
                         section.ctaLink.startsWith('#') || !section.ctaLink.includes('/') ? (
                             <Button
-                                variant="light"
+                                variant="white"
                                 size="lg"
                                 onClick={() => {
                                     const el = document.getElementById(section.ctaLink?.replace('#', '') || 'payment-section');
@@ -48,7 +48,7 @@ export const DarkCTASection = ({ section }: { section: Section }) => {
                         ) : (
                             <Link href={section.ctaLink}>
                                 <Button
-                                    variant="light"
+                                    variant="white"
                                     size="lg"
                                     as="div"
                                     className="h-14 px-8 text-lg font-bold rounded-full hover:scale-105 transition-transform"

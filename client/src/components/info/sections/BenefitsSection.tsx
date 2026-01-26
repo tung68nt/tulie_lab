@@ -25,7 +25,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
     return (
         <section className="py-16 md:py-20 bg-background relative overflow-hidden">
-            {/* Soft Background Accents - REMOVED */}
+            <div className="absolute inset-0 bg-dot-black/[0.07] dark:bg-dot-white/[0.07] pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
 
             <div className="container">
                 <div className="text-center mb-10 md:mb-12">

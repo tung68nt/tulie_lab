@@ -3,7 +3,7 @@ export const BENEFITS_DATA = [
         title: 'Thư Viện Template Premium',
         slug: 'thu-vien-template-premium',
         description: 'Hàng trăm mẫu Google Sheets, Excel Dashboard quản lý tài chính, nhân sự, kho vận đẹp mắt.',
-        icon: 'Layout',
+        icon: 'LayoutGrid',
         content: 'Kho tài nguyên được cập nhật liên tục với các mẫu đã được tối ưu hóa cho công việc thực tế.'
     },
     {

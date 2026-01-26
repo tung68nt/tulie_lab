@@ -8,7 +8,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
         <section className="py-24 bg-black text-white relative overflow-hidden">
             {/* Background pattern */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             </div>
             {/* Radial gradient for fading edges */}
             <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
