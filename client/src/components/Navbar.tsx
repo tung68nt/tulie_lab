@@ -206,7 +206,7 @@ export function Navbar() {
                                 return (
                                     <div key={link.href} className="relative group">
                                         <div
-                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-default ${isActive ? 'bg-zinc-200 dark:bg-zinc-700 text-foreground font-bold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'
+                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'
                                                 }`}
                                         >
                                             {link.label}
@@ -243,7 +243,7 @@ export function Navbar() {
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
                                     className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive
-                                        ? 'bg-zinc-200 dark:bg-zinc-700 text-foreground font-bold'
+                                        ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium'
                                         : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'
                                         }`}
                                 >
@@ -361,8 +361,8 @@ export function Navbar() {
 
                                                                 {activeSub ? (
                                                                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold border ${((activeSub as any).product?.slug || '').includes('premium')
-                                                                            ? 'bg-gradient-to-r from-yellow-300 to-amber-400 text-amber-900 border-amber-300'
-                                                                            : 'bg-zinc-100 text-zinc-900 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700'
+                                                                        ? 'bg-gradient-to-r from-yellow-300 to-amber-400 text-amber-900 border-amber-300'
+                                                                        : 'bg-zinc-100 text-zinc-900 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700'
                                                                         }`}>
                                                                         {((activeSub as any).product?.title || '').replace(/Pro/i, 'Basic')}
                                                                     </span>
