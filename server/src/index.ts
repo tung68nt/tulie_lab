@@ -96,7 +96,46 @@ async function initializeApp() {
       next();
     });
 
-    app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+    // Custom Middleware to serve uploads from Local or Proxy R2
+    app.use('/uploads', async (req, res, next) => {
+      // 1. Try serving from local filesystem first
+      const filePath = path.join(__dirname, '../uploads', req.path);
+
+      if (require('fs').existsSync(filePath)) {
+        return res.sendFile(filePath);
+      }
+
+      // 2. If missing, try proxying from R2
+      try {
+        console.log(`[Proxy] File not found locally, trying R2: ${req.path}`);
+
+        // Remove leading slash for key
+        const key = req.path.startsWith('/') ? req.path.slice(1) : req.path;
+
+        // Lazy load storage service
+        const { storageService } = await import('./services/storage.service');
+        const fileStream = await storageService.getFileStream(key);
+
+        if (fileStream) {
+          // Determine content type
+          const mime = (await import('mime-types')).default;
+          const contentType = mime.lookup(key) || 'application/octet-stream';
+          res.setHeader('Content-Type', contentType);
+          // Pipe the stream to response
+          // Type assertion for NodeJS helper
+          (fileStream as any).pipe(res);
+          return;
+        }
+      } catch (err) {
+        console.warn(`[Proxy] Failed to proxy from R2: ${req.path}`, err);
+      }
+
+      // 3. Fallback to 404 handled by loop or next()
+      // If we call next(), it goes to the next middleware which might be 404 handler
+      // But express.static usually terminates. Here we want to terminate with 404 if R2 fails?
+      // Or let global 404 handle it.
+      next();
+    });
 
     // --- Initialize Dependency Injection ---
     try {

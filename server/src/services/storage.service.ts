@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import path from 'path';
 import fs from 'fs';
@@ -120,6 +120,39 @@ export class StorageService {
         } catch (error) {
             console.error('Delete R2 File Error:', error);
             // Don't throw, just log
+        }
+    }
+
+    /**
+     * Get file stream from R2
+     */
+    async getFileStream(key: string): Promise<any> {
+        try {
+            // Extract key from URL if needed
+            if (key.startsWith('http')) {
+                const urlObj = new URL(key);
+                key = urlObj.pathname.startsWith('/') ? urlObj.pathname.slice(1) : urlObj.pathname;
+            }
+            // Handle /uploads/ prefix if passed
+            if (key.startsWith('/uploads/')) {
+                key = `uploads/${key.replace('/uploads/', '')}`;
+            } else if (key.startsWith('uploads/')) {
+                // already correct
+            } else if (!key.includes('/')) {
+                // assume uploads folder if just filename
+                key = `uploads/${key}`;
+            }
+
+            const command = new GetObjectCommand({
+                Bucket: this.bucket,
+                Key: key
+            });
+
+            const response = await this.client.send(command);
+            return response.Body;
+        } catch (error) {
+            console.error('Get R2 File Error:', error);
+            return null;
         }
     }
 
