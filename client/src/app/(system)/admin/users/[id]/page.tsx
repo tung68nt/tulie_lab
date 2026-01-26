@@ -305,61 +305,69 @@ export default function AdminUserDetailPage() {
 
                             <Card>
                                 <CardHeader>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <Shield size={18} /> Phân quyền & Bảo mật
+                                    <CardTitle className="text-base font-medium flex items-center gap-2">
+                                        <Shield size={18} className="text-zinc-400" /> Phân quyền & Bảo mật
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div className="flex justify-between items-center py-2 border-b">
                                         <span className="text-sm">Loại tài khoản</span>
-                                        <span className="px-2 py-0.5 bg-muted rounded text-xs font-bold">{user.role}</span>
+                                        <span className="px-2 py-0.5 bg-muted rounded text-xs font-medium uppercase">{user.role}</span>
                                     </div>
                                     <div className="flex justify-between items-center py-2 border-b">
-                                        <span className="text-sm">Trạng thái hoạt động</span>
-                                        <span className={`flex items-center gap-1.5 text-xs font-bold ${user.isActive ? 'text-green-600' : 'text-red-500'}`}>
-                                            <span className={`h-2 w-2 rounded-full ${user.isActive ? 'bg-green-500' : 'bg-red-500'}`} />
-                                            {user.isActive ? 'Active' : 'Blocked'}
-                                        </span>
+                                        <span className="text-sm font-medium">Trạng thái hội viên</span>
+                                        {(() => {
+                                            const activeSub = user.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+                                            if (!activeSub) return <span className="bg-muted text-muted-foreground text-[10px] px-2 py-0.5 rounded-full font-medium">Free</span>;
+                                            const title = (activeSub.product?.title || '').toUpperCase();
+                                            if (title.includes('BASIC')) {
+                                                return <span className="bg-zinc-100 text-zinc-900 border border-zinc-200 text-[10px] px-2 py-0.5 rounded-full font-medium">Basic</span>;
+                                            }
+                                            return <span className="bg-zinc-900 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">Premium</span>;
+                                        })()}
                                     </div>
                                     <div className="flex justify-between items-center py-2">
                                         <span className="text-sm">Email Marketing</span>
-                                        <span className="text-xs font-medium">{user.profile?.allowEmailMarketing ? 'Đã đăng ký' : 'Đã hủy'}</span>
+                                        <span className="text-xs font-medium">{user.profile?.allowEmailMarketing ? 'Đăng ký' : 'Hủy'}</span>
                                     </div>
                                 </CardContent>
                             </Card>
                         </div>
 
                         <div className="space-y-6">
-                            <Card className="bg-muted/30">
-                                <CardHeader>
-                                    <CardTitle className="text-sm font-bold tracking-wider text-muted-foreground">Tóm tắt hoạt động</CardTitle>
+                            <Card className="bg-white border shadow-sm">
+                                <CardHeader className="pb-2">
+                                    <CardTitle className="text-sm font-medium text-zinc-900 flex items-center gap-2">
+                                        <div className="w-1 h-3 bg-zinc-900 rounded-full" />
+                                        Tóm tắt hoạt động
+                                    </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
-                                    <div className="flex gap-4">
-                                        <div className="h-10 w-10 shrink-0 bg-background rounded-full flex items-center justify-center border">
-                                            <BookOpen size={20} className="text-zinc-900" />
+                                    <div className="flex gap-4 items-center">
+                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border shadow-sm">
+                                            <BookOpen size={18} className="text-zinc-600" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold">{user.stats?.totalEnrollments || 0}</p>
-                                            <p className="text-[10px] text-muted-foreground font-bold">Khóa học đăng ký</p>
+                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
+                                            <p className="text-[10px] text-zinc-500 mt-1">Khóa học đăng ký</p>
                                         </div>
                                     </div>
-                                    <div className="flex gap-4">
-                                        <div className="h-10 w-10 shrink-0 bg-background rounded-full flex items-center justify-center border">
-                                            <Package size={20} className="text-zinc-900" />
+                                    <div className="flex gap-4 items-center">
+                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border shadow-sm">
+                                            <Package size={18} className="text-zinc-600" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold">{user.purchasedProducts?.length || 0}</p>
-                                            <p className="text-[10px] text-muted-foreground font-bold">Sản phẩm sở hữu</p>
+                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
+                                            <p className="text-[10px] text-zinc-500 mt-1">Sản phẩm sở hữu</p>
                                         </div>
                                     </div>
-                                    <div className="flex gap-4">
-                                        <div className="h-10 w-10 shrink-0 bg-background rounded-full flex items-center justify-center border">
-                                            <CreditCard size={20} className="text-zinc-900" />
+                                    <div className="flex gap-4 items-center">
+                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border shadow-sm">
+                                            <CreditCard size={18} className="text-zinc-600" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold">{user.orders?.length || 0}</p>
-                                            <p className="text-[10px] text-muted-foreground font-bold">Tổng đơn hàng</p>
+                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.orders?.length || 0}</p>
+                                            <p className="text-[10px] text-zinc-500 mt-1">Tổng đơn hàng</p>
                                         </div>
                                     </div>
                                 </CardContent>
@@ -374,8 +382,8 @@ export default function AdminUserDetailPage() {
                                         <div className="flex gap-3 overflow-hidden">
                                             <Monitor size={18} className="text-muted-foreground mt-0.5 shrink-0" />
                                             <div className="flex-1 min-w-0">
-                                                <p className="text-xs font-medium break-words line-clamp-3">{user.activities[0].device || 'Hệ điều hành / Trình duyệt'}</p>
-                                                <p className="text-[10px] text-muted-foreground">{user.activities[0].ipAddress}</p>
+                                                <p className="text-xs font-normal text-zinc-600 break-words line-clamp-3">{user.activities[0].device || 'Hệ điều hành / Trình duyệt'}</p>
+                                                <p className="text-[10px] text-zinc-400 mt-1">{user.activities[0].ipAddress}</p>
                                             </div>
                                         </div>
                                     ) : (

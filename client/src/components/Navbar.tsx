@@ -328,57 +328,105 @@ export function Navbar() {
                                         </button>
 
                                         {/* Dropdown Menu */}
-                                        <div className={`absolute right-0 top-full mt-2 w-56 rounded-md border bg-popover text-popover-foreground shadow-lg transition-all duration-200 ease-out transform origin-top-right z-50 overflow-hidden ${dropdownOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}`}>
-                                            <div className="p-2 border-b bg-muted/30">
-                                                <p className="text-sm font-medium">{getDisplayName()}</p>
-                                                <div className="flex items-center gap-2">
-                                                    <p className="text-xs text-muted-foreground truncate max-w-[120px]">{user?.email}</p>
-                                                    {(user?.role === 'ADMIN' || (Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status?.toUpperCase() === 'ACTIVE' && !isNaN(new Date(s.endDate).getTime()) && new Date(s.endDate) > new Date()))) ? (
-                                                        <span className="bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[10px] px-1.5 rounded-full font-bold border border-zinc-800 dark:border-zinc-200">PREMIUM</span>
-                                                    ) : (
-                                                        <span className="bg-muted text-muted-foreground text-[10px] px-1.5 rounded-full font-bold">FREE</span>
-                                                    )}
+                                        <div className={`absolute right-0 top-full mt-3 w-64 rounded-2xl border border-zinc-200 bg-white shadow-2xl transition-all duration-300 ease-out transform origin-top-right z-50 overflow-hidden ${dropdownOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}`}>
+                                            <div className="p-4 border-b border-zinc-100 bg-zinc-50/50">
+                                                <div className="flex items-center gap-3 mb-3">
+                                                    <div className="h-12 w-12 rounded-full border-2 border-white shadow-sm overflow-hidden bg-zinc-200">
+                                                        {user?.avatar ? (
+                                                            <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" />
+                                                        ) : (
+                                                            <div className="h-full w-full flex items-center justify-center bg-zinc-900 text-white font-bold text-lg">
+                                                                {getInitials()}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="min-w-0">
+                                                        <p className="text-sm font-bold text-zinc-900 truncate">{getDisplayName()}</p>
+                                                        <p className="text-[11px] text-zinc-500 truncate">{user?.email}</p>
+                                                    </div>
                                                 </div>
-                                                {(() => {
-                                                    const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
-                                                    if (activeSub) {
-                                                        const date = new Date(activeSub.endDate);
-                                                        return !isNaN(date.getTime()) ? (
-                                                            <p className="text-[10px] text-muted-foreground mt-1">
-                                                                Hạn: {date.toLocaleDateString('vi-VN')}
-                                                            </p>
-                                                        ) : null;
-                                                    }
-                                                    return null;
-                                                })()}
+
+                                                <div className="flex items-center justify-between gap-2">
+                                                    {(() => {
+                                                        const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
+                                                        const isAdmin = user?.role === 'ADMIN';
+
+                                                        let tierLabel = 'Free';
+                                                        let tagClass = 'bg-zinc-100 text-zinc-600';
+
+                                                        if (isAdmin) {
+                                                            tierLabel = 'Admin';
+                                                            tagClass = 'bg-zinc-900 text-white';
+                                                        } else if (activeSub) {
+                                                            const title = ((activeSub as any).product?.title || '').toLowerCase();
+                                                            const slug = ((activeSub as any).product?.slug || '').toLowerCase();
+
+                                                            if (title.includes('basic') || slug.includes('basic')) {
+                                                                tierLabel = 'Basic';
+                                                                tagClass = 'bg-zinc-100 text-zinc-900 border border-zinc-200';
+                                                            } else {
+                                                                tierLabel = 'Premium';
+                                                                tagClass = 'bg-zinc-900 text-white';
+                                                            }
+                                                        }
+
+                                                        return (
+                                                            <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium ${tagClass}`}>
+                                                                {tierLabel}
+                                                            </span>
+                                                        );
+                                                    })()}
+
+                                                    {(() => {
+                                                        const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
+                                                        if (activeSub) {
+                                                            const date = new Date(activeSub.endDate);
+                                                            return !isNaN(date.getTime()) ? (
+                                                                <span className="text-[10px] font-medium text-zinc-400">
+                                                                    Hạn: {date.toLocaleDateString('vi-VN')}
+                                                                </span>
+                                                            ) : null;
+                                                        }
+                                                        return null;
+                                                    })()}
+                                                </div>
                                             </div>
-                                            <div className="p-1">
+                                            <div className="p-2 space-y-0.5">
                                                 {isAdmin && (
-                                                    <Link href="/admin" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
+                                                    <Link href="/admin" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-bold text-zinc-900 outline-none hover:bg-zinc-100 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                        <div className="w-5 h-5 flex items-center justify-center mr-2 opacity-60">🚀</div>
                                                         Quản trị hệ thống
                                                     </Link>
                                                 )}
-                                                <Link href="/dashboard" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/dashboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 opacity-60">📚</div>
                                                     Khoá học của tôi
                                                 </Link>
-                                                <Link href="/my-products" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/my-products" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 opacity-60">📦</div>
                                                     Sản phẩm số của tôi
                                                 </Link>
-                                                <Link href="/profile" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/profile" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 opacity-60">👤</div>
                                                     Hồ sơ của tôi
                                                 </Link>
-                                                <Link href="/activate" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/activate" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 opacity-60">🔑</div>
                                                     Kích hoạt bằng mã
                                                 </Link>
-                                                <Link href="/orders" className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/orders" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 opacity-60">🧾</div>
                                                     Lịch sử đơn hàng
-                                                    {pendingOrdersCount > 0 && <span className="ml-auto bg-foreground text-background text-[10px] w-5 h-5 flex items-center justify-center rounded-full">{pendingOrdersCount}</span>}
+                                                    {pendingOrdersCount > 0 && <span className="ml-auto bg-zinc-900 text-white text-[9px] w-4 h-4 flex items-center justify-center rounded-full font-bold">{pendingOrdersCount}</span>}
                                                 </Link>
-                                                <div className="h-px bg-muted my-1" />
+
+                                                <div className="h-px bg-zinc-100 my-2 mx-1" />
+
                                                 <button
-                                                    className="flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+                                                    className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-red-500 outline-none hover:bg-red-50 transition-colors"
                                                     onClick={handleLogout}
                                                 >
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 opacity-60">🚪</div>
                                                     Đăng xuất
                                                 </button>
                                             </div>

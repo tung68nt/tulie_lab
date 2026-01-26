@@ -395,17 +395,18 @@ export class UserService {
             where: {
                 type: 'SUBSCRIPTION',
                 OR: [
-                    { slug: { equals: tierLower, mode: 'insensitive' } },
-                    { slug: { equals: `membership-${tierLower}`, mode: 'insensitive' } },
+                    { slug: { contains: tierLower, mode: 'insensitive' } },
                     { title: { contains: tierLower, mode: 'insensitive' } }
                 ]
             }
         });
 
-        // If specific tier product not found, ONLY fallback to generic if we aren't explicitly asking for a tier like BASIC
-        if (!product && tier.toUpperCase() === 'PREMIUM') {
+        // Fallback or generic matching
+        if (!product) {
+            console.warn(`[UserService.grantMembership] No specific product found for tier: ${tier}. Searching for any subscription product.`);
             product = await prisma.product.findFirst({
-                where: { type: 'SUBSCRIPTION' }
+                where: { type: 'SUBSCRIPTION' },
+                orderBy: { createdAt: 'asc' }
             });
         }
 
