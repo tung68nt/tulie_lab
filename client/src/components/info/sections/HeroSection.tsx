@@ -18,9 +18,7 @@ export function HeroSection({ section }: { section: Section }) {
 
                 {/* Standard Dot Pattern */}
                 {section.showDotPattern !== false && (
-                    <div className="absolute inset-0 opacity-50">
-                        <DotPatternBackground withVignette={false} />
-                    </div>
+                    <DotPatternBackground withVignette={false} />
                 )}
             </div>
 

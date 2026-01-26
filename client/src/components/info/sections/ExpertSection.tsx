@@ -3,7 +3,7 @@ import { SectionTag } from '@/components/SectionTag';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 interface ExpertSectionProps {
     section: Section;
 }
@@ -25,9 +25,8 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
 
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-            {/* Unified Dotted Background - more visible as requested */}
-            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark opacity-100 pointer-events-none"></div>
-            <div className="absolute inset-0 bg-background/50 [mask-image:radial-gradient(ellipse_at_center,transparent_0%,black_100%)] opacity-40 pointer-events-none"></div>
+            {/* Standard Dot Pattern Background */}
+            <DotPatternBackground />
 
             <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
