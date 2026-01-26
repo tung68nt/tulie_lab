@@ -34,11 +34,18 @@ export default function AdminUserDetailPage() {
 
     useEffect(() => {
         if (user) {
-            const isMemberActive = user.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
             const activeSub = user.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+            const isMemberActive = !!activeSub;
+
+            let currentTier = 'FREE';
+            if (activeSub) {
+                const title = (activeSub.product?.title || '').toUpperCase();
+                if (title.includes('BASIC')) currentTier = 'BASIC';
+                else currentTier = 'PREMIUM'; // Default to Premium if active and not basic
+            }
 
             setMembershipForm({
-                tier: isMemberActive ? 'PREMIUM' : 'FREE',
+                tier: currentTier,
                 expiryDate: activeSub ? new Date(activeSub.endDate).toISOString().split('T')[0] : ''
             });
         }
@@ -173,7 +180,7 @@ export default function AdminUserDetailPage() {
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-bold text-muted-foreground mb-2">Gói thành viên</div>
                         <div className="text-xl font-bold max-w-full px-2">
-                            {isMemberActive ? 'Premium' : 'Free'}
+                            {isMemberActive ? (activeSub.product?.title?.replace('Hội viên ', '') || 'Premium') : 'Free'}
                         </div>
                         <div className="text-xs text-muted-foreground mt-1.5 font-medium min-h-[32px] flex items-end">
                             {isMemberActive ? `Hết hạn: ${new Date(activeSub.endDate).toLocaleDateString('vi-VN')}` : ' '}

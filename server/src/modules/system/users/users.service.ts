@@ -390,18 +390,24 @@ export class UserService {
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + days);
 
-        // Try to find a subscription product to link
-        const product = await prisma.product.findFirst({
+        // 3. Try to find a subscription product that matches the tier
+        let product = await prisma.product.findFirst({
             where: {
                 type: 'SUBSCRIPTION',
                 OR: [
-                    { slug: { contains: tierLower, mode: 'insensitive' } },
+                    { slug: { equals: tierLower, mode: 'insensitive' } },
+                    { slug: { equals: `membership-${tierLower}`, mode: 'insensitive' } },
                     { title: { contains: tierLower, mode: 'insensitive' } }
                 ]
             }
-        }) || await prisma.product.findFirst({
-            where: { type: 'SUBSCRIPTION' }
         });
+
+        // If specific tier product not found, ONLY fallback to generic if we aren't explicitly asking for a tier like BASIC
+        if (!product && tier.toUpperCase() === 'PREMIUM') {
+            product = await prisma.product.findFirst({
+                where: { type: 'SUBSCRIPTION' }
+            });
+        }
 
         console.log(`[UserService.grantMembership] Granting ${tier} to user ${userId} for ${days} days until ${endDate.toISOString()}`);
 

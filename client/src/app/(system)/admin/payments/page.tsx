@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, RefreshCw, ArrowLeft, History, Search, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Loader2, RefreshCw, ArrowLeft, History, Search, FileText, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import Link from 'next/link';
 
@@ -19,6 +19,7 @@ interface Transaction {
     referenceCode: string;
     description: string;
     code: string;
+    orderId?: string;
     createdAt: string;
 }
 
@@ -32,6 +33,7 @@ export default function AdminPaymentsPage() {
     const [endDate, setEndDate] = useState('');
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
+    const [syncLimit, setSyncLimit] = useState(20);
     const limit = 20;
 
     const loadTransactions = useCallback(async (currentPage: number, currentSearch: string, start: string, end: string) => {
@@ -71,7 +73,7 @@ export default function AdminPaymentsPage() {
     const handleSync = async () => {
         setSyncing(true);
         try {
-            const res = await api.admin.payments.syncTransactions();
+            const res = await api.admin.payments.syncTransactions({ limit: syncLimit });
             addToast(`Đã đồng bộ thành công ${res.result?.processed || 0} giao dịch`, 'success');
             setPage(1);
             loadTransactions(1, search, startDate, endDate);
@@ -109,16 +111,30 @@ export default function AdminPaymentsPage() {
                 subtitle="Theo dõi các giao dịch ngân hàng được đồng bộ tự động"
             >
                 <div className="flex gap-2">
-                    <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={handleSync}
-                        disabled={syncing}
-                        className="gap-2"
-                    >
-                        <RefreshCw size={14} className={syncing ? 'animate-spin' : ''} />
-                        {syncing ? 'Đang đồng bộ...' : 'Đồng bộ giao dịch'}
-                    </Button>
+                    <div className="flex items-center gap-1 border rounded-lg bg-white overflow-hidden shadow-sm">
+                        <select
+                            className="text-xs font-bold px-2 py-1.5 bg-transparent border-0 focus:outline-none focus:ring-0 cursor-pointer"
+                            value={syncLimit}
+                            onChange={(e) => setSyncLimit(Number(e.target.value))}
+                            disabled={syncing}
+                        >
+                            <option value={20}>20</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                            <option value={500}>500</option>
+                            <option value={1000}>1000</option>
+                        </select>
+                        <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={handleSync}
+                            disabled={syncing}
+                            className="gap-2 rounded-none border-l h-8"
+                        >
+                            <RefreshCw size={14} className={syncing ? 'animate-spin' : ''} />
+                            {syncing ? 'Đang sync...' : 'Đồng bộ'}
+                        </Button>
+                    </div>
                     <Link href="/admin/orders">
                         <Button variant="outline" size="sm" className="gap-2">
                             <FileText size={14} />
@@ -232,13 +248,16 @@ export default function AdminPaymentsPage() {
                                                 </td>
                                                 <td className="py-3 px-4 text-center">
                                                     {tx.code ? (
-                                                        <Link href={`/admin/orders?search=${tx.code}`}>
-                                                            <span className="text-[11px] bg-zinc-900 text-zinc-100 px-3 py-1 rounded-full font-mono font-bold whitespace-nowrap hover:bg-zinc-700 transition-colors cursor-pointer">
-                                                                {tx.code}
-                                                            </span>
+                                                        <Link href={tx.orderId ? `/admin/orders/${tx.orderId}` : `/admin/orders?search=${tx.code}`}>
+                                                            <div className="group flex items-center justify-center gap-1.5 cursor-pointer">
+                                                                <span className="text-[11px] bg-zinc-900 text-zinc-100 px-3 py-1 rounded-full font-mono font-bold whitespace-nowrap group-hover:bg-zinc-700 transition-colors shadow-sm">
+                                                                    {tx.code}
+                                                                </span>
+                                                                {tx.orderId && <ExternalLink size={10} className="text-zinc-400 group-hover:text-zinc-900 transition-colors" />}
+                                                            </div>
                                                         </Link>
                                                     ) : (
-                                                        <span className="text-[10px] text-muted-foreground">Không xác định</span>
+                                                        <span className="text-[10px] text-muted-foreground italic">Không xác định</span>
                                                     )}
                                                 </td>
                                             </tr>

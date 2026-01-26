@@ -366,7 +366,19 @@ export class PaymentService {
             prisma.paymentTransaction.count({ where })
         ]);
 
-        return { data: transactions, total };
+        // Enrich with orderId if code exists
+        const enrichedTransactions = await Promise.all(transactions.map(async (tx) => {
+            if (tx.code && tx.code.startsWith('DH')) {
+                const order = await prisma.order.findUnique({
+                    where: { code: tx.code },
+                    select: { id: true }
+                });
+                return { ...tx, orderId: order?.id };
+            }
+            return tx;
+        }));
+
+        return { data: enrichedTransactions, total };
     }
 
     async syncTransactions(params: {
@@ -375,7 +387,7 @@ export class PaymentService {
         dateMin?: string;
         dateMax?: string;
     } = {}) {
-        const { accountNumber, limit = 20, dateMin, dateMax } = params;
+        const { accountNumber, limit = 100, dateMin, dateMax } = params;
         let apiKey = env.SEPAY_API_KEY;
 
         if (!apiKey) {
