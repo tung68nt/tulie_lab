@@ -234,729 +234,747 @@ export default function AdminUserDetailPage() {
                 </Card>
             </div>
 
-            {/* Tabs Navigation */}
-            {/* Tabs Navigation */}
-            <div className="flex flex-wrap items-center gap-1 border-b pb-px overflow-x-auto no-scrollbar">
-                {tabs.map(tab => (
-                    <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`flex items-center gap-2 px-4 py-3 text-sm transition-all rounded-t-lg ${activeTab === tab.id
-                            ? 'bg-zinc-100 text-zinc-900 border-b-2 border-zinc-900 font-bold'
-                            : 'text-muted-foreground hover:bg-zinc-50 hover:text-zinc-900 font-medium'
-                            }`}
-                    >
-                        <tab.icon size={16} />
-                        <span className="whitespace-nowrap">{tab.label}</span>
-                    </button>
-                ))}
-            </div>
-
-            {/* Tab Content */}
-            <div className="animate-in fade-in duration-300">
-                {activeTab === 'overview' && (
-                    <div className="grid gap-6 md:grid-cols-3">
-                        <div className="md:col-span-2 space-y-6">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <User size={18} /> Thông tin hồ sơ
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="grid gap-6 md:grid-cols-2">
-                                    <div className="space-y-4">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Họ và tên</span>
-                                            <span className="text-sm font-medium text-zinc-900">{user.profile?.name || 'Chưa cập nhật'}</span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Email</span>
-                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
-                                                {user.email} <Mail size={12} className="text-zinc-300" />
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Số điện thoại</span>
-                                            <span className="text-sm font-medium text-zinc-900">{user.profile?.phone || 'Chưa cập nhật'}</span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Ngày sinh</span>
-                                            <span className="text-sm font-medium text-zinc-900">{user.profile?.birthDate ? new Date(user.profile.birthDate).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}</span>
-                                        </div>
-                                    </div>
-                                    <div className="space-y-4">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Nghề nghiệp</span>
-                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
-                                                <Briefcase size={14} className="text-zinc-300" /> {user.profile?.occupation || 'Chưa cập nhật'}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Công ty</span>
-                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
-                                                <Building size={14} className="text-zinc-300" /> {user.profile?.company || 'Chưa cập nhật'}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Địa chỉ</span>
-                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
-                                                <MapPin size={14} className="text-zinc-300" />
-                                                {[user.profile?.address, user.profile?.city].filter(Boolean).join(', ') || 'Chưa cập nhật'}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-zinc-400 font-medium">Ngày tham gia</span>
-                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2">
-                                                <Calendar size={14} className="text-zinc-300" /> {formatDate(user.createdAt)}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-base font-medium flex items-center gap-2">
-                                        <Shield size={18} className="text-zinc-400" /> Phân quyền & Bảo mật
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <div className="flex justify-between items-center py-2 border-b">
-                                        <span className="text-sm">Loại tài khoản</span>
-                                        <span className="px-2 py-0.5 bg-muted rounded text-xs font-medium uppercase">{user.role}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center py-2 border-b">
-                                        <span className="text-sm font-medium">Trạng thái hội viên</span>
-                                        {(() => {
-                                            const activeSub = user.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
-                                            if (!activeSub) return <span className="bg-muted text-muted-foreground text-[10px] px-2 py-0.5 rounded-full font-medium">Free</span>;
-                                            const title = (activeSub.product?.title || '').toUpperCase();
-                                            if (title.includes('BASIC')) {
-                                                return <span className="bg-zinc-100 text-zinc-900 border border-zinc-200 text-[10px] px-2 py-0.5 rounded-full font-medium">Basic</span>;
-                                            }
-                                            return <span className="bg-zinc-900 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">Premium</span>;
-                                        })()}
-                                    </div>
-                                    <div className="flex justify-between items-center py-2">
-                                        <span className="text-sm">Email Marketing</span>
-                                        <span className="text-xs font-medium">{user.profile?.allowEmailMarketing ? 'Đăng ký' : 'Hủy'}</span>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </div>
-
-                        <div className="space-y-6">
-                            <Card className="bg-white border shadow-sm">
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium text-zinc-900 flex items-center gap-2">
-                                        <div className="w-1 h-3 bg-zinc-900 rounded-full" />
-                                        Tóm tắt hoạt động
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-6">
-                                    <div className="flex gap-4 items-center">
-                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
-                                            <BookOpen size={18} className="text-zinc-400" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
-                                            <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Khóa học đăng ký</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-4 items-center">
-                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
-                                            <Package size={18} className="text-zinc-400" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
-                                            <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Sản phẩm sở hữu</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-4 items-center">
-                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
-                                            <CreditCard size={18} className="text-zinc-400" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.orders?.length || 0}</p>
-                                            <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Tổng đơn hàng</p>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-sm font-bold">Thiết bị gần nhất</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-3">
-                                    {user.activities?.[0] ? (
-                                        <div className="flex gap-3 overflow-hidden">
-                                            <Monitor size={18} className="text-muted-foreground mt-0.5 shrink-0" />
-                                            <div className="flex-1 min-w-0">
-                                                <p className="text-xs font-normal text-zinc-600 break-words line-clamp-3">{user.activities[0].device || 'Hệ điều hành / Trình duyệt'}</p>
-                                                <p className="text-[10px] text-zinc-400 mt-1">{user.activities[0].ipAddress}</p>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <p className="text-xs text-muted-foreground">Chưa có thông tin</p>
-                                    )}
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </div>
-                )}
-
-                {activeTab === 'courses' && (
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <div>
-                                <CardTitle className="text-base">Khóa học đã đăng ký</CardTitle>
-                                <CardDescription>Danh sách tất cả các khóa học người dùng đã truy cập.</CardDescription>
-                            </div>
-                            <div className="flex gap-2">
-                                <select
-                                    className="text-sm border rounded-md px-3 h-9 bg-background focus:outline-none focus:ring-1 focus:ring-foreground"
-                                    value={selectedCourse}
-                                    onChange={(e) => setSelectedCourse(e.target.value)}
-                                >
-                                    <option value="">Chọn khóa học...</option>
-                                    {allCourses.filter(c => !user.enrollments?.some((e: any) => e.courseId === c.id)).map(c => (
-                                        <option key={c.id} value={c.id}>{c.title}</option>
-                                    ))}
-                                </select>
-                                <Button
-                                    size="sm"
-                                    disabled={!selectedCourse}
-                                    onClick={() => handleAction(() => api.admin.enrollUser(id as string, selectedCourse), 'Đã kích hoạt khóa học thành công')}
-                                >
-                                    Kích hoạt thủ công
-                                </Button>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid gap-4 md:grid-cols-2">
-                                {user.enrollments?.map((enroll: any) => (
-                                    <div key={enroll.id} className="flex gap-4 p-4 border rounded-xl hover:bg-muted/30 transition-colors group">
-                                        <div className="h-20 w-32 shrink-0 bg-muted rounded-lg overflow-hidden border">
-                                            {enroll.course?.thumbnail && <img src={enroll.course.thumbnail} className="h-full w-full object-cover" />}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <h4 className="font-bold text-sm truncate">{enroll.course?.title}</h4>
-                                            <p className="text-[10px] text-muted-foreground mb-3 flex items-center gap-1">
-                                                <Clock size={10} /> Đã kích hoạt: {formatDate(enroll.createdAt)}
-                                            </p>
-                                            <div className="flex gap-2">
-                                                <Link href={`/admin/courses/${enroll.courseId}`} className="text-[10px] font-bold text-zinc-900 hover:underline">Quản lý nội dung</Link>
-                                                <button
-                                                    className="text-[10px] font-bold text-zinc-500 hover:underline hover:text-zinc-900"
-                                                    onClick={() => handleAction(() => api.admin.unenrollUser(id as string, enroll.courseId), 'Đã gỡ quyền truy cập khóa học', 'Gỡ quyền truy cập khóa học này?')}
-                                                >
-                                                    Gỡ quyền
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                                {(!user.enrollments || user.enrollments.length === 0) && (
-                                    <div className="col-span-2 text-center py-20 bg-muted/20 rounded-xl border border-dashed">
-                                        <BookOpen className="h-8 w-8 mx-auto text-muted-foreground mb-2 opacity-50" />
-                                        <p className="text-sm text-muted-foreground font-medium">Chưa đăng ký khóa học nào</p>
-                                    </div>
+            <div className="flex flex-col md:flex-row gap-6">
+                {/* Sidebar Navigation */}
+                <div className="w-full md:w-64 space-y-1 shrink-0">
+                    <div className="sticky top-24 space-y-1">
+                        {tabs.map(tab => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`flex items-center gap-3 px-4 py-3 text-sm transition-all rounded-xl w-full text-left ${activeTab === tab.id
+                                    ? 'bg-zinc-900 text-zinc-100 font-bold shadow-sm'
+                                    : 'text-muted-foreground hover:bg-zinc-100/80 hover:text-zinc-900 font-medium'
+                                    }`}
+                            >
+                                <tab.icon size={18} className={activeTab === tab.id ? 'text-zinc-100' : 'text-zinc-500'} />
+                                <span>{tab.label}</span>
+                                {activeTab === tab.id && (
+                                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white opacity-50" />
                                 )}
-                            </div>
-                        </CardContent>
-                    </Card>
-                )}
-
-                {activeTab === 'products' && (
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="text-base">Sản phẩm & Tải xuống</CardTitle>
-                            <CardDescription>Các Templates, Apps hoặc License mà người dùng đã mua.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
-                                    <thead>
-                                        <tr className="border-b bg-muted/30">
-                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Tên sản phẩm</th>
-                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Phiên bản ghi nhận</th>
-                                            <th className="text-left py-3 px-4 font-bold text-[10px]">Ngày mua</th>
-                                            <th className="text-center py-3 px-4 font-bold text-[10px]">Tính năng</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y">
-                                        {user.purchasedProducts?.map((p: any) => (
-                                            <tr key={p.id} className="hover:bg-muted/20 transition-colors">
-                                                <td className="py-4 px-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="h-10 w-10 rounded border bg-muted shrink-0 overflow-hidden">
-                                                            {p.thumbnail && <img src={p.thumbnail} className="h-full w-full object-cover" />}
-                                                        </div>
-                                                        <span className="font-bold">{p.title}</span>
-                                                    </div>
-                                                </td>
-                                                <td className="py-4 px-4 font-mono text-xs text-zinc-900">v{p.currentVersion || '1.0.0'}</td>
-                                                <td className="py-4 px-4 text-muted-foreground">{formatDate(p.purchasedAt)}</td>
-                                                <td className="py-4 px-4 text-center">
-                                                    <Button variant="outline" size="sm" onClick={() => window.open(`/admin/products/${p.id}`, '_blank')}>
-                                                        <ExternalLink size={12} className="mr-1" /> View
-                                                    </Button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        {(!user.purchasedProducts || user.purchasedProducts.length === 0) && (
-                                            <tr>
-                                                <td colSpan={4} className="text-center py-20 text-muted-foreground">Chưa có sản phẩm nào được mua.</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </CardContent>
-                    </Card>
-                )}
-
-                {activeTab === 'membership' && (
-                    <div className="space-y-6">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-base">Quản lý Gói Hội Viên</CardTitle>
-                                <CardDescription>Cấp quyền hội viên Premium để truy cập tất cả nội dung.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="flex items-center justify-between p-4 border rounded-xl bg-zinc-50/50">
-                                    <div className="flex items-center gap-3">
-                                        <div className={`h-12 w-12 rounded-full flex items-center justify-center ${isMemberActive ? 'bg-zinc-100 text-zinc-900 border' : 'bg-muted text-muted-foreground'}`}>
-                                            <Shield size={24} />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-lg">{isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Gói miễn phí'}</h4>
-                                            <p className="text-xs text-muted-foreground">
-                                                {isMemberActive
-                                                    ? `Gói đang kích hoạt, hết hạn vào ${new Date(activeSub.endDate).toLocaleDateString('vi-VN')}`
-                                                    : 'Người dùng hiện chỉ có quyền truy cập nội dung miễn phí.'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <span className={`px-3 py-1 rounded-full text-[10px] font-medium ${isMemberActive ? 'bg-zinc-900 text-zinc-100' : 'bg-muted text-zinc-500'}`}>
-                                        {isMemberActive ? 'Active' : 'None'}
-                                    </span>
-                                </div>
-
-                                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border rounded-xl bg-zinc-50/50">
-                                    <div className="flex flex-col gap-2">
-                                        <label className="text-[10px] font-medium text-zinc-400">Gói hội viên</label>
-                                        <select
-                                            className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-900 cursor-pointer"
-                                            value={membershipForm.tier}
-                                            onChange={(e) => setMembershipForm({ ...membershipForm, tier: e.target.value })}
-                                        >
-                                            <option value="FREE">Free</option>
-                                            <option value="BASIC">Basic</option>
-                                            <option value="PREMIUM">Premium</option>
-                                        </select>
-                                    </div>
-                                    <div className="flex flex-col gap-2">
-                                        <label className="text-[10px] font-medium text-zinc-400">Ngày hết hạn</label>
-                                        <div className="relative">
-                                            <input
-                                                type="date"
-                                                className="w-full text-sm border rounded-md px-3 h-10 bg-background focus:outline-none focus:ring-1 focus:ring-foreground disabled:opacity-50 cursor-pointer"
-                                                value={membershipForm.expiryDate}
-                                                onChange={(e) => setMembershipForm({ ...membershipForm, expiryDate: e.target.value })}
-                                                disabled={membershipForm.tier === 'FREE'}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="h-10">
-                                        <Button
-                                            size="sm"
-                                            className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-medium h-full rounded-lg"
-                                            onClick={handleSaveMembership}
-                                            disabled={!!processingAction}
-                                        >
-                                            {processingAction === 'loading' ? <Loader2 size={16} className="animate-spin mr-2" /> : <div className="flex items-center justify-center gap-2"><CheckCircle2 size={16} /> Lưu thay đổi</div>}
-                                        </Button>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-3 pt-4 border-t border-zinc-100">
-                                    <h4 className="text-[10px] font-medium text-zinc-400">Lịch sử Membership</h4>
-                                    <div className="space-y-2 border rounded-xl overflow-hidden">
-                                        {user.subscriptions?.map((s: any) => (
-                                            <div key={s.id} className="flex justify-between items-center p-3 border-b last:border-0 hover:bg-muted/20">
-                                                <div className="flex items-center gap-3 text-sm">
-                                                    <History size={14} className="text-muted-foreground" />
-                                                    <span className="font-medium">{s.product?.title || 'System Plan'}</span>
-                                                </div>
-                                                <div className="flex gap-4 items-center">
-                                                    <span className="text-[10px] text-muted-foreground">
-                                                        {new Date(s.startDate).toLocaleDateString('vi-VN')} - {new Date(s.endDate).toLocaleDateString('vi-VN')}
-                                                    </span>
-                                                    <span className={`text-[10px] font-medium ${s.status === 'ACTIVE' ? 'text-zinc-900 border border-zinc-200 px-2 py-0.5 rounded-full bg-white' : 'text-zinc-400'}`}>
-                                                        {s.status === 'ACTIVE' ? 'Active' : 'Expired'}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {(!user.subscriptions || user.subscriptions.length === 0) && (
-                                            <p className="text-center py-10 text-xs text-muted-foreground">Chưa có lịch sử đăng ký.</p>
-                                        )}
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card >
-                    </div >
-                )
-                }
-
-
-                {
-                    activeTab === 'orders' && (
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-base">Lịch sử đơn hàng</CardTitle>
-                                <CardDescription>Tất cả các giao dịch thanh toán và đơn hàng chờ xử lý.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-sm">
-                                        <thead>
-                                            <tr className="border-b bg-zinc-50/50">
-                                                <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Mã đơn</th>
-                                                <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Nội dung</th>
-                                                <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Số tiền</th>
-                                                <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Trạng thái</th>
-                                                <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Ngày tạo</th>
-                                                <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Thao tác</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y text-xs">
-                                            {user.orders?.map((order: any) => (
-                                                <tr key={order.id} className="hover:bg-muted/10 transition-colors">
-                                                    <td className="py-3 px-4 font-medium font-mono text-zinc-900">
-                                                        {order.code}
-                                                    </td>
-                                                    <td className="py-3 px-4 max-w-[250px] truncate font-medium">
-                                                        {order.items?.map((item: any) => item.course?.title || item.product?.title).join(', ') || 'N/A'}
-                                                    </td>
-                                                    <td className="py-3 px-4 text-right font-medium text-sm text-zinc-900">
-                                                        {formatCurrency(order.amount)}
-                                                    </td>
-                                                    <td className="py-3 px-4 text-center">
-                                                        <span className={`px-2 py-0.5 rounded-full font-medium text-[9px] ${order.status === 'PAID' ? 'bg-zinc-900 text-zinc-100' :
-                                                            order.status === 'PENDING' ? 'bg-zinc-100 text-zinc-900 border border-zinc-200' :
-                                                                'bg-muted text-zinc-400'
-                                                            }`}>
-                                                            {order.status}
-                                                        </span>
-                                                    </td>
-                                                    <td className="py-3 px-4 text-right text-muted-foreground font-medium">
-                                                        {new Date(order.createdAt).toLocaleDateString('vi-VN')}
-                                                    </td>
-                                                    <td className="py-3 px-4 text-center">
-                                                        <button
-                                                            className="h-8 w-8 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-colors mx-auto text-zinc-400 hover:text-zinc-900"
-                                                            onClick={() => router.push(`/admin/orders?search=${order.code}`)}
-                                                            title="Xem chi tiết"
-                                                        >
-                                                            <Eye size={18} />
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                            {(!user.orders || user.orders.length === 0) && (
-                                                <tr>
-                                                    <td colSpan={6} className="text-center py-20 text-muted-foreground">Không có dữ liệu đơn hàng.</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    )
-                }
-
-                {activeTab === 'notes' && (
-                    <div className="space-y-6">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-base flex items-center gap-2">
-                                    <MessageSquare size={18} /> Ghi chú & Chăm sóc khách hàng
-                                </CardTitle>
-                                <CardDescription>Lưu lại các thông tin tư vấn, phàn hồi hoặc ghi chú đặc biệt về khách hàng.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div className="flex gap-4">
-                                    <textarea
-                                        className="flex-1 min-h-[100px] p-3 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-zinc-900 resize-none"
-                                        placeholder="Nhập ghi chú mới tại đây..."
-                                        value={newNote}
-                                        onChange={(e) => setNewNote(e.target.value)}
-                                    />
-                                    <Button
-                                        className="self-end h-10 bg-zinc-900"
-                                        disabled={!newNote || processingAction === 'note'}
-                                        onClick={() => handleAction(async () => {
-                                            const note = await api.admin.notes.add(id as string, newNote);
-                                            setNotes([note, ...notes]);
-                                            setNewNote('');
-                                        }, 'Đã lưu ghi chú', '')}
-                                    >
-                                        {processingAction === 'note' ? <Loader2 size={16} className="animate-spin" /> : 'Lưu ghi chú'}
-                                    </Button>
-                                </div>
-
-                                <div className="space-y-4 pt-6 border-t border-zinc-100">
-                                    <h4 className="text-xs font-medium text-zinc-400">Lịch sử ghi chú</h4>
-                                    <div className="space-y-3">
-                                        {notes.map((note: any) => (
-                                            <div key={note.id} className="p-4 bg-zinc-50 border border-zinc-100 rounded-xl space-y-2">
-                                                <div className="flex justify-between items-start">
-                                                    <span className="text-[10px] font-medium text-zinc-400 flex items-center gap-1">
-                                                        <Clock size={10} /> {formatDate(note.createdAt)}
-                                                    </span>
-                                                    <span className="text-[10px] bg-white border border-zinc-200 px-2 py-0.5 rounded-full text-zinc-600 font-medium">
-                                                        {note.adminName || 'Admin'}
-                                                    </span>
-                                                </div>
-                                                <p className="text-sm text-zinc-800 leading-relaxed whitespace-pre-wrap">{note.content}</p>
-                                            </div>
-                                        ))}
-                                        {notes.length === 0 && (
-                                            <div className="text-center py-20 text-zinc-400 italic text-sm">Chưa có ghi chú nào.</div>
-                                        )}
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                            </button>
+                        ))}
                     </div>
-                )}
+                </div>
 
-                {activeTab === 'invoices' && (
-                    <div className="space-y-6">
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between">
-                                <div>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <FileText size={18} /> Hồ sơ xuất hóa đơn
-                                    </CardTitle>
-                                    <CardDescription>Danh sách các pháp nhân khách hàng dùng để xuất hóa đơn VAT.</CardDescription>
+                {/* Main Content Area */}
+                <div className="flex-1 min-w-0">
+                    <div className="animate-in fade-in duration-300">
+                        {activeTab === 'overview' && (
+                            <div className="grid gap-6 md:grid-cols-3">
+                                <div className="md:col-span-2 space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-base flex items-center gap-2">
+                                                <User size={18} /> Thông tin hồ sơ
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="grid gap-6 md:grid-cols-2">
+                                            <div className="space-y-4">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Họ và tên</span>
+                                                    <span className="text-sm font-medium text-zinc-900">{user.profile?.name || 'Chưa cập nhật'}</span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Email</span>
+                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                        {user.email} <Mail size={12} className="text-zinc-300" />
+                                                    </span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Số điện thoại</span>
+                                                    <span className="text-sm font-medium text-zinc-900">{user.profile?.phone || 'Chưa cập nhật'}</span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Ngày sinh</span>
+                                                    <span className="text-sm font-medium text-zinc-900">{user.profile?.birthDate ? new Date(user.profile.birthDate).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}</span>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-4">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Nghề nghiệp</span>
+                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                        <Briefcase size={14} className="text-zinc-300" /> {user.profile?.occupation || 'Chưa cập nhật'}
+                                                    </span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Công ty</span>
+                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                        <Building size={14} className="text-zinc-300" /> {user.profile?.company || 'Chưa cập nhật'}
+                                                    </span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Địa chỉ</span>
+                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                        <MapPin size={14} className="text-zinc-300" />
+                                                        {[user.profile?.address, user.profile?.city].filter(Boolean).join(', ') || 'Chưa cập nhật'}
+                                                    </span>
+                                                </div>
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-xs text-zinc-400 font-medium">Ngày tham gia</span>
+                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2">
+                                                        <Calendar size={14} className="text-zinc-300" /> {formatDate(user.createdAt)}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-base font-medium flex items-center gap-2">
+                                                <Shield size={18} className="text-zinc-400" /> Phân quyền & Bảo mật
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="space-y-4">
+                                            <div className="flex justify-between items-center py-2 border-b">
+                                                <span className="text-sm">Loại tài khoản</span>
+                                                <span className="px-2 py-0.5 bg-muted rounded text-xs font-medium uppercase">{user.role}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center py-2 border-b">
+                                                <span className="text-sm font-medium">Trạng thái hội viên</span>
+                                                {(() => {
+                                                    const activeSub = user.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+                                                    if (!activeSub) return <span className="bg-muted text-muted-foreground text-[10px] px-2 py-0.5 rounded-full font-medium">Free</span>;
+                                                    const title = (activeSub.product?.title || '').toUpperCase();
+                                                    if (title.includes('BASIC')) {
+                                                        return <span className="bg-zinc-100 text-zinc-900 border border-zinc-200 text-[10px] px-2 py-0.5 rounded-full font-medium">Basic</span>;
+                                                    }
+                                                    return <span className="bg-zinc-900 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">Premium</span>;
+                                                })()}
+                                            </div>
+                                            <div className="flex justify-between items-center py-2">
+                                                <span className="text-sm">Email Marketing</span>
+                                                <span className="text-xs font-medium">{user.profile?.allowEmailMarketing ? 'Đăng ký' : 'Hủy'}</span>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
                                 </div>
-                                <Button
-                                    size="sm"
-                                    variant="outline"
-                                    className="border-zinc-200"
-                                    onClick={() => setShowInvoiceForm(!showInvoiceForm)}
-                                >
-                                    <Plus size={16} className="mr-1" /> Thêm hồ sơ mới
-                                </Button>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                {showInvoiceForm && (
-                                    <div className="p-5 border border-zinc-100 bg-zinc-50 rounded-2xl grid gap-4 md:grid-cols-2">
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-medium text-zinc-400">Tên công ty</label>
-                                            <input
-                                                className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
-                                                value={invoiceForm.companyName}
-                                                onChange={(e) => setInvoiceForm({ ...invoiceForm, companyName: e.target.value })}
-                                            />
+
+                                <div className="space-y-6">
+                                    <Card className="bg-white border shadow-sm">
+                                        <CardHeader className="pb-2">
+                                            <CardTitle className="text-sm font-medium text-zinc-900 flex items-center gap-2">
+                                                <div className="w-1 h-3 bg-zinc-900 rounded-full" />
+                                                Tóm tắt hoạt động
+                                            </CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="space-y-6">
+                                            <div className="flex gap-4 items-center">
+                                                <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                                    <BookOpen size={18} className="text-zinc-400" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
+                                                    <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Khóa học đăng ký</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-4 items-center">
+                                                <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                                    <Package size={18} className="text-zinc-400" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
+                                                    <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Sản phẩm sở hữu</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-4 items-center">
+                                                <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                                    <CreditCard size={18} className="text-zinc-400" />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium text-zinc-900 leading-none">{user.orders?.length || 0}</p>
+                                                    <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Tổng đơn hàng</p>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-sm font-bold">Thiết bị gần nhất</CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="space-y-3">
+                                            {user.activities?.[0] ? (
+                                                <div className="flex gap-3 overflow-hidden">
+                                                    <Monitor size={18} className="text-muted-foreground mt-0.5 shrink-0" />
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-normal text-zinc-600 break-words line-clamp-3">{user.activities[0].device || 'Hệ điều hành / Trình duyệt'}</p>
+                                                        <p className="text-[10px] text-zinc-400 mt-1">{user.activities[0].ipAddress}</p>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <p className="text-xs text-muted-foreground">Chưa có thông tin</p>
+                                            )}
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </div>
+                        )
+                        }
+
+                        {
+                            activeTab === 'courses' && (
+                                <Card>
+                                    <CardHeader className="flex flex-row items-center justify-between">
+                                        <div>
+                                            <CardTitle className="text-base">Khóa học đã đăng ký</CardTitle>
+                                            <CardDescription>Danh sách tất cả các khóa học người dùng đã truy cập.</CardDescription>
                                         </div>
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-medium text-zinc-400">Mã số thuế</label>
-                                            <input
-                                                className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
-                                                value={invoiceForm.taxCode}
-                                                onChange={(e) => setInvoiceForm({ ...invoiceForm, taxCode: e.target.value })}
-                                            />
-                                        </div>
-                                        <div className="space-y-2 md:col-span-2">
-                                            <label className="text-[10px] font-medium text-zinc-400">Địa chỉ công ty</label>
-                                            <input
-                                                className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
-                                                value={invoiceForm.address}
-                                                onChange={(e) => setInvoiceForm({ ...invoiceForm, address: e.target.value })}
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-[10px] font-medium text-zinc-400">Email nhận hóa đơn</label>
-                                            <input
-                                                className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
-                                                value={invoiceForm.email}
-                                                onChange={(e) => setInvoiceForm({ ...invoiceForm, email: e.target.value })}
-                                            />
-                                        </div>
-                                        <div className="flex items-center gap-2 self-end h-10">
-                                            <input
-                                                type="checkbox"
-                                                id="isDefault"
-                                                className="rounded border-zinc-300"
-                                                checked={invoiceForm.isDefault}
-                                                onChange={(e) => setInvoiceForm({ ...invoiceForm, isDefault: e.target.checked })}
-                                            />
-                                            <label htmlFor="isDefault" className="text-xs text-zinc-600 cursor-pointer">Đặt làm mặc định</label>
-                                        </div>
-                                        <div className="md:col-span-2 flex justify-end gap-2 pt-2">
-                                            <Button variant="ghost" size="sm" onClick={() => setShowInvoiceForm(false)}>Hủy</Button>
+                                        <div className="flex gap-2">
+                                            <select
+                                                className="text-sm border rounded-md px-3 h-9 bg-background focus:outline-none focus:ring-1 focus:ring-foreground"
+                                                value={selectedCourse}
+                                                onChange={(e) => setSelectedCourse(e.target.value)}
+                                            >
+                                                <option value="">Chọn khóa học...</option>
+                                                {allCourses.filter(c => !user.enrollments?.some((e: any) => e.courseId === c.id)).map(c => (
+                                                    <option key={c.id} value={c.id}>{c.title}</option>
+                                                ))}
+                                            </select>
                                             <Button
                                                 size="sm"
-                                                className="bg-zinc-900"
-                                                onClick={() => handleAction(async () => {
-                                                    const profile = await api.admin.invoices.createProfile(id as string, invoiceForm);
-                                                    setInvoiceProfiles([profile, ...invoiceProfiles]);
-                                                    setShowInvoiceForm(false);
-                                                    setInvoiceForm({ companyName: '', taxCode: '', address: '', email: '', isDefault: false });
-                                                }, 'Đã thêm hồ sơ hóa đơn', '')}
+                                                disabled={!selectedCourse}
+                                                onClick={() => handleAction(() => api.admin.enrollUser(id as string, selectedCourse), 'Đã kích hoạt khóa học thành công')}
                                             >
-                                                <Save size={14} className="mr-1" /> Lưu hồ sơ
+                                                Kích hoạt thủ công
                                             </Button>
                                         </div>
-                                    </div>
-                                )}
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="grid gap-4 md:grid-cols-2">
+                                            {user.enrollments?.map((enroll: any) => (
+                                                <div key={enroll.id} className="flex gap-4 p-4 border rounded-xl hover:bg-muted/30 transition-colors group">
+                                                    <div className="h-20 w-32 shrink-0 bg-muted rounded-lg overflow-hidden border">
+                                                        {enroll.course?.thumbnail && <img src={enroll.course.thumbnail} className="h-full w-full object-cover" />}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h4 className="font-bold text-sm truncate">{enroll.course?.title}</h4>
+                                                        <p className="text-[10px] text-muted-foreground mb-3 flex items-center gap-1">
+                                                            <Clock size={10} /> Đã kích hoạt: {formatDate(enroll.createdAt)}
+                                                        </p>
+                                                        <div className="flex gap-2">
+                                                            <Link href={`/admin/courses/${enroll.courseId}`} className="text-[10px] font-bold text-zinc-900 hover:underline">Quản lý nội dung</Link>
+                                                            <button
+                                                                className="text-[10px] font-bold text-zinc-500 hover:underline hover:text-zinc-900"
+                                                                onClick={() => handleAction(() => api.admin.unenrollUser(id as string, enroll.courseId), 'Đã gỡ quyền truy cập khóa học', 'Gỡ quyền truy cập khóa học này?')}
+                                                            >
+                                                                Gỡ quyền
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {(!user.enrollments || user.enrollments.length === 0) && (
+                                                <div className="col-span-2 text-center py-20 bg-muted/20 rounded-xl border border-dashed">
+                                                    <BookOpen className="h-8 w-8 mx-auto text-muted-foreground mb-2 opacity-50" />
+                                                    <p className="text-sm text-muted-foreground font-medium">Chưa đăng ký khóa học nào</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )
+                        }
 
-                                <div className="grid gap-4 md:grid-cols-2">
-                                    {invoiceProfiles.map((profile: any) => (
-                                        <div key={profile.id} className={`p-5 border rounded-2xl space-y-3 transition-all ${profile.isDefault ? 'border-zinc-900 bg-zinc-50' : 'border-zinc-100 hover:border-zinc-300'}`}>
-                                            <div className="flex justify-between items-start">
-                                                <h4 className="text-sm font-bold text-zinc-900">{profile.companyName}</h4>
-                                                {profile.isDefault && <span className="bg-zinc-900 text-white text-[9px] px-2 py-0.5 rounded-full uppercase">Mặc định</span>}
+                        {
+                            activeTab === 'products' && (
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="text-base">Sản phẩm & Tải xuống</CardTitle>
+                                        <CardDescription>Các Templates, Apps hoặc License mà người dùng đã mua.</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full text-sm">
+                                                <thead>
+                                                    <tr className="border-b bg-muted/30">
+                                                        <th className="text-left py-3 px-4 font-bold text-[10px]">Tên sản phẩm</th>
+                                                        <th className="text-left py-3 px-4 font-bold text-[10px]">Phiên bản ghi nhận</th>
+                                                        <th className="text-left py-3 px-4 font-bold text-[10px]">Ngày mua</th>
+                                                        <th className="text-center py-3 px-4 font-bold text-[10px]">Tính năng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y">
+                                                    {user.purchasedProducts?.map((p: any) => (
+                                                        <tr key={p.id} className="hover:bg-muted/20 transition-colors">
+                                                            <td className="py-4 px-4">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="h-10 w-10 rounded border bg-muted shrink-0 overflow-hidden">
+                                                                        {p.thumbnail && <img src={p.thumbnail} className="h-full w-full object-cover" />}
+                                                                    </div>
+                                                                    <span className="font-bold">{p.title}</span>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-4 px-4 font-mono text-xs text-zinc-900">v{p.currentVersion || '1.0.0'}</td>
+                                                            <td className="py-4 px-4 text-muted-foreground">{formatDate(p.purchasedAt)}</td>
+                                                            <td className="py-4 px-4 text-center">
+                                                                <Button variant="outline" size="sm" onClick={() => window.open(`/admin/products/${p.id}`, '_blank')}>
+                                                                    <ExternalLink size={12} className="mr-1" /> View
+                                                                </Button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                    {(!user.purchasedProducts || user.purchasedProducts.length === 0) && (
+                                                        <tr>
+                                                            <td colSpan={4} className="text-center py-20 text-muted-foreground">Chưa có sản phẩm nào được mua.</td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )
+                        }
+
+                        {
+                            activeTab === 'membership' && (
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-base">Quản lý Gói Hội Viên</CardTitle>
+                                            <CardDescription>Cấp quyền hội viên Premium để truy cập tất cả nội dung.</CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="space-y-6">
+                                            <div className="flex items-center justify-between p-4 border rounded-xl bg-zinc-50/50">
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`h-12 w-12 rounded-full flex items-center justify-center ${isMemberActive ? 'bg-zinc-100 text-zinc-900 border' : 'bg-muted text-muted-foreground'}`}>
+                                                        <Shield size={24} />
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-bold text-lg">{isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Gói miễn phí'}</h4>
+                                                        <p className="text-xs text-muted-foreground">
+                                                            {isMemberActive
+                                                                ? `Gói đang kích hoạt, hết hạn vào ${new Date(activeSub.endDate).toLocaleDateString('vi-VN')}`
+                                                                : 'Người dùng hiện chỉ có quyền truy cập nội dung miễn phí.'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <span className={`px-3 py-1 rounded-full text-[10px] font-medium ${isMemberActive ? 'bg-zinc-900 text-zinc-100' : 'bg-muted text-zinc-500'}`}>
+                                                    {isMemberActive ? 'Active' : 'None'}
+                                                </span>
                                             </div>
-                                            <div className="space-y-1.5">
-                                                <div className="text-[10px] flex items-center justify-between">
-                                                    <span className="text-zinc-400">MST:</span>
-                                                    <span className="font-medium text-zinc-900">{profile.taxCode}</span>
+
+                                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border rounded-xl bg-zinc-50/50">
+                                                <div className="flex flex-col gap-2">
+                                                    <label className="text-[10px] font-medium text-zinc-400">Gói hội viên</label>
+                                                    <select
+                                                        className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-900 cursor-pointer"
+                                                        value={membershipForm.tier}
+                                                        onChange={(e) => setMembershipForm({ ...membershipForm, tier: e.target.value })}
+                                                    >
+                                                        <option value="FREE">Free</option>
+                                                        <option value="BASIC">Basic</option>
+                                                        <option value="PREMIUM">Premium</option>
+                                                    </select>
                                                 </div>
-                                                <div className="text-[10px] flex flex-col gap-0.5">
-                                                    <span className="text-zinc-400">Địa chỉ:</span>
-                                                    <span className="font-medium text-zinc-900 line-clamp-2 leading-relaxed">{profile.address}</span>
+                                                <div className="flex flex-col gap-2">
+                                                    <label className="text-[10px] font-medium text-zinc-400">Ngày hết hạn</label>
+                                                    <div className="relative">
+                                                        <input
+                                                            type="date"
+                                                            className="w-full text-sm border rounded-md px-3 h-10 bg-background focus:outline-none focus:ring-1 focus:ring-foreground disabled:opacity-50 cursor-pointer"
+                                                            value={membershipForm.expiryDate}
+                                                            onChange={(e) => setMembershipForm({ ...membershipForm, expiryDate: e.target.value })}
+                                                            disabled={membershipForm.tier === 'FREE'}
+                                                        />
+                                                    </div>
                                                 </div>
-                                                {profile.email && (
-                                                    <div className="text-[10px] flex items-center justify-between">
-                                                        <span className="text-zinc-400">Email:</span>
-                                                        <span className="font-medium text-zinc-900">{profile.email}</span>
+                                                <div className="h-10">
+                                                    <Button
+                                                        size="sm"
+                                                        className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-medium h-full rounded-lg"
+                                                        onClick={handleSaveMembership}
+                                                        disabled={!!processingAction}
+                                                    >
+                                                        {processingAction === 'loading' ? <Loader2 size={16} className="animate-spin mr-2" /> : <div className="flex items-center justify-center gap-2"><CheckCircle2 size={16} /> Lưu thay đổi</div>}
+                                                    </Button>
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-3 pt-4 border-t border-zinc-100">
+                                                <h4 className="text-[10px] font-medium text-zinc-400">Lịch sử Membership</h4>
+                                                <div className="space-y-2 border rounded-xl overflow-hidden">
+                                                    {user.subscriptions?.map((s: any) => (
+                                                        <div key={s.id} className="flex justify-between items-center p-3 border-b last:border-0 hover:bg-muted/20">
+                                                            <div className="flex items-center gap-3 text-sm">
+                                                                <History size={14} className="text-muted-foreground" />
+                                                                <span className="font-medium">{s.product?.title || 'System Plan'}</span>
+                                                            </div>
+                                                            <div className="flex gap-4 items-center">
+                                                                <span className="text-[10px] text-muted-foreground">
+                                                                    {new Date(s.startDate).toLocaleDateString('vi-VN')} - {new Date(s.endDate).toLocaleDateString('vi-VN')}
+                                                                </span>
+                                                                <span className={`text-[10px] font-medium ${s.status === 'ACTIVE' ? 'text-zinc-900 border border-zinc-200 px-2 py-0.5 rounded-full bg-white' : 'text-zinc-400'}`}>
+                                                                    {s.status === 'ACTIVE' ? 'Active' : 'Expired'}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    {(!user.subscriptions || user.subscriptions.length === 0) && (
+                                                        <p className="text-center py-10 text-xs text-muted-foreground">Chưa có lịch sử đăng ký.</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card >
+                                </div >
+                            )
+                        }
+
+
+                        {
+                            activeTab === 'orders' && (
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="text-base">Lịch sử đơn hàng</CardTitle>
+                                        <CardDescription>Tất cả các giao dịch thanh toán và đơn hàng chờ xử lý.</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full text-sm">
+                                                <thead>
+                                                    <tr className="border-b bg-zinc-50/50">
+                                                        <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Mã đơn</th>
+                                                        <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Nội dung</th>
+                                                        <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Số tiền</th>
+                                                        <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Trạng thái</th>
+                                                        <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Ngày tạo</th>
+                                                        <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y text-xs">
+                                                    {user.orders?.map((order: any) => (
+                                                        <tr key={order.id} className="hover:bg-muted/10 transition-colors">
+                                                            <td className="py-3 px-4 font-medium font-mono text-zinc-900">
+                                                                {order.code}
+                                                            </td>
+                                                            <td className="py-3 px-4 max-w-[250px] truncate font-medium">
+                                                                {order.items?.map((item: any) => item.course?.title || item.product?.title).join(', ') || 'N/A'}
+                                                            </td>
+                                                            <td className="py-3 px-4 text-right font-medium text-sm text-zinc-900">
+                                                                {formatCurrency(order.amount)}
+                                                            </td>
+                                                            <td className="py-3 px-4 text-center">
+                                                                <span className={`px-2 py-0.5 rounded-full font-medium text-[9px] ${order.status === 'PAID' ? 'bg-zinc-900 text-zinc-100' :
+                                                                    order.status === 'PENDING' ? 'bg-zinc-100 text-zinc-900 border border-zinc-200' :
+                                                                        'bg-muted text-zinc-400'
+                                                                    }`}>
+                                                                    {order.status}
+                                                                </span>
+                                                            </td>
+                                                            <td className="py-3 px-4 text-right text-muted-foreground font-medium">
+                                                                {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+                                                            </td>
+                                                            <td className="py-3 px-4 text-center">
+                                                                <button
+                                                                    className="h-8 w-8 rounded-full flex items-center justify-center hover:bg-zinc-100 transition-colors mx-auto text-zinc-400 hover:text-zinc-900"
+                                                                    onClick={() => router.push(`/admin/orders?search=${order.code}`)}
+                                                                    title="Xem chi tiết"
+                                                                >
+                                                                    <Eye size={18} />
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                    {(!user.orders || user.orders.length === 0) && (
+                                                        <tr>
+                                                            <td colSpan={6} className="text-center py-20 text-muted-foreground">Không có dữ liệu đơn hàng.</td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )
+                        }
+
+                        {
+                            activeTab === 'notes' && (
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle className="text-base flex items-center gap-2">
+                                                <MessageSquare size={18} /> Ghi chú & Chăm sóc khách hàng
+                                            </CardTitle>
+                                            <CardDescription>Lưu lại các thông tin tư vấn, phàn hồi hoặc ghi chú đặc biệt về khách hàng.</CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="space-y-6">
+                                            <div className="flex gap-4">
+                                                <textarea
+                                                    className="flex-1 min-h-[100px] p-3 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-zinc-900 resize-none"
+                                                    placeholder="Nhập ghi chú mới tại đây..."
+                                                    value={newNote}
+                                                    onChange={(e) => setNewNote(e.target.value)}
+                                                />
+                                                <Button
+                                                    className="self-end h-10 bg-zinc-900"
+                                                    disabled={!newNote || processingAction === 'note'}
+                                                    onClick={() => handleAction(async () => {
+                                                        const note = await api.admin.notes.add(id as string, newNote);
+                                                        setNotes([note, ...notes]);
+                                                        setNewNote('');
+                                                    }, 'Đã lưu ghi chú', '')}
+                                                >
+                                                    {processingAction === 'note' ? <Loader2 size={16} className="animate-spin" /> : 'Lưu ghi chú'}
+                                                </Button>
+                                            </div>
+
+                                            <div className="space-y-4 pt-6 border-t border-zinc-100">
+                                                <h4 className="text-xs font-medium text-zinc-400">Lịch sử ghi chú</h4>
+                                                <div className="space-y-3">
+                                                    {notes.map((note: any) => (
+                                                        <div key={note.id} className="p-4 bg-zinc-50 border border-zinc-100 rounded-xl space-y-2">
+                                                            <div className="flex justify-between items-start">
+                                                                <span className="text-[10px] font-medium text-zinc-400 flex items-center gap-1">
+                                                                    <Clock size={10} /> {formatDate(note.createdAt)}
+                                                                </span>
+                                                                <span className="text-[10px] bg-white border border-zinc-200 px-2 py-0.5 rounded-full text-zinc-600 font-medium">
+                                                                    {note.adminName || 'Admin'}
+                                                                </span>
+                                                            </div>
+                                                            <p className="text-sm text-zinc-800 leading-relaxed whitespace-pre-wrap">{note.content}</p>
+                                                        </div>
+                                                    ))}
+                                                    {notes.length === 0 && (
+                                                        <div className="text-center py-20 text-zinc-400 italic text-sm">Chưa có ghi chú nào.</div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            )
+                        }
+
+                        {
+                            activeTab === 'invoices' && (
+                                <div className="space-y-6">
+                                    <Card>
+                                        <CardHeader className="flex flex-row items-center justify-between">
+                                            <div>
+                                                <CardTitle className="text-base flex items-center gap-2">
+                                                    <FileText size={18} /> Hồ sơ xuất hóa đơn
+                                                </CardTitle>
+                                                <CardDescription>Danh sách các pháp nhân khách hàng dùng để xuất hóa đơn VAT.</CardDescription>
+                                            </div>
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                className="border-zinc-200"
+                                                onClick={() => setShowInvoiceForm(!showInvoiceForm)}
+                                            >
+                                                <Plus size={16} className="mr-1" /> Thêm hồ sơ mới
+                                            </Button>
+                                        </CardHeader>
+                                        <CardContent className="space-y-6">
+                                            {showInvoiceForm && (
+                                                <div className="p-5 border border-zinc-100 bg-zinc-50 rounded-2xl grid gap-4 md:grid-cols-2">
+                                                    <div className="space-y-2">
+                                                        <label className="text-[10px] font-medium text-zinc-400">Tên công ty</label>
+                                                        <input
+                                                            className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
+                                                            value={invoiceForm.companyName}
+                                                            onChange={(e) => setInvoiceForm({ ...invoiceForm, companyName: e.target.value })}
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-[10px] font-medium text-zinc-400">Mã số thuế</label>
+                                                        <input
+                                                            className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
+                                                            value={invoiceForm.taxCode}
+                                                            onChange={(e) => setInvoiceForm({ ...invoiceForm, taxCode: e.target.value })}
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2 md:col-span-2">
+                                                        <label className="text-[10px] font-medium text-zinc-400">Địa chỉ công ty</label>
+                                                        <input
+                                                            className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
+                                                            value={invoiceForm.address}
+                                                            onChange={(e) => setInvoiceForm({ ...invoiceForm, address: e.target.value })}
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-[10px] font-medium text-zinc-400">Email nhận hóa đơn</label>
+                                                        <input
+                                                            className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
+                                                            value={invoiceForm.email}
+                                                            onChange={(e) => setInvoiceForm({ ...invoiceForm, email: e.target.value })}
+                                                        />
+                                                    </div>
+                                                    <div className="flex items-center gap-2 self-end h-10">
+                                                        <input
+                                                            type="checkbox"
+                                                            id="isDefault"
+                                                            className="rounded border-zinc-300"
+                                                            checked={invoiceForm.isDefault}
+                                                            onChange={(e) => setInvoiceForm({ ...invoiceForm, isDefault: e.target.checked })}
+                                                        />
+                                                        <label htmlFor="isDefault" className="text-xs text-zinc-600 cursor-pointer">Đặt làm mặc định</label>
+                                                    </div>
+                                                    <div className="md:col-span-2 flex justify-end gap-2 pt-2">
+                                                        <Button variant="ghost" size="sm" onClick={() => setShowInvoiceForm(false)}>Hủy</Button>
+                                                        <Button
+                                                            size="sm"
+                                                            className="bg-zinc-900"
+                                                            onClick={() => handleAction(async () => {
+                                                                const profile = await api.admin.invoices.createProfile(id as string, invoiceForm);
+                                                                setInvoiceProfiles([profile, ...invoiceProfiles]);
+                                                                setShowInvoiceForm(false);
+                                                                setInvoiceForm({ companyName: '', taxCode: '', address: '', email: '', isDefault: false });
+                                                            }, 'Đã thêm hồ sơ hóa đơn', '')}
+                                                        >
+                                                            <Save size={14} className="mr-1" /> Lưu hồ sơ
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <div className="grid gap-4 md:grid-cols-2">
+                                                {invoiceProfiles.map((profile: any) => (
+                                                    <div key={profile.id} className={`p-5 border rounded-2xl space-y-3 transition-all ${profile.isDefault ? 'border-zinc-900 bg-zinc-50' : 'border-zinc-100 hover:border-zinc-300'}`}>
+                                                        <div className="flex justify-between items-start">
+                                                            <h4 className="text-sm font-bold text-zinc-900">{profile.companyName}</h4>
+                                                            {profile.isDefault && <span className="bg-zinc-900 text-white text-[9px] px-2 py-0.5 rounded-full uppercase">Mặc định</span>}
+                                                        </div>
+                                                        <div className="space-y-1.5">
+                                                            <div className="text-[10px] flex items-center justify-between">
+                                                                <span className="text-zinc-400">MST:</span>
+                                                                <span className="font-medium text-zinc-900">{profile.taxCode}</span>
+                                                            </div>
+                                                            <div className="text-[10px] flex flex-col gap-0.5">
+                                                                <span className="text-zinc-400">Địa chỉ:</span>
+                                                                <span className="font-medium text-zinc-900 line-clamp-2 leading-relaxed">{profile.address}</span>
+                                                            </div>
+                                                            {profile.email && (
+                                                                <div className="text-[10px] flex items-center justify-between">
+                                                                    <span className="text-zinc-400">Email:</span>
+                                                                    <span className="font-medium text-zinc-900">{profile.email}</span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                {invoiceProfiles.length === 0 && !showInvoiceForm && (
+                                                    <div className="col-span-2 text-center py-20 bg-zinc-50 border border-dashed rounded-2xl text-zinc-400 italic text-sm">
+                                                        Chưa có hồ sơ hóa đơn nào được lưu.
                                                     </div>
                                                 )}
                                             </div>
-                                        </div>
-                                    ))}
-                                    {invoiceProfiles.length === 0 && !showInvoiceForm && (
-                                        <div className="col-span-2 text-center py-20 bg-zinc-50 border border-dashed rounded-2xl text-zinc-400 italic text-sm">
-                                            Chưa có hồ sơ hóa đơn nào được lưu.
-                                        </div>
-                                    )}
+                                        </CardContent>
+                                    </Card>
                                 </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                )}
+                            )
+                        }
 
-                {activeTab === 'logs' && (
-                    <div className="space-y-6">
-                        <div className="grid gap-6 md:grid-cols-2">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <ShieldAlert size={18} className="text-red-500" /> Cảnh báo bảo mật
-                                    </CardTitle>
-                                    <CardDescription>Các hành vi bất thường hoặc vi phạm chính sách.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        {user.securityLogs?.filter((l: any) => ['FAILED_LOGIN', 'ACCESS_DENIED'].includes(l.action)).map((log: any) => (
-                                            <div key={log.id} className="p-3 bg-red-50 border border-red-100 rounded-lg flex gap-3">
-                                                <Ban size={16} className="text-red-500 shrink-0 mt-0.5" />
-                                                <div className="flex-1">
-                                                    <p className="text-xs font-medium text-red-900">{log.action}</p>
-                                                    <p className="text-[10px] text-red-700 mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
-                                                    <p className="text-[9px] text-red-600/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
+                        {
+                            activeTab === 'logs' && (
+                                <div className="space-y-6">
+                                    <div className="grid gap-6 md:grid-cols-2">
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle className="text-base flex items-center gap-2">
+                                                    <ShieldAlert size={18} className="text-red-500" /> Cảnh báo bảo mật
+                                                </CardTitle>
+                                                <CardDescription>Các hành vi bất thường hoặc vi phạm chính sách.</CardDescription>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="space-y-4">
+                                                    {user.securityLogs?.filter((l: any) => ['FAILED_LOGIN', 'ACCESS_DENIED'].includes(l.action)).map((log: any) => (
+                                                        <div key={log.id} className="p-3 bg-red-50 border border-red-100 rounded-lg flex gap-3">
+                                                            <Ban size={16} className="text-red-500 shrink-0 mt-0.5" />
+                                                            <div className="flex-1">
+                                                                <p className="text-xs font-medium text-red-900">{log.action}</p>
+                                                                <p className="text-[10px] text-red-700 mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
+                                                                <p className="text-[9px] text-red-600/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                    {(!user.securityLogs || user.securityLogs.length === 0) && (
+                                                        <div className="py-10 text-center text-xs text-muted-foreground flex flex-col items-center gap-2">
+                                                            <CheckCircle2 size={24} className="text-green-500 opacity-30" />
+                                                            Tài khoản sạch, không có cảnh báo bảo mật nào.
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            </div>
-                                        ))}
-                                        {(!user.securityLogs || user.securityLogs.length === 0) && (
-                                            <div className="py-10 text-center text-xs text-muted-foreground flex flex-col items-center gap-2">
-                                                <CheckCircle2 size={24} className="text-green-500 opacity-30" />
-                                                Tài khoản sạch, không có cảnh báo bảo mật nào.
-                                            </div>
-                                        )}
+                                            </CardContent>
+                                        </Card>
+
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle className="text-base flex items-center gap-2">
+                                                    <Laptop size={18} className="text-blue-500" /> Lịch sử đăng nhập & IP
+                                                </CardTitle>
+                                                <CardDescription>Theo dõi danh sách các địa chỉ IP và trình duyệt gần đây.</CardDescription>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="space-y-3">
+                                                    {user.activities?.filter((l: any) => l.action === 'login').slice(0, 10).map((act: any) => (
+                                                        <div key={act.id} className="flex justify-between items-center p-2 rounded hover:bg-muted/30 transition-colors">
+                                                            <div className="flex items-center gap-3">
+                                                                <Globe size={14} className="text-zinc-400" />
+                                                                <code className="text-[10px] font-mono font-medium bg-zinc-50 border border-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">{act.ipAddress}</code>
+                                                            </div>
+                                                            <span className="text-[10px] text-muted-foreground">{formatDate(act.createdAt)}</span>
+                                                        </div>
+                                                    ))}
+                                                    {(!user.activities || user.activities.filter((l: any) => l.action === 'login').length === 0) && (
+                                                        <p className="text-center py-10 text-xs text-muted-foreground">Chưa có lịch sử đăng nhập.</p>
+                                                    )}
+                                                </div>
+                                            </CardContent>
+                                        </Card>
                                     </div>
-                                </CardContent>
-                            </Card>
 
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <Laptop size={18} className="text-blue-500" /> Lịch sử đăng nhập & IP
-                                    </CardTitle>
-                                    <CardDescription>Theo dõi danh sách các địa chỉ IP và trình duyệt gần đây.</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-3">
-                                        {user.activities?.filter((l: any) => l.action === 'login').slice(0, 10).map((act: any) => (
-                                            <div key={act.id} className="flex justify-between items-center p-2 rounded hover:bg-muted/30 transition-colors">
-                                                <div className="flex items-center gap-3">
-                                                    <Globe size={14} className="text-zinc-400" />
-                                                    <code className="text-[10px] font-mono font-medium bg-zinc-50 border border-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">{act.ipAddress}</code>
-                                                </div>
-                                                <span className="text-[10px] text-muted-foreground">{formatDate(act.createdAt)}</span>
+                                    <Card>
+                                        <CardHeader className="flex flex-row items-center justify-between">
+                                            <div>
+                                                <CardTitle className="text-base flex items-center gap-2">
+                                                    <History size={18} className="text-muted-foreground" /> Nhật ký hành vi chi tiết
+                                                </CardTitle>
+                                                <CardDescription>Toàn bộ hành động của người dùng trên hệ thống.</CardDescription>
                                             </div>
-                                        ))}
-                                        {(!user.activities || user.activities.filter((l: any) => l.action === 'login').length === 0) && (
-                                            <p className="text-center py-10 text-xs text-muted-foreground">Chưa có lịch sử đăng nhập.</p>
-                                        )}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </div>
-
-                        <Card>
-                            <CardHeader className="flex flex-row items-center justify-between">
-                                <div>
-                                    <CardTitle className="text-base flex items-center gap-2">
-                                        <History size={18} className="text-muted-foreground" /> Nhật ký hành vi chi tiết
-                                    </CardTitle>
-                                    <CardDescription>Toàn bộ hành động của người dùng trên hệ thống.</CardDescription>
+                                            <span className="text-[10px] font-medium text-zinc-400 border border-zinc-100 px-2 py-1 rounded-lg">Latest 100 Logs</span>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 no-scrollbar border rounded-xl overflow-hidden divide-y">
+                                                {user.activities?.map((act: any) => (
+                                                    <div key={act.id} className="p-3 hover:bg-muted/30 transition-colors flex items-center gap-4 group">
+                                                        <div className="shrink-0">
+                                                            <div className={`h-8 w-8 rounded-full flex items-center justify-center ${act.action.includes('buy') || act.action.includes('order') ? 'bg-emerald-100 text-emerald-600' :
+                                                                act.action.includes('error') || act.action.includes('failed') ? 'bg-red-100 text-red-600' :
+                                                                    'bg-blue-50 text-blue-500'
+                                                                }`}>
+                                                                <Activity size={14} />
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-xs font-bold capitalize">{act.action.replace(/_/g, ' ')}</span>
+                                                                {act.path && <span className="text-[10px] bg-muted px-1.5 py-0.2 rounded text-muted-foreground truncate max-w-[200px]">{act.path}</span>}
+                                                            </div>
+                                                            <div className="flex items-center gap-3 mt-0.5">
+                                                                <span className="text-[9px] text-muted-foreground font-medium">{formatDate(act.createdAt)}</span>
+                                                                <span className="text-[9px] text-muted-foreground">• IP: {act.ipAddress}</span>
+                                                                {act.metadata && <span className="text-[9px] text-muted-foreground hidden group-hover:inline">• Meta: {act.metadata.length > 50 ? act.metadata.substring(0, 50) + '...' : act.metadata}</span>}
+                                                            </div>
+                                                        </div>
+                                                        <ChevronRight size={14} className="text-muted-foreground opacity-30 group-hover:opacity-100 transition-opacity" />
+                                                    </div>
+                                                ))}
+                                                {(!user.activities || user.activities.length === 0) && (
+                                                    <p className="text-center py-20 text-sm text-muted-foreground italic">Không có nhật ký hành vi được ghi nhận.</p>
+                                                )}
+                                        </CardContent>
+                                    </Card>
                                 </div>
-                                <span className="text-[10px] font-medium text-zinc-400 border border-zinc-100 px-2 py-1 rounded-lg">Latest 100 Logs</span>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 no-scrollbar border rounded-xl overflow-hidden divide-y">
-                                    {user.activities?.map((act: any) => (
-                                        <div key={act.id} className="p-3 hover:bg-muted/30 transition-colors flex items-center gap-4 group">
-                                            <div className="shrink-0">
-                                                <div className={`h-8 w-8 rounded-full flex items-center justify-center ${act.action.includes('buy') || act.action.includes('order') ? 'bg-emerald-100 text-emerald-600' :
-                                                    act.action.includes('error') || act.action.includes('failed') ? 'bg-red-100 text-red-600' :
-                                                        'bg-blue-50 text-blue-500'
-                                                    }`}>
-                                                    <Activity size={14} />
-                                                </div>
-                                            </div>
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-xs font-bold capitalize">{act.action.replace(/_/g, ' ')}</span>
-                                                    {act.path && <span className="text-[10px] bg-muted px-1.5 py-0.2 rounded text-muted-foreground truncate max-w-[200px]">{act.path}</span>}
-                                                </div>
-                                                <div className="flex items-center gap-3 mt-0.5">
-                                                    <span className="text-[9px] text-muted-foreground font-medium">{formatDate(act.createdAt)}</span>
-                                                    <span className="text-[9px] text-muted-foreground">• IP: {act.ipAddress}</span>
-                                                    {act.metadata && <span className="text-[9px] text-muted-foreground hidden group-hover:inline">• Meta: {act.metadata.length > 50 ? act.metadata.substring(0, 50) + '...' : act.metadata}</span>}
-                                                </div>
-                                            </div>
-                                            <ChevronRight size={14} className="text-muted-foreground opacity-30 group-hover:opacity-100 transition-opacity" />
-                                        </div>
-                                    ))}
-                                    {(!user.activities || user.activities.length === 0) && (
-                                        <p className="text-center py-20 text-sm text-muted-foreground italic">Không có nhật ký hành vi được ghi nhận.</p>
-                                    )}
-                                </div>
-                            </CardContent>
-                        </Card>
+                            )}
                     </div>
-                )
-                }
-            </div >
+                </div>
+            </div>
+        </div>
         </div >
     );
 }

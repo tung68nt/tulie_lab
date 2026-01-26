@@ -354,10 +354,7 @@ export function Navbar() {
                                                         let tierLabel = 'Free';
                                                         let tagClass = 'bg-zinc-100 text-zinc-600';
 
-                                                        if (isAdmin) {
-                                                            tierLabel = 'Admin';
-                                                            tagClass = 'bg-zinc-900 text-white';
-                                                        } else if (activeSub) {
+                                                        if (activeSub) {
                                                             const title = ((activeSub as any).product?.title || '').toLowerCase();
                                                             const slug = ((activeSub as any).product?.slug || '').toLowerCase();
 
@@ -368,6 +365,9 @@ export function Navbar() {
                                                                 tierLabel = 'Premium';
                                                                 tagClass = 'bg-zinc-900 text-white';
                                                             }
+                                                        } else if (isAdmin) {
+                                                            tierLabel = 'Admin';
+                                                            tagClass = 'bg-zinc-900 text-white';
                                                         }
 
                                                         return (
