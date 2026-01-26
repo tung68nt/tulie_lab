@@ -20,7 +20,7 @@ const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
 };
 
-export function PaymentSection({ section, mainCourse, upsellCourse, upsellPrice, allSections }: { section: Section; mainCourse?: any; upsellCourse?: any; upsellPrice?: any; allSections?: Section[] }) {
+export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct: dynamicMainProduct, upsellProduct, upsellPrice, allSections }: { section: Section; mainCourse?: any; upsellCourse?: any; mainProduct?: any; upsellProduct?: any; upsellPrice?: any; allSections?: Section[] }) {
     const { addToast } = useToast();
     // --- State ---
     const [showPassword, setShowPassword] = useState(false);
@@ -50,6 +50,14 @@ export function PaymentSection({ section, mainCourse, upsellCourse, upsellPrice,
                 image: mainCourse.thumbnail || section.image || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop',
                 originalPrice: Number(mainCourse.price)
             };
+        } else if (dynamicMainProduct) {
+            mainProduct = {
+                id: dynamicMainProduct.id,
+                title: dynamicMainProduct.name,
+                price: Number(dynamicMainProduct.price || 0),
+                image: dynamicMainProduct.image || section.image,
+                originalPrice: Number(dynamicMainProduct.originalPrice || dynamicMainProduct.price || 0)
+            };
         } else {
             mainProduct = {
                 id: section.id || 'contact-support',
@@ -75,7 +83,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, upsellPrice,
 
         const initialCart = [mainProduct, ...bonusItems];
         setState(prev => ({ ...prev, cart: initialCart }));
-    }, [section, mainCourse, allSections]);
+    }, [section, mainCourse, dynamicMainProduct, allSections]);
 
     // Derived cart totals
     const totalAmount = state.cart.reduce((sum, item) => sum + item.price, 0);
@@ -452,15 +460,16 @@ export function PaymentSection({ section, mainCourse, upsellCourse, upsellPrice,
                             // If we are using dynamic courses, start fresh. 
                             // Otherwise use section.items (fallback/static mode)
                             // If we use dynamic courses (main or upsell), we MUST start fresh to avoid static template items appearing.
-                            if (mainCourse || upsellCourse) {
+                            if (mainCourse || upsellCourse || dynamicMainProduct || upsellProduct) {
                                 combinedItems = [];
                             } else if (section.items) {
                                 // Only use static items if NO dynamic courses are present
                                 combinedItems = [...section.items];
                             }
+
                             if (upsellCourse) {
-                                // Add dynamic upsell course to the list (avoid duplicates if needed, but ID check handles it in cart)
-                                combinedItems.unshift({
+                                // Add dynamic upsell course to the list
+                                combinedItems.push({
                                     id: upsellCourse.id,
                                     title: upsellCourse.title,
                                     price: upsellCourse.price, // Original price
@@ -468,6 +477,20 @@ export function PaymentSection({ section, mainCourse, upsellCourse, upsellPrice,
                                     image: upsellCourse.thumbnail,
                                     description: upsellCourse.description || 'Ưu đãi đặc biệt khi mua kèm với giá hấp dẫn.',
                                     ctaText: 'Mua thêm để học hiệu quả hơn',
+                                    isUpsell: true
+                                });
+                            }
+
+                            if (upsellProduct) {
+                                // Add dynamic upsell product to the list
+                                combinedItems.push({
+                                    id: upsellProduct.id,
+                                    title: upsellProduct.name,
+                                    price: upsellProduct.price,
+                                    salePrice: Number(upsellPrice) > 0 ? Number(upsellPrice) : (upsellProduct.salePrice || upsellProduct.price),
+                                    image: upsellProduct.image,
+                                    description: upsellProduct.description || 'Module bổ trợ đi kèm.',
+                                    ctaText: 'Thêm vào lộ trình của tôi',
                                     isUpsell: true
                                 });
                             }

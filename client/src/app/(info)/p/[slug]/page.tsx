@@ -115,7 +115,7 @@ export default async function DynamicLandingPage({ params }: { params: Promise<{
                     console.warn(`Unknown section type: ${section.type}`);
                     return null;
                 }
-                return <Component key={section.id || index} section={section} mainCourse={page.course} upsellCourse={page.upsellCourse} upsellPrice={page.upsellPrice} allSections={sections} />;
+                return <Component key={section.id || index} section={section} mainCourse={page.course} upsellCourse={page.upsellCourse} mainProduct={page.product} upsellProduct={page.upsellProduct} upsellPrice={page.upsellPrice} allSections={sections} />;
             })}
         </main>
     );
