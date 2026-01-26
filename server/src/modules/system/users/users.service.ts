@@ -266,7 +266,21 @@ export class UserService {
         const [users, total, roleCounts] = await Promise.all([
             this.userRepository.findMany({
                 where,
-                select: { id: true, email: true, role: true, createdAt: true, profile: { select: { name: true } } },
+                select: {
+                    id: true,
+                    email: true,
+                    role: true,
+                    createdAt: true,
+                    profile: { select: { name: true } },
+                    subscriptions: {
+                        where: { status: 'ACTIVE' },
+                        select: {
+                            endDate: true,
+                            product: { select: { title: true } }
+                        },
+                        take: 1
+                    }
+                },
                 skip,
                 take: limit,
                 orderBy: { createdAt: 'desc' }

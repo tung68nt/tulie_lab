@@ -365,11 +365,25 @@ export default function AdminDashboardPage() {
 
     const fetchTransactions = async () => {
         try {
-            const res = await api.admin.payments.getTransactions();
+            const res = await api.admin.payments.getTransactions({ limit: 10 });
             setTransactions(res.data || []);
         } catch (e) {
             console.error('Error fetching transactions:', e);
         }
+    };
+
+    const renderTransactionDate = (dateStr: string) => {
+        const date = new Date(dateStr);
+        return (
+            <div className="flex flex-col text-[10px] leading-tight text-muted-foreground">
+                <span className="font-bold text-zinc-900 text-xs">
+                    {date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                </span>
+                <span>
+                    {date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                </span>
+            </div>
+        );
     };
 
     const handleSync = async () => {
@@ -665,25 +679,50 @@ export default function AdminDashboardPage() {
                             <table className="w-full text-sm">
                                 <thead className="bg-zinc-50/50">
                                     <tr className="border-b">
-                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Ngày</th>
+                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Thời gian</th>
+                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Ngân hàng</th>
                                         <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Nội dung</th>
                                         <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Số tiền</th>
-                                        <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Ref</th>
+                                        <th className="text-center py-3 px-4 font-bold text-xs text-muted-foreground/70 text-nowrap">Mã đơn</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-zinc-100">
                                     {transactions.length > 0 ? (
                                         transactions.map((tx: any) => (
                                             <tr key={tx.id} className="hover:bg-zinc-50/30 transition-colors">
-                                                <td className="py-3 px-4 text-xs font-bold text-muted-foreground">{new Date(tx.transactionDate).toLocaleDateString('vi-VN')}</td>
-                                                <td className="py-3 px-4 max-w-[250px] truncate text-xs font-medium" title={tx.content}>{tx.content}</td>
-                                                <td className="py-3 px-4 text-right font-medium text-zinc-900">{formatCurrency(Number(tx.amountIn))}</td>
-                                                <td className="py-3 px-4 text-right text-xs font-mono font-bold text-muted-foreground">{tx.referenceCode || tx.id.slice(-8)}</td>
+                                                <td className="py-3 px-4">
+                                                    {renderTransactionDate(tx.transactionDate || tx.createdAt)}
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <div className="font-bold text-zinc-900 text-xs">{tx.gateway}</div>
+                                                    <div className="text-[10px] text-muted-foreground font-mono">{tx.accountNumber}</div>
+                                                </td>
+                                                <td className="py-3 px-4 min-w-[200px] max-w-[350px]">
+                                                    <div className="text-[11px] leading-relaxed break-words text-muted-foreground" title={tx.content || tx.description}>
+                                                        {tx.content || tx.description || 'N/A'}
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 px-4 text-right font-bold text-zinc-900 text-sm">
+                                                    {formatCurrency(Number(tx.amountIn))}
+                                                </td>
+                                                <td className="py-3 px-4 text-center">
+                                                    {tx.code ? (
+                                                        <Link href={tx.orderId ? `/admin/orders/${tx.orderId}` : `/admin/orders?search=${tx.code}`}>
+                                                            <div className="group flex items-center justify-center gap-1.5 cursor-pointer">
+                                                                <span className="text-[10px] bg-zinc-900 text-zinc-100 px-2 py-0.5 rounded-full font-mono font-bold whitespace-nowrap group-hover:bg-zinc-700 transition-colors shadow-sm">
+                                                                    {tx.code}
+                                                                </span>
+                                                            </div>
+                                                        </Link>
+                                                    ) : (
+                                                        <span className="text-[10px] text-muted-foreground italic">N/A</span>
+                                                    )}
+                                                </td>
                                             </tr>
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan={4} className="py-12 text-center text-muted-foreground text-xs">Chưa có giao dịch nào được đồng bộ</td>
+                                            <td colSpan={5} className="py-12 text-center text-muted-foreground text-xs">Chưa có giao dịch nào được đồng bộ</td>
                                         </tr>
                                     )}
                                 </tbody>

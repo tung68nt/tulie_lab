@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Pagination } from '@/components/Pagination';
 import { useToast } from '@/contexts/ToastContext';
-import { ChevronRight, User, Shield, Clock } from 'lucide-react';
+import { ChevronRight, User, Shield, Clock, Crown, Calendar } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 export default function AdminUsersPage() {
@@ -113,13 +113,32 @@ export default function AdminUsersPage() {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-6">
-                                    <div className="hidden md:flex flex-col items-end">
-                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold tracking-wider ${user.role === 'ADMIN' ? 'bg-zinc-900 text-zinc-100' : 'bg-zinc-100 text-zinc-900'
-                                            }`}>
-                                            {user.role}
-                                        </span>
-                                        <span className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">
-                                            <Clock size={10} /> {new Date(user.createdAt).toLocaleDateString('vi-VN')}
+                                    <div className="hidden md:flex flex-col items-end gap-1">
+                                        {user.role === 'ADMIN' ? (
+                                            <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-900 border border-zinc-200 px-2 py-1 rounded bg-zinc-50">
+                                                <Shield size={12} className="fill-zinc-900" />
+                                                ADMIN
+                                            </div>
+                                        ) : user.subscriptions && user.subscriptions[0] ? (
+                                            <div className="flex flex-col items-end gap-0.5">
+                                                <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-900">
+                                                    <Crown size={12} className="fill-zinc-900" />
+                                                    {user.subscriptions[0].product?.title || 'Premium Member'}
+                                                </div>
+                                                <div className="flex items-center gap-1 text-[10px] text-muted-foreground font-medium">
+                                                    <Calendar size={10} />
+                                                    Hết hạn: {new Date(user.subscriptions[0].endDate).toLocaleDateString('vi-VN')}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground border border-transparent px-2 py-1">
+                                                <User size={12} />
+                                                Thành viên
+                                            </div>
+                                        )}
+
+                                        <span className="text-[10px] text-muted-foreground/50 flex items-center gap-1 pl-1">
+                                            Tham gia: {new Date(user.createdAt).toLocaleDateString('vi-VN')}
                                         </span>
                                     </div>
                                     <div className="h-8 w-8 rounded-full flex items-center justify-center hover:bg-muted transition-colors text-muted-foreground group-hover:translate-x-1 duration-200">
