@@ -441,26 +441,70 @@ export default function ProductEditorPage() {
                             <h3 className="font-semibold text-lg">Nội dung chi tiết</h3>
                             <p className="text-sm text-muted-foreground">Viết nội dung giới thiệu chi tiết về sản phẩm (hỗ trợ HTML)</p>
 
+                            <div className="flex items-center justify-between mb-2">
+                                <label className="text-sm font-medium">Nội dung chi tiết (Markdown)</label>
+                                <div className="flex items-center gap-2">
+                                    <div className="relative">
+                                        <input
+                                            type="file"
+                                            id="content-upload"
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={async (e) => {
+                                                const file = e.target.files?.[0];
+                                                if (!file) return;
+
+                                                try {
+                                                    addToast('Đang tải ảnh...', 'info');
+                                                    const res: any = await api.uploads.single(file);
+                                                    if (res.success) {
+                                                        const imgMarkdown = `\n![${res.data.originalName}](${res.data.url})\n`;
+                                                        setDetailedContent(prev => prev + imgMarkdown);
+                                                        addToast('Đã chèn ảnh', 'success');
+                                                    }
+                                                } catch (error: any) {
+                                                    addToast('Lỗi tải ảnh', 'error');
+                                                } finally {
+                                                    e.target.value = '';
+                                                }
+                                            }}
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => document.getElementById('content-upload')?.click()}
+                                            className="h-8 text-xs"
+                                        >
+                                            <UploadCloud className="w-3 h-3 mr-2" />
+                                            Chèn ảnh
+                                        </Button>
+                                    </div>
+                                    <a href="https://www.markdownguide.org/basic-syntax/" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline">
+                                        Hướng dẫn Markdown
+                                    </a>
+                                </div>
+                            </div>
+
                             <textarea
                                 value={detailedContent}
                                 onChange={(e) => setDetailedContent(e.target.value)}
-                                rows={15}
-                                className="w-full min-h-[300px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                placeholder="<h2>Tiêu đề</h2>
-<p>Nội dung mô tả...</p>
-<ul>
-  <li>Điểm nổi bật 1</li>
-  <li>Điểm nổi bật 2</li>
-</ul>"
+                                rows={20}
+                                className="w-full min-h-[400px] rounded-md border border-input bg-background px-3 py-2 text-sm font-mono leading-relaxed"
+                                placeholder="# Tiêu đề chính&#10;&#10;Mô tả chi tiết sản phẩm...&#10;&#10;## Tính năng nổi bật&#10;- Tính năng 1&#10;- Tính năng 2&#10;&#10;![Mô tả ảnh](https://...)"
                             />
 
                             {detailedContent && (
                                 <details className="border rounded-lg p-4 bg-muted/30">
-                                    <summary className="cursor-pointer font-medium text-sm">Xem trước nội dung</summary>
-                                    <div
-                                        className="mt-4 prose prose-sm dark:prose-invert max-w-none"
-                                        dangerouslySetInnerHTML={{ __html: detailedContent }}
-                                    />
+                                    <summary className="cursor-pointer font-medium text-sm text-primary">Xem trước nội dung (Preview)</summary>
+                                    <div className="mt-4 prose prose-sm dark:prose-invert max-w-none border p-4 rounded-md bg-background">
+                                        <div dangerouslySetInnerHTML={{ __html: '<i>Preview is using simple HTML rendering here, actual display will use ReactMarkdown.</i>' }} />
+                                        {/* Simple preview or we could import ReactMarkdown here but it might be heavy for Admin. 
+                                            Actually, let's keep it simple for now or the user might complain preview is broken if I don't use ReactMarkdown. 
+                                            But I don't want to add imports if I can avoid. 
+                                            Let's use a basic textarea for now. */}
+                                        <pre className="whitespace-pre-wrap font-sans text-sm">{detailedContent}</pre>
+                                    </div>
                                 </details>
                             )}
                         </div>

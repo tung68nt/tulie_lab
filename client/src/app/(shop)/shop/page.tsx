@@ -365,8 +365,8 @@ export default function ShopPage() {
 
                     <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
                         <div className="max-w-2xl text-left">
-                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 leading-[1.6] tracking-tight">
-                                Bạn cần giải pháp <br /> <span className="text-white/40">thiết kế riêng biệt?</span>
+                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 leading-[1.8] tracking-normal">
+                                Bạn cần giải pháp <br /> <span className="text-zinc-500">thiết kế riêng biệt?</span>
                             </h2>
                             <p className="text-lg text-white/60 md:text-xl leading-relaxed mb-0">
                                 Đội ngũ chuyên gia tại Tulie Academy sẵn sàng tư vấn và xây dựng giải pháp tối ưu nhất.

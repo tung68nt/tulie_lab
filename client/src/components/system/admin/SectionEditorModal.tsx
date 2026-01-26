@@ -244,7 +244,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                         <p className="text-xs text-neutral-500">Enable subtle decorative dots in section corners.</p>
                                     </div>
                                     <Switch
-                                        checked={!!editedSection.showDotPattern}
+                                        checked={editedSection.showDotPattern !== false}
                                         onChange={checked => handleChange('showDotPattern', checked)}
                                     />
                                 </div>

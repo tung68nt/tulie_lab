@@ -31,4 +31,9 @@ router.delete('/:id', authenticate, authorize([Role.ADMIN]), (req, res) => produ
 router.post('/:id/versions', authenticate, authorize([Role.ADMIN]), (req, res) => productController.addVersion(req, res));
 router.delete('/versions/:versionId', authenticate, authorize([Role.ADMIN]), (req, res) => productController.deleteVersion(req, res));
 
+// Upsell Routes
+router.get('/:id/upsells', (req, res) => productController.getUpsells(req, res));
+router.post('/:id/upsells', authenticate, authorize([Role.ADMIN]), (req, res) => productController.addUpsell(req, res));
+router.delete('/:id/upsells/:upsellId', authenticate, authorize([Role.ADMIN]), (req, res) => productController.removeUpsell(req, res));
+
 export default router;

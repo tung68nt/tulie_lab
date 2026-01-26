@@ -11,6 +11,8 @@ import { useToast } from '@/contexts/ToastContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
 import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Download } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const safeParse = (val: unknown, fallback: string[]) => {
     if (!val) return fallback;
@@ -307,16 +309,6 @@ export default function ProductDetailPage() {
                                                         </Button>
                                                     </Link>
                                                 )}
-                                                <div className="flex flex-wrap gap-x-4 gap-y-2">
-                                                    <div className="flex items-center gap-1.5 text-[11px] text-zinc-500">
-                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
-                                                        <span>Trọn đời</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-1.5 text-[11px] text-zinc-500">
-                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
-                                                        <span>Update</span>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -365,7 +357,6 @@ export default function ProductDetailPage() {
                                             <div className="mb-6 mt-4">
                                                 <h3 className="text-lg font-bold mb-1 text-zinc-900 flex items-center gap-2">
                                                     {MEMBERSHIP_PRICING.PREMIUM.title}
-                                                    <span className="text-lg">👑</span>
                                                 </h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
                                                     <span className="text-2xl font-bold text-zinc-900">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
@@ -389,7 +380,7 @@ export default function ProductDetailPage() {
 
                                             <Link href="/pricing" className="mt-auto">
                                                 <Button as="div" variant="outline" className="w-full text-xs font-bold h-10 rounded-xl bg-white border-zinc-200 text-zinc-900 hover:bg-zinc-950 hover:text-white transition-all">
-                                                    Nâng cấp Premium
+                                                    Đăng ký gói này
                                                 </Button>
                                             </Link>
                                         </div>
@@ -458,10 +449,23 @@ export default function ProductDetailPage() {
                 {/* Detailed Content Section */}
                 {product.detailedContent && (
                     <div className="mt-20">
-                        <div
-                            className="prose prose-lg dark:prose-invert max-w-none"
-                            dangerouslySetInnerHTML={{ __html: product.detailedContent }}
-                        />
+                        <article className="prose prose-zinc dark:prose-invert prose-lg max-w-none 
+                                prose-headings:font-bold prose-headings:tracking-tight
+                                prose-h2:text-2xl prose-h3:text-xl
+                                prose-p:text-muted-foreground prose-p:leading-relaxed prose-p:mb-6
+                                prose-li:text-muted-foreground
+                                prose-img:rounded-xl prose-img:shadow-lg prose-img:border
+                                prose-blockquote:border-l-primary prose-blockquote:font-medium
+                                prose-a:text-primary prose-a:font-semibold">
+                            <ReactMarkdown
+                                remarkPlugins={[remarkGfm]}
+                                components={{
+                                    h1: ({ children }) => <h2 className="text-3xl font-bold mb-6">{children}</h2>,
+                                }}
+                            >
+                                {product.detailedContent}
+                            </ReactMarkdown>
+                        </article>
                     </div>
                 )}
             </div>
