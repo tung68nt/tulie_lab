@@ -191,7 +191,7 @@ export default function AdminUserDetailPage() {
                 <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Gói thành viên</div>
-                        <div className="text-xl font-medium text-zinc-900 max-w-full px-2">
+                        <div className="text-xl font-bold text-zinc-900 max-w-full px-2">
                             {isMemberActive ? (activeSub.product?.title?.replace('Hội viên ', '') || 'Premium') : 'Free'}
                         </div>
                         <div className="text-xs text-zinc-400 mt-1.5 font-medium min-h-[32px] flex items-end">
@@ -202,7 +202,7 @@ export default function AdminUserDetailPage() {
                 <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Chi tiêu (Paid)</div>
-                        <div className="text-xl font-medium text-zinc-900">{formatCurrency(user.stats?.totalPaid || 0)}</div>
+                        <div className="text-xl font-bold text-zinc-900">{formatCurrency(user.stats?.totalPaid || 0)}</div>
                         <div className="text-xs text-zinc-400 mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
                             Tổng cộng đơn hàng đã thanh toán
                         </div>
@@ -211,7 +211,7 @@ export default function AdminUserDetailPage() {
                 <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Tỷ lệ hoàn thành học</div>
-                        <div className="text-xl font-medium text-zinc-900 flex items-center gap-2">
+                        <div className="text-xl font-bold text-zinc-900 flex items-center gap-2">
                             {user.stats?.totalLessons > 0
                                 ? Math.round((user.stats?.completedLessons / user.stats?.totalLessons) * 100)
                                 : 0}%
@@ -224,7 +224,7 @@ export default function AdminUserDetailPage() {
                 <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Đăng nhập cuối</div>
-                        <div className="text-xl font-medium text-zinc-900 flex items-center gap-2 px-2">
+                        <div className="text-xl font-bold text-zinc-900 flex items-center gap-2 px-2">
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
                         <div className="text-xs text-zinc-400 mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
@@ -366,7 +366,7 @@ export default function AdminUserDetailPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-medium text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
-                                                    <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Khóa học đăng ký</p>
+                                                    <p className="text-xs text-zinc-400 mt-1.5 font-medium">Khóa học đăng ký</p>
                                                 </div>
                                             </div>
                                             <div className="flex gap-4 items-center">
@@ -375,7 +375,7 @@ export default function AdminUserDetailPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-medium text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
-                                                    <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Sản phẩm sở hữu</p>
+                                                    <p className="text-xs text-zinc-400 mt-1.5 font-medium">Sản phẩm sở hữu</p>
                                                 </div>
                                             </div>
                                             <div className="flex gap-4 items-center">
@@ -384,7 +384,7 @@ export default function AdminUserDetailPage() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-medium text-zinc-900 leading-none">{user.orders?.length || 0}</p>
-                                                    <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Tổng đơn hàng</p>
+                                                    <p className="text-xs text-zinc-400 mt-1.5 font-medium">Tổng đơn hàng</p>
                                                 </div>
                                             </div>
                                         </CardContent>
@@ -400,7 +400,7 @@ export default function AdminUserDetailPage() {
                                                     <Monitor size={18} className="text-muted-foreground mt-0.5 shrink-0" />
                                                     <div className="flex-1 min-w-0">
                                                         <p className="text-xs font-normal text-zinc-600 break-words line-clamp-3">{user.activities[0].device || 'Hệ điều hành / Trình duyệt'}</p>
-                                                        <p className="text-[10px] text-zinc-400 mt-1">{user.activities[0].ipAddress}</p>
+                                                        <p className="text-xs text-zinc-400 mt-1">{user.activities[0].ipAddress}</p>
                                                     </div>
                                                 </div>
                                             ) : (
@@ -452,15 +452,15 @@ export default function AdminUserDetailPage() {
                                                     <div className="flex-1 min-w-0 flex flex-col justify-between h-20">
                                                         <div>
                                                             <h4 className="font-bold text-sm text-zinc-900 truncate">{enroll.course?.title}</h4>
-                                                            <p className="text-[10px] text-zinc-500 mt-1 flex items-center gap-1">
+                                                            <p className="text-xs text-zinc-500 mt-1 flex items-center gap-1">
                                                                 <Clock size={10} /> Đã kích hoạt: {formatDate(enroll.createdAt)}
                                                             </p>
                                                         </div>
                                                         <div className="flex gap-3 items-center mt-auto">
-                                                            <Link href={`/admin/courses/${enroll.courseId}`} className="text-[10px] font-bold text-zinc-900 hover:underline">Quản lý nội dung</Link>
+                                                            <Link href={`/admin/courses/${enroll.courseId}`} className="text-xs font-bold text-zinc-900 hover:underline">Quản lý nội dung</Link>
                                                             <div className="w-px h-3 bg-zinc-200" />
                                                             <button
-                                                                className="text-[10px] font-bold text-red-500 hover:underline hover:text-red-600"
+                                                                className="text-xs font-bold text-red-500 hover:underline hover:text-red-600"
                                                                 onClick={() => handleAction(() => api.admin.unenrollUser(id as string, enroll.courseId), 'Đã gỡ quyền truy cập khóa học', 'Gỡ quyền truy cập khóa học này?')}
                                                             >
                                                                 Gỡ quyền
@@ -493,10 +493,10 @@ export default function AdminUserDetailPage() {
                                             <table className="w-full text-sm">
                                                 <thead>
                                                     <tr className="border-b bg-muted/30">
-                                                        <th className="text-left py-3 px-4 font-bold text-[10px]">Tên sản phẩm</th>
-                                                        <th className="text-left py-3 px-4 font-bold text-[10px]">Phiên bản ghi nhận</th>
-                                                        <th className="text-left py-3 px-4 font-bold text-[10px]">Ngày mua</th>
-                                                        <th className="text-center py-3 px-4 font-bold text-[10px]">Tính năng</th>
+                                                        <th className="text-left py-3 px-4 font-bold text-xs">Tên sản phẩm</th>
+                                                        <th className="text-left py-3 px-4 font-bold text-xs">Phiên bản ghi nhận</th>
+                                                        <th className="text-left py-3 px-4 font-bold text-xs">Ngày mua</th>
+                                                        <th className="text-center py-3 px-4 font-bold text-xs">Tính năng</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y">
@@ -555,14 +555,14 @@ export default function AdminUserDetailPage() {
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <span className={`px-3 py-1 rounded-full text-[10px] font-medium ${isMemberActive ? 'bg-zinc-900 text-zinc-100' : 'bg-muted text-zinc-500'}`}>
+                                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${isMemberActive ? 'bg-zinc-900 text-zinc-100' : 'bg-muted text-zinc-500'}`}>
                                                     {isMemberActive ? 'Active' : 'None'}
                                                 </span>
                                             </div>
 
                                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border rounded-xl bg-zinc-50/50">
                                                 <div className="flex flex-col gap-2">
-                                                    <label className="text-[10px] font-medium text-zinc-400">Gói hội viên</label>
+                                                    <label className="text-xs font-medium text-zinc-400">Gói hội viên</label>
                                                     <select
                                                         className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-900 cursor-pointer"
                                                         value={membershipForm.tier}
@@ -574,7 +574,7 @@ export default function AdminUserDetailPage() {
                                                     </select>
                                                 </div>
                                                 <div className="flex flex-col gap-2">
-                                                    <label className="text-[10px] font-medium text-zinc-400">Ngày hết hạn</label>
+                                                    <label className="text-xs font-medium text-zinc-400">Ngày hết hạn</label>
                                                     <div className="relative">
                                                         <input
                                                             type="date"
@@ -598,7 +598,7 @@ export default function AdminUserDetailPage() {
                                             </div>
 
                                             <div className="space-y-3 pt-4 border-t border-zinc-100">
-                                                <h4 className="text-[10px] font-medium text-zinc-400">Lịch sử Membership</h4>
+                                                <h4 className="text-xs font-medium text-zinc-400">Lịch sử Membership</h4>
                                                 <div className="space-y-2 border rounded-xl overflow-hidden">
                                                     {user.subscriptions?.map((s: any) => (
                                                         <div key={s.id} className="flex justify-between items-center p-3 border-b last:border-0 hover:bg-muted/20">
@@ -607,10 +607,10 @@ export default function AdminUserDetailPage() {
                                                                 <span className="font-medium">{s.product?.title || 'System Plan'}</span>
                                                             </div>
                                                             <div className="flex gap-4 items-center">
-                                                                <span className="text-[10px] text-muted-foreground">
+                                                                <span className="text-xs text-muted-foreground">
                                                                     {new Date(s.startDate).toLocaleDateString('vi-VN')} - {new Date(s.endDate).toLocaleDateString('vi-VN')}
                                                                 </span>
-                                                                <span className={`text-[10px] font-medium ${s.status === 'ACTIVE' ? 'text-zinc-900 border border-zinc-200 px-2 py-0.5 rounded-full bg-white' : 'text-zinc-400'}`}>
+                                                                <span className={`text-xs font-medium ${s.status === 'ACTIVE' ? 'text-zinc-900 border border-zinc-200 px-2 py-0.5 rounded-full bg-white' : 'text-zinc-400'}`}>
                                                                     {s.status === 'ACTIVE' ? 'Active' : 'Expired'}
                                                                 </span>
                                                             </div>
@@ -640,12 +640,12 @@ export default function AdminUserDetailPage() {
                                             <table className="w-full text-sm">
                                                 <thead>
                                                     <tr className="border-b bg-zinc-50/50">
-                                                        <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Mã đơn</th>
-                                                        <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Nội dung</th>
-                                                        <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Số tiền</th>
-                                                        <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Trạng thái</th>
-                                                        <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Ngày tạo</th>
-                                                        <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Thao tác</th>
+                                                        <th className="text-left py-3 px-4 font-medium text-zinc-400 text-xs">Mã đơn</th>
+                                                        <th className="text-left py-3 px-4 font-medium text-zinc-400 text-xs">Nội dung</th>
+                                                        <th className="text-right py-3 px-4 font-medium text-zinc-400 text-xs">Số tiền</th>
+                                                        <th className="text-center py-3 px-4 font-medium text-zinc-400 text-xs">Trạng thái</th>
+                                                        <th className="text-right py-3 px-4 font-medium text-zinc-400 text-xs">Ngày tạo</th>
+                                                        <th className="text-center py-3 px-4 font-medium text-zinc-400 text-xs">Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y text-xs">
@@ -661,7 +661,7 @@ export default function AdminUserDetailPage() {
                                                                 {formatCurrency(order.amount)}
                                                             </td>
                                                             <td className="py-3 px-4 text-center">
-                                                                <span className={`px-2 py-0.5 rounded-full font-medium text-[9px] ${order.status === 'PAID' ? 'bg-zinc-900 text-zinc-100' :
+                                                                <span className={`px-2 py-0.5 rounded-full font-medium text-xs ${order.status === 'PAID' ? 'bg-zinc-900 text-zinc-100' :
                                                                     order.status === 'PENDING' ? 'bg-zinc-100 text-zinc-900 border border-zinc-200' :
                                                                         'bg-muted text-zinc-400'
                                                                     }`}>
@@ -732,10 +732,10 @@ export default function AdminUserDetailPage() {
                                                     {notes.map((note: any) => (
                                                         <div key={note.id} className="p-4 bg-zinc-50 border border-zinc-100 rounded-xl space-y-2">
                                                             <div className="flex justify-between items-start">
-                                                                <span className="text-[10px] font-medium text-zinc-400 flex items-center gap-1">
+                                                                <span className="text-xs font-medium text-zinc-400 flex items-center gap-1">
                                                                     <Clock size={10} /> {formatDate(note.createdAt)}
                                                                 </span>
-                                                                <span className="text-[10px] bg-white border border-zinc-200 px-2 py-0.5 rounded-full text-zinc-600 font-medium">
+                                                                <span className="text-xs bg-white border border-zinc-200 px-2 py-0.5 rounded-full text-zinc-600 font-medium">
                                                                     {note.adminName || 'Admin'}
                                                                 </span>
                                                             </div>
@@ -757,27 +757,29 @@ export default function AdminUserDetailPage() {
                             activeTab === 'invoices' && (
                                 <div className="space-y-6">
                                     <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
-                                        <CardHeader className="flex flex-row items-center justify-between">
-                                            <div>
-                                                <CardTitle className="text-base flex items-center gap-2">
-                                                    <FileText size={18} /> Hồ sơ xuất hóa đơn
-                                                </CardTitle>
-                                                <CardDescription>Danh sách các pháp nhân khách hàng dùng để xuất hóa đơn VAT.</CardDescription>
+                                        <CardHeader>
+                                            <div className="flex items-center justify-between">
+                                                <div>
+                                                    <CardTitle className="text-base flex items-center gap-2">
+                                                        <FileText size={18} /> Hồ sơ xuất hóa đơn
+                                                    </CardTitle>
+                                                    <CardDescription>Danh sách các pháp nhân khách hàng dùng để xuất hóa đơn VAT.</CardDescription>
+                                                </div>
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="border-zinc-200"
+                                                    onClick={() => setShowInvoiceForm(!showInvoiceForm)}
+                                                >
+                                                    <Plus size={16} className="mr-1" /> Thêm hồ sơ mới
+                                                </Button>
                                             </div>
-                                            <Button
-                                                size="sm"
-                                                variant="outline"
-                                                className="border-zinc-200"
-                                                onClick={() => setShowInvoiceForm(!showInvoiceForm)}
-                                            >
-                                                <Plus size={16} className="mr-1" /> Thêm hồ sơ mới
-                                            </Button>
                                         </CardHeader>
                                         <CardContent className="space-y-6">
                                             {showInvoiceForm && (
                                                 <div className="p-5 border border-zinc-100 bg-zinc-50 rounded-2xl grid gap-4 md:grid-cols-2">
                                                     <div className="space-y-2">
-                                                        <label className="text-[10px] font-medium text-zinc-400">Tên công ty</label>
+                                                        <label className="text-xs font-medium text-zinc-400">Tên công ty</label>
                                                         <input
                                                             className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
                                                             value={invoiceForm.companyName}
@@ -785,7 +787,7 @@ export default function AdminUserDetailPage() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <label className="text-[10px] font-medium text-zinc-400">Mã số thuế</label>
+                                                        <label className="text-xs font-medium text-zinc-400">Mã số thuế</label>
                                                         <input
                                                             className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
                                                             value={invoiceForm.taxCode}
@@ -793,7 +795,7 @@ export default function AdminUserDetailPage() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2 md:col-span-2">
-                                                        <label className="text-[10px] font-medium text-zinc-400">Địa chỉ công ty</label>
+                                                        <label className="text-xs font-medium text-zinc-400">Địa chỉ công ty</label>
                                                         <input
                                                             className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
                                                             value={invoiceForm.address}
@@ -801,7 +803,7 @@ export default function AdminUserDetailPage() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <label className="text-[10px] font-medium text-zinc-400">Email nhận hóa đơn</label>
+                                                        <label className="text-xs font-medium text-zinc-400">Email nhận hóa đơn</label>
                                                         <input
                                                             className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
                                                             value={invoiceForm.email}
@@ -841,19 +843,19 @@ export default function AdminUserDetailPage() {
                                                     <div key={profile.id} className={`p-5 border rounded-2xl space-y-3 transition-all ${profile.isDefault ? 'border-zinc-900 bg-zinc-50' : 'border-zinc-100 hover:border-zinc-300'}`}>
                                                         <div className="flex justify-between items-start">
                                                             <h4 className="text-sm font-bold text-zinc-900">{profile.companyName}</h4>
-                                                            {profile.isDefault && <span className="bg-zinc-900 text-white text-[9px] px-2 py-0.5 rounded-full uppercase">Mặc định</span>}
+                                                            {profile.isDefault && <span className="bg-zinc-900 text-white text-xs px-2 py-0.5 rounded-full uppercase">Mặc định</span>}
                                                         </div>
                                                         <div className="space-y-1.5">
-                                                            <div className="text-[10px] flex items-center justify-between">
+                                                            <div className="text-xs flex items-center justify-between">
                                                                 <span className="text-zinc-400">MST:</span>
                                                                 <span className="font-medium text-zinc-900">{profile.taxCode}</span>
                                                             </div>
-                                                            <div className="text-[10px] flex flex-col gap-0.5">
+                                                            <div className="text-xs flex flex-col gap-0.5">
                                                                 <span className="text-zinc-400">Địa chỉ:</span>
                                                                 <span className="font-medium text-zinc-900 line-clamp-2 leading-relaxed">{profile.address}</span>
                                                             </div>
                                                             {profile.email && (
-                                                                <div className="text-[10px] flex items-center justify-between">
+                                                                <div className="text-xs flex items-center justify-between">
                                                                     <span className="text-zinc-400">Email:</span>
                                                                     <span className="font-medium text-zinc-900">{profile.email}</span>
                                                                 </div>
@@ -891,8 +893,8 @@ export default function AdminUserDetailPage() {
                                                             <Ban size={16} className="text-zinc-500 shrink-0 mt-0.5" />
                                                             <div className="flex-1">
                                                                 <p className="text-xs font-medium text-zinc-900">{log.action}</p>
-                                                                <p className="text-[10px] text-muted-foreground mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
-                                                                <p className="text-[9px] text-muted-foreground/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
+                                                                <p className="text-xs text-muted-foreground mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
+                                                                <p className="text-xs text-muted-foreground/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -919,9 +921,9 @@ export default function AdminUserDetailPage() {
                                                         <div key={act.id} className="flex justify-between items-center p-2 rounded hover:bg-muted/30 transition-colors">
                                                             <div className="flex items-center gap-3">
                                                                 <Globe size={14} className="text-zinc-400" />
-                                                                <code className="text-[10px] font-mono font-medium bg-zinc-50 border border-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">{act.ipAddress}</code>
+                                                                <code className="text-xs font-mono font-medium bg-zinc-50 border border-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">{act.ipAddress}</code>
                                                             </div>
-                                                            <span className="text-[10px] text-muted-foreground">{formatDate(act.createdAt)}</span>
+                                                            <span className="text-xs text-muted-foreground">{formatDate(act.createdAt)}</span>
                                                         </div>
                                                     ))}
                                                     {(!user.activities || user.activities.filter((l: any) => l.action === 'login').length === 0) && (
@@ -940,7 +942,7 @@ export default function AdminUserDetailPage() {
                                                 </CardTitle>
                                                 <CardDescription>Toàn bộ hành động của người dùng trên hệ thống.</CardDescription>
                                             </div>
-                                            <span className="text-[10px] font-medium text-zinc-400 border border-zinc-100 px-2 py-1 rounded-lg">Latest 100 Logs</span>
+                                            <span className="text-xs font-medium text-zinc-400 border border-zinc-100 px-2 py-1 rounded-lg">Latest 100 Logs</span>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 no-scrollbar border rounded-xl overflow-hidden divide-y">
@@ -954,12 +956,12 @@ export default function AdminUserDetailPage() {
                                                         <div className="flex-1 min-w-0">
                                                             <div className="flex items-center gap-2">
                                                                 <span className="text-xs font-bold capitalize">{act.action.replace(/_/g, ' ')}</span>
-                                                                {act.path && <span className="text-[10px] bg-muted px-1.5 py-0.2 rounded text-muted-foreground truncate max-w-[200px]">{act.path}</span>}
+                                                                {act.path && <span className="text-xs bg-muted px-1.5 py-0.2 rounded text-muted-foreground truncate max-w-[200px]">{act.path}</span>}
                                                             </div>
                                                             <div className="flex items-center gap-3 mt-0.5">
-                                                                <span className="text-[9px] text-muted-foreground font-medium">{formatDate(act.createdAt)}</span>
-                                                                <span className="text-[9px] text-muted-foreground">• IP: {act.ipAddress}</span>
-                                                                {act.metadata && <span className="text-[9px] text-muted-foreground hidden group-hover:inline">• Meta: {act.metadata.length > 50 ? act.metadata.substring(0, 50) + '...' : act.metadata}</span>}
+                                                                <span className="text-xs text-muted-foreground font-medium">{formatDate(act.createdAt)}</span>
+                                                                <span className="text-xs text-muted-foreground">• IP: {act.ipAddress}</span>
+                                                                {act.metadata && <span className="text-xs text-muted-foreground hidden group-hover:inline">• Meta: {act.metadata.length > 50 ? act.metadata.substring(0, 50) + '...' : act.metadata}</span>}
                                                             </div>
                                                         </div>
                                                         <ChevronRight size={14} className="text-muted-foreground opacity-30 group-hover:opacity-100 transition-opacity" />

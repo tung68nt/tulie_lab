@@ -380,6 +380,7 @@ export class UserService {
     }
 
     async grantMembership(userId: string, days: number = 365, tier: string = 'PREMIUM') {
+        const tierUpper = tier.toUpperCase();
         const tierLower = tier.toLowerCase();
 
         // 1. Deactivate all existing ACTIVE subscriptions
@@ -395,7 +396,7 @@ export class UserService {
         });
 
         // 2. If tier is FREE, we are done after deactivating
-        if (tier.toUpperCase() === 'FREE') {
+        if (tierUpper === 'FREE') {
             console.log(`[UserService.grantMembership] Downgraded user ${userId} to FREE. Old subscriptions deactivated.`);
             return null;
         }
@@ -405,15 +406,31 @@ export class UserService {
         endDate.setDate(endDate.getDate() + days);
 
         // 3. Try to find a subscription product that matches the tier
-        let product = await prisma.product.findFirst({
-            where: {
-                type: 'SUBSCRIPTION',
-                OR: [
-                    { slug: { contains: tierLower, mode: 'insensitive' } },
-                    { title: { contains: tierLower, mode: 'insensitive' } }
-                ]
-            }
-        });
+        // Fix: Use strict mapping first to avoid fuzzy search issues
+        let targetSlug = '';
+        if (tierUpper === 'PRO') targetSlug = 'pro-membership';
+        else if (tierUpper === 'PREMIUM') targetSlug = 'premium-membership';
+
+        let product = null;
+
+        if (targetSlug) {
+            product = await prisma.product.findUnique({
+                where: { slug: targetSlug }
+            });
+        }
+
+        if (!product) {
+            // Fallback to fuzzy search
+            product = await prisma.product.findFirst({
+                where: {
+                    type: 'SUBSCRIPTION',
+                    OR: [
+                        { slug: { contains: tierLower, mode: 'insensitive' } },
+                        { title: { contains: tierLower, mode: 'insensitive' } }
+                    ]
+                }
+            });
+        }
 
         // Fallback or generic matching
         if (!product) {

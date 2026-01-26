@@ -125,7 +125,7 @@ export default function AdminUsersPage() {
                                                     <Crown size={12} />
                                                     {user.subscriptions[0].product?.title || 'Premium Member'}
                                                 </div>
-                                                <div className="flex items-center gap-1 text-[10px] text-muted-foreground font-medium">
+                                                <div className="flex items-center gap-1 text-xs text-muted-foreground font-medium">
                                                     <Calendar size={10} />
                                                     Hết hạn: {new Date(user.subscriptions[0].endDate).toLocaleDateString('vi-VN')}
                                                 </div>
@@ -137,7 +137,7 @@ export default function AdminUsersPage() {
                                             </div>
                                         )}
 
-                                        <span className="text-[10px] text-muted-foreground/50 flex items-center gap-1 pl-1">
+                                        <span className="text-xs text-muted-foreground/50 flex items-center gap-1 pl-1">
                                             Tham gia: {new Date(user.createdAt).toLocaleDateString('vi-VN')}
                                         </span>
                                     </div>
