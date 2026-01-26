@@ -356,6 +356,7 @@ model Order {
   transactionId   String?
   paymentMethod   String?
   isGift          Boolean          @default(false)
+  metadata        Json?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   activationCodes ActivationCode[]
