@@ -136,7 +136,7 @@ export class UserController {
 
     async getUserNotes(req: Request, res: Response) {
         try {
-            const notes = await this.userService.getUserNotes(req.params.id);
+            const notes = await this.userService.getUserNotes(req.params.id as string);
             res.json(notes);
         } catch (error: any) {
             res.status(500).json({ message: error.message });
@@ -145,7 +145,7 @@ export class UserController {
 
     async getInvoiceProfiles(req: Request, res: Response) {
         try {
-            const profiles = await this.userService.getInvoiceProfiles(req.params.id);
+            const profiles = await this.userService.getInvoiceProfiles(req.params.id as string);
             res.json(profiles);
         } catch (error: any) {
             res.status(500).json({ message: error.message });
@@ -154,7 +154,7 @@ export class UserController {
 
     async createInvoiceProfile(req: Request, res: Response) {
         try {
-            const profile = await this.userService.createInvoiceProfile(req.params.id, req.body);
+            const profile = await this.userService.createInvoiceProfile(req.params.id as string, req.body);
             res.json(profile);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

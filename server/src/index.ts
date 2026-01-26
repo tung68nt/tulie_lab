@@ -27,7 +27,7 @@ app.get('/api/check', (req, res) => {
 // This is the definitive fix for "Container failed to start".
 // We bind to the port first, then initialize heavy dependencies asynchronously.
 const server = app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}. Initializing services...`);
+  console.log(`Server listening on port ${PORT}. Initializing services... [Reloaded: ${new Date().toISOString()}]`);
   initializeApp();
 });
 

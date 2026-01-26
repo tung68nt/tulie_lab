@@ -61,8 +61,17 @@ export default function LoginPage() {
         }
     };
 
-    const handleGoogleLogin = () => {
-        window.location.href = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/auth/google`;
+    const handleGoogleLogin = async () => {
+        try {
+            const { url } = await api.auth.getGoogleUrl();
+            if (url) {
+                window.location.href = url;
+            } else {
+                addToast('Không thể khởi tạo đăng nhập Google', 'error');
+            }
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi kết nối đến dịch vụ đăng nhập', 'error');
+        }
     };
 
 

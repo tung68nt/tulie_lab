@@ -121,10 +121,37 @@ export class PaymentService {
         if (metadata?.requestInvoice && metadata?.invoiceInfo) {
             const info = metadata.invoiceInfo;
             if (info.id) {
-                invoiceProfileId = info.id;
+                // Check if profile exists or create new one
+                // Use prisma directly here if needed
+                const existingProfile = await (prisma as any).userInvoiceProfile.findFirst({
+                    where: {
+                        id: info.id,
+                        userId: finalUserId!
+                    }
+                });
+                if (existingProfile) {
+                    invoiceProfileId = existingProfile.id;
+                } else {
+                    // If ID is provided but profile doesn't exist for this user, create a new one
+                    try {
+                        const profile = await (prisma as any).userInvoiceProfile.create({
+                            data: {
+                                userId: finalUserId!,
+                                companyName: info.companyName,
+                                taxCode: info.taxCode,
+                                address: info.address,
+                                email: info.email,
+                                isDefault: true
+                            }
+                        });
+                        invoiceProfileId = profile.id;
+                    } catch (err) {
+                        console.error('Failed to auto-create invoice profile:', err);
+                    }
+                }
             } else {
                 try {
-                    const profile = await prisma.userInvoiceProfile.create({
+                    const profile = await (prisma as any).userInvoiceProfile.create({
                         data: {
                             userId: finalUserId!,
                             companyName: info.companyName,
@@ -141,7 +168,7 @@ export class PaymentService {
             }
         }
 
-        const order = await this.orderRepository.create({
+        const order = await (this.orderRepository as any).create({
             code,
             user: { connect: { id: finalUserId! } },
             amount: totalAmount,
@@ -152,7 +179,7 @@ export class PaymentService {
             },
             metadata: metadata || undefined,
             promoCodeId: promoCodeId || null,
-            invoiceProfileId: invoiceProfileId
+            invoiceProfile: invoiceProfileId ? { connect: { id: invoiceProfileId } } : undefined
         });
 
         // 4. Publish Event (Instead of direct logic)

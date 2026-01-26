@@ -432,25 +432,25 @@ export class UserService {
     }
 
     async addUserNote(userId: string, content: string, adminId?: string, adminName?: string) {
-        return prisma.userNote.create({
+        return (prisma as any).userNote.create({
             data: {
                 userId,
                 content,
-                adminId,
-                adminName
+                adminId: adminId || null,
+                adminName: adminName || null
             }
         });
     }
 
     async getUserNotes(userId: string) {
-        return prisma.userNote.findMany({
+        return (prisma as any).userNote.findMany({
             where: { userId },
             orderBy: { createdAt: 'desc' }
         });
     }
 
     async getInvoiceProfiles(userId: string) {
-        return prisma.userInvoiceProfile.findMany({
+        return (prisma as any).userInvoiceProfile.findMany({
             where: { userId },
             orderBy: { isDefault: 'desc' }
         });
@@ -458,12 +458,12 @@ export class UserService {
 
     async createInvoiceProfile(userId: string, data: { companyName: string, taxCode: string, address: string, email?: string, isDefault?: boolean }) {
         if (data.isDefault) {
-            await prisma.userInvoiceProfile.updateMany({
+            await (prisma as any).userInvoiceProfile.updateMany({
                 where: { userId },
                 data: { isDefault: false }
             });
         }
-        return prisma.userInvoiceProfile.create({
+        return (prisma as any).userInvoiceProfile.create({
             data: {
                 ...data,
                 userId

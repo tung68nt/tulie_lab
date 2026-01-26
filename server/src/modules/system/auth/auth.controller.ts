@@ -99,6 +99,32 @@ export class AuthController {
             res.status(400).json({ message: error.message });
         }
     }
+
+    async googleLogin(req: Request, res: Response) {
+        try {
+            const { url } = await this.authService.getGoogleAuthUrl();
+            res.json({ url });
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async verifyGoogleToken(req: Request, res: Response) {
+        try {
+            const { token } = req.body;
+            if (!token) {
+                return res.status(400).json({ message: 'Token is required' });
+            }
+            const result = await this.authService.verifyGoogleToken(token);
+
+            // Set Cookie
+            this.setTokenCookie(res, result.token);
+
+            res.json(result);
+        } catch (error: any) {
+            res.status(401).json({ message: error.message });
+        }
+    }
 }
 
 export const authController = new AuthController();

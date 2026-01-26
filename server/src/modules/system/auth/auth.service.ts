@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { Role } from '@prisma/client';
 import { IUserRepository } from '../users/interfaces/user.repository.interface';
+import axios from 'axios';
 
 const SALT_ROUNDS = 10;
 if (!process.env.JWT_SECRET) {
@@ -126,6 +127,74 @@ export class AuthService {
                 throw new Error('Reset token has expired');
             }
             throw new Error('Invalid reset token');
+        }
+    }
+
+    async getGoogleAuthUrl() {
+        const supabaseUrl = process.env.SUPABASE_URL;
+        if (!supabaseUrl) throw new Error('SUPABASE_URL is not defined');
+
+        // This is the URL to trigger Supabase OAuth redirect to Google
+        // Frontend will then receive code/token and send back to us to verify
+        const url = `${supabaseUrl}/auth/v1/authorize?provider=google&redirect_to=${process.env.CLIENT_URL}/auth/callback`;
+        return { url };
+    }
+
+    async verifyGoogleToken(token: string) {
+        const supabaseUrl = process.env.SUPABASE_URL;
+        const supabaseKey = process.env.SUPABASE_ANON_KEY;
+        if (!supabaseUrl || !supabaseKey) throw new Error('Supabase configuration missing');
+
+        try {
+            // 1. Verify token with Supabase GET /auth/v1/user
+            const response = await axios.get(`${supabaseUrl}/auth/v1/user`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'apikey': supabaseKey
+                }
+            });
+
+            const supabaseUser = response.data;
+            if (!supabaseUser || !supabaseUser.email) {
+                throw new Error('Failed to get user data from Supabase');
+            }
+
+            // 2. Sync with Prisma
+            let user = await this.userRepository.findByEmail(supabaseUser.email);
+
+            if (!user) {
+                // Create user if not exists
+                const randomPassword = Math.random().toString(36).slice(-10);
+                const hashedPassword = await bcrypt.hash(randomPassword, SALT_ROUNDS);
+
+                user = await this.userRepository.create({
+                    email: supabaseUser.email,
+                    password: hashedPassword,
+                    role: Role.USER,
+                    profile: {
+                        create: {
+                            name: supabaseUser.user_metadata?.full_name || supabaseUser.email.split('@')[0],
+                            avatar: supabaseUser.user_metadata?.avatar_url || null
+                        }
+                    }
+                });
+            }
+
+            // 3. Issue our own JWT
+            const ownToken = jwt.sign(
+                { id: user.id, role: user.role },
+                JWT_SECRET,
+                { expiresIn: '7d' }
+            );
+
+            return {
+                user: { id: user.id, email: user.email, name: (user as any).profile?.name, role: user.role },
+                token: ownToken
+            };
+
+        } catch (error: any) {
+            console.error('Supabase verification error:', error.response?.data || error.message);
+            throw new Error('Google authentication failed');
         }
     }
 }

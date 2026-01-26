@@ -23,6 +23,7 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
     refreshUser: () => Promise<void>;
+    verifyGoogleToken: (token: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -118,6 +119,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    const verifyGoogleToken = async (token: string) => {
+        const response = await api.auth.verifyGoogleToken(token) as any;
+        const userData = response?.user || response?.data?.user;
+        const ownToken = response?.token || response?.data?.token;
+
+        if (userData && userData.id) {
+            setUser(userData);
+            if (ownToken) localStorage.setItem('token', ownToken);
+            localStorage.setItem('user', JSON.stringify(userData));
+        } else {
+            throw new Error(response?.message || 'Google verification failed');
+        }
+    };
+
     return (
         <AuthContext.Provider
             value={{
@@ -128,6 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 login,
                 logout,
                 refreshUser,
+                verifyGoogleToken,
             }}
         >
             {children}

@@ -12,4 +12,8 @@ router.get('/me', authenticate, (req, res) => authController.me(req, res));
 router.post('/forgot-password', passwordResetLimiter, (req, res) => authController.forgotPassword(req, res));
 router.post('/reset-password', passwordResetLimiter, (req, res) => authController.resetPassword(req, res));
 
+// Google Auth
+router.get('/google', (req, res) => authController.googleLogin(req, res));
+router.post('/google/verify', (req, res) => authController.verifyGoogleToken(req, res));
+
 export default router;
