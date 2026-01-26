@@ -230,10 +230,18 @@ export const api = {
             }),
         },
         payments: {
-            getTransactions: () => request<unknown[]>('/payments/transactions'),
-            syncTransactions: (accountNumber?: string) => request<{ message: string, result: any }>('/payments/sync', {
+            getTransactions: (params?: { page?: number; limit?: number; search?: string; startDate?: string; endDate?: string }) => {
+                const searchParams = new URLSearchParams();
+                if (params) {
+                    Object.entries(params).forEach(([key, value]) => {
+                        if (value) searchParams.append(key, String(value));
+                    });
+                }
+                return request<{ data: any[], total: number }>(`/payments/transactions?${searchParams.toString()}`);
+            },
+            syncTransactions: (params?: { accountNumber?: string; limit?: number; dateMin?: string; dateMax?: string }) => request<{ message: string, result: any }>('/payments/sync', {
                 method: 'POST',
-                body: JSON.stringify({ accountNumber })
+                body: JSON.stringify(params || {})
             }),
             sendReminder: (orderId: string, customMessage?: string) => request<void>(`/payments/orders/${orderId}/send-reminder`, {
                 method: 'POST',

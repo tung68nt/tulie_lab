@@ -47,12 +47,12 @@ export default function AdminUserDetailPage() {
     const fetchData = async () => {
         if (!id) return;
         try {
-            const [userData, coursesData] = await Promise.all([
+            const [userData, coursesRes] = await Promise.all([
                 api.admin.getUser(id as string),
-                api.courses.list()
+                api.admin.courses.list()
             ]);
             setUser(userData);
-            setAllCourses(coursesData as any[]);
+            setAllCourses((coursesRes as any).data || []);
         } catch (e) {
             console.error(e);
             addToast('Lỗi tải dữ liệu người dùng', 'error');
@@ -171,9 +171,9 @@ export default function AdminUserDetailPage() {
             <div className="grid gap-4 md:grid-cols-4">
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-xs font-bold text-muted-foreground mb-2">Membership</div>
+                        <div className="text-xs font-bold text-muted-foreground mb-2">Gói thành viên</div>
                         <div className="text-xl font-bold max-w-full px-2">
-                            {isMemberActive ? (activeSub?.product?.title || 'Premium Member') : 'Free Account'}
+                            {isMemberActive ? (activeSub?.product?.title || 'Hội viên Premium') : 'Tài khoản miễn phí'}
                         </div>
                         {isMemberActive && (
                             <div className="text-xs text-muted-foreground mt-1.5 font-medium">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</div>

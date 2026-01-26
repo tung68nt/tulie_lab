@@ -321,11 +321,61 @@ export class PaymentService {
         return this.orderRepository.update(id, { status });
     }
 
-    async getTransactions() {
-        return prisma.paymentTransaction.findMany({ orderBy: { createdAt: 'desc' } });
+    async getTransactions(params: {
+        page?: number;
+        limit?: number;
+        search?: string;
+        startDate?: string;
+        endDate?: string;
+    } = {}) {
+        const { page = 1, limit = 20, search, startDate, endDate } = params;
+        const skip = (page - 1) * limit;
+
+        const where: any = {};
+
+        if (search) {
+            where.OR = [
+                { code: { contains: search, mode: 'insensitive' } },
+                { content: { contains: search, mode: 'insensitive' } },
+                { accountNumber: { contains: search, mode: 'insensitive' } },
+                { referenceCode: { contains: search, mode: 'insensitive' } },
+                { description: { contains: search, mode: 'insensitive' } }
+            ];
+        }
+
+        if (startDate || endDate) {
+            where.transactionDate = {};
+            if (startDate) where.transactionDate.gte = new Date(startDate);
+            if (endDate) {
+                const end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+                where.transactionDate.lte = end;
+            }
+        }
+
+        const [transactions, total] = await Promise.all([
+            prisma.paymentTransaction.findMany({
+                where,
+                skip,
+                take: limit,
+                orderBy: [
+                    { transactionDate: 'desc' },
+                    { createdAt: 'desc' }
+                ]
+            }),
+            prisma.paymentTransaction.count({ where })
+        ]);
+
+        return { data: transactions, total };
     }
 
-    async syncTransactions(accountNumber?: string) {
+    async syncTransactions(params: {
+        accountNumber?: string;
+        limit?: number;
+        dateMin?: string;
+        dateMax?: string;
+    } = {}) {
+        const { accountNumber, limit = 20, dateMin, dateMax } = params;
         let apiKey = env.SEPAY_API_KEY;
 
         if (!apiKey) {
@@ -344,11 +394,13 @@ export class PaymentService {
         }
 
         let url = `https://my.sepay.vn/userapi/transactions/list`;
-        if (accountNumber) {
-            url += `?account_number=${accountNumber}&limit=20`;
-        } else {
-            url += `?limit=20`; // Default to last 20 if no account specified
-        }
+        const queryParams = new URLSearchParams();
+        if (accountNumber) queryParams.append('account_number', accountNumber);
+        queryParams.append('limit', String(limit > 5000 ? 5000 : limit));
+        if (dateMin) queryParams.append('transaction_date_min', dateMin);
+        if (dateMax) queryParams.append('transaction_date_max', dateMax);
+
+        url += `?${queryParams.toString()}`;
 
         try {
             const cleanApiKey = apiKey.trim().replace(/^["'`]|["'`]$/g, '');

@@ -149,7 +149,7 @@ export default function AdminMembershipsPage() {
 
             {/* Membership Section */}
             <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground ml-1">
+                <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground ml-1">
                     <LayoutGrid className="w-4 h-4" />
                     Gói thành viên (Membership)
                 </div>
@@ -304,7 +304,7 @@ export default function AdminMembershipsPage() {
 
             {/* Single Purchase Section */}
             <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground ml-1">
+                <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground ml-1">
                     <Sparkles className="w-4 h-4" />
                     Bán lẻ sản phẩm
                 </div>

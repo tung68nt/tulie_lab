@@ -295,8 +295,14 @@ export const deleteOrder = async (req: Request, res: Response) => {
 export const getTransactions = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
-        const transactions = await paymentService.getTransactions();
-        res.json(transactions);
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 20;
+        const search = req.query.search as string;
+        const startDate = req.query.startDate as string;
+        const endDate = req.query.endDate as string;
+
+        const result = await paymentService.getTransactions({ page, limit, search, startDate, endDate });
+        res.json(result);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
     }

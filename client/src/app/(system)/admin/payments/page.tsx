@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, RefreshCw, ArrowLeft, History, CheckCircle2, Clock, XCircle, FileText } from 'lucide-react';
+import { Loader2, RefreshCw, ArrowLeft, History, Search, FileText } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import Link from 'next/link';
 
@@ -25,14 +25,27 @@ interface Transaction {
 export default function AdminPaymentsPage() {
     const { addToast } = useToast();
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [total, setTotal] = useState(0);
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
+    const limit = 20;
 
-    const loadTransactions = useCallback(async () => {
+    const loadTransactions = useCallback(async (currentPage: number, currentSearch: string, start: string, end: string) => {
         try {
             setLoading(true);
-            const res: any = await api.admin.payments.getTransactions();
-            setTransactions(Array.isArray(res) ? res : []);
+            const res: any = await api.admin.payments.getTransactions({
+                page: currentPage,
+                limit,
+                search: currentSearch,
+                startDate: start,
+                endDate: end
+            });
+            setTransactions(res.data || []);
+            setTotal(res.total || 0);
         } catch (error) {
             console.error('Failed to load transactions:', error);
             addToast('Không thể tải lịch sử giao dịch', 'error');
@@ -41,16 +54,27 @@ export default function AdminPaymentsPage() {
         }
     }, [addToast]);
 
+    // Use a ref to store a timeout for debouncing
+    const searchTimeout = useRef<NodeJS.Timeout | null>(null);
+
     useEffect(() => {
-        loadTransactions();
-    }, [loadTransactions]);
+        if (searchTimeout.current) clearTimeout(searchTimeout.current);
+        searchTimeout.current = setTimeout(() => {
+            loadTransactions(page, search, startDate, endDate);
+        }, 300);
+
+        return () => {
+            if (searchTimeout.current) clearTimeout(searchTimeout.current);
+        };
+    }, [loadTransactions, page, search, startDate, endDate]);
 
     const handleSync = async () => {
         setSyncing(true);
         try {
             const res = await api.admin.payments.syncTransactions();
             addToast(`Đã đồng bộ thành công ${res.result?.processed || 0} giao dịch`, 'success');
-            loadTransactions();
+            setPage(1);
+            loadTransactions(1, search, startDate, endDate);
         } catch (error: any) {
             addToast(error.message || 'Lỗi đồng bộ giao dịch', 'error');
         } finally {
@@ -62,15 +86,21 @@ export default function AdminPaymentsPage() {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     };
 
-    const formatDate = (dateStr: string) => {
-        return new Date(dateStr).toLocaleString('vi-VN', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+    const renderDate = (dateStr: string) => {
+        const date = new Date(dateStr);
+        return (
+            <div className="flex flex-col text-[10px] leading-tight text-muted-foreground">
+                <span className="font-bold text-zinc-900 text-xs">
+                    {date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                </span>
+                <span>
+                    {date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                </span>
+            </div>
+        );
     };
+
+    const totalPages = Math.ceil(total / limit);
 
     return (
         <div className="admin-container space-y-6">
@@ -99,15 +129,58 @@ export default function AdminPaymentsPage() {
             </AdminPageHeader>
 
             <Card>
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                        <History size={18} />
-                        Giao dịch gần đây
-                    </CardTitle>
-                    <span className="text-sm text-muted-foreground">{transactions.length} giao dịch</span>
+                <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4">
+                    <div className="space-y-1">
+                        <CardTitle className="text-lg flex items-center gap-2">
+                            <History size={18} />
+                            Giao dịch ngân hàng
+                        </CardTitle>
+                        <CardDescription>
+                            Dữ liệu đồng bộ từ SePay. Mã đơn được tự động tách từ nội dung chuyển khoản.
+                        </CardDescription>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <div className="relative">
+                            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                            <input
+                                type="text"
+                                placeholder="Tìm mã đơn, nội dung..."
+                                className="pl-8 pr-3 py-1.5 text-xs bg-muted/50 border rounded-lg w-48 focus:outline-none focus:ring-1 focus:ring-primary"
+                                value={search}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setPage(1);
+                                }}
+                            />
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs border rounded-lg px-2 py-1 bg-muted/50">
+                            <input
+                                type="date"
+                                className="bg-transparent focus:outline-none"
+                                value={startDate}
+                                onChange={(e) => {
+                                    setStartDate(e.target.value);
+                                    setPage(1);
+                                }}
+                            />
+                            <span className="opacity-40">→</span>
+                            <input
+                                type="date"
+                                className="bg-transparent focus:outline-none"
+                                value={endDate}
+                                onChange={(e) => {
+                                    setEndDate(e.target.value);
+                                    setPage(1);
+                                }}
+                            />
+                        </div>
+                        <span className="text-sm font-bold bg-zinc-100 px-2 py-1 rounded text-zinc-600 border">
+                            {total}
+                        </span>
+                    </div>
                 </CardHeader>
                 <CardContent>
-                    {loading ? (
+                    {loading && transactions.length === 0 ? (
                         <div className="flex items-center justify-center py-20">
                             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                         </div>
@@ -116,63 +189,94 @@ export default function AdminPaymentsPage() {
                             <div className="mb-4">
                                 <History size={48} className="mx-auto opacity-20" />
                             </div>
-                            <p>Chưa có giao dịch nào được ghi nhận</p>
-                            <Button variant="link" onClick={handleSync} className="mt-2">
-                                Thử đồng bộ ngay
+                            <p>Không tìm thấy giao dịch nào khớp với điều kiện lọc</p>
+                            <Button variant="link" onClick={() => { setSearch(''); setStartDate(''); setEndDate(''); }} className="mt-2 text-primary font-bold">
+                                Xóa bộ lọc
                             </Button>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="border-b bg-muted/50">
-                                        <th className="text-left py-3 px-3 font-medium">Thời gian</th>
-                                        <th className="text-left py-3 px-3 font-medium">Ngân hàng</th>
-                                        <th className="text-left py-3 px-3 font-medium">Nội dung</th>
-                                        <th className="text-right py-3 px-3 font-medium">Số tiền</th>
-                                        <th className="text-center py-3 px-3 font-medium">Mã đơn</th>
-                                        <th className="text-right py-3 px-3 font-medium">Ref Code</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {transactions.map((tx) => (
-                                        <tr key={tx.id} className="border-b hover:bg-muted/30 transition-colors">
-                                            <td className="py-3 px-3 text-xs text-muted-foreground whitespace-nowrap">
-                                                {formatDate(tx.transactionDate || tx.createdAt)}
-                                            </td>
-                                            <td className="py-3 px-3">
-                                                <div className="font-medium">{tx.gateway}</div>
-                                                <div className="text-[10px] text-muted-foreground">{tx.accountNumber}</div>
-                                            </td>
-                                            <td className="py-3 px-3 max-w-[300px]">
-                                                <div className="truncate text-xs" title={tx.content || tx.description}>
-                                                    {tx.content || tx.description || 'N/A'}
-                                                </div>
-                                            </td>
-                                            <td className="py-3 px-3 text-right font-bold text-zinc-900">
-                                                {formatCurrency(tx.amountIn)}
-                                            </td>
-                                            <td className="py-3 px-3 text-center">
-                                                {tx.code ? (
-                                                    <span className="text-xs bg-zinc-900 text-zinc-100 px-2 py-0.5 rounded-full font-mono font-bold">
-                                                        {tx.code}
-                                                    </span>
-                                                ) : (
-                                                    <span className="text-[10px] text-muted-foreground italic">Không xác định</span>
-                                                )}
-                                            </td>
-                                            <td className="py-3 px-3 text-right text-xs font-mono text-muted-foreground">
-                                                {tx.referenceCode || tx.id.slice(-8)}
-                                            </td>
+                        <div className="space-y-4">
+                            <div className="overflow-x-auto border rounded-xl overflow-hidden shadow-sm">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="border-b bg-muted/50">
+                                            <th className="text-left py-3 px-4 font-bold text-xs">Thời gian</th>
+                                            <th className="text-left py-3 px-4 font-bold text-xs">Ngân hàng</th>
+                                            <th className="text-left py-3 px-4 font-bold text-xs">Nội dung</th>
+                                            <th className="text-right py-3 px-4 font-bold text-xs">Số tiền</th>
+                                            <th className="text-center py-3 px-4 font-bold text-xs text-nowrap">Mã đơn</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody className="divide-y relative">
+                                        {loading && (
+                                            <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] z-10 flex items-center justify-center">
+                                                <Loader2 className="animate-spin text-primary" />
+                                            </div>
+                                        )}
+                                        {transactions.map((tx) => (
+                                            <tr key={tx.id} className="hover:bg-muted/30 transition-colors">
+                                                <td className="py-3 px-4">
+                                                    {renderDate(tx.transactionDate || tx.createdAt)}
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <div className="font-bold text-zinc-900">{tx.gateway}</div>
+                                                    <div className="text-[10px] text-muted-foreground font-mono">{tx.accountNumber}</div>
+                                                </td>
+                                                <td className="py-3 px-4 min-w-[200px] max-w-[400px]">
+                                                    <div className="text-[11px] leading-relaxed break-words text-muted-foreground" title={tx.content || tx.description}>
+                                                        {tx.content || tx.description || 'N/A'}
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 px-4 text-right font-black text-primary text-base">
+                                                    {formatCurrency(tx.amountIn)}
+                                                </td>
+                                                <td className="py-3 px-4 text-center">
+                                                    {tx.code ? (
+                                                        <span className="text-[11px] bg-zinc-900 text-zinc-100 px-3 py-1 rounded-full font-mono font-bold whitespace-nowrap">
+                                                            {tx.code}
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-[10px] text-muted-foreground italic">Không xác định</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Pagination */}
+                            {totalPages > 1 && (
+                                <div className="flex items-center justify-between pt-4 border-t">
+                                    <p className="text-xs text-muted-foreground">
+                                        Hiển thị {transactions.length} / {total} giao dịch (Trang {page} / {totalPages})
+                                    </p>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="h-8 px-3 text-xs"
+                                            disabled={page === 1 || loading}
+                                            onClick={() => setPage(p => p - 1)}
+                                        >
+                                            Sau
+                                        </Button>
+                                        <Button
+                                            variant="secondary"
+                                            size="sm"
+                                            className="h-8 px-3 text-xs font-bold"
+                                            disabled={page === totalPages || loading}
+                                            onClick={() => setPage(p => p + 1)}
+                                        >
+                                            Tiếp theo
+                                        </Button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
                 </CardContent>
             </Card>
-
         </div>
     );
 }
