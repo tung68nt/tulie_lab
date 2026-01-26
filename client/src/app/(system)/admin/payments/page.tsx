@@ -227,7 +227,7 @@ export default function AdminPaymentsPage() {
                                                         {tx.content || tx.description || 'N/A'}
                                                     </div>
                                                 </td>
-                                                <td className="py-3 px-4 text-right font-semibold text-zinc-900 text-sm">
+                                                <td className="py-3 px-4 text-right font-bold text-zinc-900 text-sm">
                                                     {formatCurrency(tx.amountIn)}
                                                 </td>
                                                 <td className="py-3 px-4 text-center">
@@ -238,7 +238,7 @@ export default function AdminPaymentsPage() {
                                                             </span>
                                                         </Link>
                                                     ) : (
-                                                        <span className="text-[10px] text-muted-foreground italic">Không xác định</span>
+                                                        <span className="text-[10px] text-muted-foreground">Không xác định</span>
                                                     )}
                                                 </td>
                                             </tr>
