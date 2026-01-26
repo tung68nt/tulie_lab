@@ -173,15 +173,7 @@ export default function AdminPaymentsPage() {
                 </CardContent>
             </Card>
 
-            <div className="p-4 bg-zinc-50 border border-zinc-100 rounded-lg flex items-start gap-3">
-                <div className="mt-0.5">
-                    <CheckCircle2 className="h-5 w-5 text-zinc-400" />
-                </div>
-                <div className="text-sm text-zinc-600">
-                    <p className="font-semibold mb-1">Hướng dẫn đồng bộ</p>
-                    <p>Hệ thống tự động đồng bộ qua Webhook. Nếu giao dịch không xuất hiện, bạn có thể nhấn nút <strong>Đồng bộ giao dịch</strong> để kéo dữ liệu thủ công từ API.</p>
-                </div>
-            </div>
         </div>
+        </div >
     );
 }
