@@ -414,7 +414,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
             {/* Main Product Selection */}
             <div className="space-y-4 pt-6 mt-4 border-t border-zinc-100">
-                <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-widest opacity-40">Sản phẩm đăng ký</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 uppercase tracking-widest opacity-40">Sản phẩm đăng ký</h3>
                 <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-white flex items-center gap-5 transition-all hover:border-zinc-400">
                     <div className="w-14 h-14 bg-zinc-100 rounded-xl overflow-hidden shrink-0 border border-zinc-50">
                         {state.cart[0] && state.cart[0].image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
@@ -422,7 +422,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     <div className="flex-1">
                         <h4 className="font-semibold text-zinc-900 leading-tight">{state.cart[0]?.title || section.title}</h4>
                         <div className="text-sm flex items-center gap-2 mt-1">
-                            <span className="font-bold text-zinc-900">{formatPrice(state.cart[0]?.price || 0)}</span>
+                            <span className="font-semibold text-zinc-900">{formatPrice(state.cart[0]?.price || 0)}</span>
                             {state.cart[0] && state.cart[0].originalPrice && state.cart[0].originalPrice > (state.cart[0].price || 0) && (
                                 <span className="text-xs text-zinc-400 line-through">{formatPrice(state.cart[0].originalPrice)}</span>
                             )}
@@ -509,9 +509,9 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                             </div>
                                             <div className="flex-1 min-w-0 space-y-1">
                                                 <div className="flex justify-between items-start gap-2">
-                                                    <h4 className="font-bold text-sm md:text-base line-clamp-2">{item.title}</h4>
+                                                    <h4 className="font-semibold text-sm md:text-base line-clamp-2">{item.title}</h4>
                                                     <div className="text-right shrink-0">
-                                                        <div className="font-bold text-red-600 block">{formatPrice(salePrice)}</div>
+                                                        <div className="font-semibold text-red-600 block">{formatPrice(salePrice)}</div>
                                                         {original > salePrice && (
                                                             <div className="text-xs text-muted-foreground line-through decoration-slate-400 block">{formatPrice(original)}</div>
                                                         )}
@@ -538,7 +538,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                             )}>
                                                 {isAdded && <DynamicIcon name="Check" className="w-3.5 h-3.5 text-blue-600 stroke-[3px]" />}
                                             </div>
-                                            <span className="text-sm font-bold flex-1">
+                                            <span className="text-sm font-semibold flex-1">
                                                 {item.ctaText || "Mua thêm để bán khoá học dễ dàng hơn"}
                                             </span>
                                             <DynamicIcon name="Plus" className={cn("w-4 h-4", isAdded ? "opacity-100" : "opacity-50")} />
@@ -678,7 +678,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     {/* Right Column: Sticky Cart Summary */}
                     <div className="hidden lg:block lg:col-span-5 sticky top-24 space-y-6">
                         <div className="bg-background p-6 rounded-2xl shadow-lg border border-border/60">
-                            <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                            <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
                                 <DynamicIcon name="ShoppingBag" className="w-5 h-5" />
                                 Thông tin đơn hàng
                             </h3>
@@ -692,7 +692,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                             <div className="font-medium text-sm line-clamp-2">{item.title}</div>
                                             {item.isUpsell && <div className="text-[10px] uppercase font-bold text-primary mt-1">Ưu đãi thêm</div>}
                                         </div>
-                                        <div className="font-bold text-sm shrink-0 flex flex-col items-end">
+                                        <div className="font-semibold text-sm shrink-0 flex flex-col items-end">
                                             {item.isGift ? (
                                                 <span className="text-red-500">MIỄN PHÍ</span>
                                             ) : (
@@ -710,7 +710,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
                             <div className="pt-4 mt-2 border-t border-dashed border-border flex justify-between items-end">
                                 <span className="text-muted-foreground">Tổng thanh toán</span>
-                                <span className="text-2xl font-bold text-primary">{formatPrice(totalAmount)}</span>
+                                <span className="text-2xl font-semibold text-primary">{formatPrice(totalAmount)}</span>
                             </div>
 
                             {state.step === 'form' && (

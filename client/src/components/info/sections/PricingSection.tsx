@@ -24,7 +24,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
             {section.showDotPattern && <DotPatternBackground />}
             {(section.title || section.subtitle) && (
                 <div className="text-center mb-12 space-y-4">
-                    {section.title && <h2 className="text-3xl md:text-5xl font-bold">{section.title}</h2>}
+                    {section.title && <h2 className="text-3xl md:text-5xl font-semibold">{section.title}</h2>}
                     {section.subtitle && <p className="text-xl text-muted-foreground">{section.subtitle}</p>}
                 </div>
             )}
@@ -51,12 +51,12 @@ export const PricingSection = ({ section }: { section: Section }) => {
 
                         {/* Header Section with standardized height for alignment */}
                         <div className="min-h-[160px] md:min-h-[180px] flex flex-col mb-4">
-                            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                                 {item.icon && getIcon(item.icon)}
                                 {item.title}
                             </h3>
                             <div className="flex items-baseline gap-1 mb-3">
-                                <span className="text-4xl font-bold tracking-tight">{item.price}</span>
+                                <span className="text-4xl font-semibold tracking-tight">{item.price}</span>
                                 {item.originalPrice && (
                                     <span className="text-lg text-neutral-400 line-through font-medium ml-2">
                                         {item.originalPrice}
@@ -90,7 +90,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                                         as="div"
                                         variant={item.tag === 'Best Value' ? 'default' : 'outline'}
                                         className={cn(
-                                            "w-full text-sm font-bold h-12 rounded-xl transition-all shadow-sm",
+                                            "w-full text-sm font-semibold h-12 rounded-xl transition-all shadow-sm",
                                             item.tag === 'Best Value' ? "shadow-primary/25" : "group-hover:bg-primary group-hover:text-white"
                                         )}
                                     >
