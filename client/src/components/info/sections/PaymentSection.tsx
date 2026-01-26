@@ -417,13 +417,13 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-widest opacity-40">Sản phẩm đăng ký</h3>
                 <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-white flex items-center gap-5 transition-all hover:border-zinc-400">
                     <div className="w-14 h-14 bg-zinc-100 rounded-xl overflow-hidden shrink-0 border border-zinc-50">
-                        {state.cart[0]?.image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
+                        {state.cart[0] && state.cart[0].image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
                     </div>
                     <div className="flex-1">
                         <h4 className="font-semibold text-zinc-900 leading-tight">{state.cart[0]?.title || section.title}</h4>
                         <div className="text-sm flex items-center gap-2 mt-1">
                             <span className="font-bold text-zinc-900">{formatPrice(state.cart[0]?.price || 0)}</span>
-                            {state.cart[0]?.originalPrice > state.cart[0]?.price && (
+                            {state.cart[0] && state.cart[0].originalPrice && state.cart[0].originalPrice > (state.cart[0].price || 0) && (
                                 <span className="text-xs text-zinc-400 line-through">{formatPrice(state.cart[0].originalPrice)}</span>
                             )}
                         </div>
