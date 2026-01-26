@@ -108,8 +108,8 @@ export default function AdminUsersPage() {
                                         {user.profile?.name?.charAt(0)?.toUpperCase() || user.email.charAt(0).toUpperCase()}
                                     </div>
                                     <div className="min-w-0">
-                                        <p className="font-bold text-sm truncate">{user.profile?.name || 'Chưa đặt tên'}</p>
-                                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                                        <p className="font-bold text-sm truncate text-zinc-900 dark:text-zinc-100">{user.profile?.name || 'Chưa đặt tên'}</p>
+                                        <p className="text-xs text-zinc-600 dark:text-zinc-400 truncate">{user.email}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-6">

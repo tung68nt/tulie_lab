@@ -111,7 +111,7 @@ export class PaymentService {
         // 3. Create Order
         const randomString = Math.random().toString(36).substring(2, 6).toUpperCase();
         const timestamp = Date.now().toString().slice(-6);
-        const code = `${timestamp}${randomString}`;
+        const code = `DH${timestamp}${randomString}`;
 
         // Ensure status reflects calculation
         const initialStatus = totalAmount <= 0 ? OrderStatus.PAID : OrderStatus.PENDING;
@@ -435,10 +435,11 @@ export class PaymentService {
                         };
 
                         // Extract order code from content if it matches pattern
-                        const orderCodePattern = /\d{6}[A-Z0-9]{4}/;
-                        const match = webhookData.content.toUpperCase().match(orderCodePattern);
+                        // Improved regex to prioritize DH prefix and handle exactly 12 characters
+                        const orderCodePattern = /DH[A-Z0-9]{10}/i;
+                        const match = webhookData.content.match(orderCodePattern);
                         if (match) {
-                            webhookData.code = match[0];
+                            webhookData.code = match[0].toUpperCase();
                         }
 
                         if (tx.bank_brand_name || tx.gateway) webhookData.gateway = tx.bank_brand_name || tx.gateway;

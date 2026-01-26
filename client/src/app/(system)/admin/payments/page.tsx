@@ -232,9 +232,11 @@ export default function AdminPaymentsPage() {
                                                 </td>
                                                 <td className="py-3 px-4 text-center">
                                                     {tx.code ? (
-                                                        <span className="text-[11px] bg-zinc-900 text-zinc-100 px-3 py-1 rounded-full font-mono font-bold whitespace-nowrap">
-                                                            {tx.code}
-                                                        </span>
+                                                        <Link href={`/admin/orders?search=${tx.code}`}>
+                                                            <span className="text-[11px] bg-zinc-900 text-zinc-100 px-3 py-1 rounded-full font-mono font-bold whitespace-nowrap hover:bg-zinc-700 transition-colors cursor-pointer">
+                                                                {tx.code}
+                                                            </span>
+                                                        </Link>
                                                     ) : (
                                                         <span className="text-[10px] text-muted-foreground italic">Không xác định</span>
                                                     )}

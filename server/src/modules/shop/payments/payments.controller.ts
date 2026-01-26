@@ -136,15 +136,16 @@ export const webhook = async (req: Request, res: Response) => {
 
         // Try to get order code
         let orderCode: string | null = null;
-        const orderCodePattern = /\d{6}[A-Z0-9]{4}/;
+        // Improved regex to prioritize DH prefix and handle exactly 12 characters
+        const orderCodePattern = /DH[A-Z0-9]{10}/i;
 
         // 1. Try payment code field first, but still validate/clean with regex
         const rawPaymentCode = paymentCode || referenceCode || '';
         if (rawPaymentCode && typeof rawPaymentCode === 'string' && rawPaymentCode.trim()) {
-            const cleanRaw = rawPaymentCode.trim().toUpperCase();
+            const cleanRaw = rawPaymentCode.trim();
             const match = cleanRaw.match(orderCodePattern);
             if (match) {
-                orderCode = match[0];
+                orderCode = match[0].toUpperCase();
                 console.log(`✅ Extracted Order Code from code field: ${orderCode}`);
             }
         }
@@ -153,11 +154,11 @@ export const webhook = async (req: Request, res: Response) => {
         if (!orderCode) {
             const actualTransferContent = transferContent || content || description || '';
             if (actualTransferContent && typeof actualTransferContent === 'string') {
-                const trimmedContent = actualTransferContent.trim().toUpperCase();
+                const trimmedContent = actualTransferContent.trim();
                 const match = trimmedContent.match(orderCodePattern);
 
                 if (match) {
-                    orderCode = match[0];
+                    orderCode = match[0].toUpperCase();
                     console.log(`✅ Extracted Order Code from content: ${orderCode}`);
                 }
             }
