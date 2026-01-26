@@ -740,7 +740,7 @@ export default function AdminDashboardPage() {
                                                 <p className="text-sm font-black group-hover:text-white">
                                                     {user.daysSinceActivity} ngày
                                                 </p>
-                                                <p className="text-[9px] opacity-60 font-bold uppercase">Vắng mặt</p>
+                                                <p className="text-[9px] opacity-60 font-bold">Vắng mặt</p>
                                             </div>
                                         </div>
                                     </Link>

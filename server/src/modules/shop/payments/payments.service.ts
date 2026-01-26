@@ -343,21 +343,26 @@ export class PaymentService {
             throw new Error('Cấu hình SePay API Key chưa hoàn tất. Vui lòng thêm SEPAY_API_KEY trong .env hoặc Cài đặt hệ thống.');
         }
 
-        let url = `https://my.sepay.vn/api/v1/transactions`;
+        let url = `https://my.sepay.vn/userapi/transactions/list`;
         if (accountNumber) {
-            url += `?account_number=${accountNumber}`;
+            url += `?account_number=${accountNumber}&limit=20`;
+        } else {
+            url += `?limit=20`; // Default to last 20 if no account specified
         }
 
         try {
+            const cleanApiKey = apiKey.trim().replace(/^["'`]|["'`]$/g, '');
+            console.log(`[SePay Sync] Using API Key: ${cleanApiKey.charAt(0)}...${cleanApiKey.slice(-4)} (Length: ${cleanApiKey.length})`);
+
             const response = await axios.get(url, {
                 headers: {
-                    'Authorization': `Bearer ${apiKey}`
+                    'Authorization': `Bearer ${cleanApiKey}`
                 }
             });
 
-            if (response.data && response.data.data) {
-                const transactions = response.data.data;
-                console.log(`Syncing ${transactions.length} transactions from SePay`);
+            if (response.data && response.data.transactions) {
+                const transactions = response.data.transactions;
+                console.log(`[SePay Sync] Syncing ${transactions.length} transactions from SePay User API`);
 
                 const results = {
                     total: transactions.length,
@@ -367,13 +372,14 @@ export class PaymentService {
 
                 for (const tx of transactions) {
                     try {
+                        const content = tx.transaction_content || tx.description || '';
                         // Map SePay API response to our processWebhook format
                         const webhookData: any = {
                             code: undefined, // Will try to extract from content
                             amount: Number(tx.amount_in || 0),
                             transactionId: String(tx.id),
                             accumulated: tx.accumulated ? Number(tx.accumulated) : undefined,
-                            content: tx.content || tx.description || ''
+                            content: content
                         };
 
                         // Extract order code from content if it matches pattern
@@ -383,7 +389,7 @@ export class PaymentService {
                             webhookData.code = match[0];
                         }
 
-                        if (tx.bank_name || tx.gateway) webhookData.gateway = tx.bank_name || tx.gateway;
+                        if (tx.bank_brand_name || tx.gateway) webhookData.gateway = tx.bank_brand_name || tx.gateway;
                         if (tx.transaction_date) webhookData.transactionDate = tx.transaction_date;
                         if (tx.account_number) webhookData.accountNumber = tx.account_number;
                         if (tx.sub_account) webhookData.subAccount = tx.sub_account;
@@ -404,9 +410,14 @@ export class PaymentService {
 
             return { total: 0, processed: 0, errors: 0 };
         } catch (error: any) {
-            console.error('Payment Sync Error:', error.response?.data || error.message);
+            console.error('Payment Sync Error:', {
+                message: error.message,
+                status: error.response?.status,
+                data: error.response?.data,
+                url: url
+            });
             if (error.response?.status === 401) {
-                throw new Error('Lỗi xác thực SePay (401). Vui lòng kiểm tra lại API Key.');
+                throw new Error('Lỗi xác thực SePay (401). Vui lòng kiểm tra lại API Key (đã tự động loại bỏ khoảng trắng/dấu ngoặc).');
             }
             throw new Error(`Lỗi đồng bộ SePay: ${error.message}`);
         }

@@ -164,7 +164,7 @@ export default function ActivationCodesPage() {
                                 </td>
                                 <td className="px-4 py-4">
                                     <span className={cn(
-                                        "px-2 py-0.5 rounded-md text-[10px] font-bold uppercase",
+                                        "px-2 py-0.5 rounded-md text-[10px] font-bold",
                                         code.courseId ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
                                     )}>
                                         {code.courseId ? 'Course' : 'Product'}

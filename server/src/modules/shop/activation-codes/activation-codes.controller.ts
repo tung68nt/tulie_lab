@@ -39,6 +39,7 @@ export class ActivationCodeController {
             });
             res.json(result);
         } catch (error: any) {
+            console.error('[ActivationCodeController] list error:', error);
             res.status(400).json({ message: error.message });
         }
     }

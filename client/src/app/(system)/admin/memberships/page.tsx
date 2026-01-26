@@ -149,14 +149,14 @@ export default function AdminMembershipsPage() {
 
             {/* Membership Section */}
             <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">
+                <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground ml-1">
                     <LayoutGrid className="w-4 h-4" />
-                    Gói Thành viên (Membership)
+                    Gói thành viên (Membership)
                 </div>
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                     {/* Basic Package */}
                     <Card className="overflow-hidden border-zinc-200 flex flex-col shadow-md">
-                        <div className="bg-zinc-100 dark:bg-zinc-800 py-1.5 px-6 text-[10px] font-bold uppercase tracking-widest text-center text-muted-foreground border-b">
+                        <div className="bg-zinc-100 dark:bg-zinc-800 py-1.5 px-6 text-[10px] font-bold text-center text-muted-foreground border-b">
                             Standard Plan
                         </div>
                         <CardHeader>
@@ -229,7 +229,7 @@ export default function AdminMembershipsPage() {
 
                     {/* Premium Package */}
                     <Card className="border-zinc-900 dark:border-zinc-100 shadow-xl overflow-hidden flex flex-col">
-                        <div className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black py-1.5 px-6 text-[10px] font-bold uppercase tracking-widest text-center">
+                        <div className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black py-1.5 px-6 text-[10px] font-bold text-center">
                             Best Value / VIP
                         </div>
                         <CardHeader>
@@ -304,7 +304,7 @@ export default function AdminMembershipsPage() {
 
             {/* Single Purchase Section */}
             <div className="space-y-4">
-                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">
+                <div className="flex items-center gap-2 text-sm font-bold text-muted-foreground ml-1">
                     <Sparkles className="w-4 h-4" />
                     Bán lẻ sản phẩm
                 </div>

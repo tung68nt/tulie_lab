@@ -40,7 +40,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                     >
                         {item.tag && (
                             <div className={cn(
-                                "absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold border shadow-sm whitespace-nowrap uppercase tracking-wider",
+                                "absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold border shadow-sm whitespace-nowrap tracking-wide",
                                 item.tag === 'Best Value' ? "bg-red-600 text-white border-red-600" :
                                     item.tag === 'Phổ biến' ? "bg-primary text-white border-primary" :
                                         "bg-zinc-900 text-white border-zinc-800"

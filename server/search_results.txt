@@ -1,0 +1,49 @@
+--- Deep Database Search ---
+Searching model: Product...
+MATCH found in Product (ID: c03fc692-6366-48d6-bce5-54e04dc3aa66)
+Data: {
+  "id": "c03fc692-6366-48d6-bce5-54e04dc3aa66",
+  "title": "Gói Hội Viên Premium (1 Năm)",
+  "slug": "membership-premium-1-year",
+  "description": "Quyền lợi hội viên Premium 1 năm. Truy cập không giới hạn tất cả sản phẩm số.",
+  "thumbnail": "https://ui-avatars.com/api/?name=VIP&background=FFD700&color=000&size=512",
+  "price": "1990000",
+  "compareAtPrice": null,
+  "type": "SUBSCRIPTION",
+  "fileUrl": null,
+  "previewUrl": null,
+  "isPublished": true,
+  "tags": [],
+  "gallery": null,
+  "detailedContent": null,
+  "campaignId": null,
+  "saleStartDate": null,
+  "saleEndDate": null,
+  "createdAt": "2026-01-18T06:36:59.512Z",
+  "updatedAt": "2026-01-18T06:36:59.512Z",
+  "field": "OTHER"
+}
+Searching model: Category...
+Searching model: Course...
+Searching model: LandingPage...
+MATCH found in LandingPage (ID: 1be9c15a-da66-4983-8d49-53bcc9677429)
+Data: {
+  "id": "1be9c15a-da66-4983-8d49-53bcc9677429",
+  "title": "Bảng giá & Gói thành viên",
+  "slug": "pricing",
+  "description": "Thông tin chi tiết về các gói thành viên và quyền lợi.",
+  "sections": "[{\"id\": \"pricing-header\", \"type\": \"content\", \"order\": 1, \"title\": \"Bảng giá & Gói thành viên\", \"content\": \"Đầu tư cho kiến thức là khoản đầu tư sinh lời nhất. Tham gia ngay cộng đồng Vibe Coding để tiếp cận kho tài nguyên và kiến thức khổng lồ.\", \"subtitle\": \"Chọn gói phù hợp với lộ trình phát triển của bạn\"}, {\"id\": \"pricing-plans\", \"type\": \"upsell\", \"items\": [{\"id\": \"plan-retail\", \"tag\": \"Linh hoạt\", \"icon\": \"ShoppingBag\", \"link\": \"/shop\", \"color\": \"from-slate-400 to-slate-500\", \"price\": \"0đ/năm\", \"title\": \"Gói Mua Lẻ\", \"ctaText\": \"Khám phá Cửa hàng\", \"features\": [\"Thanh toán theo từng sản phẩm\", \"Sở hữu trọn đời sản phẩm đã mua\", \"Nhận đầy đủ bản cập nhật\", \"Phù hợp nhu cầu sử dụng ít\", \"Truy cập đầy đủ kho tài nguyên\"], \"description\": \"Mua lẻ từng sản phẩm số\", \"originalPrice\": \"\"}, {\"id\": \"plan-yearly\", \"tag\": \"Phổ biến\", \"icon\": \"Crown\", \"link\": \"/checkout/yearly-shop\", \"color\": \"from-orange-400 to-amber-500\", \"price\": \"1.990k\", \"title\": \"Gói Cơ Bản 1 năm\", \"ctaText\": \"Nâng cấp gói\", \"features\": [\"Truy cập không giới hạn Sản phẩm số\", \"Tải Business Templates Premium\", \"Tải Google Apps Script & Plug-ins\", \"Cập nhật tài nguyên mới hàng tuần\", \"Tiết kiệm 80% so với mua lẻ\", \"Tham gia nhóm kín Zalo/Discord\", \"Hỗ trợ qua thư viện câu hỏi ưu tiên\"], \"description\": \"Dành riêng cho Shop (Sản phẩm số)\", \"originalPrice\": \"3.600k\"}, {\"id\": \"plan-vip\", \"tag\": \"VIP Support\", \"icon\": \"Star\", \"link\": \"/checkout/vip-year\", \"color\": \"from-purple-500 to-indigo-600\", \"price\": \"7.990k\", \"title\": \"Gói Premium 1 năm\", \"ctaText\": \"Nâng cấp gói\", \"features\": [\"Tất cả quyền lợi gói Cơ bản\", \"Support custom template theo yêu cầu\", \"Tư vấn giải pháp tối ưu quy trình\", \"Hỗ trợ kỹ thuật ưu tiên 24/7\", \"Setup hệ thống ban đầu (Basic)\", \"Coaching 1:1 trực tiếp với Mentor\", \"Quyền truy cập sớm các khóa học mới\"], \"description\": \"Giải pháp toàn diện & Support 1:1\", \"originalPrice\": \"15.000k\"}], \"order\": 2, \"title\": \"Các gói phổ biến\", \"subtitle\": \"Được nhiều thành viên lựa chọn\"}, {\"id\": \"pricing-faq\", \"type\": \"faq\", \"items\": [{\"answer\": \"Gói thành viên cho phép bạn truy cập vào kho tài liệu, video hướng dẫn và cộng đồng hỗ trợ. Gói cao cấp hơn sẽ có thêm quyền lợi tải tài nguyên Premium và support trực tiếp.\", \"question\": \"Gói thành viên bao gồm những gì?\"}, {\"answer\": \"Có, bạn có thể huỷ gia hạn tự động bất cứ lúc nào trong trang quản lý tài khoản.\", \"question\": \"Tôi có thể huỷ đăng ký bất cứ lúc nào không?\"}, {\"answer\": \"Chúng tôi cam kết hoàn tiền trong vòng 7 ngày nếu bạn không hài lòng với chất lượng nội dung.\", \"question\": \"Có chính sách hoàn tiền không?\"}], \"order\": 3, \"title\": \"Câu hỏi thường gặp\", \"subtitle\": \"Giải đáp thắc mắc về các gói thành viên\"}]",
+  "htmlContent": null,
+  "isActive": true,
+  "isHomepage": false,
+  "courseId": null,
+  "productId": null,
+  "upsellCourseId": null,
+  "upsellProductId": null,
+  "upsellPrice": null,
+  "createdAt": "2026-01-18T05:00:26.676Z",
+  "updatedAt": "2026-01-22T05:37:23.950Z",
+  "type": "SYSTEM"
+}
+Searching model: Bundle...
+--- Finished ---
