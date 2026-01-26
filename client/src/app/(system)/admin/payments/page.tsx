@@ -33,7 +33,7 @@ export default function AdminPaymentsPage() {
     const [endDate, setEndDate] = useState('');
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
-    const [syncLimit, setSyncLimit] = useState(20);
+    const [syncLimit, setSyncLimit] = useState(100);
     const limit = 20;
 
     const loadTransactions = useCallback(async (currentPage: number, currentSearch: string, start: string, end: string) => {

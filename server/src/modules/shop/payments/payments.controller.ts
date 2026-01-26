@@ -378,8 +378,7 @@ export const sendPaymentReminder = async (req: Request, res: Response) => {
 export const syncTransactions = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
-        const { accountNumber } = req.body;
-        const result = await paymentService.syncTransactions(accountNumber);
+        const result = await paymentService.syncTransactions(req.body);
         res.json({ message: 'Sync completed', result });
     } catch (error: any) {
         res.status(500).json({ message: error.message });
