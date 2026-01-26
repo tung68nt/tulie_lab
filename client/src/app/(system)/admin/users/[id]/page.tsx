@@ -236,13 +236,13 @@ export default function AdminUserDetailPage() {
 
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Sidebar Navigation */}
-                <div className="w-full md:w-48 space-y-1 shrink-0">
+                <div className="w-full md:w-40 space-y-1 shrink-0">
                     <div className="sticky top-24 space-y-1">
                         {tabs.map(tab => (
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center gap-3 px-4 py-3 text-sm transition-all rounded-xl w-full text-left ${activeTab === tab.id
+                                className={`flex items-center gap-2.5 px-3 py-2.5 text-xs transition-all rounded-xl w-full text-left ${activeTab === tab.id
                                     ? 'bg-zinc-900 text-zinc-100 font-bold shadow-sm'
                                     : 'text-muted-foreground hover:bg-zinc-100/80 hover:text-zinc-900 font-medium'
                                     }`}
