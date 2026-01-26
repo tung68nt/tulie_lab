@@ -10,7 +10,7 @@ import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
-import { Sparkles, Wallet, ShieldCheck, Check, MoveRight } from 'lucide-react';
+import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Download } from 'lucide-react';
 
 const safeParse = (val: unknown, fallback: string[]) => {
     if (!val) return fallback;
@@ -46,11 +46,16 @@ export default function ProductDetailPage() {
 
                 // Check user status
                 try {
-                    const profile = await api.users.getProfile() as { subscriptions?: { status: string }[] };
+                    const profile = await api.users.getProfile() as { subscriptions?: { status: string; endDate: string }[] };
                     if (profile) {
-                        setIsMember(!!profile.subscriptions?.some((s) => s.status === 'ACTIVE'));
-                        const orders = await api.users.getMyOrders() as { status: string; items: { productId: string }[] }[];
-                        const owned = orders.some((o) => o.status === 'PAID' && o.items.some((i) => i.productId === (data as { id: string }).id));
+                        const activeSub = profile.subscriptions?.find((s) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
+                        setIsMember(!!activeSub);
+
+                        const orders = await api.users.getMyOrders() as { status: string; items: { productId?: string; courseId?: string }[] }[];
+                        const owned = orders.some((o) =>
+                            (o.status === 'PAID' || o.status === 'COMPLETED') &&
+                            o.items.some((i) => i.productId === (data as any).id || i.courseId === (data as any).courseId)
+                        );
                         setIsOwned(owned);
                     }
                 } catch (e) {
@@ -262,7 +267,7 @@ export default function ProductDetailPage() {
                                                 <h3 className="text-xl font-bold mb-2 text-zinc-900">Gói Linh Hoạt</h3>
                                                 <div className="flex items-baseline gap-2 mb-2">
                                                     <span className="text-3xl font-bold text-zinc-900">
-                                                        {product.price === 0 || product.price === '0'
+                                                        {Number(product.price) === 0
                                                             ? 'Miễn phí'
                                                             : `${new Intl.NumberFormat('vi-VN').format(product.price)}đ`}
                                                     </span>
@@ -273,17 +278,35 @@ export default function ProductDetailPage() {
                                                     )}
                                                 </div>
                                                 <p className="text-sm text-zinc-500 max-w-md">
-                                                    {settings.pricing_single_description || 'Sở hữu vĩnh viễn template này. Nhận cập nhật trọn đời và hỗ trợ từ đội ngũ.'}
+                                                    {Number(product.price) === 0 ? 'Tài nguyên miễn phí dành cho tất cả thành viên.' : (settings.pricing_single_description || 'Sở hữu vĩnh viễn template này. Nhận cập nhật trọn đời và hỗ trợ từ đội ngũ.')}
                                                 </p>
                                             </div>
 
                                             <div className="flex flex-col gap-4 min-w-[200px]">
-                                                <Link href={`/checkout?productId=${product.id}`}>
-                                                    <Button as="div" variant="inverted" className="w-full text-sm font-bold h-12 rounded-xl bg-zinc-950 text-white hover:bg-zinc-800 transition-all gap-2">
-                                                        <Wallet className="w-4 h-4" />
-                                                        Sở hữu ngay
+                                                {Number(product.price) === 0 ? (
+                                                    <Button
+                                                        onClick={() => {
+                                                            if (product.fileUrl || (product.versions && product.versions.length > 0)) {
+                                                                setIsOwned(true);
+                                                                addToast('Bạn đã có quyền tải sản phẩm này!', 'success');
+                                                            } else {
+                                                                addToast('Sản phẩm chưa có file tải lên.', 'warning');
+                                                            }
+                                                        }}
+                                                        variant="inverted"
+                                                        className="w-full text-sm font-bold h-12 rounded-xl bg-zinc-950 text-white hover:bg-zinc-800 transition-all gap-2"
+                                                    >
+                                                        <Download className="w-4 h-4" />
+                                                        Nhận miễn phí
                                                     </Button>
-                                                </Link>
+                                                ) : (
+                                                    <Link href={`/checkout?productId=${product.id}`}>
+                                                        <Button as="div" variant="inverted" className="w-full text-sm font-bold h-12 rounded-xl bg-zinc-950 text-white hover:bg-zinc-800 transition-all gap-2">
+                                                            <Wallet className="w-4 h-4" />
+                                                            Sở hữu ngay
+                                                        </Button>
+                                                    </Link>
+                                                )}
                                                 <div className="flex flex-wrap gap-x-4 gap-y-2">
                                                     <div className="flex items-center gap-1.5 text-[11px] text-zinc-500">
                                                         <Check className="w-3.5 h-3.5 text-zinc-900" />

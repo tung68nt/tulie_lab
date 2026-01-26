@@ -366,11 +366,29 @@ export class UserService {
     }
 
     async grantMembership(userId: string, days: number = 365, tier: string = 'PREMIUM') {
+        const tierLower = tier.toLowerCase();
+
+        // 1. Deactivate all existing ACTIVE subscriptions
+        await prisma.subscription.updateMany({
+            where: {
+                userId,
+                status: 'ACTIVE'
+            },
+            data: {
+                status: 'EXPIRED',
+                updatedAt: new Date()
+            }
+        });
+
+        // 2. If tier is FREE, we are done after deactivating
+        if (tier.toUpperCase() === 'FREE') {
+            console.log(`[UserService.grantMembership] Downgraded user ${userId} to FREE. Old subscriptions deactivated.`);
+            return null;
+        }
+
+        // 3. Create new subscription
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + days);
-
-        // Map tier name to possible product slug or search keywords
-        const tierLower = tier.toLowerCase();
 
         // Try to find a subscription product to link
         const product = await prisma.product.findFirst({
@@ -384,6 +402,8 @@ export class UserService {
         }) || await prisma.product.findFirst({
             where: { type: 'SUBSCRIPTION' }
         });
+
+        console.log(`[UserService.grantMembership] Granting ${tier} to user ${userId} for ${days} days until ${endDate.toISOString()}`);
 
         return prisma.subscription.create({
             data: {

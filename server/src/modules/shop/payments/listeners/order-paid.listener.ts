@@ -92,10 +92,19 @@ export class OrderPaidListener {
             if (item.productId && item.product) {
                 if (item.product.type === 'SUBSCRIPTION') {
                     // Calculate end date based on product (e.g. 1 year)
-                    // Assuming standard 1 year for now or based on description/tags if simpler
                     const startDate = new Date();
                     const endDate = new Date(startDate);
                     endDate.setFullYear(endDate.getFullYear() + 1);
+
+                    // Deactivate old active subscriptions first
+                    await this.userRepository.update(user.id, {
+                        subscriptions: {
+                            updateMany: {
+                                where: { status: 'ACTIVE' },
+                                data: { status: 'EXPIRED' }
+                            },
+                        }
+                    });
 
                     await this.userRepository.update(user.id, {
                         subscriptions: {
@@ -107,7 +116,7 @@ export class OrderPaidListener {
                             }
                         }
                     });
-                    console.log(`[OrderPaidListener] Created subscription for user ${user.email}`);
+                    console.log(`[OrderPaidListener] Created subscription for user ${user.email} and deactivated old ones.`);
                 }
             }
         }

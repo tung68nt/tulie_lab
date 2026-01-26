@@ -173,18 +173,20 @@ export default function AdminUserDetailPage() {
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-bold text-muted-foreground mb-2">Gói thành viên</div>
                         <div className="text-xl font-bold max-w-full px-2">
-                            {isMemberActive ? (activeSub?.product?.title || 'Hội viên Premium') : 'Tài khoản miễn phí'}
+                            {isMemberActive ? 'Premium' : 'Free'}
                         </div>
-                        {isMemberActive && (
-                            <div className="text-xs text-muted-foreground mt-1.5 font-medium">Hết hạn: {new Date(activeSub.endDate).toLocaleDateString('vi-VN')}</div>
-                        )}
+                        <div className="text-xs text-muted-foreground mt-1.5 font-medium min-h-[32px] flex items-end">
+                            {isMemberActive ? `Hết hạn: ${new Date(activeSub.endDate).toLocaleDateString('vi-VN')}` : ' '}
+                        </div>
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-bold text-muted-foreground mb-2">Chi tiêu (Paid)</div>
                         <div className="text-xl font-bold">{formatCurrency(user.stats?.totalPaid || 0)}</div>
-                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium">Tổng cộng đơn hàng<br />đã thanh toán</div>
+                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
+                            Tổng cộng đơn hàng đã thanh toán
+                        </div>
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
@@ -195,19 +197,21 @@ export default function AdminUserDetailPage() {
                                 ? Math.round((user.stats?.completedLessons / user.stats?.totalLessons) * 100)
                                 : 0}%
                         </div>
-                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium">
-                            Đã hoàn thành {user.stats?.completedLessons || 0}/{user.stats?.totalLessons || 0}<br />bài học
+                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
+                            Đã hoàn thành {user.stats?.completedLessons || 0}/{user.stats?.totalLessons || 0} bài học
                         </div>
                     </CardContent>
                 </Card>
                 <Card className="border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-bold text-muted-foreground mb-2">Đăng nhập cuối</div>
-                        <div className="text-xl font-bold flex items-center gap-2">
-                            <Clock size={16} className="text-zinc-400" />
+                        <div className="text-xl font-bold flex items-center gap-2 px-2">
+                            {/* <Clock size={16} className="text-zinc-400" /> */}
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
-                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium">Lần truy cập hệ<br />thống gần nhất</div>
+                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
+                            Lần truy cập hệ thống gần nhất
+                        </div>
                     </CardContent>
                 </Card>
             </div>
@@ -488,8 +492,8 @@ export default function AdminUserDetailPage() {
                 )}
 
                 {activeTab === 'membership' && (
-                    <div className="grid gap-6 md:grid-cols-3">
-                        <Card className="md:col-span-2">
+                    <div className="space-y-6">
+                        <Card>
                             <CardHeader>
                                 <CardTitle className="text-base">Quản lý Gói Hội Viên</CardTitle>
                                 <CardDescription>Cấp quyền hội viên Premium để truy cập tất cả nội dung.</CardDescription>
@@ -515,19 +519,19 @@ export default function AdminUserDetailPage() {
                                 </div>
 
                                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border rounded-xl bg-zinc-50/50">
-                                    <div className="space-y-2">
+                                    <div className="flex flex-col gap-2">
                                         <label className="text-xs font-bold text-muted-foreground">Membership</label>
                                         <select
                                             className="w-full text-sm border rounded-md px-3 h-10 bg-background focus:outline-none focus:ring-1 focus:ring-foreground cursor-pointer"
                                             value={membershipForm.tier}
                                             onChange={(e) => setMembershipForm({ ...membershipForm, tier: e.target.value })}
                                         >
-                                            <option value="FREE">Miễn phí (Free)</option>
-                                            <option value="BASIC">Cơ bản (Basic)</option>
-                                            <option value="PREMIUM">Hội viên (Premium)</option>
+                                            <option value="FREE">Free</option>
+                                            <option value="BASIC">Basic</option>
+                                            <option value="PREMIUM">Premium</option>
                                         </select>
                                     </div>
-                                    <div className="space-y-2">
+                                    <div className="flex flex-col gap-2">
                                         <label className="text-xs font-bold text-muted-foreground">Ngày hết hạn</label>
                                         <div className="relative">
                                             <input
@@ -539,14 +543,16 @@ export default function AdminUserDetailPage() {
                                             />
                                         </div>
                                     </div>
-                                    <Button
-                                        size="sm"
-                                        className="bg-zinc-900 hover:bg-zinc-800 text-white font-bold h-10"
-                                        onClick={handleSaveMembership}
-                                        disabled={!!processingAction}
-                                    >
-                                        {processingAction === 'loading' ? <Loader2 size={16} className="animate-spin mr-2" /> : <div className="flex items-center gap-2"><CheckCircle2 size={16} /> Lưu thay đổi</div>}
-                                    </Button>
+                                    <div className="h-10">
+                                        <Button
+                                            size="sm"
+                                            className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-bold h-full"
+                                            onClick={handleSaveMembership}
+                                            disabled={!!processingAction}
+                                        >
+                                            {processingAction === 'loading' ? <Loader2 size={16} className="animate-spin mr-2" /> : <div className="flex items-center justify-center gap-2"><CheckCircle2 size={16} /> Lưu thay đổi</div>}
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-3 pt-4 border-t">
@@ -575,30 +581,6 @@ export default function AdminUserDetailPage() {
                                 </div>
                             </CardContent>
                         </Card >
-
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-sm font-bold tracking-wider opacity-70">Quyền lợi gói hội viên</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
-                                    <p className="text-xs">Truy cập toàn bộ khóa học hiện có trên hệ thống.</p>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
-                                    <p className="text-xs">Tải xuống các templates & tài liệu premium.</p>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
-                                    <p className="text-xs">Cập nhật miễn phí các phiên bản sản phẩm mới.</p>
-                                </div>
-                                <div className="flex items-start gap-2">
-                                    <CheckCircle2 size={16} className="text-zinc-400 mt-0.5 shrink-0" />
-                                    <p className="text-xs">Ưu tiên hỗ trợ kỹ thuật qua Telegram/Email.</p>
-                                </div>
-                            </CardContent>
-                        </Card>
                     </div >
                 )
                 }
