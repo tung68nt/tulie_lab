@@ -112,6 +112,14 @@
     @apply text-2xl md:text-3xl font-bold tracking-tight leading-[1.4];
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply pb-[0.15em] -mb-[0.15em];
+    /* Space for Vietnamese descenders without affecting layout flow */
+  }
+
   h4 {
     @apply text-xl font-bold tracking-tight leading-normal;
   }
@@ -188,13 +196,24 @@
 }
 
 .bg-dot-white {
-  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
 .bg-dot-black {
-  background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.1) 1px, transparent 0);
+  background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.15) 1px, transparent 0);
   background-size: 24px 24px;
+}
+
+/* Unified Dark Section Style */
+.section-dark {
+  @apply bg-black text-white relative overflow-hidden;
+}
+
+.section-dark-dot {
+  @apply absolute inset-0 opacity-100 bg-dot-white pointer-events-none;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 100%);
 }
 
 /* Custom Float Animations (Preserved from local) */

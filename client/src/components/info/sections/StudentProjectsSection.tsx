@@ -9,7 +9,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
             {/* Dotted Background */}
-            <div className="absolute inset-0 bg-dot-black/[0.1] dark:bg-dot-white/[0.1] pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
+            <div className="absolute inset-0 bg-dot-black/15 dark:bg-dot-white/15 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
 
             <div className="container relative z-10">
                 {/* Header */}
@@ -19,7 +19,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                             {section.tag || "Showcase thành viên"}
                         </SectionTag>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.3]">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight">
                         {section.title || "Sản phẩm thành viên đã làm được"}
                     </h2>
                     <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">

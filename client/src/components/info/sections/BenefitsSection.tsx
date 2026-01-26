@@ -25,11 +25,11 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
     return (
         <section className="py-16 md:py-20 bg-background relative overflow-hidden">
-            <div className="absolute inset-0 bg-dot-black/[0.07] dark:bg-dot-white/[0.07] pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
+            <div className="absolute inset-0 bg-dot-black/15 dark:bg-dot-white/15 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
 
             <div className="container">
                 <div className="text-center mb-10 md:mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-foreground leading-[1.4]">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-foreground leading-tight">
                         {title}
                     </h2>
                     <p className="text-xl text-muted-foreground leading-relaxed">

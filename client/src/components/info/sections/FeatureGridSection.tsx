@@ -5,13 +5,11 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 
 export const FeatureGridSection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-24 bg-black text-white relative overflow-hidden">
-            {/* Background pattern */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-            </div>
-            {/* Radial gradient for fading edges */}
-            <div className="absolute inset-0 bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+        <section className="section-dark py-24 flex items-center justify-center">
+            {/* Unified Background pattern */}
+            <div className="section-dark-dot"></div>
+            {/* Fade overlay */}
+            <div className="absolute inset-0 bg-black/20 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}
