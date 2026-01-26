@@ -436,6 +436,7 @@ export class PaymentService {
 
                         // Extract order code from content if it matches pattern
                         // Priority 1: Check for SEVQR prefix which is standard for SePay
+                        // Regex to capture everything after SEVQR (e.g. SEVQRDH123 -> DH123, SEVQR555 -> 555)
                         const sevqrPattern = /SEVQR([A-Z0-9]+)/i;
                         const sevqrMatch = webhookData.content.match(sevqrPattern);
 

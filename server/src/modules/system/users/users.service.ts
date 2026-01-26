@@ -41,6 +41,7 @@ export class UserService {
 
     async getUserDetailsForAdmin(id: string) {
         try {
+            // PHASE 1: Core User Data (Essential)
             const user = await this.userRepository.findById(id, {
                 profile: true,
                 subscriptions: {
@@ -50,26 +51,6 @@ export class UserService {
                 enrollments: {
                     include: { course: { select: { id: true, title: true, slug: true, thumbnail: true } } },
                     orderBy: { createdAt: 'desc' }
-                },
-                orders: {
-                    include: {
-                        items: {
-                            include: {
-                                course: { select: { id: true, title: true } },
-                                product: {
-                                    include: {
-                                        versions: { orderBy: { createdAt: 'desc' }, take: 1 }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    orderBy: { createdAt: 'desc' }
-                },
-                progress: {
-                    select: { lessonId: true, isCompleted: true, updatedAt: true },
-                    orderBy: { updatedAt: 'desc' },
-                    take: 100
                 }
             });
 
@@ -78,13 +59,34 @@ export class UserService {
                 return null;
             }
 
-            console.log(`[UserService.getUserDetailsForAdmin] Analyzing data for: ${user.email}`);
+            console.log(`[UserService.getUserDetailsForAdmin] Base data loaded for: ${user.email}`);
 
-            // Safe Mode: Logs
+            // PHASE 2: Advanced Relations (Safe Mode)
+            let orders: any[] = [];
             let activities: any[] = [];
             let securityLogs: any[] = [];
+            let lastLogin: any = null;
+            let progress: any[] = [];
+
             try {
-                const logs = await Promise.all([
+                // Fetch optional data in parallel with individual error handling
+                const results = await Promise.allSettled([
+                    prisma.order.findMany({
+                        where: { userId: id },
+                        include: {
+                            items: {
+                                include: {
+                                    course: { select: { id: true, title: true } },
+                                    product: {
+                                        include: {
+                                            versions: { orderBy: { createdAt: 'desc' }, take: 1 }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        orderBy: { createdAt: 'desc' }
+                    }),
                     prisma.activityLog.findMany({
                         where: { userId: id },
                         orderBy: { createdAt: 'desc' },
@@ -94,26 +96,41 @@ export class UserService {
                         where: { userId: id },
                         orderBy: { createdAt: 'desc' },
                         take: 50
+                    }),
+                    prisma.activityLog.findFirst({
+                        where: { userId: id, action: 'login' },
+                        orderBy: { createdAt: 'desc' }
+                    }),
+                    prisma.lessonProgress.findMany({
+                        where: { userId: id },
+                        select: { lessonId: true, isCompleted: true, updatedAt: true },
+                        orderBy: { updatedAt: 'desc' },
+                        take: 100
                     })
                 ]);
-                activities = logs[0];
-                securityLogs = logs[1];
-            } catch (e) {
-                console.error('[UserService] Error fetching logs (ignored):', e);
+
+                if (results[0].status === 'fulfilled') orders = results[0].value;
+                if (results[1].status === 'fulfilled') activities = results[1].value;
+                if (results[2].status === 'fulfilled') securityLogs = results[2].value;
+                if (results[3].status === 'fulfilled') lastLogin = results[3].value;
+                if (results[4].status === 'fulfilled') progress = results[4].value;
+
+                // Log any failures in optional data
+                results.forEach((res, idx) => {
+                    if (res.status === 'rejected') {
+                        console.error(`[UserService.getUserDetailsForAdmin] Optional fetch ${idx} failed:`, res.reason);
+                    }
+                });
+            } catch (pErr) {
+                console.error('[UserService.getUserDetailsForAdmin] Parallel fetch block failed:', pErr);
             }
 
-            const lastLogin = await prisma.activityLog.findFirst({
-                where: { userId: id, action: 'login' },
-                orderBy: { createdAt: 'desc' }
-            }).catch(() => null);
-
-            // Safe Mode: Orders Processing
-            const rawOrders = (user as any).orders || [];
+            // PHASE 3: Data Processing (Safe Mode)
+            let processedOrders: any[] = [];
             let pendingOrders: any[] = [];
             let purchasedProducts: any[] = [];
-            let processedOrders: any[] = [];
             let stats = {
-                totalEnrollments: ((user as any).enrollments || []).length,
+                totalEnrollments: (user as any).enrollments?.length || 0,
                 totalOrders: 0,
                 totalPaid: 0,
                 completedLessons: 0,
@@ -121,81 +138,72 @@ export class UserService {
             };
 
             try {
-                pendingOrders = rawOrders.filter((o: any) => o.status === 'PENDING').map((o: any) => {
-                    const createdDate = new Date(o.createdAt);
-                    const pendingDays = isNaN(createdDate.getTime()) ? 0 : Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
-                    return { ...o, pendingDays };
-                });
-
-                // Fix: purchasedAt uses order creation date
-                purchasedProducts = rawOrders
-                    .filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED')
-                    .flatMap((o: any) => (o.items || []).map((i: any) => ({ ...i, orderCreatedAt: o.createdAt })))
-                    .filter((i: any) => i.productId)
-                    .map((i: any) => ({
-                        ...(i.product || {}), // Handle null product safely
-                        purchasedAt: i.orderCreatedAt,
-                        currentVersion: i.product?.versions?.[0]?.version || '1.0.0'
-                    }));
-
-                // Transactions
-                const orderCodes = rawOrders.map((o: any) => o.code).filter(Boolean);
-                const allTransactions = orderCodes.length > 0 ? await prisma.paymentTransaction.findMany({
-                    where: { code: { in: orderCodes } },
-                    orderBy: { createdAt: 'desc' }
+                const orderCodes = orders.map((o: any) => o.code).filter(Boolean);
+                const transactions = orderCodes.length > 0 ? await prisma.paymentTransaction.findMany({
+                    where: { code: { in: orderCodes } }
                 }).catch(() => []) : [];
 
-                processedOrders = rawOrders.map((o: any) => ({
+                processedOrders = orders.map((o: any) => ({
                     ...o,
-                    transactions: allTransactions
+                    transactions: transactions
                         .filter((tx: any) => tx.code === o.code)
                         .map((tx: any) => ({
                             ...tx,
                             amount: Number(tx.amountIn || 0),
-                            bankName: tx.gateway || 'Chuyển khoản ngân hàng',
-                            createdAt: tx.transactionDate || tx.createdAt
+                            bankName: tx.gateway || 'Bank Transfer'
                         }))
                 }));
 
-                // Stats Calculation
-                try {
-                    const enrollmentIds = ((user as any).enrollments || []).map((e: any) => e.courseId).filter(Boolean);
-                    const totalLessonsCount = enrollmentIds.length > 0 ? await prisma.lesson.count({
-                        where: { courseId: { in: enrollmentIds } }
-                    }).catch(() => 0) : 0;
+                pendingOrders = orders.filter((o: any) => o.status === 'PENDING');
 
-                    stats = {
-                        totalEnrollments: ((user as any).enrollments || []).length,
-                        totalOrders: processedOrders.length,
-                        totalPaid: processedOrders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED').reduce((sum: number, o: any) => sum + Number(o.amount || 0), 0),
-                        completedLessons: ((user as any).progress || []).filter((p: any) => p.isCompleted).length,
-                        totalLessons: totalLessonsCount
-                    };
-                } catch (statErr) {
-                    console.error('[UserService] Error calculating stats:', statErr);
-                }
+                purchasedProducts = orders
+                    .filter((o: any) => o.status === 'PAID')
+                    .flatMap((o: any) => (o.items || []).map((i: any) => ({
+                        ...(i.product || {}),
+                        purchasedAt: o.createdAt,
+                        currentVersion: i.product?.versions?.[0]?.version || '1.0.0'
+                    })))
+                    .filter(p => p.id);
 
-            } catch (e) {
-                console.error('[UserService] Error processing orders/products (partial data returned):', e);
+                // Stats
+                const enrollmentIds = (user as any).enrollments?.map((e: any) => e.courseId).filter(Boolean) || [];
+                const totalLessonsCount = enrollmentIds.length > 0 ? await prisma.lesson.count({
+                    where: { courseId: { in: enrollmentIds } }
+                }).catch(() => 0) : 0;
+
+                stats = {
+                    totalEnrollments: (user as any).enrollments?.length || 0,
+                    totalOrders: orders.length,
+                    totalPaid: orders.filter((o: any) => o.status === 'PAID').reduce((sum, o) => sum + Number(o.amount || 0), 0),
+                    completedLessons: progress.filter((p: any) => p.isCompleted).length,
+                    totalLessons: totalLessonsCount
+                };
+
+            } catch (procErr) {
+                console.error('[UserService.getUserDetailsForAdmin] Data processing failed:', procErr);
             }
-
-            const enrollments = (user as any).enrollments || [];
 
             return {
                 ...user,
                 orders: processedOrders,
-                activities: activities || [],
-                securityLogs: securityLogs || [],
+                activities,
+                securityLogs,
                 purchasedProducts,
                 lastLoginAt: lastLogin?.createdAt || null,
                 lastLoginIp: lastLogin?.ipAddress || null,
                 pendingOrders,
-                stats
+                stats,
+                progress
             };
         } catch (error: any) {
-            console.error(`[UserService.getUserDetailsForAdmin] Fatal crash for ID: ${id}`);
+            console.error(`[UserService.getUserDetailsForAdmin] FATAL CRASH for ID: ${id}`);
             console.error(error);
-            // Return null or basic info instead of throwing to prevent 500
+            // Throwing here triggers 500, but is safer than returning null if we want to know why it's failing
+            // Actually, for triệt để fix, let's return a basic user object if possible
+            try {
+                const basicUser = await this.userRepository.findById(id, { profile: true });
+                if (basicUser) return { ...basicUser, error: 'Partial data load' };
+            } catch (inner) { }
             return null;
         }
     }
