@@ -80,5 +80,5 @@ const nextConfig: any = {
 
 export default nextConfig;
 
-// Forced restart trigger: 1
+// Forced restart trigger: 2
 
