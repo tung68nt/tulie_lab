@@ -238,8 +238,16 @@ export class PaymentService {
             // Don't throw, we still want to try processing the order
         });
 
+        if (!data.code) {
+            console.log(`[Webhook] No order code provided for transaction ${data.transactionId}. Transaction recorded but no order updated.`);
+            return {} as Order; // Return empty or handle gracefully
+        }
+
         const order = await this.orderRepository.findByCode(data.code);
-        if (!order) throw new Error('Order not found');
+        if (!order) {
+            console.log(`[Webhook] Order ${data.code} not found for transaction ${data.transactionId}. Transaction recorded but no order updated.`);
+            return {} as Order;
+        }
 
         // Check amount (allow for small differences if needed, but strictly for now)
         if (Number(data.amount) < Number(order.amount)) {
@@ -322,15 +330,18 @@ export class PaymentService {
 
         if (!apiKey) {
             try {
-                // Fallback to Settings Service
+                // Fallback to Settings Service - check for SEPAY_API_KEY first, then SYSTEM_API_KEY
                 const settingService = container.resolve<SettingService>('SettingService');
-                apiKey = await settingService.getApiKey() || undefined;
+                const settings = await settingService.getSettings(['SEPAY_API_KEY', 'SYSTEM_API_KEY']);
+                apiKey = settings.SEPAY_API_KEY || settings.SYSTEM_API_KEY || undefined;
             } catch (err) {
                 console.warn('Could not resolve SettingService for API Key:', err);
             }
         }
 
-        if (!apiKey) throw new Error('Payment gateway API key is not configured (ENV or Settings)');
+        if (!apiKey) {
+            throw new Error('Cấu hình SePay API Key chưa hoàn tất. Vui lòng kiểm tra trong Cài đặt hệ thống.');
+        }
 
         let url = `https://api.sepay.vn/user/transactions/list`;
         if (accountNumber) {
@@ -358,24 +369,32 @@ export class PaymentService {
                     try {
                         // Map SePay API response to our processWebhook format
                         const webhookData: any = {
-                            code: tx.content, // content usually contains the order code
+                            code: undefined, // Will try to extract from content
                             amount: Number(tx.amount_in || 0),
                             transactionId: String(tx.id),
-                            accumulated: tx.accumulated ? Number(tx.accumulated) : undefined
+                            accumulated: tx.accumulated ? Number(tx.accumulated) : undefined,
+                            content: tx.content || tx.description || ''
                         };
+
+                        // Extract order code from content if it matches pattern
+                        const orderCodePattern = /\d{6}[A-Z0-9]{4}/;
+                        const match = webhookData.content.toUpperCase().match(orderCodePattern);
+                        if (match) {
+                            webhookData.code = match[0];
+                        }
 
                         if (tx.bank_name || tx.gateway) webhookData.gateway = tx.bank_name || tx.gateway;
                         if (tx.transaction_date) webhookData.transactionDate = tx.transaction_date;
                         if (tx.account_number) webhookData.accountNumber = tx.account_number;
                         if (tx.sub_account) webhookData.subAccount = tx.sub_account;
-                        if (tx.content) webhookData.content = tx.content;
                         if (tx.reference_number) webhookData.referenceCode = tx.reference_number;
                         if (tx.description) webhookData.description = tx.description;
 
+                        // Process the webhook (it will record transaction even if code not found)
                         await this.processWebhook(webhookData);
                         results.processed++;
-                    } catch (err) {
-                        console.error(`Failed to process transaction ${tx.id}:`, err);
+                    } catch (err: any) {
+                        console.error(`Failed to process transaction ${tx.id}:`, err.message);
                         results.errors++;
                     }
                 }

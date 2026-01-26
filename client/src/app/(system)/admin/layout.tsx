@@ -44,6 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/memberships', label: 'Gói cước' },
                 { href: '/admin/bundles', label: 'Combo / Bundle' },
                 { href: '/admin/orders', label: 'Đơn hàng' },
+                { href: '/admin/payments', label: 'Giao dịch (SePay)' },
                 { href: '/admin/coupons', label: 'Mã giảm giá' },
                 { href: '/admin/activation-codes', label: 'Mã kích hoạt' },
                 { href: '/admin/webhooks', label: 'Cổng thanh toán' },

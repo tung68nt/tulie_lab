@@ -283,9 +283,9 @@ export default function AdminSettingsPage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Cấu hình Admin</CardTitle>
+                            <CardTitle>Cấu hình Admin & Thanh toán</CardTitle>
                             <CardDescription>
-                                Cấu hình nhận thông báo hệ thống.
+                                Cấu hình nhận thông báo và cổng thanh toán SePay.
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -296,6 +296,33 @@ export default function AdminSettingsPage() {
                                     onChange={(e) => handleChange('admin_notification_email', e.target.value)}
                                     placeholder="Email để nhận thông báo đơn hàng, contact..."
                                 />
+                            </div>
+
+                            <hr className="my-4" />
+
+                            <div className="space-y-4">
+                                <h4 className="text-sm font-bold">Cấu hình SePay (Đồng bộ giao dịch)</h4>
+                                <div className="grid gap-4 md:grid-cols-2">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium">SePay API Key</label>
+                                        <Input
+                                            type="password"
+                                            value={settings.SEPAY_API_KEY || ''}
+                                            onChange={(e) => handleChange('SEPAY_API_KEY', e.target.value)}
+                                            placeholder="Lấy từ sepay.vn -> Cài đặt API"
+                                        />
+                                        <p className="text-[10px] text-muted-foreground">Key này dùng để gọi API đồng bộ giao dịch thủ công.</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium">Số tài khoản ngân hàng</label>
+                                        <Input
+                                            value={settings.bank_account_no || ''}
+                                            onChange={(e) => handleChange('bank_account_no', e.target.value)}
+                                            placeholder="Ví dụ: 104002106705"
+                                        />
+                                        <p className="text-[10px] text-muted-foreground">Số tài khoản dùng để lọc giao dịch khi đồng bộ.</p>
+                                    </div>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>

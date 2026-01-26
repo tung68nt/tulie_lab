@@ -205,18 +205,18 @@ export default function MediaManagerPage() {
                 </div>
             </AdminPageHeader>
 
-            <div className="flex flex-col sm:flex-row gap-6 items-center bg-muted/20 p-4 rounded-[2rem] border border-border/40">
-                <div className="relative flex-1 w-full">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div className="relative flex-1 w-full max-w-md">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
                     <Input
                         placeholder="Tìm kiếm tệp tin..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-12 bg-background/50 border-none rounded-xl focus:ring-primary/10 transition-all h-12"
+                        className="pl-12 bg-muted/30 border-none rounded-2xl focus:ring-primary/10 transition-all h-12"
                     />
                 </div>
-                <div className="px-4 py-2 bg-background/50 rounded-xl text-xs font-bold text-muted-foreground border border-border/40 whitespace-nowrap">
-                    TOTAL: {files.length} ITEMS
+                <div className="px-5 py-2.5 bg-muted/30 rounded-2xl text-sm font-medium text-muted-foreground border border-border/10 whitespace-nowrap">
+                    Tổng cộng: <span className="text-foreground font-bold">{files.length}</span> tệp tin
                 </div>
             </div>
 
@@ -238,44 +238,37 @@ export default function MediaManagerPage() {
                     {filteredFiles.map((file) => (
                         <Card
                             key={file.key}
-                            className="overflow-hidden group hover:shadow-2xl hover:shadow-primary/5 transition-all border-border/40 hover:border-primary/20 rounded-[2rem] cursor-pointer bg-card/50"
+                            className="overflow-hidden group hover:shadow-xl transition-all border-border/40 hover:border-primary/20 rounded-[1.5rem] cursor-pointer bg-card/50"
                             onClick={() => setSelectedFile(file)}
                         >
-                            <div className="aspect-square relative bg-muted/20 flex items-center justify-center overflow-hidden">
+                            <div className="h-48 relative bg-black/[0.03] flex items-center justify-center overflow-hidden p-3">
                                 {isImage(file.key, file.mimeType) ? (
                                     <img
                                         src={file.url}
                                         alt={file.key}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
                                         loading="lazy"
-                                        onError={(e) => {
-                                            (e.target as any).src = 'https://placehold.co/400x400?text=Error';
-                                        }}
                                     />
                                 ) : (
                                     <div className="flex flex-col items-center gap-3">
                                         {getFileIcon(file)}
-                                        <Badge variant="outline" className="text-[9px] uppercase tracking-tighter border-muted-foreground/20 opacity-60">
+                                        <Badge variant="outline" className="text-[10px] font-medium border-muted-foreground/20 opacity-60">
                                             {file.mimeType?.split('/').pop() || 'File'}
                                         </Badge>
                                     </div>
                                 )}
 
                                 {/* Hover Overlay */}
-                                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <div className="w-12 h-12 rounded-full bg-background/90 shadow-xl flex items-center justify-center scale-75 group-hover:scale-100 transition-all duration-300">
-                                        <ExternalLink size={18} className="text-primary" />
-                                    </div>
-                                </div>
+                                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
-                            <CardContent className="p-4">
-                                <p className="text-[11px] font-bold truncate mb-1 text-foreground/80 uppercase tracking-tight">
+                            <CardContent className="p-4 pt-5">
+                                <p className="text-sm font-semibold truncate mb-2 text-foreground/90 transition-none">
                                     {file.name || file.key.split('/').pop()}
                                 </p>
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[9px] font-bold text-muted-foreground/50">{formatSize(file.size)}</span>
-                                    <Badge variant="secondary" className="px-1.5 py-0 h-3.5 text-[8px] border-none bg-muted/50 text-muted-foreground/70 uppercase">
-                                        {file.key.startsWith('imported') ? 'Link' : 'Local'}
+                                    <span className="text-[10px] font-medium text-muted-foreground/60">{formatSize(file.size)}</span>
+                                    <Badge variant="secondary" className="px-2 py-0.5 h-auto text-[9px] font-medium border-none bg-muted-foreground/10 text-muted-foreground/70">
+                                        {file.key.startsWith('imported') ? 'Liên kết' : 'Tệp Local'}
                                     </Badge>
                                 </div>
                             </CardContent>
@@ -322,32 +315,32 @@ export default function MediaManagerPage() {
                         <div className="w-full md:w-80 p-8 flex flex-col justify-between bg-card">
                             <div className="space-y-8">
                                 <div className="space-y-3">
-                                    <Badge className="bg-primary/10 text-primary border-none text-[10px] font-black tracking-widest uppercase">
+                                    <Badge className="bg-primary/5 text-primary border-none text-[10px] font-bold tracking-wider">
                                         Thông tin tệp tin
                                     </Badge>
-                                    <h2 className="text-xl font-black tracking-tight leading-tight line-clamp-3">
+                                    <h2 className="text-lg font-bold tracking-tight leading-snug line-clamp-3 text-foreground/90">
                                         {selectedFile.name || selectedFile.key.split('/').pop()}
                                     </h2>
                                 </div>
 
-                                <div className="space-y-5">
+                                <div className="space-y-6">
                                     <div className="flex flex-col gap-1.5">
-                                        <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Kích thước</span>
-                                        <p className="text-sm font-bold">{formatSize(selectedFile.size)}</p>
+                                        <span className="text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-widest">Kích thước</span>
+                                        <p className="text-sm font-medium">{formatSize(selectedFile.size)}</p>
                                     </div>
                                     <div className="flex flex-col gap-1.5">
-                                        <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Loại tệp (MIME)</span>
-                                        <p className="text-sm font-bold">{selectedFile.mimeType || 'N/A'}</p>
+                                        <span className="text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-widest">Loại tệp (MIME)</span>
+                                        <p className="text-sm font-medium">{selectedFile.mimeType || 'N/A'}</p>
                                     </div>
                                     <div className="flex flex-col gap-1.5">
-                                        <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">Đường dẫn đầy đủ</span>
+                                        <span className="text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-widest">Đường dẫn đầy đủ</span>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <code className="text-[10px] bg-muted px-2 py-1.5 rounded-lg flex-1 truncate font-mono">
+                                            <code className="text-[10px] bg-muted px-2 py-1.5 rounded-lg flex-1 truncate font-mono text-muted-foreground">
                                                 {selectedFile.url}
                                             </code>
                                             <button
                                                 onClick={() => copyToClipboard(selectedFile.url)}
-                                                className="p-2 hover:bg-muted rounded-lg transition-colors shrink-0 border border-border/50"
+                                                className="p-2 hover:bg-muted rounded-xl transition-colors shrink-0 border border-border/40"
                                             >
                                                 <Copy size={14} />
                                             </button>
