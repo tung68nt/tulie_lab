@@ -276,8 +276,8 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
             >
                 {!isNew && (
                     <div className="flex items-center gap-2">
-                        {formData.slug && (
-                            <Link href={formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`} target="_blank">
+                        {(formData.slug || formData.isHomepage) && (
+                            <Link href={formData.isHomepage ? '/' : (formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`)} target="_blank">
                                 <Button variant="outline" className="gap-2">
                                     <Eye size={16} /> Xem trang thực tế
                                 </Button>
@@ -706,8 +706,8 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                         <Button type="button" variant="ghost">Hủy bỏ</Button>
                     </Link>
                     <div className="flex items-center gap-3">
-                        {!isNew && formData.slug && (
-                            <Link href={formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`} target="_blank">
+                        {!isNew && (formData.slug || formData.isHomepage) && (
+                            <Link href={formData.isHomepage ? '/' : (formData.type === 'SYSTEM' ? `/${formData.slug}` : `/p/${formData.slug}`)} target="_blank">
                                 <Button type="button" variant="outline" className="gap-2">
                                     <Eye size={16} /> Xem trang
                                 </Button>

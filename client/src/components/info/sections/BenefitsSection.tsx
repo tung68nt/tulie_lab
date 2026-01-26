@@ -19,7 +19,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
     return (
         <section className="py-16 md:py-20 bg-background relative overflow-hidden">
-            {section?.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container">
                 <div className="text-center mb-10 md:mb-12">

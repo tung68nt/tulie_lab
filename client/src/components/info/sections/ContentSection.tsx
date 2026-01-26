@@ -86,7 +86,7 @@ export const ContentSection = ({ section }: { section: Section }) => {
             "relative py-32 overflow-hidden bg-white",
             section.className
         )}>
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container relative z-10 mx-auto px-6">
                 <div className="max-w-4xl mx-auto">

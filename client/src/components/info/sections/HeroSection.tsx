@@ -17,9 +17,11 @@ export function HeroSection({ section }: { section: Section }) {
                 <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
                 {/* Standard Dot Pattern */}
-                <div className="absolute inset-0 opacity-50">
-                    <DotPatternBackground withVignette={false} />
-                </div>
+                {section.showDotPattern !== false && (
+                    <div className="absolute inset-0 opacity-50">
+                        <DotPatternBackground withVignette={false} />
+                    </div>
+                )}
             </div>
 
             <div className="container">
