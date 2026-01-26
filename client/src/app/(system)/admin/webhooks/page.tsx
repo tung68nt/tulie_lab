@@ -33,8 +33,8 @@ export default function AdminWebhooksPage() {
     const fetchTransactions = async () => {
         try {
             setLoading(true);
-            const data = await api.admin.payments.getTransactions() as any[];
-            setTransactions(data);
+            const res = await api.admin.payments.getTransactions();
+            setTransactions(res.data || []);
         } catch (e) {
             console.error(e);
             addToast('Lỗi tải danh sách giao dịch', 'error');

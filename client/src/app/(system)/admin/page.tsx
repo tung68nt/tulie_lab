@@ -366,7 +366,7 @@ export default function AdminDashboardPage() {
     const fetchTransactions = async () => {
         try {
             const res = await api.admin.payments.getTransactions();
-            setTransactions(Array.isArray(res) ? res.slice(0, 5) : []);
+            setTransactions(res.data || []);
         } catch (e) {
             console.error('Error fetching transactions:', e);
         }
