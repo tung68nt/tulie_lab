@@ -428,9 +428,6 @@ export function PaymentSection({ section, mainCourse, upsellCourse, upsellPrice,
                             })()}
                         </div>
                     </div>
-                    <span className="absolute top-0 right-0 bg-primary text-white text-[10px] px-3 py-1 rounded-bl-xl rounded-tr-md font-bold uppercase shadow-sm">
-                        Gói cơ bản
-                    </span>
                 </div>
             </div>
 
