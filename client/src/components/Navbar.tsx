@@ -334,7 +334,7 @@ export function Navbar() {
                                                 <div className="flex items-center gap-2">
                                                     <p className="text-xs text-muted-foreground truncate max-w-[120px]">{user?.email}</p>
                                                     {(user?.role === 'ADMIN' || (Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status?.toUpperCase() === 'ACTIVE' && !isNaN(new Date(s.endDate).getTime()) && new Date(s.endDate) > new Date()))) ? (
-                                                        <span className="bg-yellow-400/20 text-yellow-600 text-[10px] px-1.5 rounded-full font-bold border border-yellow-400/30">PREMIUM</span>
+                                                        <span className="bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[10px] px-1.5 rounded-full font-bold border border-zinc-800 dark:border-zinc-200">PREMIUM</span>
                                                     ) : (
                                                         <span className="bg-muted text-muted-foreground text-[10px] px-1.5 rounded-full font-bold">FREE</span>
                                                     )}
@@ -507,7 +507,7 @@ export function Navbar() {
                                 <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
                             </div>
                             {(user?.role === 'ADMIN' || (Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()))) ? (
-                                <span className="bg-yellow-400/20 text-yellow-600 text-[10px] px-2 py-1 rounded-full font-bold border border-yellow-400/30">PREMIUM</span>
+                                <span className="bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[10px] px-2 py-1 rounded-full font-bold border border-zinc-800 dark:border-zinc-200">PREMIUM</span>
                             ) : (
                                 <span className="bg-muted text-muted-foreground text-[10px] px-2 py-1 rounded-full font-bold">FREE</span>
                             )}
