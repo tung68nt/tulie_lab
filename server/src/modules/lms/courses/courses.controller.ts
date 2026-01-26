@@ -23,7 +23,12 @@ export class CourseController {
                 isFree,
                 search: search ? String(search) : undefined
             });
-            res.json(courses);
+            res.json({
+                data: courses,
+                meta: {
+                    total: courses.length
+                }
+            });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }

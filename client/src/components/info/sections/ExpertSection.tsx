@@ -80,7 +80,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             <SectionTag>
                                 {section.tag || "VỀ GIẢNG VIÊN"}
                             </SectionTag>
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.4] tracking-tight text-foreground">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.4] tracking-normal text-foreground">
                                 {expert.name}
                             </h2>
                             <p className="text-xl md:text-2xl text-primary font-bold">
