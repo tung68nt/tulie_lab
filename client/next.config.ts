@@ -25,6 +25,10 @@ const nextConfig: any = {
       },
       {
         protocol: 'https',
+        hostname: 'pub-84306d90a5714d098ed77c4f4c85df2.r2.dev',
+      },
+      {
+        protocol: 'https',
         hostname: 'thelab.tulie.vn',
       },
       {
