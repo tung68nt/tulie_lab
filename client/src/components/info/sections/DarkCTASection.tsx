@@ -1,17 +1,13 @@
-'use client';
-
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export const DarkCTASection = ({ section }: { section: Section }) => {
     return (
         <section className="section-dark py-20 md:py-32 flex items-center justify-center">
-            {/* Unified Background pattern */}
-            <div className="section-dark-dot"></div>
-            {/* Added a bit more contrast to the fade to make center dots pop as requested */}
-            <div className="absolute inset-0 bg-black/20 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
+            <DotPatternBackground />
 
             <div className="container relative z-10 text-center px-4 max-w-4xl mx-auto">
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight leading-[1.5]">

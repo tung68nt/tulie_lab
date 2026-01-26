@@ -1,6 +1,4 @@
-'use client';
-
-import Link from 'next/link';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { Button } from '@/components/Button';
 
 interface BottomCTAProps {
@@ -18,10 +16,7 @@ export function BottomCTA({
 }: BottomCTAProps) {
     return (
         <section className="py-12 md:py-16 bg-foreground text-background relative overflow-hidden">
-            {/* Background pattern */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-dot-grid text-background/20 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-            </div>
+            <DotPatternBackground />
 
             <div className="container text-center max-w-3xl mx-auto relative z-10">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">

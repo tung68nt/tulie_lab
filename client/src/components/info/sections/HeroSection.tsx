@@ -1,10 +1,9 @@
-'use client';
-
 import { SectionTag } from '@/components/SectionTag';
 
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Section } from '@/types/sections';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export function HeroSection({ section }: { section: Section }) {
     return (
@@ -14,7 +13,11 @@ export function HeroSection({ section }: { section: Section }) {
                 {/* Gradient orbs */}
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
                 <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-                <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+
+                {/* Standard Dot Pattern */}
+                <div className="absolute inset-0 opacity-50">
+                    <DotPatternBackground withVignette={false} />
+                </div>
             </div>
 
             <div className="container">
