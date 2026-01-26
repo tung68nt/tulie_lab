@@ -21,9 +21,12 @@ import {
     MoreVertical,
     Check,
     Link,
-    X
+    X,
+    LayoutGrid,
+    List as ListIcon
 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
+import { cn } from '@/lib/utils';
 
 interface MediaFile {
     key: string;
@@ -40,6 +43,8 @@ export default function MediaManagerPage() {
     const [uploading, setUploading] = useState(false);
     const [copiedKey, setCopiedKey] = useState<string | null>(null);
     const [selectedFile, setSelectedFile] = useState<MediaFile | null>(null);
+    const [viewMode, setViewMode] = useState<'icon' | 'list'>('icon');
+    const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const { addToast } = useToast();
     const confirm = useConfirm();
 
@@ -206,17 +211,47 @@ export default function MediaManagerPage() {
             </AdminPageHeader>
 
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
-                <div className="relative flex-1 w-full max-w-md">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
-                    <Input
-                        placeholder="Tìm kiếm tệp tin..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-12 bg-muted/30 border-none rounded-2xl focus:ring-primary/10 transition-all h-12"
-                    />
+                <div className="flex items-center gap-4 flex-1 w-full">
+                    <div className="relative flex-1 max-w-md">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/50" />
+                        <Input
+                            placeholder="Tìm kiếm tệp tin..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-12 bg-muted/30 border-none rounded-2xl focus:ring-primary/10 transition-all h-12 text-sm"
+                        />
+                    </div>
+
+                    <div className="flex items-center bg-muted/30 p-1.5 rounded-2xl border border-border/10 shadow-sm">
+                        <button
+                            onClick={() => setViewMode('icon')}
+                            className={cn(
+                                "p-2 rounded-xl transition-all duration-300",
+                                viewMode === 'icon'
+                                    ? "bg-background text-primary shadow-sm"
+                                    : "text-muted-foreground hover:text-foreground"
+                            )}
+                            title="Dạng Icon"
+                        >
+                            <LayoutGrid size={20} />
+                        </button>
+                        <button
+                            onClick={() => setViewMode('list')}
+                            className={cn(
+                                "p-2 rounded-xl transition-all duration-300",
+                                viewMode === 'list'
+                                    ? "bg-background text-primary shadow-sm"
+                                    : "text-muted-foreground hover:text-foreground"
+                            )}
+                            title="Dạng Danh sách"
+                        >
+                            <ListIcon size={20} />
+                        </button>
+                    </div>
                 </div>
-                <div className="px-5 py-2.5 bg-muted/30 rounded-2xl text-sm font-medium text-muted-foreground border border-border/10 whitespace-nowrap">
-                    Tổng cộng: <span className="text-foreground font-bold">{files.length}</span> tệp tin
+
+                <div className="px-5 py-2.5 bg-muted/30 rounded-2xl text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 border border-border/10 whitespace-nowrap">
+                    Tổng cộng: <span className="text-foreground font-black">{files.length}</span> tệp tin
                 </div>
             </div>
 
@@ -233,47 +268,158 @@ export default function MediaManagerPage() {
                     </div>
                     <p className="text-muted-foreground font-medium">Không tìm thấy tệp tin nào.</p>
                 </div>
-            ) : (
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            ) : viewMode === 'icon' ? (
+                /* Pinterest-style Masonry Layout (B&W Simple Style) */
+                <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-6">
                     {filteredFiles.map((file) => (
-                        <Card
-                            key={file.key}
-                            className="overflow-hidden group hover:shadow-xl transition-all border-border/40 hover:border-primary/20 rounded-[1.5rem] cursor-pointer bg-card/50"
-                            onClick={() => setSelectedFile(file)}
-                        >
-                            <div className="h-48 relative bg-black/[0.03] flex items-center justify-center overflow-hidden p-3">
-                                {isImage(file.key, file.mimeType) ? (
-                                    <img
-                                        src={file.url}
-                                        alt={file.key}
-                                        className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                                        loading="lazy"
-                                    />
-                                ) : (
-                                    <div className="flex flex-col items-center gap-3">
-                                        {getFileIcon(file)}
-                                        <Badge variant="outline" className="text-[10px] font-medium border-muted-foreground/20 opacity-60">
-                                            {file.mimeType?.split('/').pop() || 'File'}
+                        <div key={file.key} className="break-inside-avoid mb-6">
+                            <Card
+                                className="overflow-hidden group hover:shadow-xl transition-all border-border/40 hover:border-foreground/20 rounded-2xl cursor-pointer bg-card/50"
+                                onClick={() => setSelectedFile(file)}
+                            >
+                                <div className="relative bg-muted/5 flex items-center justify-center overflow-hidden">
+                                    {isImage(file.key, file.mimeType) ? (
+                                        <img
+                                            src={file.url}
+                                            alt={file.key}
+                                            className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                                            loading="lazy"
+                                        />
+                                    ) : (
+                                        <div className="h-48 flex flex-col items-center justify-center gap-3 w-full">
+                                            {getFileIcon(file)}
+                                            <Badge variant="outline" className="text-[10px] font-black border-muted-foreground/20 opacity-60">
+                                                {file.mimeType?.split('/').pop()?.toUpperCase() || 'FILE'}
+                                            </Badge>
+                                        </div>
+                                    )}
+
+                                    {/* Hover Overlay */}
+                                    <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
+                                <CardContent className="p-4">
+                                    <p className="text-sm font-bold truncate mb-1 text-foreground/90">
+                                        {file.name || file.key.split('/').pop()}
+                                    </p>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-bold text-muted-foreground/50">{formatSize(file.size)}</span>
+                                        <Badge variant="secondary" className="px-2 py-0.5 h-auto text-[9px] font-black border-none bg-muted text-muted-foreground/80 lowercase">
+                                            {file.key.startsWith('imported') ? 'liên kết' : 'local'}
                                         </Badge>
                                     </div>
-                                )}
-
-                                {/* Hover Overlay */}
-                                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </div>
-                            <CardContent className="p-4 pt-5">
-                                <p className="text-sm font-semibold truncate mb-2 text-foreground/90 transition-none">
-                                    {file.name || file.key.split('/').pop()}
-                                </p>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-[10px] font-medium text-muted-foreground/60">{formatSize(file.size)}</span>
-                                    <Badge variant="secondary" className="px-2 py-0.5 h-auto text-[9px] font-medium border-none bg-muted-foreground/10 text-muted-foreground/70">
-                                        {file.key.startsWith('imported') ? 'Liên kết' : 'Tệp Local'}
-                                    </Badge>
-                                </div>
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                        </div>
                     ))}
+                </div>
+            ) : (
+                /* WordPress-style List View (Elegant B&W) */
+                <div className="bg-background border border-border/40 rounded-2xl overflow-hidden shadow-sm">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="border-b border-border/40 bg-muted/10">
+                                    <th className="w-12 px-6 py-4">
+                                        <input
+                                            type="checkbox"
+                                            className="rounded border-border/50 text-foreground focus:ring-foreground cursor-pointer"
+                                            checked={selectedItems.length === filteredFiles.length && filteredFiles.length > 0}
+                                            onChange={(e) => {
+                                                if (e.target.checked) setSelectedItems(filteredFiles.map(f => f.key));
+                                                else setSelectedItems([]);
+                                            }}
+                                        />
+                                    </th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Tệp tin</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Kích thước</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Loại tệp</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]">Nguồn</th>
+                                    <th className="px-6 py-4"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredFiles.map((file) => (
+                                    <tr
+                                        key={file.key}
+                                        className="border-b border-border/10 hover:bg-muted/5 transition-colors group cursor-pointer"
+                                        onClick={() => setSelectedFile(file)}
+                                    >
+                                        <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
+                                            <input
+                                                type="checkbox"
+                                                className="rounded border-border/50 text-foreground focus:ring-foreground cursor-pointer"
+                                                checked={selectedItems.includes(file.key)}
+                                                onChange={(e) => {
+                                                    if (e.target.checked) setSelectedItems([...selectedItems, file.key]);
+                                                    else setSelectedItems(selectedItems.filter(id => id !== file.key));
+                                                }}
+                                            />
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-16 h-16 rounded-xl bg-muted/20 flex items-center justify-center overflow-hidden shrink-0 border border-border/10 group-hover:border-foreground/20 transition-colors">
+                                                    {isImage(file.key, file.mimeType) ? (
+                                                        <img src={file.url} className="w-full h-full object-cover" alt="" />
+                                                    ) : (
+                                                        <div className="opacity-40 group-hover:opacity-100 transition-opacity">
+                                                            {getFileIcon(file)}
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="flex flex-col min-w-0">
+                                                    <span className="text-sm font-bold text-foreground/90 group-hover:text-foreground transition-colors truncate max-w-[300px]">
+                                                        {file.name || file.key.split('/').pop()}
+                                                    </span>
+                                                    <span className="text-[9px] text-muted-foreground font-black uppercase tracking-wider truncate max-w-[250px] opacity-60">
+                                                        {file.key}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className="text-xs text-muted-foreground font-black">{formatSize(file.size)}</span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest">
+                                                {file.mimeType?.split('/').pop() || 'FILE'}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <Badge variant="secondary" className="px-2 py-0.5 h-auto text-[9px] font-black border-none bg-muted text-muted-foreground/80 lowercase">
+                                                {file.key.startsWith('imported') ? 'liên kết' : 'local'}
+                                            </Badge>
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity translate-x-1 group-hover:translate-x-0 duration-300">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="w-8 h-8 rounded-lg hover:bg-foreground hover:text-background transition-all"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        copyToClipboard(file.url);
+                                                    }}
+                                                >
+                                                    <Copy size={14} />
+                                                </Button>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="w-8 h-8 rounded-lg hover:bg-red-500 hover:text-white transition-all text-red-500"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(file);
+                                                    }}
+                                                >
+                                                    <Trash2 size={14} />
+                                                </Button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
 
@@ -315,27 +461,27 @@ export default function MediaManagerPage() {
                         <div className="w-full md:w-80 p-8 flex flex-col justify-between bg-card">
                             <div className="space-y-8">
                                 <div className="space-y-3">
-                                    <Badge className="bg-primary/5 text-primary border-none text-[10px] font-bold tracking-wider">
-                                        Thông tin tệp tin
+                                    <Badge className="bg-foreground/5 text-foreground border-none text-[10px] font-black tracking-[0.2em] uppercase px-3">
+                                        Chi tiết tệp
                                     </Badge>
-                                    <h2 className="text-lg font-bold tracking-tight leading-snug line-clamp-3 text-foreground/90">
+                                    <h2 className="text-lg font-black tracking-tight leading-snug line-clamp-3 text-foreground/90">
                                         {selectedFile.name || selectedFile.key.split('/').pop()}
                                     </h2>
                                 </div>
 
                                 <div className="space-y-6">
                                     <div className="flex flex-col gap-1.5">
-                                        <span className="text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-widest">Kích thước</span>
-                                        <p className="text-sm font-medium">{formatSize(selectedFile.size)}</p>
+                                        <span className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-widest">Kích thước</span>
+                                        <p className="text-sm font-bold">{formatSize(selectedFile.size)}</p>
                                     </div>
                                     <div className="flex flex-col gap-1.5">
-                                        <span className="text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-widest">Loại tệp (MIME)</span>
-                                        <p className="text-sm font-medium">{selectedFile.mimeType || 'N/A'}</p>
+                                        <span className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-widest">Loại tệp (MIME)</span>
+                                        <p className="text-sm font-bold">{selectedFile.mimeType || 'N/A'}</p>
                                     </div>
                                     <div className="flex flex-col gap-1.5">
-                                        <span className="text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-widest">Đường dẫn đầy đủ</span>
+                                        <span className="text-[10px] font-black text-muted-foreground/40 uppercase tracking-widest">Đường dẫn đầy đủ</span>
                                         <div className="flex items-center gap-2 mt-1">
-                                            <code className="text-[10px] bg-muted px-2 py-1.5 rounded-lg flex-1 truncate font-mono text-muted-foreground">
+                                            <code className="text-[10px] bg-muted px-2 py-1.5 rounded-lg flex-1 truncate font-mono text-muted-foreground/70">
                                                 {selectedFile.url}
                                             </code>
                                             <button
@@ -352,7 +498,7 @@ export default function MediaManagerPage() {
                             <div className="flex flex-col gap-3 pt-8 border-t border-border/50">
                                 <Button
                                     variant="inverted"
-                                    className="w-full rounded-2xl h-12 font-bold shadow-lg shadow-black/5"
+                                    className="w-full rounded-2xl h-12 font-black tracking-widest uppercase text-xs shadow-lg shadow-black/5"
                                     onClick={() => window.open(selectedFile.url, '_blank')}
                                 >
                                     <ExternalLink size={16} className="mr-2" />
@@ -360,7 +506,7 @@ export default function MediaManagerPage() {
                                 </Button>
                                 <Button
                                     variant="outline"
-                                    className="w-full rounded-2xl h-12 font-bold text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100"
+                                    className="w-full rounded-2xl h-12 font-black tracking-widest uppercase text-xs text-red-500 hover:text-white hover:bg-red-500 border-red-100 hover:border-red-500 transition-all"
                                     onClick={() => handleDelete(selectedFile)}
                                 >
                                     <Trash2 size={16} className="mr-2" />
