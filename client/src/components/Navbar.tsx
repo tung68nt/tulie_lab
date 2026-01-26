@@ -358,8 +358,8 @@ export function Navbar() {
                                                             const title = ((activeSub as any).product?.title || '').toLowerCase();
                                                             const slug = ((activeSub as any).product?.slug || '').toLowerCase();
 
-                                                            if (title.includes('basic') || slug.includes('basic')) {
-                                                                tierLabel = 'Basic';
+                                                            if (title.includes('pro') || slug.includes('pro')) {
+                                                                tierLabel = 'Pro';
                                                                 tagClass = 'bg-zinc-100 text-zinc-900 border border-zinc-200';
                                                             } else {
                                                                 tierLabel = 'Premium';
@@ -371,9 +371,16 @@ export function Navbar() {
                                                         }
 
                                                         return (
-                                                            <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium ${tagClass}`}>
-                                                                {tierLabel}
-                                                            </span>
+                                                            <div className="flex gap-2">
+                                                                {isAdmin && (
+                                                                    <span className="text-xs px-2.5 py-0.5 rounded-full font-medium bg-zinc-900 text-white">
+                                                                        Admin
+                                                                    </span>
+                                                                )}
+                                                                <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${tagClass}`}>
+                                                                    {tierLabel}
+                                                                </span>
+                                                            </div>
                                                         );
                                                     })()}
 
@@ -382,7 +389,7 @@ export function Navbar() {
                                                         if (activeSub) {
                                                             const date = new Date(activeSub.endDate);
                                                             return !isNaN(date.getTime()) ? (
-                                                                <span className="text-[10px] font-medium text-zinc-400">
+                                                                <span className="text-xs font-medium text-zinc-400">
                                                                     Hạn: {date.toLocaleDateString('vi-VN')}
                                                                 </span>
                                                             ) : null;

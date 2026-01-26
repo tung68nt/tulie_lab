@@ -337,6 +337,55 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
         console.log(`✅ ${course.title} (${priceLabel}) - ${course.lessons.length} lessons`);
     }
 
+    // ===== 4. SUBSCRIPTION PRODUCTS =====
+    console.log('\n💎 Creating/Updating Subscription Products...');
+    const subscriptionProducts = [
+        {
+            title: 'Pro Membership',
+            slug: 'pro-membership',
+            description: 'Gói thành viên Pro - Truy cập nâng cao',
+            price: 499000,
+            type: 'SUBSCRIPTION',
+            thumbnail: 'https://images.unsplash.com/photo-1633409361618-c73427e4e206?w=800&fit=crop',
+            isPublished: true,
+        },
+        {
+            title: 'Premium Membership',
+            slug: 'premium-membership',
+            description: 'Gói thành viên Premium - Truy cập toàn bộ',
+            price: 999000,
+            type: 'SUBSCRIPTION',
+            thumbnail: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&fit=crop',
+            isPublished: true,
+        }
+    ];
+
+    for (const sub of subscriptionProducts) {
+        await prisma.product.upsert({
+            where: { slug: sub.slug },
+            update: {
+                title: sub.title,
+                description: sub.description,
+                price: new Decimal(sub.price),
+                // @ts-ignore
+                type: sub.type,
+                thumbnail: sub.thumbnail,
+                isPublished: sub.isPublished,
+            },
+            create: {
+                title: sub.title,
+                slug: sub.slug,
+                description: sub.description,
+                price: new Decimal(sub.price),
+                // @ts-ignore
+                type: sub.type,
+                thumbnail: sub.thumbnail,
+                isPublished: sub.isPublished,
+            }
+        });
+        console.log(`✅ ${sub.title} created`);
+    }
+
     // ===== 2. INSTRUCTOR: Nguyễn Thanh Tùng =====
 
     // ===== SUMMARY =====

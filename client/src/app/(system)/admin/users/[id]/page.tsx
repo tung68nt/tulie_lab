@@ -46,8 +46,8 @@ export default function AdminUserDetailPage() {
             if (activeSub) {
                 const title = (activeSub.product?.title || '').toLowerCase();
                 const slug = (activeSub.product?.slug || '').toLowerCase();
-                if (title.includes('basic') || slug.includes('basic')) currentTier = 'BASIC';
-                else currentTier = 'PREMIUM'; // Default to Premium if active and not basic
+                if (title.includes('pro') || slug.includes('pro')) currentTier = 'PRO';
+                else currentTier = 'PREMIUM'; // Default to Premium if active and not pro
             }
 
             setMembershipForm({
@@ -188,7 +188,7 @@ export default function AdminUserDetailPage() {
 
             {/* Quick Stats Banner */}
             <div className="grid gap-4 md:grid-cols-4">
-                <Card className="border shadow-none bg-white border-zinc-100">
+                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Gói thành viên</div>
                         <div className="text-xl font-medium text-zinc-900 max-w-full px-2">
@@ -199,7 +199,7 @@ export default function AdminUserDetailPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="border shadow-none bg-white border-zinc-100">
+                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Chi tiêu (Paid)</div>
                         <div className="text-xl font-medium text-zinc-900">{formatCurrency(user.stats?.totalPaid || 0)}</div>
@@ -208,7 +208,7 @@ export default function AdminUserDetailPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="border shadow-none bg-white border-zinc-100">
+                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Tỷ lệ hoàn thành học</div>
                         <div className="text-xl font-medium text-zinc-900 flex items-center gap-2">
@@ -221,7 +221,7 @@ export default function AdminUserDetailPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="border shadow-none bg-white border-zinc-100">
+                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Đăng nhập cuối</div>
                         <div className="text-xl font-medium text-zinc-900 flex items-center gap-2 px-2">
@@ -236,7 +236,7 @@ export default function AdminUserDetailPage() {
 
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Sidebar Navigation */}
-                <div className="w-full md:w-40 space-y-1 shrink-0">
+                <div className="w-full md:w-auto space-y-1 shrink-0">
                     <div className="sticky top-24 space-y-1">
                         {tabs.map(tab => (
                             <button
@@ -263,7 +263,7 @@ export default function AdminUserDetailPage() {
                         {activeTab === 'overview' && (
                             <div className="grid gap-6 md:grid-cols-3">
                                 <div className="md:col-span-2 space-y-6">
-                                    <Card>
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader>
                                             <CardTitle className="text-base flex items-center gap-2">
                                                 <User size={18} /> Thông tin hồ sơ
@@ -320,7 +320,7 @@ export default function AdminUserDetailPage() {
                                         </CardContent>
                                     </Card>
 
-                                    <Card>
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader>
                                             <CardTitle className="text-base font-medium flex items-center gap-2">
                                                 <Shield size={18} className="text-zinc-400" /> Phân quyền & Bảo mật
@@ -329,18 +329,18 @@ export default function AdminUserDetailPage() {
                                         <CardContent className="space-y-4">
                                             <div className="flex justify-between items-center py-2 border-b">
                                                 <span className="text-sm">Loại tài khoản</span>
-                                                <span className="px-2 py-0.5 bg-muted rounded text-xs font-medium uppercase">{user.role}</span>
+                                                <span className="px-2.5 py-0.5 bg-muted rounded text-xs font-medium uppercase">{user.role}</span>
                                             </div>
                                             <div className="flex justify-between items-center py-2 border-b">
                                                 <span className="text-sm font-medium">Trạng thái hội viên</span>
                                                 {(() => {
                                                     const activeSub = user.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date());
-                                                    if (!activeSub) return <span className="bg-muted text-muted-foreground text-[10px] px-2 py-0.5 rounded-full font-medium">Free</span>;
+                                                    if (!activeSub) return <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-medium">Free</span>;
                                                     const title = (activeSub.product?.title || '').toUpperCase();
-                                                    if (title.includes('BASIC')) {
-                                                        return <span className="bg-zinc-100 text-zinc-900 border border-zinc-200 text-[10px] px-2 py-0.5 rounded-full font-medium">Basic</span>;
+                                                    if (title.includes('PRO')) {
+                                                        return <span className="bg-zinc-100 text-zinc-900 border border-zinc-200 text-xs px-2.5 py-0.5 rounded-full font-medium">Pro</span>;
                                                     }
-                                                    return <span className="bg-zinc-900 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">Premium</span>;
+                                                    return <span className="bg-zinc-900 text-white text-xs px-2.5 py-0.5 rounded-full font-medium">Premium</span>;
                                                 })()}
                                             </div>
                                             <div className="flex justify-between items-center py-2">
@@ -352,7 +352,7 @@ export default function AdminUserDetailPage() {
                                 </div>
 
                                 <div className="space-y-6">
-                                    <Card className="bg-white border shadow-sm">
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader className="pb-2">
                                             <CardTitle className="text-sm font-medium text-zinc-900 flex items-center gap-2">
                                                 <div className="w-1 h-3 bg-zinc-900 rounded-full" />
@@ -390,7 +390,7 @@ export default function AdminUserDetailPage() {
                                         </CardContent>
                                     </Card>
 
-                                    <Card>
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader>
                                             <CardTitle className="text-sm font-bold">Thiết bị gần nhất</CardTitle>
                                         </CardHeader>
@@ -415,15 +415,15 @@ export default function AdminUserDetailPage() {
 
                         {
                             activeTab === 'courses' && (
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between">
-                                        <div>
+                                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                                    <div className="border-b p-6 space-y-4">
+                                        <div className="w-full text-left space-y-1">
                                             <CardTitle className="text-base">Khóa học đã đăng ký</CardTitle>
                                             <CardDescription>Danh sách tất cả các khóa học người dùng đã truy cập.</CardDescription>
                                         </div>
-                                        <div className="flex gap-2">
+                                        <div className="flex gap-2 w-full">
                                             <select
-                                                className="text-sm border rounded-md px-3 h-9 bg-background focus:outline-none focus:ring-1 focus:ring-foreground"
+                                                className="flex-1 text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-900 cursor-pointer"
                                                 value={selectedCourse}
                                                 onChange={(e) => setSelectedCourse(e.target.value)}
                                             >
@@ -434,29 +434,33 @@ export default function AdminUserDetailPage() {
                                             </select>
                                             <Button
                                                 size="sm"
+                                                className="bg-zinc-900 h-10 text-white shadow-none hover:bg-zinc-800"
                                                 disabled={!selectedCourse}
                                                 onClick={() => handleAction(() => api.admin.enrollUser(id as string, selectedCourse), 'Đã kích hoạt khóa học thành công')}
                                             >
                                                 Kích hoạt thủ công
                                             </Button>
                                         </div>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="grid gap-4 md:grid-cols-2">
+                                    </div>
+                                    <CardContent className="p-6">
+                                        <div className="flex flex-col gap-4 w-full">
                                             {user.enrollments?.map((enroll: any) => (
-                                                <div key={enroll.id} className="flex gap-4 p-4 border rounded-xl hover:bg-muted/30 transition-colors group">
-                                                    <div className="h-20 w-32 shrink-0 bg-muted rounded-lg overflow-hidden border">
+                                                <div key={enroll.id} className="flex gap-4 p-4 border border-zinc-100 rounded-xl hover:bg-zinc-50 transition-colors w-full group items-start bg-white">
+                                                    <div className="h-20 w-32 shrink-0 bg-zinc-100 rounded-lg overflow-hidden border border-zinc-200">
                                                         {enroll.course?.thumbnail && <img src={enroll.course.thumbnail} className="h-full w-full object-cover" />}
                                                     </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <h4 className="font-bold text-sm truncate">{enroll.course?.title}</h4>
-                                                        <p className="text-[10px] text-muted-foreground mb-3 flex items-center gap-1">
-                                                            <Clock size={10} /> Đã kích hoạt: {formatDate(enroll.createdAt)}
-                                                        </p>
-                                                        <div className="flex gap-2">
+                                                    <div className="flex-1 min-w-0 flex flex-col justify-between h-20">
+                                                        <div>
+                                                            <h4 className="font-bold text-sm text-zinc-900 truncate">{enroll.course?.title}</h4>
+                                                            <p className="text-[10px] text-zinc-500 mt-1 flex items-center gap-1">
+                                                                <Clock size={10} /> Đã kích hoạt: {formatDate(enroll.createdAt)}
+                                                            </p>
+                                                        </div>
+                                                        <div className="flex gap-3 items-center mt-auto">
                                                             <Link href={`/admin/courses/${enroll.courseId}`} className="text-[10px] font-bold text-zinc-900 hover:underline">Quản lý nội dung</Link>
+                                                            <div className="w-px h-3 bg-zinc-200" />
                                                             <button
-                                                                className="text-[10px] font-bold text-zinc-500 hover:underline hover:text-zinc-900"
+                                                                className="text-[10px] font-bold text-red-500 hover:underline hover:text-red-600"
                                                                 onClick={() => handleAction(() => api.admin.unenrollUser(id as string, enroll.courseId), 'Đã gỡ quyền truy cập khóa học', 'Gỡ quyền truy cập khóa học này?')}
                                                             >
                                                                 Gỡ quyền
@@ -466,9 +470,9 @@ export default function AdminUserDetailPage() {
                                                 </div>
                                             ))}
                                             {(!user.enrollments || user.enrollments.length === 0) && (
-                                                <div className="col-span-2 text-center py-20 bg-muted/20 rounded-xl border border-dashed">
-                                                    <BookOpen className="h-8 w-8 mx-auto text-muted-foreground mb-2 opacity-50" />
-                                                    <p className="text-sm text-muted-foreground font-medium">Chưa đăng ký khóa học nào</p>
+                                                <div className="text-center py-20 bg-zinc-50/50 rounded-xl border border-dashed border-zinc-200">
+                                                    <BookOpen className="h-8 w-8 mx-auto text-zinc-300 mb-2" />
+                                                    <p className="text-sm text-zinc-500 font-medium">Chưa đăng ký khóa học nào</p>
                                                 </div>
                                             )}
                                         </div>
@@ -479,7 +483,7 @@ export default function AdminUserDetailPage() {
 
                         {
                             activeTab === 'products' && (
-                                <Card>
+                                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                     <CardHeader>
                                         <CardTitle className="text-base">Sản phẩm & Tải xuống</CardTitle>
                                         <CardDescription>Các Templates, Apps hoặc License mà người dùng đã mua.</CardDescription>
@@ -531,7 +535,7 @@ export default function AdminUserDetailPage() {
                         {
                             activeTab === 'membership' && (
                                 <div className="space-y-6">
-                                    <Card>
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader>
                                             <CardTitle className="text-base">Quản lý Gói Hội Viên</CardTitle>
                                             <CardDescription>Cấp quyền hội viên Premium để truy cập tất cả nội dung.</CardDescription>
@@ -565,7 +569,7 @@ export default function AdminUserDetailPage() {
                                                         onChange={(e) => setMembershipForm({ ...membershipForm, tier: e.target.value })}
                                                     >
                                                         <option value="FREE">Free</option>
-                                                        <option value="BASIC">Basic</option>
+                                                        <option value="PRO">Pro</option>
                                                         <option value="PREMIUM">Premium</option>
                                                     </select>
                                                 </div>
@@ -626,7 +630,7 @@ export default function AdminUserDetailPage() {
 
                         {
                             activeTab === 'orders' && (
-                                <Card>
+                                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                     <CardHeader>
                                         <CardTitle className="text-base">Lịch sử đơn hàng</CardTitle>
                                         <CardDescription>Tất cả các giao dịch thanh toán và đơn hàng chờ xử lý.</CardDescription>
@@ -694,7 +698,7 @@ export default function AdminUserDetailPage() {
                         {
                             activeTab === 'notes' && (
                                 <div className="space-y-6">
-                                    <Card>
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader>
                                             <CardTitle className="text-base flex items-center gap-2">
                                                 <MessageSquare size={18} /> Ghi chú & Chăm sóc khách hàng
@@ -752,7 +756,7 @@ export default function AdminUserDetailPage() {
                         {
                             activeTab === 'invoices' && (
                                 <div className="space-y-6">
-                                    <Card>
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader className="flex flex-row items-center justify-between">
                                             <div>
                                                 <CardTitle className="text-base flex items-center gap-2">
@@ -873,7 +877,7 @@ export default function AdminUserDetailPage() {
                             activeTab === 'logs' && (
                                 <div className="space-y-6">
                                     <div className="grid gap-6 md:grid-cols-2">
-                                        <Card>
+                                        <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                             <CardHeader>
                                                 <CardTitle className="text-base flex items-center gap-2">
                                                     <ShieldAlert size={18} className="text-zinc-900" /> Cảnh báo bảo mật
@@ -902,7 +906,7 @@ export default function AdminUserDetailPage() {
                                             </CardContent>
                                         </Card>
 
-                                        <Card>
+                                        <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                             <CardHeader>
                                                 <CardTitle className="text-base flex items-center gap-2">
                                                     <Laptop size={18} className="text-zinc-900" /> Lịch sử đăng nhập & IP
@@ -928,7 +932,7 @@ export default function AdminUserDetailPage() {
                                         </Card>
                                     </div>
 
-                                    <Card>
+                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
                                         <CardHeader className="flex flex-row items-center justify-between">
                                             <div>
                                                 <CardTitle className="text-base flex items-center gap-2">

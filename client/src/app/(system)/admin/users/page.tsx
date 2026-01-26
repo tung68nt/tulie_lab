@@ -115,14 +115,14 @@ export default function AdminUsersPage() {
                                 <div className="flex items-center gap-6">
                                     <div className="hidden md:flex flex-col items-end gap-1">
                                         {user.role === 'ADMIN' ? (
-                                            <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-900 border border-zinc-200 px-2 py-1 rounded bg-zinc-50">
-                                                <Shield size={12} className="fill-zinc-900" />
+                                            <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-900 border border-zinc-200 px-2.5 py-0.5 rounded bg-zinc-50">
+                                                <Shield size={12} />
                                                 ADMIN
                                             </div>
                                         ) : user.subscriptions && user.subscriptions[0] ? (
                                             <div className="flex flex-col items-end gap-0.5">
                                                 <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-900">
-                                                    <Crown size={12} className="fill-zinc-900" />
+                                                    <Crown size={12} />
                                                     {user.subscriptions[0].product?.title || 'Premium Member'}
                                                 </div>
                                                 <div className="flex items-center gap-1 text-[10px] text-muted-foreground font-medium">
@@ -131,7 +131,7 @@ export default function AdminUsersPage() {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground border border-transparent px-2 py-1">
+                                            <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground border border-transparent px-2.5 py-0.5">
                                                 <User size={12} />
                                                 Thành viên
                                             </div>

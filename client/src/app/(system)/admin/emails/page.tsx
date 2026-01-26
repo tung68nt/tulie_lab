@@ -349,7 +349,7 @@ export default function AdminEmailsPage() {
                                         ...prev,
                                         [selectedTemplate]: { ...prev[selectedTemplate], html: e.target.value }
                                     }))}
-                                    className="w-full h-[300px] font-semibold text-xs p-4 border rounded-lg bg-zinc-950 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-foreground resize-none"
+                                    className="w-full h-[300px] font-mono text-xs p-4 border rounded-lg bg-zinc-950 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-foreground resize-none"
                                     spellCheck={false}
                                 />
                             </div>
