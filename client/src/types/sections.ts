@@ -40,4 +40,5 @@ export interface Section {
     statsIcon?: string;
     order?: number;
     showDotPattern?: boolean; // New: Toggle dot pattern visibility
+    className?: string; // Add className for custom styling
 }

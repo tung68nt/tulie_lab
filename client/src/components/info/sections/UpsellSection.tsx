@@ -8,8 +8,9 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPrice }: { section: Section; upsellCourse?: any; upsellProduct?: any; upsellPrice?: any }) {
+    const displayItems = section.items || [];
 
-    if (!displayItems || displayItems.length === 0) return null;
+    if (displayItems.length === 0) return null;
 
     return (
         <section className="py-24 bg-background border-t border-zinc-100 relative overflow-hidden">

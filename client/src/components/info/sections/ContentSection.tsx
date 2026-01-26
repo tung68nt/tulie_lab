@@ -81,3 +81,42 @@ export const ContentSection = ({ section }: { section: Section }) => {
         });
     };
 
+    return (
+        <section className={cn(
+            "relative py-32 overflow-hidden bg-white",
+            section.className
+        )}>
+            {section.showDotPattern && <DotPatternBackground />}
+
+            <div className="container relative z-10 mx-auto px-6">
+                <div className="max-w-4xl mx-auto">
+                    <div className="flex flex-col items-center text-center mb-20">
+                        {section.tag && (
+                            <SectionTag className="mb-8">
+                                <Sparkles className="w-3.5 h-3.5 mr-2" />
+                                {section.tag}
+                            </SectionTag>
+                        )}
+
+                        {section.title && (
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-8 leading-[1.1]">
+                                {section.title}
+                            </h2>
+                        )}
+
+                        {section.subtitle && (
+                            <p className="text-xl text-muted-foreground/80 leading-relaxed max-w-2xl">
+                                {section.subtitle}
+                            </p>
+                        )}
+                    </div>
+
+                    <div className="prose prose-zinc prose-lg dark:prose-invert max-w-none">
+                        {renderContent(section.content || '')}
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+

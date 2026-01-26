@@ -72,13 +72,6 @@ const nextConfig: any = {
     ];
   },
   output: 'standalone',
-  // Ignore type errors during build to unblock deployment
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
 };
 
 export default nextConfig;
