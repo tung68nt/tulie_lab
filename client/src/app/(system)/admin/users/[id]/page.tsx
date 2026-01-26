@@ -255,48 +255,48 @@ export default function AdminUserDetailPage() {
                                 <CardContent className="grid gap-6 md:grid-cols-2">
                                     <div className="space-y-4">
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Họ và tên</span>
-                                            <span className="text-sm font-medium">{user.profile?.name || 'Chưa cập nhật'}</span>
+                                            <span className="text-xs text-zinc-400 font-medium">Họ và tên</span>
+                                            <span className="text-sm font-medium text-zinc-900">{user.profile?.name || 'Chưa cập nhật'}</span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Email</span>
-                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
-                                                {user.email} <Mail size={12} className="text-muted-foreground" />
+                                            <span className="text-xs text-zinc-400 font-medium">Email</span>
+                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                {user.email} <Mail size={12} className="text-zinc-300" />
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Số điện thoại</span>
-                                            <span className="text-sm font-medium">{user.profile?.phone || 'Chưa cập nhật'}</span>
+                                            <span className="text-xs text-zinc-400 font-medium">Số điện thoại</span>
+                                            <span className="text-sm font-medium text-zinc-900">{user.profile?.phone || 'Chưa cập nhật'}</span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Ngày sinh</span>
-                                            <span className="text-sm font-medium">{user.profile?.birthDate ? new Date(user.profile.birthDate).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}</span>
+                                            <span className="text-xs text-zinc-400 font-medium">Ngày sinh</span>
+                                            <span className="text-sm font-medium text-zinc-900">{user.profile?.birthDate ? new Date(user.profile.birthDate).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}</span>
                                         </div>
                                     </div>
                                     <div className="space-y-4">
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Nghề nghiệp</span>
-                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
-                                                <Briefcase size={14} className="text-muted-foreground" /> {user.profile?.occupation || 'Chưa cập nhật'}
+                                            <span className="text-xs text-zinc-400 font-medium">Nghề nghiệp</span>
+                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                <Briefcase size={14} className="text-zinc-300" /> {user.profile?.occupation || 'Chưa cập nhật'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Công ty</span>
-                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
-                                                <Building size={14} className="text-muted-foreground" /> {user.profile?.company || 'Chưa cập nhật'}
+                                            <span className="text-xs text-zinc-400 font-medium">Công ty</span>
+                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                <Building size={14} className="text-zinc-300" /> {user.profile?.company || 'Chưa cập nhật'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Địa chỉ</span>
-                                            <span className="text-sm font-medium flex items-center gap-2 truncate">
-                                                <MapPin size={14} className="text-muted-foreground" />
+                                            <span className="text-xs text-zinc-400 font-medium">Địa chỉ</span>
+                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                <MapPin size={14} className="text-zinc-300" />
                                                 {[user.profile?.address, user.profile?.city].filter(Boolean).join(', ') || 'Chưa cập nhật'}
                                             </span>
                                         </div>
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground font-bold tracking-tight">Ngày tham gia</span>
-                                            <span className="text-sm font-medium flex items-center gap-2">
-                                                <Calendar size={14} className="text-muted-foreground" /> {formatDate(user.createdAt)}
+                                            <span className="text-xs text-zinc-400 font-medium">Ngày tham gia</span>
+                                            <span className="text-sm font-medium text-zinc-900 flex items-center gap-2">
+                                                <Calendar size={14} className="text-zinc-300" /> {formatDate(user.createdAt)}
                                             </span>
                                         </div>
                                     </div>
@@ -344,30 +344,30 @@ export default function AdminUserDetailPage() {
                                 </CardHeader>
                                 <CardContent className="space-y-6">
                                     <div className="flex gap-4 items-center">
-                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border shadow-sm">
-                                            <BookOpen size={18} className="text-zinc-600" />
+                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                            <BookOpen size={18} className="text-zinc-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
-                                            <p className="text-[10px] text-zinc-500 mt-1">Khóa học đăng ký</p>
+                                            <p className="text-sm font-semibold text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
+                                            <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Khóa học đăng ký</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-4 items-center">
-                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border shadow-sm">
-                                            <Package size={18} className="text-zinc-600" />
+                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                            <Package size={18} className="text-zinc-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
-                                            <p className="text-[10px] text-zinc-500 mt-1">Sản phẩm sở hữu</p>
+                                            <p className="text-sm font-semibold text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
+                                            <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Sản phẩm sở hữu</p>
                                         </div>
                                     </div>
                                     <div className="flex gap-4 items-center">
-                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border shadow-sm">
-                                            <CreditCard size={18} className="text-zinc-600" />
+                                        <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                            <CreditCard size={18} className="text-zinc-400" />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-medium text-zinc-900 leading-none">{user.orders?.length || 0}</p>
-                                            <p className="text-[10px] text-zinc-500 mt-1">Tổng đơn hàng</p>
+                                            <p className="text-sm font-semibold text-zinc-900 leading-none">{user.orders?.length || 0}</p>
+                                            <p className="text-[10px] text-zinc-400 mt-1.5 font-medium">Tổng đơn hàng</p>
                                         </div>
                                     </div>
                                 </CardContent>
