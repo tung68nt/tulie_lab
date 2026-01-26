@@ -435,8 +435,8 @@ export class PaymentService {
                         };
 
                         // Extract order code from content if it matches pattern
-                        // Improved regex to prioritize DH prefix and handle exactly 12 characters
-                        const orderCodePattern = /DH[A-Z0-9]{10}/i;
+                        // Relaxed regex to catch various DH lengths (min DH + 6 chars)
+                        const orderCodePattern = /DH[A-Z0-9]{6,12}/i;
                         const match = webhookData.content.match(orderCodePattern);
                         if (match) {
                             webhookData.code = match[0].toUpperCase();
@@ -449,8 +449,35 @@ export class PaymentService {
                         if (tx.reference_number) webhookData.referenceCode = tx.reference_number;
                         if (tx.description) webhookData.description = tx.description;
 
-                        // Process the webhook (it will record transaction even if code not found)
-                        await this.processWebhook(webhookData);
+                        // Upsert transaction to ensure we update code if regex was improved
+                        await prisma.paymentTransaction.upsert({
+                            where: { id: webhookData.transactionId },
+                            update: {
+                                code: webhookData.code ?? null,
+                                content: webhookData.content ?? null,
+                                description: webhookData.description ?? null,
+                                // Don't overwrite other fields if not necessary, but code is critical
+                            },
+                            create: {
+                                gateway: webhookData.gateway ?? null,
+                                amountIn: webhookData.amount,
+                                transactionDate: webhookData.transactionDate ? new Date(webhookData.transactionDate) : new Date(),
+                                accountNumber: webhookData.accountNumber ?? null,
+                                subAccount: webhookData.subAccount ?? null,
+                                code: webhookData.code ?? null,
+                                content: webhookData.content ?? null,
+                                referenceCode: webhookData.referenceCode ?? null,
+                                description: webhookData.description ?? null,
+                                accumulated: webhookData.accumulated ?? null,
+                                id: webhookData.transactionId
+                            }
+                        });
+
+                        // Trigger processing (idempotent at order level)
+                        if (webhookData.code) {
+                            await this.processWebhook(webhookData);
+                        }
+
                         results.processed++;
                     } catch (err: any) {
                         console.error(`Failed to process transaction ${tx.id}:`, err.message);
