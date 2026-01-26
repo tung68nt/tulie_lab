@@ -1,3 +1,5 @@
+'use client';
+
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';

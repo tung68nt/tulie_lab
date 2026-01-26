@@ -1,3 +1,6 @@
+'use client';
+
+import Link from 'next/link';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { Button } from '@/components/Button';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { SectionTag } from '@/components/SectionTag';
 
 import Link from 'next/link';
