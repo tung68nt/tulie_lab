@@ -628,8 +628,8 @@ export default function AdminDashboardPage() {
                                                         {order.code}
                                                     </span>
                                                 </td>
-                                                <td className="py-3 px-4 text-xs font-semibold">{order.userName}</td>
-                                                <td className="py-3 px-4 text-right font-bold text-zinc-900">{formatCurrency(order.amount)}</td>
+                                                <td className="py-3 px-4 text-xs font-medium">{order.userName}</td>
+                                                <td className="py-3 px-4 text-right font-medium text-zinc-900">{formatCurrency(order.amount)}</td>
                                                 <td className="py-3 px-4 text-center">
                                                     <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold ${order.status === 'PAID' || order.status === 'COMPLETED'
                                                         ? 'bg-zinc-900 text-zinc-100'
@@ -677,7 +677,7 @@ export default function AdminDashboardPage() {
                                             <tr key={tx.id} className="hover:bg-zinc-50/30 transition-colors">
                                                 <td className="py-3 px-4 text-xs font-bold text-muted-foreground">{new Date(tx.transactionDate).toLocaleDateString('vi-VN')}</td>
                                                 <td className="py-3 px-4 max-w-[250px] truncate text-xs font-medium" title={tx.content}>{tx.content}</td>
-                                                <td className="py-3 px-4 text-right font-bold text-zinc-900">{formatCurrency(Number(tx.amountIn))}</td>
+                                                <td className="py-3 px-4 text-right font-medium text-zinc-900">{formatCurrency(Number(tx.amountIn))}</td>
                                                 <td className="py-3 px-4 text-right text-xs font-mono font-bold text-muted-foreground">{tx.referenceCode || tx.id.slice(-8)}</td>
                                             </tr>
                                         ))

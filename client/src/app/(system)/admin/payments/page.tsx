@@ -227,7 +227,7 @@ export default function AdminPaymentsPage() {
                                                         {tx.content || tx.description || 'N/A'}
                                                     </div>
                                                 </td>
-                                                <td className="py-3 px-4 text-right font-black text-primary text-base">
+                                                <td className="py-3 px-4 text-right font-medium text-zinc-900 text-sm">
                                                     {formatCurrency(tx.amountIn)}
                                                 </td>
                                                 <td className="py-3 px-4 text-center">

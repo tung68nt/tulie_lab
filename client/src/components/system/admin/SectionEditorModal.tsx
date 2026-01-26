@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Save, RefreshCw, Smartphone, Tablet, Monitor } from 'lucide-react';
 import { Button } from '@/components/Button';
+import { Switch } from '@/components/Switch';
 import { SectionRenderer } from '@/components/SectionRenderer';
 import { Section } from '@/types/sections';
 
@@ -233,6 +234,21 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                     />
                                 </div>
                             )}
+
+                            {/* Appearance Settings */}
+                            <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">
+                                <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Display Settings</h3>
+                                <div className="flex items-center justify-between">
+                                    <div className="space-y-0.5">
+                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Show Dot Pattern</label>
+                                        <p className="text-xs text-neutral-500">Enable subtle decorative dots in section corners.</p>
+                                    </div>
+                                    <Switch
+                                        checked={!!editedSection.showDotPattern}
+                                        onChange={checked => handleChange('showDotPattern', checked)}
+                                    />
+                                </div>
+                            </div>
 
                         </div>
                     </div>

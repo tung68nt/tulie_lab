@@ -231,31 +231,31 @@ export default function AdminOrdersPage() {
             <div className="grid gap-4 md:grid-cols-5">
                 <Card className="cursor-pointer hover:bg-muted/50" onClick={() => setStatusFilter('all')}>
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-3xl font-bold mb-1">{stats.total}</div>
+                        <div className="text-3xl font-medium mb-1">{stats.total}</div>
                         <div className="text-sm text-muted-foreground font-medium">Total</div>
                     </CardContent>
                 </Card>
                 <Card className="cursor-pointer hover:bg-muted/50" onClick={() => setStatusFilter('PAID')}>
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-3xl font-bold mb-1">{stats.paid}</div>
+                        <div className="text-3xl font-medium mb-1">{stats.paid}</div>
                         <div className="text-sm text-muted-foreground font-medium">Paid</div>
                     </CardContent>
                 </Card>
                 <Card className="cursor-pointer hover:bg-muted/50" onClick={() => setStatusFilter('PENDING')}>
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-3xl font-bold mb-1">{stats.pending}</div>
+                        <div className="text-3xl font-medium mb-1">{stats.pending}</div>
                         <div className="text-sm text-muted-foreground font-medium">Pending</div>
                     </CardContent>
                 </Card>
                 <Card className="cursor-pointer hover:bg-muted/50" onClick={() => setStatusFilter('CANCELLED')}>
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-3xl font-bold text-muted-foreground mb-1">{stats.cancelled}</div>
+                        <div className="text-3xl font-medium text-muted-foreground mb-1">{stats.cancelled}</div>
                         <div className="text-sm text-muted-foreground font-medium">Canceled</div>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-xl font-bold mb-1">{formatCurrency(stats.totalRevenue)}</div>
+                        <div className="text-xl font-medium mb-1">{formatCurrency(stats.totalRevenue)}</div>
                         <div className="text-sm text-muted-foreground font-medium">Revenue</div>
                     </CardContent>
                 </Card>
@@ -381,7 +381,7 @@ export default function AdminOrdersPage() {
                                                                 <Button
                                                                     size="sm"
                                                                     variant="outline"
-                                                                    className="text-foreground hover:bg-blue-50 h-7 px-2 text-[11px]"
+                                                                    className="text-foreground hover:bg-muted h-7 px-2 text-[11px]"
                                                                     onClick={() => sendReminder(order.id)}
                                                                     disabled={remindingId === order.id}
                                                                     title="Gửi email nhắc thanh toán"

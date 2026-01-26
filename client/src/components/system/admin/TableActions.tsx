@@ -89,7 +89,7 @@ export function TableActions({
                     onClick={onDelete}
                     title="Xóa"
                 >
-                    <Trash2 size={16} className="text-muted-foreground hover:text-foreground transition-colors" />
+                    <Trash2 size={16} className="text-muted-foreground transition-colors" />
                 </Button>
             )}
         </div>

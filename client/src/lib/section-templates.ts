@@ -24,7 +24,8 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             subtitle: 'Khóa học thực chiến giúp bạn làm chủ tư duy lập trình và xây dựng sản phẩm công nghệ chỉ sau 3 tháng.',
             image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=2000',
             ctaText: 'Đăng Ký Học Thử',
-            ctaLink: '/courses'
+            ctaLink: '/courses',
+            showDotPattern: true
         }
     },
     {
@@ -40,6 +41,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Con Số Biết Nói',
             subtitle: 'Kết quả thực tế từ cộng đồng học viên',
             content: 'Chúng tôi tự hào về những cột mốc đã đạt được cùng học viên.',
+            showDotPattern: true,
             items: [
                 { value: "12k+", label: "Học viên", icon: "Users", description: "Đang theo học mỗi ngày" },
                 { value: "500+", label: "Dự án", icon: "Code", description: "Đã hoàn thành và deploy" },
@@ -61,6 +63,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Tại Sao Chọn Chúng Tôi?',
             subtitle: 'Sự khác biệt tạo nên thành công',
             content: 'So sánh lộ trình học tập của chúng tôi với các phương pháp khác.',
+            showDotPattern: true,
             items: [
                 {
                     title: "Tự Học Online",
@@ -95,6 +98,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Coding Methods',
             title: 'Phương Pháp Vibe Coding',
             subtitle: 'Học nhàn, hiểu sâu, ứng dụng ngay',
+            showDotPattern: true,
             items: [
                 { title: "Tư duy Product", description: "Không chỉ code, học cách xây dựng sản phẩm người dùng cần." },
                 { title: "Thực hành 80%", description: "Lý thuyết ngắn gọn, tập trung vào code dự án thực tế." },
@@ -114,6 +118,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Process Roadmap',
             title: 'Lộ Trình Học Tập',
             subtitle: '3 giai đoạn để trở thành lập trình viên chuyên nghiệp',
+            showDotPattern: true,
             items: [
                 { title: "Giai đoạn 1: Nền Tảng", description: "Làm chủ tư duy lập trình và các công cụ cơ bản (HTML, CSS, JS)." },
                 { title: "Giai đoạn 2: Chuyên Sâu", description: "Học các Framework hiện đại (React, Next.js) và xây dựng Backend." },
@@ -133,8 +138,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Features Grid',
             title: 'Quyền Lợi Học Viên',
             subtitle: 'Những điều tuyệt vời bạn sẽ nhận được',
+            showDotPattern: true,
             items: [
-                { title: "Mentor Theo Sát 1:1", description: "Không bỏ rơi học viên. Hỗ trợ giải đáp thắc mắc và sửa bài chi tiết hàng ngày.", icon: "Zap" },
+                { title: "Mentor Theo Sát 1:1", description: "Không bỏ rơi học viên. Hỗ trợ giải đáp thắc mẳc và sửa bài chi tiết hàng ngày.", icon: "Zap" },
                 { title: "Dự Án Cá Nhân Cao Cấp", description: "Làm chủ trọn bộ kỹ năng để xây dựng sản phẩm chất lượng, có tính ứng dụng cao.", icon: "Cpu" },
                 { title: "Lộ Trình Tối Ưu", description: "Học những gì thực sự cần thiết. Tiết kiệm 80% thời gian so với các phương pháp cũ.", icon: "Target" },
                 { title: "Cộng Đồng Tương Trợ", description: "Tham gia network cùng những người có tư duy đột phá, sẵn sàng chia sẻ.", icon: "Users" },
@@ -155,6 +161,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Content Block (Alternating)',
             title: 'Chi Tiết Khóa Học',
             subtitle: 'Nội dung được thiết kế sát với thực tế',
+            showDotPattern: true,
             items: [
                 {
                     title: "Module 1: Frontend Modern",
@@ -185,6 +192,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Lesson Curriculum',
             title: 'Lộ Trình Đào Tạo Thực Chiến',
             subtitle: 'Chương trình được thiết kế từ cơ bản đến nâng cao, tập trung vào kỹ năng xây dựng sản phẩm.',
+            showDotPattern: true,
             items: [
                 {
                     title: "Module 1: Mindset & Fundamentals",
@@ -237,6 +245,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Student Showcase',
             title: 'Sản Phẩm Học Viên',
             subtitle: 'Những dự án tiêu biểu được xây dựng sau khóa học',
+            showDotPattern: true,
             items: [
                 {
                     title: "AI Video Editor SaaS",

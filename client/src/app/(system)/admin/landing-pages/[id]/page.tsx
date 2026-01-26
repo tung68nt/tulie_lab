@@ -640,8 +640,8 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" disabled={index === sections.length - 1} onClick={() => handleMoveSection(index, 'down')} title="Xuống">
                                                     <ArrowDown size={14} className="text-zinc-600 dark:text-zinc-400" />
                                                 </Button>
-                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors text-red-500 hover:text-red-600 dark:text-red-400/80 dark:hover:text-red-400" onClick={() => handleRemoveSection(index)} title="Xóa">
-                                                    <Trash2 size={14} />
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" onClick={() => handleRemoveSection(index)} title="Xóa">
+                                                    <Trash2 size={14} className="text-zinc-600 dark:text-zinc-400" />
                                                 </Button>
                                             </div>
                                         </div>

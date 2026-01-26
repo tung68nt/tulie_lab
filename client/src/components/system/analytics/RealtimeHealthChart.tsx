@@ -89,13 +89,13 @@ export function RealtimeHealthChart() {
     }, []);
 
     const getStatus = (memory: number, load: number) => {
-        if (memory > MEMORY_WARNING_THRESHOLD || load > LOAD_WARNING_THRESHOLD) return { label: 'WARNING', icon: 'AlertTriangle', color: 'text-foreground', bg: 'bg-background border border-foreground' };
-        return { label: 'HEALTHY', icon: 'ShieldCheck', color: 'text-background', bg: 'bg-foreground border border-foreground' };
+        if (memory > MEMORY_WARNING_THRESHOLD || load > LOAD_WARNING_THRESHOLD) return { label: 'WARNING', icon: 'AlertTriangle', color: 'text-zinc-900', bg: 'bg-white border border-zinc-200' };
+        return { label: 'HEALTHY', icon: 'ShieldCheck', color: 'text-white', bg: 'bg-zinc-900 border border-zinc-900' };
     };
 
     const getCostStatus = (rpm: number) => {
-        if (rpm > RPM_COST_WARNING_THRESHOLD) return { label: 'HIGH LOAD', icon: 'Zap', color: 'text-background', bg: 'bg-foreground border border-foreground' };
-        return { label: 'OPTIMIZED', icon: 'ShieldCheck', color: 'text-background', bg: 'bg-primary border border-primary' };
+        if (rpm > RPM_COST_WARNING_THRESHOLD) return { label: 'HIGH LOAD', icon: 'Zap', color: 'text-white', bg: 'bg-zinc-900 border border-zinc-900' };
+        return { label: 'OPTIMIZED', icon: 'ShieldCheck', color: 'text-zinc-900', bg: 'bg-white border border-zinc-200' };
     };
 
     if (permissionDenied) return (
@@ -228,25 +228,25 @@ export function RealtimeHealthChart() {
                     <div className="space-y-1">
                         <div className="font-semibold flex items-center gap-1.5"><Activity size={12} /> Memory Usage</div>
                         <p className="text-muted-foreground leading-snug">Dung lượng RAM đang sử dụng.</p>
-                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
-                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-semibold text-green-600">&lt;512MB</span></li>
-                            <li className="flex justify-between"><span>Cảnh báo:</span> <span className="font-semibold text-amber-600">&gt;512MB</span></li>
+                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2 text-[10px]">
+                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-bold text-zinc-900">&lt;512MB</span></li>
+                            <li className="flex justify-between font-bold"><span>Cảnh báo:</span> <span className="">&gt;512MB</span></li>
                         </ul>
                     </div>
                     <div className="space-y-1">
                         <div className="font-semibold flex items-center gap-1.5"><Cpu size={12} /> CPU Load</div>
                         <p className="text-muted-foreground leading-snug">Tải trung bình trong 1 phút.</p>
-                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
-                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-semibold text-green-600">&lt;1.5</span></li>
-                            <li className="flex justify-between"><span>Quá tải:</span> <span className="font-semibold text-amber-600">&gt;1.5</span></li>
+                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2 text-[10px]">
+                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-bold text-zinc-900">&lt;1.5</span></li>
+                            <li className="flex justify-between font-bold"><span>Quá tải:</span> <span className="">&gt;1.5</span></li>
                         </ul>
                     </div>
                     <div className="space-y-1">
                         <div className="font-semibold flex items-center gap-1.5"><Server size={12} /> Traffic (RPM)</div>
                         <p className="text-muted-foreground leading-snug">Số request/phút.</p>
-                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2">
-                            <li className="flex justify-between"><span>Tiết kiệm:</span> <span className="font-semibold text-blue-600">&lt;600</span></li>
-                            <li className="flex justify-between"><span>Scale Up:</span> <span className="font-semibold text-purple-600">&gt;600</span></li>
+                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2 text-[10px]">
+                            <li className="flex justify-between"><span>Tiết kiệm:</span> <span className="font-bold text-zinc-900">&lt;600</span></li>
+                            <li className="flex justify-between font-bold"><span>Scale Up:</span> <span className="">&gt;600</span></li>
                         </ul>
                     </div>
                 </div>

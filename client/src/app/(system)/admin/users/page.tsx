@@ -55,7 +55,7 @@ export default function AdminUsersPage() {
 
     if (loading) return (
         <div className="flex items-center justify-center py-40">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-zinc-900 dark:border-zinc-100 border-t-transparent"></div>
         </div>
     );
 
