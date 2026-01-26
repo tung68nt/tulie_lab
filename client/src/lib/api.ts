@@ -32,7 +32,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     // Ensure endpoint starts with /
     const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
 
-    let url = `${BASE_URL}/api${path}`;
+    const url = `${BASE_URL}/api${path}`;
 
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 

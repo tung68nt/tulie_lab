@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { api, getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
@@ -16,8 +16,6 @@ import {
     FileVideo,
     FileImage,
     Loader2,
-    MoreVertical,
-    Check,
     Link,
     X,
     LayoutGrid,
@@ -39,14 +37,13 @@ export default function MediaManagerPage() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [uploading, setUploading] = useState(false);
-    const [copiedKey, setCopiedKey] = useState<string | null>(null);
     const [selectedFile, setSelectedFile] = useState<MediaFile | null>(null);
     const [viewMode, setViewMode] = useState<'icon' | 'list'>('icon');
     const [selectedItems, setSelectedItems] = useState<string[]>([]);
     const { addToast } = useToast();
     const confirm = useConfirm();
 
-    const fetchFiles = async () => {
+    const fetchFiles = useCallback(async () => {
         try {
             setLoading(true);
             const res = await api.admin.media.list();
@@ -59,11 +56,11 @@ export default function MediaManagerPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [addToast]);
 
     useEffect(() => {
         fetchFiles();
-    }, []);
+    }, [fetchFiles]);
 
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = Array.from(e.target.files || []);
@@ -100,7 +97,7 @@ export default function MediaManagerPage() {
             addToast('Đã xóa tệp tin thành công', 'success');
             setFiles(files.filter(f => f.key !== file.key));
             if (selectedFile?.key === file.key) setSelectedFile(null);
-        } catch (error) {
+        } catch {
             addToast('Có lỗi xảy ra khi xóa tệp', 'error');
         }
     };

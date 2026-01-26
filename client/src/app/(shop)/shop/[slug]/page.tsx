@@ -11,11 +11,11 @@ import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
 import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Star, Clock, Zap, Info, Copy } from 'lucide-react';
 
-const safeParse = (val: any, fallback: string[]) => {
+const safeParse = (val: unknown, fallback: string[]) => {
     if (!val) return fallback;
     if (Array.isArray(val)) return val;
     try {
-        return JSON.parse(val);
+        return typeof val === 'string' ? JSON.parse(val) : fallback;
     } catch (e) {
         return typeof val === 'string' ? val.split(',').map((s: string) => s.trim()) : fallback;
     }
@@ -45,11 +45,11 @@ export default function ProductDetailPage() {
 
                 // Check user status
                 try {
-                    const profile = await api.users.getProfile() as any;
+                    const profile = await api.users.getProfile() as { subscriptions?: { status: string }[] };
                     if (profile) {
-                        setIsMember(!!profile.subscriptions?.some((s: any) => s.status === 'ACTIVE'));
-                        const orders = await api.users.getMyOrders() as any[];
-                        const owned = orders.some((o: any) => o.status === 'PAID' && o.items.some((i: any) => i.productId === data.id));
+                        setIsMember(!!profile.subscriptions?.some((s) => s.status === 'ACTIVE'));
+                        const orders = await api.users.getMyOrders() as { status: string; items: { productId: string }[] }[];
+                        const owned = orders.some((o) => o.status === 'PAID' && o.items.some((i) => i.productId === (data as { id: string }).id));
                         setIsOwned(owned);
                     }
                 } catch (e) {
@@ -137,7 +137,7 @@ export default function ProductDetailPage() {
                         {/* Thumbnail Gallery */}
                         {mediaGallery.length > 1 && (
                             <div className="grid grid-cols-4 md:grid-cols-5 gap-3">
-                                {mediaGallery.map((media: any, index: number) => (
+                                {mediaGallery.map((media: { type: string; url: string; thumbnail?: string }, index: number) => (
                                     <button
                                         key={index}
                                         onClick={() => setSelectedMediaIndex(index)}
@@ -200,7 +200,7 @@ export default function ProductDetailPage() {
                                     {product.versions && product.versions.length > 0 ? (
                                         <div className="space-y-4">
                                             <div className="flex gap-2 p-1 bg-black/20 rounded-lg w-fit flex-wrap">
-                                                {product.versions.map((ver: any) => (
+                                                {product.versions.map((ver: { id: string; version: string; changelog: string; fileUrl: string }) => (
                                                     <button
                                                         key={ver.id}
                                                         onClick={() => setSelectedVersion(ver)}
