@@ -967,6 +967,7 @@ export default function AdminUserDetailPage() {
                                                 {(!user.activities || user.activities.length === 0) && (
                                                     <p className="text-center py-20 text-sm text-muted-foreground italic">Không có nhật ký hành vi được ghi nhận.</p>
                                                 )}
+                                            </div>
                                         </CardContent>
                                     </Card>
                                 </div>
@@ -975,6 +976,5 @@ export default function AdminUserDetailPage() {
                 </div>
             </div>
         </div>
-        </div >
     );
 }
