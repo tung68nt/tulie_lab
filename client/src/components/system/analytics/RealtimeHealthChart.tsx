@@ -224,30 +224,62 @@ export function RealtimeHealthChart() {
                     </ResponsiveContainer>
                 </div>
 
-                <div className="mt-4 pt-4 border-t grid grid-cols-1 md:grid-cols-3 gap-4 text-xs bg-muted/20 p-3 rounded-lg">
-                    <div className="space-y-1">
-                        <div className="font-semibold flex items-center gap-1.5"><Activity size={12} /> Memory Usage</div>
-                        <p className="text-muted-foreground leading-snug">Dung lượng RAM đang sử dụng.</p>
-                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2 text-[10px]">
-                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-bold text-zinc-900">&lt;512MB</span></li>
-                            <li className="flex justify-between font-bold"><span>Cảnh báo:</span> <span className="">&gt;512MB</span></li>
-                        </ul>
+                <div className="mt-6 pt-6 border-t border-zinc-100 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="space-y-3">
+                        <div>
+                            <div className="font-bold text-sm text-zinc-900 flex items-center gap-2">
+                                <Activity size={14} /> Memory Usage
+                            </div>
+                            <p className="text-xs text-zinc-500 mt-1">RAM đang sử dụng.</p>
+                        </div>
+                        <div className="space-y-2 text-xs">
+                            <div className="flex justify-between items-center py-1 border-b border-zinc-50">
+                                <span className="text-zinc-500 font-medium">Ổn định</span>
+                                <span className="font-mono font-bold text-zinc-900">&lt;512MB</span>
+                            </div>
+                            <div className="flex justify-between items-center py-1">
+                                <span className="text-zinc-500 font-medium">Cảnh báo</span>
+                                <span className="font-mono font-bold text-zinc-900">&gt;512MB</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="space-y-1">
-                        <div className="font-semibold flex items-center gap-1.5"><Cpu size={12} /> CPU Load</div>
-                        <p className="text-muted-foreground leading-snug">Tải trung bình trong 1 phút.</p>
-                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2 text-[10px]">
-                            <li className="flex justify-between"><span>Ổn định:</span> <span className="font-bold text-zinc-900">&lt;1.5</span></li>
-                            <li className="flex justify-between font-bold"><span>Quá tải:</span> <span className="">&gt;1.5</span></li>
-                        </ul>
+
+                    <div className="space-y-3">
+                        <div>
+                            <div className="font-bold text-sm text-zinc-900 flex items-center gap-2">
+                                <Cpu size={14} /> CPU Load
+                            </div>
+                            <p className="text-xs text-zinc-500 mt-1">Tải trung bình (1m).</p>
+                        </div>
+                        <div className="space-y-2 text-xs">
+                            <div className="flex justify-between items-center py-1 border-b border-zinc-50">
+                                <span className="text-zinc-500 font-medium">Ổn định</span>
+                                <span className="font-mono font-bold text-zinc-900">&lt;1.5</span>
+                            </div>
+                            <div className="flex justify-between items-center py-1">
+                                <span className="text-zinc-500 font-medium">Quá tải</span>
+                                <span className="font-mono font-bold text-zinc-900">&gt;1.5</span>
+                            </div>
+                        </div>
                     </div>
-                    <div className="space-y-1">
-                        <div className="font-semibold flex items-center gap-1.5"><Server size={12} /> Traffic (RPM)</div>
-                        <p className="text-muted-foreground leading-snug">Số request/phút.</p>
-                        <ul className="space-y-0.5 mt-1 border-l-2 border-muted pl-2 text-[10px]">
-                            <li className="flex justify-between"><span>Tiết kiệm:</span> <span className="font-bold text-zinc-900">&lt;600</span></li>
-                            <li className="flex justify-between font-bold"><span>Scale Up:</span> <span className="">&gt;600</span></li>
-                        </ul>
+
+                    <div className="space-y-3">
+                        <div>
+                            <div className="font-bold text-sm text-zinc-900 flex items-center gap-2">
+                                <Server size={14} /> Traffic (RPM)
+                            </div>
+                            <p className="text-xs text-zinc-500 mt-1">Số request/phút.</p>
+                        </div>
+                        <div className="space-y-2 text-xs">
+                            <div className="flex justify-between items-center py-1 border-b border-zinc-50">
+                                <span className="text-zinc-500 font-medium">Tiết kiệm</span>
+                                <span className="font-mono font-bold text-zinc-900">&lt;600</span>
+                            </div>
+                            <div className="flex justify-between items-center py-1">
+                                <span className="text-zinc-500 font-medium">Scale Up</span>
+                                <span className="font-mono font-bold text-zinc-900">&gt;600</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </CardContent>
