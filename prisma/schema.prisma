@@ -326,7 +326,8 @@ model Product {
   membershipAccess   String                @default("ALL")
   fileUrl            String?
   previewUrl         String?
-  isPublished        Boolean               @default(true)
+  isPublished        Boolean               @default(false)
+  deploymentStatus   String                @default("RELEASED")
   tags               String[]
   // Rich content fields
   gallery            Json?                 // Array of {type: 'image'|'video', url: string, thumbnail?: string}
@@ -598,6 +599,12 @@ enum NotificationType {
 }
 
 enum CourseDeploymentStatus {
+  RELEASED
+  COMING_SOON
+  UPDATING
+}
+
+enum ProductDeploymentStatus {
   RELEASED
   COMING_SOON
   UPDATING
