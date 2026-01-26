@@ -1,3 +1,4 @@
+# Trigger: 1
 name: Deploy Client to Cloud Run
 
 on:
