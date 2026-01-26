@@ -78,72 +78,92 @@ export class PrismaOrderRepository implements IOrderRepository {
             delete searchWhere.status;
         }
 
-        const [orders, total, statsData] = await Promise.all([
-            prisma.order.findMany({
-                skip,
-                take,
-                where: where || {},
-                orderBy: orderBy || undefined,
-                include: include || {
-                    user: {
-                        select: {
-                            id: true,
-                            email: true,
-                            profile: {
-                                select: {
-                                    name: true
+        try {
+            const [orders, total, statsData] = await Promise.all([
+                prisma.order.findMany({
+                    skip,
+                    take,
+                    where: where || {},
+                    orderBy: orderBy || { createdAt: 'desc' },
+                    include: include || {
+                        user: {
+                            select: {
+                                id: true,
+                                email: true,
+                                profile: {
+                                    select: {
+                                        name: true
+                                    }
                                 }
                             }
-                        }
-                    },
-                    items: {
-                        include: {
-                            course: {
-                                select: {
-                                    title: true
-                                }
-                            },
-                            product: {
-                                select: {
-                                    title: true
+                        },
+                        items: {
+                            include: {
+                                course: {
+                                    select: {
+                                        title: true
+                                    }
+                                },
+                                product: {
+                                    select: {
+                                        title: true
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            }),
-            prisma.order.count({ where: where || {} }),
-            prisma.order.groupBy({
-                by: ['status'],
-                where: searchWhere, // Use global where (search only, no status filter) for stats
-                _count: {
-                    _all: true
-                },
-                _sum: {
-                    amount: true
-                }
-            })
-        ]);
+                }),
+                prisma.order.count({ where: where || {} }),
+                prisma.order.groupBy({
+                    by: ['status'],
+                    where: searchWhere, // Use global where (search only, no status filter) for stats
+                    _count: {
+                        _all: true
+                    },
+                    _sum: {
+                        amount: true
+                    }
+                }).catch(err => {
+                    console.error('Stats groupBy failed:', err);
+                    return [] as any[];
+                })
+            ]);
 
-        const stats = {
-            total,
-            paid: 0,
-            pending: 0,
-            cancelled: 0,
-            totalRevenue: 0
-        };
+            const stats = {
+                total,
+                paid: 0,
+                pending: 0,
+                cancelled: 0,
+                totalRevenue: 0
+            };
 
-        statsData.forEach((group: any) => {
-            if (group.status === 'PAID' || group.status === 'COMPLETED') {
-                stats.paid += group._count._all;
-                stats.totalRevenue += Number(group._sum.amount || 0);
-            } else if (group.status === 'PENDING') {
-                stats.pending = group._count._all;
-            } else if (group.status === 'CANCELLED') {
-                stats.cancelled = group._count._all;
+            if (Array.isArray(statsData)) {
+                statsData.forEach((group: any) => {
+                    const count = group._count?._all || 0;
+                    const amount = Number(group._sum?.amount || 0);
+
+                    if (group.status === 'PAID' || group.status === 'COMPLETED') {
+                        stats.paid += count;
+                        stats.totalRevenue += amount;
+                    } else if (group.status === 'PENDING') {
+                        stats.pending = count;
+                    } else if (group.status === 'CANCELLED') {
+                        stats.cancelled = count;
+                    }
+                });
             }
-        });
 
-        return { data: orders, meta: { total, stats } };
+            return { data: orders, meta: { total, stats } };
+        } catch (error) {
+            console.error('PrismaOrderRepository.findAll error:', error);
+            // Fallback for extreme cases
+            return {
+                data: [],
+                meta: {
+                    total: 0,
+                    stats: { total: 0, paid: 0, pending: 0, cancelled: 0, totalRevenue: 0 }
+                }
+            };
+        }
     }
 }
