@@ -19,9 +19,9 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
     const totalValue = items.reduce((sum, item) => sum + (parsePrice(item.originalPrice) || parsePrice(item.price) || 0), 0);
 
     return (
-        <section className="py-24 md:py-32 bg-[#050505] text-white relative overflow-hidden">
-            {/* Dotted Background */}
-            <div className="absolute inset-0 bg-dot-grid-dark opacity-30 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
+        <section className="section-dark py-24 md:py-32">
+            {/* Unified Background pattern */}
+            <div className="section-dark-dot" />
 
             {/* Decorative Ribbons - Breathing Animation */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-full max-w-sm">
@@ -36,7 +36,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
             <div className="container relative z-10 pt-12">
                 <div className="text-center mb-16 px-4">
-                    <h2 className="text-4xl md:text-6xl font-bold mb-8 pb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 leading-[1.3]">
+                    <h2 className="text-4xl md:text-6xl font-bold mb-8 pb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 leading-tight">
                         {section.title || "Quà Tặng Đặc Biệt"}
                     </h2>
                     <p className="text-xl md:text-2xl text-gray-400 font-light">

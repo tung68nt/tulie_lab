@@ -6,7 +6,7 @@ import { SectionTag } from '@/components/SectionTag';
 export function ComparisonSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-12 bg-background relative overflow-hidden">
-            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-grid-dark pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+            <div className="absolute inset-0 bg-dot-grid-light dark:bg-dot-white/15 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             <div className="container">
                 <div className="text-center mb-12">
                     {section.subtitle && (
@@ -16,7 +16,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                             </SectionTag>
                         </div>
                     )}
-                    <h2 className="text-3xl font-bold md:text-4xl mb-4 leading-[1.3]">
+                    <h2 className="text-3xl font-bold md:text-4xl mb-4 leading-tight">
                         {section.title}
                     </h2>
                     {section.content && (
