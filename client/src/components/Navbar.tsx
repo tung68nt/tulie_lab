@@ -554,11 +554,35 @@ export function Navbar() {
                                 <p className="font-semibold text-base">Xin chào, {getDisplayName()}!</p>
                                 <p className="text-sm text-muted-foreground truncate">{user?.email}</p>
                             </div>
-                            {(user?.role === 'ADMIN' || (Array.isArray(user?.subscriptions) && user?.subscriptions?.some(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()))) ? (
-                                <span className="bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 text-[10px] px-2 py-1 rounded-full font-bold border border-zinc-800 dark:border-zinc-200">PREMIUM</span>
-                            ) : (
-                                <span className="bg-muted text-muted-foreground text-[10px] px-2 py-1 rounded-full font-bold">FREE</span>
-                            )}
+                            {(() => {
+                                const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
+                                const isAdmin = user?.role === 'ADMIN';
+
+                                let tierLabel = 'Free';
+                                let tagClass = 'bg-zinc-100 text-zinc-600';
+
+                                if (isAdmin) {
+                                    tierLabel = 'Admin';
+                                    tagClass = 'bg-zinc-900 text-white';
+                                } else if (activeSub) {
+                                    const title = ((activeSub as any).product?.title || '').toLowerCase();
+                                    const slug = ((activeSub as any).product?.slug || '').toLowerCase();
+
+                                    if (title.includes('basic') || slug.includes('basic')) {
+                                        tierLabel = 'Basic';
+                                        tagClass = 'bg-zinc-100 text-zinc-900 border border-zinc-200';
+                                    } else {
+                                        tierLabel = 'Premium';
+                                        tagClass = 'bg-zinc-900 text-white';
+                                    }
+                                }
+
+                                return (
+                                    <span className={`text-[10px] px-2.5 py-1 rounded-full font-medium ${tagClass}`}>
+                                        {tierLabel}
+                                    </span>
+                                );
+                            })()}
                         </div>
                     </div>
                     <div className="flex-1 overflow-y-auto py-2">

@@ -39,8 +39,9 @@ export default function AdminUserDetailPage() {
 
             let currentTier = 'FREE';
             if (activeSub) {
-                const title = (activeSub.product?.title || '').toUpperCase();
-                if (title.includes('BASIC')) currentTier = 'BASIC';
+                const title = (activeSub.product?.title || '').toLowerCase();
+                const slug = (activeSub.product?.slug || '').toLowerCase();
+                if (title.includes('basic') || slug.includes('basic')) currentTier = 'BASIC';
                 else currentTier = 'PREMIUM'; // Default to Premium if active and not basic
             }
 
@@ -176,47 +177,46 @@ export default function AdminUserDetailPage() {
 
             {/* Quick Stats Banner */}
             <div className="grid gap-4 md:grid-cols-4">
-                <Card className="border shadow-none bg-white border-zinc-200">
+                <Card className="border shadow-none bg-white border-zinc-100">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-xs font-bold text-muted-foreground mb-2">Gói thành viên</div>
-                        <div className="text-xl font-bold max-w-full px-2">
+                        <div className="text-xs font-medium text-zinc-400 mb-2">Gói thành viên</div>
+                        <div className="text-xl font-medium text-zinc-900 max-w-full px-2">
                             {isMemberActive ? (activeSub.product?.title?.replace('Hội viên ', '') || 'Premium') : 'Free'}
                         </div>
-                        <div className="text-xs text-muted-foreground mt-1.5 font-medium min-h-[32px] flex items-end">
+                        <div className="text-xs text-zinc-400 mt-1.5 font-medium min-h-[32px] flex items-end">
                             {isMemberActive ? `Hết hạn: ${new Date(activeSub.endDate).toLocaleDateString('vi-VN')}` : ' '}
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="border shadow-none bg-white border-zinc-200">
+                <Card className="border shadow-none bg-white border-zinc-100">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-xs font-bold text-muted-foreground mb-2">Chi tiêu (Paid)</div>
-                        <div className="text-xl font-bold">{formatCurrency(user.stats?.totalPaid || 0)}</div>
-                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
+                        <div className="text-xs font-medium text-zinc-400 mb-2">Chi tiêu (Paid)</div>
+                        <div className="text-xl font-medium text-zinc-900">{formatCurrency(user.stats?.totalPaid || 0)}</div>
+                        <div className="text-xs text-zinc-400 mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
                             Tổng cộng đơn hàng đã thanh toán
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="border shadow-none bg-white border-zinc-200">
+                <Card className="border shadow-none bg-white border-zinc-100">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-xs font-bold text-muted-foreground mb-2">Tỷ lệ hoàn thành học</div>
-                        <div className="text-xl font-bold flex items-center gap-2">
+                        <div className="text-xs font-medium text-zinc-400 mb-2">Tỷ lệ hoàn thành học</div>
+                        <div className="text-xl font-medium text-zinc-900 flex items-center gap-2">
                             {user.stats?.totalLessons > 0
                                 ? Math.round((user.stats?.completedLessons / user.stats?.totalLessons) * 100)
                                 : 0}%
                         </div>
-                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
+                        <div className="text-xs text-zinc-400 mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
                             Đã hoàn thành {user.stats?.completedLessons || 0}/{user.stats?.totalLessons || 0} bài học
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="border shadow-none bg-white border-zinc-200">
+                <Card className="border shadow-none bg-white border-zinc-100">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-xs font-bold text-muted-foreground mb-2">Đăng nhập cuối</div>
-                        <div className="text-xl font-bold flex items-center gap-2 px-2">
-                            {/* <Clock size={16} className="text-zinc-400" /> */}
+                        <div className="text-xs font-medium text-zinc-400 mb-2">Đăng nhập cuối</div>
+                        <div className="text-xl font-medium text-zinc-900 flex items-center gap-2 px-2">
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
-                        <div className="text-xs text-muted-foreground mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
+                        <div className="text-xs text-zinc-400 mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
                             Lần truy cập hệ thống gần nhất
                         </div>
                     </CardContent>
@@ -528,16 +528,16 @@ export default function AdminUserDetailPage() {
                                             </p>
                                         </div>
                                     </div>
-                                    <span className={`px-3 py-1 rounded-full text-xs font-bold tracking-wider ${isMemberActive ? 'bg-zinc-900 text-zinc-100' : 'bg-muted text-muted-foreground'}`}>
-                                        {isMemberActive ? 'ACTIVE' : 'NONE'}
+                                    <span className={`px-3 py-1 rounded-full text-[10px] font-medium ${isMemberActive ? 'bg-zinc-900 text-zinc-100' : 'bg-muted text-zinc-500'}`}>
+                                        {isMemberActive ? 'Active' : 'None'}
                                     </span>
                                 </div>
 
                                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border rounded-xl bg-zinc-50/50">
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-xs font-bold text-muted-foreground">Membership</label>
+                                        <label className="text-[10px] font-medium text-zinc-400">Gói hội viên</label>
                                         <select
-                                            className="w-full text-sm border rounded-md px-3 h-10 bg-background focus:outline-none focus:ring-1 focus:ring-foreground cursor-pointer"
+                                            className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-900 cursor-pointer"
                                             value={membershipForm.tier}
                                             onChange={(e) => setMembershipForm({ ...membershipForm, tier: e.target.value })}
                                         >
@@ -547,7 +547,7 @@ export default function AdminUserDetailPage() {
                                         </select>
                                     </div>
                                     <div className="flex flex-col gap-2">
-                                        <label className="text-xs font-bold text-muted-foreground">Ngày hết hạn</label>
+                                        <label className="text-[10px] font-medium text-zinc-400">Ngày hết hạn</label>
                                         <div className="relative">
                                             <input
                                                 type="date"
@@ -561,7 +561,7 @@ export default function AdminUserDetailPage() {
                                     <div className="h-10">
                                         <Button
                                             size="sm"
-                                            className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-bold h-full"
+                                            className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-medium h-full rounded-lg"
                                             onClick={handleSaveMembership}
                                             disabled={!!processingAction}
                                         >
@@ -570,8 +570,8 @@ export default function AdminUserDetailPage() {
                                     </div>
                                 </div>
 
-                                <div className="space-y-3 pt-4 border-t">
-                                    <h4 className="text-xs font-bold tracking-tight text-muted-foreground">Lịch sử Membership</h4>
+                                <div className="space-y-3 pt-4 border-t border-zinc-100">
+                                    <h4 className="text-[10px] font-medium text-zinc-400">Lịch sử Membership</h4>
                                     <div className="space-y-2 border rounded-xl overflow-hidden">
                                         {user.subscriptions?.map((s: any) => (
                                             <div key={s.id} className="flex justify-between items-center p-3 border-b last:border-0 hover:bg-muted/20">
@@ -583,8 +583,8 @@ export default function AdminUserDetailPage() {
                                                     <span className="text-[10px] text-muted-foreground">
                                                         {new Date(s.startDate).toLocaleDateString('vi-VN')} - {new Date(s.endDate).toLocaleDateString('vi-VN')}
                                                     </span>
-                                                    <span className={`text-[10px] font-bold ${s.status === 'ACTIVE' ? 'text-zinc-900 border px-1.5 py-0.5 rounded-full' : 'text-muted-foreground'}`}>
-                                                        {s.status}
+                                                    <span className={`text-[10px] font-medium ${s.status === 'ACTIVE' ? 'text-zinc-900 border border-zinc-200 px-2 py-0.5 rounded-full bg-white' : 'text-zinc-400'}`}>
+                                                        {s.status === 'ACTIVE' ? 'Active' : 'Expired'}
                                                     </span>
                                                 </div>
                                             </div>
@@ -612,31 +612,31 @@ export default function AdminUserDetailPage() {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead>
-                                            <tr className="border-b bg-muted/30">
-                                                <th className="text-left py-3 px-4 font-bold text-[10px]">Mã đơn</th>
-                                                <th className="text-left py-3 px-4 font-bold text-[10px]">Nội dung</th>
-                                                <th className="text-right py-3 px-4 font-bold text-[10px]">Số tiền</th>
-                                                <th className="text-center py-3 px-4 font-bold text-[10px]">Trạng thái</th>
-                                                <th className="text-right py-3 px-4 font-bold text-[10px]">Ngày tạo</th>
-                                                <th className="text-center py-3 px-4 font-bold text-[10px]">Thao tác</th>
+                                            <tr className="border-b bg-zinc-50/50">
+                                                <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Mã đơn</th>
+                                                <th className="text-left py-3 px-4 font-medium text-zinc-400 text-[10px]">Nội dung</th>
+                                                <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Số tiền</th>
+                                                <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Trạng thái</th>
+                                                <th className="text-right py-3 px-4 font-medium text-zinc-400 text-[10px]">Ngày tạo</th>
+                                                <th className="text-center py-3 px-4 font-medium text-zinc-400 text-[10px]">Thao tác</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y text-xs">
                                             {user.orders?.map((order: any) => (
                                                 <tr key={order.id} className="hover:bg-muted/10 transition-colors">
-                                                    <td className="py-3 px-4 font-bold font-mono tracking-tighter">
+                                                    <td className="py-3 px-4 font-medium font-mono text-zinc-900">
                                                         {order.code}
                                                     </td>
                                                     <td className="py-3 px-4 max-w-[250px] truncate font-medium">
                                                         {order.items?.map((item: any) => item.course?.title || item.product?.title).join(', ') || 'N/A'}
                                                     </td>
-                                                    <td className="py-3 px-4 text-right font-bold text-sm">
+                                                    <td className="py-3 px-4 text-right font-medium text-sm text-zinc-900">
                                                         {formatCurrency(order.amount)}
                                                     </td>
                                                     <td className="py-3 px-4 text-center">
-                                                        <span className={`px-2 py-0.5 rounded-full font-bold text-[9px] ${order.status === 'PAID' ? 'bg-zinc-900 text-zinc-100' :
-                                                            order.status === 'PENDING' ? 'bg-zinc-100 text-zinc-900' :
-                                                                'bg-muted text-muted-foreground'
+                                                        <span className={`px-2 py-0.5 rounded-full font-medium text-[9px] ${order.status === 'PAID' ? 'bg-zinc-900 text-zinc-100' :
+                                                            order.status === 'PENDING' ? 'bg-zinc-100 text-zinc-900 border border-zinc-200' :
+                                                                'bg-muted text-zinc-400'
                                                             }`}>
                                                             {order.status}
                                                         </span>
@@ -685,7 +685,7 @@ export default function AdminUserDetailPage() {
                                                 <div key={log.id} className="p-3 bg-red-50 border border-red-100 rounded-lg flex gap-3">
                                                     <Ban size={16} className="text-red-500 shrink-0 mt-0.5" />
                                                     <div className="flex-1">
-                                                        <p className="text-xs font-bold text-red-900">{log.action}</p>
+                                                        <p className="text-xs font-medium text-red-900">{log.action}</p>
                                                         <p className="text-[10px] text-red-700 mt-1">{log.details || 'Hành vi cố gắng truy cập trái phép'}</p>
                                                         <p className="text-[9px] text-red-600/50 mt-1">{formatDate(log.createdAt)} • IP: {log.ipAddress}</p>
                                                     </div>
@@ -713,8 +713,8 @@ export default function AdminUserDetailPage() {
                                             {user.activities?.filter((l: any) => l.action === 'login').slice(0, 10).map((act: any) => (
                                                 <div key={act.id} className="flex justify-between items-center p-2 rounded hover:bg-muted/30 transition-colors">
                                                     <div className="flex items-center gap-3">
-                                                        <Globe size={14} className="text-muted-foreground" />
-                                                        <code className="text-[10px] font-mono font-bold bg-muted px-1.5 py-0.5 rounded">{act.ipAddress}</code>
+                                                        <Globe size={14} className="text-zinc-400" />
+                                                        <code className="text-[10px] font-mono font-medium bg-zinc-50 border border-zinc-100 px-1.5 py-0.5 rounded text-zinc-600">{act.ipAddress}</code>
                                                     </div>
                                                     <span className="text-[10px] text-muted-foreground">{formatDate(act.createdAt)}</span>
                                                 </div>
@@ -735,7 +735,7 @@ export default function AdminUserDetailPage() {
                                         </CardTitle>
                                         <CardDescription>Toàn bộ hành động của người dùng trên hệ thống.</CardDescription>
                                     </div>
-                                    <span className="text-[10px] font-bold bg-muted px-2 py-1 rounded">Latest 100 Logs</span>
+                                    <span className="text-[10px] font-medium text-zinc-400 border border-zinc-100 px-2 py-1 rounded-lg">Latest 100 Logs</span>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 no-scrollbar border rounded-xl overflow-hidden divide-y">
