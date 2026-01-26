@@ -209,46 +209,49 @@ export default function MediaManagerPage() {
                 </div>
             </AdminPageHeader>
 
-            <div className="flex flex-col md:flex-row gap-4 items-center">
-                <div className="relative flex-1">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+            <div className="flex flex-col md:flex-row gap-4 items-center mb-8">
+                <div className="relative flex-1 group">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-zinc-900 transition-colors" />
                     <Input
                         placeholder="Tìm kiếm tệp tin..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-12 bg-zinc-50 border-zinc-100 rounded-[1.25rem] focus:ring-zinc-100 transition-all h-12 text-sm"
+                        className="pl-12 bg-white border-zinc-200 rounded-2xl focus:ring-0 focus:border-zinc-900 transition-all h-12 text-sm shadow-sm"
                     />
                 </div>
 
-                <div className="px-5 py-2.5 bg-zinc-50 rounded-2xl text-[11px] font-medium text-zinc-500 border border-zinc-100 whitespace-nowrap">
-                    Tổng cộng: <span className="text-zinc-900 font-semibold">{files.length}</span> tệp tin
-                </div>
+                <div className="flex items-center gap-3">
+                    <div className="px-5 py-2.5 bg-zinc-900 rounded-2xl text-[11px] font-bold text-white border border-transparent shadow-md flex items-center gap-2">
+                        <span className="opacity-70">Tổng cộng:</span>
+                        <span>{files.length}</span>
+                    </div>
 
-                <div className="flex items-center bg-zinc-50 p-1.5 rounded-[1.25rem] border border-zinc-100 shadow-sm ml-auto">
-                    <button
-                        onClick={() => setViewMode('icon')}
-                        className={cn(
-                            "p-2 rounded-xl transition-all duration-300",
-                            viewMode === 'icon'
-                                ? "bg-white text-zinc-900 shadow-sm"
-                                : "text-zinc-400 hover:text-zinc-600"
-                        )}
-                        title="Dạng Grid"
-                    >
-                        <LayoutGrid size={18} />
-                    </button>
-                    <button
-                        onClick={() => setViewMode('list')}
-                        className={cn(
-                            "p-2 rounded-xl transition-all duration-300",
-                            viewMode === 'list'
-                                ? "bg-white text-zinc-900 shadow-sm"
-                                : "text-zinc-400 hover:text-zinc-600"
-                        )}
-                        title="Dạng List"
-                    >
-                        <ListIcon size={18} />
-                    </button>
+                    <div className="flex items-center bg-white p-1 rounded-2xl border border-zinc-200 shadow-sm">
+                        <button
+                            onClick={() => setViewMode('icon')}
+                            className={cn(
+                                "p-2 rounded-xl transition-all duration-300",
+                                viewMode === 'icon'
+                                    ? "bg-zinc-900 text-white shadow-md"
+                                    : "text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50"
+                            )}
+                            title="Dạng Grid"
+                        >
+                            <LayoutGrid size={18} />
+                        </button>
+                        <button
+                            onClick={() => setViewMode('list')}
+                            className={cn(
+                                "p-2 rounded-xl transition-all duration-300",
+                                viewMode === 'list'
+                                    ? "bg-zinc-900 text-white shadow-md"
+                                    : "text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50"
+                            )}
+                            title="Dạng List"
+                        >
+                            <ListIcon size={18} />
+                        </button>
+                    </div>
                 </div>
             </div>
 
