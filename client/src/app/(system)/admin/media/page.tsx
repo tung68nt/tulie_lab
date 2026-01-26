@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState, useCallback } from 'react';
 import { api, getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/Button';
