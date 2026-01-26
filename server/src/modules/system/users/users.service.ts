@@ -80,67 +80,104 @@ export class UserService {
 
             console.log(`[UserService.getUserDetailsForAdmin] Analyzing data for: ${user.email}`);
 
-            const [activities, securityLogs] = await Promise.all([
-                prisma.activityLog.findMany({
-                    where: { userId: id },
-                    orderBy: { createdAt: 'desc' },
-                    take: 100
-                }).catch(err => { console.error('Error fetching activities:', err); return []; }),
-                prisma.securityLog.findMany({
-                    where: { userId: id },
-                    orderBy: { createdAt: 'desc' },
-                    take: 50
-                }).catch(err => { console.error('Error fetching security logs:', err); return []; })
-            ]);
+            // Safe Mode: Logs
+            let activities: any[] = [];
+            let securityLogs: any[] = [];
+            try {
+                const logs = await Promise.all([
+                    prisma.activityLog.findMany({
+                        where: { userId: id },
+                        orderBy: { createdAt: 'desc' },
+                        take: 100
+                    }),
+                    prisma.securityLog.findMany({
+                        where: { userId: id },
+                        orderBy: { createdAt: 'desc' },
+                        take: 50
+                    })
+                ]);
+                activities = logs[0];
+                securityLogs = logs[1];
+            } catch (e) {
+                console.error('[UserService] Error fetching logs (ignored):', e);
+            }
 
             const lastLogin = await prisma.activityLog.findFirst({
                 where: { userId: id, action: 'login' },
                 orderBy: { createdAt: 'desc' }
             }).catch(() => null);
 
-            // Process Orders
+            // Safe Mode: Orders Processing
             const rawOrders = (user as any).orders || [];
-            const pendingOrders = rawOrders.filter((o: any) => o.status === 'PENDING').map((o: any) => {
-                const createdDate = new Date(o.createdAt);
-                const pendingDays = isNaN(createdDate.getTime()) ? 0 : Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
-                return { ...o, pendingDays };
-            });
+            let pendingOrders: any[] = [];
+            let purchasedProducts: any[] = [];
+            let processedOrders: any[] = [];
+            let stats = {
+                totalEnrollments: ((user as any).enrollments || []).length,
+                totalOrders: 0,
+                totalPaid: 0,
+                completedLessons: 0,
+                totalLessons: 0
+            };
 
-            // Process Products
-            const purchasedProducts = rawOrders
-                .filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED')
-                .flatMap((o: any) => o.items || [])
-                .filter((i: any) => i.productId)
-                .map((i: any) => ({
-                    ...i.product,
-                    purchasedAt: i.createdAt,
-                    currentVersion: i.product?.versions?.[0]?.version || '1.0.0'
+            try {
+                pendingOrders = rawOrders.filter((o: any) => o.status === 'PENDING').map((o: any) => {
+                    const createdDate = new Date(o.createdAt);
+                    const pendingDays = isNaN(createdDate.getTime()) ? 0 : Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
+                    return { ...o, pendingDays };
+                });
+
+                // Fix: purchasedAt uses order creation date
+                purchasedProducts = rawOrders
+                    .filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED')
+                    .flatMap((o: any) => (o.items || []).map((i: any) => ({ ...i, orderCreatedAt: o.createdAt })))
+                    .filter((i: any) => i.productId)
+                    .map((i: any) => ({
+                        ...(i.product || {}), // Handle null product safely
+                        purchasedAt: i.orderCreatedAt,
+                        currentVersion: i.product?.versions?.[0]?.version || '1.0.0'
+                    }));
+
+                // Transactions
+                const orderCodes = rawOrders.map((o: any) => o.code).filter(Boolean);
+                const allTransactions = orderCodes.length > 0 ? await prisma.paymentTransaction.findMany({
+                    where: { code: { in: orderCodes } },
+                    orderBy: { createdAt: 'desc' }
+                }).catch(() => []) : [];
+
+                processedOrders = rawOrders.map((o: any) => ({
+                    ...o,
+                    transactions: allTransactions
+                        .filter((tx: any) => tx.code === o.code)
+                        .map((tx: any) => ({
+                            ...tx,
+                            amount: Number(tx.amountIn || 0),
+                            bankName: tx.gateway || 'Chuyển khoản ngân hàng',
+                            createdAt: tx.transactionDate || tx.createdAt
+                        }))
                 }));
 
-            // Lesson counts
-            const enrollmentIds = ((user as any).enrollments || []).map((e: any) => e.courseId).filter(Boolean);
-            const totalLessonsCount = enrollmentIds.length > 0 ? await prisma.lesson.count({
-                where: { courseId: { in: enrollmentIds } }
-            }).catch(() => 0) : 0;
+                // Stats Calculation
+                try {
+                    const enrollmentIds = ((user as any).enrollments || []).map((e: any) => e.courseId).filter(Boolean);
+                    const totalLessonsCount = enrollmentIds.length > 0 ? await prisma.lesson.count({
+                        where: { courseId: { in: enrollmentIds } }
+                    }).catch(() => 0) : 0;
 
-            // Transactions
-            const orderCodes = rawOrders.map((o: any) => o.code).filter(Boolean);
-            const allTransactions = orderCodes.length > 0 ? await prisma.paymentTransaction.findMany({
-                where: { code: { in: orderCodes } },
-                orderBy: { createdAt: 'desc' }
-            }).catch(() => []) : [];
+                    stats = {
+                        totalEnrollments: ((user as any).enrollments || []).length,
+                        totalOrders: processedOrders.length,
+                        totalPaid: processedOrders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED').reduce((sum: number, o: any) => sum + Number(o.amount || 0), 0),
+                        completedLessons: ((user as any).progress || []).filter((p: any) => p.isCompleted).length,
+                        totalLessons: totalLessonsCount
+                    };
+                } catch (statErr) {
+                    console.error('[UserService] Error calculating stats:', statErr);
+                }
 
-            const processedOrders = rawOrders.map((o: any) => ({
-                ...o,
-                transactions: allTransactions
-                    .filter((tx: any) => tx.code === o.code)
-                    .map((tx: any) => ({
-                        ...tx,
-                        amount: Number(tx.amountIn || 0),
-                        bankName: tx.gateway || 'Chuyển khoản ngân hàng',
-                        createdAt: tx.transactionDate || tx.createdAt
-                    }))
-            }));
+            } catch (e) {
+                console.error('[UserService] Error processing orders/products (partial data returned):', e);
+            }
 
             const enrollments = (user as any).enrollments || [];
 
@@ -153,18 +190,13 @@ export class UserService {
                 lastLoginAt: lastLogin?.createdAt || null,
                 lastLoginIp: lastLogin?.ipAddress || null,
                 pendingOrders,
-                stats: {
-                    totalEnrollments: enrollments.length,
-                    totalOrders: processedOrders.length,
-                    totalPaid: processedOrders.filter((o: any) => o.status === 'PAID' || o.status === 'COMPLETED').reduce((sum: number, o: any) => sum + Number(o.amount || 0), 0),
-                    completedLessons: ((user as any).progress || []).filter((p: any) => p.isCompleted).length,
-                    totalLessons: totalLessonsCount
-                }
+                stats
             };
         } catch (error: any) {
             console.error(`[UserService.getUserDetailsForAdmin] Fatal crash for ID: ${id}`);
             console.error(error);
-            throw error; // Rethrow to be caught by controller
+            // Return null or basic info instead of throwing to prevent 500
+            return null;
         }
     }
 
