@@ -251,10 +251,10 @@ export default function ProductDetailPage() {
 
                             {/* Pricing Options - Only show if user doesn't own and isn't member */}
                             {!isOwned && !isMember && (
-                                <div className="space-y-4">
+                                <div className="space-y-8">
                                     {/* Row 1: Single Purchase - Retail Block */}
                                     <div className="group relative p-6 rounded-3xl border border-zinc-200 bg-white flex flex-col transition-all duration-300 hover:border-zinc-900 hover:shadow-lg w-full">
-                                        <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm">
+                                        <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm">
                                             Mua lẻ (Single)
                                         </div>
                                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-4">
@@ -302,7 +302,7 @@ export default function ProductDetailPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {/* Membership - Gói Cơ Bản */}
                                         <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-300 hover:bg-white hover:shadow-md">
-                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-white text-zinc-400 text-[9px] font-bold uppercase tracking-wider border border-zinc-100 whitespace-nowrap shadow-sm">
+                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-white text-zinc-400 text-[9px] font-bold uppercase tracking-wider border border-zinc-100 whitespace-nowrap shadow-sm">
                                                 Phổ biến
                                             </div>
                                             <div className="mb-6 mt-4">
@@ -311,9 +311,20 @@ export default function ProductDetailPage() {
                                                     <span className="text-2xl font-bold text-zinc-900">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
                                                     <span className="text-[10px] text-zinc-400 font-medium uppercase">{MEMBERSHIP_PRICING.BASIC.period}</span>
                                                 </div>
-                                                <p className="text-xs text-zinc-400 leading-relaxed font-medium line-clamp-2">
-                                                    {settings.pricing_membership_basic_description || 'Tải không giới hạn tất cả các templates'}
-                                                </p>
+                                                <div className="space-y-2 mt-4">
+                                                    <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-medium">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Truy cập toàn bộ kho template cơ bản</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-medium">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Cập nhật mẫu mới hàng tuần</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-medium">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Hỗ trợ kỹ thuật cơ bản (Email)</span>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
@@ -325,7 +336,7 @@ export default function ProductDetailPage() {
 
                                         {/* Membership - Gói Premium */}
                                         <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-900 hover:bg-white hover:shadow-md">
-                                            <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-zinc-950 text-white text-[9px] font-bold uppercase tracking-wider shadow-lg whitespace-nowrap">
+                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-950 text-white text-[9px] font-bold uppercase tracking-wider shadow-lg whitespace-nowrap">
                                                 Best Value
                                             </div>
                                             <div className="mb-6 mt-4">
@@ -337,9 +348,20 @@ export default function ProductDetailPage() {
                                                     <span className="text-2xl font-bold text-zinc-900">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
                                                     <span className="text-[10px] text-zinc-400 font-medium uppercase">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
                                                 </div>
-                                                <p className="text-xs text-zinc-400 leading-relaxed font-medium line-clamp-2">
-                                                    {settings.pricing_membership_premium_description || 'All-in-one + Tư vấn 1-1 trực tiếp'}
-                                                </p>
+                                                <div className="space-y-2 mt-4">
+                                                    <div className="flex items-center gap-2 text-[11px] text-zinc-900 font-bold">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Toàn bộ tài nguyên + Template độc quyền</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-medium">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Tư vấn 1-1 trực tiếp từ đội ngũ</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-medium">
+                                                        <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                        <span>Ưu tiên yêu cầu template theo ý muốn</span>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <Link href="/pricing" className="mt-auto">
