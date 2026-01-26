@@ -83,6 +83,7 @@ async function main() {
             price: courseData.price,
             isPublished: courseData.isPublished,
             instructorId: instructor.id,
+            deploymentStatus: 'RELEASED',
             lessons: {
                 create: courseData.lessons.map(l => ({
                     title: l.title,

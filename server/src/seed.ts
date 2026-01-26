@@ -286,6 +286,7 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
                 thumbnail: courseData.thumbnail,
                 isPublished: courseData.isPublished,
                 instructorId: instructor.id,
+                deploymentStatus: 'RELEASED',
             },
             create: {
                 title: courseData.title,
@@ -295,6 +296,7 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
                 thumbnail: courseData.thumbnail,
                 isPublished: courseData.isPublished,
                 instructorId: instructor.id,
+                deploymentStatus: 'RELEASED',
                 lessons: {
                     create: courseData.lessons.map(l => ({
                         title: l.title,
