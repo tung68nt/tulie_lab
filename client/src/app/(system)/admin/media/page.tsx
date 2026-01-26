@@ -220,7 +220,11 @@ export default function MediaManagerPage() {
                     />
                 </div>
 
-                <div className="flex items-center bg-zinc-50 p-1.5 rounded-[1.25rem] border border-zinc-100 shadow-sm">
+                <div className="px-5 py-2.5 bg-zinc-50 rounded-2xl text-[11px] font-medium text-zinc-500 border border-zinc-100 whitespace-nowrap">
+                    Tổng cộng: <span className="text-zinc-900 font-semibold">{files.length}</span> tệp tin
+                </div>
+
+                <div className="flex items-center bg-zinc-50 p-1.5 rounded-[1.25rem] border border-zinc-100 shadow-sm ml-auto">
                     <button
                         onClick={() => setViewMode('icon')}
                         className={cn(
@@ -245,10 +249,6 @@ export default function MediaManagerPage() {
                     >
                         <ListIcon size={18} />
                     </button>
-                </div>
-
-                <div className="px-5 py-2.5 bg-zinc-50 rounded-2xl text-[11px] font-medium text-zinc-500 border border-zinc-100 whitespace-nowrap">
-                    Tổng cộng: <span className="text-zinc-900 font-semibold">{files.length}</span> tệp tin
                 </div>
             </div>
 
@@ -279,7 +279,7 @@ export default function MediaManagerPage() {
                                     <img
                                         src={getMediaUrl(file.url)}
                                         alt={file.key}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        className="w-full h-full object-contain p-2 transition-transform duration-700 group-hover:scale-105"
                                         loading="lazy"
                                     />
                                 ) : (
@@ -292,19 +292,6 @@ export default function MediaManagerPage() {
 
                                 <div className="absolute inset-0 bg-black/[0.01] opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
-                            <CardContent className="p-4">
-                                <p className="text-[12px] font-medium truncate text-zinc-900">
-                                    {file.name || file.key.split('/').pop()}
-                                </p>
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[10px] font-medium text-zinc-400">{formatSize(file.size)}</span>
-                                    </div>
-                                    <span className="text-[10px] font-medium text-zinc-400 uppercase tracking-tight">
-                                        {file.mimeType?.split('/').pop() || 'file'}
-                                    </span>
-                                </div>
-                            </CardContent>
                         </Card>
                     ))}
                 </div>

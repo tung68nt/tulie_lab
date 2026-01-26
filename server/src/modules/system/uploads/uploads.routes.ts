@@ -12,6 +12,13 @@ const router = express.Router();
 
 console.log('📂 Uploads module loaded. StorageService status:', storageService ? 'Active' : 'Missing');
 
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '../../../../uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    console.log(`✅ Created uploads directory at: ${uploadsDir}`);
+}
+
 // Configure multer storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
