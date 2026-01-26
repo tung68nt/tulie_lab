@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, RefreshCw, ArrowLeft, History, Search, FileText } from 'lucide-react';
+import { Loader2, RefreshCw, ArrowLeft, History, Search, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import Link from 'next/link';
 
@@ -256,21 +256,23 @@ export default function AdminPaymentsPage() {
                                     <div className="flex gap-2">
                                         <Button
                                             variant="outline"
-                                            size="sm"
-                                            className="h-8 px-3 text-xs"
+                                            size="icon"
+                                            className="h-8 w-8"
                                             disabled={page === 1 || loading}
                                             onClick={() => setPage(p => p - 1)}
                                         >
-                                            Sau
+                                            <span className="sr-only">Trang trước</span>
+                                            <ChevronLeft size={16} />
                                         </Button>
                                         <Button
-                                            variant="secondary"
-                                            size="sm"
-                                            className="h-8 px-3 text-xs font-bold"
+                                            variant="outline"
+                                            size="icon"
+                                            className="h-8 w-8"
                                             disabled={page === totalPages || loading}
                                             onClick={() => setPage(p => p + 1)}
                                         >
-                                            Tiếp theo
+                                            <span className="sr-only">Trang sau</span>
+                                            <ChevronRight size={16} />
                                         </Button>
                                     </div>
                                 </div>
