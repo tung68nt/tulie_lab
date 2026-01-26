@@ -282,7 +282,7 @@ export default function MediaManagerPage() {
                                         <img
                                             src={file.url}
                                             alt={file.key}
-                                            className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                                            className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-105"
                                             loading="lazy"
                                         />
                                     ) : (
@@ -298,13 +298,19 @@ export default function MediaManagerPage() {
 
                                     <div className="absolute inset-0 bg-black/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </div>
-                                <CardContent className="p-6">
-                                    <p className="text-sm font-semibold truncate mb-2 text-zinc-900">
+                                <CardContent className="p-5">
+                                    <p className="text-[13px] font-semibold truncate mb-1.5 text-zinc-900 pr-2">
                                         {file.name || file.key.split('/').pop()}
                                     </p>
                                     <div className="flex items-center justify-between">
-                                        <span className="text-[10px] font-medium text-zinc-400">{formatSize(file.size)}</span>
-                                        <Badge variant="secondary" className="px-2 py-0.5 h-auto text-[9px] font-medium border-none bg-zinc-50 text-zinc-400 lowercase">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[10px] font-medium text-zinc-400">{formatSize(file.size)}</span>
+                                            <div className="w-0.5 h-0.5 rounded-full bg-zinc-200" />
+                                            <span className="text-[10px] font-medium text-zinc-400 lowercase">
+                                                {file.mimeType?.split('/').pop() || 'file'}
+                                            </span>
+                                        </div>
+                                        <Badge variant="secondary" className="px-1.5 py-0 h-4 text-[8px] font-semibold border-none bg-zinc-50 text-zinc-400 lowercase rounded-md">
                                             {file.key.startsWith('imported') ? 'liên kết' : 'local'}
                                         </Badge>
                                     </div>
@@ -360,7 +366,7 @@ export default function MediaManagerPage() {
                                             <div className="flex items-center gap-5">
                                                 <div className="w-14 h-14 rounded-2xl bg-zinc-50 flex items-center justify-center overflow-hidden shrink-0 border border-zinc-100 group-hover:border-zinc-200 transition-colors">
                                                     {isImage(file.key, file.mimeType) ? (
-                                                        <img src={file.url} className="w-full h-full object-cover" alt="" />
+                                                        <img src={file.url} className="w-full h-full object-contain p-1" alt="" />
                                                     ) : (
                                                         <div className="text-zinc-300 group-hover:text-zinc-500 transition-colors">
                                                             {getFileIcon(file)}
@@ -381,12 +387,12 @@ export default function MediaManagerPage() {
                                             <span className="text-xs text-zinc-500 font-medium">{formatSize(file.size)}</span>
                                         </td>
                                         <td className="px-6 py-5">
-                                            <span className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wide">
-                                                {file.mimeType?.split('/').pop() || 'FILE'}
+                                            <span className="text-[10px] font-semibold text-zinc-400 lowercase tracking-wide">
+                                                {file.mimeType?.split('/').pop() || 'file'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-5">
-                                            <Badge variant="secondary" className="px-2 py-0.5 h-auto text-[9px] font-medium border-none bg-zinc-50 text-zinc-400 lowercase">
+                                            <Badge variant="secondary" className="px-2 py-0.5 h-auto text-[9px] font-medium border-none bg-zinc-50 text-zinc-400 lowercase rounded-md">
                                                 {file.key.startsWith('imported') ? 'liên kết' : 'local'}
                                             </Badge>
                                         </td>
@@ -428,36 +434,36 @@ export default function MediaManagerPage() {
             {selectedFile && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
                     <div className="absolute inset-0 bg-zinc-900/10 backdrop-blur-md animate-in fade-in duration-500" onClick={() => setSelectedFile(null)} />
-                    <Card className="relative w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-[0_30px_60px_rgba(0,0,0,0.12)] rounded-[3rem] border-none animate-in zoom-in-95 duration-500">
+                    <Card className="relative w-full max-w-5xl max-h-[90vh] overflow-visible flex flex-col md:flex-row shadow-[0_30px_60px_rgba(0,0,0,0.12)] rounded-[3rem] border-none animate-in zoom-in-95 duration-500">
+                        {/* Close Button - Outside the box */}
+                        <button
+                            onClick={() => setSelectedFile(null)}
+                            className="absolute -top-4 -right-4 w-12 h-12 rounded-full bg-white hover:bg-zinc-50 flex items-center justify-center transition-all border border-zinc-100 shadow-xl z-50 group/close"
+                        >
+                            <X size={20} className="text-zinc-400 group-hover/close:text-zinc-900 transition-colors" />
+                        </button>
                         {/* Preview Area */}
-                        <div className="flex-1 bg-zinc-50 flex items-center justify-center min-h-[400px] relative overflow-hidden">
+                        <div className="w-full h-full p-12">
                             {isImage(selectedFile.key, selectedFile.mimeType) ? (
                                 <img
                                     src={selectedFile.url}
                                     alt={selectedFile.key}
-                                    className="w-full h-full object-contain"
+                                    className="w-full h-full object-contain drop-shadow-2xl"
                                 />
                             ) : isVideo(selectedFile.key, selectedFile.mimeType) ? (
                                 <video
                                     src={selectedFile.url}
                                     controls
-                                    className="max-w-full max-h-full"
+                                    className="max-w-full max-h-full rounded-2xl"
                                 />
                             ) : (
-                                <div className="flex flex-col items-center gap-6">
+                                <div className="h-full flex flex-col items-center justify-center gap-6">
                                     <div className="w-24 h-24 rounded-3xl bg-white border border-zinc-100 flex items-center justify-center text-zinc-300">
                                         {getFileIcon(selectedFile)}
                                     </div>
                                     <span className="text-zinc-400 text-sm font-medium">Bản xem trước không khả dụng</span>
                                 </div>
                             )}
-
-                            <button
-                                onClick={() => setSelectedFile(null)}
-                                className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/80 hover:bg-white backdrop-blur-md flex items-center justify-center transition-all border border-zinc-100 shadow-sm"
-                            >
-                                <X size={20} className="text-zinc-900" />
-                            </button>
                         </div>
 
                         {/* Info Area */}
@@ -468,10 +474,10 @@ export default function MediaManagerPage() {
                                         {selectedFile.name || selectedFile.key.split('/').pop()}
                                     </h2>
                                     <div className="flex gap-2">
-                                        <Badge variant="outline" className="text-[9px] font-semibold border-zinc-100 text-zinc-400 uppercase tracking-widest bg-zinc-50/50">
+                                        <Badge variant="outline" className="text-[9px] font-semibold border-zinc-100 text-zinc-400 tracking-widest bg-zinc-50/50">
                                             {selectedFile.mimeType?.split('/').pop() || 'FILE'}
                                         </Badge>
-                                        <Badge variant="outline" className="text-[9px] font-semibold border-zinc-100 text-zinc-400 uppercase tracking-widest bg-zinc-50/50">
+                                        <Badge variant="outline" className="text-[9px] font-semibold border-zinc-100 text-zinc-400 tracking-widest bg-zinc-50/50">
                                             {formatSize(selectedFile.size)}
                                         </Badge>
                                     </div>
@@ -479,7 +485,7 @@ export default function MediaManagerPage() {
 
                                 <div className="space-y-6">
                                     <div className="flex flex-col gap-3">
-                                        <span className="text-[10px] font-semibold text-zinc-400 uppercase tracking-widest">Đường dẫn tệp</span>
+                                        <span className="text-[10px] font-semibold text-zinc-400 tracking-widest">Đường dẫn tệp</span>
                                         <div className="group relative flex items-center">
                                             <code className="text-[11px] bg-zinc-50 px-4 py-3 rounded-2xl flex-1 truncate font-mono text-zinc-500 border border-zinc-100/50">
                                                 {selectedFile.url}
@@ -535,28 +541,28 @@ export default function MediaManagerPage() {
                     <div className="absolute inset-0 bg-background/60 backdrop-blur-md animate-in fade-in" onClick={() => setShowImportModal(false)} />
                     <div className="relative bg-card border rounded-[2.5rem] shadow-2xl max-w-md w-full p-8 space-y-6 animate-in zoom-in-95">
                         <div className="flex items-center justify-between">
-                            <h3 className="text-xl font-black tracking-tight uppercase">Import từ URL</h3>
-                            <button onClick={() => setShowImportModal(false)} className="p-2 hover:bg-muted rounded-full">
+                            <h3 className="text-xl font-bold tracking-tight">Import từ URL</h3>
+                            <button onClick={() => setShowImportModal(false)} className="p-2 hover:bg-muted rounded-full transition-colors">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
                         <div className="space-y-5">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black tracking-widest uppercase text-muted-foreground">URL tệp tin</label>
+                                <label className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">URL tệp tin</label>
                                 <Input
                                     placeholder="https://"
                                     value={importUrl}
                                     onChange={(e) => setImportUrl(e.target.value)}
-                                    className="rounded-xl border-border/40 focus:ring-primary/10 h-11"
+                                    className="rounded-2xl border-border/40 focus:ring-primary/10 h-12"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black tracking-widest uppercase text-muted-foreground">Tên ghi nhớ (Tùy chọn)</label>
+                                <label className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">Tên ghi nhớ (Tùy chọn)</label>
                                 <Input
                                     placeholder="Thumbnail..."
                                     value={importName}
                                     onChange={(e) => setImportName(e.target.value)}
-                                    className="rounded-xl border-border/40 focus:ring-primary/10 h-11"
+                                    className="rounded-2xl border-border/40 focus:ring-primary/10 h-12"
                                 />
                             </div>
                         </div>
