@@ -89,13 +89,13 @@ export function RealtimeHealthChart() {
     }, []);
 
     const getStatus = (memory: number, load: number) => {
-        if (memory > MEMORY_WARNING_THRESHOLD || load > LOAD_WARNING_THRESHOLD) return { label: 'WARNING', icon: 'AlertTriangle', color: 'text-zinc-900', bg: 'bg-white border border-zinc-200' };
-        return { label: 'HEALTHY', icon: 'ShieldCheck', color: 'text-white', bg: 'bg-zinc-900 border border-zinc-900' };
+        if (memory > MEMORY_WARNING_THRESHOLD || load > LOAD_WARNING_THRESHOLD) return { label: 'CẢNH BÁO', icon: 'AlertTriangle', color: 'text-zinc-900', bg: 'bg-white border border-zinc-200' };
+        return { label: 'TỐT', icon: 'ShieldCheck', color: 'text-white', bg: 'bg-zinc-900 border border-zinc-900' };
     };
 
     const getCostStatus = (rpm: number) => {
-        if (rpm > RPM_COST_WARNING_THRESHOLD) return { label: 'HIGH LOAD', icon: 'Zap', color: 'text-white', bg: 'bg-zinc-900 border border-zinc-900' };
-        return { label: 'OPTIMIZED', icon: 'ShieldCheck', color: 'text-zinc-900', bg: 'bg-white border border-zinc-200' };
+        if (rpm > RPM_COST_WARNING_THRESHOLD) return { label: 'CAO', icon: 'Zap', color: 'text-white', bg: 'bg-zinc-900 border border-zinc-900' };
+        return { label: 'TỐI ƯU', icon: 'ShieldCheck', color: 'text-zinc-900', bg: 'bg-white border border-zinc-200' };
     };
 
     if (permissionDenied) return (

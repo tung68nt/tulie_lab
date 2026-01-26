@@ -24,7 +24,7 @@ interface DashboardData {
 }
 
 // Simple Bar Chart - Black/White only, always visible bars
-function BarChart({ data, label }: { data: { month: string; value: number; date?: Date }[]; label: string }) {
+function BarChart({ data }: { data: { month: string; value: number; date?: Date }[] }) {
     const maxValue = Math.max(...data.map(d => d.value), 1);
     const isDense = data.length > 15; // Trigger for > 15 items (e.g. 30 days)
 
@@ -115,9 +115,7 @@ function BarChart({ data, label }: { data: { month: string; value: number; date?
                     </div>
                 </div>
             </div>
-
-            <div className={`text-center text-xs text-muted-foreground font-medium ${isDense ? '-mt-4' : 'mt-4'}`}>{label}</div>
-        </div >
+        </div>
     );
 }
 
@@ -572,37 +570,37 @@ export default function AdminDashboardPage() {
             {/* Charts - Single Column Layout */}
             <div className="grid gap-6 grid-cols-1">
                 <Card>
-                    <CardHeader className="pb-2">
+                    <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
                         <CardTitle className="text-base">Doanh thu</CardTitle>
+                        <span className="text-xs text-muted-foreground font-normal">ĐVT: Triệu VND</span>
                     </CardHeader>
                     <CardContent>
                         <BarChart
                             data={data.monthlyData.map(m => ({ month: m.month, value: m.revenue / 1000000 }))}
-                            label="Triệu VND"
                         />
                     </CardContent>
                 </Card>
 
                 <Card>
-                    <CardHeader className="pb-2">
+                    <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
                         <CardTitle className="text-base">Đơn hàng mới</CardTitle>
+                        <span className="text-xs text-muted-foreground font-normal">ĐVT: Đơn</span>
                     </CardHeader>
                     <CardContent>
                         <BarChart
                             data={data.monthlyData.map(m => ({ month: m.month, value: m.orders }))}
-                            label="Đơn"
                         />
                     </CardContent>
                 </Card>
 
                 <Card>
-                    <CardHeader className="pb-2">
+                    <CardHeader className="pb-2 flex flex-row items-center justify-between space-y-0">
                         <CardTitle className="text-base">Học viên mới</CardTitle>
+                        <span className="text-xs text-muted-foreground font-normal">ĐVT: Học viên</span>
                     </CardHeader>
                     <CardContent>
                         <BarChart
                             data={data.monthlyData.map(m => ({ month: m.month, value: m.users }))}
-                            label="Học viên"
                         />
                     </CardContent>
                 </Card>
@@ -765,31 +763,48 @@ export default function AdminDashboardPage() {
                                 <p className="text-sm text-muted-foreground font-medium">Tất cả học viên đều đang hoạt động tích cực!</p>
                             </div>
                         ) : (
-                            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                                {inactiveUsers.map((user: any) => (
-                                    <Link key={user.id} href={`/admin/users/${user.id}`} className="block group">
-                                        <div className="flex items-center justify-between p-4 bg-white hover:bg-zinc-900 hover:text-white rounded-xl border border-zinc-100 shadow-sm transition-all duration-200">
-                                            <div className="flex-1 min-w-0 pr-4">
-                                                <p className="font-bold text-sm truncate tracking-tight">{user.name || user.email?.split('@')[0]}</p>
-                                                <p className="text-[10px] opacity-70 truncate font-medium">
-                                                    {user.courses?.slice(0, 1).join(', ') || 'Chưa vào học'}
-                                                </p>
-                                            </div>
-                                            <div className="text-right shrink-0">
-                                                <p className="text-sm font-black group-hover:text-white">
-                                                    {user.daysSinceActivity} ngày
-                                                </p>
-                                                <p className="text-[9px] opacity-60 font-bold">Vắng mặt</p>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead className="bg-zinc-50/50">
+                                        <tr className="border-b">
+                                            <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Học viên</th>
+                                            <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Khoá học</th>
+                                            <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Vắng mặt</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-zinc-100">
+                                        {inactiveUsers.map((user: any) => (
+                                            <tr key={user.id} className="group hover:bg-zinc-50/30 transition-colors">
+                                                <td className="py-3 px-4">
+                                                    <Link href={`/admin/users/${user.id}`} className="block">
+                                                        <div className="font-bold text-zinc-900 group-hover:text-zinc-700 transition-colors">{user.name || 'Chưa đặt tên'}</div>
+                                                        <div className="text-xs text-muted-foreground">{user.email}</div>
+                                                    </Link>
+                                                </td>
+                                                <td className="py-3 px-4">
+                                                    <span className="text-xs text-zinc-600 font-medium bg-zinc-100 px-2 py-1 rounded inline-block max-w-[200px] truncate">
+                                                        {user.courses?.length > 0 ? user.courses[0] : 'Chưa đăng ký'}
+                                                        {user.courses?.length > 1 && ` +${user.courses.length - 1}`}
+                                                    </span>
+                                                </td>
+                                                <td className="py-3 px-4 text-right">
+                                                    <div className="inline-flex flex-col items-end">
+                                                        <span className="font-bold text-zinc-900">{user.daysSinceActivity} ngày</span>
+                                                        <span className="text-[10px] text-muted-foreground">Không hoạt động</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                                 {inactiveUsers.length > 0 && (
-                                    <Link href="/admin/users" className="sm:col-span-2 lg:col-span-3">
-                                        <Button variant="ghost" className="w-full text-xs text-muted-foreground hover:text-zinc-900 hover:bg-zinc-50 border border-dashed rounded-xl h-10">
-                                            Xem tất cả thành viên →
-                                        </Button>
-                                    </Link>
+                                    <div className="p-4 border-t border-zinc-100">
+                                        <Link href="/admin/users" className="block w-full">
+                                            <Button variant="outline" size="sm" className="w-full text-xs h-9 font-medium bg-white hover:bg-zinc-50 border-dashed border-zinc-200">
+                                                Xem tất cả thành viên
+                                            </Button>
+                                        </Link>
+                                    </div>
                                 )}
                             </div>
                         )}
