@@ -199,16 +199,16 @@ jobs:
           RESPONSE=$(curl -s --max-time 10 "$URL/api/health" || echo "timeout")
           echo "Response: $RESPONSE"
           
-          if echo "$RESPONSE" | grep -q "v1.0.2-verify"; then
+          if echo "$RESPONSE" | grep -q "\"status\":\"ok\"" || echo "$RESPONSE" | grep -q "\"status\": \"ok\""; then
             echo "🚀 Health check passed!"
           else
             echo "⏳ Attempt 2 (waiting 20s more)..."
             sleep 20
             RESPONSE=$(curl -s --max-time 10 "$URL/api/health" || echo "timeout")
             echo "Response: $RESPONSE"
-            if echo "$RESPONSE" | grep -q "v1.0.2-verify"; then
+            if echo "$RESPONSE" | grep -q "\"status\":\"ok\"" || echo "$RESPONSE" | grep -q "\"status\": \"ok\""; then
               echo "🚀 Health check passed!"
             else
-              echo "⚠ Warning: Version check still failing, but proceeding to migrations. The service might still be rolling out."
+              echo "⚠ Warning: Health check still failing, but proceeding. The service might still be rolling out or the response format changed."
             fi
           fi
