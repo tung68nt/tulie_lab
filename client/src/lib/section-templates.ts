@@ -180,9 +180,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                     color: "from-indigo-400 to-indigo-600",
                     time: "3-8 tuần",
                     stepsDetail: {
-                        feasibility: { detail: "⚠️ Rất khó (Cần tư duy Product)", status: "warn" },
-                        goal: { detail: "Làm để bán/Dùng thật. Ổn định, ít lỗi, có người dùng thật.", status: "ok" },
-                        ai_usage: { detail: '"Tổng công trình sư". Dùng AI để: Viết code + Viết test + Scan lỗi bảo mật + Tối ưu SEO.', status: "ok" },
+                        feasibility: { detail: "🔥 Rất khó (Cần tư duy Product)", status: "error" },
+                        goal: { detail: "Làm ra tiền. Sản phẩm hoàn thiện, có thanh toán, có email, bảo mật tốt.", "status": "ok" },
+                        ai_usage: { detail: '"Dùng AI để tối ưu". AI viết test tự động, AI check lỗi bảo mật, AI tối ưu tốc độ.', status: "ok" },
                         data: { detail: "Bảo vệ dữ liệu: Phân quyền (AI xem được cái gì), Sao lưu dữ liệu (Backup).", status: "ok" },
                         limits: { detail: "Cần kiến thức về triển khai (Deploy), tên miền, chi phí server.", status: "warn" },
                         output: { detail: "Startup công nghệ: Sàn TMĐT ngách, App học tập, Mạng xã hội nội bộ.", status: "ok" }
