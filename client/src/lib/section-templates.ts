@@ -100,11 +100,11 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             subtitle: 'Học nhàn, hiểu sâu, ứng dụng ngay',
             showDotPattern: true,
             rowConfig: [
-                { key: "feasibility", label: "Khả thi với Vibe Coding?", icon: "CircleCheck" },
+                { key: "feasibility", label: "Khả thi với Vibe Coding?", icon: "Check" },
                 { key: "goal", label: "Mục tiêu", icon: "Target" },
                 { key: "ai_usage", label: "Cách dùng AI (The Vibe)", icon: "Bot" },
                 { key: "data", label: "Dữ liệu (Data)", icon: "Database" },
-                { key: "limits", label: "Giới hạn", icon: "TriangleAlert" },
+                { key: "limits", label: "Giới hạn", icon: "Ban" },
                 { key: "output", label: "Sản phẩm đầu ra (Thực tế)", icon: "Package" }
             ],
             items: [

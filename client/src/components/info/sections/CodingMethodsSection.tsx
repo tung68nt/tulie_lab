@@ -67,12 +67,12 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
         if (key === 'output' && detail) {
             return (
-                <ul className="list-disc pl-4 space-y-1.5 text-left">
+                <ul className="list-disc pl-4 space-y-1.5 text-left text-sm text-foreground">
                     {detail.split(/[,.]/).map((item: string, i: number) => {
                         const trimmed = item.trim();
                         if (!trimmed) return null;
                         return (
-                            <li key={i} className="leading-snug">
+                            <li key={i} className="leading-snug marker:text-foreground/50">
                                 {trimmed}
                             </li>
                         );
@@ -80,7 +80,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                 </ul>
             );
         }
-        return detail;
+        return <span className="text-sm text-foreground">{detail}</span>;
     };
 
     return (
