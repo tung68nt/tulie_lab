@@ -21,7 +21,7 @@ import { VideoTextSection } from '@/components/info/sections/VideoTextSection';
 import { GallerySection } from '@/components/info/sections/GallerySection';
 import dynamic from 'next/dynamic';
 
-const CodingMethodsSection = dynamic(() => import('@/components/info/sections/CodingMethodsSection').then(mod => mod.CodingMethodsSection), {
+const CodingMethodsSection = dynamic(() => import('@/components/info/sections/CodingMethodsSection').then((mod: any) => mod.CodingMethodsSection), {
     loading: () => <div>Loading...</div>
 });
 import { InstructorGridSection } from '@/components/info/sections/InstructorGridSection';

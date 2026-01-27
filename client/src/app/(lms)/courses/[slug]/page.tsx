@@ -44,7 +44,7 @@ export default function CoursePage({ params }: { params: any }) {
     // Handle params promise safely
     useEffect(() => {
         if (params instanceof Promise) {
-            params.then(p => setSlug(p.slug));
+            params.then((p: any) => setSlug(p.slug));
         } else if (params && typeof params === 'object' && params.slug) {
             setSlug(params.slug);
         }

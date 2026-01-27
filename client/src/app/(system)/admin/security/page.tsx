@@ -33,7 +33,7 @@ export default function AdminSecurityPage() {
             try {
                 const [securityData, activityLogData] = await Promise.all([
                     api.security.list().catch(() => ({ logs: [], total: 0 })),
-                    api.activity.list().then(res => (res as any).logs).catch(() => [])
+                    api.activity.list().then((res: any) => (res as any).logs).catch(() => [])
                 ]);
 
                 const securityLogs = Array.isArray(securityData) ? securityData : (securityData as any).logs || [];

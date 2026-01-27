@@ -27,7 +27,7 @@ export default function OrderPage({ params }: { params: any }) {
     // Handle params promise safely
     useEffect(() => {
         if (params instanceof Promise) {
-            params.then(p => {
+            params.then((p: any) => {
                 if (p.code) setCode(p.code);
             });
         } else if (params && typeof params === 'object' && params.code) {
