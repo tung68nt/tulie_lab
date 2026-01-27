@@ -160,7 +160,7 @@ function FullscreenVideoWrapper({
         if (!document.fullscreenElement) {
             containerRef.current.requestFullscreen().then(() => {
                 setIsFullscreen(true);
-            }).catch(err => {
+            }).catch((err: any) => {
                 console.error('Error entering fullscreen:', err);
             });
         } else {
@@ -295,7 +295,7 @@ function HLSPlayer({
         if (!document.fullscreenElement) {
             containerRef.current.requestFullscreen().then(() => {
                 setIsFullscreen(true);
-            }).catch(err => {
+            }).catch((err: any) => {
                 console.error('Error entering fullscreen:', err);
             });
         } else {

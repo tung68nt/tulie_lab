@@ -63,7 +63,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 const [instructorsList, categoriesList, fullDetails]: [any, any, any] = await Promise.all([
                     api.instructors.list().catch(() => []),
                     api.categories.list().catch(() => []),
-                    api.admin.courses.get(id).catch(e => {
+                    api.admin.courses.get(id).catch((e: any) => {
                         console.error('Fetch course error for ID:', id, e);
                         // Log specifically if it's a 404 or 500
                         if (e instanceof Error && (e as any).status) {
