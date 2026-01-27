@@ -1,7 +1,6 @@
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { DynamicIcon } from '@/components/DynamicIcon';
-import { ArrowRight, Target, Bot, Database, AlertTriangle, Package, CheckCircle, Zap } from 'lucide-react';
 import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS } from '@/lib/defaultContent';
 
 interface CodingMethodsSectionProps {
@@ -18,35 +17,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         : DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods') || DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
 
     const methods = targetSection?.items || [];
-
-    const allSteps = ['feasibility', 'goal', 'ai_usage', 'data', 'limits', 'output'];
-    const steps = allSteps.filter(stepKey =>
-        methods.some(m => m.stepsDetail?.[stepKey]?.detail)
-    );
-
-    const getStepIcon = (key: string) => {
-        switch (key) {
-            case 'feasibility': return CheckCircle;
-            case 'goal': return Target;
-            case 'ai_usage': return Bot;
-            case 'data': return Database;
-            case 'limits': return AlertTriangle;
-            case 'output': return Package;
-            default: return ArrowRight;
-        }
-    };
-
-    const getStepLabel = (key: string) => {
-        const labels: Record<string, string> = {
-            feasibility: 'Khả thi với Vibe Coding?',
-            goal: 'Mục tiêu',
-            ai_usage: 'Cách dùng AI (The Vibe)',
-            data: 'Dữ liệu (Data)',
-            limits: 'Giới hạn',
-            output: 'Sản phẩm đầu ra (Thực tế)'
-        };
-        return labels[key] || key;
-    };
+    const rowConfig = targetSection?.rowConfig || [];
 
     const renderDifficulty = (level: number, text: string) => {
         // level 0 -> 1 bar, level 4 -> 5 bars
@@ -141,32 +112,29 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
                         {/* Table Body */}
                         <div className="divide-y divide-border">
-                            {steps.map((stepKey) => {
-                                const Icon = getStepIcon(stepKey);
-                                const label = getStepLabel(stepKey);
-
+                            {rowConfig.map((row) => {
                                 return (
-                                    <div key={stepKey} className="grid grid-cols-[120px_repeat(5,1fr)] divide-x divide-border hover:bg-muted/10 transition-colors">
+                                    <div key={row.key} className="grid grid-cols-[120px_repeat(5,1fr)] divide-x divide-border hover:bg-muted/10 transition-colors">
                                         {/* Row Header */}
                                         <div className="p-6 flex flex-col items-center justify-start gap-2 bg-muted/10">
                                             <div className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center text-muted-foreground shrink-0">
-                                                <Icon size={20} />
+                                                <DynamicIcon name={row.icon || 'CheckCircle'} className="w-5 h-5" />
                                             </div>
-                                            <span className="font-bold text-sm text-center">{label}</span>
+                                            <span className="font-bold text-sm text-center">{row.label}</span>
                                         </div>
 
                                         {/* Cells */}
                                         {methods.map((method, methodIdx) => {
-                                            const step = method.stepsDetail?.[stepKey];
-                                            if (step?.status === 'skip') return <div key={`${method.id}-${stepKey}`} className="p-4 bg-muted/5" />;
+                                            const step = method.stepsDetail?.[row.key];
+                                            if (step?.status === 'skip') return <div key={`${method.id}-${row.key}`} className="p-4 bg-muted/5" />;
 
                                             return (
-                                                <div key={`${method.id}-${stepKey}`} className={cn(
+                                                <div key={`${method.id}-${row.key}`} className={cn(
                                                     "p-4 text-sm text-foreground/90 flex justify-center h-full",
-                                                    stepKey === 'feasibility' ? "items-center" : "items-start"
+                                                    row.key === 'feasibility' ? "items-center" : "items-start"
                                                 )}>
                                                     <div className="text-left w-full">
-                                                        {step ? renderStepContent(stepKey, step.detail, methodIdx) : '-'}
+                                                        {step ? renderStepContent(row.key, step.detail, methodIdx) : '-'}
                                                     </div>
                                                 </div>
                                             );
@@ -208,21 +176,19 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                             </div>
 
                             <div className="space-y-4">
-                                {steps.map((stepKey) => {
-                                    const Icon = getStepIcon(stepKey);
-                                    const label = getStepLabel(stepKey);
-                                    const step = method.stepsDetail?.[stepKey];
+                                {rowConfig.map((row) => {
+                                    const step = method.stepsDetail?.[row.key];
                                     if (step?.status === 'skip') return null;
 
                                     return (
-                                        <div key={stepKey} className="flex gap-3 text-sm">
+                                        <div key={row.key} className="flex gap-3 text-sm">
                                             <div className="shrink-0 mt-0.5 text-muted-foreground">
-                                                <Icon size={16} />
+                                                <DynamicIcon name={row.icon || 'CheckCircle'} className="w-4 h-4" />
                                             </div>
                                             <div className="w-full">
-                                                <span className="font-bold text-foreground/80 block mb-1">{label}</span>
+                                                <span className="font-bold text-foreground/80 block mb-1">{row.label}</span>
                                                 <div className="text-foreground/90 leading-relaxed">
-                                                    {step ? renderStepContent(stepKey, step.detail, idx) : '-'}
+                                                    {step ? renderStepContent(row.key, step.detail, idx) : '-'}
                                                 </div>
                                             </div>
                                         </div>

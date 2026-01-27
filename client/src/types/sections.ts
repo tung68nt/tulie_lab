@@ -14,6 +14,12 @@ export interface SectionItem {
     [key: string]: any;
 }
 
+export interface TableRowConfig {
+    key: string;
+    label: string;
+    icon?: string;
+}
+
 export interface Section {
     id: string;
     type: SectionType;
@@ -41,5 +47,6 @@ export interface Section {
     order?: number;
     showDotPattern?: boolean; // New: Toggle dot pattern visibility
     trustIndicators?: string[]; // New: List of trust indicators for Hero section
+    rowConfig?: TableRowConfig[]; // New: Dynamic row configuration for comparison tables
     className?: string; // Add className for custom styling
 }
