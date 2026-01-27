@@ -122,7 +122,9 @@ export default function ProductEditorPage() {
                     api.courses.list()
                 ]);
                 setAllProducts((productsRes?.data || []).filter((p: any) => p.id !== id));
-                setAllCourses(coursesRes?.data || []);
+                // Handle both { data: [...] } and [...] response formats for courses
+                const coursesData = Array.isArray(coursesRes) ? coursesRes : (coursesRes?.data || []);
+                setAllCourses(coursesData);
             } catch (err) {
                 console.error('Failed to fetch products/courses', err);
             }
