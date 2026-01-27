@@ -474,7 +474,7 @@ export default function ProductEditorPage() {
                         {/* Rich Content Editor */}
                         <div className="border rounded-lg p-6 bg-card space-y-4">
                             <h3 className="font-semibold text-lg">Nội dung chi tiết</h3>
-                            <p className="text-sm text-muted-foreground">Viết nội dung giới thiệu chi tiết về sản phẩm (hỗ trợ HTML)</p>
+                            <p className="text-xs text-zinc-900 font-medium">Viết nội dung giới thiệu chi tiết về sản phẩm</p>
 
                             <div className="flex items-center justify-between mb-2">
                                 <label className="text-sm font-medium">Nội dung chi tiết (Markdown)</label>
@@ -525,7 +525,7 @@ export default function ProductEditorPage() {
                                 value={detailedContent}
                                 onChange={(e) => setDetailedContent(e.target.value)}
                                 rows={20}
-                                className="w-full min-h-[400px] rounded-md border border-input bg-background px-3 py-2 text-sm font-mono leading-relaxed"
+                                className="w-full min-h-[400px] rounded-md border border-input bg-background px-3 py-2 text-xs font-mono leading-relaxed text-zinc-900"
                                 placeholder="# Tiêu đề chính&#10;&#10;Mô tả chi tiết sản phẩm...&#10;&#10;## Tính năng nổi bật&#10;- Tính năng 1&#10;- Tính năng 2&#10;&#10;![Mô tả ảnh](https://...)"
                             />
 
@@ -575,29 +575,78 @@ export default function ProductEditorPage() {
                                         </Button>
                                     </div>
 
-                                    <div className="space-y-2">
+                                    <div className="space-y-3">
                                         {versions.length === 0 ? (
                                             <div className="text-center py-4 text-muted-foreground text-sm">Chưa có phiên bản nào</div>
                                         ) : (
                                             versions.map((ver) => (
-                                                <div key={ver.id} className="flex justify-between items-start p-3 border rounded-md bg-background">
-                                                    <div>
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="font-bold">v{ver.version}</span>
-                                                            <span className="text-xs text-muted-foreground">{new Date(ver.createdAt).toLocaleDateString('vi-VN')}</span>
+                                                <div key={ver.id} className="group p-4 border rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <div className="flex items-center gap-3">
+                                                            <span className="text-lg font-bold text-zinc-900">v{ver.version}</span>
+                                                            <span className="text-xs text-zinc-400 bg-zinc-50 px-2 py-0.5 rounded-full border border-zinc-100">
+                                                                {new Date(ver.createdAt).toLocaleDateString('vi-VN')}
+                                                            </span>
                                                         </div>
-                                                        {ver.changelog && <p className="text-xs text-muted-foreground mt-1 whitespace-pre-wrap">{ver.changelog}</p>}
-                                                        <a href={ver.fileUrl} target="_blank" className="text-xs text-blue-500 hover:underline mt-1 block truncate max-w-[200px]">{ver.fileUrl}</a>
+                                                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    const newVer = prompt('Sửa phiên bản:', ver.version);
+                                                                    const newUrl = prompt('Sửa link file:', ver.fileUrl);
+                                                                    const newChangelog = prompt('Sửa changelog:', ver.changelog || '');
+                                                                    
+                                                                    if (newVer || newUrl || newChangelog) {
+                                                                        // @ts-ignore
+                                                                        api.products.updateVersion?.(ver.id, {
+                                                                            version: newVer || ver.version,
+                                                                            fileUrl: newUrl || ver.fileUrl,
+                                                                            changelog: newChangelog || ver.changelog
+                                                                        }).then(() => {
+                                                                            addToast('Cập nhật phiên bản thành công', 'success');
+                                                                            window.location.reload();
+                                                                        }).catch(() => addToast('Lỗi cập nhật', 'error'));
+                                                                    }
+                                                                }}
+                                                                className="h-8 w-8 p-0 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50"
+                                                            >
+                                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                                </svg>
+                                                            </Button>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                type="button"
+                                                                onClick={() => handleDeleteVersion(ver.id)}
+                                                                className="h-8 w-8 p-0 text-zinc-400 hover:text-red-600 hover:bg-red-50"
+                                                            >
+                                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                </svg>
+                                                            </Button>
+                                                        </div>
                                                     </div>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="sm"
-                                                        type="button"
-                                                        onClick={() => handleDeleteVersion(ver.id)}
-                                                        className="text-red-500 hover:text-red-700 h-8 w-8 p-0"
-                                                    >
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                                    </Button>
+                                                    {ver.changelog && (
+                                                        <p className="text-sm text-zinc-600 mb-3 whitespace-pre-wrap leading-relaxed">
+                                                            {ver.changelog}
+                                                        </p>
+                                                    )}
+                                                    <div className="flex items-center gap-2 p-2 rounded-lg bg-zinc-50 border border-zinc-100 group/link">
+                                                        <svg className="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.823a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.101-1.101" />
+                                                        </svg>
+                                                        <a 
+                                                            href={ver.fileUrl} 
+                                                            target="_blank" 
+                                                            rel="noopener noreferrer"
+                                                            className="text-xs font-mono text-zinc-500 hover:text-zinc-900 transition-colors break-all"
+                                                        >
+                                                            {ver.fileUrl}
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             ))
                                         )}
@@ -837,7 +886,7 @@ export default function ProductEditorPage() {
                                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 >
                                     <option value="ALL">Tất cả mọi người (Có tài khoản)</option>
-                                    <option value="PREMIUM">Chỉ hội viên PREMIUM</option>
+                                    <option value="PREMIUM">Chỉ hội viên (Gói Năm)</option>
                                     <option value="NONE">Chỉ mua lẻ (Không gồm trong gói hội viên)</option>
                                 </select>
                                 <p className="text-xs text-muted-foreground italic">

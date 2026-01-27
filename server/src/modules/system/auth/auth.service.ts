@@ -48,8 +48,23 @@ export class AuthService {
             { expiresIn: '7d' }
         );
 
+        const fullUser = await this.userRepository.findById(user.id, {
+            profile: true,
+            subscriptions: {
+                include: {
+                    product: true
+                }
+            }
+        });
+
         return {
-            user: { id: user.id, email: user.email, name: (user as any).profile?.name, role: user.role },
+            user: {
+                id: user.id,
+                email: user.email,
+                name: (fullUser as any)?.profile?.name,
+                role: user.role,
+                subscriptions: (fullUser as any)?.subscriptions
+            },
             token
         };
     }
@@ -71,8 +86,23 @@ export class AuthService {
             { expiresIn: '7d' }
         );
 
+        const fullUser = await this.userRepository.findById(user.id, {
+            profile: true,
+            subscriptions: {
+                include: {
+                    product: true
+                }
+            }
+        });
+
         return {
-            user: { id: user.id, email: user.email, name: (user as any).profile?.name, role: user.role },
+            user: {
+                id: user.id,
+                email: user.email,
+                name: (fullUser as any)?.profile?.name,
+                role: user.role,
+                subscriptions: (fullUser as any)?.subscriptions
+            },
             token
         };
     }
@@ -187,8 +217,23 @@ export class AuthService {
                 { expiresIn: '7d' }
             );
 
+            const fullUser = await this.userRepository.findById(user.id, {
+                profile: true,
+                subscriptions: {
+                    include: {
+                        product: true
+                    }
+                }
+            });
+
             return {
-                user: { id: user.id, email: user.email, name: (user as any).profile?.name, role: user.role },
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    name: (fullUser as any)?.profile?.name,
+                    role: user.role,
+                    subscriptions: (fullUser as any)?.subscriptions
+                },
                 token: ownToken
             };
 

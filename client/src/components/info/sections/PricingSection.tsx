@@ -25,7 +25,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
             <div className="container mx-auto">
                 {(section.title || section.subtitle) && (
                     <div className="text-center mb-12 space-y-4">
-                        {section.title && <h2 className="text-3xl md:text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
+                        {section.title && <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
                         {section.subtitle && <p className="text-xl text-muted-foreground">{section.subtitle}</p>}
                     </div>
                 )}

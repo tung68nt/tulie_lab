@@ -34,10 +34,10 @@ export default function OrdersPage() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const profile: any = await api.users.getProfile();
-                if (profile && profile.orders) {
-                    setOrders(profile.orders);
-                }
+                const ordersResult: any = await api.users.getMyOrders();
+                // api.users.getMyOrders returns Order[] directly
+                const ordersData = Array.isArray(ordersResult) ? ordersResult : ordersResult?.orders || [];
+                setOrders(ordersData);
             } catch (error) {
                 console.error(error);
             } finally {
