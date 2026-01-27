@@ -105,7 +105,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                         value={editedSection.subtitle || ''}
                                         onChange={e => handleChange('subtitle', e.target.value)}
                                         rows={2}
-                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-sans"
+                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-mono"
                                         placeholder="Section Subtitle"
                                     />
                                 </div>
@@ -116,7 +116,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                         value={editedSection.content || ''}
                                         onChange={e => handleChange('content', e.target.value)}
                                         rows={4}
-                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-sans"
+                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-mono"
                                         placeholder="Main content text..."
                                     />
                                 </div>
@@ -229,7 +229,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                         defaultValue={JSON.stringify(editedSection.items, null, 2)}
                                         onChange={e => handleItemsJsonChange(e.target.value)}
                                         rows={10}
-                                        className={`w-full p-2 rounded-md border bg-neutral-100 dark:bg-neutral-950 text-xs font-semibold ${jsonError ? 'border-red-500 focus:ring-red-500' : 'border-neutral-300 dark:border-neutral-700'}`}
+                                        className={`w-full p-3 rounded-md border bg-neutral-100 dark:bg-neutral-950 text-xs font-mono leading-relaxed ${jsonError ? 'border-red-500 focus:ring-red-500' : 'border-neutral-300 dark:border-neutral-700'}`}
                                         spellCheck={false}
                                     />
                                 </div>
