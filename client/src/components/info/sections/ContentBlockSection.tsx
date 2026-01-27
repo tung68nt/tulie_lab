@@ -2,13 +2,15 @@ import { Section } from '@/types/sections';
 import Image from 'next/image';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { cn } from '@/lib/utils';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export function ContentBlockSection({ section }: { section: Section }) {
     if (!section.items) return null;
 
     return (
-        <section className="py-20 bg-background overflow-hidden space-y-24">
-            <div className="container px-4 mx-auto space-y-24">
+        <section className="py-20 bg-background overflow-hidden space-y-24 relative">
+            {section.showDotPattern !== false && <DotPatternBackground />}
+            <div className="container px-4 mx-auto space-y-24 relative z-10">
                 {section.title && (
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3]">{section.title}</h2>

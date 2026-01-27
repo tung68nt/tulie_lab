@@ -4,12 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { PROJECTS_DATA } from '@/lib/projects';
 import { SectionTag } from '@/components/SectionTag';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export const StudentProjectsSection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-            {/* Dotted Background */}
-            <div className="absolute inset-0 bg-dot-black/15 dark:bg-dot-white/15 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]" />
+            {/* Standard Dot Pattern */}
+            {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container relative z-10">
                 {/* Header */}

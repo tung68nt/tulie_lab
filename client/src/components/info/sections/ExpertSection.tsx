@@ -26,7 +26,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
             {/* Standard Dot Pattern Background */}
-            <DotPatternBackground />
+            {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
