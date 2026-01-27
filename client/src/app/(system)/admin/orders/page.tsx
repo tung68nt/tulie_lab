@@ -37,11 +37,19 @@ interface Order {
             title: string;
         };
     }[];
-    // Deprecated - keeping for backwards compatibility
-    courses?: {
-        id: string;
-        title: string;
+    activationCodes?: {
+        course?: {
+            title: string;
+        };
     }[];
+    metadata?: any;
+    // Legacy support
+    courses?: { title: string }[];
+    // Deprecated - keeping for backwards compatibility
+    // courses?: {
+    //     id: string;
+    //     title: string;
+    // }[];
 }
 
 export default function AdminOrdersPage() {
@@ -167,17 +175,35 @@ export default function AdminOrdersPage() {
     };
 
     const getOrderItems = (order: Order): string => {
-        // New structure: items array with course/product
+        // 1. New structure: items array with course/product
         if (order.items && order.items.length > 0) {
-            return order.items
+            const itemTitles = order.items
                 .map(item => item.course?.title || item.product?.title)
-                .filter(Boolean)
-                .join('; ') || 'N/A';
+                .filter(Boolean);
+
+            if (itemTitles.length > 0) return itemTitles.join('; ');
         }
-        // Legacy structure: courses array
+
+        // 2. Fallback: activationCodes (useful for gift codes or legacy data)
+        if (order.activationCodes && order.activationCodes.length > 0) {
+            const acTitles = order.activationCodes
+                .map(ac => ac.course?.title)
+                .filter(Boolean);
+            if (acTitles.length > 0) return acTitles.join('; ');
+        }
+
+        // 3. Legacy structure: courses array
         if (order.courses && order.courses.length > 0) {
             return order.courses.map(c => c.title).join('; ');
         }
+
+        // 4. Metadata fallback: some orders might have titles in metadata
+        if (order.metadata?.courseTitle) return order.metadata.courseTitle;
+        if (order.metadata?.productTitle) return order.metadata.productTitle;
+        if (order.metadata?.items && Array.isArray(order.metadata.items)) {
+            return order.metadata.items.map((it: any) => it.name || it.title).filter(Boolean).join('; ');
+        }
+
         return 'N/A';
     };
 

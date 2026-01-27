@@ -12,6 +12,8 @@ import Link from 'next/link';
 import { Switch } from '@/components/Switch';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useConfirm } from '@/components/ConfirmDialog';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function ProductEditorPage() {
     const { id } = useParams();
@@ -398,33 +400,64 @@ export default function ProductEditorPage() {
                                 </div>
 
                                 {/* Gallery items */}
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                                     {gallery.map((item, index) => (
-                                        <div key={index} className="relative group border rounded-lg overflow-hidden bg-muted">
-                                            <div className="aspect-video">
+                                        <div key={index} className="relative group border rounded-xl overflow-hidden bg-muted shadow-sm hover:shadow-md transition-all">
+                                            <div className="aspect-video relative">
                                                 {item.type === 'video' ? (
-                                                    <div className="w-full h-full bg-black flex items-center justify-center">
-                                                        <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path d="M8 5v14l11-7z" />
-                                                        </svg>
+                                                    <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
+                                                        <div className="relative">
+                                                            <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-150" />
+                                                            <svg className="w-12 h-12 text-white relative z-10" fill="currentColor" viewBox="0 0 24 24">
+                                                                <path d="M8 5v14l11-7z" />
+                                                            </svg>
+                                                        </div>
+                                                        <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase tracking-wider">
+                                                            Video
+                                                        </div>
                                                     </div>
                                                 ) : (
-                                                    <img src={item.url} alt="" className="w-full h-full object-cover" />
+                                                    <>
+                                                        <img src={item.url} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                                        <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase tracking-wider">
+                                                            Image
+                                                        </div>
+                                                    </>
                                                 )}
+
+                                                {/* Actions */}
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            const newUrl = prompt('Nhập URL mới:', item.url);
+                                                            if (newUrl && newUrl !== item.url) {
+                                                                const newGallery = [...gallery];
+                                                                newGallery[index] = { ...item, url: newUrl };
+                                                                setGallery(newGallery);
+                                                            }
+                                                        }}
+                                                        className="p-2 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-md transition-colors"
+                                                        title="Sửa URL"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                        </svg>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setGallery(gallery.filter((_, i) => i !== index))}
+                                                        className="p-2 rounded-full bg-red-500/80 hover:bg-red-500 text-white backdrop-blur-md transition-colors"
+                                                        title="Xóa"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setGallery(gallery.filter((_, i) => i !== index))}
-                                                    className="p-1.5 rounded bg-red-500 text-white hover:bg-red-600"
-                                                >
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                            <div className="p-2 bg-background/80 backdrop-blur-sm">
-                                                <p className="text-xs text-muted-foreground truncate">{item.url}</p>
+                                            <div className="p-2 bg-background/80 backdrop-blur-sm border-t">
+                                                <p className="text-[10px] text-muted-foreground font-mono truncate">{item.url}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -497,15 +530,12 @@ export default function ProductEditorPage() {
                             />
 
                             {detailedContent && (
-                                <details className="border rounded-lg p-4 bg-muted/30">
-                                    <summary className="cursor-pointer font-medium text-sm text-primary">Xem trước nội dung (Preview)</summary>
-                                    <div className="mt-4 prose prose-sm dark:prose-invert max-w-none border p-4 rounded-md bg-background">
-                                        <div dangerouslySetInnerHTML={{ __html: '<i>Preview is using simple HTML rendering here, actual display will use ReactMarkdown.</i>' }} />
-                                        {/* Simple preview or we could import ReactMarkdown here but it might be heavy for Admin. 
-                                            Actually, let's keep it simple for now or the user might complain preview is broken if I don't use ReactMarkdown. 
-                                            But I don't want to add imports if I can avoid. 
-                                            Let's use a basic textarea for now. */}
-                                        <pre className="whitespace-pre-wrap font-sans text-sm">{detailedContent}</pre>
+                                <details className="border rounded-lg p-4 bg-muted/30" open>
+                                    <summary className="cursor-pointer font-medium text-sm text-primary mb-4">Xem trước nội dung (Preview)</summary>
+                                    <div className="prose prose-sm dark:prose-invert max-w-none border p-6 rounded-md bg-background shadow-sm">
+                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                            {detailedContent}
+                                        </ReactMarkdown>
                                     </div>
                                 </details>
                             )}

@@ -110,6 +110,15 @@ export class PrismaOrderRepository implements IOrderRepository {
                                     }
                                 }
                             }
+                        },
+                        activationCodes: {
+                            include: {
+                                course: {
+                                    select: {
+                                        title: true
+                                    }
+                                }
+                            }
                         }
                     }
                 }),

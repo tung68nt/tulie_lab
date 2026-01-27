@@ -39,6 +39,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         learningOutcomes: '',
         deploymentStatus: 'RELEASED',
         tag: 'NONE',
+        compareAtPrice: 0,
         structure: [] as { title: string, sections: string[] }[]
     });
 
@@ -94,6 +95,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             : fullDetails.learningOutcomes || '',
                         deploymentStatus: fullDetails.deploymentStatus || 'RELEASED',
                         tag: fullDetails.tag || 'NONE',
+                        compareAtPrice: fullDetails.compareAtPrice || 0,
                         structure: fullDetails.structure || []
                     });
                     // Set next position
@@ -292,6 +294,18 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                             const val = parseFloat(e.target.value);
                                             setCourseForm({ ...courseForm, price: isNaN(val) ? 0 : val });
                                         }}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Giá gốc (VNĐ) - Gạch ngang</label>
+                                    <Input
+                                        type="number"
+                                        value={courseForm.compareAtPrice}
+                                        onChange={e => {
+                                            const val = parseFloat(e.target.value);
+                                            setCourseForm({ ...courseForm, compareAtPrice: isNaN(val) ? 0 : val });
+                                        }}
+                                        placeholder="Để trống nếu không giảm giá"
                                     />
                                 </div>
                                 <div className="space-y-2">
