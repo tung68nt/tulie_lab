@@ -196,7 +196,7 @@ export function RealtimeHealthChart() {
                                 tick={{ fontSize: 10, fill: '#666' }}
                                 axisLine={false}
                                 minTickGap={60}
-                                tickMargin={15}
+                                tickMargin={5}
                             />
                             <YAxis
                                 tick={{ fontSize: 10, fill: '#666' }}

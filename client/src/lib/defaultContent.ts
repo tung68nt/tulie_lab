@@ -365,14 +365,76 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         order: 2
     },
     {
-        id: "tulie-benefits",
-        type: "benefits",
-        title: "Tạo sao chọn chúng tôi?",
-        subtitle: "Phương pháp học tập hiện đại và hiệu quả",
+        id: "vibe-methodology",
+        type: "coding-methods",
+        title: "5 Cấp độ xây dựng App với Vibe Coding",
+        subtitle: "Học cách làm chủ AI để tạo ra sản phẩm thực thụ",
         items: [
-            { title: "Học qua dự án thật", description: "Không chỉ là lý thuyết, bạn học bằng cách trực tiếp xây dựng sản phẩm có thể sử dụng ngay.", icon: "Sparkles" },
-            { title: "Sức mạnh từ AI", description: "Ứng dụng các công cụ AI hàng đầu (ChatGPT, Claude, Cursor) để tăng tốc độ làm việc gấp 10 lần.", icon: "Bot" },
-            { title: "Cộng đồng hỗ trợ", description: "Tham gia nhóm kín để trao đổi, giải đáp thắc mắc và kết nối cùng những người cùng đam mê.", icon: "MessageCircle" }
+            {
+                id: "level-1",
+                name: "Cấp độ 1: Ăn Liền",
+                subtitle: "(One-shot Prompting)",
+                icon: "Zap",
+                color: "from-green-400 to-green-600",
+                time: "5-10 phút",
+                stepsDetail: {
+                    feasibility: { detail: "✅ Rất dễ", status: "ok" },
+                    goal: { detail: "Làm cho vui/Demo. Xem ý tưởng hình hài ra sao.", status: "ok" },
+                    ai_usage: { detail: '\"Đưa hết cho AI\". Ra 1 lệnh dài, AI trả về 1 cục code. Hỏng thì tạo lại cái mới.', status: "ok" }
+                }
+            },
+            {
+                id: "level-2",
+                name: "Cấp độ 2: Tinh Chỉnh",
+                subtitle: "(Iterative Prompting)",
+                icon: "Layers",
+                color: "from-blue-400 to-blue-600",
+                time: "30-60 phút",
+                stepsDetail: {
+                    feasibility: { detail: "✅ Dễ", status: "ok" },
+                    goal: { detail: "Làm cho đẹp. Giao diện đúng ý, đúng màu thương hiệu.", status: "ok" },
+                    ai_usage: { detail: '\"Vừa nhìn vừa sửa\". Ra lệnh -> Xem kết quả -> Khoanh vùng chỗ sai bảo AI sửa lại (In-painting/Edit).', status: "ok" }
+                }
+            },
+            {
+                id: "level-3",
+                name: "Cấp độ 3: Logic Dữ Liệu",
+                subtitle: "(Data Integration)",
+                icon: "Database",
+                color: "from-purple-400 to-purple-600",
+                time: "1-2 ngày",
+                stepsDetail: {
+                    feasibility: { detail: "✅ Trung bình", status: "ok" },
+                    goal: { detail: "Làm cho chạy. Lưu được thông tin, tính toán đúng.", status: "ok" },
+                    ai_usage: { detail: '\"Ghép não cho AI\". Yêu cầu AI viết các hàm xử lý (API) để nối với Database (Supabase/Firebase).', status: "ok" }
+                }
+            },
+            {
+                id: "level-4",
+                name: "Cấp độ 4: Kiến Trúc Sư",
+                subtitle: "(Modular Coding)",
+                icon: "Box",
+                color: "from-orange-400 to-orange-600",
+                time: "3-5 ngày",
+                stepsDetail: {
+                    feasibility: { detail: "⚠️ Khó (Cần kỹ năng chia nhỏ)", status: "warn" },
+                    goal: { detail: "Làm cho gọn. Code dễ sửa, dễ nâng cấp về sau.", status: "ok" },
+                    ai_usage: { detail: '\"Quản lý nhân sự AI\". Bảo AI: \"Tạo file A làm việc này, file B làm việc kia\". Không code chung 1 file.', status: "ok" }
+                }
+            },
+            {
+                id: "level-5",
+                name: "Cấp độ 5: Sản Phẩm Thực",
+                subtitle: "(MVP Launch)",
+                icon: "Rocket",
+                color: "from-red-400 to-red-600",
+                time: "1-2 tuần",
+                stepsDetail: {
+                    feasibility: { detail: "⚠️ Rất khó (Cần tư duy Product)", status: "warn" },
+                    goal: { detail: "Làm để bán/Dùng thật. Ổn định, ít lỗi, có người dùng thật.", status: "ok" },
+                    ai_usage: { detail: '\"Tổng công trình sư\". Dùng AI để: Viết code + Viết test + Scan lỗi bảo mật + Tối ưu SEO.', status: "ok" }
+                }
+            }
         ],
         isVisible: true,
         order: 3

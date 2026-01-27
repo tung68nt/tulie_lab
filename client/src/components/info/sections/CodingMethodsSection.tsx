@@ -9,14 +9,20 @@ interface CodingMethodsSectionProps {
 }
 
 export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => {
-    // FORCE UPDATE: Use local content directly to bypass stale DB data
-    const localSection = DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.items && s.items.length > 0 && s.items[0].id === 'level-1');
-    const targetSection = localSection || DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
+    // FORCE UPDATE: Prefer DEFAULT content for this specific section type as it's complex
+    // If section from props has valid complex items, use it. Otherwise fallback to DEFAULT.
+    const hasComplexContent = section.items && section.items.length > 0 && section.items[0].stepsDetail;
 
-    // Use targetSection items
+    const targetSection = hasComplexContent
+        ? section
+        : DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
+
     const methods = targetSection?.items || [];
 
-    const steps = ['feasibility', 'goal', 'ai_usage', 'data', 'limits', 'output'];
+    const allSteps = ['feasibility', 'goal', 'ai_usage', 'data', 'limits', 'output'];
+    const steps = allSteps.filter(stepKey =>
+        methods.some(m => m.stepsDetail?.[stepKey]?.detail)
+    );
 
     const getStepIcon = (key: string) => {
         switch (key) {
@@ -34,7 +40,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         const labels: Record<string, string> = {
             feasibility: 'Khả thi',
             goal: 'Mục tiêu',
-            ai_usage: 'Dùng AI',
+            ai_usage: 'Cách dùng AI',
             data: 'Dữ liệu',
             limits: 'Giới hạn',
             output: 'Đầu ra'

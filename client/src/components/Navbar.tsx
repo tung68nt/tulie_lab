@@ -342,13 +342,13 @@ export function Navbar() {
                                                     </div>
                                                 </div>
 
-                                                <div className="flex flex-col items-end gap-1">
+                                                <div className="flex flex-col items-start gap-1">
                                                     {(() => {
                                                         const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
                                                         const isAdmin = user?.role === 'ADMIN';
 
                                                         return (
-                                                            <div className="flex flex-wrap justify-end gap-2">
+                                                            <div className="flex flex-wrap justify-start gap-2">
                                                                 {isAdmin && (
                                                                     <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border border-transparent">
                                                                         ADMIN
