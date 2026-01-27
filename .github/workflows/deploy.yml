@@ -181,6 +181,18 @@ jobs:
             --set-env-vars "R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}" \
             --set-env-vars "R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}" \
             --set-env-vars "R2_PUBLIC_DOMAIN=${{ secrets.R2_PUBLIC_DOMAIN }}" \
+            --set-env-vars "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" \
+            --set-env-vars "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" \
+            --set-env-vars "SEPAY_API_KEY=${{ secrets.SEPAY_API_KEY }}" \
+            --set-env-vars "ANTHROPIC_BASE_URL=${{ secrets.ANTHROPIC_BASE_URL }}" \
+            --set-env-vars "ANTHROPIC_MODEL=${{ secrets.ANTHROPIC_MODEL }}" \
+            --set-env-vars "ANTHROPIC_AUTH_TOKEN=${{ secrets.ANTHROPIC_AUTH_TOKEN }}" \
+            --set-env-vars "SEPAY_SECRET_KEY=${{ secrets.SEPAY_SECRET_KEY }}" \
+            --set-env-vars "SMTP_HOST=${{ secrets.SMTP_HOST }}" \
+            --set-env-vars "SMTP_PORT=${{ secrets.SMTP_PORT }}" \
+            --set-env-vars "SMTP_USER=${{ secrets.SMTP_USER }}" \
+            --set-env-vars "SMTP_PASS=${{ secrets.SMTP_PASS }}" \
+            --set-env-vars "SMTP_FROM=${{ secrets.SMTP_FROM }}" \
             --min-instances 0 \
             --max-instances 10 \
             --memory 1Gi \

@@ -36,6 +36,15 @@ const envSchema = z.object({
     SEPAY_API_KEY: z.string().optional(),
     SEPAY_SECRET_KEY: z.string().optional(),
 
+    // Supabase Auth (optional)
+    SUPABASE_URL: z.string().url().optional(),
+    SUPABASE_ANON_KEY: z.string().optional(),
+
+    // AI Proxy (optional)
+    ANTHROPIC_BASE_URL: z.string().url().optional(),
+    ANTHROPIC_MODEL: z.string().optional(),
+    ANTHROPIC_AUTH_TOKEN: z.string().optional(),
+
     // Logging
     LOG_LEVEL: z.enum(['error', 'warn', 'info', 'http', 'verbose', 'debug', 'silly']).default('info'),
 });
