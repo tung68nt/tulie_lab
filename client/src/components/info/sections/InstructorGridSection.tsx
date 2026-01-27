@@ -13,7 +13,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
 
             <div className="container px-4 mx-auto">
                 <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight gradient-text">{section.title}</h2>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">{section.title}</h2>
                     {section.subtitle && (
                         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">{section.subtitle}</p>
                     )}

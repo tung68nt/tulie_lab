@@ -46,10 +46,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                                     "absolute -bottom-12 -right-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl -z-10",
                                     !isEven && "right-auto -left-12"
                                 )} />
-                                <div className={cn(
-                                    "absolute -top-8 -left-8 w-24 h-24 border-2 border-primary/20 rounded-full -z-10 animate-pulse-slow",
-                                    !isEven && "left-auto -right-8"
-                                )} />
+
                                 <div className={cn(
                                     "absolute top-1/2 -right-16 w-32 h-32 bg-dot-black/[0.1] -z-10 rounded-full",
                                     !isEven && "right-auto -left-16"

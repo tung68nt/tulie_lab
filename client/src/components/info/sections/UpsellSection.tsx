@@ -17,7 +17,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container px-4 mx-auto">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-semibold tracking-tight mb-4 text-foreground">{section.title}</h2>
+                    <h2 className="text-3xl font-semibold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-1">{section.title}</h2>
                     <p className="text-muted-foreground text-lg leading-relaxed">{section.subtitle}</p>
                 </div>
 

@@ -17,7 +17,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                             </SectionTag>
                         </div>
                     )}
-                    <h2 className="text-3xl font-bold md:text-4xl mb-4 leading-tight">
+                    <h2 className="text-3xl font-bold md:text-4xl mb-4 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-1">
                         {section.title}
                     </h2>
                     {section.content && (

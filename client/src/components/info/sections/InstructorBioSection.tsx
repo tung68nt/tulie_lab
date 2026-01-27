@@ -11,7 +11,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
         <section className="py-24 bg-muted/30">
             <div className="container px-4 mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">{section.title || "Người hướng dẫn"}</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-1">{section.title || "Người hướng dẫn"}</h2>
                     <p className="text-xl text-muted-foreground">{section.subtitle}</p>
                 </div>
 

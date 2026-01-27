@@ -13,7 +13,7 @@ export const CTASection = ({ section }: { section: Section }) => {
             {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container text-center relative z-10">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.4] tracking-tight">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.4] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-300 to-white pb-2">
                     {section.title}
                 </h2>
                 <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed">

@@ -37,7 +37,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
             <div className="container relative z-10 pt-12">
                 <div className="text-center mb-16 px-4">
-                    <h2 className="text-4xl md:text-6xl font-bold mb-8 pb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400 leading-tight">
+                    <h2 className="text-4xl md:text-6xl font-bold mb-8 pb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white leading-tight">
                         {section.title || "Quà Tặng Đặc Biệt"}
                     </h2>
                     <p className="text-xl md:text-2xl text-gray-400 font-light">

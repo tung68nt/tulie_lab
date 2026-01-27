@@ -23,7 +23,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container">
                 <div className="text-center mb-16 md:mb-24">
-                    <h2 className="text-4xl font-bold mb-4 leading-[1.3]">{section.title}</h2>
+                    <h2 className="text-4xl font-bold mb-4 leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">{section.title}</h2>
                     <p className="text-xl text-muted-foreground">{section.subtitle}</p>
                 </div>
 
