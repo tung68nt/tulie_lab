@@ -2,7 +2,7 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { ArrowRight, Target, Bot, Database, AlertTriangle, Package, CheckCircle, Zap } from 'lucide-react';
-import { DEFAULT_LANDING_PAGE_SECTIONS } from '@/lib/defaultContent';
+import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS } from '@/lib/defaultContent';
 
 interface CodingMethodsSectionProps {
     section: Section;
@@ -15,7 +15,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
     const targetSection = hasComplexContent
         ? section
-        : DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
+        : DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods') || DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
 
     const methods = targetSection?.items || [];
 
