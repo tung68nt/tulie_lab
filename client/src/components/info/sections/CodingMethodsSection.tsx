@@ -93,7 +93,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                 <StandardSectionHeader section={section} />
 
                 {/* RESPONSIVE TABLE VIEW: Scrollable on mobile, Grid on desktop */}
-                <div className="overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0">
+                <div className="overflow-x-auto pb-4">
                     <div className="min-w-[800px] md:min-w-[1000px] border border-border rounded-2xl overflow-hidden bg-card/50 shadow-sm relative">
                         {/* Table Header */}
                         <div className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border border-b border-border bg-muted/30">

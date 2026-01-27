@@ -32,7 +32,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                     subtitleOverride="Những câu chuyện thành công từ học viên đã áp dụng kiến thức vào thực tế." /* Add a real subtitle if missing */
                 />
 
-                <div className={`grid gap-8 items-stretch justify-center ${items.length === 1 ? 'grid-cols-1 max-w-xl mx-auto' :
+                <div className={`grid gap-8 items-stretch justify-center px-4 md:px-0 ${items.length === 1 ? 'grid-cols-1 max-w-xl mx-auto' :
                     items.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
                         'grid-cols-1 md:grid-cols-3'
                     }`}>

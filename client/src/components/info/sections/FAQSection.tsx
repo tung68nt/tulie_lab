@@ -37,7 +37,7 @@ export function FAQSection({ section }: { section: Section }) {
         <section className="py-20 md:py-28 bg-background dark:bg-neutral-950 relative overflow-hidden">
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container relative z-10">
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-4xl mx-auto px-4 md:px-0">
                     <StandardSectionHeader section={section} />
 
                     <div className="space-y-4">

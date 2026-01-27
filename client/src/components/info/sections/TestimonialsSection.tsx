@@ -67,7 +67,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                 <StandardSectionHeader section={section} />
 
                 {/* Testimonials grid */}
-                <div className="flex flex-wrap justify-center gap-8 -mx-4">
+                <div className="flex flex-wrap justify-center gap-8">
                     {(section.items || testimonials).map((testimonial: any, index) => (
                         <div
                             key={index}
