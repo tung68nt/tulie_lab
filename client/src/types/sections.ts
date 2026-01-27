@@ -40,5 +40,6 @@ export interface Section {
     statsIcon?: string;
     order?: number;
     showDotPattern?: boolean; // New: Toggle dot pattern visibility
+    trustIndicators?: string[]; // New: List of trust indicators for Hero section
     className?: string; // Add className for custom styling
 }

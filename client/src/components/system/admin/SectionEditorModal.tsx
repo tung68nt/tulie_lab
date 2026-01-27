@@ -197,6 +197,21 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                             placeholder="e.g. 🎓"
                                         />
                                     </div>
+                                    <div className="space-y-2 border-t border-neutral-200 dark:border-neutral-800 pt-4 mt-4">
+                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Trust Indicators</label>
+                                        <p className="text-xs text-neutral-500 mb-2">One item per line. Leave empty to hide.</p>
+                                        <textarea
+                                            value={editedSection.trustIndicators ? editedSection.trustIndicators.join('\n') : "Miễn phí thử\nHỗ trợ 24/7\nChứng chỉ"}
+                                            onChange={e => {
+                                                const val = e.target.value;
+                                                const indicators = val ? val.split('\n').filter(line => line.trim() !== '') : [];
+                                                handleChange('trustIndicators', indicators);
+                                            }}
+                                            rows={4}
+                                            className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-sans"
+                                            placeholder="Miễn phí thử&#10;Hỗ trợ 24/7&#10;Chứng chỉ"
+                                        />
+                                    </div>
                                 </div>
                             )}
 
@@ -355,7 +370,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                     </div>
                 </div>
             </div>
-        </div>,
+        </div >,
         document.body
     );
 }
