@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Switch } from '@/components/Switch';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/Tabs';
+import { Plus, Edit2, Trash2 } from 'lucide-react';
 
 interface Classification {
     id: string;
@@ -24,7 +24,6 @@ export default function AdminProductClassificationsPage() {
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [currentClassification, setCurrentClassification] = useState<Partial<Classification>>({});
-    const [activeTab, setActiveTab] = useState<'PRODUCT_TYPE' | 'PRODUCT_FIELD'>('PRODUCT_TYPE');
     const { addToast } = useToast();
     const confirm = useConfirm();
 
@@ -74,8 +73,8 @@ export default function AdminProductClassificationsPage() {
         setIsEditing(true);
     };
 
-    const handleCreate = () => {
-        setCurrentClassification({ type: activeTab, isActive: true });
+    const handleCreate = (type: 'PRODUCT_TYPE' | 'PRODUCT_FIELD') => {
+        setCurrentClassification({ type, isActive: true });
         setIsEditing(true);
     };
 
@@ -98,98 +97,128 @@ export default function AdminProductClassificationsPage() {
         }
     };
 
-    const filteredList = classifications.filter(c => c.type === activeTab);
+    const types = classifications.filter(c => c.type === 'PRODUCT_TYPE');
+    const fields = classifications.filter(c => c.type === 'PRODUCT_FIELD');
+
+    const renderList = (title: string, list: Classification[], type: 'PRODUCT_TYPE' | 'PRODUCT_FIELD') => (
+        <Card className="h-full border-neutral-200 shadow-none">
+            <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-neutral-100 px-6 pt-6">
+                <CardTitle className="text-lg font-semibold text-neutral-900">{title}</CardTitle>
+                <Button
+                    onClick={() => handleCreate(type)}
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 w-8 p-0 rounded-full hover:bg-neutral-100"
+                    title="Thêm mới"
+                >
+                    <Plus size={18} className="text-neutral-900" />
+                </Button>
+            </CardHeader>
+            <CardContent className="p-0">
+                {list.length === 0 && !loading ? (
+                    <div className="p-8 text-center text-neutral-400 text-sm">Chưa có dữ liệu</div>
+                ) : (
+                    <div className="divide-y divide-neutral-100">
+                        {list.map((item) => (
+                            <div key={item.id} className="group flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <span className="text-sm font-medium text-neutral-900">{item.name}</span>
+                                    {!item.isActive && (
+                                        <span className="text-[10px] bg-neutral-100 text-neutral-500 px-1.5 py-0.5 rounded border border-neutral-200 font-medium">Ẩn</span>
+                                    )}
+                                </div>
+                                <div className="flex items-center gap-1 opacity-10 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={() => handleEdit(item)}
+                                        className="p-1.5 text-neutral-500 hover:text-neutral-900 hover:bg-white rounded-md transition-all"
+                                    >
+                                        <Edit2 size={14} />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(item.id)}
+                                        className="p-1.5 text-neutral-500 hover:text-red-600 hover:bg-white rounded-md transition-all"
+                                    >
+                                        <Trash2 size={14} />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </CardContent>
+        </Card>
+    );
 
     return (
         <div className="space-y-6">
             <AdminPageHeader
                 title="Phân loại Sản phẩm"
-                subtitle="Quản lý các Loại sản phẩm (Product Types) và Lĩnh vực (Product Fields) của kho tài nguyên."
-            >
-                <Button onClick={handleCreate} disabled={isEditing}>Thêm phân loại</Button>
-            </AdminPageHeader>
+                subtitle="Quản lý các danh mục và thuộc tính phân loại."
+            />
 
-            <Tabs value={activeTab} onValueChange={(v: any) => setActiveTab(v)}>
-                <TabsList>
-                    <TabsTrigger value="PRODUCT_TYPE">Loại sản phẩm (Type)</TabsTrigger>
-                    <TabsTrigger value="PRODUCT_FIELD">Lĩnh vực (Field)</TabsTrigger>
-                </TabsList>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                {/* Product Types Column */}
+                <div className={isEditing ? 'opacity-50 pointer-events-none' : ''}>
+                    {renderList('Loại sản phẩm', types, 'PRODUCT_TYPE')}
+                </div>
 
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* List Column */}
-                    <div className={`col-span-1 ${isEditing ? 'md:col-span-2' : 'md:col-span-3'}`}>
-                        <Card>
-                            <CardContent className="p-0">
-                                {loading ? (
-                                    <div className="p-8 w-full flex items-center justify-center text-muted-foreground">Đang tải...</div>
-                                ) : filteredList.length === 0 ? (
-                                    <div className="p-8 w-full flex flex-col items-center justify-center text-muted-foreground min-h-[200px] h-full text-center">
-                                        Chưa có phân loại nào cho mục này
+                {/* Product Fields Column */}
+                <div className={isEditing ? 'opacity-50 pointer-events-none' : ''}>
+                    {renderList('Lĩnh vực', fields, 'PRODUCT_FIELD')}
+                </div>
+
+                {/* Edit Modal / Form Overlay */}
+                {isEditing && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm p-4">
+                        <Card className="w-full max-w-md shadow-2xl border-neutral-200 animate-in fade-in zoom-in-95 duration-200">
+                            <CardHeader className="border-b border-neutral-100 pb-4">
+                                <CardTitle className="text-lg font-bold text-neutral-900">
+                                    {currentClassification.id ? 'Cập nhật' : 'Thêm mới'}
+                                    {currentClassification.type === 'PRODUCT_TYPE' ? ' Loại sản phẩm' : ' Lĩnh vực'}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-6">
+                                <form onSubmit={handleSave} className="space-y-5">
+                                    <div>
+                                        <label className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-2 block">Tên hiển thị</label>
+                                        <Input
+                                            value={currentClassification.name || ''}
+                                            onChange={e => setCurrentClassification({ ...currentClassification, name: e.target.value })}
+                                            required
+                                            placeholder="Ví dụ: Landing Page, Marketing..."
+                                            className="h-10 border-neutral-200 focus:border-neutral-900 focus:ring-neutral-900/10"
+                                            autoFocus
+                                        />
                                     </div>
-                                ) : (
-                                    <div className="divide-y divide-border/50">
-                                        {filteredList.map((item) => (
-                                            <div key={item.id} className="p-4 flex justify-between items-center hover:bg-muted/30 transition-colors">
-                                                <div>
-                                                    <div className="font-medium flex items-center gap-2">
-                                                        {item.name}
-                                                        {!item.isActive && <span className="text-[10px] bg-zinc-100 text-zinc-500 px-1.5 py-0.5 rounded border border-zinc-200 uppercase font-bold tracking-wider">Ẩn</span>}
-                                                    </div>
-                                                </div>
-                                                <div className="flex gap-2">
-                                                    <TableActions
-                                                        onEdit={() => handleEdit(item)}
-                                                        onDelete={() => handleDelete(item.id)}
-                                                    />
-                                                </div>
-                                            </div>
-                                        ))}
+                                    <div className="flex items-center justify-between py-2">
+                                        <span className="text-sm font-medium text-neutral-700">Trạng thái hoạt động</span>
+                                        <Switch
+                                            checked={currentClassification.isActive || false}
+                                            onChange={(checked) => setCurrentClassification({ ...currentClassification, isActive: checked })}
+                                        />
                                     </div>
-                                )}
+                                    <div className="flex gap-3 pt-4 border-t border-neutral-100 mt-6">
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => { setIsEditing(false); setCurrentClassification({}); }}
+                                            className="flex-1 border-neutral-200 hover:bg-neutral-50 text-neutral-700"
+                                        >
+                                            Hủy
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            className="flex-1 bg-neutral-900 hover:bg-neutral-800 text-white shadow-none"
+                                        >
+                                            Lưu thay đổi
+                                        </Button>
+                                    </div>
+                                </form>
                             </CardContent>
                         </Card>
                     </div>
-
-                    {/* Form Column */}
-                    {isEditing && (
-                        <div className="col-span-1 md:col-span-1">
-                            <Card className="sticky top-6">
-                                <CardHeader>
-                                    <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-500">
-                                        {currentClassification.id ? 'Cập nhật' : 'Thêm mới'} {activeTab === 'PRODUCT_TYPE' ? 'Loại' : 'Lĩnh vực'}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <form onSubmit={handleSave} className="space-y-4">
-                                        <div>
-                                            <label className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1.5 block">Tên hiển thị</label>
-                                            <Input
-                                                value={currentClassification.name || ''}
-                                                onChange={e => setCurrentClassification({ ...currentClassification, name: e.target.value })}
-                                                required
-                                                placeholder="Ví dụ: Landing Page, Marketing..."
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="flex items-center gap-2 cursor-pointer">
-                                                <Switch
-                                                    checked={currentClassification.isActive || false}
-                                                    onChange={(checked) => setCurrentClassification({ ...currentClassification, isActive: checked })}
-                                                />
-                                                <span className="text-sm font-medium">Đang hoạt động</span>
-                                            </label>
-                                        </div>
-                                        <div className="flex gap-2 pt-2">
-                                            <Button type="submit" className="flex-1">Lưu lại</Button>
-                                            <Button type="button" variant="outline" onClick={() => { setIsEditing(false); setCurrentClassification({}); }}>Hủy</Button>
-                                        </div>
-                                    </form>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    )}
-                </div>
-            </Tabs>
+                )}
+            </div>
         </div>
     );
 }
