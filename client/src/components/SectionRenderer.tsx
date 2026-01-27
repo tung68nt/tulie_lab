@@ -63,6 +63,12 @@ export const SECTION_COMPONENTS: Record<string, any> = {
 import { SectionPreviewContext } from '@/contexts/SectionPreviewContext';
 
 export const SectionRenderer = ({ section, isPreview = false }: { section: any; isPreview?: boolean }) => {
+    // HOTFIX: Force "Phương Pháp Đào Tạo Độc Quyền" to use CodingMethodsSection
+    // The database has this section with a different type (likely 'content'), preventing the table from rendering.
+    if (section.title && (section.title.includes('Phương Pháp Đào Tạo Độc Quyền') || section.title.includes('Vibe Coding'))) {
+        section.type = 'coding-methods';
+    }
+
     const Component = SECTION_COMPONENTS[section.type];
     if (!Component) {
         // Fallback or Null

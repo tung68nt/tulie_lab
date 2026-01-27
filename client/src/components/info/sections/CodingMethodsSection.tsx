@@ -10,14 +10,11 @@ interface CodingMethodsSectionProps {
 export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => {
     // FORCE UPDATE: Prefer DEFAULT content for this specific section type as it's complex
     // If section from props has valid complex items, use it. Otherwise fallback to DEFAULT.
-    // DEBUG MODE: Always use default content to ensure table renders correctly
-    const targetSection = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods');
+    const hasComplexContent = section.items && section.items.length > 0 && section.items[0].stepsDetail;
 
-    // const hasComplexContent = section.items && section.items.length > 0 && section.items[0].stepsDetail;
-
-    // const targetSection = hasComplexContent
-    //     ? section
-    //     : DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods') || DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
+    const targetSection = hasComplexContent
+        ? section
+        : DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods') || DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
 
     const defaultMethodsSection = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods');
 
