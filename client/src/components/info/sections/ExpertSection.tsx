@@ -55,7 +55,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             </div>
 
                             {/* Floating Stats/Badge */}
-                            <div className="absolute bottom-8 -right-4 lg:-right-8 bg-background dark:bg-neutral-900 p-4 pl-5 rounded-2xl shadow-xl border border-neutral-100 dark:border-neutral-800 flex items-center gap-4 animate-bounce-subtle">
+                            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:-right-8 bg-background dark:bg-neutral-900 p-4 pl-5 rounded-2xl shadow-xl border border-neutral-100 dark:border-neutral-800 flex items-center gap-4 animate-bounce-subtle w-max max-w-[90%]">
                                 <div className="flex -space-x-3">
                                     {[1, 2, 3].map(i => (
                                         <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-neutral-900 bg-neutral-200 overflow-hidden relative">
