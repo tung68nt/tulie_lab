@@ -38,12 +38,12 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
     const getStepLabel = (key: string) => {
         const labels: Record<string, string> = {
-            feasibility: 'Khả thi',
+            feasibility: 'Khả thi với Vibe Coding?',
             goal: 'Mục tiêu',
-            ai_usage: 'Cách dùng AI',
-            data: 'Dữ liệu',
+            ai_usage: 'Cách dùng AI (The Vibe)',
+            data: 'Dữ liệu (Data)',
             limits: 'Giới hạn',
-            output: 'Đầu ra'
+            output: 'Sản phẩm đầu ra (Thực tế)'
         };
         return labels[key] || key;
     };
