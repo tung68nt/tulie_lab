@@ -444,6 +444,7 @@ export const api = {
         update: (id: string, data: unknown) => request<Product>(`/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
         delete: (id: string) => request<void>(`/products/${id}`, { method: 'DELETE' }),
         addVersion: (id: string, data: unknown) => request<unknown>(`/products/${id}/versions`, { method: 'POST', body: JSON.stringify(data) }),
+        updateVersion: (versionId: string, data: unknown) => request<unknown>(`/products/versions/${versionId}`, { method: 'PUT', body: JSON.stringify(data) }),
         deleteVersion: (versionId: string) => request<void>(`/products/versions/${versionId}`, { method: 'DELETE' }),
         getUpsells: (id: string) => request<any>(`/products/${id}/upsells`),
         addUpsell: (id: string, data: { productId?: string; courseId?: string; position?: number }) => request<any>(`/products/${id}/upsells`, { method: 'POST', body: JSON.stringify(data) }),
