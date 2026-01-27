@@ -14,7 +14,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
 
     return (
         <section className="py-24 bg-background border-t border-zinc-100 relative overflow-hidden">
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container px-4 mx-auto">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
                     <h2 className="text-3xl font-semibold tracking-tight mb-4 text-zinc-900">{section.title}</h2>

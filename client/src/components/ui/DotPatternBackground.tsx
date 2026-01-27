@@ -18,7 +18,7 @@ export function DotPatternBackground({ className, fadeClassName, withVignette = 
             <div className={cn(
                 "absolute inset-0 text-neutral-500/20", // Standardize intensity and color here
                 "[mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]",
-                "-webkit-mask-image-[radial-gradient(ellipse_at_center,black_40%,transparent_100%)]",
+                "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]",
                 fadeClassName
             )}
                 style={{

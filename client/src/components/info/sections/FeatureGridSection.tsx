@@ -12,7 +12,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
             {/* Fade overlay */}
             <div className="absolute inset-0 bg-black/20 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
 
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}

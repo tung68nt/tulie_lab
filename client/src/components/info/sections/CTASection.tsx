@@ -10,7 +10,7 @@ export const CTASection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden flex items-center justify-center">
             {/* Background pattern matching other sections */}
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container text-center relative z-10">
                 <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.4] tracking-tight">

@@ -60,7 +60,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
             {/* Dotted Background check */}
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container relative z-10">
                 {/* Header */}

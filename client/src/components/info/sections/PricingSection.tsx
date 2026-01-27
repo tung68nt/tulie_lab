@@ -21,7 +21,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
 
     return (
         <section className="container py-12 md:py-20 relative overflow-hidden" id={section.id}>
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
             {(section.title || section.subtitle) && (
                 <div className="text-center mb-12 space-y-4">
                     {section.title && <h2 className="text-3xl md:text-5xl font-semibold">{section.title}</h2>}

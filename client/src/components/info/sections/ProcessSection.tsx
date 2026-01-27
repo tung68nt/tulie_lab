@@ -20,7 +20,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
 
     return (
         <section className="py-24 bg-background relative overflow-hidden">
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container">
                 <div className="text-center mb-16 md:mb-24">
                     <h2 className="text-4xl font-bold mb-4 leading-[1.3]">{section.title}</h2>

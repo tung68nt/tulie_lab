@@ -7,7 +7,7 @@ import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 export function StatsSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-16 bg-background relative overflow-hidden">
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container relative z-10">
                 <div className="text-center mb-20 max-w-3xl mx-auto">
                     {section.subtitle && (

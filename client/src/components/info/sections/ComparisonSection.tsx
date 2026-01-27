@@ -7,7 +7,7 @@ import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 export function ComparisonSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-12 bg-background relative overflow-hidden">
-            {section.showDotPattern && <DotPatternBackground />}
+            {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container relative z-10">
                 <div className="text-center mb-12">
                     {section.subtitle && (
