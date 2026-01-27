@@ -485,28 +485,30 @@ export function Navbar() {
 
                             if (link.children) {
                                 return (
-                                    <div key={link.href} className="space-y-1 py-1">
-                                        <div className="px-4 py-2 text-base font-bold text-foreground mt-2 mb-1">
+                                    <div key={link.href} className="space-y-1">
+                                        <div className="px-4 py-3 text-base font-bold text-foreground">
                                             {link.label}
                                         </div>
-                                        {link.children.map(child => {
-                                            const isChildActive = pathname === child.href;
-                                            return (
-                                                <Link
-                                                    key={child.href}
-                                                    href={child.href}
-                                                    target={child.isExternal ? '_blank' : undefined}
-                                                    rel={child.isExternal ? 'noopener noreferrer' : undefined}
-                                                    className={`block py-3 px-4 text-[15px] rounded-lg transition-all pl-8 border-l-2 ml-4 ${isChildActive
-                                                        ? 'border-primary bg-primary/5 text-primary font-semibold'
-                                                        : 'border-zinc-200 dark:border-zinc-800 text-muted-foreground hover:bg-muted/50 hover:text-foreground'
-                                                        }`}
-                                                    onClick={() => setMobileMenuOpen(false)}
-                                                >
-                                                    {child.label}
-                                                </Link>
-                                            );
-                                        })}
+                                        <div className="ml-4 border-l-2 border-border/60 pl-2 space-y-1 my-1">
+                                            {link.children.map(child => {
+                                                const isChildActive = pathname === child.href;
+                                                return (
+                                                    <Link
+                                                        key={child.href}
+                                                        href={child.href}
+                                                        target={child.isExternal ? '_blank' : undefined}
+                                                        rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                                                        className={`block py-2.5 px-4 text-[15px] rounded-md transition-colors ${isChildActive
+                                                            ? 'text-primary font-semibold bg-primary/5'
+                                                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                                                            }`}
+                                                        onClick={() => setMobileMenuOpen(false)}
+                                                    >
+                                                        {child.label}
+                                                    </Link>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                 );
                             }
