@@ -502,6 +502,7 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
         { name: 'App / Software', type: 'PRODUCT_TYPE' },
         { name: 'License Key', type: 'PRODUCT_TYPE' },
         { name: 'Subscription', type: 'PRODUCT_TYPE' },
+        { name: 'Combo', type: 'PRODUCT_TYPE' },
     ];
 
     for (const t of productTypes) {

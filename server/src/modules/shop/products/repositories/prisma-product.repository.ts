@@ -25,7 +25,21 @@ export class PrismaProductRepository implements IProductRepository {
     async findBySlug(slug: string): Promise<Product | null> {
         return prisma.product.findUnique({
             where: { slug },
-            include: { versions: { orderBy: { createdAt: 'desc' } } }
+            include: {
+                versions: { orderBy: { createdAt: 'desc' } },
+                upsellCourses: {
+                    include: {
+                        upsellCourse: true
+                    },
+                    orderBy: { position: 'asc' }
+                },
+                upsellProducts: {
+                    include: {
+                        upsellProduct: true
+                    },
+                    orderBy: { position: 'asc' }
+                }
+            }
         });
     }
 

@@ -446,6 +446,69 @@ export default function ProductDetailPage() {
                     </div>
                 </div>
 
+                {/* Learning Path - Only for Combo/Learning Path products */}
+                {product.type === 'Combo' && product.upsellCourses && product.upsellCourses.length > 0 && (
+                    <div className="mt-16 mb-20">
+                        <div className="text-center max-w-2xl mx-auto mb-12">
+                            <Badge className="mb-4 bg-primary/10 text-primary hover:bg-primary/20 border-primary/20">Learning Path</Badge>
+                            <h2 className="text-3xl font-bold mb-4">Lộ trình học tập chi tiết</h2>
+                            <p className="text-muted-foreground">
+                                Combo này được thiết kế theo lộ trình bài bản, giúp bạn đi từ cơ bản đến nâng cao một cách hiệu quả nhất.
+                            </p>
+                        </div>
+
+                        <div className="relative max-w-4xl mx-auto">
+                            {/* Connecting Line */}
+                            <div className="absolute left-[28px] md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/50 via-primary/20 to-transparent -translate-x-1/2 md:-translate-x-px" />
+
+                            <div className="space-y-12">
+                                {product.upsellCourses.map((item: any, index: number) => (
+                                    <div key={item.id} className={`relative flex flex-col md:flex-row gap-8 items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+
+                                        {/* Number Badge */}
+                                        <div className="absolute left-[28px] md:left-1/2 -translate-x-1/2 flex items-center justify-center w-14 h-14 rounded-full bg-background border-4 border-primary text-xl font-bold z-10 shadow-xl">
+                                            {index + 1}
+                                        </div>
+
+                                        {/* Content Card */}
+                                        <div className="w-full md:w-[calc(50%-40px)] pl-16 md:pl-0">
+                                            <Link href={`/courses/${item.upsellCourse.slug}`} className="group block bg-card hover:bg-accent/50 border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+                                                <div className="aspect-video relative overflow-hidden">
+                                                    <img
+                                                        src={item.upsellCourse.thumbnail || '/placeholder-course.jpg'}
+                                                        alt={item.upsellCourse.title}
+                                                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                                                    />
+                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <span className="bg-white/90 text-black text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide">
+                                                            Xem khóa học
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="p-5">
+                                                    <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                                        {item.upsellCourse.title}
+                                                    </h3>
+                                                    <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                                                        {item.upsellCourse.description}
+                                                    </p>
+                                                    <div className="flex items-center gap-2 text-xs font-medium text-primary">
+                                                        <Sparkles className="w-3.5 h-3.5" />
+                                                        <span>Bao gồm trong gói</span>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </div>
+
+                                        {/* Spacer for the other side */}
+                                        <div className="hidden md:block w-[calc(50%-40px)]" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Detailed Content Section */}
                 {product.detailedContent && (
                     <div className="mt-20">
