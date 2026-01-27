@@ -27,10 +27,10 @@ export function ComparisonSection({ section }: { section: Section }) {
                     )}
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-6">
+                <div className="flex flex-wrap justify-center gap-10">
                     {section.items?.map((item, index) => (
-                        <div key={index} className={`w-full lg:w-[calc(50%-12px)] flex flex-col`}>
-                            <Card className={`h-full border flex flex-col rounded-[48px] ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border'}`}>
+                        <div key={index} className={`w-full lg:w-[calc(50%-20px)] flex flex-col`}>
+                            <Card className={`h-full border flex flex-col rounded-[56px] ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border'}`}>
                                 <CardHeader className={`${index === 1 ? 'bg-primary/5' : ''}`}>
                                     <div className="flex items-center justify-between mb-2">
                                         <CardTitle className="text-xl md:text-2xl">{item.title}</CardTitle>
