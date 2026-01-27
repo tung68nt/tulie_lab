@@ -21,6 +21,7 @@ import { InstructorGridSection } from '@/components/info/sections/InstructorGrid
 import { ContentBlockSection } from '@/components/info/sections/ContentBlockSection';
 import { PricingSection } from '@/components/info/sections/PricingSection';
 import { FAQSection } from '@/components/info/sections/FAQSection';
+import { CodingMethodsSection } from '@/components/info/sections/CodingMethodsSection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -48,6 +49,7 @@ const SECTION_COMPONENTS: Record<string, any> = {
     'instructor-grid': InstructorGridSection,
     pricing: PricingSection,
     faq: FAQSection,
+    'coding-methods': CodingMethodsSection,
 };
 
 async function getLandingPage(slug: string) {
