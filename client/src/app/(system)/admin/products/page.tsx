@@ -34,7 +34,8 @@ export default function AdminProductsPage() {
             }
         } catch (error: any) {
             console.error('Error loading products:', error);
-            addToast(`Lỗi tải sản phẩm: ${error?.message || 'Unknown error'}`, 'error');
+            const errorMessage = error?.message || (typeof error === 'string' ? error : JSON.stringify(error));
+            addToast(`Lỗi tải sản phẩm: ${errorMessage || 'Unknown error'}`, 'error');
         } finally {
             setLoading(false);
         }
