@@ -97,7 +97,7 @@ function BarChart({ data }: { data: { month: string; value: number; date?: Date 
                     </div>
 
                     {/* X-axis Labels */}
-                    <div className={`flex justify-between gap-[1px] mt-2 text-xs text-muted-foreground items-start w-full ${isDense ? 'h-20' : 'h-12'}`}>
+                    <div className={`flex justify-between gap-[1px] mt-1 text-xs text-muted-foreground items-start w-full ${isDense ? 'h-14' : 'h-8'}`}>
                         {data.map((d, i) => {
                             const weekend = isWeekend(d.month);
                             return (
