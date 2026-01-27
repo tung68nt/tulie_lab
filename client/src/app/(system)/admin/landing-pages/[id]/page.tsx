@@ -92,12 +92,12 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
 
         // Fetch courses and products for selection
         api.admin.courses.list()
-            .then(res => setCourses((res as any).data || []))
-            .catch(err => console.error('Failed to load courses', err));
+            .then((res: any) => setCourses((res as any).data || []))
+            .catch((err: any) => console.error('Failed to load courses', err));
 
         api.products.list()
-            .then(res => setProducts((res as any).data || []))
-            .catch(err => console.error('Failed to load products', err));
+            .then((res: any) => setProducts((res as any).data || []))
+            .catch((err: any) => console.error('Failed to load products', err));
     }, []);
 
     useEffect(() => {

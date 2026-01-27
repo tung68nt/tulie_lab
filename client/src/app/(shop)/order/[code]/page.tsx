@@ -43,7 +43,7 @@ export default function OrderPage({ params }: { params: any }) {
             try {
                 // Parallel fetch
                 const [orderData, settingsData] = await Promise.all([
-                    api.payments.getOrder(code).catch(e => {
+                    api.payments.getOrder(code).catch((e: any) => {
                         console.warn("Failed to fetch order", e);
                         return null;
                     }),
@@ -68,7 +68,7 @@ export default function OrderPage({ params }: { params: any }) {
                 if (orderData && orderData.status !== order?.status) {
                     setOrder(orderData);
                 }
-            } catch (e) {
+            } catch (e: any) {
                 console.error("Failed to refresh order status", e);
             } finally {
                 setTimeout(() => setIsChecking(false), 1000);
