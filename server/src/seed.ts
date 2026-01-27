@@ -493,7 +493,67 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
         console.log(`✅ Product ready: ${p.title}`);
     }
 
-    // ===== 7. SYSTEM SETTINGS =====
+    // ===== 7. PRODUCT CLASSIFICATIONS =====
+    console.log('\n🏷️ Seeding Product Classifications...');
+
+    // 7.1 Product Types
+    const productTypes = [
+        { name: 'Template', type: 'PRODUCT_TYPE' },
+        { name: 'App / Software', type: 'PRODUCT_TYPE' },
+        { name: 'License Key', type: 'PRODUCT_TYPE' },
+        { name: 'Subscription', type: 'PRODUCT_TYPE' },
+    ];
+
+    for (const t of productTypes) {
+        await prisma.productClassification.upsert({
+            where: {
+                name_type: {
+                    name: t.name,
+                    // @ts-ignore
+                    type: t.type
+                }
+            },
+            update: { isActive: true },
+            create: {
+                name: t.name,
+                // @ts-ignore
+                type: t.type,
+                isActive: true
+            }
+        });
+    }
+
+    // 7.2 Product Fields
+    const productFields = [
+        { name: 'Kế toán (Accounting)', type: 'PRODUCT_FIELD' },
+        { name: 'Nhân sự (HR)', type: 'PRODUCT_FIELD' },
+        { name: 'Marketing', type: 'PRODUCT_FIELD' },
+        { name: 'Kinh doanh (Business)', type: 'PRODUCT_FIELD' },
+        { name: 'Sáng tạo (Creative)', type: 'PRODUCT_FIELD' },
+        { name: 'Khác (Other)', type: 'PRODUCT_FIELD' },
+    ];
+
+    for (const f of productFields) {
+        await prisma.productClassification.upsert({
+            where: {
+                name_type: {
+                    name: f.name,
+                    // @ts-ignore
+                    type: f.type
+                }
+            },
+            update: { isActive: true },
+            create: {
+                name: f.name,
+                // @ts-ignore
+                type: f.type,
+                isActive: true
+            }
+        });
+    }
+    console.log('✅ Product Classifications ready\n');
+
+    // ===== 8. SYSTEM SETTINGS =====
     console.log('\n⚙️ Seeding System Settings...');
     const settings = [
         { key: 'site_name', value: 'The Tulie Lab', type: 'text' },
