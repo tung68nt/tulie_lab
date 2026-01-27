@@ -40,11 +40,15 @@ jobs:
         run: |
           # Determine secrets based on branch
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DB="${{ secrets.DATABASE_URL }}"
-            DIR="${{ secrets.DIRECT_URL }}"
+            DB="${{ secrets.DATABASE_URL_PROD }}"
+            if [ -z "$DB" ]; then DB="${{ secrets.DATABASE_URL }}"; fi
+            DIR="${{ secrets.DIRECT_URL_PROD }}"
+            if [ -z "$DIR" ]; then DIR="${{ secrets.DIRECT_URL }}"; fi
           else
-            DB="${{ secrets.BETA_DATABASE_URL }}"
-            DIR="${{ secrets.BETA_DIRECT_URL }}"
+            DB="${{ secrets.DATABASE_URL_BETA }}"
+            if [ -z "$DB" ]; then DB="${{ secrets.BETA_DATABASE_URL }}"; fi
+            DIR="${{ secrets.DIRECT_URL_BETA }}"
+            if [ -z "$DIR" ]; then DIR="${{ secrets.BETA_DIRECT_URL }}"; fi
           fi
 
           # Fallback for DIRECT_URL
@@ -142,11 +146,15 @@ jobs:
         id: db-env
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DB_URL="${{ secrets.DATABASE_URL }}"
-            DIR_URL="${{ secrets.DIRECT_URL }}"
+            DB_URL="${{ secrets.DATABASE_URL_PROD }}"
+            if [ -z "$DB_URL" ]; then DB_URL="${{ secrets.DATABASE_URL }}"; fi
+            DIR_URL="${{ secrets.DIRECT_URL_PROD }}"
+            if [ -z "$DIR_URL" ]; then DIR_URL="${{ secrets.DIRECT_URL }}"; fi
           else
-            DB_URL="${{ secrets.BETA_DATABASE_URL }}"
-            DIR_URL="${{ secrets.BETA_DIRECT_URL }}"
+            DB_URL="${{ secrets.DATABASE_URL_BETA }}"
+            if [ -z "$DB_URL" ]; then DB_URL="${{ secrets.BETA_DATABASE_URL }}"; fi
+            DIR_URL="${{ secrets.DIRECT_URL_BETA }}"
+            if [ -z "$DIR_URL" ]; then DIR_URL="${{ secrets.BETA_DIRECT_URL }}"; fi
           fi
 
           if [ -z "$DIR_URL" ]; then

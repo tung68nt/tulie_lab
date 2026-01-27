@@ -10,7 +10,7 @@ const envSchema = z.object({
     DIRECT_URL: z.string().url().or(z.literal('')).optional(),
 
     // Auth (required)
-    JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters'),
+    JWT_SECRET: z.string().min(1, 'JWT_SECRET is required'),
 
     // CORS
     CLIENT_URL: z.string().url().default('http://localhost:3000'),
@@ -30,7 +30,7 @@ const envSchema = z.object({
     SMTP_PORT: z.string().optional(),
     SMTP_USER: z.string().optional(),
     SMTP_PASS: z.string().optional(),
-    SMTP_FROM: z.string().email().optional(),
+    SMTP_FROM: z.string().email().or(z.literal('')).optional(),
 
     // Payment (optional)
     SEPAY_API_KEY: z.string().optional(),
