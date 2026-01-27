@@ -21,11 +21,11 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
     // Fallback rowConfig: Use section's config, or default config, or hardcoded basic config as last resort
     const rowConfig = targetSection?.rowConfig || defaultMethodsSection?.rowConfig || [
-        { key: "feasibility", label: "Khả thi", icon: "CheckCircle" },
+        { key: "feasibility", label: "Khả thi", icon: "Check" },
         { key: "goal", label: "Mục tiêu", icon: "Target" },
         { key: "ai_usage", label: "Cách dùng AI", icon: "Bot" },
         { key: "data", label: "Dữ liệu", icon: "Database" },
-        { key: "limits", label: "Giới hạn", icon: "AlertTriangle" },
+        { key: "limits", label: "Giới hạn", icon: "Ban" },
         { key: "output", label: "Sản phẩm đầu ra", icon: "Package" }
     ];
 

@@ -370,11 +370,11 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         title: "5 Cấp độ xây dựng App với Vibe Coding",
         subtitle: "Học cách làm chủ AI để tạo ra sản phẩm thực thụ",
         rowConfig: [
-            { key: "feasibility", label: "Khả thi với Vibe Coding?", icon: "CheckCircle" },
+            { key: "feasibility", label: "Khả thi với Vibe Coding?", icon: "Check" },
             { key: "goal", label: "Mục tiêu", icon: "Target" },
             { key: "ai_usage", label: "Cách dùng AI (The Vibe)", icon: "Bot" },
             { key: "data", label: "Dữ liệu (Data)", icon: "Database" },
-            { key: "limits", label: "Giới hạn", icon: "AlertTriangle" },
+            { key: "limits", label: "Giới hạn", icon: "Ban" },
             { key: "output", label: "Sản phẩm đầu ra (Thực tế)", icon: "Package" }
         ],
         items: [
