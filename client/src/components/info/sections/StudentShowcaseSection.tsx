@@ -2,6 +2,7 @@ import React from 'react';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 interface StudentShowcaseSectionProps {
     section: Section;
@@ -12,7 +13,8 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
 
     return (
         <section className="py-12 md:py-20 bg-background overflow-hidden relative">
-            <div className="container">
+            {section.showDotPattern !== false && <DotPatternBackground />}
+            <div className="container relative z-10">
                 <div className="text-center mb-10">
                     <span className="text-primary font-bold tracking-wider uppercase text-sm block mb-4">
                         {section.subtitle || "KẾT QUẢ THỰC TẾ TỪ NHỮNG HỌC VIÊN ĐÃ ÁP DỤNG KIẾN THỨC VÀO CÔNG VIỆC KINH DOANH VÀ SỰ NGHIỆP."}

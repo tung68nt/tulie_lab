@@ -3,6 +3,7 @@
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { useState, useEffect } from 'react';
 import { CartItem, CheckoutFormState, CheckoutState } from '@/types/checkout';
 import { cn } from '@/lib/utils';
@@ -654,8 +655,18 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
     );
 
     return (
-        <section id="payment-section" className="py-16 md:py-24 bg-secondary/10">
-            <div className="container px-4 mx-auto max-w-6xl">
+        <section id="payment-section" className="py-16 md:py-24 bg-secondary/10 relative overflow-hidden">
+            {section.showDotPattern !== false && <DotPatternBackground />}
+
+            <div className="container px-4 mx-auto max-w-6xl relative z-10">
+                {/* Section Header */}
+                {(section.title || section.subtitle) && (
+                    <div className="text-center mb-12 space-y-4">
+                        {section.title && <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">{section.title}</h2>}
+                        {section.subtitle && <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{section.subtitle}</p>}
+                    </div>
+                )}
+
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
                     {/* Left Column: Form or Success Message */}
