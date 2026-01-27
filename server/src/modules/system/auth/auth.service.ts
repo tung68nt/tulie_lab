@@ -1,5 +1,5 @@
-import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { Role, Prisma } from '@prisma/client';
 import { IUserRepository } from '../users/interfaces/user.repository.interface';
 import axios from 'axios';

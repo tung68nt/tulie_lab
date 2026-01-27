@@ -597,10 +597,9 @@ export default function ProductEditorPage() {
                                                                     const newVer = prompt('Sửa phiên bản:', ver.version);
                                                                     const newUrl = prompt('Sửa link file:', ver.fileUrl);
                                                                     const newChangelog = prompt('Sửa changelog:', ver.changelog || '');
-                                                                    
+
                                                                     if (newVer || newUrl || newChangelog) {
-                                                                        // @ts-ignore
-                                                                        api.products.updateVersion?.(ver.id, {
+                                                                        api.products.updateVersion(ver.id, {
                                                                             version: newVer || ver.version,
                                                                             fileUrl: newUrl || ver.fileUrl,
                                                                             changelog: newChangelog || ver.changelog
@@ -638,9 +637,9 @@ export default function ProductEditorPage() {
                                                         <svg className="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.823a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.101-1.101" />
                                                         </svg>
-                                                        <a 
-                                                            href={ver.fileUrl} 
-                                                            target="_blank" 
+                                                        <a
+                                                            href={ver.fileUrl}
+                                                            target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="text-xs font-mono text-zinc-500 hover:text-zinc-900 transition-colors break-all"
                                                         >
