@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Gift } from 'lucide-react';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 interface BonusSectionProps {
     section: Section;
@@ -36,14 +37,11 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
             </div>
 
             <div className="container relative z-10 pt-12">
-                <div className="text-center mb-16 px-4">
-                    <h2 className="text-4xl md:text-6xl font-bold mb-8 py-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white leading-tight">
-                        {section.title || "Quà Tặng Đặc Biệt"}
-                    </h2>
-                    <p className="text-xl md:text-2xl text-gray-400 font-light">
-                        {section.subtitle || "Dành riêng cho 50 bạn đăng ký sớm nhất hôm nay"}
-                    </p>
-                </div>
+                <StandardSectionHeader
+                    section={section}
+                    titleOverride={section.title || "Quà Tặng Đặc Biệt"}
+                    subtitleOverride={section.subtitle || "Dành riêng cho 50 bạn đăng ký sớm nhất hôm nay"}
+                />
 
                 <div className="flex flex-col gap-8">
                     {/* Bonus Cards */}

@@ -1,6 +1,6 @@
 import { Section } from '@/types/sections';
 import { DynamicIcon } from '@/components/DynamicIcon';
-import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
@@ -9,23 +9,11 @@ export function StatsSection({ section }: { section: Section }) {
         <section className="w-full py-16 bg-background relative overflow-hidden">
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container relative z-10">
-                <div className="text-center mb-20 max-w-3xl mx-auto">
-                    {section.subtitle && (
-                        <div className="flex justify-center">
-                            <SectionTag>
-                                {section.subtitle}
-                            </SectionTag>
-                        </div>
-                    )}
-                    <h2 className="text-4xl font-bold md:text-6xl mb-8 tracking-tight leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                        {section.title}
-                    </h2>
-                    {section.content && (
-                        <p className="text-xl text-muted-foreground leading-relaxed">
-                            {section.content}
-                        </p>
-                    )}
-                </div>
+                <StandardSectionHeader
+                    section={section}
+                    tagOverride={section.subtitle}
+                    subtitleOverride={section.content}
+                />
 
                 <div className={`grid gap-6 ${section.items && section.items.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' :
                     section.items && section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto' :

@@ -2,6 +2,7 @@ import { Section } from '@/types/sections';
 import { BookOpen, CheckCircle2, PlayCircle, FileText } from 'lucide-react';
 import Image from 'next/image';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export const CurriculumSection = ({ section }: { section: Section }) => {
     // Default modules if not provided in section data
@@ -46,18 +47,17 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container px-4 md:px-6 max-w-5xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-background dark:bg-black px-4 py-1.5 text-sm font-semibold text-foreground mb-6 shadow-sm">
-                        <BookOpen size={16} className="text-primary" />
-                        Lộ trình chi tiết
-                    </div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                        {section.title || "Nội Dung Chi Tiết Khóa Học"}
-                    </h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
-                        {section.subtitle || "Hệ thống bài giảng được thiết kế khoa học, đi từ tư duy đến thực chiến, kèm theo bộ tài liệu và công cụ hỗ trợ."}
-                    </p>
-                </div>
+                {/* Header */}
+                <StandardSectionHeader
+                    section={section}
+                    tagOverride={
+                        <span className="flex items-center gap-2">
+                            <BookOpen size={16} className="text-primary" />
+                            Lộ trình chi tiết
+                        </span>
+                    }
+                    subtitleOverride={section.subtitle || "Hệ thống bài giảng được thiết kế khoa học, đi từ tư duy đến thực chiến, kèm theo bộ tài liệu và công cụ hỗ trợ."}
+                />
 
                 {/* Modules - 1 Column Layout */}
                 <div className="space-y-12">

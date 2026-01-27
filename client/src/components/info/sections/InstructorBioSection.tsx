@@ -1,6 +1,7 @@
 import { Section } from '@/types/sections';
 import Image from 'next/image';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export function InstructorBioSection({ section }: { section: Section }) {
     // Expecting items[0] to be the main instructor data
@@ -10,10 +11,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
     return (
         <section className="py-24 bg-muted/30">
             <div className="container px-4 mx-auto">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title || "Người hướng dẫn"}</h2>
-                    <p className="text-xl text-muted-foreground">{section.subtitle}</p>
-                </div>
+                <StandardSectionHeader section={section} />
 
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 max-w-6xl mx-auto">
                     {/* Visual - Circular Portrait */}

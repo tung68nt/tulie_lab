@@ -1,5 +1,6 @@
 import { Section } from '@/types/sections';
 import { Twitter, Linkedin, Github, ExternalLink } from 'lucide-react';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export const InstructorGridSection = ({ section }: { section: Section }) => {
     if (!section.items) return null;
@@ -12,12 +13,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
             <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
 
             <div className="container px-4 mx-auto">
-                <div className="max-w-3xl mx-auto text-center mb-16 md:mb-24">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
-                    {section.subtitle && (
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">{section.subtitle}</p>
-                    )}
-                </div>
+                <StandardSectionHeader section={section} />
 
                 <div className={`grid gap-10 md:gap-12 ${section.items.length === 1 ? 'grid-cols-1 max-w-md mx-auto' :
                     section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' :

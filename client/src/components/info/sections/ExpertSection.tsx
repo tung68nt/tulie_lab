@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -74,15 +74,17 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                     {/* Right: Content */}
                     <div className="lg:col-span-7 order-1 lg:order-2 space-y-8">
                         <div>
-                            <SectionTag>
-                                {section.tag || "VỀ GIẢNG VIÊN"}
-                            </SectionTag>
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-normal py-2 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white">
-                                {expert.name}
-                            </h2>
-                            <p className="text-xl md:text-2xl text-primary font-bold">
-                                {expert.role}
-                            </p>
+                            <StandardSectionHeader
+                                section={section}
+                                align="left"
+                                titleOverride={expert.name}
+                                tagOverride={section.tag || "VỀ GIẢNG VIÊN"}
+                                subtitleOverride="" // Clear default subtitle slot to render custom role below
+                            >
+                                <p className="text-xl md:text-2xl text-primary font-bold mt-2">
+                                    {expert.role}
+                                </p>
+                            </StandardSectionHeader>
                         </div>
 
                         <div className="prose prose-lg text-muted-foreground leading-relaxed">

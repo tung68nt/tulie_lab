@@ -14,6 +14,7 @@ interface ProcessSectionProps {
 }
 
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProps) => {
     if (!section.items) return null;
@@ -22,10 +23,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
         <section className="py-24 bg-background relative overflow-hidden">
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container">
-                <div className="text-center mb-16 md:mb-24">
-                    <h2 className="text-4xl font-bold mb-4 leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
-                    <p className="text-xl text-muted-foreground">{section.subtitle}</p>
-                </div>
+                <StandardSectionHeader section={section} />
 
                 {/* Decorative Background Elements */}
                 <div className="absolute top-20 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 pointer-events-none" />

@@ -485,8 +485,8 @@ export function Navbar() {
 
                             if (link.children) {
                                 return (
-                                    <div key={link.href} className="space-y-1">
-                                        <div className="px-4 py-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider mt-2 mb-1">
+                                    <div key={link.href} className="space-y-1 py-1">
+                                        <div className="px-4 py-2 text-base font-bold text-foreground mt-2 mb-1">
                                             {link.label}
                                         </div>
                                         {link.children.map(child => {
@@ -497,9 +497,9 @@ export function Navbar() {
                                                     href={child.href}
                                                     target={child.isExternal ? '_blank' : undefined}
                                                     rel={child.isExternal ? 'noopener noreferrer' : undefined}
-                                                    className={`block py-2.5 px-4 text-base rounded-md transition-colors pl-6 border-l-2 ${isChildActive
-                                                        ? 'border-primary bg-muted/50 text-foreground font-medium'
-                                                        : 'border-transparent text-foreground/70 hover:bg-muted/30'
+                                                    className={`block py-3 px-4 text-[15px] rounded-lg transition-all pl-8 border-l-2 ml-4 ${isChildActive
+                                                        ? 'border-primary bg-primary/5 text-primary font-semibold'
+                                                        : 'border-zinc-200 dark:border-zinc-800 text-muted-foreground hover:bg-muted/50 hover:text-foreground'
                                                         }`}
                                                     onClick={() => setMobileMenuOpen(false)}
                                                 >
@@ -517,13 +517,21 @@ export function Navbar() {
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                                    className={`block py-2 px-4 text-base font-medium rounded-md transition-colors ${isActive ? 'bg-muted text-foreground font-semibold' : 'text-foreground/70 hover:bg-muted'}`}
+                                    className={`block py-3 px-4 text-base font-bold rounded-lg transition-colors ${isActive ? 'bg-muted text-foreground' : 'text-foreground/80 hover:bg-muted'}`}
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
                                     {link.label}
                                 </Link>
                             );
                         })}
+
+                        {/* Theme Toggle Row */}
+                        <div className="px-4 py-4 mt-2 border-t border-dashed border-border flex items-center justify-between">
+                            <span className="font-medium text-muted-foreground">Giao diện</span>
+                            <div className="scale-110 origin-right">
+                                <ThemeToggle />
+                            </div>
+                        </div>
                     </div>
 
                     {/* Drawer Footer (Guest Only) */}

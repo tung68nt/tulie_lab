@@ -1,4 +1,4 @@
-import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -64,19 +64,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
 
             <div className="container relative z-10">
                 {/* Header */}
-                <div className="text-center mb-10">
-                    <div className="flex justify-center">
-                        <SectionTag>
-                            {section.tag || "Thành viên đã làm được gì?"}
-                        </SectionTag>
-                    </div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                        {section.title || "Kết quả thực tế từ những người như bạn"}
-                    </h2>
-                    <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">
-                        {section.subtitle || "Không lý thuyết suông. Đây là những thay đổi cụ thể trước và sau khi tham gia."}
-                    </p>
-                </div>
+                <StandardSectionHeader section={section} />
 
                 {/* Testimonials grid */}
                 <div className="flex flex-wrap justify-center gap-8 -mx-4">

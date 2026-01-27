@@ -2,6 +2,7 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { MonitorPlay, Check, Users, MessageCircle, Video } from 'lucide-react';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export const FeatureGridSection = ({ section }: { section: Section }) => {
@@ -16,16 +17,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}
-                <div className="max-w-3xl mx-auto text-center mb-16">
-                    {section.icon && (
-                        <div className="w-16 h-16 bg-neutral-900 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-neutral-800 shadow-lg">
-                            <DynamicIcon name={section.icon} className="w-8 h-8 text-white" />
-                        </div>
-                    )}
-
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-300 to-white py-2">{section.title}</h2>
-                    <p className="text-xl text-neutral-400">{section.subtitle}</p>
-                </div>
+                <StandardSectionHeader section={section} />
 
                 {/* Dynamic Cards */}
                 <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-16">

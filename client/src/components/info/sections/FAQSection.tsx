@@ -5,6 +5,7 @@ import { Section } from '@/types/sections';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 interface FAQItem {
     question: string;
@@ -37,18 +38,7 @@ export function FAQSection({ section }: { section: Section }) {
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container relative z-10">
                 <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-16 space-y-4">
-                        {section.title && (
-                            <h2 className="text-3xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                                {section.title}
-                            </h2>
-                        )}
-                        {section.subtitle && (
-                            <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-                                {section.subtitle}
-                            </p>
-                        )}
-                    </div>
+                    <StandardSectionHeader section={section} />
 
                     <div className="space-y-4">
                         {items.map((item, index) => (

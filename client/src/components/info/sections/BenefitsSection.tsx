@@ -1,6 +1,7 @@
 import { DynamicIcon } from '@/components/DynamicIcon';
 import Link from 'next/link';
 import { BENEFITS_DATA } from '@/lib/benefits';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 import { Section } from '@/types/sections';
 
@@ -22,14 +23,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
             {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container">
-                <div className="text-center mb-10 md:mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                        {title}
-                    </h2>
-                    <p className="text-xl text-muted-foreground leading-relaxed">
-                        {subtitle}
-                    </p>
-                </div>
+                <StandardSectionHeader section={section} />
 
                 <div className="flex flex-wrap justify-center gap-6">
                     {displayItems.map((item: any, idx) => (

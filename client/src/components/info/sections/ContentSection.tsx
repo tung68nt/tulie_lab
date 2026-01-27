@@ -1,6 +1,6 @@
 import { Section } from '@/types/sections';
 import { CheckCircle2, Sparkles } from 'lucide-react';
-import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { cn } from '@/lib/utils';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
@@ -90,26 +90,17 @@ export const ContentSection = ({ section }: { section: Section }) => {
 
             <div className="container relative z-10 mx-auto px-6">
                 <div className="max-w-4xl mx-auto">
-                    <div className="flex flex-col items-center text-center mb-20">
-                        {section.tag && (
-                            <SectionTag className="mb-8">
-                                <Sparkles className="w-3.5 h-3.5 mr-2" />
-                                {section.tag}
-                            </SectionTag>
-                        )}
-
-                        {section.title && (
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-8 leading-[1.1] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                                {section.title}
-                            </h2>
-                        )}
-
-                        {section.subtitle && (
-                            <p className="text-xl text-muted-foreground/80 leading-relaxed max-w-2xl">
-                                {section.subtitle}
-                            </p>
-                        )}
-                    </div>
+                    <StandardSectionHeader
+                        section={section}
+                        tagOverride={
+                            section.tag ? (
+                                <span className="flex items-center gap-2">
+                                    <Sparkles className="w-3.5 h-3.5" />
+                                    {section.tag}
+                                </span>
+                            ) : undefined
+                        }
+                    />
 
                     <div className="prose prose-zinc prose-lg dark:prose-invert max-w-none">
                         {renderContent(section.content || '')}

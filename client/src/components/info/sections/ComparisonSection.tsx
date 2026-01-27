@@ -1,7 +1,7 @@
 import { Section } from '@/types/sections';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Check } from 'lucide-react';
-import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export function ComparisonSection({ section }: { section: Section }) {
@@ -9,23 +9,11 @@ export function ComparisonSection({ section }: { section: Section }) {
         <section className="w-full py-12 bg-background relative overflow-hidden">
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container relative z-10">
-                <div className="text-center mb-12">
-                    {section.subtitle && (
-                        <div className="flex justify-center">
-                            <SectionTag>
-                                {section.subtitle}
-                            </SectionTag>
-                        </div>
-                    )}
-                    <h2 className="text-3xl font-bold md:text-4xl mb-4 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                        {section.title}
-                    </h2>
-                    {section.content && (
-                        <p className="mx-auto text-muted-foreground md:text-lg">
-                            {section.content}
-                        </p>
-                    )}
-                </div>
+                <StandardSectionHeader
+                    section={section}
+                    tagOverride={section.subtitle}
+                    subtitleOverride={section.content}
+                />
 
                 <div className="flex flex-wrap justify-center gap-10">
                     {section.items?.map((item, index) => (

@@ -3,6 +3,7 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 interface StudentShowcaseSectionProps {
     section: Section;
@@ -15,12 +16,21 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
         <section className="py-12 md:py-20 bg-background overflow-hidden relative">
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container relative z-10">
-                <div className="text-center mb-10">
-                    <span className="text-primary font-bold tracking-wider uppercase text-sm block mb-4">
-                        {section.subtitle || "KẾT QUẢ THỰC TẾ TỪ NHỮNG HỌC VIÊN ĐÃ ÁP DỤNG KIẾN THỨC VÀO CÔNG VIỆC KINH DOANH VÀ SỰ NGHIỆP."}
-                    </span>
-                    <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title || "Câu chuyện thành công từ học viên"}</h2>
-                </div>
+                <StandardSectionHeader
+                    section={section}
+                    // Use subtitle as tag for this section if generic tag is missing, or fallback logic
+                    // Actually, looking at the code:
+                    // Original: <span ...>{section.subtitle || "KẾT QUẢ..."}</span> (This was acting as a tag/supertitle)
+                    // H2: {section.title}
+                    // So we should map section.subtitle to tagOverride if we want it to be the "Blinking Tag"
+                    // But usually subtitle is description.
+                    // Let's check the current UI again.
+                    // The old code had: UPPERCASE SUBTITLE above Title.
+                    // The new style wants: Tag with Blinking Dot above Title.
+                    // So I will pass the old subtitle as the TAG.
+                    tagOverride={section.subtitle || "KẾT QUẢ THỰC TẾ"}
+                    subtitleOverride="Những câu chuyện thành công từ học viên đã áp dụng kiến thức vào thực tế." /* Add a real subtitle if missing */
+                />
 
                 <div className={`grid gap-8 items-stretch justify-center ${items.length === 1 ? 'grid-cols-1 max-w-xl mx-auto' :
                     items.length === 2 ? 'grid-cols-1 md:grid-cols-2' :
