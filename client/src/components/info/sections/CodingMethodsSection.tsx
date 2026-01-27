@@ -98,7 +98,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         <section className="py-24 bg-background text-foreground overflow-hidden">
             <div className="container">
                 <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">{section.title}</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
                     <p className="text-xl text-muted-foreground">{section.subtitle}</p>
                 </div>
 

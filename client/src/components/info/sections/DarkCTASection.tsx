@@ -12,7 +12,7 @@ export const DarkCTASection = ({ section }: { section: Section }) => {
             {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container relative z-10 text-center px-4 max-w-4xl mx-auto">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight leading-[1.5] bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-300 to-white pb-2">
+                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight leading-[1.5] bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-300 to-white py-2">
                     {section.title}
                 </h2>
                 <div className="flex flex-col items-center gap-4">

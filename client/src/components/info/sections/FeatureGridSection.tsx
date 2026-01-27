@@ -23,7 +23,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                         </div>
                     )}
 
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-300 to-white pb-2">{section.title}</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-300 to-white py-2">{section.title}</h2>
                     <p className="text-xl text-neutral-400">{section.subtitle}</p>
                 </div>
 

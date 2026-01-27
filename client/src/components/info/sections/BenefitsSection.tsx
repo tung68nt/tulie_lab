@@ -23,7 +23,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
             <div className="container">
                 <div className="text-center mb-10 md:mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
                         {title}
                     </h2>
                     <p className="text-xl text-muted-foreground leading-relaxed">
@@ -37,7 +37,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                             key={idx}
                             className="group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] min-w-[280px] flex flex-col"
                         >
-                            <Link href={item.href || item.link || `/blog/${item.slug || 'all'}`} className="h-full bg-card hover:bg-card/50 border border-border/50 hover:border-primary/30 p-8 rounded-2xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative overflow-hidden block text-left">
+                            <Link href={item.href || item.link || `/blog/${item.slug || 'all'}`} className="h-full bg-card hover:bg-card/50 border border-border/50 hover:border-primary/30 p-8 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative overflow-hidden block text-left">
                                 {/* Decorative Glow - Removed or toned down */}
 
                                 <div className="mb-6 relative">

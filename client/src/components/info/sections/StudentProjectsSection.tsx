@@ -20,7 +20,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                             {section.tag || "Showcase thành viên"}
                         </SectionTag>
                     </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
                         {section.title || "Sản phẩm thành viên đã làm được"}
                     </h2>
                     <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">

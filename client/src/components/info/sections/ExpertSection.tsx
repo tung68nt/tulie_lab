@@ -77,7 +77,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             <SectionTag>
                                 {section.tag || "VỀ GIẢNG VIÊN"}
                             </SectionTag>
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-normal pb-1 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-normal py-2 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white">
                                 {expert.name}
                             </h2>
                             <p className="text-xl md:text-2xl text-primary font-bold">

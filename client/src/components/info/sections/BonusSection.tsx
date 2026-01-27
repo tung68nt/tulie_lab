@@ -37,7 +37,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
             <div className="container relative z-10 pt-12">
                 <div className="text-center mb-16 px-4">
-                    <h2 className="text-4xl md:text-6xl font-bold mb-8 pb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white leading-tight">
+                    <h2 className="text-4xl md:text-6xl font-bold mb-8 py-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white leading-tight">
                         {section.title || "Quà Tặng Đặc Biệt"}
                     </h2>
                     <p className="text-xl md:text-2xl text-gray-400 font-light">
@@ -48,7 +48,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 <div className="flex flex-col gap-8">
                     {/* Bonus Cards */}
                     {items.map((item, idx) => (
-                        <div key={idx} className="group relative overflow-hidden rounded-3xl bg-neutral-900/50 border border-white/10 hover:border-[#FF0000]/50 transition-all duration-500 hover:shadow-[10px_10px_50px_-10px_rgba(255,0,0,0.2)]">
+                        <div key={idx} className="group relative overflow-hidden rounded-[32px] bg-neutral-900/50 border border-white/10 hover:border-[#FF0000]/50 transition-all duration-500 hover:shadow-[10px_10px_50px_-10px_rgba(255,0,0,0.2)]">
                             {/* Header Stripe */}
                             <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 px-6 py-4 flex items-center border-b border-white/5">
                                 <span className="bg-[#FF0000] text-white text-xs font-bold px-3 py-1 rounded-full mr-4 shadow-lg shadow-red-500/20">

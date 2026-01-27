@@ -62,7 +62,7 @@ export const CalendarSection = ({ section }: { section: Section }) => {
             {(section.title || section.subtitle) && (
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
-                        {section.title && <h2 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-1">{section.title}</h2>}
+                        {section.title && <h2 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
                         {section.subtitle && <p className="text-muted-foreground mt-2">{section.subtitle}</p>}
                     </div>
 

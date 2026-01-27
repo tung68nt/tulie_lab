@@ -70,7 +70,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                             {section.tag || "Thành viên đã làm được gì?"}
                         </SectionTag>
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.3] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
                         {section.title || "Kết quả thực tế từ những người như bạn"}
                     </h2>
                     <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">

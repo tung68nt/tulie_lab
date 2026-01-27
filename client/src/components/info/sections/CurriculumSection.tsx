@@ -51,7 +51,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                         <BookOpen size={16} className="text-primary" />
                         Lộ trình chi tiết
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
                         {section.title || "Nội Dung Chi Tiết Khóa Học"}
                     </h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">

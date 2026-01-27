@@ -17,7 +17,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                             </SectionTag>
                         </div>
                     )}
-                    <h2 className="text-3xl font-bold md:text-4xl mb-4 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-1">
+                    <h2 className="text-3xl font-bold md:text-4xl mb-4 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
                         {section.title}
                     </h2>
                     {section.content && (
@@ -30,7 +30,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                 <div className="flex flex-wrap justify-center gap-6">
                     {section.items?.map((item, index) => (
                         <div key={index} className={`w-full lg:w-[calc(50%-12px)] flex flex-col`}>
-                            <Card className={`h-full border flex flex-col rounded-3xl ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border'}`}>
+                            <Card className={`h-full border flex flex-col rounded-[32px] ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border'}`}>
                                 <CardHeader className={`${index === 1 ? 'bg-primary/5' : ''}`}>
                                     <div className="flex items-center justify-between mb-2">
                                         <CardTitle className="text-xl md:text-2xl">{item.title}</CardTitle>

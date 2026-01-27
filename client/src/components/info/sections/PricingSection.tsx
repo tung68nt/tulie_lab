@@ -25,7 +25,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
             <div className="container mx-auto">
                 {(section.title || section.subtitle) && (
                     <div className="text-center mb-12 space-y-4">
-                        {section.title && <h2 className="text-3xl md:text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white pb-2">{section.title}</h2>}
+                        {section.title && <h2 className="text-3xl md:text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
                         {section.subtitle && <p className="text-xl text-muted-foreground">{section.subtitle}</p>}
                     </div>
                 )}
@@ -35,7 +35,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                         <div
                             key={index}
                             className={cn(
-                                "group relative p-8 rounded-3xl border bg-card flex flex-col h-full transition-all duration-300 hover:shadow-xl",
+                                "group relative p-8 rounded-[32px] border bg-card flex flex-col h-full transition-all duration-300 hover:shadow-xl",
                                 item.tag === 'Best Value' ? "border-primary/50 ring-1 ring-primary/20 shadow-lg shadow-primary/5" : "border-border hover:border-primary/30"
                             )}
                         >
