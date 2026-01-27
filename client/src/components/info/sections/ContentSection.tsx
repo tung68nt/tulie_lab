@@ -83,7 +83,7 @@ export const ContentSection = ({ section }: { section: Section }) => {
 
     return (
         <section className={cn(
-            "relative py-32 overflow-hidden bg-white",
+            "relative py-32 overflow-hidden bg-background",
             section.className
         )}>
             {section.showDotPattern !== false && <DotPatternBackground />}

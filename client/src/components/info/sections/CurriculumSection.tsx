@@ -45,7 +45,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
             <div className="container px-4 md:px-6 max-w-5xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black px-4 py-1.5 text-sm font-semibold text-foreground mb-6 shadow-sm">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-800 bg-background dark:bg-black px-4 py-1.5 text-sm font-semibold text-foreground mb-6 shadow-sm">
                         <BookOpen size={16} className="text-primary" />
                         Lộ trình chi tiết
                     </div>
@@ -72,7 +72,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                     />
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                                 </div>
-                                <div className="absolute top-6 left-6 w-12 h-12 bg-white dark:bg-black rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg z-10">
+                                <div className="absolute top-6 left-6 w-12 h-12 bg-background dark:bg-black rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg z-10">
                                     {index + 1}
                                 </div>
                             </div>

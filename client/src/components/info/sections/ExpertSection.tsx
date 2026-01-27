@@ -55,7 +55,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             </div>
 
                             {/* Floating Stats/Badge */}
-                            <div className="absolute bottom-8 -right-4 lg:-right-8 bg-white dark:bg-neutral-900 p-4 pl-5 rounded-2xl shadow-xl border border-neutral-100 dark:border-neutral-800 flex items-center gap-4 animate-bounce-subtle">
+                            <div className="absolute bottom-8 -right-4 lg:-right-8 bg-background dark:bg-neutral-900 p-4 pl-5 rounded-2xl shadow-xl border border-neutral-100 dark:border-neutral-800 flex items-center gap-4 animate-bounce-subtle">
                                 <div className="flex -space-x-3">
                                     {[1, 2, 3].map(i => (
                                         <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-neutral-900 bg-neutral-200 overflow-hidden relative">
@@ -94,7 +94,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                         {/* Achievements Cards */}
                         <div className="grid sm:grid-cols-2 gap-4 pt-4">
                             {expert.achievements.map((item, idx) => (
-                                <div key={idx} className="flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-md transition-all duration-300">
+                                <div key={idx} className="flex items-center gap-4 p-4 rounded-2xl bg-background dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm hover:shadow-md transition-all duration-300">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary">
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
                                     </div>

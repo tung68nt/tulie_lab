@@ -83,7 +83,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
                                         {/* Features List */}
                                         {item.features && (
-                                            <div className="bg-white/5 rounded-xl p-4 border border-white/5">
+                                            <div className="bg-background/5 rounded-xl p-4 border border-white/5">
                                                 <ul className="space-y-3">
                                                     {(Array.isArray(item.features) ? item.features : (item.features as string).split('\n')).map((feature: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-3 text-sm md:text-base text-gray-200">
@@ -148,7 +148,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                             <div className="inline-flex items-center gap-2 bg-[#FF0000]/10 border border-[#FF0000]/20 text-[#FF0000] px-5 py-2.5 rounded-full animate-pulse-slow">
                                 <span className="relative flex h-2 w-2">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-background"></span>
                                 </span>
                                 <span className="font-medium text-sm md:text-base tracking-wide">Chỉ nhận được khi đăng ký <span className="font-bold">NGAY HÔM NAY</span></span>
                             </div>

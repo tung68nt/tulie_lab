@@ -95,7 +95,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
     };
 
     return (
-        <section className="py-24 bg-white dark:bg-background text-foreground overflow-hidden">
+        <section className="py-24 bg-background text-foreground overflow-hidden">
             <div className="container">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-foreground">{section.title}</h2>

@@ -47,7 +47,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                                         className="object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
                                     />
                                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                                        <span className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                        <span className="inline-flex items-center gap-2 px-6 py-3 bg-background text-black rounded-full font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                             Xem chi tiết
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                         </span>

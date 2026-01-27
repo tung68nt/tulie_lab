@@ -32,7 +32,7 @@ export function FAQSection({ section }: { section: Section }) {
     if (!items || items.length === 0) return null;
 
     return (
-        <section className="py-20 md:py-28 bg-white dark:bg-neutral-950">
+        <section className="py-20 md:py-28 bg-background dark:bg-neutral-950">
             <div className="container">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-16 space-y-4">

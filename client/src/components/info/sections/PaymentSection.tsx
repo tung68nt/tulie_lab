@@ -192,7 +192,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     <label className="text-xs font-semibold text-zinc-500 mb-1 block">Họ và tên</label>
                     <input
                         required
-                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
+                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
                         placeholder="Ví dụ: Nguyễn Văn A"
                         value={state.form.name}
                         onChange={e => handleFormChange('name', e.target.value)}
@@ -202,7 +202,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     <label className="text-xs font-semibold text-zinc-500 mb-1 block">Số điện thoại (Zalo hỗ trợ)</label>
                     <input
                         required
-                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
+                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
                         placeholder="0912..."
                         value={state.form.phone}
                         onChange={e => handleFormChange('phone', e.target.value)}
@@ -415,7 +415,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             {/* Main Product Selection */}
             <div className="space-y-4 pt-6 mt-4 border-t border-zinc-100">
                 <h3 className="text-sm font-semibold text-zinc-900 uppercase tracking-widest opacity-40">Sản phẩm đăng ký</h3>
-                <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-white flex items-center gap-5 transition-all hover:border-zinc-400">
+                <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-background flex items-center gap-5 transition-all hover:border-zinc-400">
                     <div className="w-14 h-14 bg-zinc-100 rounded-xl overflow-hidden shrink-0 border border-zinc-50">
                         {state.cart[0] && state.cart[0].image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
                     </div>
@@ -497,7 +497,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                 const discount = original > 0 ? Math.round(((original - salePrice) / original) * 100) : 0;
 
                                 return (
-                                    <div key={idx} className="group border border-border rounded-xl p-4 hover:border-blue-300 transition-colors bg-white">
+                                    <div key={idx} className="group border border-border rounded-xl p-4 hover:border-blue-300 transition-colors bg-background">
                                         <div className="flex gap-4">
                                             <div className="w-20 h-20 md:w-24 md:h-24 bg-muted rounded-lg overflow-hidden shrink-0 relative">
                                                 {item.image && <img src={item.image} alt={item.title} className="w-full h-full object-cover" />}
@@ -566,7 +566,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             <h3 className="text-2xl font-bold">Đặt hàng thành công!</h3>
             <p className="text-muted-foreground">Vui lòng thanh toán để kích hoạt khoá học ngay lập tức.</p>
 
-            <div className="bg-white p-6 rounded-2xl shadow-lg border-2 border-primary/20 inline-block w-full max-w-sm relative overflow-hidden">
+            <div className="bg-background p-6 rounded-2xl shadow-lg border-2 border-primary/20 inline-block w-full max-w-sm relative overflow-hidden">
                 <div className={cn(
                     "transition-all duration-500",
                     (state.payment.expiresAt || 0) < Date.now() && "blur-md pointer-events-none opacity-50"
@@ -610,7 +610,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         <div className="bg-neutral-50 p-4 rounded-xl border border-neutral-100 mt-6 relative overflow-hidden">
                             <div className="text-xs font-semibold text-neutral-500 mb-2 uppercase tracking-wider">Nội dung chuyển khoản:</div>
                             <div className="flex flex-col gap-3">
-                                <div className="bg-white px-3 py-2.5 rounded-lg border border-neutral-200 flex items-center justify-between group/content">
+                                <div className="bg-background px-3 py-2.5 rounded-lg border border-neutral-200 flex items-center justify-between group/content">
                                     <span className="font-bold text-foreground text-lg tracking-wider select-all">{state.payment.orderCode}</span>
                                     <button
                                         onClick={() => copyToClipboard(state.payment.orderCode || '', 'nội dung')}
@@ -659,7 +659,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
                     {/* Left Column: Form or Success Message */}
-                    <div className="lg:col-span-7 bg-white p-8 md:p-10 rounded-[2.5rem] border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+                    <div className="lg:col-span-7 bg-background p-8 md:p-10 rounded-[2.5rem] border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
                         {state.step === 'form' ? (
                             <form onSubmit={handleSubmit}>
                                 {renderForm()}

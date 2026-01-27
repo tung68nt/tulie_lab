@@ -17,8 +17,8 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container px-4 mx-auto">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-semibold tracking-tight mb-4 text-zinc-900">{section.title}</h2>
-                    <p className="text-zinc-500 text-lg leading-relaxed">{section.subtitle}</p>
+                    <h2 className="text-3xl font-semibold tracking-tight mb-4 text-foreground">{section.title}</h2>
+                    <p className="text-muted-foreground text-lg leading-relaxed">{section.subtitle}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -50,9 +50,9 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                         );
 
                         return (
-                            <div key={item.id || index} className="relative group rounded-[2rem] border border-zinc-100 bg-white p-8 hover:shadow-[0_20px_40px_rgb(0,0,0,0.04)] transition-all duration-500 flex flex-col">
+                            <div key={item.id || index} className="relative group rounded-[2rem] border border-zinc-100 bg-background p-8 hover:shadow-[0_20px_40px_rgb(0,0,0,0.04)] transition-all duration-500 flex flex-col">
                                 {item.tag && (
-                                    <div className="absolute -top-3 right-8 text-[10px] font-medium px-3 py-1 rounded-full border border-zinc-100 bg-white text-zinc-600 tracking-wide">
+                                    <div className="absolute -top-3 right-8 text-[10px] font-medium px-3 py-1 rounded-full border border-zinc-100 bg-background text-zinc-600 tracking-wide">
                                         {item.tag}
                                     </div>
                                 )}
@@ -62,17 +62,17 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                         <DynamicIcon name={item.icon || 'Package'} className="w-6 h-6 stroke-[1.5px]" />
                                     </div>
 
-                                    <h3 className="text-xl font-semibold text-zinc-900 mb-2">{item.title}</h3>
+                                    <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
 
                                     <div className="flex items-baseline gap-2 mb-4">
-                                        <span className="text-2xl font-semibold text-zinc-900">{item.price}</span>
+                                        <span className="text-2xl font-semibold text-foreground">{item.price}</span>
                                         {item.originalPrice && (
-                                            <span className="text-sm text-zinc-400 line-through font-normal">{item.originalPrice}</span>
+                                            <span className="text-sm text-muted-foreground line-through font-normal">{item.originalPrice}</span>
                                         )}
                                     </div>
                                 </div>
 
-                                <p className="text-zinc-500 text-sm leading-relaxed mb-8 min-h-[3rem]">{item.description}</p>
+                                <p className="text-muted-foreground text-sm leading-relaxed mb-8 min-h-[3rem]">{item.description}</p>
 
                                 <ul className="space-y-4 mb-10 flex-1">
                                     {item.features?.map((feature: string, i: number) => (

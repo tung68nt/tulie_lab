@@ -25,7 +25,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                         'grid-cols-1 md:grid-cols-3'
                     }`}>
                     {items.map((item, idx) => (
-                        <div key={idx} className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-xl transition-all duration-300">
+                        <div key={idx} className="group flex flex-col h-full bg-background rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-xl transition-all duration-300">
                             <div className="relative aspect-[4/3] w-full overflow-hidden shrink-0">
                                 {item.image ? (
                                     <Image
