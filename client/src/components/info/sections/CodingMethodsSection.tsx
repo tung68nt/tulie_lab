@@ -1,6 +1,7 @@
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS } from '@/lib/defaultContent';
 
 interface CodingMethodsSectionProps {
@@ -83,8 +84,11 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
     };
 
     return (
-        <section className="py-24 bg-background text-foreground overflow-hidden">
-            <div className="container">
+        <section className="py-24 bg-background text-foreground overflow-hidden relative">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {section.showDotPattern !== false && <DotPatternBackground />}
+            </div>
+            <div className="container relative z-10">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
                     <p className="text-xl text-muted-foreground">{section.subtitle}</p>
@@ -105,8 +109,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
                                     <div className={cn(
                                         "w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg mb-2",
-                                        "bg-gradient-to-br",
-                                        method.color || "from-gray-700 to-gray-900"
+                                        "bg-zinc-900 dark:bg-zinc-800"
                                     )}>
                                         <DynamicIcon name={method.icon || 'Code'} className="w-6 h-6" />
                                     </div>

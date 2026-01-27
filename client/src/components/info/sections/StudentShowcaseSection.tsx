@@ -43,15 +43,15 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                 )}
                             </div>
 
-                            <div className="p-6 flex flex-col flex-1">
-                                <div className="md:h-[240px] h-auto flex flex-col">
+                            <div className="p-6 flex flex-col flex-1 h-full select-none">
+                                <div className="flex flex-col mb-4">
                                     <h3 className="font-bold text-xl text-neutral-900 mb-1">{item.title}</h3>
                                     {item.subtitle && (
                                         <p className="text-[11px] text-neutral-500 mb-2 font-medium">{item.subtitle}</p>
                                     )}
 
                                     {(item.description || item.quote) && (
-                                        <div className="text-neutral-600 text-[13px] leading-relaxed mb-4">
+                                        <div className="text-neutral-600 text-[13px] leading-relaxed">
                                             {item.quote ? `"${item.quote}"` : item.description}
                                         </div>
                                     )}
@@ -59,7 +59,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
 
                                 {/* Before/After stats if available */}
                                 {(item.before && item.after) && (
-                                    <div className="pt-4 border-t border-border grid grid-cols-2 gap-4 flex-1">
+                                    <div className="pt-4 border-t border-border grid grid-cols-2 gap-4 mt-auto">
                                         <div>
                                             <p className="text-[10px] text-red-500 font-bold mb-1">Trước khi học</p>
                                             <ul className="text-[11px] text-neutral-500 space-y-1">
