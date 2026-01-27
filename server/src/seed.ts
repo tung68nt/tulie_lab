@@ -277,7 +277,6 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
     ];
 
     for (const courseData of coursesData) {
-        // ... (existing code for course upsert)
         const course = await prisma.course.upsert({
             where: { slug: courseData.slug },
             update: {
@@ -311,7 +310,30 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
             include: { lessons: true }
         });
 
-        // ... (existing code for attachments)
+        // Add attachments to first lesson of each course only if they don't exist
+        // @ts-ignore
+        if (courseData.attachments && course.lessons && course.lessons.length > 0 && course.lessons[0]) {
+            for (const att of courseData.attachments) {
+                const existingAtt = await prisma.attachment.findFirst({
+                    where: {
+                        name: att.title,
+                        lessonId: course.lessons[0].id
+                    }
+                });
+
+                if (!existingAtt) {
+                    await prisma.attachment.create({
+                        data: {
+                            name: att.title,
+                            url: att.url,
+                            type: att.type,
+                            // @ts-ignore
+                            lessonId: course.lessons[0].id
+                        }
+                    });
+                }
+            }
+        }
         const priceLabel = courseData.price === 0 ? 'MIỄN PHÍ' : `${courseData.price.toLocaleString('vi-VN')}đ`;
         console.log(`✅ ${course.title} (${priceLabel}) - ${course.lessons.length} lessons`);
     }
@@ -385,7 +407,93 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
         console.log(`✅ ${sub.title} created`);
     }
 
-    // ===== 6. SYSTEM SETTINGS =====
+    // ===== 6. DIGITAL PRODUCTS =====
+    console.log('\n📦 Creating Digital Products...');
+    const digitalProducts = [
+        {
+            title: 'Bộ Template React Admin Dashboard',
+            slug: 'react-admin-dashboard-template',
+            description: 'Giao diện quản trị hiện đại, đầy đủ tính năng, dark mode, responsive.',
+            price: 499000,
+            compareAtPrice: 299000,
+            thumbnail: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&h=450&fit=crop',
+            type: 'TEMPLATE',
+            versions: [
+                { version: '1.0.0', changelog: 'Initial release', fileUrl: 'https://example.com/files/admin-v1.zip' },
+            ]
+        },
+        {
+            title: 'Ebook: Làm chủ Next.js 14',
+            slug: 'mastering-nextjs-14',
+            description: 'Học Next.js 14 Server Actions, App Router, và tối ưu hiệu suất.',
+            price: 199000,
+            compareAtPrice: 99000,
+            thumbnail: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=450&fit=crop',
+            type: 'TEMPLATE',
+            versions: [
+                { version: '1.0', changelog: 'First edition', fileUrl: 'https://example.com/files/ebook-v1.pdf' }
+            ]
+        },
+        {
+            title: 'Icon Set Premium 3D',
+            slug: 'premium-3d-icons',
+            description: 'Bộ 100+ icon 3D chất lượng cao. Định dạng PNG, BLEND. Phù hợp cho thiết kế UI/UX hiện đại.',
+            price: 350000,
+            compareAtPrice: null,
+            thumbnail: 'https://images.unsplash.com/photo-1614850523296-e811cfbaf163?w=800&h=450&fit=crop',
+            type: 'TEMPLATE',
+            versions: [
+                { version: '1.0', changelog: 'Release 100 icons', fileUrl: 'https://example.com/files/icons-v1.zip' }
+            ]
+        }
+    ];
+
+    for (const p of digitalProducts) {
+        const product = await prisma.product.upsert({
+            where: { slug: p.slug },
+            update: {
+                title: p.title,
+                description: p.description,
+                price: new Decimal(p.price),
+                compareAtPrice: p.compareAtPrice ? new Decimal(p.compareAtPrice) : null,
+                thumbnail: p.thumbnail,
+                // @ts-ignore
+                type: p.type,
+                isPublished: true,
+            },
+            create: {
+                title: p.title,
+                slug: p.slug,
+                description: p.description,
+                price: new Decimal(p.price),
+                compareAtPrice: p.compareAtPrice ? new Decimal(p.compareAtPrice) : null,
+                thumbnail: p.thumbnail,
+                // @ts-ignore
+                type: p.type,
+                isPublished: true,
+            }
+        });
+
+        // Add versions
+        for (const v of p.versions) {
+            const existingVersion = await prisma.productVersion.findFirst({
+                where: { productId: product.id, version: v.version }
+            });
+            if (!existingVersion) {
+                await prisma.productVersion.create({
+                    data: {
+                        productId: product.id,
+                        version: v.version,
+                        changelog: v.changelog,
+                        fileUrl: v.fileUrl
+                    }
+                });
+            }
+        }
+        console.log(`✅ Product ready: ${p.title}`);
+    }
+
+    // ===== 7. SYSTEM SETTINGS =====
     console.log('\n⚙️ Seeding System Settings...');
     const settings = [
         { key: 'site_name', value: 'The Tulie Lab', type: 'text' },
