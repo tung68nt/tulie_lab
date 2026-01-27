@@ -27,7 +27,7 @@ export function Pagination({ currentPage, totalPages, totalItems, onPageChange, 
                     className="h-9 w-9 p-0 rounded-xl"
                     title="Trang trước"
                 >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={20} />
                 </Button>
 
                 <Button
@@ -38,7 +38,7 @@ export function Pagination({ currentPage, totalPages, totalItems, onPageChange, 
                     className="h-9 w-9 p-0 rounded-xl"
                     title="Trang sau"
                 >
-                    <ChevronRight size={16} />
+                    <ChevronRight size={20} />
                 </Button>
             </div>
         </div>

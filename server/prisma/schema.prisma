@@ -4,8 +4,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -317,14 +318,14 @@ model Product {
   thumbnail          String?
   price              Decimal               @default(0) @db.Decimal(12, 0)
   compareAtPrice     Decimal?              @db.Decimal(12, 0)
-  type               ProductType           @default(TEMPLATE)
+  type               String                @default("TEMPLATE")
   fileUrl            String?
   previewUrl         String?
   isPublished        Boolean               @default(false)
   tags               String[]
   createdAt          DateTime              @default(now())
   updatedAt          DateTime              @updatedAt
-  field              ProductField          @default(OTHER)
+  field              String                @default("OTHER")
   campaignId         String?
   saleStartDate      DateTime?
   saleEndDate        DateTime?
@@ -696,6 +697,22 @@ model ApiKey {
   createdAt  DateTime  @default(now())
 
   @@index([key])
+}
+
+enum ClassificationType {
+  PRODUCT_TYPE
+  PRODUCT_FIELD
+}
+
+model ProductClassification {
+  id        String             @id @default(uuid())
+  name      String
+  type      ClassificationType
+  isActive  Boolean            @default(true)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@unique([name, type])
 }
 
 enum Role {

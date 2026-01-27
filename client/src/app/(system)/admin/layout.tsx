@@ -47,6 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/payments', label: 'Lịch sử giao dịch' },
                 { href: '/admin/coupons', label: 'Mã giảm giá' },
                 { href: '/admin/activation-codes', label: 'Mã kích hoạt' },
+                { href: '/admin/product-classifications', label: 'Phân loại SP' },
                 { href: '/admin/webhooks', label: 'Cổng thanh toán' },
             ]
         },

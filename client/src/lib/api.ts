@@ -101,7 +101,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     }
 }
 
-export const api = {
+export const api: any = {
     auth: {
         register: (data: unknown) => request<{ user: User, token: string }>('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
         login: (data: unknown) => request<{ user: User, token: string }>('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
@@ -449,6 +449,14 @@ export const api = {
         getUpsells: (id: string) => request<any>(`/products/${id}/upsells`),
         addUpsell: (id: string, data: { productId?: string; courseId?: string; position?: number }) => request<any>(`/products/${id}/upsells`, { method: 'POST', body: JSON.stringify(data) }),
         removeUpsell: (id: string, upsellId: string) => request<void>(`/products/${id}/upsells/${upsellId}`, { method: 'DELETE' }),
+        // Classification Management
+        listClassifications: (type?: string) => {
+            const query = type ? `?type=${type}` : '';
+            return request<any[]>(`/products/classifications/list${query}`);
+        },
+        createClassification: (data: any) => request<any>('/products/classifications', { method: 'POST', body: JSON.stringify(data) }),
+        updateClassification: (id: string, data: any) => request<any>(`/products/classifications/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        deleteClassification: (id: string) => request<void>(`/products/classifications/${id}`, { method: 'DELETE' }),
     },
     activationCodes: {
         list: () => request<{ data: any[], meta: any }>('/activation-codes/admin/list'),

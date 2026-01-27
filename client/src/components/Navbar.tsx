@@ -350,22 +350,22 @@ export function Navbar() {
                                                         return (
                                                             <div className="flex flex-wrap justify-start gap-2">
                                                                 {isAdmin && (
-                                                                    <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 border border-transparent">
-                                                                        ADMIN
+                                                                    <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-100 text-zinc-900 border border-zinc-200">
+                                                                        Admin
                                                                     </span>
                                                                 )}
 
                                                                 {activeSub ? (
                                                                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold border ${((activeSub as any).product?.slug || '').includes('premium')
-                                                                        ? 'bg-gradient-to-r from-yellow-300 to-amber-400 text-amber-900 border-amber-300'
-                                                                        : 'bg-zinc-100 text-zinc-900 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:border-zinc-700'
+                                                                        ? 'bg-amber-100 text-amber-900 border-amber-200'
+                                                                        : 'bg-zinc-100 text-zinc-900 border-zinc-200'
                                                                         }`}>
-                                                                        {((activeSub as any).product?.title || '').replace(/Pro/i, 'Basic')}
+                                                                        {((activeSub as any).product?.title || '').replace(/Pro/i, 'Premium')}
                                                                     </span>
                                                                 ) : (
                                                                     !isAdmin && (
-                                                                        <span className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-zinc-100 text-zinc-500 border border-zinc-200 dark:bg-zinc-800 dark:text-zinc-500">
-                                                                            Free Member
+                                                                        <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-100 text-zinc-500 border border-zinc-200">
+                                                                            Member
                                                                         </span>
                                                                     )
                                                                 )}
@@ -389,8 +389,8 @@ export function Navbar() {
                                             </div>
                                             <div className="p-2 space-y-0.5">
                                                 {isAdmin && (
-                                                    <Link href="/admin" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-bold text-zinc-900 outline-none hover:bg-zinc-100 transition-colors" onClick={() => setDropdownOpen(false)}>
-                                                        <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-500">
+                                                    <Link href="/admin" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                        <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                             <Rocket size={16} />
                                                         </div>
                                                         Quản trị hệ thống
@@ -431,10 +431,10 @@ export function Navbar() {
                                                 <div className="h-px bg-zinc-100 my-2 mx-1" />
 
                                                 <button
-                                                    className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-red-500 outline-none hover:bg-red-50 transition-colors"
+                                                    className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-2 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
                                                     onClick={handleLogout}
                                                 >
-                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 text-red-400">
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <LogOut size={16} />
                                                     </div>
                                                     Đăng xuất

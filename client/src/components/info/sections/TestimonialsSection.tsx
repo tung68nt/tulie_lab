@@ -104,7 +104,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                     <div className="space-y-4 flex-grow flex flex-col">
                                         {/* Before Column */}
                                         <div className="flex-none min-h-[10rem]">
-                                            <h4 className="text-[10px] font-bold text-red-500 tracking-wider mb-2">Trước khi học</h4>
+                                            <h4 className="text-xs font-bold text-red-500 tracking-wider mb-2">Trước khi học</h4>
                                             <div className="">
                                                 {testimonial.before && testimonial.before.map((point: string, i: number) => (
                                                     <div key={i} className="flex gap-3 text-sm text-neutral-500 dark:text-neutral-400 mb-2">

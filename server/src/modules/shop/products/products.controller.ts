@@ -119,6 +119,44 @@ export class ProductController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    // Classification Management
+    async listClassifications(req: Request, res: Response) {
+        try {
+            const { type } = req.query;
+            const classifications = await this.productService.listClassifications(type as string);
+            res.json(classifications);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async createClassification(req: Request, res: Response) {
+        try {
+            const classification = await this.productService.createClassification(req.body);
+            res.status(201).json(classification);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async updateClassification(req: Request, res: Response) {
+        try {
+            const classification = await this.productService.updateClassification(req.params.id as string, req.body);
+            res.json(classification);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    async deleteClassification(req: Request, res: Response) {
+        try {
+            await this.productService.deleteClassification(req.params.id as string);
+            res.status(204).send();
+        } catch (error: any) {
+            res.status(400).json({ error: error.message });
+        }
+    }
 }
 
 // Export singleton instance

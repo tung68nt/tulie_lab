@@ -71,7 +71,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                 {(item.before && item.after) && (
                                     <div className="pt-4 border-t border-border grid grid-cols-2 gap-4 mt-auto">
                                         <div>
-                                            <p className="text-[10px] text-red-500 font-bold mb-1">Trước khi học</p>
+                                            <p className="text-xs text-red-500 font-bold mb-1">Trước khi học</p>
                                             <ul className="text-[11px] text-neutral-500 space-y-1">
                                                 {Array.isArray(item.before) && item.before.map((p: string, i: number) => (
                                                     <li key={i} className="flex items-start gap-2">

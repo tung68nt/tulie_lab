@@ -80,7 +80,7 @@ export function NotificationMenu() {
                 className="relative p-2 hover:bg-muted/50 rounded-full transition-colors outline-none"
                 aria-label="Notifications"
             >
-                <Bell className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
+                <Bell className="w-5 h-5 text-foreground transition-colors" />
                 {unreadCount > 0 && (
                     <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-foreground"></span>
                 )}

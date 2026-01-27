@@ -59,6 +59,10 @@ export default function ProductEditorPage() {
     const [showUpsellSelector, setShowUpsellSelector] = useState(false);
     const [upsellType, setUpsellType] = useState<'product' | 'course'>('product');
 
+    // Classification Data
+    const [productTypes, setProductTypes] = useState<any[]>([]);
+    const [productFields, setProductFields] = useState<any[]>([]);
+
     useEffect(() => {
         if (!isNew) {
             const fetchProduct = async () => {
@@ -126,6 +130,21 @@ export default function ProductEditorPage() {
         if (!isNew) {
             fetchAll();
         }
+
+        // Fetch classifications for all cases (new and editing)
+        const fetchClassifications = async () => {
+            try {
+                const [types, fields] = await Promise.all([
+                    api.products.listClassifications('PRODUCT_TYPE'),
+                    api.products.listClassifications('PRODUCT_FIELD')
+                ]);
+                setProductTypes(types.filter((c: any) => c.isActive));
+                setProductFields(fields.filter((c: any) => c.isActive));
+            } catch (err) {
+                console.error('Failed to fetch classifications', err);
+            }
+        };
+        fetchClassifications();
     }, [id, isNew]);
 
     const handleAddVersion = async () => {
@@ -849,30 +868,45 @@ export default function ProductEditorPage() {
                                     name="type"
                                     value={formData.type}
                                     onChange={handleChange}
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
                                 >
-                                    <option value="TEMPLATE">Mẫu Website / Template</option>
-                                    <option value="APP">Ứng dụng / App</option>
-                                    <option value="LICENSE">License Key</option>
-                                    <option value="SUBSCRIPTION">Gói thành viên (Subscription)</option>
+                                    {productTypes.length > 0 ? (
+                                        productTypes.map(pt => (
+                                            <option key={pt.id} value={pt.name}>{pt.name}</option>
+                                        ))
+                                    ) : (
+                                        <>
+                                            <option value="TEMPLATE">Landing Page Template</option>
+                                            <option value="APP">Ứng dụng (App)</option>
+                                            <option value="LICENSE">Bản quyền (License)</option>
+                                            <option value="SUBSCRIPTION">Gói thuê bao (Subscription)</option>
+                                        </>
+                                    )}
                                 </select>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Lĩnh vực / Ngành nghề</label>
+                                <label className="text-sm font-medium">Lĩnh vực (Field)</label>
                                 <select
                                     name="field"
-                                    // @ts-ignore
                                     value={formData.field}
                                     onChange={handleChange}
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
                                 >
-                                    <option value="OTHER">Khác</option>
-                                    <option value="ACCOUNTING">Kế toán</option>
-                                    <option value="HR">Nhân sự (HR)</option>
-                                    <option value="MARKETING">Marketing</option>
-                                    <option value="BUSINESS">Kinh doanh</option>
-                                    <option value="CREATIVE">Thiết kế / Sáng tạo</option>
+                                    {productFields.length > 0 ? (
+                                        productFields.map(pf => (
+                                            <option key={pf.id} value={pf.name}>{pf.name}</option>
+                                        ))
+                                    ) : (
+                                        <>
+                                            <option value="ACCOUNTING">Kế toán</option>
+                                            <option value="HR">Nhân sự</option>
+                                            <option value="MARKETING">Marketing</option>
+                                            <option value="BUSINESS">Kinh doanh</option>
+                                            <option value="CREATIVE">Sáng tạo</option>
+                                            <option value="OTHER">Lĩnh vực khác</option>
+                                        </>
+                                    )}
                                 </select>
                             </div>
 
@@ -888,7 +922,7 @@ export default function ProductEditorPage() {
                                     <option value="PREMIUM">Chỉ hội viên (Gói Năm)</option>
                                     <option value="NONE">Chỉ mua lẻ (Không gồm trong gói hội viên)</option>
                                 </select>
-                                <p className="text-xs text-muted-foreground italic">
+                                <p className="text-xs text-muted-foreground">
                                     Xác định xem sản phẩm này có được tải miễn phí bởi hội viên hay không.
                                 </p>
                             </div>

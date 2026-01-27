@@ -1,4 +1,4 @@
-export type SectionType = 'hero' | 'stats' | 'process' | 'comparison' | 'projects' | 'testimonials' | 'cta' | 'features' | 'content' | 'instructor-grid' | 'benefits' | 'coding-methods' | 'sales-countdown' | 'upsell' | 'payment' | 'custom-html' | 'student-showcase' | 'content-block' | 'instructor-bio' | 'bonus' | 'faq' | 'history' | 'curriculum' | 'pricing' | 'calendar';
+export type SectionType = 'hero' | 'stats' | 'process' | 'comparison' | 'projects' | 'testimonials' | 'cta' | 'features' | 'content' | 'instructor-grid' | 'benefits' | 'coding-methods' | 'sales-countdown' | 'upsell' | 'payment' | 'custom-html' | 'student-showcase' | 'content-block' | 'instructor-bio' | 'bonus' | 'faq' | 'history' | 'curriculum' | 'pricing' | 'calendar' | 'video' | 'video-text' | 'gallery';
 
 export interface SectionItem {
     id?: string;
@@ -6,6 +6,7 @@ export interface SectionItem {
     description?: string;
     icon?: string;
     image?: string;
+    videoUrl?: string; // New: for gallery or individual video
     price?: string | number;
     originalPrice?: string | number;
     salePrice?: string | number; // For upsells
@@ -31,6 +32,10 @@ export interface Section {
     items?: SectionItem[];
     variant?: string;
     image?: string;
+    videoUrl?: string; // New: link to video (youtube, mp4, etc)
+    mediaAspectRatio?: '16/9' | '4/3' | '1/1' | 'auto' | 'original'; // New: fit original or specific ratio
+    appearance?: 'standard' | 'glass'; // New: glassmorphism style
+    animation?: 'none' | 'fade-up' | 'fade-in' | 'slide-up'; // New: entry animation
     ctaText?: string;
     ctaLink?: string;
     isVisible?: boolean;

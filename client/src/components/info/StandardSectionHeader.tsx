@@ -41,7 +41,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     return (
         <div className={cn("mb-10 md:mb-16 relative z-10 flex flex-col", alignClass, className)}>
             {tag && (
-                <div className={cn("flex w-full mb-6", tagAlignClass)}>
+                <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <SectionTag>
                         {tag}
                     </SectionTag>

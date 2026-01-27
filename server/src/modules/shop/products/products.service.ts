@@ -53,4 +53,21 @@ export class ProductService {
     async removeUpsell(productId: string, upsellId: string) {
         return this.productRepository.removeUpsell(productId, upsellId);
     }
+
+    // Classification Management
+    async listClassifications(type?: string) {
+        return this.productRepository.listClassifications(type);
+    }
+
+    async createClassification(data: any) {
+        return this.productRepository.createClassification(data);
+    }
+
+    async updateClassification(id: string, data: any) {
+        return this.productRepository.updateClassification(id, data);
+    }
+
+    async deleteClassification(id: string) {
+        return this.productRepository.deleteClassification(id);
+    }
 }

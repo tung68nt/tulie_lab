@@ -16,6 +16,9 @@ import { CustomHtmlSection } from '@/components/info/sections/CustomHtmlSection'
 import { ExpertSection } from '@/components/info/sections/ExpertSection';
 import { StudentShowcaseSection } from '@/components/info/sections/StudentShowcaseSection';
 import { BonusSection } from '@/components/info/sections/BonusSection';
+import { VideoSection } from '@/components/info/sections/VideoSection';
+import { VideoTextSection } from '@/components/info/sections/VideoTextSection';
+import { GallerySection } from '@/components/info/sections/GallerySection';
 import dynamic from 'next/dynamic';
 
 const CodingMethodsSection = dynamic(() => import('@/components/info/sections/CodingMethodsSection').then(mod => mod.CodingMethodsSection), {
@@ -57,6 +60,9 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'coding-methods': CodingMethodsSection,
     faq: FAQSection,
     calendar: CalendarSection,
+    video: VideoSection,
+    'video-text': VideoTextSection,
+    gallery: GallerySection,
 };
 
 // Context for checking if section is in preview mode (e.g. editor)

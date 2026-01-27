@@ -574,8 +574,8 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         variant="outline"
                                         onClick={async () => {
                                             if (await confirm({
-                                                title: 'Thêm Section Mẫu',
-                                                message: 'Thêm tất cả section mẫu để test? Hành động này sẽ thêm nhiều section vào trang.',
+                                                title: 'Thêm Section Mẫu (Style Cũ)',
+                                                message: 'Thêm tất cả section mẫu với giao diện tiêu chuẩn?',
                                                 confirmText: 'Thêm Ngay',
                                                 cancelText: 'Hủy',
                                                 variant: 'info'
@@ -585,19 +585,58 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                     .map((template: any, index: number) => ({
                                                         ...template.data,
                                                         id: `${template.data.type}-${Date.now()}-${index}`,
-                                                        isVisible: true
+                                                        isVisible: true,
+                                                        appearance: 'standard',
+                                                        animation: 'none'
                                                     }));
 
                                                 const currentSections = getSections();
                                                 updateSections([...currentSections, ...testSections]);
-                                                addToast(`Đã thêm ${testSections.length} section mẫu`, 'success');
+                                                addToast(`Đã nạp ${testSections.length} section style tiêu chuẩn`, 'success');
                                             }
                                         }}
                                         className="flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
-                                        title="Thêm tất cả các loại section để test"
+                                        title="Nạp Demo với style tiêu chuẩn"
                                     >
                                         <Zap size={16} />
-                                        <span className="text-xs font-bold hidden sm:inline">Nạp Demo</span>
+                                        <span className="text-xs font-bold hidden sm:inline">Demo Style Cũ</span>
+                                    </Button>
+
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={async () => {
+                                            if (await confirm({
+                                                title: 'Thêm Section Mẫu (Kính Mờ)',
+                                                message: 'Thêm tất cả section mẫu với hiệu ứng kính mờ và chuyển động?',
+                                                confirmText: 'Thêm Ngay',
+                                                cancelText: 'Hủy',
+                                                variant: 'info'
+                                            })) {
+                                                const testSections = SECTION_TEMPLATES
+                                                    .filter((t: any) => t.id !== 'custom-html')
+                                                    .map((template: any, index: number) => ({
+                                                        ...template.data,
+                                                        id: `${template.data.type}-${Date.now()}-${index}`,
+                                                        isVisible: true,
+                                                        appearance: 'glass',
+                                                        animation: 'fade-up',
+                                                        showDotPattern: true
+                                                    }));
+
+                                                const currentSections = getSections();
+                                                updateSections([...currentSections, ...testSections]);
+                                                addToast(`Đã nạp ${testSections.length} section style kính mờ`, 'success');
+                                            }
+                                        }}
+                                        className="flex-none items-center gap-2 bg-zinc-900 text-white hover:bg-zinc-800 border-zinc-700 shadow-lg"
+                                        title="Nạp Demo với hiệu ứng kính mờ và animation"
+                                    >
+                                        <div className="relative">
+                                            <Zap size={16} className="fill-yellow-400 text-yellow-400 animate-pulse" />
+                                        </div>
+                                        <span className="text-xs font-bold hidden sm:inline">Demo Kính Mờ</span>
                                     </Button>
                                 </div>
                             )}
@@ -618,7 +657,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                     {index + 1}
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <p className="font-bold text-zinc-900 dark:text-zinc-50 truncate capitalize">
+                                                    <p className="font-semibold text-zinc-900 dark:text-zinc-50 truncate capitalize">
                                                         {(() => {
                                                             const template = SECTION_TEMPLATES.find((t: any) => t.data.type === section.type);
                                                             return template ? template.name : `${section.type.replace('-', ' ')} Section`;

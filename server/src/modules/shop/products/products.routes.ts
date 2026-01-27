@@ -36,4 +36,10 @@ router.get('/:id/upsells', (req, res) => productController.getUpsells(req, res))
 router.post('/:id/upsells', authenticate, authorize([Role.ADMIN]), (req, res) => productController.addUpsell(req, res));
 router.delete('/:id/upsells/:upsellId', authenticate, authorize([Role.ADMIN]), (req, res) => productController.removeUpsell(req, res));
 
+// Classification Routes
+router.get('/classifications/list', (req, res) => productController.listClassifications(req, res));
+router.post('/classifications', authenticate, authorize([Role.ADMIN]), (req, res) => productController.createClassification(req, res));
+router.put('/classifications/:id', authenticate, authorize([Role.ADMIN]), (req, res) => productController.updateClassification(req, res));
+router.delete('/classifications/:id', authenticate, authorize([Role.ADMIN]), (req, res) => productController.deleteClassification(req, res));
+
 export default router;

@@ -11,7 +11,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
     return (
         <section className="py-24 bg-muted/30">
             <div className="container px-4 mx-auto">
-                <StandardSectionHeader section={section} />
+                <StandardSectionHeader section={section} align="left" />
 
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 max-w-6xl mx-auto">
                     {/* Visual - Circular Portrait */}
@@ -40,6 +40,16 @@ export function InstructorBioSection({ section }: { section: Section }) {
 
                     {/* Content - Experience Bubbles */}
                     <div className="w-full lg:w-2/3 space-y-8">
+                        {/* Instructor Identity (Name & Role) */}
+                        <div className="space-y-2">
+                            {instructor.subtitle && (
+                                <h3 className="text-xl text-primary font-bold">{instructor.subtitle}</h3>
+                            )}
+                            {instructor.title && (
+                                <h2 className="text-3xl md:text-4xl font-bold">{instructor.title}</h2>
+                            )}
+                        </div>
+
                         <div className="prose prose-lg dark:prose-invert max-w-none">
                             <p className="lead">{instructor.description}</p>
                         </div>

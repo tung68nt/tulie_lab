@@ -642,5 +642,69 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 }
             ]
         }
+    },
+    {
+        id: 'video-standard',
+        name: 'Standard Video',
+        category: 'Special',
+        description: 'Centered video player (YouTube/Vimeo/MP4) with custom aspect ratio.',
+        previewImage: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'video-std',
+            type: 'video',
+            name: 'Standard Video',
+            title: 'Khám Phá Tulie Academy',
+            subtitle: 'Xem video hướng dẫn để hiểu rõ hơn về hệ thống học tập của chúng tôi.',
+            videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            mediaAspectRatio: '16/9',
+            animation: 'fade-up',
+            showDotPattern: true
+        }
+    },
+    {
+        id: 'video-text-left',
+        name: 'Video & Text (Left)',
+        category: 'Special',
+        description: 'Video on the left, descriptive text and features on the right.',
+        previewImage: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'video-txt-l',
+            type: 'video-text',
+            name: 'Video & Text (Left)',
+            title: 'Học Qua Thực Hành',
+            subtitle: 'Phương pháp học tập hiện đại, trực quan.',
+            content: 'Chúng tôi tin rằng cách tốt nhất để học lập trình là bắt tay vào xây dựng các sản phẩm thực tế ngay từ ngày đầu tiên.',
+            videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+            imagePosition: 'left',
+            mediaAspectRatio: '16/9',
+            items: [
+                { title: 'Video bài giảng 4K', description: 'Hình ảnh sắc nét, dễ dàng theo dõi từng dòng code.' },
+                { title: 'Tài liệu đi kèm', description: 'Mọi bài học đều có source code và slide chi tiết.' }
+            ],
+            animation: 'fade-up',
+            ctaText: 'Xem Lộ Trình',
+            ctaLink: '/courses'
+        }
+    },
+    {
+        id: 'gallery-grid',
+        name: 'Media Gallery',
+        category: 'Special',
+        description: 'Responsive grid of images and videos with lightbox preview.',
+        previewImage: 'https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'gallery-grd',
+            type: 'gallery',
+            name: 'Media Gallery',
+            title: 'Khoảnh Khắc Tulie',
+            subtitle: 'Hình ảnh và video hoạt động tại học viện.',
+            items: [
+                { title: 'Workshop Vibe Coding', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800', description: 'Buổi chia sẻ về tư duy lập trình mới.' },
+                { title: 'Demo Sản Phẩm', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', description: 'Video giới thiệu dự án học viên.' },
+                { title: 'Lớp Học Offline', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800', description: 'Không khí học tập sôi nổi tại văn phòng.' }
+            ],
+            appearance: 'glass',
+            animation: 'fade-up'
+        }
     }
 ];

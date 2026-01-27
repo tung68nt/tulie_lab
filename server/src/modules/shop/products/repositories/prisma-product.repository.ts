@@ -49,9 +49,7 @@ export class PrismaProductRepository implements IProductRepository {
         }
 
         if (type && type !== 'all') {
-            if (Object.values(ProductType).includes(type as ProductType)) {
-                where.type = type as ProductType;
-            }
+            where.type = type;
         }
 
         if (isPublished !== undefined && isPublished !== 'all') {
@@ -217,5 +215,34 @@ export class PrismaProductRepository implements IProductRepository {
                 where: { id: upsellId }
             });
         }
+    }
+
+    // Classification methods
+    async listClassifications(type?: string): Promise<any[]> {
+        const where: any = {};
+        if (type) {
+            where.type = type;
+        }
+        return (prisma as any).productClassification.findMany({
+            where,
+            orderBy: { name: 'asc' }
+        });
+    }
+
+    async createClassification(data: any): Promise<any> {
+        return (prisma as any).productClassification.create({ data });
+    }
+
+    async updateClassification(id: string, data: any): Promise<any> {
+        return (prisma as any).productClassification.update({
+            where: { id },
+            data
+        });
+    }
+
+    async deleteClassification(id: string): Promise<any> {
+        return (prisma as any).productClassification.delete({
+            where: { id }
+        });
     }
 }
