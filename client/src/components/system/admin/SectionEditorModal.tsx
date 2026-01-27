@@ -105,7 +105,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                         value={editedSection.subtitle || ''}
                                         onChange={e => handleChange('subtitle', e.target.value)}
                                         rows={2}
-                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-mono"
+                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-sans"
                                         placeholder="Section Subtitle"
                                     />
                                 </div>
@@ -116,7 +116,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                         value={editedSection.content || ''}
                                         onChange={e => handleChange('content', e.target.value)}
                                         rows={4}
-                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-mono"
+                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-sans"
                                         placeholder="Main content text..."
                                     />
                                 </div>
