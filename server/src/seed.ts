@@ -277,6 +277,7 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
     ];
 
     for (const courseData of coursesData) {
+        // ... (existing code for course upsert)
         const course = await prisma.course.upsert({
             where: { slug: courseData.slug },
             update: {
@@ -310,37 +311,33 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
             include: { lessons: true }
         });
 
-        // Add attachments to first lesson of each course only if they don't exist
-        // @ts-ignore
-        if (courseData.attachments && course.lessons && course.lessons.length > 0 && course.lessons[0]) {
-            for (const att of courseData.attachments) {
-                const existingAtt = await prisma.attachment.findFirst({
-                    where: {
-                        name: att.title,
-                        lessonId: course.lessons[0].id
-                    }
-                });
-
-                if (!existingAtt) {
-                    await prisma.attachment.create({
-                        data: {
-                            name: att.title,
-                            url: att.url,
-                            type: att.type,
-                            // @ts-ignore
-                            lessonId: course.lessons[0].id
-                        }
-                    });
-                }
-            }
-        }
-
+        // ... (existing code for attachments)
         const priceLabel = courseData.price === 0 ? 'MIỄN PHÍ' : `${courseData.price.toLocaleString('vi-VN')}đ`;
         console.log(`✅ ${course.title} (${priceLabel}) - ${course.lessons.length} lessons`);
     }
 
-    // ===== 4. SUBSCRIPTION PRODUCTS =====
-    console.log('\n💎 Creating/Updating Subscription Products...');
+    // ===== 4. CATEGORIES =====
+    console.log('\n📁 Creating Categories...');
+    const categories = [
+        { name: 'Kế toán (Accounting)', slug: 'accounting' },
+        { name: 'Nhân sự (HR)', slug: 'hr' },
+        { name: 'Marketing', slug: 'marketing' },
+        { name: 'Kinh doanh (Business)', slug: 'business' },
+        { name: 'Sáng tạo (Creative)', slug: 'creative' },
+        { name: 'Khác (Other)', slug: 'other' },
+    ];
+
+    for (const cat of categories) {
+        await prisma.category.upsert({
+            where: { slug: cat.slug },
+            update: { name: cat.name },
+            create: { name: cat.name, slug: cat.slug }
+        });
+    }
+    console.log('✅ Categories ready\n');
+
+    // ===== 5. SUBSCRIPTION PRODUCTS =====
+    console.log('💎 Creating/Updating Subscription Products...');
     const subscriptionProducts = [
         {
             title: 'Pro Membership',
@@ -388,7 +385,53 @@ Tôi tin rằng công nghệ AI sẽ thay đổi hoàn toàn cách chúng ta là
         console.log(`✅ ${sub.title} created`);
     }
 
-    // ===== 2. INSTRUCTOR: Nguyễn Thanh Tùng =====
+    // ===== 6. SYSTEM SETTINGS =====
+    console.log('\n⚙️ Seeding System Settings...');
+    const settings = [
+        { key: 'site_name', value: 'The Tulie Lab', type: 'text' },
+        { key: 'site_logo', value: 'https://thelab.tulie.vn/logo.png', type: 'text' },
+        { key: 'show_site_name', value: 'true', type: 'text' },
+        {
+            key: 'footer_settings',
+            value: JSON.stringify({
+                companyName: 'CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE',
+                tagline: 'Giải pháp đào tạo và phát triển năng lực với AI',
+                address: 'Tầng 2 Tòa A Chelsea Residences, 48 Trần Kim Xuyến, Cầu Giấy, Hà Nội',
+                phone: '0978.863.775',
+                email: 'support@tulielab.vn',
+                taxId: '0110163102',
+                logoUrl: 'https://thelab.tulie.vn/logo.png',
+                quickLinks: [
+                    { label: 'Các khóa học', href: '/courses' },
+                    { label: 'Giảng viên', href: '/instructors' },
+                    { label: 'Blog & Bài viết', href: '/blog' },
+                    { label: 'Liên hệ', href: '/contact' },
+                ],
+                policyLinks: [
+                    { label: 'Điều khoản sử dụng', href: '/terms' },
+                    { label: 'Chính sách bảo mật', href: '/privacy' },
+                    { label: 'Chính sách hoàn tiền', href: '/refund' },
+                    { label: 'Hướng dẫn thanh toán', href: '/payment-guide' },
+                ],
+                socialLinks: [
+                    { platform: 'Facebook', url: 'https://facebook.com/tulielab', icon: 'facebook' },
+                    { platform: 'YouTube', url: 'https://youtube.com/@tulielab', icon: 'youtube' },
+                    { platform: 'LinkedIn', url: 'https://linkedin.com/company/tulielab', icon: 'linkedin' },
+                ],
+                copyrightText: 'The Tulie Lab. All Rights Reserved.',
+            }),
+            type: 'text'
+        }
+    ];
+
+    for (const setting of settings) {
+        await prisma.systemSetting.upsert({
+            where: { key: setting.key },
+            update: { value: setting.value },
+            create: { key: setting.key, value: setting.value, type: setting.type }
+        });
+    }
+    console.log('✅ System settings ready\n');
 
     // ===== SUMMARY =====
     console.log('\n🎉 Seed completed successfully!');

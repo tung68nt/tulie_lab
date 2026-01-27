@@ -170,8 +170,8 @@ export function Footer() {
                                 </p>
                             )}
                         </div>
-                        {/* Certification Badge */}
-                        {footerData.certificationImage && (
+                        {/* Certification Badge - Removed per user request due to broken link/error */}
+                        {/* {footerData.certificationImage && (
                             <div className="pt-2">
                                 <a href={footerData.certificationLink} target="_blank" rel="noopener noreferrer">
                                     <img
@@ -181,7 +181,7 @@ export function Footer() {
                                     />
                                 </a>
                             </div>
-                        )}
+                        )} */}
                     </div>
 
                     {/* Middle - Quick Links */}
