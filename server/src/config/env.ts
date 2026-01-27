@@ -7,7 +7,7 @@ const envSchema = z.object({
 
     // Database (required)
     DATABASE_URL: z.string().url().min(1, 'DATABASE_URL is required'),
-    DIRECT_URL: z.string().url().optional(),
+    DIRECT_URL: z.string().url().or(z.literal('')).optional(),
 
     // Auth (required)
     JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters'),
@@ -16,14 +16,14 @@ const envSchema = z.object({
     CLIENT_URL: z.string().url().default('http://localhost:3000'),
 
     // Redis (optional)
-    REDIS_URL: z.string().url().optional(),
+    REDIS_URL: z.string().url().or(z.literal('')).optional(),
 
     // R2 Storage (optional)
     R2_ACCOUNT_ID: z.string().optional(),
     R2_ACCESS_KEY_ID: z.string().optional(),
     R2_SECRET_ACCESS_KEY: z.string().optional(),
     R2_BUCKET_NAME: z.string().optional(),
-    R2_PUBLIC_DOMAIN: z.string().optional(),
+    R2_PUBLIC_DOMAIN: z.string().url().or(z.literal('')).optional(),
 
     // Email (optional)
     SMTP_HOST: z.string().optional(),
