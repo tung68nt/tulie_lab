@@ -127,19 +127,11 @@ export default function AdminProductClassificationsPage() {
                                         <span className="text-[10px] bg-neutral-100 text-neutral-500 px-1.5 py-0.5 rounded border border-neutral-200 font-medium">Ẩn</span>
                                     )}
                                 </div>
-                                <div className="flex items-center gap-1 opacity-10 group-hover:opacity-100 transition-opacity">
-                                    <button
-                                        onClick={() => handleEdit(item)}
-                                        className="p-1.5 text-neutral-500 hover:text-neutral-900 hover:bg-white rounded-md transition-all"
-                                    >
-                                        <Edit2 size={14} />
-                                    </button>
-                                    <button
-                                        onClick={() => handleDelete(item.id)}
-                                        className="p-1.5 text-neutral-500 hover:text-red-600 hover:bg-white rounded-md transition-all"
-                                    >
-                                        <Trash2 size={14} />
-                                    </button>
+                                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <TableActions
+                                        onEdit={() => handleEdit(item)}
+                                        onDelete={() => handleDelete(item.id)}
+                                    />
                                 </div>
                             </div>
                         ))}
