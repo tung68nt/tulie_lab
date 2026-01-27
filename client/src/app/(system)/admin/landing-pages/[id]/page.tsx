@@ -601,43 +601,6 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         <Zap size={16} />
                                         <span className="text-xs font-bold hidden sm:inline">Demo Style Cũ</span>
                                     </Button>
-
-                                    <Button
-                                        type="button"
-                                        size="sm"
-                                        variant="outline"
-                                        onClick={async () => {
-                                            if (await confirm({
-                                                title: 'Thêm Section Mẫu (Kính Mờ)',
-                                                message: 'Thêm tất cả section mẫu với hiệu ứng kính mờ và chuyển động?',
-                                                confirmText: 'Thêm Ngay',
-                                                cancelText: 'Hủy',
-                                                variant: 'info'
-                                            })) {
-                                                const testSections = SECTION_TEMPLATES
-                                                    .filter((t: any) => t.id !== 'custom-html')
-                                                    .map((template: any, index: number) => ({
-                                                        ...template.data,
-                                                        id: `${template.data.type}-${Date.now()}-${index}`,
-                                                        isVisible: true,
-                                                        appearance: 'glass',
-                                                        animation: 'fade-up',
-                                                        showDotPattern: true
-                                                    }));
-
-                                                const currentSections = getSections();
-                                                updateSections([...currentSections, ...testSections]);
-                                                addToast(`Đã nạp ${testSections.length} section style kính mờ`, 'success');
-                                            }
-                                        }}
-                                        className="flex-none items-center gap-2 bg-zinc-900 text-white hover:bg-zinc-800 border-zinc-700 shadow-lg"
-                                        title="Nạp Demo với hiệu ứng kính mờ và animation"
-                                    >
-                                        <div className="relative">
-                                            <Zap size={16} className="fill-yellow-400 text-yellow-400 animate-pulse" />
-                                        </div>
-                                        <span className="text-xs font-bold hidden sm:inline">Demo Kính Mờ</span>
-                                    </Button>
                                 </div>
                             )}
                         </div>

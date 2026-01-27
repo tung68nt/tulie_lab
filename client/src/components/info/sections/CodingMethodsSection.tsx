@@ -90,7 +90,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                 {section.showDotPattern !== false && <DotPatternBackground />}
             </div>
             <div className="container relative z-10">
-                <StandardSectionHeader section={section} />
+                <StandardSectionHeader section={section} align="left" />
 
                 {/* RESPONSIVE TABLE VIEW: Scrollable on mobile, Grid on desktop */}
                 <div className="overflow-x-auto pb-4">

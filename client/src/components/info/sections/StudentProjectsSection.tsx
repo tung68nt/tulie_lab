@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PROJECTS_DATA } from '@/lib/projects';
-import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export const StudentProjectsSection = ({ section }: { section: Section }) => {
@@ -14,19 +14,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
 
             <div className="container relative z-10">
                 {/* Header */}
-                <div className="text-center mb-16 md:mb-24">
-                    <div className="flex justify-center">
-                        <SectionTag>
-                            {section.tag || "Showcase thành viên"}
-                        </SectionTag>
-                    </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
-                        {section.title || "Sản phẩm thành viên đã làm được"}
-                    </h2>
-                    <p className="text-muted-foreground text-lg md:text-xl mx-auto leading-relaxed">
-                        {section.subtitle || "Xem những ứng dụng thực tế mà thành viên đã xây dựng sau workshop. Không phải bài tập về nhà, đây là sản phẩm khởi nghiệp."}
-                    </p>
-                </div>
+                <StandardSectionHeader section={section} align="left" />
 
                 {/* Projects grid - Added p-4 -mx-4 to allow shadow overflow without Scrollbar */}
                 <div className="flex flex-wrap justify-center gap-8 -mx-4 pb-4">

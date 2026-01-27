@@ -20,6 +20,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'hero-std',
             type: 'hero',
             name: 'Standard Hero',
+            tag: 'Khởi đầu hành trình',
             title: 'Học Lập Trình Vibe Coding',
             subtitle: 'Khóa học thực chiến giúp bạn làm chủ tư duy lập trình và xây dựng sản phẩm công nghệ chỉ sau 3 tháng.',
             image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=2000',
@@ -39,6 +40,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'stats',
             name: 'Modern Stats Grid',
             title: 'Con Số Biết Nói',
+            tag: 'Thành tựu',
             subtitle: 'Kết quả thực tế từ cộng đồng học viên',
             content: 'Chúng tôi tự hào về những cột mốc đã đạt được cùng học viên.',
             showDotPattern: true,
@@ -61,6 +63,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'comparison',
             name: 'Comparison Table',
             title: 'Tại Sao Chọn Chúng Tôi?',
+            tag: 'So sánh',
             subtitle: 'Sự khác biệt tạo nên thành công',
             content: 'So sánh lộ trình học tập của chúng tôi với các phương pháp khác.',
             showDotPattern: true,
@@ -97,6 +100,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'coding-methods',
             name: 'Coding Methods',
             title: 'Phương Pháp Vibe Coding',
+            tag: 'Phương pháp đào tạo',
             subtitle: 'Học nhàn, hiểu sâu, ứng dụng ngay',
             showDotPattern: true,
             rowConfig: [
@@ -202,6 +206,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'process',
             name: 'Process Roadmap',
             title: 'Lộ Trình Học Tập',
+            tag: 'Lộ trình thành công',
             subtitle: '3 giai đoạn để trở thành lập trình viên chuyên nghiệp',
             showDotPattern: true,
             items: [
@@ -222,6 +227,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'features',
             name: 'Features Grid',
             title: 'Quyền Lợi Học Viên',
+            tag: 'Giá trị nhận được',
             subtitle: 'Những điều tuyệt vời bạn sẽ nhận được',
             showDotPattern: true,
             items: [
@@ -329,6 +335,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'student-showcase',
             name: 'Student Showcase',
             title: 'Sản Phẩm Học Viên',
+            tag: 'Sản phẩm thực tế',
             subtitle: 'Những dự án tiêu biểu được xây dựng sau khóa học',
             showDotPattern: true,
             items: [
@@ -396,6 +403,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'testimonials',
             name: 'Testimonials Carousel',
             title: 'Học Viên Nói Gì',
+            tag: 'Tiếng nói cộng đồng',
             subtitle: 'Câu chuyện thành công từ người thật việc thật',
             items: [
                 { name: "Phạm Hùng", role: "Junior Dev @ FPT", content: "Khóa học thực sự thay đổi tư duy của mình. Không còn học vẹt mà hiểu sâu bản chất vấn đề.", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
@@ -453,6 +461,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'faq',
             name: 'FAQ Section',
             title: 'Câu Hỏi Thường Gặp',
+            tag: 'Giải đáp thắc mắc',
             subtitle: 'Giải đáp thắc mắc của bạn',
             items: [
                 { title: "Người mới bắt đầu có học được không?", content: "Hoàn toàn được. Khóa học thiết kế từ con số 0, đi từ cơ bản lên nâng cao." },
