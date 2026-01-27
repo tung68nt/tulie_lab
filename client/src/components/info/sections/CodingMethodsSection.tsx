@@ -16,8 +16,19 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         ? section
         : DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods') || DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
 
+    const defaultMethodsSection = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods');
+
+    // Fallback rowConfig: Use section's config, or default config, or hardcoded basic config as last resort
+    const rowConfig = targetSection?.rowConfig || defaultMethodsSection?.rowConfig || [
+        { key: "feasibility", label: "Khả thi", icon: "CheckCircle" },
+        { key: "goal", label: "Mục tiêu", icon: "Target" },
+        { key: "ai_usage", label: "Cách dùng AI", icon: "Bot" },
+        { key: "data", label: "Dữ liệu", icon: "Database" },
+        { key: "limits", label: "Giới hạn", icon: "AlertTriangle" },
+        { key: "output", label: "Sản phẩm đầu ra", icon: "Package" }
+    ];
+
     const methods = targetSection?.items || [];
-    const rowConfig = targetSection?.rowConfig || [];
 
     const renderDifficulty = (level: number, text: string) => {
         // level 0 -> 1 bar, level 4 -> 5 bars
