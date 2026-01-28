@@ -544,7 +544,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         className="flex-1 md:flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
                                     >
                                         <PlusCircle size={16} />
-                                        Thêm Section
+                                        <span className="text-sm font-bold">Thêm Section</span>
                                     </Button>
                                     <Button
                                         type="button"
@@ -566,7 +566,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         title="Xóa tất cả sections"
                                     >
                                         <Trash2 size={16} />
-                                        <span className="text-xs font-bold hidden sm:inline">Clear All</span>
+                                        <span className="text-sm font-bold hidden sm:inline">Clear All</span>
                                     </Button>
                                     <Button
                                         type="button"
@@ -599,7 +599,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         title="Nạp Demo với style tiêu chuẩn"
                                     >
                                         <Zap size={16} />
-                                        <span className="text-xs font-bold hidden sm:inline">Nạp Demo</span>
+                                        <span className="text-sm font-bold hidden sm:inline">Nạp Demo</span>
                                     </Button>
                                 </div>
                             )}
