@@ -59,10 +59,10 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
         <div className="min-h-screen bg-background">
             {/* Hero Section */}
             <div className="relative bg-zinc-950 pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden text-white">
-                <DotPatternBackground className="opacity-[0.03]" />
+                <DotPatternBackground className="opacity-10" />
                 <div className="absolute -top-24 -right-24 w-96 h-96 bg-zinc-500/5 blur-[100px] rounded-full pointer-events-none" />
 
-                <div className="container relative z-10 flex items-center justify-between">
+                <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
                     <div className="max-w-3xl space-y-6 relative z-20">
                         <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 py-1.5 px-4 text-xs font-bold tracking-wider">
                             Learning Path / Combo
@@ -74,18 +74,18 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                             {bundle.description}
                         </p>
 
-                        <div className="flex flex-wrap items-center gap-6 text-sm font-medium text-zinc-500 pt-4">
+                        <div className="flex flex-wrap items-center gap-6 text-sm font-medium pt-4">
                             <div className="flex items-center gap-2">
                                 <BookOpen className="w-4 h-4 text-primary" />
-                                <span className="text-zinc-300">{courses.length} Khóa học chuyên sâu</span>
+                                <span className="text-zinc-200">{courses.length} Khóa học chuyên sâu</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4 text-primary" />
-                                <span className="text-zinc-300">Truy cập trọn đời</span>
+                                <span className="text-zinc-200">Truy cập trọn đời</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle2 className="w-4 h-4 text-primary" />
-                                <span className="text-zinc-300">Chứng chỉ hoàn thành</span>
+                                <span className="text-zinc-200">Chứng chỉ hoàn thành</span>
                             </div>
                         </div>
 
@@ -106,20 +106,21 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                             </Button>
                         </div>
                     </div>
+
+                    {/* Thumbnail/Image Side */}
+                    {bundle.thumbnail && (
+                        <div className="w-full lg:w-1/2 max-w-[600px] aspect-video rounded-3xl overflow-hidden shadow-2xl relative border-4 border-white/10 group">
+                            <DotPatternBackground className="absolute inset-0 z-10 opacity-20" />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-transparent z-10" />
+                            <img
+                                src={bundle.thumbnail}
+                                alt={bundle.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                        </div>
+                    )}
                 </div>
 
-                {/* Thumbnail/Image Side (Desktop) */}
-                {bundle.thumbnail && (
-                    <div className="hidden lg:block absolute top-1/2 -right-24 -translate-y-1/2 w-[600px] h-[400px] rounded-3xl overflow-hidden shadow-2xl skew-x-[-6deg] skew-y-[-6deg] border-4 border-white/10 opacity-80 hover:opacity-100 transition-opacity">
-                        <DotPatternBackground className="absolute inset-0 z-10 opacity-20" />
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-transparent z-10" />
-                        <img
-                            src={bundle.thumbnail}
-                            alt={bundle.name}
-                            className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700 hover:scale-105"
-                        />
-                    </div>
-                )}
             </div>
 
             {/* Learning Path Timeline */}
@@ -192,7 +193,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
             {/* Bottom CTA - Premium Redesign */}
             <div className="bg-[#050505] border-t border-zinc-900 py-24 md:py-32 overflow-hidden relative">
                 {/* Enhanced Dot Pattern */}
-                <DotPatternBackground className="opacity-10" withVignette={false} />
+                <DotPatternBackground className="opacity-20 text-white/40" withVignette={false} />
 
                 {/* Faded 4 Corners Effect (Radial overlay of background color) */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#050505] via-transparent to-transparent opacity-100 pointer-events-none" />

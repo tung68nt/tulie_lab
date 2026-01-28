@@ -64,10 +64,9 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 <div className="absolute inset-0 pointer-events-none">
                     <DotPatternBackground
                         className={cn(
-                            "opacity-50",
-                            backgroundTheme === 'dark' ? "text-white/30" : "text-neutral-600/30"
+                            backgroundTheme === 'dark' ? "text-white/20" : "text-black/[0.08]"
                         )}
-                        withVignette={false} // Force disable vignette which might hide dots
+                        withVignette={false}
                     />
                 </div>
             )}

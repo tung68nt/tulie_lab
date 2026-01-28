@@ -6,7 +6,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { cn } from '@/lib/utils';
-import { Search, Filter, X, ChevronRight } from 'lucide-react';
+import { Search, Filter, X, ChevronRight, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers } from 'lucide-react';
 import { SectionTag } from '@/components/SectionTag';
 
 // Categories mapping based on schema ProductField
@@ -21,10 +21,11 @@ const CATEGORIES = [
 ];
 
 const PRODUCT_TYPES = [
-    { id: 'all', label: 'Tất cả loại hình' },
-    { id: 'TEMPLATE', label: 'Template' },
-    { id: 'APP', label: 'Apps Script' },
-    { id: 'LICENSE', label: 'License Key' },
+    { id: 'all', label: 'Tất cả loại hình', icon: <Layers className="w-4 h-4" /> },
+    { id: 'TEMPLATE', label: 'Template', icon: <Layout className="w-4 h-4" /> },
+    { id: 'APP', label: 'Apps Script', icon: <Code className="w-4 h-4" /> },
+    { id: 'LICENSE', label: 'License Key', icon: <Key className="w-4 h-4" /> },
+    { id: 'SUBSCRIPTION', label: 'Subscription', icon: <Zap className="w-4 h-4" /> },
 ];
 
 export default function ShopPage() {
@@ -148,6 +149,18 @@ export default function ShopPage() {
                                 {CATEGORIES.map((cat) => {
                                     const isAll = cat.id === 'all';
                                     const isActive = isAll ? selectedCategories.length === 0 : selectedCategories.includes(cat.id);
+
+                                    const getFieldIcon = (id: string) => {
+                                        switch (id) {
+                                            case 'ACCOUNTING': return <Calculator className="w-4 h-4" />;
+                                            case 'HR': return <Users className="w-4 h-4" />;
+                                            case 'MARKETING': return <TrendingUp className="w-4 h-4" />;
+                                            case 'BUSINESS': return <Briefcase className="w-4 h-4" />;
+                                            case 'CREATIVE': return <Palette className="w-4 h-4" />;
+                                            default: return <Folder className="w-4 h-4" />;
+                                        }
+                                    };
+
                                     return (
                                         <button
                                             key={cat.id}
@@ -170,10 +183,10 @@ export default function ShopPage() {
                                             )}
                                         >
                                             <div className={cn(
-                                                "w-4 h-4 rounded border flex items-center justify-center transition-all",
-                                                isActive ? "bg-black border-black" : "border-muted-foreground/30"
+                                                "w-4 h-4 rounded border flex items-center justify-center transition-all shrink-0",
+                                                isActive ? "bg-black border-black text-white" : "border-muted-foreground/30 text-muted-foreground/60 group-hover:text-foreground"
                                             )}>
-                                                {isActive && <div className="w-1 h-1 bg-white rounded-full" />}
+                                                {getFieldIcon(cat.id)}
                                             </div>
                                             <span className="truncate">{cat.label}</span>
                                         </button>
@@ -211,10 +224,10 @@ export default function ShopPage() {
                                             )}
                                         >
                                             <div className={cn(
-                                                "w-4 h-4 rounded border flex items-center justify-center transition-all",
-                                                isActive ? "bg-black border-black" : "border-muted-foreground/30"
+                                                "w-4 h-4 rounded border flex items-center justify-center transition-all shrink-0",
+                                                isActive ? "bg-black border-black text-white" : "border-muted-foreground/30 text-muted-foreground/60 group-hover:text-foreground"
                                             )}>
-                                                {isActive && <div className="w-1 h-1 bg-white rounded-full" />}
+                                                {type.icon}
                                             </div>
                                             <span className="truncate">{type.label}</span>
                                         </button>
@@ -282,8 +295,17 @@ export default function ShopPage() {
                                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                                     />
                                                     <div className="absolute top-4 right-4 flex gap-2">
-                                                        <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-1 px-2.5 text-xs">
-                                                            {product.type}
+                                                        <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-1 px-3 text-xs capitalize flex items-center gap-1.5">
+                                                            {(() => {
+                                                                switch (product.type) {
+                                                                    case 'TEMPLATE': return <Layout className="w-3 h-3" />;
+                                                                    case 'APP': return <Code className="w-3 h-3" />;
+                                                                    case 'LICENSE': return <Key className="w-3 h-3" />;
+                                                                    case 'SUBSCRIPTION': return <Zap className="w-3 h-3" />;
+                                                                    default: return <Package className="w-3 h-3" />;
+                                                                }
+                                                            })()}
+                                                            {product.type.toLowerCase()}
                                                         </Badge>
                                                     </div>
                                                 </div>
@@ -292,11 +314,18 @@ export default function ShopPage() {
                                             <div className="p-6 flex flex-col flex-1">
                                                 <div className="mb-4">
                                                     <div className="flex items-center gap-2 mb-3">
-                                                        <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide bg-gradient-to-r from-primary/20 to-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/30 shadow-sm">
-                                                            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-                                                            </svg>
-                                                            {product.field}
+                                                        <span className="inline-flex items-center gap-1.5 text-xs font-bold capitalize tracking-normal bg-gradient-to-r from-primary/20 to-primary/10 text-primary px-3 py-1.5 rounded-full border border-primary/30 shadow-sm">
+                                                            {(() => {
+                                                                switch (product.field) {
+                                                                    case 'ACCOUNTING': return <Calculator className="w-3 h-3" />;
+                                                                    case 'HR': return <Users className="w-3 h-3" />;
+                                                                    case 'MARKETING': return <TrendingUp className="w-3 h-3" />;
+                                                                    case 'BUSINESS': return <Briefcase className="w-3 h-3" />;
+                                                                    case 'CREATIVE': return <Palette className="w-3 h-3" />;
+                                                                    default: return <Folder className="w-3 h-3" />;
+                                                                }
+                                                            })()}
+                                                            {product.field.toLowerCase()}
                                                         </span>
                                                     </div>
                                                     <h3 className="text-lg font-semibold group-hover:text-primary transition-colors mb-2 line-clamp-2 leading-normal">
