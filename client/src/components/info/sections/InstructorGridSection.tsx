@@ -13,7 +13,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
             <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
 
             <div className="container px-4 mx-auto">
-                <StandardSectionHeader section={section} align="left" />
+                <StandardSectionHeader section={section} align={section.align || "left"} />
 
                 <div className={`grid gap-10 md:gap-12 ${section.items.length === 1 ? 'grid-cols-1 max-w-md mx-auto' :
                     section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' :

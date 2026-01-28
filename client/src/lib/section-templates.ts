@@ -15,7 +15,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
         name: 'Standard Hero',
         category: 'Hero',
         description: 'Classic hero with title, subtitle, and single CTA.',
-        previewImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=500',
+        previewImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=500', // Updated to a more hero-like image
         data: {
             id: 'hero-std',
             type: 'hero',
@@ -251,7 +251,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'content-block',
             name: 'Content Block (Alternating)',
             title: 'Chi Tiết Khóa Học',
+            tag: 'Chi tiết nội dung',
             subtitle: 'Nội dung được thiết kế sát với thực tế',
+            content: 'Chương trình học được xây dựng dựa trên nhu cầu tuyển dụng thực tế của doanh nghiệp.',
             showDotPattern: true,
             items: [
                 {
@@ -406,6 +408,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Học Viên Nói Gì',
             tag: 'Tiếng nói cộng đồng',
             subtitle: 'Câu chuyện thành công từ người thật việc thật',
+            align: 'center',
             items: [
                 { name: "Phạm Hùng", role: "Junior Dev @ FPT", content: "Khóa học thực sự thay đổi tư duy của mình. Không còn học vẹt mà hiểu sâu bản chất vấn đề.", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
                 { name: "Lan Anh", role: "Freelancer", content: "Cách truyền đạt của anh Tùng rất dễ hiểu, support nhiệt tình. Mình đã nhận được job đầu tiên ngay khi chưa học xong.", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
@@ -516,7 +519,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'instructor-grid',
             name: 'Instructor Grid',
             title: 'Đội Ngũ Chuyên Gia',
+            tag: 'Đội ngũ giảng viên',
             subtitle: 'Học hỏi trực tiếp từ những kỹ sư dày dặn kinh nghiệm thực chiến',
+            align: 'center',
             items: [
                 {
                     title: "Minh Tùng",
@@ -563,6 +568,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'payment',
             name: 'Payment Section',
             title: 'Đăng Ký Khóa Học',
+            tag: 'Đăng ký ngay',
             subtitle: 'Hoàn tất đăng ký để bắt đầu học ngay.',
         }
     },
@@ -717,7 +723,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { title: 'Demo Sản Phẩm', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', description: 'Video giới thiệu dự án học viên.' },
                 { title: 'Lớp Học Offline', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800', description: 'Không khí học tập sôi nổi tại văn phòng.' }
             ],
-            appearance: 'glass',
+            appearance: 'standard',
             animation: 'fade-up'
         }
     }

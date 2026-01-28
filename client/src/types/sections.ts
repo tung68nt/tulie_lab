@@ -55,4 +55,5 @@ export interface Section {
     rowConfig?: TableRowConfig[]; // New: Dynamic row configuration for comparison tables
     className?: string; // Add className for custom styling
     backgroundImage?: string; // New: background image for the section
+    align?: 'left' | 'center' | 'right'; // New: text alignment preference
 }

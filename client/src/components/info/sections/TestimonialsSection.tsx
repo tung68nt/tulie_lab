@@ -64,7 +64,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
 
             <div className="container relative z-10">
                 {/* Header */}
-                <StandardSectionHeader section={section} align="left" />
+                <StandardSectionHeader section={section} align={section.align || "left"} />
 
                 {/* Testimonials grid */}
                 <div className="flex flex-wrap justify-center gap-8">
