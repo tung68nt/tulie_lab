@@ -25,6 +25,8 @@ export default function AdminSettingsPage() {
     const [apiKey, setApiKey] = useState('');
     const [copied, setCopied] = useState(false);
     const [regenerating, setRegenerating] = useState(false);
+    const [domainBranding, setDomainBranding] = useState<any[]>([]);
+    const [uploadingDomainLogo, setUploadingDomainLogo] = useState<number | null>(null);
 
     useEffect(() => {
         loadSettings();
@@ -65,6 +67,13 @@ export default function AdminSettingsPage() {
         try {
             const res: any = await api.admin.settings.get();
             setSettings(res || {});
+            if (res.domain_branding) {
+                try {
+                    setDomainBranding(JSON.parse(res.domain_branding));
+                } catch (e) {
+                    setDomainBranding([]);
+                }
+            }
         } catch (error) {
             console.error('Failed to load settings', error);
             addToast("Không thể tải cài đặt hệ thống.", 'error');
@@ -77,7 +86,11 @@ export default function AdminSettingsPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.admin.settings.update(settings);
+            const finalSettings = {
+                ...settings,
+                domain_branding: JSON.stringify(domainBranding)
+            };
+            await api.admin.settings.update(finalSettings);
             // Refresh global settings context so navbar updates
             await globalUpdateSettings();
             addToast("Cập nhật cài đặt thành công.", 'success');
@@ -172,7 +185,7 @@ export default function AdminSettingsPage() {
                         <CardContent className="space-y-6">
                             {/* Logo Section */}
                             <div className="space-y-3">
-                                <label className="text-sm font-medium">Logo Website</label>
+                                <label className="text-sm font-medium">Logo Website (Mặc định)</label>
                                 <div className="flex gap-2">
                                     <Input
                                         value={settings.site_logo || ''}
@@ -216,7 +229,7 @@ export default function AdminSettingsPage() {
 
                             {/* Site Name */}
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Tên Website</label>
+                                <label className="text-sm font-medium">Tên Website (Mặc định)</label>
                                 <Input
                                     value={settings.site_name || ''}
                                     onChange={(e) => handleChange('site_name', e.target.value)}
@@ -228,7 +241,7 @@ export default function AdminSettingsPage() {
                                         checked={settings.show_site_name === 'true'}
                                         onChange={(checked) => handleChange('show_site_name', checked ? 'true' : 'false')}
                                     />
-                                    <label htmlFor="show_site_name" className="text-sm cursor-pointer select-none" onClick={() => handleChange('show_site_name', settings.show_site_name === 'true' ? 'false' : 'true')}>
+                                    <label htmlFor="show_site_name" className="text-sm cursor-pointer select-none">
                                         Hiển thị tên website cạnh Logo
                                     </label>
                                 </div>
@@ -236,7 +249,7 @@ export default function AdminSettingsPage() {
 
                             {/* Favicon Section */}
                             <div className="space-y-3">
-                                <label className="text-sm font-medium">Favicon</label>
+                                <label className="text-sm font-medium">Favicon (Mặc định)</label>
                                 <div className="flex gap-2">
                                     <Input
                                         value={settings.site_favicon || ''}
@@ -276,6 +289,125 @@ export default function AdminSettingsPage() {
                                         />
                                     </div>
                                 )}
+                            </div>
+
+                            <hr className="my-6" />
+
+                            {/* Multi-domain Branding */}
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <h4 className="text-sm font-bold">Cấu hình Đa Tên miền</h4>
+                                        <p className="text-xs text-muted-foreground">Tự động đổi Logo & Tên theo tên miền truy cập.</p>
+                                    </div>
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => setDomainBranding([...domainBranding, { domain: '', logo_url: '', site_name: '' }])}
+                                    >
+                                        Thêm tên miền
+                                    </Button>
+                                </div>
+
+                                <div className="space-y-4">
+                                    {domainBranding.map((db, idx) => (
+                                        <div key={idx} className="p-4 border rounded-xl bg-muted/20 space-y-4 relative group">
+                                            <Button
+                                                type="button"
+                                                size="sm"
+                                                variant="ghost"
+                                                className="absolute top-2 right-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                onClick={() => setDomainBranding(domainBranding.filter((_, i) => i !== idx))}
+                                            >
+                                                Xóa
+                                            </Button>
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Tên miền (Host)</label>
+                                                    <Input
+                                                        value={db.domain}
+                                                        onChange={(e) => {
+                                                            const newDB = [...domainBranding];
+                                                            newDB[idx].domain = e.target.value;
+                                                            setDomainBranding(newDB);
+                                                        }}
+                                                        placeholder="thelab.tulie.vn"
+                                                        className="bg-background"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Tên hiển thị</label>
+                                                    <Input
+                                                        value={db.site_name}
+                                                        onChange={(e) => {
+                                                            const newDB = [...domainBranding];
+                                                            newDB[idx].site_name = e.target.value;
+                                                            setDomainBranding(newDB);
+                                                        }}
+                                                        placeholder="The Lab Tulie"
+                                                        className="bg-background"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Logo URL</label>
+                                                <div className="flex gap-2">
+                                                    <Input
+                                                        value={db.logo_url}
+                                                        onChange={(e) => {
+                                                            const newDB = [...domainBranding];
+                                                            newDB[idx].logo_url = e.target.value;
+                                                            setDomainBranding(newDB);
+                                                        }}
+                                                        placeholder="https://..."
+                                                        className="bg-background"
+                                                    />
+                                                    <input
+                                                        id={`domain-logo-${idx}`}
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        onChange={async (e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (!file) return;
+                                                            setUploadingDomainLogo(idx);
+                                                            try {
+                                                                const result: any = await api.uploads.single(file);
+                                                                if (result?.data?.url) {
+                                                                    const newDB = [...domainBranding];
+                                                                    newDB[idx].logo_url = result.data.url;
+                                                                    setDomainBranding(newDB);
+                                                                }
+                                                            } catch (err) {
+                                                                addToast('Lỗi tải ảnh', 'error');
+                                                            } finally {
+                                                                setUploadingDomainLogo(null);
+                                                            }
+                                                        }}
+                                                    />
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => document.getElementById(`domain-logo-${idx}`)?.click()}
+                                                        disabled={uploadingDomainLogo === idx}
+                                                    >
+                                                        {uploadingDomainLogo === idx ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                    {domainBranding.length === 0 && (
+                                        <div className="text-center py-8 border border-dashed rounded-xl text-muted-foreground text-sm">
+                                            Chưa có cấu hình tên miền riêng. Sử dụng mặc định.
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </CardContent>
                     </Card>

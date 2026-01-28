@@ -3,7 +3,7 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Gift } from 'lucide-react';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 interface BonusSectionProps {
@@ -21,9 +21,13 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
     const totalValue = items.reduce((sum, item) => sum + (parsePrice(item.originalPrice) || parsePrice(item.price) || 0), 0);
 
     return (
-        <section className="section-dark py-24 md:py-32">
-            {/* Unified Background pattern */}
-            <div className="section-dark-dot" />
+        <section className="py-24 md:py-32 relative overflow-hidden transition-colors duration-300">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme || 'dark'}
+                overlayOpacity={section.overlayOpacity}
+            />
 
             {/* Decorative Ribbons - Breathing Animation */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-full max-w-sm">

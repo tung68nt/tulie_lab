@@ -2,7 +2,7 @@ import React from 'react';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 interface StudentShowcaseSectionProps {
@@ -13,9 +13,14 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
     const items = section.items || [];
 
     return (
-        <section className="py-12 md:py-20 bg-background overflow-hidden relative">
-            {section.showDotPattern !== false && <DotPatternBackground />}
-            <div className="container relative z-10">
+        <section className="py-12 md:py-20 relative overflow-hidden transition-colors duration-300">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
+            <div className="container relative z-10 mx-auto px-4">
                 <StandardSectionHeader
                     section={section}
                     // Use subtitle as tag for this section if generic tag is missing, or fallback logic

@@ -1,6 +1,8 @@
 import { Section } from '@/types/sections';
 import Image from 'next/image';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { SectionBackground } from '../SectionBackground';
+import { cn } from '@/lib/utils';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export function InstructorBioSection({ section }: { section: Section }) {
@@ -9,8 +11,14 @@ export function InstructorBioSection({ section }: { section: Section }) {
     if (!instructor) return null;
 
     return (
-        <section className="py-24 bg-muted/30">
-            <div className="container px-4 mx-auto">
+        <section className="py-24 relative overflow-hidden">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
+            <div className="container relative z-10 px-4 mx-auto">
                 <StandardSectionHeader section={section} align="left" />
 
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 max-w-6xl mx-auto">

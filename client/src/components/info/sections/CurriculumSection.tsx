@@ -1,7 +1,8 @@
 import { Section } from '@/types/sections';
 import { BookOpen, CheckCircle2, PlayCircle, FileText } from 'lucide-react';
 import Image from 'next/image';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
+
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export const CurriculumSection = ({ section }: { section: Section }) => {
@@ -43,8 +44,13 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
     ];
 
     return (
-        <section className="py-20 md:py-32 bg-secondary/20 relative overflow-hidden">
-            {section.showDotPattern !== false && <DotPatternBackground />}
+        <section className="py-20 md:py-32 relative overflow-hidden transition-colors duration-300">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
             <div className="container px-4 md:px-6 max-w-5xl mx-auto relative z-10">
                 {/* Header */}
                 {/* Header */}

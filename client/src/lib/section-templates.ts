@@ -384,6 +384,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Giảng Viên Của Bạn',
             tag: 'Đội ngũ chuyên gia',
             subtitle: 'Người đồng hành cùng bạn trên con đường chinh phục Code',
+            showDotPattern: true,
             items: [
                 {
                     title: "Trần Minh Tùng",
@@ -409,6 +410,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             tag: 'Tiếng nói cộng đồng',
             subtitle: 'Câu chuyện thành công từ người thật việc thật',
             align: 'center',
+            showDotPattern: true,
             items: [
                 { name: "Phạm Hùng", role: "Junior Dev @ FPT", content: "Khóa học thực sự thay đổi tư duy của mình. Không còn học vẹt mà hiểu sâu bản chất vấn đề.", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
                 { name: "Lan Anh", role: "Freelancer", content: "Cách truyền đạt của anh Tùng rất dễ hiểu, support nhiệt tình. Mình đã nhận được job đầu tiên ngay khi chưa học xong.", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
@@ -443,6 +445,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Bonus Section',
             title: 'Quà Tặng Độc Quyền',
             subtitle: 'Chỉ dành cho học viên đăng ký hôm nay',
+            showDotPattern: true,
             items: [
                 {
                     title: "Bộ Ebook 'Roadmap to Senior'",
@@ -490,7 +493,8 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             price: '499.000',
             oldPrice: '999.000',
             ctaText: 'Nâng Cấp Ngay',
-            ctaLink: '/upgrade'
+            ctaLink: '/upgrade',
+            showDotPattern: true
         }
     },
     {
@@ -506,7 +510,8 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Đừng Chờ Đợi Cơ Hội',
             subtitle: 'Hãy bắt đầu hành trình thay đổi sự nghiệp của bạn ngay hôm nay.',
             ctaText: 'Tham Gia Ngay',
-            ctaLink: '/checkout'
+            ctaLink: '/checkout',
+            showDotPattern: true
         }
     },
     {

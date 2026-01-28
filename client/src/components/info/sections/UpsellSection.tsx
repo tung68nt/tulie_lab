@@ -5,7 +5,7 @@ import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { DynamicIcon } from '@/components/DynamicIcon';
 
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 
 export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPrice }: { section: Section; upsellCourse?: any; upsellProduct?: any; upsellPrice?: any }) {
     const displayItems = section.items || [];
@@ -13,9 +13,14 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
     if (displayItems.length === 0) return null;
 
     return (
-        <section className="py-24 bg-background border-t border-zinc-100 relative overflow-hidden">
-            {section.showDotPattern !== false && <DotPatternBackground />}
-            <div className="container px-4 mx-auto">
+        <section className="py-24 relative overflow-hidden transition-colors duration-300">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
+            <div className="container px-4 mx-auto relative z-10">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
                     <h2 className="text-3xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
                     <p className="text-muted-foreground text-lg leading-relaxed">{section.subtitle}</p>

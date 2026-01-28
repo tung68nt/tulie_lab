@@ -4,19 +4,34 @@ import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
 
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
+import { cn } from '@/lib/utils';
 
 export const CTASection = ({ section }: { section: Section }) => {
+    const isDark = section.backgroundTheme === 'dark' || !section.backgroundTheme; // Default to dark for CTA
     return (
-        <section className="py-20 md:py-32 bg-black text-white relative overflow-hidden flex items-center justify-center">
-            {/* Background pattern matching other sections */}
-            {section.showDotPattern !== false && <DotPatternBackground />}
+        <section className={cn(
+            "py-20 md:py-32 relative overflow-hidden flex items-center justify-center transition-colors duration-300",
+            isDark ? "bg-black text-white" : "bg-white text-zinc-900"
+        )}>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme || 'dark'}
+                overlayOpacity={section.overlayOpacity}
+            />
 
-            <div className="container text-center relative z-10">
-                <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-[1.4] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-300 to-white py-2">
+            <div className="container text-center relative z-10 mx-auto px-4">
+                <h2 className={cn(
+                    "text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight tracking-tight py-2",
+                    isDark ? "text-white" : "text-zinc-900"
+                )}>
                     {section.title}
                 </h2>
-                <p className="text-lg md:text-xl text-zinc-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p className={cn(
+                    "text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed",
+                    isDark ? "text-zinc-400" : "text-zinc-600"
+                )}>
                     {section.subtitle}
                 </p>
                 {section.ctaLink && (

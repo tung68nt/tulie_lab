@@ -3,17 +3,22 @@ import { cn } from '@/lib/utils';
 import { MonitorPlay, Check, Users, MessageCircle, Video } from 'lucide-react';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 
 export const FeatureGridSection = ({ section }: { section: Section }) => {
-    return (
-        <section className="section-dark py-24 flex items-center justify-center relative overflow-hidden">
-            {/* Unified Background pattern */}
-            <div className="section-dark-dot"></div>
-            {/* Fade overlay */}
-            <div className="absolute inset-0 bg-black/20 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
+    const isDark = section.backgroundTheme !== 'light'; // Default to dark for this design
 
-            {section.showDotPattern !== false && <DotPatternBackground />}
+    return (
+        <section className={cn(
+            "py-24 flex items-center justify-center relative overflow-hidden transition-colors duration-300",
+            isDark ? "bg-black text-white" : "bg-background text-foreground"
+        )}>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme || 'dark'}
+                overlayOpacity={section.overlayOpacity}
+            />
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}

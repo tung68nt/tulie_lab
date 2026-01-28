@@ -265,6 +265,52 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                 </div>
                             </div>
 
+                            {/* Background Settings */}
+                            <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">
+                                <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Section Background</h3>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Background Image URL</label>
+                                    <input
+                                        type="text"
+                                        value={editedSection.backgroundImage || ''}
+                                        onChange={e => handleChange('backgroundImage', e.target.value)}
+                                        className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm"
+                                        placeholder="https://images.unsplash.com/..."
+                                    />
+                                </div>
+                                {editedSection.backgroundImage && (
+                                    <>
+                                        <div className="space-y-2">
+                                            <div className="flex justify-between">
+                                                <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Overlay Opacity</label>
+                                                <span className="text-xs font-mono">{editedSection.overlayOpacity ?? 0.6}</span>
+                                            </div>
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="1"
+                                                step="0.05"
+                                                value={editedSection.overlayOpacity ?? 0.6}
+                                                onChange={e => handleChange('overlayOpacity', parseFloat(e.target.value))}
+                                                className="w-full h-1 bg-neutral-300 rounded-lg appearance-none cursor-pointer accent-neutral-900 dark:accent-neutral-100"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Background Theme (Content Contrast)</label>
+                                            <select
+                                                value={editedSection.backgroundTheme || 'auto'}
+                                                onChange={e => handleChange('backgroundTheme', e.target.value)}
+                                                className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm"
+                                            >
+                                                <option value="auto">Auto (Adaptive)</option>
+                                                <option value="dark">Dark Background (White text)</option>
+                                                <option value="light">Light Background (Black text)</option>
+                                            </select>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+
                         </div>
                     </div>
 

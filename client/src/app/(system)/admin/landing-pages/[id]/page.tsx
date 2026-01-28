@@ -539,9 +539,9 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     <Button
                                         type="button"
                                         size="sm"
-                                        variant="default"
+                                        variant="outline"
                                         onClick={() => setIsLibraryOpen(true)}
-                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow-sm text-black hover:bg-neutral-100 border border-neutral-300 gap-2"
+                                        className="gap-2"
                                     >
                                         <PlusCircle size={16} />
                                         <span>Thêm Section</span>
@@ -549,7 +549,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     <Button
                                         type="button"
                                         size="sm"
-                                        variant="default"
+                                        variant="outline"
                                         onClick={async () => {
                                             if (await confirm({
                                                 title: 'Xóa tất cả Sections',
@@ -562,7 +562,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast('Đã xóa tất cả sections', 'success');
                                             }
                                         }}
-                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow-sm text-black hover:bg-neutral-100 border border-neutral-300 gap-2"
+                                        className="gap-2"
                                         title="Xóa tất cả sections"
                                     >
                                         <Trash2 size={16} />
@@ -571,7 +571,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     <Button
                                         type="button"
                                         size="sm"
-                                        variant="default"
+                                        variant="outline"
                                         onClick={async () => {
                                             if (await confirm({
                                                 title: 'Thêm Section Mẫu (Style Cũ)',
@@ -595,7 +595,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast(`Đã nạp ${testSections.length} section style tiêu chuẩn`, 'success');
                                             }
                                         }}
-                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow-sm text-black hover:bg-neutral-100 border border-neutral-300 gap-2"
+                                        className="gap-2"
                                         title="Nạp Demo với style tiêu chuẩn"
                                     >
                                         <Zap size={16} />

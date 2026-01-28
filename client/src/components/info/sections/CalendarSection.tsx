@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Calendar as CalendarIcon, List as ListIcon, ExternalLink } from 'lucide-react';
 import { MonthViewCalendar } from '@/components/calendar/MonthViewCalendar';
 import { Button } from '@/components/Button';
+import { SectionBackground } from '../SectionBackground';
 
 interface Event {
     id: string;
@@ -58,110 +59,118 @@ export const CalendarSection = ({ section }: { section: Section }) => {
     const calendarEvents = events.map(formatEventForCalendar);
 
     return (
-        <section className="container py-12 md:py-20" id={section.id}>
-            {(section.title || section.subtitle) && (
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                    <div>
-                        {section.title && <h2 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
-                        {section.subtitle && <p className="text-muted-foreground mt-2">{section.subtitle}</p>}
-                    </div>
+        <section className="py-12 md:py-20 relative overflow-hidden transition-colors duration-300" id={section.id}>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
+            <div className="container relative z-10 mx-auto px-4">
+                {(section.title || section.subtitle) && (
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                        <div>
+                            {section.title && <h2 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
+                            {section.subtitle && <p className="text-muted-foreground mt-2">{section.subtitle}</p>}
+                        </div>
 
-                    <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
-                        <button
-                            onClick={() => setViewMode('month')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
-                                ? 'bg-card text-primary shadow-sm'
-                                : 'text-muted-foreground hover:text-foreground'
-                                }`}
-                        >
-                            <CalendarIcon className="w-4 h-4" />
-                            Xem tháng
-                        </button>
-                        <button
-                            onClick={() => setViewMode('list')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
-                                ? 'bg-card text-primary shadow-sm'
-                                : 'text-muted-foreground hover:text-foreground'
-                                }`}
-                        >
-                            <ListIcon className="w-4 h-4" />
-                            Danh sách
-                        </button>
+                        <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
+                            <button
+                                onClick={() => setViewMode('month')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
+                                    ? 'bg-card text-primary shadow-sm'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                            >
+                                <CalendarIcon className="w-4 h-4" />
+                                Xem tháng
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
+                                    ? 'bg-card text-primary shadow-sm'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                            >
+                                <ListIcon className="w-4 h-4" />
+                                Danh sách
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
 
-            {/* If no title provided, still show toggle but simpler layout? 
+                {/* If no title provided, still show toggle but simpler layout? 
                 Actually the toggle was part of the header area. 
                 Let's make sure the toggle is always visible.
             */}
-            {!section.title && !section.subtitle && (
-                <div className="flex justify-end mb-8">
-                    <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
-                        <button
-                            onClick={() => setViewMode('month')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
-                                ? 'bg-card text-primary shadow-sm'
-                                : 'text-muted-foreground hover:text-foreground'
-                                }`}
-                        >
-                            <CalendarIcon className="w-4 h-4" />
-                            Xem tháng
-                        </button>
-                        <button
-                            onClick={() => setViewMode('list')}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
-                                ? 'bg-card text-primary shadow-sm'
-                                : 'text-muted-foreground hover:text-foreground'
-                                }`}
-                        >
-                            <ListIcon className="w-4 h-4" />
-                            Danh sách
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            {loading ? (
-                <div className="text-center py-12">
-                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
-                    <p className="text-muted-foreground">Đang tải lịch hoạt động...</p>
-                </div>
-            ) : viewMode === 'month' ? (
-                <MonthViewCalendar events={calendarEvents} />
-            ) : (
-                <div className="space-y-4">
-                    {calendarEvents.length === 0 ? (
-                        <div className="text-center py-12 text-muted-foreground border rounded-lg bg-muted/10">
-                            Hiện chưa có sự kiện nào được lên lịch.
-                        </div>
-                    ) : (
-                        calendarEvents.map((event, index) => (
-                            <Link
-                                key={index}
-                                href={event.link}
-                                className="flex flex-col md:flex-row items-start md:items-center p-6 border rounded-2xl hover:border-primary/50 transition-all bg-card hover:shadow-lg group"
+                {!section.title && !section.subtitle && (
+                    <div className="flex justify-end mb-8">
+                        <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
+                            <button
+                                onClick={() => setViewMode('month')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
+                                    ? 'bg-card text-primary shadow-sm'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
                             >
-                                <div className="md:w-32 flex-shrink-0 mb-4 md:mb-0">
-                                    <div className="text-xl font-bold text-primary">{event.date}</div>
-                                    <div className="text-sm text-muted-foreground font-medium">{event.time}</div>
-                                </div>
-                                <div className="flex-1">
-                                    <div className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-secondary text-secondary-foreground mb-2 uppercase tracking-wide">
-                                        {event.type}
+                                <CalendarIcon className="w-4 h-4" />
+                                Xem tháng
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
+                                    ? 'bg-card text-primary shadow-sm'
+                                    : 'text-muted-foreground hover:text-foreground'
+                                    }`}
+                            >
+                                <ListIcon className="w-4 h-4" />
+                                Danh sách
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {loading ? (
+                    <div className="text-center py-12">
+                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+                        <p className="text-muted-foreground">Đang tải lịch hoạt động...</p>
+                    </div>
+                ) : viewMode === 'month' ? (
+                    <MonthViewCalendar events={calendarEvents} />
+                ) : (
+                    <div className="space-y-4">
+                        {calendarEvents.length === 0 ? (
+                            <div className="text-center py-12 text-muted-foreground border rounded-lg bg-muted/10">
+                                Hiện chưa có sự kiện nào được lên lịch.
+                            </div>
+                        ) : (
+                            calendarEvents.map((event, index) => (
+                                <Link
+                                    key={index}
+                                    href={event.link}
+                                    className="flex flex-col md:flex-row items-start md:items-center p-6 border rounded-2xl hover:border-primary/50 transition-all bg-card hover:shadow-lg group"
+                                >
+                                    <div className="md:w-32 flex-shrink-0 mb-4 md:mb-0">
+                                        <div className="text-xl font-bold text-primary">{event.date}</div>
+                                        <div className="text-sm text-muted-foreground font-medium">{event.time}</div>
                                     </div>
-                                    <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{event.title}</h3>
-                                </div>
-                                <div className="mt-6 md:mt-0">
-                                    <div className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-primary border-2 border-primary rounded-xl group-hover:bg-primary group-hover:text-primary-foreground transition-all shadow-sm">
-                                        <span>Xem chi tiết</span>
-                                        <ExternalLink className="w-4 h-4" />
+                                    <div className="flex-1">
+                                        <div className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-secondary text-secondary-foreground mb-2 uppercase tracking-wide">
+                                            {event.type}
+                                        </div>
+                                        <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{event.title}</h3>
                                     </div>
-                                </div>
-                            </Link>
-                        )))}
-                </div>
-            )}
+                                    <div className="mt-6 md:mt-0">
+                                        <div className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-primary border-2 border-primary rounded-xl group-hover:bg-primary group-hover:text-primary-foreground transition-all shadow-sm">
+                                            <span>Xem chi tiết</span>
+                                            <ExternalLink className="w-4 h-4" />
+                                        </div>
+                                    </div>
+                                </Link>
+                            )))}
+                    </div>
+                )}
+            </div>
         </section>
     );
 };

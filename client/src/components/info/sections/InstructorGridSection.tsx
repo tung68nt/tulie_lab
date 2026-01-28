@@ -1,18 +1,21 @@
 import { Section } from '@/types/sections';
 import { Twitter, Linkedin, Github, ExternalLink } from 'lucide-react';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { SectionBackground } from '../SectionBackground';
 
 export const InstructorGridSection = ({ section }: { section: Section }) => {
     if (!section.items) return null;
 
     return (
-        <section className="py-24 bg-background overflow-hidden relative">
-            {/* Background Decorations */}
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10 animate-pulse" />
-            <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
+        <section className="py-24 relative overflow-hidden">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
 
-            <div className="container px-4 mx-auto">
+            <div className="container px-4 mx-auto relative z-10">
                 <StandardSectionHeader section={section} align={section.align || "left"} />
 
                 <div className={`grid gap-10 md:gap-12 ${section.items.length === 1 ? 'grid-cols-1 max-w-md mx-auto' :

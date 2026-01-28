@@ -3,8 +3,9 @@
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import { DynamicIcon } from '@/components/DynamicIcon';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { SectionBackground } from '@/components/info/SectionBackground';
 import { CartItem, CheckoutFormState, CheckoutState } from '@/types/checkout';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -655,8 +656,13 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
     );
 
     return (
-        <section id="payment-section" className="py-16 md:py-24 bg-secondary/10 relative overflow-hidden">
-            {section.showDotPattern !== false && <DotPatternBackground />}
+        <section id="payment-section" className="py-16 md:py-24 relative overflow-hidden">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
 
             <div className="container px-4 mx-auto max-w-6xl relative z-10">
                 {/* Section Header */}

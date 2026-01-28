@@ -54,15 +54,19 @@ const testimonials = [
     }
 ];
 
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 
 export const TestimonialsSection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-            {/* Dotted Background check */}
-            {section.showDotPattern !== false && <DotPatternBackground />}
+        <section className="py-20 md:py-32 relative overflow-hidden transition-colors duration-300">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
 
-            <div className="container relative z-10">
+            <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}
                 <StandardSectionHeader section={section} align={section.align || "left"} />
 

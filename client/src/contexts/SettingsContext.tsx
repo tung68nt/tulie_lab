@@ -22,6 +22,14 @@ interface Settings {
     pricing_single_description?: string;
     pricing_vibe_coding_sale?: string;
     pricing_vibe_coding_original?: string;
+    domain_branding?: string; // JSON stringified array of DomainBranding objects
+}
+
+export interface DomainBranding {
+    id: string;
+    domain: string;
+    logoUrl: string;
+    siteName: string;
 }
 
 const defaultSettings: Settings = {
