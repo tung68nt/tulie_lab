@@ -27,7 +27,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                 overlayOpacity={section.overlayOpacity}
             />
 
-            <div className="container">
+            <div className="container relative z-10">
                 <StandardSectionHeader section={section} align="center" />
 
                 <div className="flex flex-wrap justify-center gap-6">

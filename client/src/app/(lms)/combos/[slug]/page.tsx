@@ -62,8 +62,8 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                 <DotPatternBackground className="opacity-[0.03]" />
                 <div className="absolute -top-24 -right-24 w-96 h-96 bg-zinc-500/5 blur-[100px] rounded-full pointer-events-none" />
 
-                <div className="container relative z-10">
-                    <div className="max-w-3xl space-y-6">
+                <div className="container relative z-10 flex items-center justify-between">
+                    <div className="max-w-3xl space-y-6 relative z-20">
                         <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 py-1.5 px-4 text-xs font-bold tracking-wider">
                             Learning Path / Combo
                         </Badge>
@@ -107,6 +107,19 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                         </div>
                     </div>
                 </div>
+
+                {/* Thumbnail/Image Side (Desktop) */}
+                {bundle.thumbnail && (
+                    <div className="hidden lg:block absolute top-1/2 -right-24 -translate-y-1/2 w-[600px] h-[400px] rounded-3xl overflow-hidden shadow-2xl skew-x-[-6deg] skew-y-[-6deg] border-4 border-white/10 opacity-80 hover:opacity-100 transition-opacity">
+                        <DotPatternBackground className="absolute inset-0 z-10 opacity-20" />
+                        <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-transparent z-10" />
+                        <img
+                            src={bundle.thumbnail}
+                            alt={bundle.name}
+                            className="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700 hover:scale-105"
+                        />
+                    </div>
+                )}
             </div>
 
             {/* Learning Path Timeline */}
@@ -188,7 +201,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                 <div className="absolute inset-0 bg-gradient-to-bl from-[#050505] via-transparent to-transparent opacity-100 pointer-events-none" />
 
                 <div className="container relative z-10">
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-[1200px] mx-auto">
                         <div className="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800 rounded-[2.5rem] p-8 md:p-16 shadow-2xl relative overflow-hidden group">
                             {/* Decorative ambient light */}
                             <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full group-hover:bg-primary/20 transition-colors duration-700" />
@@ -229,7 +242,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                             className="w-full px-12 h-16 text-lg font-bold rounded-2xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                                             onClick={handleBuyNow}
                                         >
-                                            GHI DANH NGAY
+                                            Đăng ký ngay
                                             <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
 
@@ -255,6 +268,6 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

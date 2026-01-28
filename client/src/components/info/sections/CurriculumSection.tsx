@@ -51,68 +51,89 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />
-            <div className="container px-4 md:px-6 max-w-5xl mx-auto relative z-10">
-                {/* Header */}
-                {/* Header */}
-                <StandardSectionHeader
-                    section={section}
-                    tagOverride={
-                        <span className="flex items-center gap-2">
-                            <BookOpen size={16} className="text-primary" />
-                            Lộ trình chi tiết
-                        </span>
-                    }
-                    subtitleOverride={section.subtitle || "Hệ thống bài giảng được thiết kế khoa học, đi từ tư duy đến thực chiến, kèm theo bộ tài liệu và công cụ hỗ trợ."}
-                />
 
-                {/* Modules - 1 Column Layout */}
-                <div className="space-y-12">
-                    {modules.map((module: any, index: number) => (
-                        <div key={index} className="group flex flex-col md:flex-row bg-background rounded-3xl border border-border/50 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+            {/* Faded Dot Pattern 4 Corners (Requested) */}
+            {(section.backgroundTheme === 'dark' || !section.backgroundTheme) && (
+                <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                    {/* Top Left */}
+                    <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/5 rounded-full blur-[100px]" />
+                    {/* Bottom Right */}
+                    <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-purple-500/5 rounded-full blur-[100px]" />
+                </div>
+            )}
 
-                            {/* Left/Top: Image & Number */}
-                            <div className="md:w-2/5 relative min-h-[240px] md:min-h-full bg-secondary overflow-hidden">
-                                <div className="absolute inset-0">
-                                    <img
-                                        src={module.image || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&sig=${index}`}
-                                        alt={module.title}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
-                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                                </div>
-                                <div className="absolute top-6 left-6 w-12 h-12 bg-background dark:bg-black rounded-2xl flex items-center justify-center font-bold text-xl shadow-lg z-10">
-                                    {index + 1}
-                                </div>
-                            </div>
+            <div className="container px-4 md:px-6 mx-auto relative z-10">
+                <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
+                    {/* Sticky Sidebar: Header & Description */}
+                    <div className="lg:w-1/3">
+                        <div className="lg:sticky lg:top-32 space-y-6">
+                            <StandardSectionHeader
+                                section={section}
+                                align="left"
+                                className="mb-0 md:mb-6" // Override default mb
+                                tagOverride={
+                                    <span className="flex items-center gap-2">
+                                        <BookOpen size={16} className="text-primary" />
+                                        Lộ trình chi tiết
+                                    </span>
+                                }
+                                subtitleOverride={section.subtitle || "Hệ thống bài giảng được thiết kế khoa học, đi từ tư duy đến thực chiến."}
+                            />
 
-                            {/* Right/Bottom: Content */}
-                            <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
-                                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-foreground">
-                                    {module.title}
-                                </h3>
-                                <p className="text-muted-foreground text-lg mb-8 leading-relaxed border-b border-border/50 pb-6">
-                                    {module.description}
-                                </p>
-
-                                <div className="space-y-3">
-                                    {module.lessons?.map((lesson: string, i: number) => (
-                                        <div key={i} className="flex items-center gap-3 group/lesson p-1.5 -ml-1.5 rounded-lg hover:bg-secondary/50 transition-colors">
-                                            <div className="mt-0.5 w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0 group-hover/lesson:bg-primary/20 group-hover/lesson:text-primary transition-colors">
-                                                {lesson.toLowerCase().includes('tài liệu') ? (
-                                                    <FileText size={16} />
-                                                ) : (
-                                                    <PlayCircle size={16} />
-                                                )}
-                                            </div>
-                                            <span className={`font-medium text-lg ${lesson.toLowerCase().includes('tài liệu') ? 'text-primary' : 'text-foreground/80'}`}>
-                                                {lesson}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
+                            {/* Decorative Line for Desktop */}
+                            <div className="hidden lg:block w-12 h-1 bg-primary rounded-full" />
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Modules List - Scrollable */}
+                    <div className="lg:w-2/3 space-y-12">
+                        {modules.map((module: any, index: number) => (
+                            <div key={index} className="group flex flex-col md:flex-row bg-background/50 backdrop-blur-sm rounded-3xl border border-border/50 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+
+                                {/* Left/Top: Image & Number */}
+                                <div className="md:w-2/5 relative min-h-[200px] md:min-h-full bg-secondary overflow-hidden">
+                                    <div className="absolute inset-0">
+                                        <img
+                                            src={module.image || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&sig=${index}`}
+                                            alt={module.title}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                                    </div>
+                                    <div className="absolute top-4 left-4 w-10 h-10 bg-background/90 dark:bg-black/90 backdrop-blur rounded-xl flex items-center justify-center font-bold text-lg shadow-lg z-10 border border-white/10 text-foreground">
+                                        {index + 1}
+                                    </div>
+                                </div>
+
+                                {/* Right/Bottom: Content */}
+                                <div className="flex-1 p-6 md:p-8 flex flex-col justify-center">
+                                    <h3 className="text-xl md:text-2xl font-bold mb-3 text-foreground leading-tight">
+                                        {module.title}
+                                    </h3>
+                                    <p className="text-muted-foreground text-base mb-6 leading-relaxed border-b border-border/50 pb-4">
+                                        {module.description}
+                                    </p>
+
+                                    <div className="space-y-2.5">
+                                        {module.lessons?.map((lesson: string, i: number) => (
+                                            <div key={i} className="flex items-start gap-3 group/lesson p-1.5 -ml-1.5 rounded-lg hover:bg-secondary/50 transition-colors">
+                                                <div className="mt-0.5 w-6 h-6 rounded-full bg-secondary flex items-center justify-center shrink-0 group-hover/lesson:bg-primary/20 group-hover/lesson:text-primary transition-colors">
+                                                    {lesson.toLowerCase().includes('tài liệu') ? (
+                                                        <FileText size={14} />
+                                                    ) : (
+                                                        <PlayCircle size={14} />
+                                                    )}
+                                                </div>
+                                                <span className={`text-sm font-medium ${lesson.toLowerCase().includes('tài liệu') ? 'text-primary' : 'text-foreground/80'}`}>
+                                                    {lesson}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

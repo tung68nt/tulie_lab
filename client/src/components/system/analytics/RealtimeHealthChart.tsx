@@ -145,14 +145,14 @@ export function RealtimeHealthChart() {
                     <div className="flex gap-2 items-center">
                         <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground mr-1">
                             Chi phí:
-                            <div className={`px-2 py-0.5 rounded-full border flex items-center gap-1.5 ${costStatus.bg} ${costStatus.color}`}>
+                            <div className={`px-2 py-0.5 rounded-full border flex items-center gap-1.5 font-bold ${costStatus.bg} ${costStatus.color}`}>
                                 <DynamicIcon name={costStatus.icon || 'Activity'} className="w-3 h-3" />
                                 {costStatus.label}
                             </div>
                         </div>
                         <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
                             Hệ thống:
-                            <div className={`px-2 py-0.5 rounded-full border flex items-center gap-1.5 ${status.bg} ${status.color}`}>
+                            <div className={`px-2 py-0.5 rounded-full border flex items-center gap-1.5 font-bold ${status.bg} ${status.color}`}>
                                 <DynamicIcon name={status.icon || 'Activity'} className="w-3 h-3" />
                                 {status.label}
                             </div>

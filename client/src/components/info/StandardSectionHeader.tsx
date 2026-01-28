@@ -61,9 +61,17 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     return (
         <div className={cn("mb-10 md:mb-16 relative z-10 flex flex-col", alignClass, className)}>
             {tag && (
-                <div className={cn("flex w-full mb-3", tagAlignClass)}>
-                    <SectionTag>
+                <div className={cn("flex w-full mb-3", tagAlignClass, isDarkBg ? "dark" : "")}>
+                    <SectionTag className={cn(
+                        isDarkBg ? "border-white/20 bg-white/10 text-white" : ""
+                    )}>
                         {tag}
+                        {/* Force dot color for dark bg if needed, but SectionTag handles dark: modifier. 
+                            However, if parent isn't 'dark' class, we need to manually style the dot? 
+                            SectionTag structure is span > span. hard to reach. 
+                            But SectionTag uses standard tailwind dark: classes. 
+                            If we are in 'light' mode but section is 'dark', we need 'dark' class wrapper?
+                        */}
                     </SectionTag>
                 </div>
             )}

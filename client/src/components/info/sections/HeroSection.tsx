@@ -17,7 +17,7 @@ export function HeroSection({ section }: { section: Section }) {
                 overlayOpacity={section.overlayOpacity}
             />
 
-            <div className="container">
+            <div className="container relative z-10">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
                     <div className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">

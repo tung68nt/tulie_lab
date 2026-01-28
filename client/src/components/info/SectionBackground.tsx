@@ -36,7 +36,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     const overlayBase = isLightTheme ? 'bg-white/60' : isDarkTheme ? 'bg-black/60' : 'bg-background/60';
 
     return (
-        <div className={cn("absolute inset-0 -z-10 overflow-hidden", className)}>
+        <div className={cn("absolute inset-0 z-0 overflow-hidden rounded-[inherit] pointer-events-none", className)}>
             {/* Background Image Layer */}
             {backgroundImage && (
                 <div
@@ -59,16 +59,15 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
 
             {/* Dot Pattern Layer */}
             {showDotPattern && (
-                <DotPatternBackground
-                    className={cn(
-                        "opacity-50",
-                        // If we have a background image, ensure dots are visible enough. 
-                        // If valid theme is dark (light text), dots should probably be light? 
-                        // Current dot pattern uses currentColor.
-                        backgroundTheme === 'dark' ? "text-white/30" : "text-neutral-600/30"
-                    )}
-                    withVignette={!backgroundImage} // Only use vignette if no image, or maybe always? keeping existing logic
-                />
+                <div className="absolute inset-0 pointer-events-none">
+                    <DotPatternBackground
+                        className={cn(
+                            "opacity-50",
+                            backgroundTheme === 'dark' ? "text-white/30" : "text-neutral-600/30"
+                        )}
+                        withVignette={false} // Force disable vignette which might hide dots
+                    />
+                </div>
             )}
 
             {/* Optional Gradient Fade - Adjust based on theme? */}

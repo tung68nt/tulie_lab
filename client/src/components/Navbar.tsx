@@ -351,27 +351,30 @@ export function Navbar() {
                                                         const isAdmin = user?.role === 'ADMIN';
 
                                                         return (
-                                                            <div className="flex flex-wrap justify-start gap-2">
-                                                                {isAdmin && (
-                                                                    <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-100 text-zinc-900 border border-zinc-200">
-                                                                        Admin
-                                                                    </span>
-                                                                )}
-
-                                                                {activeSub ? (
-                                                                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold border ${((activeSub as any).product?.slug || '').includes('premium')
-                                                                        ? 'bg-amber-100 text-amber-900 border-amber-200'
-                                                                        : 'bg-zinc-100 text-zinc-900 border-zinc-200'
-                                                                        }`}>
-                                                                        {((activeSub as any).product?.title || '').replace(/Pro/i, 'Premium')}
-                                                                    </span>
-                                                                ) : (
-                                                                    !isAdmin && (
-                                                                        <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-100 text-zinc-500 border border-zinc-200">
-                                                                            Member
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-[10px] font-medium text-zinc-900">Gói cước:</span>
+                                                                <div className="flex flex-wrap justify-start gap-2">
+                                                                    {isAdmin && (
+                                                                        <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-100 text-zinc-900 border border-zinc-200">
+                                                                            Admin
                                                                         </span>
-                                                                    )
-                                                                )}
+                                                                    )}
+
+                                                                    {activeSub ? (
+                                                                        <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold border ${((activeSub as any).product?.slug || '').includes('premium')
+                                                                            ? 'bg-amber-100 text-amber-900 border-amber-200'
+                                                                            : 'bg-zinc-100 text-zinc-900 border-zinc-200'
+                                                                            }`}>
+                                                                            {((activeSub as any).product?.title || '').replace(/Pro/i, 'Premium')}
+                                                                        </span>
+                                                                    ) : (
+                                                                        !isAdmin && (
+                                                                            <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-zinc-100 text-zinc-500 border border-zinc-200">
+                                                                                Member
+                                                                            </span>
+                                                                        )
+                                                                    )}
+                                                                </div>
                                                             </div>
                                                         );
                                                     })()}
@@ -381,7 +384,7 @@ export function Navbar() {
                                                         if (activeSub) {
                                                             const date = new Date(activeSub.endDate);
                                                             return !isNaN(date.getTime()) ? (
-                                                                <span className="text-[10px] font-medium text-zinc-400">
+                                                                <span className="text-[10px] font-medium text-zinc-900">
                                                                     Hết hạn: {date.toLocaleDateString('vi-VN')}
                                                                 </span>
                                                             ) : null;

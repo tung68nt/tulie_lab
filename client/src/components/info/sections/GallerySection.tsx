@@ -34,7 +34,7 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                 className={section.appearance === 'glass' ? "bg-black/80" : undefined}
             />
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto relative z-10">
                 <StandardSectionHeader section={section} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -66,8 +66,12 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                                 ) : (
                                     <Maximize2 className="h-8 w-8 mb-3 opacity-80" />
                                 )}
-                                <h4 className="font-bold text-lg">{item.title}</h4>
-                                {item.description && <p className="text-sm opacity-90">{item.description}</p>}
+                                {(item.title || item.description) && (
+                                    <>
+                                        <h4 className="font-bold text-lg">{item.title}</h4>
+                                        {item.description && <p className="text-sm opacity-90">{item.description}</p>}
+                                    </>
+                                )}
                             </div>
                         </motion.div>
                     ))}

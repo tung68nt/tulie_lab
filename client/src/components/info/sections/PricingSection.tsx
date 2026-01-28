@@ -28,7 +28,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />
-            <div className="container mx-auto">
+            <div className="container mx-auto relative z-10">
                 <StandardSectionHeader section={section} align="center" />
 
                 <div className={`grid grid-cols-1 md:grid-cols-${Math.min(items.length, 3)} gap-6 max-w-7xl mx-auto`}>

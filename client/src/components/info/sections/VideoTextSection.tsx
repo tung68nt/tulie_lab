@@ -56,7 +56,7 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
                 className={section.appearance === 'glass' ? "bg-black/80" : undefined}
             />
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto relative z-10">
                 <div className={cn(
                     "grid grid-cols-1 lg:grid-cols-2 gap-12 items-center",
                     section.imagePosition === 'right' ? 'lg:flex-row-reverse' : ''

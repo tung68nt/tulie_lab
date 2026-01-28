@@ -55,7 +55,7 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
                 className={section.appearance === 'glass' ? "bg-black/80" : undefined}
             />
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto relative z-10">
                 <StandardSectionHeader section={section} />
 
                 <motion.div

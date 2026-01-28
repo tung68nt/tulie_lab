@@ -143,10 +143,15 @@ export default function AdminInstructorsPage() {
 
     return (
         <div className="space-y-6">
-            <AdminPageHeader
-                title="Quản lý Consultant"
-                subtitle="Quản lý danh sách giảng viên và chuyên gia tư vấn."
-            />
+            <div className="flex justify-between items-start">
+                <AdminPageHeader
+                    title="Quản lý Consultant"
+                    subtitle="Quản lý danh sách giảng viên và chuyên gia tư vấn."
+                />
+                <Button variant="outline" onClick={() => window.open('/instructors', '_blank')}>
+                    Xem trang public
+                </Button>
+            </div>
 
             <Card>
                 <CardHeader>
@@ -317,7 +322,7 @@ export default function AdminInstructorsPage() {
                                             />
                                         )}
                                         <div>
-                                            <p className="font-bold">{inst.name}</p>
+                                            <p className="font-semibold text-zinc-900">{inst.name}</p>
                                             <p className="text-sm text-muted-foreground">{inst.title}</p>
                                             <div className="flex gap-4 text-xs text-muted-foreground mt-1">
                                                 <span>{inst.courseCount} khóa học</span>
