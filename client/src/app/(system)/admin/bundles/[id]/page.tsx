@@ -46,8 +46,9 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch courses
-                const coursesList: any = await api.courses.list({ published: true });
+                // Fetch courses (Admin API to get all courses including unpublished)
+                const coursesResponse: any = await api.admin.courses.list();
+                const coursesList = coursesResponse?.data || [];
                 setCourses(Array.isArray(coursesList) ? coursesList : []);
 
                 // Fetch bundle
