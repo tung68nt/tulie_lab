@@ -23,7 +23,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
         <section className="py-24 bg-background relative overflow-hidden">
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container">
-                <StandardSectionHeader section={section} align="left" />
+                <StandardSectionHeader section={section} align="center" />
 
                 {/* Decorative Background Elements */}
                 <div className="absolute top-20 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 pointer-events-none" />

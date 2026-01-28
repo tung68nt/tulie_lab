@@ -342,6 +342,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "general-hero",
         type: "hero",
+        tag: "WELCOME",
         title: "KHAI PHÁ SỨC MẠNH AI TRONG CÔNG VIỆC THỰC CHIẾN",
         subtitle: "Tại The Tulie Lab, chúng tôi giúp bạn làm chủ công nghệ và AI để tự động hóa quy trình, xây dựng ứng dụng chuyên sâu và tối ưu hiệu suất công việc vượt trội.",
         image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
@@ -353,6 +354,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "tulie-stats",
         type: "stats",
+        tag: "NUMBERS",
         title: "Tulie Lab qua những con số",
         subtitle: "Đồng hành cùng sự phát triển của bạn",
         items: [
@@ -367,6 +369,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "vibe-methodology",
         type: "coding-methods",
+        tag: "STAGES",
         title: "5 Cấp độ xây dựng App với Vibe Coding",
         subtitle: "Học cách làm chủ AI để tạo ra sản phẩm thực thụ",
         rowConfig: [
@@ -520,6 +523,7 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
     {
         id: 'pricing-plans',
         type: 'pricing',
+        tag: 'PRICING',
         title: 'Các gói phổ biến',
         subtitle: 'Được nhiều thành viên lựa chọn',
         order: 2,
@@ -581,6 +585,7 @@ export const DEFAULT_PRICING_SECTIONS: Section[] = [
     {
         id: 'pricing-faq',
         type: 'faq',
+        tag: 'FAQ',
         title: 'Câu hỏi thường gặp',
         subtitle: 'Giải đáp thắc mắc về các gói thành viên',
         order: 3,

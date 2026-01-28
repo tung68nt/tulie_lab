@@ -9,6 +9,7 @@ import { PriceInput } from '@/components/PriceInput';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
+import { ChevronUp, ChevronDown, Trash2, BookOpen, Plus } from 'lucide-react';
 
 export default function EditBundlePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
@@ -76,13 +77,48 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
         fetchData();
     }, [id, router]);
 
-    // Calculate discount percent automatically when prices change
+    // Calculate values when course selection changes
     useEffect(() => {
-        if (formData.originalPrice > 0 && formData.salePrice > 0) {
-            const percent = Math.round(((formData.originalPrice - formData.salePrice) / formData.originalPrice) * 100);
-            setFormData(prev => ({ ...prev, discountPercent: percent }));
-        }
-    }, [formData.originalPrice, formData.salePrice]);
+        const total = selectedCourses.reduce((sum, c) => sum + (c?.price || 0), 0);
+        setFormData(prev => {
+            // Update originalPrice and salePrice but ONLY if the courses list is already loaded
+            // To avoid overwriting loaded prices with 0 before courses list arrives
+            if (courses.length === 0) return prev;
+
+            const salePrice = Math.round(total * (1 - prev.discountPercent / 100));
+            return {
+                ...prev,
+                originalPrice: total,
+                salePrice: salePrice
+            };
+        });
+    }, [formData.courseIds, courses.length]);
+
+    // Handle manual price changes
+    const handleOriginalPriceChange = (val: number) => {
+        setFormData(prev => {
+            const discount = prev.originalPrice > 0
+                ? Math.round(((prev.originalPrice - prev.salePrice) / prev.originalPrice) * 100)
+                : 0;
+            return { ...prev, originalPrice: val, discountPercent: discount };
+        });
+    };
+
+    const handleSalePriceChange = (val: number) => {
+        setFormData(prev => {
+            const discount = prev.originalPrice > 0
+                ? Math.round(((prev.originalPrice - val) / prev.originalPrice) * 100)
+                : 0;
+            return { ...prev, salePrice: val, discountPercent: discount };
+        });
+    };
+
+    const handleDiscountChange = (percent: number) => {
+        setFormData(prev => {
+            const sale = Math.round(prev.originalPrice * (1 - percent / 100));
+            return { ...prev, discountPercent: percent, salePrice: sale };
+        });
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -106,14 +142,33 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
     const toggleCourse = (courseId: string) => {
         setFormData(prev => {
             const exists = prev.courseIds.includes(courseId);
-            return {
-                ...prev,
-                courseIds: exists
-                    ? prev.courseIds.filter(id => id !== courseId)
-                    : [...prev.courseIds, courseId]
-            };
+            if (exists) {
+                return { ...prev, courseIds: prev.courseIds.filter(id => id !== courseId) };
+            } else {
+                return { ...prev, courseIds: [...prev.courseIds, courseId] };
+            }
         });
     };
+
+    const moveCourse = (index: number, direction: 'up' | 'down') => {
+        setFormData(prev => {
+            const newIds = [...prev.courseIds];
+            const targetIndex = direction === 'up' ? index - 1 : index + 1;
+            if (targetIndex < 0 || targetIndex >= newIds.length) return prev;
+
+            const temp = newIds[index];
+            newIds[index] = newIds[targetIndex];
+            newIds[targetIndex] = temp;
+
+            return { ...prev, courseIds: newIds };
+        });
+    };
+
+    const selectedCourses = formData.courseIds
+        .map(id => courses.find(c => c.id === id))
+        .filter(Boolean);
+
+    const availableCourses = courses.filter(c => !formData.courseIds.includes(c.id));
 
     if (loading) return <div className="p-8">Đang tải...</div>;
 
@@ -192,7 +247,7 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                             <label className="text-sm font-medium">Giá gốc</label>
                             <PriceInput
                                 value={formData.originalPrice}
-                                onChange={val => setFormData({ ...formData, originalPrice: val })}
+                                onChange={handleOriginalPriceChange}
                                 min={0}
                             />
                         </div>
@@ -200,7 +255,7 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                             <label className="text-sm font-medium">Giá bán</label>
                             <PriceInput
                                 value={formData.salePrice}
-                                onChange={val => setFormData({ ...formData, salePrice: val })}
+                                onChange={handleSalePriceChange}
                                 min={0}
                             />
                         </div>
@@ -208,9 +263,11 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                             <label className="text-sm font-medium">Giảm giá (%)</label>
                             <Input
                                 type="number"
-                                disabled
                                 value={formData.discountPercent}
-                                className="bg-muted"
+                                onChange={e => handleDiscountChange(Number(e.target.value))}
+                                min={0}
+                                max={100}
+                                placeholder="0"
                             />
                         </div>
                     </CardContent>
@@ -218,33 +275,93 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Danh sách khóa học</CardTitle>
+                        <CardTitle className="flex items-center gap-2">
+                            <BookOpen className="w-5 h-5 text-primary" />
+                            Cấu trúc Learning Path (Theo thứ tự)
+                        </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                        <div className="space-y-4">
-                            <div className="bg-muted/30 p-4 rounded-lg flex justify-between items-center">
-                                <span className="text-sm font-medium">Đã chọn: {formData.courseIds.length} khóa học</span>
-                            </div>
-                            <div className="grid gap-2 max-h-[400px] overflow-y-auto border rounded-md p-2">
-                                {courses.map(course => (
-                                    <div
-                                        key={course.id}
-                                        onClick={() => toggleCourse(course.id)}
-                                        className={`flex items-center p-3 rounded-md border cursor-pointer transition-colors ${formData.courseIds.includes(course.id)
-                                            ? 'bg-primary/10 border-primary'
-                                            : 'hover:bg-muted'
-                                            }`}
-                                    >
-                                        <div className={`w-5 h-5 rounded border mr-3 flex items-center justify-center ${formData.courseIds.includes(course.id) ? 'bg-primary border-primary' : 'border-muted-foreground'
-                                            }`}>
-                                            {formData.courseIds.includes(course.id) && <span className="text-white text-xs">✓</span>}
+                    <CardContent className="space-y-6">
+                        {/* Selected Courses with Ordering */}
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Thứ tự bài học/khóa học</h3>
+                            {selectedCourses.length === 0 ? (
+                                <div className="border-2 border-dashed rounded-xl p-8 text-center bg-muted/20">
+                                    <p className="text-muted-foreground">Chưa có khóa học nào trong lộ trình. Hãy chọn từ danh sách bên dưới.</p>
+                                </div>
+                            ) : (
+                                <div className="space-y-2">
+                                    {selectedCourses.map((course: any, index: number) => (
+                                        <div
+                                            key={course.id}
+                                            className="flex items-center gap-4 bg-card border rounded-lg p-3 shadow-sm group hover:border-primary/50 transition-colors"
+                                        >
+                                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-sm">
+                                                {index + 1}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="font-semibold text-sm truncate">{course.title}</p>
+                                                <p className="text-xs text-muted-foreground">{course.price?.toLocaleString()}đ</p>
+                                            </div>
+                                            <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="h-8 w-8 p-0"
+                                                    onClick={() => moveCourse(index, 'up')}
+                                                    disabled={index === 0}
+                                                >
+                                                    <ChevronUp className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="h-8 w-8 p-0"
+                                                    onClick={() => moveCourse(index, 'down')}
+                                                    disabled={index === selectedCourses.length - 1}
+                                                >
+                                                    <ChevronDown className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="h-8 w-8 p-0 text-destructive hover:bg-destructive/10"
+                                                    onClick={() => toggleCourse(course.id)}
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p className="font-medium text-sm">{course.title}</p>
-                                            <p className="text-xs text-muted-foreground">{course.price?.toLocaleString()}đ</p>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <hr className="border-dashed" />
+
+                        {/* Available Courses Pool */}
+                        <div className="space-y-3">
+                            <h3 className="text-sm font-semibold text-muted-foreground">Thêm khóa học vào lộ trình</h3>
+                            <div className="grid gap-2 max-h-[300px] overflow-y-auto border rounded-xl p-3 bg-muted/10">
+                                {availableCourses.length === 0 ? (
+                                    <p className="text-center text-sm text-muted-foreground p-4">Tất cả khóa học đã được chọn.</p>
+                                ) : (
+                                    availableCourses.map((course: any) => (
+                                        <div
+                                            key={course.id}
+                                            onClick={() => toggleCourse(course.id)}
+                                            className="flex items-center justify-between p-3 rounded-lg border bg-background hover:bg-muted cursor-pointer transition-colors group"
+                                        >
+                                            <div className="flex-1">
+                                                <p className="font-medium text-sm">{course.title}</p>
+                                                <p className="text-xs text-muted-foreground">{course.price?.toLocaleString()}đ</p>
+                                            </div>
+                                            <Plus className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
                         </div>
                     </CardContent>

@@ -32,7 +32,7 @@ export class PaymentService {
             phone?: string;
             password?: string;
         };
-        items: { id: string, type: 'COURSE' | 'PRODUCT', options?: any }[];
+        items: { id: string, type: 'COURSE' | 'PRODUCT' | 'BUNDLE', options?: any }[];
         amount?: number;
         promoCodeId?: string;
         marketing?: any;
@@ -105,6 +105,31 @@ export class PaymentService {
                     metadata: item.options || undefined
                 });
                 totalAmount += Number(product.price);
+            } else if (item.type === 'BUNDLE') {
+                const bundle = await prisma.bundle.findUnique({
+                    where: { id: item.id },
+                    include: { courses: true }
+                });
+                if (!bundle) throw new Error(`Bundle not found: ${item.id}`);
+
+                const coursesCount = bundle.courses.length;
+                if (coursesCount === 0) throw new Error('Bundle has no courses');
+
+                // Split bundle price among courses for tracking
+                // In a more complex system, we might want a 'BUNDLE' type in OrderItem
+                const pricePerCourse = Math.floor(bundle.salePrice / coursesCount);
+                const remainder = bundle.salePrice % coursesCount;
+
+                for (let i = 0; i < coursesCount; i++) {
+                    const bc = bundle.courses[i];
+                    if (!bc) continue;
+                    orderItemsData.push({
+                        courseId: bc.courseId,
+                        price: i === 0 ? pricePerCourse + remainder : pricePerCourse,
+                        metadata: item.options ? { ...item.options, bundleId: bundle.id } : { bundleId: bundle.id }
+                    });
+                }
+                totalAmount += bundle.salePrice;
             }
         }
 

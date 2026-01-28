@@ -23,7 +23,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
             {section.showDotPattern !== false && <DotPatternBackground />}
 
             <div className="container">
-                <StandardSectionHeader section={section} align="left" />
+                <StandardSectionHeader section={section} align="center" />
 
                 <div className="flex flex-wrap justify-center gap-6">
                     {displayItems.map((item: any, idx) => (

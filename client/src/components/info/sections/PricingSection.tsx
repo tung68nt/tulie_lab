@@ -5,6 +5,7 @@ import { Check, Wallet, Zap, Crown, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export const PricingSection = ({ section }: { section: Section }) => {
     const items = section.items || [];
@@ -23,12 +24,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
         <section className="py-12 md:py-20 relative overflow-hidden" id={section.id}>
             {section.showDotPattern !== false && <DotPatternBackground />}
             <div className="container mx-auto">
-                {(section.title || section.subtitle) && (
-                    <div className="text-center mb-12 space-y-4">
-                        {section.title && <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
-                        {section.subtitle && <p className="text-xl text-muted-foreground">{section.subtitle}</p>}
-                    </div>
-                )}
+                <StandardSectionHeader section={section} align="center" />
 
                 <div className={`grid grid-cols-1 md:grid-cols-${Math.min(items.length, 3)} gap-6 max-w-7xl mx-auto`}>
                     {items.map((item: any, index: number) => (

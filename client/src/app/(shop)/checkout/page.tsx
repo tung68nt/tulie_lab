@@ -9,6 +9,7 @@ import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt } from 'lucide-react';
+import { Badge } from '@/components/Badge';
 import { Switch } from '@/components/Switch';
 
 function CheckoutContent() {
@@ -16,12 +17,13 @@ function CheckoutContent() {
     const searchParams = useSearchParams();
     const courseId = searchParams.get('courseId');
     const productId = searchParams.get('productId');
+    const bundleId = searchParams.get('bundleId');
     const activationType = searchParams.get('activationType');
     const { addToast } = useToast();
 
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState<any>(null); // Course or Product
-    const [itemType, setItemType] = useState<'COURSE' | 'PRODUCT'>('COURSE');
+    const [itemType, setItemType] = useState<'COURSE' | 'PRODUCT' | 'BUNDLE'>('COURSE');
     const [user, setUser] = useState<any>(null);
     const [promoCode, setPromoCode] = useState('');
     const [validatingPromo, setValidatingPromo] = useState(false);
@@ -71,6 +73,23 @@ function CheckoutContent() {
                     } catch (err) {
                         addToast('Không tìm thấy khóa học', 'error');
                         router.push('/courses');
+                        return;
+                    }
+                } else if (bundleId) {
+                    try {
+                        const bundle: any = await api.bundles.get(bundleId);
+                        if (!bundle) throw new Error('Bundle not found');
+                        // Map bundle fields to common item fields for UI
+                        setItem({
+                            ...bundle,
+                            price: bundle.salePrice,
+                            compareAtPrice: bundle.originalPrice,
+                            title: bundle.name
+                        });
+                        setItemType('BUNDLE' as any);
+                    } catch (err) {
+                        addToast('Không tìm thấy combo', 'error');
+                        router.push('/shop');
                         return;
                     }
                 } else {
@@ -298,7 +317,14 @@ function CheckoutContent() {
                                     )}
                                     <div className="flex-1">
                                         <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{item.description}</p>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            {itemType === 'BUNDLE' && (
+                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold uppercase tracking-wider">
+                                                    Combo / Learning Path
+                                                </Badge>
+                                            )}
+                                            <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+                                        </div>
                                         <div className="flex items-center gap-3">
                                             <span className="text-2xl font-extrabold text-foreground">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}

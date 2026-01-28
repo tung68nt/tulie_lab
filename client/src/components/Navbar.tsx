@@ -153,6 +153,7 @@ export function Navbar() {
             href: '/courses',
             children: [
                 { label: 'Khoá học', href: '/courses' },
+                { label: 'Lộ trình học (Combo)', href: '/combos' },
                 { label: 'Lịch hoạt động', href: '/calendar' },
                 { label: 'Người hướng dẫn', href: '/instructors' },
             ],
