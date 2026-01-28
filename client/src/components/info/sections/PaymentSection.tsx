@@ -451,7 +451,12 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
             {/* Main Product Selection */}
             <div className="space-y-4 pt-6 mt-4 border-t border-zinc-100">
-                <h3 className="text-sm font-semibold text-zinc-900 tracking-widest opacity-40">Sản phẩm đăng ký</h3>
+                <h3 className="text-lg font-semibold flex items-center gap-3 text-zinc-900">
+                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-900 text-white shadow-sm">
+                        <DynamicIcon name="ShoppingBag" className="w-4 h-4" />
+                    </span>
+                    Sản phẩm đăng ký
+                </h3>
                 <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-background flex items-center gap-5 transition-all hover:border-zinc-400">
                     <div className="w-14 h-14 bg-zinc-100 rounded-xl overflow-hidden shrink-0 border border-zinc-50">
                         {state.cart[0] && state.cart[0].image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
@@ -730,8 +735,10 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     {/* Right Column: Sticky Cart Summary */}
                     <div className="hidden lg:block lg:col-span-5 sticky top-24 space-y-6">
                         <div className="bg-background p-6 rounded-2xl shadow-lg border border-border/60">
-                            <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
-                                <DynamicIcon name="ShoppingBag" className="w-5 h-5" />
+                            <h3 className="text-lg font-semibold flex items-center gap-3 text-zinc-900 mb-6">
+                                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-900 text-white shadow-sm">
+                                    <DynamicIcon name="ShoppingBag" className="w-4 h-4" />
+                                </span>
                                 Thông tin đơn hàng
                             </h3>
                             <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
