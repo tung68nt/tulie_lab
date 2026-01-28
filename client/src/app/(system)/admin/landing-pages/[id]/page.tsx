@@ -539,17 +539,17 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                     <Button
                                         type="button"
                                         size="sm"
-                                        variant="outline"
+                                        variant="default"
                                         onClick={() => setIsLibraryOpen(true)}
-                                        className="flex-1 md:flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
+                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow text-black hover:bg-neutral-100 border border-neutral-200"
                                     >
                                         <PlusCircle size={16} />
-                                        <span className="text-sm font-bold">Thêm Section</span>
+                                        <span>Thêm Section</span>
                                     </Button>
                                     <Button
                                         type="button"
                                         size="sm"
-                                        variant="outline"
+                                        variant="default"
                                         onClick={async () => {
                                             if (await confirm({
                                                 title: 'Xóa tất cả Sections',
@@ -562,16 +562,16 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast('Đã xóa tất cả sections', 'success');
                                             }
                                         }}
-                                        className="flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
+                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow text-black hover:bg-neutral-100 border border-neutral-200"
                                         title="Xóa tất cả sections"
                                     >
                                         <Trash2 size={16} />
-                                        <span className="text-sm font-bold hidden sm:inline">Clear All</span>
+                                        <span className="hidden sm:inline">Clear All</span>
                                     </Button>
                                     <Button
                                         type="button"
                                         size="sm"
-                                        variant="outline"
+                                        variant="default"
                                         onClick={async () => {
                                             if (await confirm({
                                                 title: 'Thêm Section Mẫu (Style Cũ)',
@@ -595,11 +595,11 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast(`Đã nạp ${testSections.length} section style tiêu chuẩn`, 'success');
                                             }
                                         }}
-                                        className="flex-none items-center gap-2 bg-white text-black hover:bg-neutral-100 border-neutral-200"
+                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow text-black hover:bg-neutral-100 border border-neutral-200"
                                         title="Nạp Demo với style tiêu chuẩn"
                                     >
                                         <Zap size={16} />
-                                        <span className="text-sm font-bold hidden sm:inline">Nạp Demo</span>
+                                        <span className="hidden sm:inline">Nạp Demo</span>
                                     </Button>
                                 </div>
                             )}
