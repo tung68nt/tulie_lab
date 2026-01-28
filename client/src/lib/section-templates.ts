@@ -467,6 +467,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Câu Hỏi Thường Gặp',
             tag: 'Giải đáp thắc mắc',
             subtitle: 'Giải đáp thắc mắc của bạn',
+            showDotPattern: true,
             items: [
                 { title: "Người mới bắt đầu có học được không?", content: "Hoàn toàn được. Khóa học thiết kế từ con số 0, đi từ cơ bản lên nâng cao." },
                 { title: "Học xong có được cấp chứng chỉ không?", content: "Có. Bạn sẽ nhận được chứng chỉ hoàn thành sau khi nộp đủ bài tập cuối khóa." },
@@ -522,6 +523,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             tag: 'Đội ngũ giảng viên',
             subtitle: 'Học hỏi trực tiếp từ những kỹ sư dày dặn kinh nghiệm thực chiến',
             align: 'center',
+            showDotPattern: true,
             items: [
                 {
                     title: "Minh Tùng",
@@ -570,6 +572,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Đăng Ký Khóa Học',
             tag: 'Đăng ký ngay',
             subtitle: 'Hoàn tất đăng ký để bắt đầu học ngay.',
+            showDotPattern: true,
         }
     },
     {
@@ -583,7 +586,8 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'calendar',
             name: 'Calendar System',
             title: 'Sự kiện sắp tới',
-            subtitle: 'Lịch trình các hoạt động trong tháng'
+            subtitle: 'Lịch trình các hoạt động trong tháng',
+            showDotPattern: true,
         }
     },
     {
@@ -693,6 +697,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             tag: 'Phương pháp học tập',
             subtitle: 'Phương pháp học tập hiện đại, trực quan.',
             content: 'Chúng tôi tin rằng cách tốt nhất để học lập trình là bắt tay vào xây dựng các sản phẩm thực tế ngay từ ngày đầu tiên.',
+            showDotPattern: true,
             videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
             imagePosition: 'left',
             mediaAspectRatio: '16/9',
@@ -718,6 +723,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Khoảnh Khắc Tulie',
             tag: 'Thư viện hình ảnh',
             subtitle: 'Hình ảnh và video hoạt động tại học viện.',
+            showDotPattern: true,
             items: [
                 { title: 'Workshop Vibe Coding', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800', description: 'Buổi chia sẻ về tư duy lập trình mới.' },
                 { title: 'Demo Sản Phẩm', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', description: 'Video giới thiệu dự án học viên.' },
