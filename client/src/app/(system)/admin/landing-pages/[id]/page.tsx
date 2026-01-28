@@ -541,12 +541,11 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         size="sm"
                                         variant="default"
                                         onClick={() => setIsLibraryOpen(true)}
-                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow text-black hover:bg-neutral-100 border border-neutral-200"
+                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow-sm text-black hover:bg-neutral-100 border border-neutral-300 gap-2"
                                     >
                                         <PlusCircle size={16} />
                                         <span>Thêm Section</span>
                                     </Button>
-                                    <Button
                                         type="button"
                                         size="sm"
                                         variant="default"
@@ -562,13 +561,12 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast('Đã xóa tất cả sections', 'success');
                                             }
                                         }}
-                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow text-black hover:bg-neutral-100 border border-neutral-200"
+                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow-sm text-black hover:bg-neutral-100 border border-neutral-300 gap-2"
                                         title="Xóa tất cả sections"
                                     >
                                         <Trash2 size={16} />
                                         <span className="hidden sm:inline">Clear All</span>
                                     </Button>
-                                    <Button
                                         type="button"
                                         size="sm"
                                         variant="default"
@@ -595,7 +593,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 addToast(`Đã nạp ${testSections.length} section style tiêu chuẩn`, 'success');
                                             }
                                         }}
-                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow text-black hover:bg-neutral-100 border border-neutral-200"
+                                        className="h-9 px-3 text-sm font-medium rounded-md transition-all whitespace-nowrap bg-white shadow-sm text-black hover:bg-neutral-100 border border-neutral-300 gap-2"
                                         title="Nạp Demo với style tiêu chuẩn"
                                     >
                                         <Zap size={16} />
@@ -721,30 +719,30 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                         </Button>
                     </div>
                 </div>
-            </form>
+            </form >
 
-            <SectionLibraryModal
-                isOpen={isLibraryOpen}
-                onClose={() => setIsLibraryOpen(false)}
-                onSelect={handleSelectTemplate}
+        <SectionLibraryModal
+            isOpen={isLibraryOpen}
+            onClose={() => setIsLibraryOpen(false)}
+            onSelect={handleSelectTemplate}
+        />
+
+    {
+        editingSectionIndex !== null && (
+            <SectionEditorModal
+                isOpen={editingSectionIndex !== null}
+                section={sections[editingSectionIndex]}
+                onClose={() => setEditingSectionIndex(null)}
+                onSave={(updatedSection: Section) => {
+                    const newSections = [...sections];
+                    newSections[editingSectionIndex] = updatedSection;
+                    updateSections(newSections);
+                    setEditingSectionIndex(null);
+                    addToast('Đã cập nhật section', 'success');
+                }}
             />
-
-            {
-                editingSectionIndex !== null && (
-                    <SectionEditorModal
-                        isOpen={editingSectionIndex !== null}
-                        section={sections[editingSectionIndex]}
-                        onClose={() => setEditingSectionIndex(null)}
-                        onSave={(updatedSection: Section) => {
-                            const newSections = [...sections];
-                            newSections[editingSectionIndex] = updatedSection;
-                            updateSections(newSections);
-                            setEditingSectionIndex(null);
-                            addToast('Đã cập nhật section', 'success');
-                        }}
-                    />
-                )
-            }
+        )
+    }
         </div >
     );
 }

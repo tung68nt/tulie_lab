@@ -55,5 +55,7 @@ export interface Section {
     rowConfig?: TableRowConfig[]; // New: Dynamic row configuration for comparison tables
     className?: string; // Add className for custom styling
     backgroundImage?: string; // New: background image for the section
+    backgroundTheme?: 'light' | 'dark' | 'auto'; // New: theme preference for content on background
+    overlayOpacity?: number; // New: opacity of the background overlay
     align?: 'left' | 'center' | 'right'; // New: text alignment preference
 }

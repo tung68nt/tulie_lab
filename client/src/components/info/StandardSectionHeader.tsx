@@ -48,23 +48,55 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
                 </div>
             )}
 
-            <h2 className={cn(
-                "text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.15] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2",
-                align === 'center' ? 'px-4' : 'pr-4'
-            )}>
-                {title}
-            </h2>
+            const isDarkBg = section.backgroundTheme === 'dark';
+            const isLightBg = section.backgroundTheme === 'light';
 
-            {subtitle && (
-                <p className={cn(
-                    "text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl",
-                    align === 'center' ? 'mx-auto px-4' : 'pr-4'
+            // Text Color Logic:
+            // If background is dark (isDarkBg), we force text to be white/light.
+            // If background is light (isLightBg), we force text to be dark.
+            // Otherwise (auto), we use standard colors that adapt to system theme (zinc-900 / dark:white).
+
+            const titleGradientClass = isDarkBg
+            ? "text-white"
+            : isLightBg
+            ? "text-zinc-900"
+            : "text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white";
+
+            const subtitleClass = isDarkBg
+            ? "text-zinc-300"
+            : isLightBg
+            ? "text-zinc-600"
+            : "text-muted-foreground";
+
+            return (
+            <div className={cn("mb-10 md:mb-16 relative z-10 flex flex-col", alignClass, className)}>
+                {tag && (
+                    <div className={cn("flex w-full mb-3", tagAlignClass)}>
+                        <SectionTag>
+                            {tag}
+                        </SectionTag>
+                    </div>
+                )}
+
+                <h2 className={cn(
+                    "text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.15] py-2",
+                    titleGradientClass,
+                    align === 'center' ? 'px-4' : 'pr-4'
                 )}>
-                    {subtitle}
-                </p>
-            )}
+                    {title}
+                </h2>
 
-            {children}
-        </div>
-    );
+                {subtitle && (
+                    <p className={cn(
+                        "text-lg md:text-xl leading-relaxed max-w-3xl",
+                        subtitleClass,
+                        align === 'center' ? 'mx-auto px-4' : 'pr-4'
+                    )}>
+                        {subtitle}
+                    </p>
+                )}
+
+                {children}
+            </div>
+            );
 };

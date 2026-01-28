@@ -25,6 +25,8 @@ export const PricingSection = ({ section }: { section: Section }) => {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
             />
             <div className="container mx-auto">
                 <StandardSectionHeader section={section} align="center" />

@@ -24,6 +24,8 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
             />
             <div className="container relative z-10">
                 <StandardSectionHeader section={section} align="center" />

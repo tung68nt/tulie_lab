@@ -13,6 +13,8 @@ export function HeroSection({ section }: { section: Section }) {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
             />
 
             <div className="container">

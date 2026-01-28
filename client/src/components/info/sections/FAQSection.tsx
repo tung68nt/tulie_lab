@@ -38,6 +38,8 @@ export function FAQSection({ section }: { section: Section }) {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
             />
             <div className="container relative z-10">
                 <div className="max-w-4xl mx-auto px-4 md:px-0">

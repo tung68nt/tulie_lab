@@ -5,16 +5,33 @@ import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 interface SectionBackgroundProps {
     backgroundImage?: string;
     showDotPattern?: boolean;
-    className?: string;
-    overlayClassName?: string;
+    className?: string; // Wrapper class
+    overlayClassName?: string; // Overlay-specific class
+    backgroundTheme?: 'light' | 'dark' | 'auto';
+    overlayOpacity?: number;
 }
 
 export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     backgroundImage,
     showDotPattern = true,
     className,
-    overlayClassName
+    overlayClassName,
+    backgroundTheme = 'auto',
+    overlayOpacity
 }) => {
+    // Determine overlay base color based on theme
+    // If we have a dark image (theme='dark'), we usually want a dark overlay to ensure text contrast.
+    // If we have a light image (theme='light'), we might want a white overlay.
+    // Default to black/dark for generic 'auto' if image is present, or transparent.
+
+    // Actually, usually 'theme=dark' means "I want the content to be light because the background is dark".
+    // So the overlay should probably be dark to help the text pop? Or maybe just neutral.
+    // Let's stick to the current "dark overlay" default but allow it to be lighter if theme is light? 
+    // If theme is light, we expect dark text. Background might be a light image. Overlay should be white-ish to wash it out?
+
+    const isLightTheme = backgroundTheme === 'light';
+    const overlayBase = isLightTheme ? 'bg-white/60' : 'bg-background/60';
+
     return (
         <div className={cn("absolute inset-0 -z-10 overflow-hidden", className)}>
             {/* Background Image Layer */}
@@ -25,22 +42,41 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 />
             )}
 
-            {/* Dark Overlay for Image Readability */}
+            {/* Backdrop Overlay for Image Readability */}
             {backgroundImage && (
-                <div className={cn("absolute inset-0 bg-background/60 backdrop-blur-[2px]", overlayClassName)} />
+                <div
+                    className={cn(
+                        "absolute inset-0 backdrop-blur-[2px]",
+                        overlayBase,
+                        overlayClassName
+                    )}
+                    style={overlayOpacity !== undefined ? { opacity: overlayOpacity } : undefined}
+                />
             )}
 
             {/* Dot Pattern Layer */}
             {showDotPattern && (
                 <DotPatternBackground
-                    className="opacity-50"
-                    withVignette={!backgroundImage} // Fade vignette if there's a background image
+                    className={cn(
+                        "opacity-50",
+                        // If we have a background image, ensure dots are visible enough. 
+                        // If valid theme is dark (light text), dots should probably be light? 
+                        // Current dot pattern uses currentColor.
+                        backgroundTheme === 'dark' ? "text-white/20" : "text-neutral-500/20"
+                    )}
+                    withVignette={!backgroundImage} // Only use vignette if no image, or maybe always? keeping existing logic
                 />
             )}
 
-            {/* Optional Gradient Fade (Bottom to Top for better blending) */}
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
+            {/* Optional Gradient Fade - Adjust based on theme? */}
+            <div className={cn(
+                "absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t to-transparent",
+                isLightTheme ? "from-white" : "from-background"
+            )} />
+            <div className={cn(
+                "absolute inset-x-0 top-0 h-32 bg-gradient-to-b to-transparent",
+                isLightTheme ? "from-white" : "from-background"
+            )} />
         </div>
     );
 };
