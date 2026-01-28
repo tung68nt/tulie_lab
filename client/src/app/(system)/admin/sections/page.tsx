@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { SECTION_TEMPLATES, SectionTemplate } from '@/lib/section-templates';
 import { Card } from '@/components/Card';
 import { Badge } from '@/components/Badge';
-import { Search, Grid, List as ListIcon, Layout, Copy, Eye, Users, Zap, Star, Monitor, Settings, Plus, Compass, FileText, MessageSquare, TrendingUp, Sparkles, Layers, Folder } from 'lucide-react';
+import { Search, Grid, List as ListIcon, Layout, Copy, Eye, Users, Zap, Star, Monitor, Settings, Plus, Compass, FileText, MessageSquare, TrendingUp, Sparkles, Layers, Folder, X } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { useToast } from '@/contexts/ToastContext';
 import { SectionRenderer } from '@/components/SectionRenderer';
@@ -14,6 +14,7 @@ export default function SectionGalleryPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const [previewTemplate, setPreviewTemplate] = useState<SectionTemplate | null>(null);
 
     const categories = ['All', ...Array.from(new Set(SECTION_TEMPLATES.map(t => t.category)))];
 
@@ -145,7 +146,12 @@ export default function SectionGalleryPage() {
                                             {template.description}
                                         </p>
                                         <div className="mt-auto flex gap-2">
-                                            <Button variant="outline" size="sm" className="w-full flex items-center gap-2 h-8 text-xs font-semibold">
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="w-full flex items-center gap-2 h-8 text-xs font-semibold"
+                                                onClick={() => setPreviewTemplate(template)}
+                                            >
                                                 <Eye className="h-3.5 w-3.5" />
                                                 Xem mẫu
                                             </Button>
@@ -180,7 +186,12 @@ export default function SectionGalleryPage() {
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" title="Copy ID" onClick={() => copyToClipboard(template.id)}>
                                             <Copy className="h-4 w-4" />
                                         </Button>
-                                        <Button variant="outline" size="sm" className="h-8 px-3 text-xs flex items-center gap-1.5 font-medium">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="h-8 px-3 text-xs flex items-center gap-1.5 font-medium"
+                                            onClick={() => setPreviewTemplate(template)}
+                                        >
                                             <Eye className="h-3.5 w-3.5" />
                                             Xem mẫu
                                         </Button>
@@ -199,6 +210,35 @@ export default function SectionGalleryPage() {
                     )}
                 </main>
             </div>
+
+            {/* Preview Modal */}
+            {previewTemplate && (
+                <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+                    <div className="bg-background w-full max-w-6xl h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-border">
+                        <div className="flex items-center justify-between p-4 border-b shrink-0">
+                            <div>
+                                <h3 className="font-bold text-lg">{previewTemplate.name}</h3>
+                                <p className="text-xs text-muted-foreground">{previewTemplate.description}</p>
+                            </div>
+                            <Button variant="ghost" size="icon" onClick={() => setPreviewTemplate(null)} className="rounded-full">
+                                <X className="h-5 w-5" />
+                            </Button>
+                        </div>
+                        <div className="flex-1 overflow-y-auto bg-neutral-50 dark:bg-black p-8">
+                            <div className="max-w-5xl mx-auto shadow-2xl rounded-lg overflow-hidden border">
+                                <SectionRenderer section={previewTemplate.data} />
+                            </div>
+                        </div>
+                        <div className="p-4 border-t flex justify-between items-center bg-muted/20 shrink-0">
+                            <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+                                <span className="bg-muted px-2 py-1 rounded">ID: {previewTemplate.id}</span>
+                                <span className="bg-muted px-2 py-1 rounded capitalize">Type: {previewTemplate.data.type}</span>
+                            </div>
+                            <Button onClick={() => setPreviewTemplate(null)}>Đóng bản xem trước</Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
