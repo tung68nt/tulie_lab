@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { SECTION_TEMPLATES, SectionTemplate } from '@/lib/section-templates';
 import { Card } from '@/components/Card';
 import { Badge } from '@/components/Badge';
-import { Search, Grid, List as ListIcon, Layout, Copy, Eye, Users, Zap, Star, Monitor, Settings, Plus } from 'lucide-react';
+import { Search, Grid, List as ListIcon, Layout, Copy, Eye, Users, Zap, Star, Monitor, Settings, Plus, Compass, FileText, MessageSquare, TrendingUp, Sparkles, Layers, Folder } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { useToast } from '@/contexts/ToastContext';
 import { SectionRenderer } from '@/components/SectionRenderer';
@@ -30,13 +30,13 @@ export default function SectionGalleryPage() {
 
     const getCategoryIcon = (cat: string) => {
         switch (cat) {
-            case 'Hero': return <Layout className="w-4 h-4" />;
-            case 'Content': return <Monitor className="w-4 h-4" />;
-            case 'Social Proof': return <Users className="w-4 h-4" />;
-            case 'Conversion': return <Zap className="w-4 h-4" />;
-            case 'Special': return <Star className="w-4 h-4" />;
-            case 'System': return <Settings className="w-4 h-4" />;
-            default: return <Layout className="w-4 h-4" />;
+            case 'Hero': return <Compass className="w-4 h-4" />;
+            case 'Content': return <FileText className="w-4 h-4" />;
+            case 'Social Proof': return <MessageSquare className="w-4 h-4" />;
+            case 'Conversion': return <TrendingUp className="w-4 h-4" />;
+            case 'Special': return <Sparkles className="w-4 h-4" />;
+            case 'System': return <Layers className="w-4 h-4" />;
+            default: return <Folder className="w-4 h-4" />;
         }
     };
 
@@ -117,7 +117,8 @@ export default function SectionGalleryPage() {
 
                                         {/* Tag Overlay */}
                                         <div className="absolute top-3 right-3 z-10">
-                                            <Badge variant="outline" className="text-[10px] font-bold tracking-wider px-2 py-0.5 bg-background/90 backdrop-blur-sm border-border shadow-sm uppercase">
+                                            <Badge variant="outline" className="text-[10px] font-bold px-2 py-1 bg-background/90 backdrop-blur-sm border-border shadow-sm flex items-center gap-1.5 capitalize">
+                                                {getCategoryIcon(template.category)}
                                                 {template.data.type}
                                             </Badge>
                                         </div>
@@ -165,7 +166,10 @@ export default function SectionGalleryPage() {
                                             <h3 className="font-semibold text-sm">{template.name}</h3>
                                             <div className="flex items-center gap-3 mt-1">
                                                 <span className="text-[10px] text-muted-foreground font-mono bg-muted/50 px-1.5 py-0.5 rounded">ID: {template.id}</span>
-                                                <Badge variant="secondary" className="text-[10px] h-4 py-0 leading-none px-1.5 uppercase tracking-wider">{template.data.type}</Badge>
+                                                <Badge variant="secondary" className="text-[10px] h-5 py-0 px-2 leading-none flex items-center gap-1.5 capitalize">
+                                                    {getCategoryIcon(template.category)}
+                                                    {template.data.type}
+                                                </Badge>
                                                 <span className="text-[10px] text-muted-foreground italic truncate max-w-[200px]">{template.description}</span>
                                             </div>
                                         </div>
