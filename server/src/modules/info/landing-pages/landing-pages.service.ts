@@ -123,6 +123,13 @@ export class LandingPageService {
 
     async deleteLandingPage(id: string) {
         const page = await this.landingPageRepository.findById(id);
+        if (!page) {
+            // If page is already gone, consider it a success (idempotent)
+            // or throw specific error based on requirements.
+            // Here we just return to avoid Prisma error.
+            return null;
+        }
+
         const result = await this.landingPageRepository.delete(id);
 
         if (this.cacheProvider && page) {

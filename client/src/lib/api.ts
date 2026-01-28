@@ -95,6 +95,10 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
             throw new ApiError(response.status, message);
         }
 
+        if (response.status === 204) {
+            return {} as T;
+        }
+
         return response.json();
     } catch (error: unknown) {
         if (error instanceof ApiError) throw error;
