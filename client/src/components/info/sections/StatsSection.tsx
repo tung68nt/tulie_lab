@@ -37,14 +37,14 @@ export function StatsSection({ section }: { section: Section }) {
                                     <DynamicIcon name={item.icon || 'Star'} className="h-8 w-8" strokeWidth={2} />
                                 </div>
 
-                                <h3 className="text-2xl font-bold tracking-tight text-foreground mb-4">
+                                <h3 className="text-2xl font-bold text-foreground mb-4">
                                     {item.title}
                                 </h3>
                                 <p className="text-muted-foreground text-lg leading-relaxed">
                                     {item.description || item.label}
                                 </p>
                                 {item.value && (
-                                    <p className="text-4xl font-bold text-primary mt-6 tracking-tight">{item.value}</p>
+                                    <p className="text-4xl font-bold text-primary mt-6">{item.value}</p>
                                 )}
                             </div>
                         </div>

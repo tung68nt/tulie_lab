@@ -24,11 +24,11 @@ function TimeUnit({ value, label, className }: { value: number; label: string; c
                 {/* Modern Glassmorphism Background */}
                 <div className="absolute inset-0 bg-[#1a1a1a]/60 backdrop-blur-md" />
 
-                <span className="relative z-10 text-lg md:text-2xl font-bold tracking-tight text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)]">
+                <span className="relative z-10 text-lg md:text-2xl font-bold text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.1)]">
                     {String(value).padStart(2, '0')}
                 </span>
             </div>
-            <span className="text-[7px] md:text-[8px] font-bold text-zinc-400 tracking-wider drop-shadow-sm px-1">
+            <span className="text-[7px] md:text-[8px] font-bold text-zinc-400 drop-shadow-sm px-1">
                 {label}
             </span>
         </div>
@@ -119,7 +119,7 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-background opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-background"></span>
                         </span>
-                        <span className="text-[10px] font-bold tracking-wider text-yellow-400">Ưu đãi sắp hết</span>
+                        <span className="text-[10px] font-bold text-yellow-400">Ưu đãi sắp hết</span>
                     </div>
 
                     {/* Countdown */}
@@ -143,7 +143,7 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                     {/* Price & CTA Bundle */}
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <span className="text-3xl md:text-5xl font-bold text-yellow-500 drop-shadow-[0_2px_10px_rgba(234,179,8,0.3)] tracking-tighter">
+                            <span className="text-3xl md:text-5xl font-bold text-yellow-500 drop-shadow-[0_2px_10px_rgba(234,179,8,0.3)]">
                                 999.000<span className="text-lg align-top ml-0.5 text-yellow-600 font-semibold">đ</span>
                             </span>
                             <div className="hidden lg:flex flex-col items-start">

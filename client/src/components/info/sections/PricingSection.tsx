@@ -43,7 +43,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                         >
                             {item.tag && (
                                 <div className={cn(
-                                    "absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-lg text-xs font-bold border shadow-sm whitespace-nowrap tracking-wide capitalize",
+                                    "absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-lg text-xs font-bold border shadow-sm whitespace-nowrap capitalize",
                                     item.tag === 'Best Value' ? "bg-red-600 text-white border-red-600 shadow-red-500/20" :
                                         item.tag === 'Phổ biến' ? "bg-primary text-white border-primary shadow-primary/20" :
                                             "bg-zinc-900 text-white border-zinc-800 shadow-black/20"
@@ -59,7 +59,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                                     {item.title}
                                 </h3>
                                 <div className="flex items-baseline gap-1 mb-3">
-                                    <span className="text-4xl font-semibold tracking-tight">{item.price}</span>
+                                    <span className="text-4xl font-semibold">{item.price}</span>
                                     {item.originalPrice && (
                                         <span className="text-lg text-neutral-400 line-through font-medium ml-2">
                                             {item.originalPrice}

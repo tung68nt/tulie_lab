@@ -228,7 +228,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
             {/* Activation Options Selection */}
             <div className="bg-zinc-50/50 p-6 rounded-2xl space-y-4 border border-zinc-100">
-                <p className="text-xs font-bold text-zinc-400 tracking-wider mb-2">Hình thức nhận học tập</p>
+                <p className="text-xs font-bold text-zinc-400 mb-2">Hình thức kích hoạt khoá học</p>
 
                 <div className="grid gap-3">
                     {/* Option 1: Direct Activation */}
@@ -650,10 +650,10 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         </div>
 
                         <div className="bg-neutral-50 p-4 rounded-xl border border-neutral-100 mt-6 relative overflow-hidden">
-                            <div className="text-xs font-semibold text-neutral-500 mb-2 tracking-wider">Nội dung chuyển khoản:</div>
+                            <div className="text-xs font-semibold text-neutral-500 mb-2">Nội dung chuyển khoản:</div>
                             <div className="flex flex-col gap-3">
                                 <div className="bg-background px-3 py-2.5 rounded-lg border border-neutral-200 flex items-center justify-between group/content">
-                                    <span className="font-bold text-foreground text-lg tracking-wider select-all">{state.payment.orderCode}</span>
+                                    <span className="font-bold text-foreground text-lg select-all">{state.payment.orderCode}</span>
                                     <button
                                         onClick={() => copyToClipboard(state.payment.orderCode || '', 'nội dung')}
                                         className="bg-neutral-900 text-white px-2 py-1 rounded-full hover:bg-primary transition-all flex items-center gap-1 shrink-0 ml-2"
@@ -673,7 +673,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <div className="mt-8 flex flex-col gap-4 relative z-10">
                     <div className="p-3 bg-red-50 text-red-600 rounded-xl text-sm font-bold flex items-center justify-center gap-2 border border-red-100">
                         <DynamicIcon name="Clock" className="w-4 h-4 animate-pulse text-red-500" />
-                        {(state.payment.expiresAt || 0) < Date.now() ? <span className="tracking-wider">Mã đã hết hạn</span> : <>Đơn hàng hết hạn sau: <CountdownTimer targetDate={state.payment.expiresAt || 0} /></>}
+                        {(state.payment.expiresAt || 0) < Date.now() ? <span>Mã đã hết hạn</span> : <>Đơn hàng hết hạn sau: <CountdownTimer targetDate={state.payment.expiresAt || 0} /></>}
                     </div>
 
                     {(state.payment.expiresAt || 0) < Date.now() && (
@@ -724,7 +724,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                     <Button type="submit" size="lg" className="w-full py-7 rounded-2xl bg-zinc-950 text-white font-semibold text-lg shadow-xl shadow-zinc-200">
                                         Thanh toán ngay • {formatPrice(totalAmount)}
                                     </Button>
-                                    <p className="text-center text-[10px] text-zinc-400 mt-4 tracking-widest">An toàn & Bảo mật 100%</p>
+                                    <p className="text-center text-[10px] text-zinc-400 mt-4">An toàn & Bảo mật 100%</p>
                                 </div>
                             </form>
                         ) : (

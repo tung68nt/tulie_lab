@@ -77,7 +77,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             )}
 
             <h2 className={cn(
-                "text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.15] py-2",
+                "text-4xl md:text-5xl font-bold mb-6 leading-[1.15] py-2",
                 titleGradientClass,
                 align === 'center' ? 'px-4' : 'pr-4'
             )}>

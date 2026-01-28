@@ -29,7 +29,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                                         <div className="flex justify-between items-start gap-4">
                                             <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
                                             {index === 1 && (
-                                                <span className="inline-block rounded-lg bg-primary text-primary-foreground px-3 py-1 text-[10px] font-bold tracking-wider whitespace-nowrap">
+                                                <span className="inline-block rounded-lg bg-primary text-primary-foreground px-3 py-1 text-[10px] font-bold whitespace-nowrap">
                                                     Được đề xuất
                                                 </span>
                                             )}

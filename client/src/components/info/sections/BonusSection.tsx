@@ -31,7 +31,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
             {/* Decorative Ribbons - Breathing Animation */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-full max-w-sm">
-                <div className="bg-[#FF0000] text-white font-bold text-lg md:text-xl px-8 py-4 rounded-b-3xl shadow-[0_10px_40px_-10px_rgba(255,0,0,0.6)] tracking-wide text-center animate-pulse-slow relative overflow-hidden">
+                <div className="bg-[#FF0000] text-white font-bold text-lg md:text-xl px-8 py-4 rounded-b-3xl shadow-[0_10px_40px_-10px_rgba(255,0,0,0.6)] text-center animate-pulse-slow relative overflow-hidden">
                     <span className="relative z-10 flex items-center justify-center gap-2">
                         <Gift className="w-6 h-6 animate-bounce" />
                         Quà tặng giới hạn
@@ -123,7 +123,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                     <div className="relative bg-neutral-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 text-center shadow-2xl overflow-hidden ring-1 ring-white/5">
 
                         <div className="relative z-10 flex flex-col items-center">
-                            <h3 className="text-xs md:text-sm font-semibold text-neutral-200 tracking-[0.2em] mb-3">
+                            <h3 className="text-xs md:text-sm font-semibold text-neutral-200 mb-3">
                                 Tổng trị giá quà tặng
                             </h3>
 
@@ -142,7 +142,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 )}
 
                                 <div className="flex items-start justify-center gap-1 relative px-4 py-2 -my-2 pb-4">
-                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-white/70 drop-shadow-2xl select-none py-4 tracking-tight pr-2">
+                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-white/70 drop-shadow-2xl select-none py-4 pr-2">
                                         0
                                     </span>
                                     <span className="text-4xl md:text-5xl font-medium text-neutral-200 mt-6 md:mt-8">đ</span>
@@ -154,7 +154,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                                 </span>
-                                <span className="font-medium text-sm md:text-base tracking-wide">Chỉ nhận được khi đăng ký <span className="font-bold">ngay hôm nay</span></span>
+                                <span className="font-medium text-sm md:text-base">Chỉ nhận được khi đăng ký <span className="font-bold">ngay hôm nay</span></span>
                             </div>
                         </div>
                     </div>
