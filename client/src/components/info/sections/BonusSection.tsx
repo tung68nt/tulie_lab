@@ -121,17 +121,17 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                     <div className="relative bg-neutral-900/40 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 text-center shadow-2xl overflow-hidden ring-1 ring-white/5">
 
                         <div className="relative z-10 flex flex-col items-center">
-                            <h3 className="text-xs md:text-sm font-semibold text-neutral-400 uppercase tracking-[0.2em] mb-3">
+                            <h3 className="text-xs md:text-sm font-semibold text-neutral-200 uppercase tracking-[0.2em] mb-3">
                                 Tổng trị giá quà tặng
                             </h3>
 
                             <div className="flex flex-col items-center justify-center mb-6 relative">
                                 {totalValue > 0 && (
                                     <div className="flex items-center justify-center gap-3 md:gap-4 mb-2 animate-in fade-in zoom-in duration-1000">
-                                        <span className="text-2xl md:text-4xl text-neutral-400/80 font-bold decoration-2 line-through relative">
+                                        <span className="text-2xl md:text-4xl text-white/50 font-bold decoration-2 line-through relative">
                                             {totalValue.toLocaleString('vi-VN')}đ
                                             {/* Custom diagonal line for extra visibility */}
-                                            <div className="absolute inset-x-0 top-1/2 h-0.5 bg-red-500/40 -rotate-3" />
+                                            <div className="absolute inset-x-0 top-1/2 h-0.5 bg-red-500/60 -rotate-3 shadow-[0_0_10px_rgba(239,68,68,0.3)]" />
                                         </span>
                                         <span className="bg-red-500/10 text-red-500 text-xs md:text-sm px-2 py-0.5 rounded border border-red-500/20 font-bold whitespace-nowrap">
                                             TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
@@ -140,10 +140,10 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 )}
 
                                 <div className="flex items-start justify-center gap-1 relative px-4 py-2 -my-2 pb-4">
-                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-white/40 drop-shadow-2xl select-none py-4 tracking-tight pr-2">
+                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-white/70 drop-shadow-2xl select-none py-4 tracking-tight pr-2">
                                         0
                                     </span>
-                                    <span className="text-4xl md:text-5xl font-medium text-neutral-400 mt-6 md:mt-8">đ</span>
+                                    <span className="text-4xl md:text-5xl font-medium text-neutral-200 mt-6 md:mt-8">đ</span>
                                 </div>
                             </div>
 
