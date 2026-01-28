@@ -42,7 +42,10 @@ export function HeroSection({ section }: { section: Section }) {
                         </h1>
 
                         {/* Subtitle */}
-                        <p className="mx-auto lg:mx-0 max-w-[600px] text-muted-foreground text-base md:text-lg lg:text-xl leading-relaxed">
+                        <p className={cn(
+                            "mx-auto lg:mx-0 max-w-[600px] text-base md:text-lg lg:text-xl leading-relaxed",
+                            section.backgroundTheme === 'dark' ? "text-zinc-100" : "text-muted-foreground"
+                        )}>
                             {section.subtitle}
                         </p>
 
@@ -78,10 +81,13 @@ export function HeroSection({ section }: { section: Section }) {
                         </div>
 
                         {/* Trust indicators */}
-                        <div className="flex items-center gap-6 justify-center lg:justify-start pt-4 text-sm text-muted-foreground">
+                        <div className={cn(
+                            "flex items-center gap-6 justify-center lg:justify-start pt-4 text-sm",
+                            section.backgroundTheme === 'dark' ? "text-zinc-200" : "text-muted-foreground"
+                        )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div key={index} className="flex items-center gap-2">
-                                    <svg className="h-5 w-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className={cn("h-5 w-5", section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-foreground")} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                     </svg>
                                     <span>{indicator}</span>

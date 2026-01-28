@@ -53,7 +53,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             : "text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white";
 
     const subtitleClass = isDarkBg
-        ? "text-zinc-300"
+        ? "text-zinc-100"
         : isLightBg
             ? "text-zinc-600"
             : "text-muted-foreground";
