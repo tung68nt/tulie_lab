@@ -435,8 +435,9 @@ model BundleCourse {
   id       String @id @default(uuid())
   bundleId String
   courseId String
+  position Int    @default(0)
   bundle   Bundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
-  course   Course @relation(fields: [courseId], references: [id])
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   @@unique([bundleId, courseId])
 }
