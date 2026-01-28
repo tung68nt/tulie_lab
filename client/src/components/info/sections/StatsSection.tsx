@@ -2,17 +2,18 @@ import { Section } from '@/types/sections';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 
 export function StatsSection({ section }: { section: Section }) {
     return (
         <section className="w-full py-16 bg-background relative overflow-hidden">
-            {section.showDotPattern !== false && <DotPatternBackground />}
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+            />
             <div className="container relative z-10">
                 <StandardSectionHeader
                     section={section}
-                    tagOverride={section.subtitle}
-                    subtitleOverride={section.content}
                 />
 
                 <div className={`grid gap-6 ${section.items && section.items.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' :

@@ -599,7 +599,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         title="Nạp Demo với style tiêu chuẩn"
                                     >
                                         <Zap size={16} />
-                                        <span className="text-xs font-bold hidden sm:inline">Demo Style Cũ</span>
+                                        <span className="text-xs font-bold hidden sm:inline">Nạp Demo</span>
                                     </Button>
                                 </div>
                             )}

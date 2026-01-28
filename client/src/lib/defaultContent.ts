@@ -12,6 +12,7 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
         id: 'hero-1',
         type: 'hero',
         tag: 'PLATFORM',
+        backgroundImage: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=2070',
         title: 'Biến ý tưởng thành Web App thực tế - Không cần biết code',
         subtitle: 'Giải pháp Gói xây dựng App đa lĩnh vực, đa mục đích với các công cụ AI. Từ idea trên giấy đến sản phẩm hoàn chỉnh trong vài tuần.',
         ctaText: 'Khám phá Khoá học',
@@ -57,7 +58,8 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
         type: 'testimonials',
         tag: 'RESULTS',
         title: 'Thành viên đã làm được gì?',
-        subtitle: 'Kết quả thực tế từ những người như bạn'
+        subtitle: 'Kết quả thực tế từ những người như bạn',
+        backgroundImage: 'https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=2070',
     },
     {
         id: 'payment-1',
@@ -486,6 +488,33 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         ctaLink: "/courses",
         isVisible: true,
         order: 4
+    },
+    {
+        id: "video-intro",
+        type: "video",
+        title: "Video Giới Thiệu",
+        tag: "INTRO",
+        subtitle: "Xem video để hiểu rõ hơn về phương pháp Vibe Coding",
+        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Replace with actual video
+        mediaAspectRatio: "16/9",
+        animation: "fade-up",
+        order: 5,
+        isVisible: true
+    },
+    {
+        id: "gallery-showcase",
+        type: "gallery",
+        title: "Thư Viện Ảnh",
+        tag: "GALLERY",
+        subtitle: "Một số hình ảnh hoạt động tại The Tulie Lab",
+        items: [
+            { title: "Workshop Offline", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800", description: "Buổi offline chia sẻ kinh nghiệm." },
+            { title: "Team Building", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800", description: "Hoạt động gắn kết thành viên." },
+            { title: "Lớp học Zoom", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800", description: "Học trực tuyến hàng tuần." }
+        ],
+        appearance: "glass",
+        order: 6,
+        isVisible: true
     }
 ];
 

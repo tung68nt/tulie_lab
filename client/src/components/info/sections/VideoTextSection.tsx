@@ -3,6 +3,7 @@
 import React from 'react';
 import { Section } from '@/types/sections';
 import { StandardSectionHeader } from '../StandardSectionHeader';
+import { SectionBackground } from '../SectionBackground';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
@@ -44,12 +45,13 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
     return (
         <section className={cn(
             "py-20 px-4 relative overflow-hidden",
-            section.appearance === 'glass' ? "bg-white/5 backdrop-blur-md border-y border-white/10" : "bg-background",
             section.className
         )}>
-            {section.showDotPattern && (
-                <div className="absolute inset-0 -z-10 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] dark:bg-[radial-gradient(#2d2d2d_1px,transparent_1px)]" />
-            )}
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                className={section.appearance === 'glass' ? "bg-black/80" : undefined}
+            />
 
             <div className="max-w-7xl mx-auto">
                 <div className={cn(

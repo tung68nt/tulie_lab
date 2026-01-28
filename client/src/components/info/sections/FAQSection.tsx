@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Section } from '@/types/sections';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 interface FAQItem {
@@ -35,7 +35,10 @@ export function FAQSection({ section }: { section: Section }) {
 
     return (
         <section className="py-20 md:py-28 bg-background dark:bg-neutral-950 relative overflow-hidden">
-            {section.showDotPattern !== false && <DotPatternBackground />}
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+            />
             <div className="container relative z-10">
                 <div className="max-w-4xl mx-auto px-4 md:px-0">
                     <StandardSectionHeader section={section} align="center" />

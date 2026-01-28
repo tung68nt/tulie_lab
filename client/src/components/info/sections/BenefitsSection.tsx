@@ -9,7 +9,7 @@ interface BenefitsSectionProps {
     section: Section;
 }
 
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 
 export function BenefitsSection({ section }: BenefitsSectionProps) {
     const title = section?.title || 'Quyền Lợi Học Viên';
@@ -20,7 +20,10 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
     return (
         <section className="py-16 md:py-20 bg-background relative overflow-hidden">
-            {section.showDotPattern !== false && <DotPatternBackground />}
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+            />
 
             <div className="container">
                 <StandardSectionHeader section={section} align="center" />

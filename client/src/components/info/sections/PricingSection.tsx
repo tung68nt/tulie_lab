@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Check, Wallet, Zap, Crown, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export const PricingSection = ({ section }: { section: Section }) => {
@@ -22,7 +22,10 @@ export const PricingSection = ({ section }: { section: Section }) => {
 
     return (
         <section className="py-12 md:py-20 relative overflow-hidden" id={section.id}>
-            {section.showDotPattern !== false && <DotPatternBackground />}
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+            />
             <div className="container mx-auto">
                 <StandardSectionHeader section={section} align="center" />
 

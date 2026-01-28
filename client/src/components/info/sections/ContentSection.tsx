@@ -1,8 +1,8 @@
 import { Section } from '@/types/sections';
 import { CheckCircle2, Sparkles } from 'lucide-react';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { SectionBackground } from '../SectionBackground';
 import { cn } from '@/lib/utils';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 export const ContentSection = ({ section }: { section: Section }) => {
     // Simple markdown-like rendering
@@ -86,20 +86,15 @@ export const ContentSection = ({ section }: { section: Section }) => {
             "relative py-32 overflow-hidden bg-background",
             section.className
         )}>
-            {section.showDotPattern !== false && <DotPatternBackground />}
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+            />
 
             <div className="container relative z-10 mx-auto px-6">
                 <div className="max-w-4xl mx-auto">
                     <StandardSectionHeader
                         section={section}
-                        tagOverride={
-                            section.tag ? (
-                                <span className="flex items-center gap-2">
-                                    <Sparkles className="w-3.5 h-3.5" />
-                                    {section.tag}
-                                </span>
-                            ) : undefined
-                        }
                     />
 
                     <div className="prose prose-zinc prose-lg dark:prose-invert max-w-none">

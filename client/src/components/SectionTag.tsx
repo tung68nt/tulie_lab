@@ -9,7 +9,7 @@ interface SectionTagProps {
 export const SectionTag: React.FC<SectionTagProps> = ({ children, className }) => {
     return (
         <div className={cn(
-            "inline-flex items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-background/50 px-4 py-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-6 shadow-sm backdrop-blur-sm select-none",
+            "inline-flex h-9 items-center gap-2 rounded-full border border-zinc-200 dark:border-zinc-800 bg-background/50 px-4 py-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-6 shadow-sm backdrop-blur-sm select-none",
             className
         )}>
             <span className="relative flex h-2 w-2">

@@ -54,4 +54,5 @@ export interface Section {
     trustIndicators?: string[]; // New: List of trust indicators for Hero section
     rowConfig?: TableRowConfig[]; // New: Dynamic row configuration for comparison tables
     className?: string; // Add className for custom styling
+    backgroundImage?: string; // New: background image for the section
 }

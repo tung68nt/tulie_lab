@@ -13,7 +13,7 @@ interface ProcessSectionProps {
     variant?: 'snake' | 'grid' | string;
 }
 
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 
 export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProps) => {
@@ -21,8 +21,11 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
 
     return (
         <section className="py-24 bg-background relative overflow-hidden">
-            {section.showDotPattern !== false && <DotPatternBackground />}
-            <div className="container">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+            />
+            <div className="container relative z-10">
                 <StandardSectionHeader section={section} align="center" />
 
                 {/* Decorative Background Elements */}

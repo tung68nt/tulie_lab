@@ -5,22 +5,15 @@ import { SectionTag } from '@/components/SectionTag';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Section } from '@/types/sections';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 
 export function HeroSection({ section }: { section: Section }) {
     return (
         <section className="w-full pt-8 pb-4 md:pt-10 md:pb-8 lg:pt-16 lg:pb-16 bg-background relative transition-colors duration-300">
-            {/* Background decorations - isolated for scrolling overflow */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {/* Gradient orbs */}
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-
-                {/* Standard Dot Pattern */}
-                {section.showDotPattern !== false && (
-                    <DotPatternBackground />
-                )}
-            </div>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+            />
 
             <div className="container">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
@@ -76,7 +69,7 @@ export function HeroSection({ section }: { section: Section }) {
 
                         {/* Trust indicators */}
                         <div className="flex items-center gap-6 justify-center lg:justify-start pt-4 text-sm text-muted-foreground">
-                            {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator, index) => (
+                            {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div key={index} className="flex items-center gap-2">
                                     <svg className="h-5 w-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />

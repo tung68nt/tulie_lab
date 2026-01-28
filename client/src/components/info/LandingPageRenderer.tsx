@@ -22,6 +22,9 @@ import { ContentBlockSection } from '@/components/info/sections/ContentBlockSect
 import { PricingSection } from '@/components/info/sections/PricingSection';
 import { FAQSection } from '@/components/info/sections/FAQSection';
 import { CodingMethodsSection } from '@/components/info/sections/CodingMethodsSection';
+import { VideoSection } from '@/components/info/sections/VideoSection';
+import { VideoTextSection } from '@/components/info/sections/VideoTextSection';
+import { GallerySection } from '@/components/info/sections/GallerySection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -50,6 +53,9 @@ const SECTION_COMPONENTS: Record<string, any> = {
     pricing: PricingSection,
     faq: FAQSection,
     'coding-methods': CodingMethodsSection,
+    video: VideoSection,
+    'video-text': VideoTextSection,
+    gallery: GallerySection,
 };
 
 async function getLandingPage(slug: string) {

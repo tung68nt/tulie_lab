@@ -15,7 +15,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
         name: 'Standard Hero',
         category: 'Hero',
         description: 'Classic hero with title, subtitle, and single CTA.',
-        previewImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=500',
+        previewImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=500',
         data: {
             id: 'hero-std',
             type: 'hero',
@@ -380,6 +380,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'instructor-bio',
             name: 'Instructor Bio',
             title: 'Giảng Viên Của Bạn',
+            tag: 'Đội ngũ chuyên gia',
             subtitle: 'Người đồng hành cùng bạn trên con đường chinh phục Code',
             items: [
                 {
@@ -590,6 +591,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'pricing',
             name: 'Pricing System',
             title: 'Các gói phổ biến',
+            tag: 'Lựa chọn phù hợp',
             subtitle: 'Được nhiều thành viên lựa chọn',
             items: [
                 {
@@ -663,6 +665,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'video',
             name: 'Standard Video',
             title: 'Khám Phá Tulie Academy',
+            tag: 'Video giới thiệu',
             subtitle: 'Xem video hướng dẫn để hiểu rõ hơn về hệ thống học tập của chúng tôi.',
             videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
             mediaAspectRatio: '16/9',
@@ -681,6 +684,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'video-text',
             name: 'Video & Text (Left)',
             title: 'Học Qua Thực Hành',
+            tag: 'Phương pháp học tập',
             subtitle: 'Phương pháp học tập hiện đại, trực quan.',
             content: 'Chúng tôi tin rằng cách tốt nhất để học lập trình là bắt tay vào xây dựng các sản phẩm thực tế ngay từ ngày đầu tiên.',
             videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
@@ -706,6 +710,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'gallery',
             name: 'Media Gallery',
             title: 'Khoảnh Khắc Tulie',
+            tag: 'Thư viện hình ảnh',
             subtitle: 'Hình ảnh và video hoạt động tại học viện.',
             items: [
                 { title: 'Workshop Vibe Coding', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800', description: 'Buổi chia sẻ về tư duy lập trình mới.' },

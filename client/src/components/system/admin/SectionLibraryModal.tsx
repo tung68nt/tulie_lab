@@ -86,7 +86,7 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
 
                                         {/* Tag Overlay */}
                                         <div className="absolute top-3 right-3 z-10">
-                                            <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded text-neutral-600 dark:text-neutral-300 shadow-sm">
+                                            <span className="text-[10px] font-bold tracking-wider px-2 py-1 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded text-neutral-600 dark:text-neutral-300 shadow-sm">
                                                 {template.category}
                                             </span>
                                         </div>
