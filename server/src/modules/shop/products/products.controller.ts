@@ -66,7 +66,8 @@ export class ProductController {
             });
             res.json(result);
         } catch (error: any) {
-            res.status(400).json({ error: error.message });
+            console.error('List Products Error:', error);
+            res.status(500).json({ error: typeof error === 'object' ? error.message : String(error) });
         }
     }
 
