@@ -8,6 +8,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { BookOpen } from 'lucide-react';
 
 export default function BundlesPage() {
     const { addToast } = useToast();
@@ -104,12 +105,25 @@ export default function BundlesPage() {
 
                                     {/* Courses list preview */}
                                     <div className="mt-4 pt-4 border-t">
-                                        <p className="text-xs font-medium text-muted-foreground mb-2">Gồm {bundle.courses?.length || 0} khóa học:</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {bundle.courses?.map((bc: any) => (
-                                                <span key={bc.course.id} className="px-2 py-1 bg-secondary rounded text-xs">
-                                                    {bc.course.title}
-                                                </span>
+                                        <p className="text-xs font-semibold text-muted-foreground mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+                                            <BookOpen className="w-3.5 h-3.5" />
+                                            Gồm {bundle.courses?.length || 0} khóa học trong lộ trình:
+                                        </p>
+                                        <div className="space-y-2">
+                                            {bundle.courses?.map((bc: any, idx: number) => (
+                                                <div key={bc.course.id} className="flex items-center gap-3 group/item">
+                                                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center border border-primary/20">
+                                                        {idx + 1}
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <span className="text-sm font-medium text-foreground group-hover/item:text-primary transition-colors truncate block">
+                                                            {bc.course.title}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-[10px] text-muted-foreground font-medium shrink-0">
+                                                        {Number(bc.course.price || 0).toLocaleString()}đ
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
                                     </div>

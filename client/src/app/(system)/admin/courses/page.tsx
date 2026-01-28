@@ -80,6 +80,7 @@ export default function AdminCoursesPage() {
                             <thead className="[&_tr]:border-b">
                                 <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Tên khóa học</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[200px]">Combo / Lộ trình</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Đường dẫn (Slug)</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Giá</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Status</th>
@@ -90,6 +91,21 @@ export default function AdminCoursesPage() {
                                 {paginatedCourses.map((course) => (
                                     <tr key={course.id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                         <td className="p-4 align-middle font-medium">{course.title}</td>
+                                        <td className="p-4 align-middle">
+                                            <div className="flex flex-wrap gap-1">
+                                                {course.bundles?.length > 0 ? (
+                                                    course.bundles.map((bc: any) => (
+                                                        <Link key={bc.bundleId} href={`/admin/bundles/${bc.bundleId}`}>
+                                                            <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary hover:bg-primary/20 transition-colors cursor-pointer">
+                                                                {bc.bundle?.name || 'Loading...'}
+                                                            </span>
+                                                        </Link>
+                                                    ))
+                                                ) : (
+                                                    <span className="text-xs text-muted-foreground italic">Không có</span>
+                                                )}
+                                            </div>
+                                        </td>
                                         <td className="p-4 align-middle">{course.slug}</td>
                                         <td className="p-4 align-middle font-medium text-right">
                                             {course.price === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}

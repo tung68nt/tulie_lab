@@ -31,6 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             icon: BookOpen,
             items: [
                 { href: '/admin/courses', label: 'Khóa học' },
+                { href: '/admin/bundles', label: 'Combo / Bundle' },
                 { href: '/admin/categories', label: 'Chuyên mục' },
                 { href: '/admin/instructors', label: 'Instructors' },
                 { href: '/admin/events', label: 'Sự kiện' },
@@ -42,12 +43,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             items: [
                 { href: '/admin/products', label: 'Sản phẩm số' },
                 { href: '/admin/memberships', label: 'Gói cước' },
-                { href: '/admin/bundles', label: 'Combo / Bundle' },
-                { href: '/admin/orders', label: 'Đơn hàng' },
-                { href: '/admin/payments', label: 'Lịch sử giao dịch' },
                 { href: '/admin/coupons', label: 'Mã giảm giá' },
                 { href: '/admin/activation-codes', label: 'Mã kích hoạt' },
                 { href: '/admin/product-classifications', label: 'Phân loại SP' },
+                { href: '/admin/orders', label: 'Đơn hàng' },
+                { href: '/admin/payments', label: 'Lịch sử giao dịch' },
                 { href: '/admin/webhooks', label: 'Cổng thanh toán' },
             ]
         },

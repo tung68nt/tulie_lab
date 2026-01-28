@@ -1,8 +1,25 @@
 import prisma from '../../../config/prisma';
 
 export const listBundles = async (isAdmin = false, userId?: string) => {
+    const now = new Date();
     const bundles = await prisma.bundle.findMany({
-        where: isAdmin ? {} : { isActive: true },
+        where: isAdmin ? {} : {
+            isActive: true,
+            AND: [
+                {
+                    OR: [
+                        { startDate: null },
+                        { startDate: { lte: now } }
+                    ]
+                },
+                {
+                    OR: [
+                        { endDate: null },
+                        { endDate: { gte: now } }
+                    ]
+                }
+            ]
+        },
         include: {
             courses: {
                 include: {
