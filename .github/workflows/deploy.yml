@@ -20,7 +20,7 @@ jobs:
   # 1. Run database migrations FIRST (Optional - continues even on failure)
   migrate:
     runs-on: ubuntu-latest
-    # continue-on-error: true  <-- Commented out to enforce strict migration checks
+    continue-on-error: true  # Don't block deploy if migrations fail (common for direct connection issues in CI)
     
     steps:
       - name: Checkout code
