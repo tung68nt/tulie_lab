@@ -54,7 +54,7 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
                 {/* Sidebar & Grid */}
                 <div className="flex flex-1 overflow-hidden">
                     {/* Sidebar Categories */}
-                    <div className="w-48 md:w-64 border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto p-4 flex flex-col gap-2 bg-neutral-50 dark:bg-neutral-900/50">
+                    <div className="w-40 md:w-52 border-r border-neutral-200 dark:border-neutral-800 overflow-y-auto p-4 flex flex-col gap-2 bg-neutral-50 dark:bg-neutral-900/50">
                         {categories.map(cat => (
                             <button
                                 key={cat}
@@ -72,7 +72,7 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
 
                     {/* Template Grid */}
                     <div className="flex-1 overflow-y-auto p-6 bg-neutral-100 dark:bg-neutral-950">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
                             {filteredTemplates.map(template => (
                                 <div key={template.id} className="group bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden hover:shadow-xl hover:border-neutral-400 dark:hover:border-neutral-600 transition-all duration-300 flex flex-col h-full">
                                     {/* Preview Area (Placeholder for now) */}

@@ -86,7 +86,7 @@ export default function SectionGalleryPage() {
             {/* Main Content Area with Sidebar */}
             <div className="flex flex-1 overflow-hidden border rounded-xl bg-background shadow-sm">
                 {/* Sidebar Categories */}
-                <aside className="w-48 md:w-64 border-r border-border overflow-y-auto p-4 flex flex-col gap-2 bg-muted/20">
+                <aside className="w-40 md:w-52 border-r border-border overflow-y-auto p-4 flex flex-col gap-2 bg-muted/20">
                     {categories.map(cat => (
                         <button
                             key={cat}
@@ -105,7 +105,7 @@ export default function SectionGalleryPage() {
                 {/* Template Grid/List */}
                 <main className="flex-1 overflow-y-auto p-6 bg-muted/5">
                     {viewMode === 'grid' ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
                             {filteredTemplates.map((template) => (
                                 <div key={template.id} className="group bg-background rounded-xl border border-border overflow-hidden hover:shadow-xl hover:border-primary/50 transition-all duration-300 flex flex-col h-full">
                                     {/* Preview Area */}
@@ -123,14 +123,16 @@ export default function SectionGalleryPage() {
                                             </Badge>
                                         </div>
 
-                                        {/* ID Overlay on Hover */}
-                                        <div className="absolute inset-0 bg-background/40 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
-                                            <div className="flex items-center gap-2 font-mono text-xs text-foreground bg-background px-3 py-1.5 rounded-full shadow-lg border border-border">
-                                                ID: {template.id}
-                                                <button onClick={() => copyToClipboard(template.id)} className="hover:text-primary transition-colors ml-1">
-                                                    <Copy className="h-3 w-3" />
-                                                </button>
-                                            </div>
+                                        {/* ID Overlay on Hover - Simplified */}
+                                        <div className="absolute inset-0 bg-background/20 backdrop-blur-[0.5px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
+                                            <button
+                                                onClick={() => copyToClipboard(template.id)}
+                                                className="bg-background/95 hover:bg-background text-foreground px-3 py-1.5 rounded-full shadow-lg border border-border flex items-center gap-2 text-[10px] font-mono transition-all transform hover:scale-105 active:scale-95"
+                                                title="Copy Template ID"
+                                            >
+                                                <Copy className="h-3 w-3" />
+                                                <span>{template.id}</span>
+                                            </button>
                                         </div>
                                     </div>
 
