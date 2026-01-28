@@ -36,8 +36,8 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
 
     const animationVariants = {
         none: {},
-        'fade-up': { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 } },
-        'fade-in': { initial: { opacity: 0 }, whileInView: { opacity: 1 } },
+        'fade-up': { initial: { opacity: 1, y: 30 }, whileInView: { opacity: 1, y: 0 } },
+        'fade-in': { initial: { opacity: 1 }, whileInView: { opacity: 1 } },
         'slide-up': { initial: { y: 50 }, whileInView: { y: 0 } }
     };
 
@@ -105,7 +105,7 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
                                 {section.items.map((item, idx) => (
                                     <motion.li
                                         key={idx}
-                                        initial={{ opacity: 0, x: -20 }}
+                                        initial={{ opacity: 1, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: idx * 0.1 }}

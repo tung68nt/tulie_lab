@@ -118,7 +118,7 @@ export async function LandingPageRenderer({ slug, fallbackSections, forceFallbac
 
     return (
         <main className="min-h-screen bg-background text-foreground">
-            {sections.map((section: any, index: number) => {
+            {sections.filter((s: any) => s.isVisible !== false).map((section: any, index: number) => {
                 const Component = SECTION_COMPONENTS[section.type] || SECTION_COMPONENTS['content']; // Fallback to content
                 if (!Component) {
                     console.warn(`Unknown section type: ${section.type}`);

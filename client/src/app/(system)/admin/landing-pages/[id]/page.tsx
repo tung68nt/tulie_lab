@@ -369,7 +369,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         onClick={() => setFormData({ ...formData, useMainProduct: !formData.useMainProduct })}
                                         className={`flex items-center justify-center gap-2 flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useMainProduct ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
                                     >
-                                        <Package size={16} /> Template
+                                        <Package size={16} /> Sản phẩm
                                     </button>
                                 </div>
 
@@ -395,7 +395,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
 
                                     {formData.useMainProduct && (
                                         <div className="space-y-1">
-                                            <label className="text-xs text-muted-foreground w-full block">Chọn Template</label>
+                                            <label className="text-xs text-muted-foreground w-full block">Chọn Sản phẩm</label>
                                             <select
                                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                                 value={formData.productId || ''}
@@ -431,7 +431,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         onClick={() => setFormData({ ...formData, useUpsellProduct: !formData.useUpsellProduct })}
                                         className={`flex items-center justify-center gap-2 flex-1 px-3 py-2 text-sm font-medium rounded-lg border transition-all ${formData.useUpsellProduct ? 'bg-foreground text-background border-foreground' : 'bg-background border-input hover:bg-muted'}`}
                                     >
-                                        <Package size={16} /> Template
+                                        <Package size={16} /> Sản phẩm
                                     </button>
                                 </div>
 
@@ -457,7 +457,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
 
                                     {formData.useUpsellProduct && (
                                         <div className="space-y-1">
-                                            <label className="text-xs text-muted-foreground w-full block">Upsell Template</label>
+                                            <label className="text-xs text-muted-foreground w-full block">Upsell Sản phẩm</label>
                                             <select
                                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                                 value={formData.upsellProductId || ''}

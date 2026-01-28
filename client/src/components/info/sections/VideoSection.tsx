@@ -35,8 +35,8 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
 
     const animationVariants = {
         none: {},
-        'fade-up': { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 } },
-        'fade-in': { initial: { opacity: 0 }, whileInView: { opacity: 1 } },
+        'fade-up': { initial: { opacity: 1, y: 30 }, whileInView: { opacity: 1, y: 0 } },
+        'fade-in': { initial: { opacity: 1 }, whileInView: { opacity: 1 } },
         'slide-up': { initial: { y: 50 }, whileInView: { y: 0 } }
     };
 

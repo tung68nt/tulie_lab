@@ -23,6 +23,9 @@ import { InstructorGridSection } from '@/components/info/sections/InstructorGrid
 import { PricingSection } from '@/components/info/sections/PricingSection';
 import { CalendarSection } from '@/components/info/sections/CalendarSection';
 import { FAQSection } from '@/components/info/sections/FAQSection';
+import { VideoSection } from '@/components/info/sections/VideoSection';
+import { VideoTextSection } from '@/components/info/sections/VideoTextSection';
+import { GallerySection } from '@/components/info/sections/GallerySection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -52,6 +55,9 @@ const SECTION_COMPONENTS: Record<string, any> = {
     pricing: PricingSection,
     calendar: CalendarSection,
     faq: FAQSection,
+    video: VideoSection,
+    'video-text': VideoTextSection,
+    gallery: GallerySection,
     'coding-methods': ContentSection, // Fallback for coding-methods if no specific component
 };
 
@@ -109,7 +115,7 @@ export default async function DynamicLandingPage({ params }: { params: Promise<{
 
     return (
         <main className="min-h-screen bg-background text-foreground">
-            {sections.map((section: any, index: number) => {
+            {sections.filter((s: any) => s.isVisible !== false).map((section: any, index: number) => {
                 const Component = SECTION_COMPONENTS[section.type];
                 if (!Component) {
                     console.warn(`Unknown section type: ${section.type}`);
