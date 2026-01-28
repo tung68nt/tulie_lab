@@ -155,7 +155,7 @@ export const CalendarSection = ({ section }: { section: Section }) => {
                                         <div className="text-sm text-muted-foreground font-medium">{event.time}</div>
                                     </div>
                                     <div className="flex-1">
-                                        <div className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-secondary text-secondary-foreground mb-2 uppercase tracking-wide">
+                                        <div className="inline-block px-3 py-1 text-xs font-bold rounded-full bg-secondary text-secondary-foreground mb-2">
                                             {event.type}
                                         </div>
                                         <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{event.title}</h3>

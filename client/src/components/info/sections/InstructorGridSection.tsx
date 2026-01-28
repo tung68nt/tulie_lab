@@ -23,9 +23,9 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                         'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
                     } justify-items-center`}>
                     {section.items.map((item, index) => (
-                        <div key={index} className="group relative w-full max-w-md bg-card border border-border/40 p-8 md:p-10 rounded-[2.5rem] transition-all duration-500 hover:border-primary/30 shadow-sm hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]">
+                        <div key={index} className="group relative w-full max-w-md bg-card border border-border/40 p-8 md:p-10 rounded-3xl transition-all duration-500 hover:border-primary/30 shadow-sm hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]">
                             {/* Card Glow Effect */}
-                            <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-[2.5rem]" />
+                            <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
 
                             {/* Image Container */}
                             <div className="relative mx-auto mb-10 w-44 h-44">
@@ -46,14 +46,14 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
 
                                 {/* Floating Badge */}
                                 <div className="absolute -bottom-2 -right-2 bg-primary text-primary-foreground text-[10px] font-bold px-3 py-1 rounded-full shadow-lg z-20 border-2 border-background transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                    EXPERT
+                                    Expert
                                 </div>
                             </div>
 
                             {/* Content */}
                             <div className="relative z-10">
                                 <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{item.title}</h3>
-                                <div className="inline-flex items-center px-4 py-1 rounded-full bg-muted text-muted-foreground text-[10px] font-bold uppercase tracking-[0.2em] mb-6 border border-border/50">
+                                <div className="inline-flex items-center px-4 py-1 rounded-full bg-muted text-muted-foreground text-[10px] font-bold tracking-[0.2em] mb-6 border border-border/50">
                                     {item.subtitle}
                                 </div>
                                 <p className="text-muted-foreground leading-relaxed mb-8 text-sm md:text-base line-clamp-4 group-hover:line-clamp-none transition-all duration-500">

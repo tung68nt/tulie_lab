@@ -28,7 +28,7 @@ function TimeUnit({ value, label, className }: { value: number; label: string; c
                     {String(value).padStart(2, '0')}
                 </span>
             </div>
-            <span className="text-[7px] md:text-[8px] uppercase font-bold text-zinc-400 tracking-wider drop-shadow-sm px-1">
+            <span className="text-[7px] md:text-[8px] font-bold text-zinc-400 tracking-wider drop-shadow-sm px-1">
                 {label}
             </span>
         </div>
@@ -119,7 +119,7 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-background opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-background"></span>
                         </span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-400">Ưu đãi sắp hết</span>
+                        <span className="text-[10px] font-bold tracking-wider text-yellow-400">Ưu đãi sắp hết</span>
                     </div>
 
                     {/* Countdown */}

@@ -49,14 +49,19 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
 
             {/* Backdrop Overlay for Image Readability */}
             {backgroundImage && (
-                <div
-                    className={cn(
-                        "absolute inset-0 backdrop-blur-[2px]",
-                        overlayBase,
-                        overlayClassName
-                    )}
-                    style={overlayOpacity !== undefined ? { opacity: overlayOpacity } : undefined}
-                />
+                <>
+                    <div
+                        className={cn(
+                            "absolute inset-0 backdrop-blur-[2px]",
+                            overlayBase,
+                            overlayClassName
+                        )}
+                        style={overlayOpacity !== undefined ? { opacity: overlayOpacity } : (isDarkTheme ? { opacity: 0.75 } : { opacity: 0.6 })}
+                    />
+                    {/* Top and Bottom Gradient Shadow for better text pops */}
+                    <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent opacity-100" />
+                    <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/60 to-transparent opacity-100" />
+                </>
             )}
 
             {/* Dot Pattern Layer */}

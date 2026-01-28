@@ -23,13 +23,13 @@ export function ComparisonSection({ section }: { section: Section }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10">
                     {section.items?.map((item, index) => (
                         <div key={index} className="flex flex-col">
-                            <Card className={`h-full border flex flex-col rounded-[32px] transition-all duration-300 ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border hover:border-primary/50'}`}>
-                                <CardHeader className={`${index === 1 ? 'bg-primary/5' : ''} p-6 pb-2 rounded-t-[32px]`}>
+                            <Card className={`h-full border flex flex-col rounded-3xl transition-all duration-300 ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border hover:border-primary/50'}`}>
+                                <CardHeader className={`${index === 1 ? 'bg-primary/5' : ''} p-6 pb-2 rounded-t-3xl`}>
                                     <div className="flex flex-col gap-2 mb-4">
                                         <div className="flex justify-between items-start gap-4">
                                             <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
                                             {index === 1 && (
-                                                <span className="inline-block rounded-lg bg-primary text-primary-foreground px-3 py-1 text-[10px] font-bold tracking-wider uppercase whitespace-nowrap">
+                                                <span className="inline-block rounded-lg bg-primary text-primary-foreground px-3 py-1 text-[10px] font-bold tracking-wider whitespace-nowrap">
                                                     Được đề xuất
                                                 </span>
                                             )}

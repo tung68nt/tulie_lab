@@ -186,7 +186,9 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
     const renderForm = () => (
         <div className="space-y-6">
             <h3 className="text-xl font-semibold flex items-center gap-3 text-zinc-900">
-                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-zinc-100 text-zinc-600 text-[10px] font-medium">1</span>
+                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-900 text-white shadow-sm">
+                    <DynamicIcon name="User" className="w-4 h-4" />
+                </span>
                 Thông tin cá nhân
             </h3>
             <div className="grid md:grid-cols-2 gap-4">
@@ -224,43 +226,76 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 </div>
             </div>
 
-            {/* Account Creation Logic */}
-            <div className="bg-zinc-50/50 p-6 rounded-2xl space-y-5 border border-zinc-100">
-                <div className="flex items-center space-x-3 pb-2">
-                    <button
-                        type="button"
-                        onClick={() => handleFormChange('isGift', !state.form.isGift)}
+            {/* Activation Options Selection */}
+            <div className="bg-zinc-50/50 p-6 rounded-2xl space-y-4 border border-zinc-100">
+                <p className="text-xs font-bold text-zinc-400 tracking-wider mb-2">Hình thức nhận học tập</p>
+
+                <div className="grid gap-3">
+                    {/* Option 1: Direct Activation */}
+                    <div
+                        onClick={() => handleFormChange('isGift', false)}
                         className={cn(
-                            "w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all",
-                            state.form.isGift ? "bg-zinc-900 border-zinc-900 text-white" : "border-zinc-200 bg-white"
+                            "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
+                            !state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-transparent border-zinc-100 hover:border-zinc-200"
                         )}
                     >
-                        {state.form.isGift && <DynamicIcon name="Check" className="w-4 h-4 stroke-[3px]" />}
-                    </button>
-                    <div className="flex-1 cursor-pointer" onClick={() => handleFormChange('isGift', !state.form.isGift)}>
-                        <label className="text-sm font-semibold text-zinc-900 block">
-                            Mua làm quà tặng
-                        </label>
-                        <p className="text-[11px] text-zinc-500 mt-0.5">
-                            Nhận mã kích hoạt để tặng lại hoặc sử dụng sau.
-                        </p>
+                        <div className={cn(
+                            "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
+                            !state.form.isGift ? "border-zinc-900 bg-zinc-900" : "border-zinc-300"
+                        )}>
+                            {!state.form.isGift && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                        </div>
+                        <div className="ml-3">
+                            <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
+                                Kích hoạt trực tiếp vào tài khoản
+                            </label>
+                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+                                Khóa học sẽ được kích hoạt ngay vào tài khoản email đăng ký ở trên sau khi thanh toán thành công.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Option 2: Purchase Code (Gift) */}
+                    <div
+                        onClick={() => handleFormChange('isGift', true)}
+                        className={cn(
+                            "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
+                            state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-transparent border-zinc-100 hover:border-zinc-200"
+                        )}
+                    >
+                        <div className={cn(
+                            "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
+                            state.form.isGift ? "border-zinc-900 bg-zinc-900" : "border-zinc-300"
+                        )}>
+                            {state.form.isGift && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                        </div>
+                        <div className="ml-3">
+                            <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
+                                Mua mã kích hoạt (Gửi qua email)
+                            </label>
+                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+                                Bạn sẽ nhận được 01 mã kích hoạt gửi về email để dành tặng cho người khác hoặc tự kích hoạt vào tài khoản bất kỳ sau này.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                    <button
-                        type="button"
-                        onClick={() => handleFormChange('createAccount', !state.form.createAccount)}
-                        className={cn(
-                            "w-5 h-5 rounded border flex items-center justify-center transition-colors",
-                            state.form.createAccount ? "bg-primary border-primary text-primary-foreground" : "border-input bg-background"
-                        )}
-                    >
-                        {state.form.createAccount && <DynamicIcon name="Check" className="w-3.5 h-3.5" />}
-                    </button>
-                    <label className="text-sm font-medium leading-none cursor-pointer" onClick={() => handleFormChange('createAccount', !state.form.createAccount)}>
-                        Tạo tài khoản mới (Khuyên dùng)
-                    </label>
+                <div className="pt-2">
+                    <div className="flex items-center space-x-2">
+                        <button
+                            type="button"
+                            onClick={() => handleFormChange('createAccount', !state.form.createAccount)}
+                            className={cn(
+                                "w-5 h-5 rounded border flex items-center justify-center transition-colors",
+                                state.form.createAccount ? "bg-zinc-900 border-zinc-900 text-white" : "border-input bg-background"
+                            )}
+                        >
+                            {state.form.createAccount && <DynamicIcon name="Check" className="w-3.5 h-3.5" />}
+                        </button>
+                        <label className="text-sm font-bold leading-none cursor-pointer" onClick={() => handleFormChange('createAccount', !state.form.createAccount)}>
+                            Tạo tài khoản mới (Khuyên dùng)
+                        </label>
+                    </div>
                 </div>
 
                 {state.form.createAccount && (
@@ -416,7 +451,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
             {/* Main Product Selection */}
             <div className="space-y-4 pt-6 mt-4 border-t border-zinc-100">
-                <h3 className="text-sm font-semibold text-zinc-900 uppercase tracking-widest opacity-40">Sản phẩm đăng ký</h3>
+                <h3 className="text-sm font-semibold text-zinc-900 tracking-widest opacity-40">Sản phẩm đăng ký</h3>
                 <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-background flex items-center gap-5 transition-all hover:border-zinc-400">
                     <div className="w-14 h-14 bg-zinc-100 rounded-xl overflow-hidden shrink-0 border border-zinc-50">
                         {state.cart[0] && state.cart[0].image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
@@ -591,7 +626,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
                         <div className="flex justify-between items-center group">
                             <div className="text-sm text-muted-foreground">Chủ tài khoản:</div>
-                            <div className="font-bold text-sm uppercase text-right">NGUYEN VAN TUNG</div>
+                            <div className="font-bold text-sm text-right">Nguyen Van Tung</div>
                         </div>
 
                         <div className="flex justify-between items-center group">
@@ -610,7 +645,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         </div>
 
                         <div className="bg-neutral-50 p-4 rounded-xl border border-neutral-100 mt-6 relative overflow-hidden">
-                            <div className="text-xs font-semibold text-neutral-500 mb-2 uppercase tracking-wider">Nội dung chuyển khoản:</div>
+                            <div className="text-xs font-semibold text-neutral-500 mb-2 tracking-wider">Nội dung chuyển khoản:</div>
                             <div className="flex flex-col gap-3">
                                 <div className="bg-background px-3 py-2.5 rounded-lg border border-neutral-200 flex items-center justify-between group/content">
                                     <span className="font-bold text-foreground text-lg tracking-wider select-all">{state.payment.orderCode}</span>
@@ -619,7 +654,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                         className="bg-neutral-900 text-white px-2 py-1 rounded-full hover:bg-primary transition-all flex items-center gap-1 shrink-0 ml-2"
                                     >
                                         <DynamicIcon name="Copy" className="w-3 h-3" />
-                                        <span className="text-[9px] font-bold uppercase">Sao chép</span>
+                                        <span className="text-[9px] font-bold">Sao chép</span>
                                     </button>
                                 </div>
                                 <p className="text-[10px] text-muted-foreground leading-tight">
@@ -633,7 +668,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <div className="mt-8 flex flex-col gap-4 relative z-10">
                     <div className="p-3 bg-red-50 text-red-600 rounded-xl text-sm font-bold flex items-center justify-center gap-2 border border-red-100">
                         <DynamicIcon name="Clock" className="w-4 h-4 animate-pulse text-red-500" />
-                        {(state.payment.expiresAt || 0) < Date.now() ? <span className="uppercase tracking-wider">Mã đã hết hạn</span> : <>Đơn hàng hết hạn sau: <CountdownTimer targetDate={state.payment.expiresAt || 0} /></>}
+                        {(state.payment.expiresAt || 0) < Date.now() ? <span className="tracking-wider">Mã đã hết hạn</span> : <>Đơn hàng hết hạn sau: <CountdownTimer targetDate={state.payment.expiresAt || 0} /></>}
                     </div>
 
                     {(state.payment.expiresAt || 0) < Date.now() && (
@@ -676,7 +711,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
                     {/* Left Column: Form or Success Message */}
-                    <div className="lg:col-span-7 bg-background p-8 md:p-10 rounded-[2.5rem] border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+                    <div className="lg:col-span-7 bg-background p-8 md:p-10 rounded-3xl border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
                         {state.step === 'form' ? (
                             <form onSubmit={handleSubmit}>
                                 {renderForm()}
@@ -684,7 +719,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                     <Button type="submit" size="lg" className="w-full py-7 rounded-2xl bg-zinc-950 text-white font-semibold text-lg shadow-xl shadow-zinc-200">
                                         Thanh toán ngay • {formatPrice(totalAmount)}
                                     </Button>
-                                    <p className="text-center text-[10px] text-zinc-400 mt-4 uppercase tracking-widest">An toàn & Bảo mật 100%</p>
+                                    <p className="text-center text-[10px] text-zinc-400 mt-4 tracking-widest">An toàn & Bảo mật 100%</p>
                                 </div>
                             </form>
                         ) : (
@@ -707,7 +742,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="font-medium text-sm line-clamp-2">{item.title}</div>
-                                            {item.isUpsell && <div className="text-[10px] uppercase font-bold text-primary mt-1">Ưu đãi thêm</div>}
+                                            {item.isUpsell && <div className="text-[10px] font-bold text-primary mt-1">Ưu đãi thêm</div>}
                                         </div>
                                         <div className="font-semibold text-sm shrink-0 flex flex-col items-end">
                                             {item.isGift ? (

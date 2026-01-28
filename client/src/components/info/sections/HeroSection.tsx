@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Section } from '@/types/sections';
 import { SectionBackground } from '../SectionBackground';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 export function HeroSection({ section }: { section: Section }) {
     return (
@@ -30,7 +32,12 @@ export function HeroSection({ section }: { section: Section }) {
                         </div>
 
                         {/* Title with proper line height for Vietnamese */}
-                        <h1 className="text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">
+                        <h1 className={cn(
+                            "text-3xl font-bold tracking-normal sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight py-2",
+                            section.backgroundTheme === 'dark'
+                                ? "text-white"
+                                : "bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white"
+                        )}>
                             {section.title}
                         </h1>
 
@@ -92,33 +99,33 @@ export function HeroSection({ section }: { section: Section }) {
                             {/* Main image container */}
                             <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
                                 <div className="absolute inset-0 overflow-hidden rounded-2xl">
-                                    <img
+                                    <Image
                                         src={section.image}
                                         alt="Hero"
-                                        width="800"
-                                        height="600"
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 600px"
                                         className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
-                                        fetchPriority="high"
+                                        priority
                                     />
-                                    {/* Overlay gradient */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                    {/* Overlay gradients for better pop */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
                                 </div>
                             </div>
 
                             {/* Floating badge - positioned relative to outer container to avoid overflow clip */}
                             {(section.statsTitle || section.statsValue) && (
                                 <div className="absolute bottom-0 -left-4 bg-card border shadow-lg rounded-xl p-3 flex items-center gap-3">
-                                    <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                                        <span className="text-lg">{section.statsIcon || '🎓'}</span>
+                                    <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center overflow-hidden">
+                                        {section.image ? (
+                                            <div className="relative w-full h-full">
+                                                <Image src={section.image} alt="" fill className="object-cover" />
+                                            </div>
+                                        ) : (
+                                            <span className="text-lg">{section.statsIcon || '🎓'}</span>
+                                        )}
                                     </div>
                                     <div>
                                         <p className="font-bold text-sm">{section.statsValue}</p>
-                                        {/* The instruction mentioned an h2, but it's not part of the HeroSection structure.
-                                            The existing h1 already has tracking-normal and leading-[1.4].
-                                            No changes are needed for the h1 based on the instruction.
-                                            The provided snippet for h2 seems to belong to a different component (ExpertSection).
-                                            Therefore, no direct change is applied here based on the snippet.
-                                        */}
                                     </div>
                                 </div>
                             )}

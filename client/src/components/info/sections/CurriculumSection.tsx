@@ -90,10 +90,11 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                 {/* Left/Top: Image & Number */}
                                 <div className="md:w-2/5 relative min-h-[200px] md:min-h-full bg-secondary overflow-hidden">
                                     <div className="absolute inset-0">
-                                        <img
+                                        <Image
                                             src={module.image || `https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&sig=${index}`}
                                             alt={module.title}
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            fill
+                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
                                         <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                                     </div>
