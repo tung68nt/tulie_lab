@@ -9,6 +9,7 @@ interface SectionBackgroundProps {
     overlayClassName?: string; // Overlay-specific class
     backgroundTheme?: 'light' | 'dark' | 'auto';
     overlayOpacity?: number;
+    hideGradients?: boolean;
 }
 
 export const SectionBackground: React.FC<SectionBackgroundProps> = ({
@@ -17,7 +18,8 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     className,
     overlayClassName,
     backgroundTheme = 'auto',
-    overlayOpacity
+    overlayOpacity,
+    hideGradients = false
 }) => {
     // Determine overlay base color based on theme
     // If we have a dark image (theme='dark'), we usually want a dark overlay to ensure text contrast.
@@ -71,14 +73,18 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
             )}
 
             {/* Optional Gradient Fade - Adjust based on theme? */}
-            <div className={cn(
-                "absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t to-transparent",
-                isLightTheme ? "from-white" : "from-background"
-            )} />
-            <div className={cn(
-                "absolute inset-x-0 top-0 h-32 bg-gradient-to-b to-transparent",
-                isLightTheme ? "from-white" : "from-background"
-            )} />
+            {!hideGradients && (
+                <>
+                    <div className={cn(
+                        "absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t to-transparent",
+                        isLightTheme ? "from-white" : "from-background"
+                    )} />
+                    <div className={cn(
+                        "absolute inset-x-0 top-0 h-32 bg-gradient-to-b to-transparent",
+                        isLightTheme ? "from-white" : "from-background"
+                    )} />
+                </>
+            )}
         </div>
     );
 };

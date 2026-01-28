@@ -53,6 +53,7 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                hideGradients={section.backgroundTheme === 'dark'}
                 className={section.appearance === 'glass' ? "bg-black/80" : undefined}
             />
 

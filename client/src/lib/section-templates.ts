@@ -26,7 +26,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=2000',
             ctaText: 'Đăng Ký Học Thử',
             ctaLink: '/courses',
-            showDotPattern: true
+            showDotPattern: true,
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -49,7 +52,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { value: "500+", label: "Dự án", icon: "Code", description: "Đã hoàn thành và deploy" },
                 { value: "95%", label: "Hài lòng", icon: "Heart", description: "Đánh giá 5 sao" },
                 { value: "24/7", label: "Hỗ trợ", icon: "Zap", description: "Mentor giải đáp" }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -86,7 +92,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                     description: "Chi phí cao, thời gian cố định",
                     features: ["Lịch học gò bó", "Sĩ số lớp đông", "Nội dung cập nhật chậm", "Đi lại tốn thời gian", "Học phí đắt đỏ"]
                 }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -213,7 +222,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { title: "Giai đoạn 1: Nền Tảng", description: "Làm chủ tư duy lập trình và các công cụ cơ bản (HTML, CSS, JS)." },
                 { title: "Giai đoạn 2: Chuyên Sâu", description: "Học các Framework hiện đại (React, Next.js) và xây dựng Backend." },
                 { title: "Giai đoạn 3: Dự Án Thật", description: "Xây dựng sản phẩm hoàn chỉnh, deploy và tối ưu hiệu năng." }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -237,7 +249,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { title: "Cộng Đồng Tương Trợ", description: "Tham gia network cùng những người có tư duy đột phá, sẵn sàng chia sẻ.", icon: "Users" },
                 { title: "Hỗ Trợ Việc Làm", description: "Tư vấn CV, kỹ năng phỏng vấn và kết nối trực tiếp với 20+ doanh nghiệp đối tác.", icon: "Briefcase" },
                 { title: "Sở Hữu Tài Liệu Độc Quyền", description: "Bộ template, source code mẫu và ebook chuyên sâu chỉ dành cho học viên.", icon: "Lock" }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -270,7 +285,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                     image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=1000",
                     features: ["React Hooks & Components", "State Management (Redux/Zustand)", "React Query & API Integration", "Performance Optimization"]
                 }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -323,7 +341,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                         "Tài liệu: Template dự án Fullstack chuẩn"
                     ]
                 }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -368,7 +389,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                     before: ["Đang làm Marketing", "Từng học code nhưng bỏ cuộc"],
                     after: ["Freelancer Software Dev", "Thu nhập tăng gấp 3 lần"]
                 }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -393,7 +417,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                     description: "10 năm kinh nghiệm phát triển phần mềm tại các startup công nghệ và tập đoàn lớn. Founder của Tulie Academy, đam mê chia sẻ kiến thức và truyền lửa cho thế hệ lập trình viên trẻ.",
                     features: ["Ex-Tech Lead @ Unicorn Startup", "5000+ Học viên theo học", "Top 1% Creator về Lập trình"]
                 }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -415,7 +442,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { name: "Phạm Hùng", role: "Junior Dev @ FPT", content: "Khóa học thực sự thay đổi tư duy của mình. Không còn học vẹt mà hiểu sâu bản chất vấn đề.", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
                 { name: "Lan Anh", role: "Freelancer", content: "Cách truyền đạt của anh Tùng rất dễ hiểu, support nhiệt tình. Mình đã nhận được job đầu tiên ngay khi chưa học xong.", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
                 { name: "Tuấn Kiệt", role: "Sinh viên ĐHBK", content: "Nội dung update liên tục, sát thực tế. Rất đáng tiền!", avatar: "https://randomuser.me/api/portraits/men/86.jpg" }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -430,7 +460,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             name: 'Sales Countdown',
             highlight: new Date(Date.now() + 86400000 * 2).toISOString(), // 2 days from now
             ctaText: "Nhận Ưu Đãi 50% Ngay",
-            ctaLink: "/checkout"
+            ctaLink: "/checkout",
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -454,7 +487,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                     image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000",
                     features: ["Lộ trình thăng tiến", "Deal lương hiệu quả", "Kỹ năng mềm cần thiết"]
                 }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -475,7 +511,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { title: "Người mới bắt đầu có học được không?", content: "Hoàn toàn được. Khóa học thiết kế từ con số 0, đi từ cơ bản lên nâng cao." },
                 { title: "Học xong có được cấp chứng chỉ không?", content: "Có. Bạn sẽ nhận được chứng chỉ hoàn thành sau khi nộp đủ bài tập cuối khóa." },
                 { title: "Có được hỗ trợ sau khóa học không?", content: "Có. Bạn được tham gia cộng đồng Alumni và được hỗ trợ trọn đời." }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -494,7 +533,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             oldPrice: '999.000',
             ctaText: 'Nâng Cấp Ngay',
             ctaLink: '/upgrade',
-            showDotPattern: true
+            showDotPattern: true,
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -511,7 +553,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             subtitle: 'Hãy bắt đầu hành trình thay đổi sự nghiệp của bạn ngay hôm nay.',
             ctaText: 'Tham Gia Ngay',
             ctaLink: '/checkout',
-            showDotPattern: true
+            showDotPattern: true,
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -548,7 +593,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800",
                     description: "Kiến trúc sư đám mây chuyên nghiệp. Người sẽ hướng dẫn bạn cách vận hành, deploy và tối ưu hóa ứng dụng trên hạ tầng quy mô hàng triệu người dùng."
                 }
-            ]
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -578,6 +626,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             tag: 'Đăng ký ngay',
             subtitle: 'Hoàn tất đăng ký để bắt đầu học ngay.',
             showDotPattern: true,
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -593,6 +644,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Sự kiện sắp tới',
             subtitle: 'Lịch trình các hoạt động trong tháng',
             showDotPattern: true,
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -685,7 +739,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
             mediaAspectRatio: '16/9',
             animation: 'fade-up',
-            showDotPattern: true
+            showDotPattern: true,
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -712,7 +769,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             ],
             animation: 'fade-up',
             ctaText: 'Xem Lộ Trình',
-            ctaLink: '/courses'
+            ctaLink: '/courses',
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     },
     {
@@ -735,7 +795,10 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { title: 'Lớp Học Offline', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800', description: 'Không khí học tập sôi nổi tại văn phòng.' }
             ],
             appearance: 'standard',
-            animation: 'fade-up'
+            animation: 'fade-up',
+            backgroundImage: '',
+            backgroundTheme: 'auto',
+            overlayOpacity: 0.6
         }
     }
 ];

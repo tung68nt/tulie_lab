@@ -15,6 +15,7 @@ export function HeroSection({ section }: { section: Section }) {
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                hideGradients={section.backgroundTheme === 'dark'}
             />
 
             <div className="container relative z-10">

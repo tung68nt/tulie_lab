@@ -19,6 +19,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
+                hideGradients={isDark}
             />
 
             <div className="container text-center relative z-10 mx-auto px-4">

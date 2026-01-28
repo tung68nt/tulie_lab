@@ -27,6 +27,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                hideGradients={section.backgroundTheme === 'dark'}
             />
             <div className="container mx-auto relative z-10">
                 <StandardSectionHeader section={section} align="center" />

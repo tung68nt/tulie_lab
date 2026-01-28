@@ -50,6 +50,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                hideGradients={section.backgroundTheme === 'dark'}
             />
 
             {/* Faded Dot Pattern 4 Corners (Requested) */}
@@ -62,33 +63,29 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                 </div>
             )}
 
-            <div className="container px-4 md:px-6 mx-auto relative z-10">
-                <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
-                    {/* Sticky Sidebar: Header & Description */}
-                    <div className="lg:w-1/3">
-                        <div className="lg:sticky lg:top-32 space-y-6">
-                            <StandardSectionHeader
-                                section={section}
-                                align="left"
-                                className="mb-0 md:mb-6" // Override default mb
-                                tagOverride={
-                                    <span className="flex items-center gap-2">
-                                        <BookOpen size={16} className="text-primary" />
-                                        Lộ trình chi tiết
-                                    </span>
-                                }
-                                subtitleOverride={section.subtitle || "Hệ thống bài giảng được thiết kế khoa học, đi từ tư duy đến thực chiến."}
-                            />
-
-                            {/* Decorative Line for Desktop */}
-                            <div className="hidden lg:block w-12 h-1 bg-primary rounded-full" />
-                        </div>
+            <div className="container px-4 md:px-6 mx-auto relative z-10 text-center">
+                <div className="flex flex-col gap-12 lg:gap-16">
+                    {/* Header & Description */}
+                    <div className="w-full max-w-3xl mx-auto">
+                        <StandardSectionHeader
+                            section={section}
+                            align="center"
+                            className="mb-8"
+                            tagOverride={
+                                <span className="flex items-center gap-2">
+                                    <BookOpen size={16} className="text-primary" />
+                                    Lộ trình chi tiết
+                                </span>
+                            }
+                            subtitleOverride={section.subtitle || "Hệ thống bài giảng được thiết kế khoa học, đi từ tư duy đến thực chiến."}
+                        />
                     </div>
 
-                    {/* Modules List - Scrollable */}
-                    <div className="lg:w-2/3 space-y-12">
+                    {/* Modules List - Stacked */}
+                    <div className="w-full max-w-4xl mx-auto space-y-10 text-left">
                         {modules.map((module: any, index: number) => (
-                            <div key={index} className="group flex flex-col md:flex-row bg-background/50 backdrop-blur-sm rounded-3xl border border-border/50 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                            <div key={index} className="group flex flex-col md:flex-row bg-background/50 backdrop-blur-sm rounded-3xl border border-border/50 overflow-hidden isolate transform-gpu shadow-sm hover:shadow-xl transition-all duration-300">
+
 
                                 {/* Left/Top: Image & Number */}
                                 <div className="md:w-2/5 relative min-h-[200px] md:min-h-full bg-secondary overflow-hidden">
