@@ -30,7 +30,8 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
         isActive: true,
         courseIds: [] as string[],
         startDate: '',
-        endDate: ''
+        endDate: '',
+        thumbnail: ''
     });
 
     const toDateTimeLocal = (isoString?: string | null) => {
@@ -65,7 +66,8 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                         isActive: bundle.isActive,
                         courseIds: bundle.courses?.map((c: any) => c.courseId) || [],
                         startDate: toDateTimeLocal(bundle.startDate),
-                        endDate: toDateTimeLocal(bundle.endDate)
+                        endDate: toDateTimeLocal(bundle.endDate),
+                        thumbnail: bundle.thumbnail || ''
                     });
                 }
             } catch (error) {
@@ -215,6 +217,25 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                             />
                         </div>
 
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium">URL Thumbnail (Ảnh bìa)</label>
+                            <Input
+                                placeholder="https://example.com/image.jpg"
+                                value={formData.thumbnail}
+                                onChange={e => setFormData({ ...formData, thumbnail: e.target.value })}
+                            />
+                            {formData.thumbnail && (
+                                <div className="mt-2 rounded-lg overflow-hidden border aspect-video bg-muted max-w-sm">
+                                    <img
+                                        src={formData.thumbnail}
+                                        alt="Thumbnail preview"
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                                    />
+                                </div>
+                            )}
+                        </div>
+
                         <div className="grid grid-cols-1 gap-4 pt-2">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Ngày bắt đầu (Tùy chọn)</label>
@@ -311,9 +332,9 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Button
                                                     type="button"
-                                                    variant="ghost"
+                                                    variant="outline"
                                                     size="sm"
-                                                    className="h-8 w-8 p-0"
+                                                    className="h-8 w-8 p-0 bg-background"
                                                     onClick={() => moveCourse(index, 'up')}
                                                     disabled={index === 0}
                                                 >
@@ -321,9 +342,9 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                                                 </Button>
                                                 <Button
                                                     type="button"
-                                                    variant="ghost"
+                                                    variant="outline"
                                                     size="sm"
-                                                    className="h-8 w-8 p-0"
+                                                    className="h-8 w-8 p-0 bg-background"
                                                     onClick={() => moveCourse(index, 'down')}
                                                     disabled={index === selectedCourses.length - 1}
                                                 >
@@ -331,9 +352,9 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                                                 </Button>
                                                 <Button
                                                     type="button"
-                                                    variant="ghost"
+                                                    variant="outline"
                                                     size="sm"
-                                                    className="h-8 w-8 p-0 text-destructive hover:bg-destructive/10"
+                                                    className="h-8 w-8 p-0 bg-background hover:text-destructive transition-colors"
                                                     onClick={() => toggleCourse(course.id)}
                                                 >
                                                     <Trash2 className="h-4 w-4" />
