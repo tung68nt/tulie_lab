@@ -110,7 +110,8 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
             </div>
 
             {/* Learning Path Timeline */}
-            <div className="container py-24 relative">
+            <div className="container py-24 relative overflow-hidden">
+                <DotPatternBackground className="opacity-[0.03] pointer-events-none" />
                 <div className="flex flex-col md:flex-row gap-12 lg:gap-24">
                     {/* Sticky Header Side */}
                     <div className="w-full md:w-1/3 md:sticky md:top-32 h-fit">

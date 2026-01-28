@@ -9,50 +9,50 @@ interface LogoProps {
     showText?: boolean;
 }
 
+// Map hostnames to specific branding (Logo and Site Name)
+// This allows different domains to have unique identities while sharing the same app.
+const DOMAIN_BRANDING: Record<string, { logo: string; name: string }> = {
+    'thelab.tulie.vn': {
+        logo: '/images/logos/thelab.png',
+        name: 'The Tulie Lab'
+    },
+    'tulielab.academy': {
+        logo: '/images/logos/tulielab.png',
+        name: 'Tulie Academy'
+    },
+    'tungnguyen.academy': {
+        logo: '/images/logos/tungnguyen.png',
+        name: 'Tùng Nguyễn Academy'
+    }
+};
+
 export function Logo({ className = "", showText = true }: LogoProps) {
     const { settings } = useSettings();
     const { theme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const [hostname, setHostname] = useState<string>("");
 
     useEffect(() => {
         setMounted(true);
+        if (typeof window !== 'undefined') {
+            setHostname(window.location.hostname);
+        }
     }, []);
+
+    // Get branding based on domain, fallback to settings from CMS
+    const currentBranding = DOMAIN_BRANDING[hostname];
+    const siteLogo = currentBranding?.logo || settings.site_logo;
+    const siteName = currentBranding?.name || settings.site_name;
 
     const shouldShowText = showText && settings.show_site_name === 'true';
     const isDark = mounted && (theme === 'dark' || resolvedTheme === 'dark');
 
-    // Use dark logo if available and in dark mode, otherwise fallback to site_logo
-    // If user asked for "option logo negative", we might need a new setting.
-    // For now, let's look for a setting named `site_logo_dark` or similar if it existed.
-    // If not, we might need to assume the user wants us to ADD this capability.
-    // But since I can't easily change the backend schema right now without more info,
-    // I will try to use a CSS filter for now if requested, or just `text-foreground`.
-
-    // Actually, I'll just apply `text-foreground` which handles text.
-    // For the image, if it's black text on transparent, it needs inversion in dark mode.
-    // I'll add a class `dark:invert` if it's a standard black logo, but that's risky.
-    // Let's assume the user has a `site_logo_dark` setting or I should add it to the type definition in a view.
-
-    // Let's stick to the current plan: Use `text-foreground` for the text part.
-    // For the image: if `settings.site_logo` is used, render it. 
-    // If the user wants a "negative" logo, they might mean "white text" version.
-
     return (
         <Link href="/" className={`flex items-center gap-2.5 ${className}`}>
-            {settings.site_logo ? (
+            {siteLogo ? (
                 <div className="relative h-8 w-auto transition-transform hover:scale-105">
-                    {/* 
-                        If we had a site_logo_dark: 
-                        <img src={isDark && settings.site_logo_dark ? settings.site_logo_dark : settings.site_logo} ... />
-                        For now, I will assume the standard logo is used. 
-                        If the user specifically asked for "option logo negative", 
-                        maybe I should just flip the colors using CSS if it's dark mode?
-                        Let's try adding `dark:invert` to the image if the user wants it white in dark mode? 
-                        No, that inverts colors (red becomes cyan). 
-                        Let's wait for `SettingsContext` view to see if I can add a field.
-                     */}
                     <img
-                        src={settings.site_logo}
+                        src={siteLogo}
                         alt="Logo"
                         width="150"
                         height="40"
@@ -73,7 +73,7 @@ export function Logo({ className = "", showText = true }: LogoProps) {
 
             {shouldShowText && (
                 <span className="text-lg font-bold text-foreground tracking-tight">
-                    {settings.site_name}
+                    {siteName}
                 </span>
             )}
         </Link>

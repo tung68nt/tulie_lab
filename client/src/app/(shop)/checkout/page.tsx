@@ -84,7 +84,8 @@ function CheckoutContent() {
                             ...bundle,
                             price: bundle.salePrice,
                             compareAtPrice: bundle.originalPrice,
-                            title: bundle.name
+                            title: bundle.name,
+                            thumbnail: bundle.thumbnail || (bundle.courses?.length > 0 ? bundle.courses[0].course?.thumbnail : null)
                         });
                         setItemType('BUNDLE' as any);
                     } catch (err) {
@@ -323,9 +324,13 @@ function CheckoutContent() {
                                     <div className="flex-1">
                                         <h3 className="text-xl font-bold mb-2">{item?.title || 'Đang tải...'}</h3>
                                         <div className="flex items-center gap-2 mb-3">
-                                            {itemType === 'BUNDLE' && (
-                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold tracking-wider">
+                                            {itemType === 'BUNDLE' ? (
+                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold tracking-wider uppercase">
                                                     Combo / Learning Path
+                                                </Badge>
+                                            ) : (
+                                                <Badge variant="outline" className="text-[10px] font-bold tracking-wider uppercase opacity-60">
+                                                    {itemType === 'COURSE' ? 'Khóa học lẻ' : 'Sản phẩm'}
                                                 </Badge>
                                             )}
                                             <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
