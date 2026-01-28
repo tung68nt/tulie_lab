@@ -82,14 +82,17 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
             }
 
             const text = await response.text();
-            let error;
+            let errorObj;
             try {
-                error = JSON.parse(text);
+                errorObj = JSON.parse(text);
             } catch {
                 console.error('API Error (Non-JSON response):', text.substring(0, 200));
-                error = { message: `Server Error (${response.status}): ${text.substring(0, 100)}` };
+                errorObj = { message: `Server Error (${response.status}): ${text.substring(0, 100)}` };
             }
-            throw new ApiError(response.status, error.message);
+
+            // Extract message from various possible keys
+            const message = errorObj.message || errorObj.error || (typeof errorObj === 'string' ? errorObj : 'Unknown Server Error');
+            throw new ApiError(response.status, message);
         }
 
         return response.json();
