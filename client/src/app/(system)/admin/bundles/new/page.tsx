@@ -9,7 +9,8 @@ import { PriceInput } from '@/components/PriceInput';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
-import { ChevronUp, ChevronDown, Trash2, BookOpen, Plus } from 'lucide-react';
+import { ChevronUp, ChevronDown, Trash2, BookOpen, Plus, ArrowLeft } from 'lucide-react';
+import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 export default function NewBundlePage() {
     const router = useRouter();
@@ -129,10 +130,10 @@ export default function NewBundlePage() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Tạo Combo Mới</h1>
-                <Button variant="outline" onClick={() => router.back()}>Hủy</Button>
-            </div>
+            <AdminPageHeader
+                title="Tạo Combo Mới"
+                backUrl="/admin/bundles"
+            />
 
             <form onSubmit={handleSubmit} className="space-y-8">
                 <Card>
@@ -325,9 +326,12 @@ export default function NewBundlePage() {
                     </CardContent>
                 </Card>
 
-                <Button type="submit" size="lg" className="w-full" disabled={loading}>
-                    {loading ? 'Đang tạo...' : 'Tạo Combo'}
-                </Button>
+                <div className="flex justify-end gap-4">
+                    <Button variant="outline" type="button" onClick={() => router.push('/admin/bundles')}>Hủy</Button>
+                    <Button type="submit" disabled={loading}>
+                        {loading ? 'Đang tạo...' : 'Tạo Combo'}
+                    </Button>
+                </div>
             </form>
         </div>
     );

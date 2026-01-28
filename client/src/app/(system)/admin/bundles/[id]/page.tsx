@@ -9,7 +9,8 @@ import { PriceInput } from '@/components/PriceInput';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
-import { ChevronUp, ChevronDown, Trash2, BookOpen, Plus } from 'lucide-react';
+import { ChevronUp, ChevronDown, Trash2, BookOpen, Plus, Eye, ArrowLeft } from 'lucide-react';
+import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 export default function EditBundlePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
@@ -175,10 +176,14 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold">Chỉnh sửa Combo</h1>
-                <Button variant="outline" onClick={() => router.push('/admin/bundles')}>Quay lại</Button>
-            </div>
+            <AdminPageHeader
+                title="Chỉnh sửa Combo"
+                backUrl="/admin/bundles"
+            >
+                <Button variant="outline" onClick={() => window.open(`/combos/${formData.slug}`, '_blank')} className="gap-2">
+                    <Eye className="h-4 w-4" /> Xem thực tế
+                </Button>
+            </AdminPageHeader>
 
             <form onSubmit={handleSubmit} className="space-y-8">
                 <Card>
@@ -368,9 +373,15 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                     </CardContent>
                 </Card>
 
-                <Button type="submit" size="lg" className="w-full" disabled={submitting}>
-                    {submitting ? 'Đang lưu...' : 'Lưu Thay Đổi'}
-                </Button>
+                <div className="flex justify-end gap-4">
+                    <Button variant="outline" type="button" onClick={() => router.push('/admin/bundles')}>Hủy</Button>
+                    <Button variant="outline" type="button" onClick={() => window.open(`/combos/${formData.slug}`, '_blank')} className="gap-2">
+                        <Eye className="h-4 w-4" /> Xem thực tế
+                    </Button>
+                    <Button type="submit" disabled={submitting}>
+                        {submitting ? 'Đang lưu...' : 'Lưu Thay Đổi'}
+                    </Button>
+                </div>
             </form>
         </div>
     );

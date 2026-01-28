@@ -64,10 +64,10 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
                 <div className="container relative z-10">
                     <div className="max-w-3xl space-y-6">
-                        <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 py-1.5 px-4 text-xs font-bold uppercase tracking-wider">
+                        <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 py-1.5 px-4 text-xs font-bold tracking-wider">
                             Learning Path / Combo
                         </Badge>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
                             {bundle.name}
                         </h1>
                         <p className="text-lg text-zinc-400 leading-relaxed whitespace-pre-line border-l-2 border-primary/50 pl-6">
@@ -176,8 +176,15 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
             </div>
 
             {/* Bottom CTA - Premium Redesign */}
-            <div className="bg-zinc-950 border-t border-zinc-900 py-24 md:py-32 overflow-hidden relative">
-                <DotPatternBackground className="opacity-[0.02]" />
+            <div className="bg-[#050505] border-t border-zinc-900 py-24 md:py-32 overflow-hidden relative">
+                {/* Enhanced Dot Pattern */}
+                <DotPatternBackground className="opacity-10" withVignette={false} />
+
+                {/* Faded 4 Corners Effect (Radial overlay of background color) */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#050505] via-transparent to-transparent opacity-100 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-tl from-[#050505] via-transparent to-transparent opacity-100 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-transparent to-transparent opacity-100 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-bl from-[#050505] via-transparent to-transparent opacity-100 pointer-events-none" />
 
                 <div className="container relative z-10">
                     <div className="max-w-4xl mx-auto">
@@ -187,8 +194,8 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
                             <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                                 <div className="flex-1 text-center lg:text-left">
-                                    <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-                                        <Sparkles className="w-3 h-3" />
+                                    <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-primary-foreground px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-[0.2em] mb-6 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
+                                        <Sparkles className="w-3.5 h-3.5 text-primary" />
                                         Ưu đãi có hạn
                                     </div>
                                     <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
@@ -225,11 +232,20 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                             <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
 
-                                        <div className="flex items-center justify-center gap-3 text-[10px] font-medium text-zinc-600 uppercase tracking-widest pt-2">
-                                            <CheckCircle2 className="w-3 h-3 text-primary" />
-                                            Truy cập trọn đời
-                                            <span className="w-1 h-1 rounded-full bg-zinc-800" />
-                                            Hỗ trợ 24/7
+                                        <div className="flex items-center justify-center gap-5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest pt-2">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                                                    <CheckCircle2 className="w-2.5 h-2.5 text-primary" />
+                                                </div>
+                                                Truy cập trọn đời
+                                            </div>
+                                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-800" />
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                                                    <CheckCircle2 className="w-2.5 h-2.5 text-primary" />
+                                                </div>
+                                                Hỗ trợ 24/7
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -11,6 +11,9 @@ import { Clock, ChevronDown, ChevronUp, Lock } from 'lucide-react';
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
 import { CourseChapter } from '@/components/lms/CourseChapter';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { Sparkles, CheckCircle2 } from 'lucide-react';
+import { Badge } from '@/components/Badge';
 
 // Helper function to parse duration string to seconds
 function parseDurationToSeconds(duration: string): number {
@@ -192,26 +195,27 @@ export default function CoursePage({ params }: { params: any }) {
     return (
         <div className="min-h-screen bg-background pb-20">
             {/* Hero Section */}
-            <div className="bg-zinc-950 pt-24 md:pt-28 pb-16 text-white md:pb-24 relative overflow-hidden">
+            <div className="bg-[#050505] pt-24 md:pt-28 pb-16 text-white md:pb-24 relative overflow-hidden">
                 {/* Background pattern */}
-                <div className="absolute inset-0 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.08] pointer-events-none" />
+                <DotPatternBackground className="opacity-10" withVignette={false} />
 
-                {/* Corner Gradients */}
-                <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
+                {/* Corner Glows / Fades */}
+                <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
+                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
+
+                {/* 4 Corner Shadow Overlays for 'Faded' look */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#050505] via-transparent to-transparent opacity-80 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-tl from-[#050505] via-transparent to-transparent opacity-80 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#050505] via-transparent to-transparent opacity-80 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-bl from-[#050505] via-transparent to-transparent opacity-80 pointer-events-none" />
                 <div className="container relative z-10">
                     <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
-                            <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm font-medium text-zinc-400">
-                                <span className={`mr-2 relative flex h-2 w-2`}>
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                                </span>
-                                {course.deploymentStatus === 'COMING_SOON' ? 'Khóa học Sắp ra mắt'
-                                    : course.deploymentStatus === 'UPDATING' ? 'Khóa học Đang nâng cấp'
-                                        : 'Khóa học Chính thức'}
+                            <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-primary-foreground px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-[0.2em] mb-4 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
+                                <Sparkles className="w-3.5 h-3.5 text-primary" />
+                                {course.deploymentStatus === 'COMING_SOON' ? 'Sắp ra mắt'
+                                    : course.deploymentStatus === 'UPDATING' ? 'Đang nâng cấp'
+                                        : 'Chính thức'}
                             </div>
                             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                                 {course.title}
@@ -221,12 +225,21 @@ export default function CoursePage({ params }: { params: any }) {
                             </p>
                             <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-medium text-zinc-500">
                                 <div className="flex items-center gap-2">
+                                    <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <CheckCircle2 className="w-2.5 h-2.5 text-primary" />
+                                    </div>
                                     <span className="text-zinc-300">Giảng viên Chuyên nghiệp</span>
                                 </div>
                                 <div className="flex items-center gap-2">
+                                    <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <CheckCircle2 className="w-2.5 h-2.5 text-primary" />
+                                    </div>
                                     <span className="text-zinc-300">Truy cập trọn đời</span>
                                 </div>
                                 <div className="flex items-center gap-2">
+                                    <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <CheckCircle2 className="w-2.5 h-2.5 text-primary" />
+                                    </div>
                                     <span className="text-zinc-300">{course.lessons?.length || 0} Bài học</span>
                                 </div>
                                 {(() => {

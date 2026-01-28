@@ -276,11 +276,11 @@ export default function CreateCoursePage() {
                                 />
                             </div>
 
-                            <div className="pt-4 flex gap-2">
-                                <Button type="button" variant="ghost" onClick={() => router.back()}>
+                            <div className="pt-4 flex justify-end gap-4">
+                                <Button type="button" variant="outline" onClick={() => router.push('/admin/courses')}>
                                     Hủy
                                 </Button>
-                                <Button type="submit" disabled={isLoading} className="flex-1">
+                                <Button type="submit" disabled={isLoading}>
                                     {isLoading ? 'Đang tạo...' : 'Tạo khóa học'}
                                 </Button>
                             </div>

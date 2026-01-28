@@ -129,7 +129,7 @@ function CheckoutContent() {
             }
         };
         fetchData();
-    }, [courseId, productId, router]);
+    }, [courseId, productId, bundleId, router]);
 
     const handleValidatePromo = async () => {
         if (!promoCode.trim()) {
@@ -139,6 +139,11 @@ function CheckoutContent() {
 
         setValidatingPromo(true);
         try {
+            if (!item) {
+                addToast('Không thể xác thực mã giảm giá lúc này', 'error');
+                setValidatingPromo(false);
+                return;
+            }
             // Use real coupon API
             const result: any = await api.coupons.validate(promoCode, item.price);
 
@@ -316,10 +321,10 @@ function CheckoutContent() {
                                         </div>
                                     )}
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                                        <h3 className="text-xl font-bold mb-2">{item?.title || 'Đang tải...'}</h3>
                                         <div className="flex items-center gap-2 mb-3">
                                             {itemType === 'BUNDLE' && (
-                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold uppercase tracking-wider">
+                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold tracking-wider">
                                                     Combo / Learning Path
                                                 </Badge>
                                             )}
@@ -327,7 +332,7 @@ function CheckoutContent() {
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <span className="text-2xl font-extrabold text-foreground">
-                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
+                                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.price || 0)}
                                             </span>
                                             {Number(item.compareAtPrice) > Number(item.price) && (
                                                 <>
@@ -624,9 +629,9 @@ function CheckoutContent() {
                                     <div className="h-px bg-zinc-100/50 dark:bg-zinc-800/50 my-2" />
 
                                     <div className="flex justify-between items-center pt-2">
-                                        <span className="font-semibold text-lg text-zinc-600">Tổng thanh toán</span>
+                                        <span className="font-semibold text-base text-zinc-600">Tổng thanh toán</span>
                                         <div className="text-right">
-                                            <span className="text-3xl font-bold text-zinc-900 dark:text-white block tracking-tight">
+                                            <span className="text-2xl font-bold text-zinc-900 dark:text-white block tracking-tight">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalAmount)}
                                             </span>
                                             <span className="text-[10px] text-muted-foreground mt-1 block opacity-70">

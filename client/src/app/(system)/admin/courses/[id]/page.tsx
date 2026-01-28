@@ -223,7 +223,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 backUrl="/admin/courses"
             >
                 <Button variant="outline" onClick={() => window.open(`/courses/${courseForm.slug}`, '_blank')} className="gap-2">
-                    <Eye className="h-4 w-4" /> Xem khóa học
+                    <Eye className="h-4 w-4" /> Xem thực tế
                 </Button>
             </AdminPageHeader>
 
@@ -399,7 +399,13 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 </div>
                             </div>
 
-                            <Button type="submit" className="w-full">Lưu thay đổi</Button>
+                            <div className="flex justify-end gap-4">
+                                <Button variant="outline" type="button" onClick={() => router.push('/admin/courses')}>Hủy</Button>
+                                <Button variant="outline" type="button" onClick={() => window.open(`/courses/${courseForm.slug}`, '_blank')} className="gap-2">
+                                    <Eye className="h-4 w-4" /> Xem thực tế
+                                </Button>
+                                <Button type="submit">Lưu thay đổi</Button>
+                            </div>
                         </form>
                     </CardContent>
                 </Card>

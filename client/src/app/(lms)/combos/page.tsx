@@ -46,7 +46,7 @@ export default function CombosListPage() {
                 {/* Header Section */}
                 <div className="max-w-3xl mx-auto text-center mb-20 space-y-6">
                     <SectionTag>Learning Paths</SectionTag>
-                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
                         Lộ trình học tập Chuyên sâu
                     </h1>
                     <p className="text-lg text-muted-foreground leading-relaxed">
@@ -80,7 +80,7 @@ export default function CombosListPage() {
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                         />
                                         <div className="absolute top-4 left-4">
-                                            <Badge className="bg-white/90 backdrop-blur-md text-black border-none py-1.5 px-3 text-[10px] font-bold uppercase tracking-wider shadow-xl">
+                                            <Badge className="bg-white/90 backdrop-blur-md text-black border-none py-1.5 px-3 text-[10px] font-bold tracking-wider shadow-xl">
                                                 -{combo.discountPercent}% OFF
                                             </Badge>
                                         </div>
@@ -93,7 +93,7 @@ export default function CombosListPage() {
                                                 <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
                                                     <TrendingUp className="w-4 h-4" />
                                                 </div>
-                                                <span className="text-xs font-bold text-primary uppercase tracking-widest">Combo Ưu đãi</span>
+                                                <span className="text-xs font-bold text-primary tracking-widest">Combo Ưu đãi</span>
                                             </div>
                                             <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors leading-tight">
                                                 {combo.name}

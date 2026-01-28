@@ -7,7 +7,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { PriceInput } from '@/components/PriceInput';
 import { useToast } from '@/contexts/ToastContext';
-import { ArrowLeft, Save, Loader2, UploadCloud } from 'lucide-react';
+import { ArrowLeft, Save, Loader2, UploadCloud, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { Switch } from '@/components/Switch';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -312,7 +312,13 @@ export default function ProductEditorPage() {
             <AdminPageHeader
                 title={isNew ? 'Thêm sản phẩm mới' : 'Chỉnh sửa sản phẩm'}
                 backUrl="/admin/products"
-            />
+            >
+                {!isNew && (
+                    <Button variant="outline" onClick={() => window.open(`/shop/${formData.slug}`, '_blank')} className="gap-2">
+                        <Eye className="h-4 w-4" /> Xem thực tế
+                    </Button>
+                )}
+            </AdminPageHeader>
 
             <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid gap-6 md:grid-cols-3">
@@ -990,9 +996,12 @@ export default function ProductEditorPage() {
                 </div>
 
                 <div className="flex justify-end gap-4">
-                    <Link href="/admin/products">
-                        <Button variant="outline" type="button">Hủy bỏ</Button>
-                    </Link>
+                    <Button variant="outline" type="button" onClick={() => router.push('/admin/products')}>Hủy</Button>
+                    {!isNew && (
+                        <Button variant="outline" type="button" onClick={() => window.open(`/shop/${formData.slug}`, '_blank')} className="gap-2">
+                            <Eye className="h-4 w-4" /> Xem thực tế
+                        </Button>
+                    )}
                     <Button type="submit" disabled={saving}>
                         {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {isNew ? 'Tạo sản phẩm' : 'Lưu thay đổi'}

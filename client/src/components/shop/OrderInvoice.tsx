@@ -157,32 +157,51 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
         setIsDownloading(true);
         try {
-            // Dynamically import html2pdf only on client side
-            const html2pdfModule = await import('html2pdf.js');
-            const html2pdf = html2pdfModule.default;
+            // Dynamic import wrapper for robustness
+            const html2pdfModule: any = await import('html2pdf.js');
+            const html2pdf = html2pdfModule.default || html2pdfModule;
+
+            if (!html2pdf || typeof html2pdf !== 'function') {
+                console.error('Failed to load html2pdf function', html2pdfModule);
+                throw new Error('Could not initialize PDF library');
+            }
 
             const element = invoiceRef.current;
+
+            // Add temporary class to body to hide global UI elements during capture
+            document.body.classList.add('pdf-capture-mode');
+
             const opt: any = {
                 margin: [10, 10, 10, 10],
                 filename: `Don-hang-${order.code}.pdf`,
-                image: { type: 'jpeg', quality: 1.0 },
+                image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: {
                     scale: 2,
                     useCORS: true,
                     logging: false,
-                    letterRendering: true,
-                    allowTaint: true,
-                    windowWidth: 1200
+                    windowWidth: 1024,
+                    scrollY: 0,
+                    scrollX: 0,
+                    ignoreElements: (el: any) => {
+                        return el.classList.contains('no-pdf') ||
+                            el.classList.contains('no-print') ||
+                            el.tagName === 'NAV' ||
+                            el.tagName === 'HEADER' ||
+                            el.tagName === 'FOOTER';
+                    }
                 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             // Capture and save
             await html2pdf().set(opt).from(element).save();
+
+            // Cleanup
+            document.body.classList.remove('pdf-capture-mode');
             addToast('Đã tải xuống hóa đơn PDF thành công', 'success');
-        } catch (error) {
-            console.error('PDF Download Error:', error);
-            addToast('Không thể tạo file PDF. Vui lòng thử lại sau.', 'error');
+        } catch (error: any) {
+            console.error('PDF Download Error Detail:', error);
+            addToast(`Không thể tạo file PDF: ${error.message || 'Lỗi không xác định'}`, 'error');
         } finally {
             setIsDownloading(false);
         }
@@ -194,9 +213,9 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
     const vatAmount = totalPayment - subtotalBeforeVat;
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500 font-sans print:p-0 print:m-0">
+        <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500 font-sans print:p-0 print:m-0 print:max-w-none">
             {/* Action Bar - Hidden during print */}
-            <div className="flex justify-end gap-3 print:hidden px-4 md:px-0">
+            <div className="flex justify-end gap-3 print:hidden px-4 md:px-0 no-pdf">
                 <Button
                     variant="outline"
                     onClick={handleDownload}
@@ -428,10 +447,36 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
             {/* Print Only Styles */}
             <style jsx global>{`
                 @media print {
-                    @page { margin: 15mm; }
-                    body { background: white !important; }
-                    .print-hidden { display: none !important; }
+                    @page { 
+                        margin: 0; 
+                        size: A4;
+                    }
+                    body { 
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        background: white !important; 
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    /* Hide site-wide UI elements */
+                    nav, header, footer, .no-print, .print-hidden, [role="navigation"], .no-pdf { 
+                        display: none !important; 
+                    }
+                    /* Ensure the invoice is the only thing visible */
+                    .max-w-4xl { 
+                        max-width: none !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                    }
                     .shadow-2xl { box-shadow: none !important; }
+                    .Card { border: none !important; }
+                }
+
+                /* PDF Specific resets if needed via class injection or similar */
+                .pdf-capture-mode nav, 
+                .pdf-capture-mode footer,
+                .pdf-capture-mode header {
+                    display: none !important;
                 }
             `}</style>
         </div>

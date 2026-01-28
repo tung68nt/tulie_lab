@@ -147,27 +147,27 @@ export function Footer() {
                             {footerData.tagline}
                         </p>
                         <div className="space-y-3 text-sm text-muted-foreground">
-                            <p className="flex items-start gap-3">
+                            <div className="flex items-start gap-3">
                                 <MapPin size={18} className="shrink-0 text-foreground/70" />
                                 <span>{footerData.address}</span>
-                            </p>
-                            <p className="flex items-center gap-3">
+                            </div>
+                            <div className="flex items-center gap-3">
                                 <Phone size={18} className="shrink-0 text-foreground/70" />
                                 <a href={`tel:${footerData.phone.replace(/\./g, '')}`} className="hover:text-foreground transition-colors">
                                     {footerData.phone}
                                 </a>
-                            </p>
-                            <p className="flex items-center gap-3">
+                            </div>
+                            <div className="flex items-center gap-3">
                                 <Mail size={18} className="shrink-0 text-foreground/70" />
                                 <a href={`mailto:${footerData.email}`} className="hover:text-foreground transition-colors">
                                     {footerData.email}
                                 </a>
-                            </p>
+                            </div>
                             {footerData.taxId && (
-                                <p className="flex items-center gap-3">
+                                <div className="flex items-center gap-3">
                                     <FileText size={18} className="shrink-0 text-foreground/70" />
                                     <span>{footerData.taxId}</span>
-                                </p>
+                                </div>
                             )}
                         </div>
                         {/* Certification Badge - Removed per user request due to broken link/error */}
