@@ -301,7 +301,7 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <p className="font-bold text-base truncate text-foreground">{course.title}</p>
-                                                <p className="text-sm font-medium text-primary">{(course.price || 0).toLocaleString('vi-VN')}đ</p>
+                                                <p className="text-sm font-medium text-primary">{Number(course.price || 0).toLocaleString('vi-VN')}đ</p>
                                             </div>
                                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Button
@@ -357,7 +357,7 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                                         >
                                             <div className="flex-1">
                                                 <p className="font-bold text-base text-foreground mb-0.5">{course.title}</p>
-                                                <p className="text-sm font-medium text-primary">{(course.price || 0).toLocaleString('vi-VN')}đ</p>
+                                                <p className="text-sm font-medium text-primary">{Number(course.price || 0).toLocaleString('vi-VN')}đ</p>
                                             </div>
                                             <Plus className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                                         </div>
