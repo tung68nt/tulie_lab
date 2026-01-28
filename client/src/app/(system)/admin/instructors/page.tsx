@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
@@ -49,11 +49,7 @@ export default function AdminInstructorsPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState<Instructor>(emptyInstructor);
 
-    useEffect(() => {
-        loadInstructors();
-    }, []);
-
-    const loadInstructors = async () => {
+    const loadInstructors = useCallback(async () => {
         try {
             setLoading(true);
             const res: any = await api.admin.instructors.list();
@@ -64,7 +60,11 @@ export default function AdminInstructorsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [addToast]);
+
+    useEffect(() => {
+        loadInstructors();
+    }, [loadInstructors]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

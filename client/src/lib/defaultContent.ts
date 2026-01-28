@@ -540,7 +540,8 @@ export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
         id: 'instructor-grid-1',
         type: 'instructor-grid',
         title: 'Các Giảng Viên Tiêu Biểu',
-        subtitle: 'Chuyên gia hàng đầu trong các lĩnh vực'
+        subtitle: 'Chuyên gia hàng đầu trong các lĩnh vực',
+        items: []
     },
     {
         id: 'cta-instructors',
