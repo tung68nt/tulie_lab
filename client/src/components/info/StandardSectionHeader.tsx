@@ -22,9 +22,9 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     children,
     align = 'center'
 }) => {
-    const tag = tagOverride || section.tag;
-    const title = titleOverride || section.title;
-    const subtitle = subtitleOverride || section.subtitle;
+    const tag = tagOverride || section?.tag;
+    const title = titleOverride || section?.title;
+    const subtitle = subtitleOverride || section?.subtitle;
 
     const alignClass = {
         center: 'text-center items-center',
@@ -38,8 +38,8 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
         right: 'justify-end'
     }[align];
 
-    const isDarkBg = section.backgroundTheme === 'dark';
-    const isLightBg = section.backgroundTheme === 'light';
+    const isDarkBg = section?.backgroundTheme === 'dark';
+    const isLightBg = section?.backgroundTheme === 'light';
 
     // Text Color Logic:
     // If background is dark (isDarkBg), we force text to be white/light.
