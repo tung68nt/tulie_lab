@@ -26,7 +26,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'dark'}
-                overlayOpacity={section.overlayOpacity}
+                overlayOpacity={section.overlayOpacity !== undefined ? section.overlayOpacity : 0.8}
             />
 
             {/* Decorative Ribbons - Breathing Animation */}
@@ -53,10 +53,10 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                         <div key={idx} className="group relative overflow-hidden rounded-[32px] bg-neutral-900/50 border border-white/10 hover:border-[#FF0000]/50 transition-all duration-500 hover:shadow-[10px_10px_50px_-10px_rgba(255,0,0,0.2)]">
                             {/* Header Stripe */}
                             <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 px-6 py-4 flex items-center border-b border-white/5">
-                                <span className="bg-[#FF0000] text-white text-xs font-bold px-3 py-1 rounded-full mr-4 shadow-lg shadow-red-500/20">
+                                <span className="bg-[#FF0000] text-white text-[10px] font-bold px-3 py-1 rounded-lg mr-4 shadow-lg shadow-red-500/20 whitespace-nowrap">
                                     QUÀ TẶNG #{idx + 1}
                                 </span>
-                                <h3 className="text-lg md:text-xl font-bold truncate pr-4">{item.title}</h3>
+                                <h3 className="text-lg md:text-xl font-bold truncate pr-4 text-white">{item.title}</h3>
                             </div>
 
                             <div className="flex flex-col md:flex-row">
@@ -140,10 +140,10 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 )}
 
                                 <div className="flex items-start justify-center gap-1 relative px-4 py-2 -my-2 pb-4">
-                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-neutral-400 drop-shadow-2xl select-none py-4 tracking-tight pr-2">
+                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-white/40 drop-shadow-2xl select-none py-4 tracking-tight pr-2">
                                         0
                                     </span>
-                                    <span className="text-4xl md:text-5xl font-medium text-neutral-500 mt-6 md:mt-8">đ</span>
+                                    <span className="text-4xl md:text-5xl font-medium text-neutral-400 mt-6 md:mt-8">đ</span>
                                 </div>
                             </div>
 

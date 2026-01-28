@@ -30,7 +30,10 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     // If theme is light, we expect dark text. Background might be a light image. Overlay should be white-ish to wash it out?
 
     const isLightTheme = backgroundTheme === 'light';
-    const overlayBase = isLightTheme ? 'bg-white/60' : 'bg-background/60';
+    const isDarkTheme = backgroundTheme === 'dark';
+
+    // Fix: Use explicit colors for overlay to ensure contrast regardless of system theme
+    const overlayBase = isLightTheme ? 'bg-white/60' : isDarkTheme ? 'bg-black/60' : 'bg-background/60';
 
     return (
         <div className={cn("absolute inset-0 -z-10 overflow-hidden", className)}>

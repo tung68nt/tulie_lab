@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Section } from '@/types/sections';
 import { StandardSectionHeader } from '../StandardSectionHeader';
 import { SectionBackground } from '../SectionBackground';
+import { getMediaUrl } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Maximize2 } from 'lucide-react';
@@ -51,7 +52,7 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                         >
                             {/* Media content */}
                             <img
-                                src={item.image}
+                                src={getMediaUrl(item.image)}
                                 alt={item.title}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                             />
@@ -106,12 +107,12 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                                             allowFullScreen
                                         />
                                     ) : (
-                                        <video src={selectedItem.videoUrl} controls className="w-full h-full" autoPlay />
+                                        <video src={getMediaUrl(selectedItem.videoUrl)} controls className="w-full h-full" autoPlay />
                                     )}
                                 </div>
                             ) : (
                                 <img
-                                    src={selectedItem.image}
+                                    src={getMediaUrl(selectedItem.image)}
                                     alt={selectedItem.title}
                                     className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl"
                                 />

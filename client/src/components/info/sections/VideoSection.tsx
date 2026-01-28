@@ -4,6 +4,7 @@ import React from 'react';
 import { Section } from '@/types/sections';
 import { StandardSectionHeader } from '../StandardSectionHeader';
 import { SectionBackground } from '../SectionBackground';
+import { getMediaUrl } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
@@ -76,7 +77,7 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
                             />
                         ) : (
                             <video
-                                src={section.videoUrl}
+                                src={getMediaUrl(section.videoUrl)}
                                 controls
                                 className="w-full h-full object-contain"
                             />

@@ -8,7 +8,7 @@ import { SectionBackground } from '../SectionBackground';
 
 export function ComparisonSection({ section }: { section: Section }) {
     return (
-        <section className="w-full py-12 bg-background relative overflow-hidden">
+        <section className="w-full py-12 relative overflow-hidden">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -26,10 +26,10 @@ export function ComparisonSection({ section }: { section: Section }) {
                             <Card className={`h-full border flex flex-col rounded-[32px] transition-all duration-300 ${index === 1 ? 'border-primary shadow-xl scale-105 z-10' : 'border-border hover:border-primary/50'}`}>
                                 <CardHeader className={`${index === 1 ? 'bg-primary/5' : ''} p-6 pb-2 rounded-t-[32px]`}>
                                     <div className="flex flex-col gap-2 mb-4">
-                                        <div className="flex justify-between items-start">
+                                        <div className="flex justify-between items-start gap-4">
                                             <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
                                             {index === 1 && (
-                                                <span className="inline-block rounded-full bg-primary text-primary-foreground px-3 py-1 text-[10px] font-bold tracking-wider uppercase">
+                                                <span className="inline-block rounded-lg bg-primary text-primary-foreground px-3 py-1 text-[10px] font-bold tracking-wider uppercase whitespace-nowrap">
                                                     Được đề xuất
                                                 </span>
                                             )}

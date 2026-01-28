@@ -30,7 +30,17 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         { key: "output", label: "Sản phẩm đầu ra", icon: "Package" }
     ];
 
-    const methods = targetSection?.items || [];
+    // Fallback logic specific for CodingMethods to ensures it always renders
+    const defaultMethods = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods')?.items || [];
+    const defaultRowConfig = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods')?.rowConfig;
+
+    const methods = (hasComplexContent ? section.items : (defaultMethods.length > 0 ? defaultMethods : section.items)) || [];
+    const activeRowConfig = rowConfig || defaultRowConfig;
+
+    // Safety check: if no methods, don't render empty table path
+    if (!methods || methods.length === 0) {
+        console.warn("CodingMethodsSection: No methods found to render.");
+    }
 
     const renderDifficulty = (level: number, text: string) => {
         // level 0 -> 1 bar, level 4 -> 5 bars
@@ -93,15 +103,15 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                 <StandardSectionHeader section={section} align="center" />
 
                 {/* RESPONSIVE TABLE VIEW: Scrollable on mobile, Grid on desktop */}
-                <div className="overflow-x-auto pb-4">
-                    <div className="min-w-[800px] md:min-w-[1000px] border border-border rounded-2xl overflow-hidden bg-card/50 shadow-sm relative">
+                <div className="overflow-x-auto pb-4 -mx-4 px-4">
+                    <div className="min-w-[800px] md:min-w-[1000px] border border-border rounded-[32px] overflow-hidden bg-card/50 shadow-sm relative">
                         {/* Table Header */}
                         <div className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border border-b border-border bg-muted/30">
                             <div className="p-4 md:p-6 flex items-center justify-center font-medium text-foreground/80 sticky left-0 bg-background/95 backdrop-blur-sm z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]">
                                 Tiêu chí
                             </div>
-                            {methods.map((method, idx) => (
-                                <div key={method.id} className="p-4 md:p-6 flex flex-col items-center gap-3 md:gap-4 text-center relative group h-full justify-start min-w-[140px]">
+                            {methods.map((method: any, idx: number) => (
+                                <div key={method.id || idx} className="p-4 md:p-6 flex flex-col items-center gap-3 md:gap-4 text-center relative group h-full justify-start min-w-[140px]">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                         style={{ backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))` }} />
 
@@ -124,7 +134,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
                         {/* Table Body */}
                         <div className="divide-y divide-border">
-                            {rowConfig.map((row) => {
+                            {activeRowConfig?.map((row: any) => {
                                 return (
                                     <div key={row.key} className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border hover:bg-muted/5 transition-colors group/row">
                                         {/* Row Header - Sticky */}
@@ -136,9 +146,9 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                                         </div>
 
                                         {/* Cells */}
-                                        {methods.map((method, methodIdx) => {
+                                        {methods.map((method: any, methodIdx: number) => {
                                             const step = method.stepsDetail?.[row.key];
-                                            if (step?.status === 'skip') return <div key={`${method.id}-${row.key}`} className="p-3 md:p-4 bg-muted/5 min-w-[140px]" />;
+                                            if (step?.status === 'skip') return <div key={`${method.id || methodIdx}-${row.key}`} className="p-3 md:p-4 bg-muted/5 min-w-[140px]" />;
 
                                             return (
                                                 <div key={`${method.id}-${row.key}`} className={cn(
