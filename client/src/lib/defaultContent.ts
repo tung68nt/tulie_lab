@@ -11,6 +11,7 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
     {
         id: 'hero-1',
         type: 'hero',
+        tag: 'PLATFORM',
         title: 'Biến ý tưởng thành Web App thực tế - Không cần biết code',
         subtitle: 'Giải pháp Gói xây dựng App đa lĩnh vực, đa mục đích với các công cụ AI. Từ idea trên giấy đến sản phẩm hoàn chỉnh trong vài tuần.',
         ctaText: 'Khám phá Khoá học',
@@ -20,6 +21,7 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
     {
         id: 'vibe-pain',
         type: 'content-block',
+        tag: 'PROBLEMS',
         title: "Bạn có đang lãng phí thời gian và tiền bạc mỗi ngày?",
         subtitle: "Những rào cản khiến bạn dậm chân tại chỗ",
         items: [
@@ -43,6 +45,7 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
     {
         id: 'vibe-solution',
         type: 'content',
+        tag: 'SOLUTION',
         title: "Kỷ nguyên mới: Lập trình bằng Ngôn ngữ tự nhiên",
         subtitle: "Vibe Coding - Lối tắt cho người không chuyên",
         content: "**Vibe Coding** không bắt bạn học thuộc lòng cú pháp khô khan.\n\n* **Bạn là Kiến Trúc Sư:** Đưa ra ý tưởng, luồng đi (Flow), và yêu cầu.\n* **AI là Thợ Xây:** AI (Cursor, Claude, Replit) sẽ viết từng dòng code, sửa lỗi và hoàn thiện sản phẩm cho bạn.",
@@ -52,6 +55,7 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
     {
         id: 'testimonials-1',
         type: 'testimonials',
+        tag: 'RESULTS',
         title: 'Thành viên đã làm được gì?',
         subtitle: 'Kết quả thực tế từ những người như bạn'
     },
@@ -205,6 +209,7 @@ export const DEFAULT_VIBE_CODING_SECTIONS: Section[] = [
     {
         id: "vibe-values",
         type: "benefits",
+        tag: "CORE VALUES",
         title: "Giá trị cốt lõi",
         subtitle: "Không chỉ là code, đó là tư duy sản phẩm",
         items: [
@@ -241,6 +246,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-pain",
         type: "content-block",
+        tag: "PAIN POINTS",
         title: "Bạn có đang lãng phí thời gian và tiền bạc mỗi ngày?",
         subtitle: "Những rào cản khiến bạn dậm chân tại chỗ",
         items: [
@@ -266,6 +272,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-agitation",
         type: "benefits",
+        tag: "AGITATION",
         title: "Bài toán kinh tế: Không học thì mất gì?",
         subtitle: "Cái giá của sự chần chừ đắt hơn bạn nghĩ",
         items: [
@@ -279,6 +286,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-solution",
         type: "content",
+        tag: "SOLUTION",
         title: "Kỷ nguyên mới: Lập trình bằng Ngôn ngữ tự nhiên",
         subtitle: "Vibe Coding - Lối tắt cho người không chuyên",
         content: "**Vibe Coding** không bắt bạn học thuộc lòng cú pháp khô khan.\n\n* **Bạn là Kiến Trúc Sư:** Đưa ra ý tưởng, luồng đi (Flow), và yêu cầu.\n* **AI là Thợ Xây:** AI (Cursor, Claude, Replit) sẽ viết từng dòng code, sửa lỗi và hoàn thiện sản phẩm cho bạn.\n\nTôi dạy bạn tư duy dùng AI để tạo ra công cụ phục vụ chính công việc của bạn.",
@@ -290,6 +298,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-value",
         type: "benefits",
+        tag: "VALUES",
         title: "Giá trị vượt trội bạn nhận được",
         subtitle: "Khoản đầu tư có lãi suất ngay lập tức",
         items: [
@@ -303,6 +312,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-bonuses",
         type: "bonus",
+        tag: "BONUSES",
         title: "Quà tặng độc quyền (Trị giá 5.000.000đ)",
         subtitle: "Dành cho học viên đăng ký hôm nay",
         items: [
@@ -317,6 +327,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-faq",
         type: "faq",
+        tag: "FAQ",
         title: "Câu hỏi thường gặp",
         subtitle: "Giải đáp thắc mắc của bạn",
         items: [
@@ -468,6 +479,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "general-cta",
         type: "cta",
+        tag: "ACTION",
         title: "Sẵn sàng nâng tầm kỹ năng của bạn?",
         subtitle: "Khám phá ngay các khoá học và bộ công cụ giúp bạn bứt phá trong kỷ nguyên AI.",
         ctaText: "Xem tất cả Khoá học",

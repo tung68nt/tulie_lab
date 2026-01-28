@@ -48,13 +48,18 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
                 </div>
             )}
 
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.15] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2 px-4">
+            <h2 className={cn(
+                "text-4xl md:text-5xl font-bold mb-6 tracking-tight leading-[1.15] bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2",
+                align === 'center' ? 'px-4' : 'pr-4'
+            )}>
                 {title}
             </h2>
 
-            {/* Added px-4 to prevent text touching edges on mobile */}
             {subtitle && (
-                <p className={cn("text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl px-4", align === 'center' ? 'mx-auto' : '')}>
+                <p className={cn(
+                    "text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl",
+                    align === 'center' ? 'mx-auto px-4' : 'pr-4'
+                )}>
                     {subtitle}
                 </p>
             )}

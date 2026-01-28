@@ -38,6 +38,7 @@ const PAGES_TO_SEED = [
             {
                 id: 'pricing-plans',
                 type: 'pricing',
+                tag: 'PRICING',
                 title: 'Các gói phổ biến',
                 subtitle: 'Được nhiều thành viên lựa chọn',
                 order: 2,
@@ -108,6 +109,7 @@ const PAGES_TO_SEED = [
             {
                 id: 'pricing-faq',
                 type: 'faq',
+                tag: 'FAQ',
                 title: 'Câu hỏi thường gặp',
                 subtitle: 'Giải đáp thắc mắc về các gói thành viên',
                 order: 3,
@@ -194,6 +196,7 @@ const PAGES_TO_SEED = [
             {
                 id: 'sheets-benefits',
                 type: 'benefits',
+                tag: 'BENEFITS',
                 title: 'Tại sao chọn Google Sheets?',
                 subtitle: 'Công cụ linh hoạt nhất thế giới',
                 items: [
@@ -294,6 +297,7 @@ const PAGES_TO_SEED = [
             {
                 id: 'ai-benefits',
                 type: 'benefits',
+                tag: 'WHY AI?',
                 title: 'Sức mạnh của AI',
                 subtitle: 'Giải pháp cho kỷ nguyên số',
                 items: [
@@ -338,6 +342,7 @@ const PAGES_TO_SEED = [
             {
                 id: "vibe-pain",
                 type: "content-block",
+                tag: "PROBLEMS",
                 title: "Bạn có đang lãng phí thời gian và tiền bạc mỗi ngày?",
                 subtitle: "Những rào cản khiến bạn dậm chân tại chỗ",
                 items: [
@@ -363,6 +368,7 @@ const PAGES_TO_SEED = [
             {
                 id: "vibe-agitation",
                 type: "benefits",
+                tag: "IMPACT",
                 title: "Bài toán kinh tế: Không học thì mất gì?",
                 subtitle: "Cái giá của sự chần chừ đắt hơn bạn nghĩ",
                 items: [
@@ -376,6 +382,7 @@ const PAGES_TO_SEED = [
             {
                 id: "vibe-solution",
                 type: "content",
+                tag: "SOLUTION",
                 title: "Kỷ nguyên mới: Lập trình bằng Ngôn ngữ tự nhiên",
                 subtitle: "Vibe Coding - Lối tắt cho người không chuyên",
                 content: "**Vibe Coding** không bắt bạn học thuộc lòng cú pháp khô khan.\n\n* **Bạn là Kiến Trúc Sư:** Đưa ra ý tưởng, luồng đi (Flow), và yêu cầu.\n* **AI là Thợ Xây:** AI (Cursor, Claude, Replit) sẽ viết từng dòng code, sửa lỗi và hoàn thiện sản phẩm cho bạn.\n\nTôi dạy bạn tư duy dùng AI để tạo ra công cụ phục vụ chính công việc của bạn.",
@@ -424,6 +431,7 @@ const PAGES_TO_SEED = [
             {
                 id: "vibe-value",
                 type: "benefits",
+                tag: "VALUE",
                 title: "Giá trị vượt trội bạn nhận được",
                 subtitle: "Khoản đầu tư có lãi suất ngay lập tức",
                 items: [
@@ -437,6 +445,7 @@ const PAGES_TO_SEED = [
             {
                 id: "vibe-bonuses",
                 type: "bonus",
+                tag: "BONUSES",
                 title: "Quà tặng độc quyền (Trị giá 5.000.000đ)",
                 subtitle: "Dành cho học viên đăng ký hôm nay",
                 items: [
