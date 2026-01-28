@@ -713,7 +713,7 @@ export default function AdminDashboardPage() {
                                                             </div>
                                                         </Link>
                                                     ) : (
-                                                        <span className="text-[10px] text-muted-foreground italic">N/A</span>
+                                                        <span className="text-[10px] text-muted-foreground">N/A</span>
                                                     )}
                                                 </td>
                                             </tr>

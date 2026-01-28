@@ -272,7 +272,7 @@ export default function OrderPage({ params }: { params: any }) {
                             <p className="font-medium text-zinc-600 dark:text-zinc-400 text-[11px]">
                                 Đang chờ hệ thống xác nhận...
                             </p>
-                            <p className="text-[10px] text-zinc-400 italic">Tự động sau vài giây</p>
+                            <p className="text-[10px] text-zinc-400">Tự động sau vài giây</p>
                         </div>
                     </div>
 

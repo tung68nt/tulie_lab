@@ -93,7 +93,7 @@ export default function CombosListPage() {
                                                 <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
                                                     <TrendingUp className="w-4 h-4" />
                                                 </div>
-                                                <span className="text-xs font-bold text-primary uppercase tracking-widest">Gói Tiết kiệm</span>
+                                                <span className="text-xs font-bold text-primary uppercase tracking-widest">Combo Ưu đãi</span>
                                             </div>
                                             <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors leading-tight">
                                                 {combo.name}
@@ -119,7 +119,7 @@ export default function CombosListPage() {
                                                 <span className="text-xs text-muted-foreground line-through font-medium">
                                                     {combo.originalPrice?.toLocaleString()}₫
                                                 </span>
-                                                <span className="text-2xl font-black text-foreground">
+                                                <span className="text-2xl font-bold text-foreground">
                                                     {combo.salePrice?.toLocaleString()}₫
                                                 </span>
                                             </div>

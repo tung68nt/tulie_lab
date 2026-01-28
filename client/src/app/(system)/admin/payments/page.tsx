@@ -257,7 +257,7 @@ export default function AdminPaymentsPage() {
                                                             </div>
                                                         </Link>
                                                     ) : (
-                                                        <span className="text-[10px] text-muted-foreground italic">Không xác định</span>
+                                                        <span className="text-[10px] text-muted-foreground">Không xác định</span>
                                                     )}
                                                 </td>
                                             </tr>

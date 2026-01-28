@@ -194,22 +194,21 @@ export default function CoursePage({ params }: { params: any }) {
             {/* Hero Section */}
             <div className="bg-zinc-950 pt-24 md:pt-28 pb-16 text-white md:pb-24 relative overflow-hidden">
                 {/* Background pattern */}
-                <div className="absolute inset-0 bg-[radial-gradient(#fab005_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.1] pointer-events-none" />
+                <div className="absolute inset-0 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.08] pointer-events-none" />
 
                 {/* Corner Gradients */}
-                <div className="absolute -top-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute -top-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
-                <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-yellow-500/10 blur-[100px] rounded-full pointer-events-none" />
-
+                <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
+                <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
+                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
+                <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/5 blur-[100px] rounded-full pointer-events-none" />
                 <div className="container relative z-10">
                     <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
                             <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/50 px-3 py-1 text-sm font-medium text-zinc-400">
-                                <span className={`mr-2 h-2 w-2 rounded-full ${course.deploymentStatus === 'COMING_SOON' ? 'bg-white'
-                                    : course.deploymentStatus === 'UPDATING' ? 'bg-white'
-                                        : 'bg-white'
-                                    }`}></span>
+                                <span className={`mr-2 relative flex h-2 w-2`}>
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                </span>
                                 {course.deploymentStatus === 'COMING_SOON' ? 'Khóa học Sắp ra mắt'
                                     : course.deploymentStatus === 'UPDATING' ? 'Khóa học Đang nâng cấp'
                                         : 'Khóa học Chính thức'}

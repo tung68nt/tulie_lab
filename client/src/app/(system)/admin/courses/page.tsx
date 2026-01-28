@@ -102,7 +102,7 @@ export default function AdminCoursesPage() {
                                                         </Link>
                                                     ))
                                                 ) : (
-                                                    <span className="text-xs text-muted-foreground italic">Không có</span>
+                                                    <span className="text-xs text-muted-foreground">Không có</span>
                                                 )}
                                             </div>
                                         </td>
