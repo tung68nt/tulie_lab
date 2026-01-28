@@ -38,7 +38,7 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                 <StandardSectionHeader section={section} />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {section.items?.map((item, idx) => (
+                    {(section.items || []).map((item, idx) => (
                         <motion.div
                             key={idx}
                             {...selectedAnimation}

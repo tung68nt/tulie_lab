@@ -67,7 +67,7 @@ export interface Order {
 
 export interface Product {
     id: string;
-    name: string;
+    title: string;
     slug: string;
     price: number;
     [key: string]: unknown;

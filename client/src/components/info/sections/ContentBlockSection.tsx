@@ -14,10 +14,10 @@ export function ContentBlockSection({ section }: { section: Section }) {
             <div className="container px-4 mx-auto space-y-24 relative z-10">
                 <StandardSectionHeader section={section} />
 
-                {section.items.map((item, index) => {
+                {(section.items || []).map((item, index) => {
                     const isEven = index % 2 === 0;
                     return (
-                        <div key={index} className={cn("flex flex-col gap-12 items-center", isEven ? "lg:flex-row" : "lg:flex-row-reverse")}>
+                        <div key={item.id || index} className={cn("flex flex-col gap-12 items-center", isEven ? "lg:flex-row" : "lg:flex-row-reverse")}>
                             {/* Visual Side */}
                             <div className="w-full lg:w-1/2 relative">
                                 <div className={cn(

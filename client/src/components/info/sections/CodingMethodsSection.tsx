@@ -12,16 +12,25 @@ interface CodingMethodsSectionProps {
 export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => {
     // FORCE UPDATE: Prefer DEFAULT content for this specific section type as it's complex
     // If section from props has valid complex items, use it. Otherwise fallback to DEFAULT.
-    const hasComplexContent = section.items && section.items.length > 0 && section.items[0].stepsDetail;
+    // Fix: Robust data loading logic
+    // 1. If section has items with 'stepsDetail', use it (Complex content)
+    // 2. Else if default home section exists and has items, use that
+    // 3. Fallback to empty array to prevent crash
 
-    const targetSection = hasComplexContent
-        ? section
-        : DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods') || DEFAULT_LANDING_PAGE_SECTIONS.find(s => s.type === 'coding-methods');
+    // Check if current section has valid complex items
+    const hasValidItems = section.items && section.items.length > 0 && section.items[0].stepsDetail;
 
-    const defaultMethodsSection = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods');
+    // Get default items from constant
+    const defaultHomeSection = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods');
+    const defaultItems = defaultHomeSection?.items || [];
 
-    // Fallback rowConfig: Use section's config, or default config, or hardcoded basic config as last resort
-    const rowConfig = targetSection?.rowConfig || defaultMethodsSection?.rowConfig || [
+    // Decide which items to use
+    // If we have valid items in props, use them.
+    // If not, and we have default items, use them.
+    const methods = hasValidItems ? section.items : (defaultItems.length > 0 ? defaultItems : []);
+
+    // Config fallback
+    const config = section.rowConfig || defaultHomeSection?.rowConfig || [
         { key: "feasibility", label: "Khả thi", icon: "Check" },
         { key: "goal", label: "Mục tiêu", icon: "Target" },
         { key: "ai_usage", label: "Cách dùng AI", icon: "Bot" },
@@ -30,16 +39,17 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         { key: "output", label: "Sản phẩm đầu ra", icon: "Package" }
     ];
 
-    // Fallback logic specific for CodingMethods to ensures it always renders
-    const defaultMethods = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods')?.items || [];
-    const defaultRowConfig = DEFAULT_HOME_SECTIONS.find(s => s.type === 'coding-methods')?.rowConfig;
+    const activeRowConfig = config;
 
-    const methods = (hasComplexContent ? section.items : (defaultMethods.length > 0 ? defaultMethods : section.items)) || [];
-    const activeRowConfig = rowConfig || defaultRowConfig;
+    // Safety check: if no methods or empty items, we can either render fallback or nothing.
+    // However, above logic guarantees 'methods' is at least an empty array.
+    // Re-check valid array to satisfy TS if needed, though 'methods' is typed as any[] | SectionItem[] usually.
+    // Let's ensure it's iterable.
+    const safeMethods = Array.isArray(methods) ? methods : [];
 
-    // Safety check: if no methods, don't render empty table path
-    if (!methods || methods.length === 0) {
+    if (safeMethods.length === 0) {
         console.warn("CodingMethodsSection: No methods found to render.");
+        // Optional: Render a placeholder or return null
     }
 
     const renderDifficulty = (level: number, text: string) => {
@@ -110,7 +120,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                             <div className="p-4 md:p-6 flex items-center justify-center font-medium text-foreground/80 sticky left-0 bg-background/95 backdrop-blur-sm z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]">
                                 Tiêu chí
                             </div>
-                            {methods.map((method: any, idx: number) => (
+                            {safeMethods.map((method: any, idx: number) => (
                                 <div key={method.id || idx} className="p-4 md:p-6 flex flex-col items-center gap-3 md:gap-4 text-center relative group h-full justify-start min-w-[140px]">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                         style={{ backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))` }} />
@@ -146,7 +156,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                                         </div>
 
                                         {/* Cells */}
-                                        {methods.map((method: any, methodIdx: number) => {
+                                        {safeMethods.map((method: any, methodIdx: number) => {
                                             const step = method.stepsDetail?.[row.key];
                                             if (step?.status === 'skip') return <div key={`${method.id || methodIdx}-${row.key}`} className="p-3 md:p-4 bg-muted/5 min-w-[140px]" />;
 

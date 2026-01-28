@@ -404,7 +404,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                                 <option value="">-- Chọn sản phẩm --</option>
                                                 {products.map((product: any) => (
                                                     <option key={product.id} value={product.id}>
-                                                        {product.name} {product.price ? `(${Number(product.price).toLocaleString()}đ)` : ''}
+                                                        {product.title} {product.price ? `(${Number(product.price).toLocaleString()}đ)` : ''}
                                                     </option>
                                                 ))}
                                             </select>

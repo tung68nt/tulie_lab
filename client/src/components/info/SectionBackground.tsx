@@ -65,7 +65,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                         // If we have a background image, ensure dots are visible enough. 
                         // If valid theme is dark (light text), dots should probably be light? 
                         // Current dot pattern uses currentColor.
-                        backgroundTheme === 'dark' ? "text-white/20" : "text-neutral-500/20"
+                        backgroundTheme === 'dark' ? "text-white/30" : "text-neutral-600/30"
                     )}
                     withVignette={!backgroundImage} // Only use vignette if no image, or maybe always? keeping existing logic
                 />
