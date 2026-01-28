@@ -546,6 +546,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         <PlusCircle size={16} />
                                         <span>Thêm Section</span>
                                     </Button>
+                                    <Button
                                         type="button"
                                         size="sm"
                                         variant="default"
@@ -567,6 +568,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         <Trash2 size={16} />
                                         <span className="hidden sm:inline">Clear All</span>
                                     </Button>
+                                    <Button
                                         type="button"
                                         size="sm"
                                         variant="default"
@@ -721,28 +723,28 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                 </div>
             </form >
 
-        <SectionLibraryModal
-            isOpen={isLibraryOpen}
-            onClose={() => setIsLibraryOpen(false)}
-            onSelect={handleSelectTemplate}
-        />
-
-    {
-        editingSectionIndex !== null && (
-            <SectionEditorModal
-                isOpen={editingSectionIndex !== null}
-                section={sections[editingSectionIndex]}
-                onClose={() => setEditingSectionIndex(null)}
-                onSave={(updatedSection: Section) => {
-                    const newSections = [...sections];
-                    newSections[editingSectionIndex] = updatedSection;
-                    updateSections(newSections);
-                    setEditingSectionIndex(null);
-                    addToast('Đã cập nhật section', 'success');
-                }}
+            <SectionLibraryModal
+                isOpen={isLibraryOpen}
+                onClose={() => setIsLibraryOpen(false)}
+                onSelect={handleSelectTemplate}
             />
-        )
-    }
+
+            {
+                editingSectionIndex !== null && (
+                    <SectionEditorModal
+                        isOpen={editingSectionIndex !== null}
+                        section={sections[editingSectionIndex]}
+                        onClose={() => setEditingSectionIndex(null)}
+                        onSave={(updatedSection: Section) => {
+                            const newSections = [...sections];
+                            newSections[editingSectionIndex] = updatedSection;
+                            updateSections(newSections);
+                            setEditingSectionIndex(null);
+                            addToast('Đã cập nhật section', 'success');
+                        }}
+                    />
+                )
+            }
         </div >
     );
 }
