@@ -39,7 +39,7 @@ export default function NewBundlePage() {
 
     // Calculate values when course selection changes
     useEffect(() => {
-        const total = selectedCourses.reduce((sum, c) => sum + (c?.price || 0), 0);
+        const total = selectedCourses.reduce((sum, c) => sum + Number(c?.price || 0), 0);
         setFormData(prev => {
             const salePrice = Math.round(total * (1 - prev.discountPercent / 100));
             return {
@@ -235,13 +235,13 @@ export default function NewBundlePage() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <BookOpen className="w-5 h-5 text-primary" />
-                            Cấu trúc Learning Path (Theo thứ tự)
+                            Cấu trúc lộ trình học (theo thứ tự)
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         {/* Selected Courses with Ordering */}
                         <div className="space-y-3">
-                            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Thứ tự bài học/khóa học</h3>
+                            <h3 className="text-sm font-semibold text-muted-foreground tracking-wider">Thứ tự bài học/khóa học</h3>
                             {selectedCourses.length === 0 ? (
                                 <div className="border-2 border-dashed rounded-xl p-8 text-center bg-muted/20">
                                     <p className="text-muted-foreground">Chưa có khóa học nào trong lộ trình. Hãy chọn từ danh sách bên dưới.</p>
@@ -257,8 +257,8 @@ export default function NewBundlePage() {
                                                 {index + 1}
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <p className="font-semibold text-sm truncate">{course.title}</p>
-                                                <p className="text-xs text-muted-foreground">{course.price?.toLocaleString()}đ</p>
+                                                <p className="font-bold text-base truncate text-foreground">{course.title}</p>
+                                                <p className="text-sm font-medium text-primary">{(course.price || 0).toLocaleString('vi-VN')}đ</p>
                                             </div>
                                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Button
@@ -313,8 +313,8 @@ export default function NewBundlePage() {
                                             className="flex items-center justify-between p-3 rounded-lg border bg-background hover:bg-muted cursor-pointer transition-colors group"
                                         >
                                             <div className="flex-1">
-                                                <p className="font-medium text-sm">{course.title}</p>
-                                                <p className="text-xs text-muted-foreground">{course.price?.toLocaleString()}đ</p>
+                                                <p className="font-bold text-base text-foreground mb-0.5">{course.title}</p>
+                                                <p className="text-sm font-medium text-primary">{(course.price || 0).toLocaleString('vi-VN')}đ</p>
                                             </div>
                                             <Plus className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                                         </div>
