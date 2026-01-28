@@ -71,8 +71,8 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 </div>
             )}
 
-            {/* Optional Gradient Fade - Adjust based on theme? */}
-            {!hideGradients && (
+            {/* Optional Gradient Fade - Only show if NO background image and NOT explicitly hidden */}
+            {!hideGradients && !backgroundImage && (
                 <>
                     <div className={cn(
                         "absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t to-transparent",
