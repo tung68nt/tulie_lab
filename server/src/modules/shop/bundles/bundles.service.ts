@@ -94,14 +94,14 @@ export const createBundle = async (data: any) => {
                     ? courseIds.map((id: string, index: number) => ({
                         courseId: id,
                         position: index
-                    }))
+                    } as any))
                     : []
             }
         },
         include: {
             courses: {
                 include: { course: true },
-                orderBy: { position: 'asc' }
+                orderBy: { position: 'asc' } as any
             }
         }
     });
@@ -129,7 +129,7 @@ export const updateBundle = async (id: string, data: any) => {
                         bundleId: id,
                         courseId,
                         position: index
-                    }
+                    } as any
                 })
             )
         ]);
