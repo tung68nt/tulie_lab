@@ -6,9 +6,10 @@ import { Card } from '@/components/Card';
 import { Badge } from '@/components/Badge';
 import { Search, Grid, List as ListIcon, Layout, Copy, Eye } from 'lucide-react';
 import { Button } from '@/components/Button';
-import { toast } from 'sonner';
+import { useToast } from '@/contexts/ToastContext';
 
 export default function SectionGalleryPage() {
+    const { addToast } = useToast();
     const [searchQuery, setSearchQuery] = useState('');
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
@@ -18,11 +19,11 @@ export default function SectionGalleryPage() {
         template.data.type.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const categories = Array.from(new Set(SECTION_TEMPLATES.map(t => t.data.type)));
+    const categories = Array.from(new Set(SECTION_TEMPLATES.map(t => t.data.type))) as string[];
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
-        toast.success('Đã sao chép ID vào bộ nhớ tạm');
+        addToast('Đã sao chép ID vào bộ nhớ tạm', 'success');
     };
 
     return (
