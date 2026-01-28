@@ -1,36 +1,21 @@
+'use client';
 
 import { useSettings } from "@/contexts/SettingsContext";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 interface LogoProps {
     className?: string;
     showText?: boolean;
 }
 
-// Map hostnames to specific branding (Logo and Site Name)
-// This allows different domains to have unique identities while sharing the same app.
-const DOMAIN_BRANDING: Record<string, { logo: string; name: string }> = {
-    'thelab.tulie.vn': {
-        logo: '/images/logos/thelab.png',
-        name: 'The Tulie Lab'
-    },
-    'tulielab.academy': {
-        logo: '/images/logos/tulielab.png',
-        name: 'Tulie Academy'
-    },
-    'tungnguyen.academy': {
-        logo: '/images/logos/tungnguyen.png',
-        name: 'Tùng Nguyễn Academy'
-    }
-};
-
 export function Logo({ className = "", showText = true }: LogoProps) {
     const { settings } = useSettings();
     const { theme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const [hostname, setHostname] = useState<string>("");
+    const [imgError, setImgError] = useState(false);
 
     useEffect(() => {
         setMounted(true);
@@ -39,24 +24,54 @@ export function Logo({ className = "", showText = true }: LogoProps) {
         }
     }, []);
 
-    // Get branding based on domain, fallback to settings from CMS
-    const currentBranding = DOMAIN_BRANDING[hostname];
-    const siteLogo = currentBranding?.logo || settings.site_logo;
-    const siteName = currentBranding?.name || settings.site_name;
+    // Parse domain branding from settings
+    const domainBrandingList = useMemo(() => {
+        if (!settings.domain_branding) return [];
+        try {
+            return JSON.parse(settings.domain_branding);
+        } catch (e) {
+            console.error('Failed to parse domain branding settings', e);
+            return [];
+        }
+    }, [settings.domain_branding]);
+
+    // Find branding for current hostname
+    const currentBranding = useMemo(() => {
+        if (!hostname) return null;
+        return domainBrandingList.find((db: any) =>
+            db.domain?.toLowerCase() === hostname.toLowerCase()
+        );
+    }, [hostname, domainBrandingList]);
+
+    // Final logo and name logic with fallback
+    // If imgError is true, we force fallback to default settings even if currentBranding exists
+    const displayLogo = (!imgError && currentBranding?.logo_url) || settings.site_logo;
+    const displayName = currentBranding?.site_name || settings.site_name;
 
     const shouldShowText = showText && settings.show_site_name === 'true';
     const isDark = mounted && (theme === 'dark' || resolvedTheme === 'dark');
 
+    // Reset error state if hostname changes or settings change
+    useEffect(() => {
+        setImgError(false);
+    }, [hostname, settings.site_logo]);
+
     return (
         <Link href="/" className={`flex items-center gap-2.5 ${className}`}>
-            {siteLogo ? (
+            {displayLogo ? (
                 <div className="relative h-8 w-auto transition-transform hover:scale-105">
                     <img
-                        src={siteLogo}
+                        src={displayLogo}
                         alt="Logo"
                         width="150"
                         height="40"
                         className={`h-full w-auto object-contain ${isDark ? 'dark:brightness-0 dark:invert' : ''}`}
+                        onError={() => {
+                            // If the dynamic logo fails, set error to true to force fallback to default
+                            if (currentBranding?.logo_url && displayLogo === currentBranding.logo_url) {
+                                setImgError(true);
+                            }
+                        }}
                     />
                 </div>
             ) : (
@@ -66,14 +81,14 @@ export function Logo({ className = "", showText = true }: LogoProps) {
                         fill="currentColor"
                         viewBox="0 0 24 24"
                     >
-                        <path d="M7 2v2h1v14a4 4 0 0 0 4 4 4 4 0 0 0 4-4V4h1V2H7zm4 14c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm2-4c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm1-5H10V4h4v3z" />
+                        <path d="M7 2v2h1v14a4 4 0 0 0 4 4 4 4 0 0 0 4-4V4h1V2H7zm4 14c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm2-4c-.6.0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1zm1-5H10V4h4v3z" />
                     </svg>
                 </div>
             )}
 
             {shouldShowText && (
                 <span className="text-lg font-bold text-foreground tracking-tight">
-                    {siteName}
+                    {displayName}
                 </span>
             )}
         </Link>
