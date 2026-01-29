@@ -62,7 +62,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
     try {
         console.log(`[API] ${options.method || 'GET'} ${url}`);
-        const response = await fetch(url, { ...options, headers, credentials: 'include' });
+        const response = await fetch(url, { ...options, headers, credentials: 'include', cache: 'no-store' });
 
         if (!response.ok) {
             if (response.status === 401 && typeof window !== 'undefined') {
