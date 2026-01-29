@@ -37,7 +37,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                         <div
                             key={index}
                             className={cn(
-                                "group relative p-8 rounded-[32px] border bg-card flex flex-col h-full transition-all duration-300 hover:shadow-xl",
+                                "group relative p-8 rounded-[32px] border bg-card flex flex-col h-full transition-all duration-300 hover:shadow-xl overflow-hidden",
                                 item.tag === 'Best Value' ? "border-primary/50 ring-1 ring-primary/20 shadow-lg shadow-primary/5" : "border-border hover:border-primary/30"
                             )}
                         >
