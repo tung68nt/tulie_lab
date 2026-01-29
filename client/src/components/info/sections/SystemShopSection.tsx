@@ -308,10 +308,10 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             {product.field.toLowerCase()}
                                                         </span>
                                                     </div>
-                                                    <h3 className="text-lg font-semibold group-hover:text-primary transition-colors mb-2 line-clamp-2 leading-normal">
+                                                    <h3 className="text-lg font-semibold group-hover:text-primary transition-colors mb-2 line-clamp-2 leading-normal text-zinc-900 dark:text-zinc-50">
                                                         {product.title}
                                                     </h3>
-                                                    <p className="text-sm text-muted-foreground line-clamp-2 leading-normal">
+                                                    <p className="text-sm line-clamp-2 leading-normal text-zinc-600 dark:text-zinc-400">
                                                         {product.description}
                                                     </p>
                                                 </div>

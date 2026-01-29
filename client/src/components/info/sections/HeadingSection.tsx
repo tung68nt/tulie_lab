@@ -36,7 +36,7 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                     {section.title && (
                         <h2 className={cn(
                             "text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight",
-                            section.backgroundTheme === 'dark' ? "text-white" : "text-foreground"
+                            section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-zinc-900"
                         )}>
                             {section.title}
                         </h2>
@@ -45,7 +45,7 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                     {section.subtitle && (
                         <p className={cn(
                             "text-lg",
-                            section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
+                            section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-600"
                         )}>
                             {section.subtitle}
                         </p>

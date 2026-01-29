@@ -4,6 +4,7 @@ import { Section } from '@/types/sections';
 import { BookOpen, FileText, PlayCircle, Star, Zap, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { SectionBackground } from '../SectionBackground';
+import { SectionTag } from '@/components/SectionTag';
 import { cn } from '@/lib/utils';
 
 export const CurriculumSection = ({ section }: { section: Section }) => {
@@ -48,37 +49,45 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
                                     <div className="absolute top-4 left-4">
-                                        <div className="bg-black/80 backdrop-blur-md text-white text-[10px] font-bold px-4 py-1.5 rounded-lg border border-white/10 shadow-lg">
+                                        <SectionTag variant="dark">
                                             Module {index + 1}
-                                        </div>
+                                        </SectionTag>
                                     </div>
                                 </div>
 
                                 {/* Content - Right Side (60%) */}
                                 <div className="flex-1 space-y-8">
                                     <div>
-                                        <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors">
+                                        <h3 className={cn(
+                                            "text-2xl md:text-3xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors",
+                                            section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-zinc-900"
+                                        )}>
                                             {String(module.title || '')}
                                         </h3>
                                         <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-muted-foreground">
-                                            <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-primary/5 text-primary">
-                                                <div className="w-1 h-1 rounded-full bg-primary" />
+                                            <div className={cn(
+                                                "flex items-center gap-2 px-3 py-1 rounded-lg",
+                                                section.backgroundTheme === 'dark' ? "bg-zinc-800 text-zinc-400" : "bg-zinc-100 text-zinc-600"
+                                            )}>
+                                                <div className={cn("w-1 h-1 rounded-full", section.backgroundTheme === 'dark' ? "bg-zinc-500" : "bg-zinc-400")} />
                                                 <span className="not-italic tracking-wide">{module.lessons?.length || 0} bài học</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-500/5 text-blue-500">
-                                                <div className="w-1 h-1 rounded-full bg-blue-500" />
-                                                <span className="not-italic tracking-wide">Video & Tài liệu</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Clean Lesson List */}
+                                    {/* Clean Lesson List - Single Column */}
                                     {module.lessons && module.lessons.length > 0 && (
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4">
+                                        <div className="flex flex-col gap-4">
                                             {module.lessons.map((lesson: string, i: number) => (
-                                                <div key={i} className="flex items-start gap-3 group/lesson">
-                                                    <PlayCircle className="w-5 h-5 text-primary/40 group-hover/lesson:text-primary transition-colors mt-0.5 shrink-0" />
-                                                    <span className="text-[14px] font-medium text-foreground/80 group-hover/lesson:text-foreground transition-all leading-relaxed">
+                                                <div key={i} className="flex items-start gap-4 group/lesson">
+                                                    <PlayCircle className={cn(
+                                                        "w-5 h-5 transition-colors mt-0.5 shrink-0",
+                                                        section.backgroundTheme === 'dark' ? "text-zinc-700 group-hover/lesson:text-zinc-500" : "text-zinc-300 group-hover/lesson:text-zinc-400"
+                                                    )} />
+                                                    <span className={cn(
+                                                        "text-[14px] font-medium transition-all leading-relaxed",
+                                                        section.backgroundTheme === 'dark' ? "text-zinc-400 group-hover/lesson:text-zinc-200" : "text-zinc-600 group-hover/lesson:text-zinc-900"
+                                                    )}>
                                                         {lesson}
                                                     </span>
                                                 </div>

@@ -86,23 +86,35 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     <span className="text-[11px] font-bold text-primary tracking-wide">Combo ưu đãi đặc biệt</span>
                                                 </div>
 
-                                                <h3 className="text-xl md:text-2xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
+                                                <h3 className={cn(
+                                                    "text-xl md:text-2xl font-bold leading-tight group-hover:text-primary transition-colors",
+                                                    section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-zinc-900"
+                                                )}>
                                                     {combo.name}
                                                 </h3>
 
-                                                <p className="text-sm md:text-base text-muted-foreground line-clamp-2 leading-relaxed">
+                                                <p className={cn(
+                                                    "text-sm md:text-base line-clamp-2 leading-relaxed",
+                                                    section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-600"
+                                                )}>
                                                     {combo.description}
                                                 </p>
 
                                                 {/* Child Courses List */}
                                                 {combo.courses && combo.courses.length > 0 && (
                                                     <div className="pt-2">
-                                                        <span className="text-[11px] font-bold text-muted-foreground tracking-wider mb-4 block">Bao gồm {combo.courses.length} khóa học:</span>
+                                                        <span className={cn(
+                                                            "text-[11px] font-bold tracking-wider mb-4 block",
+                                                            section.backgroundTheme === 'dark' ? "text-zinc-500" : "text-muted-foreground"
+                                                        )}>Bao gồm {combo.courses.length} khóa học:</span>
                                                         <div className="flex flex-col gap-3">
                                                             {combo.courses.map((item, i) => (
-                                                                <div key={i} className="flex items-center gap-3 text-[15px] font-medium text-foreground/90 group/item">
+                                                                <div key={i} className="flex items-center gap-3 text-[15px] font-medium group/item">
                                                                     <div className="w-2 h-2 rounded-full bg-primary/40 group-hover/item:bg-primary transition-colors" />
-                                                                    <span className="truncate">{item.course?.title}</span>
+                                                                    <span className={cn(
+                                                                        "truncate",
+                                                                        section.backgroundTheme === 'dark' ? "text-zinc-200" : "text-zinc-900"
+                                                                    )}>{item.course?.title}</span>
                                                                 </div>
                                                             ))}
                                                         </div>

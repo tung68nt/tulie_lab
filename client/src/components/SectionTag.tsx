@@ -17,8 +17,8 @@ export const SectionTag: React.FC<SectionTagProps> = ({
         <div className={cn(
             "inline-flex h-9 items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold mb-6 shadow-xl backdrop-blur-md select-none transition-all duration-300",
             variant === 'dark'
-                ? "border-white/20 dark:border-white/30 bg-black/40 text-white"
-                : "border-black/10 bg-white/50 text-black",
+                ? "border-white/10 bg-black text-white"
+                : "border-black/5 bg-white text-zinc-950 shadow-sm",
             className
         )}>
             <StatusDot color={variant === 'dark' ? "white" : "black"} />

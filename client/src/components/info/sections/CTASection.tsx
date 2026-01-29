@@ -26,13 +26,13 @@ export const CTASection = ({ section }: { section: Section }) => {
             <div className="container text-center relative z-10 mx-auto px-4">
                 <h2 className={cn(
                     "text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight tracking-tight py-2",
-                    isDark ? "text-white" : "text-foreground"
+                    isDark ? "text-zinc-50" : "text-zinc-900"
                 )}>
                     {section.title}
                 </h2>
                 <p className={cn(
                     "text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed",
-                    isDark ? "text-zinc-400" : "text-muted-foreground"
+                    isDark ? "text-zinc-400" : "text-zinc-600"
                 )}>
                     {section.subtitle}
                 </p>
