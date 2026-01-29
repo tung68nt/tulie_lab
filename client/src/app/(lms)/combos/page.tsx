@@ -55,7 +55,7 @@ export default function CombosListPage() {
                     </p>
                 </div>
 
-                {/* Combos Grid */}
+                {/* Combos List (1 Column) */}
                 {combos.length === 0 ? (
                     <div className="text-center py-20 bg-card/30 border-2 border-dashed rounded-[3rem] w-full max-w-4xl mx-auto">
                         <BookOpen className="w-16 h-16 text-muted-foreground/30 mx-auto mb-6" />
@@ -66,68 +66,77 @@ export default function CombosListPage() {
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-12">
+                    <div className="flex flex-col gap-12">
                         {combos.map((combo) => (
-                            <div key={combo.id} className="group relative bg-card border rounded-[2.5rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col hover:-translate-y-2">
+                            <div key={combo.id} className="group relative bg-card border rounded-[3rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col md:flex-row hover:-translate-y-2 lg:min-h-[400px]">
                                 <Link href={`/combos/${combo.slug}`} className="absolute inset-0 z-10" />
 
-                                <div className="flex flex-col h-full">
-                                    {/* Image Side */}
-                                    <div className="w-full aspect-[16/10] relative overflow-hidden bg-zinc-100">
-                                        <img
-                                            src={combo.thumbnail || '/placeholder-combo.jpg'}
-                                            alt={combo.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                                        />
-                                        <div className="absolute top-4 left-4">
-                                            <Badge className="bg-white/90 backdrop-blur-md text-black border-none py-1.5 px-3 text-[10px] font-bold shadow-xl">
-                                                -{combo.discountPercent}% OFF
-                                            </Badge>
+                                {/* Image Side */}
+                                <div className="w-full md:w-2/5 relative overflow-hidden bg-zinc-100 min-h-[300px] md:min-h-full">
+                                    <img
+                                        src={combo.thumbnail || '/placeholder-combo.jpg'}
+                                        alt={combo.name}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                    />
+                                    <div className="absolute top-6 left-6">
+                                        <Badge className="bg-white/90 backdrop-blur-md text-black border-none py-2 px-4 text-xs font-bold shadow-xl rounded-xl">
+                                            -{combo.discountPercent}% OFF
+                                        </Badge>
+                                    </div>
+                                </div>
+
+                                {/* Content Side */}
+                                <div className="flex-1 p-8 md:p-12 lg:p-16 flex flex-col justify-between">
+                                    <div className="space-y-6">
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                                                <TrendingUp className="w-4 h-4" />
+                                            </div>
+                                            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Combo Ưu đãi</span>
+                                        </div>
+
+                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-primary transition-all leading-tight tracking-tight">
+                                            {combo.name}
+                                        </h3>
+
+                                        <p className="text-muted-foreground text-lg md:text-xl line-clamp-2 leading-relaxed font-medium opacity-80 max-w-2xl">
+                                            {combo.description}
+                                        </p>
+
+                                        <div className="flex flex-wrap items-center gap-6 text-sm font-bold text-zinc-500 pt-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-10 w-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                                                    <BookOpen className="w-5 h-5" />
+                                                </div>
+                                                <span>{combo.courses?.length || 0} Khóa học chuyên sâu</span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-10 w-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                                                    <Clock className="w-5 h-5" />
+                                                </div>
+                                                <span>Lộ trình học tập bài bản 1:1</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    {/* Content Side */}
-                                    <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-4">
-                                                <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
-                                                    <TrendingUp className="w-4 h-4" />
-                                                </div>
-                                                <span className="text-[10px] font-bold text-primary uppercase">Combo Ưu đãi</span>
-                                            </div>
-                                            <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-primary transition-all leading-tight tracking-tight">
-                                                {combo.name}
-                                            </h3>
-                                            <p className="text-muted-foreground text-base line-clamp-2 mb-8 leading-relaxed font-medium opacity-80">
-                                                {combo.description}
-                                            </p>
-
-                                            <div className="grid grid-cols-2 gap-4 mb-8">
-                                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50">
-                                                    <div className="h-8 w-8 rounded-xl bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-center shrink-0">
-                                                        <BookOpen className="w-4 h-4 text-zinc-500" />
-                                                    </div>
-                                                    <span className="text-[10px] font-semibold text-zinc-500 uppercase">{combo.courses?.length || 0} Khóa học</span>
-                                                </div>
-                                                <div className="flex items-center gap-3 p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50">
-                                                    <div className="h-8 w-8 rounded-xl bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-center shrink-0">
-                                                        <Clock className="w-4 h-4 text-zinc-500" />
-                                                    </div>
-                                                    <span className="text-[10px] font-semibold text-zinc-500 uppercase">Lộ trình 1:1</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-center justify-between pt-8 border-t border-dashed border-border/60">
+                                    <div className="flex items-center justify-between pt-12 mt-12 border-t border-dashed border-border/60">
+                                        <div className="flex items-end gap-6">
                                             <div className="flex flex-col">
-                                                <span className="text-sm text-muted-foreground line-through font-bold opacity-50">
+                                                <span className="text-sm text-muted-foreground line-through font-bold opacity-50 mb-1">
                                                     {combo.originalPrice?.toLocaleString()}₫
                                                 </span>
-                                                <span className="text-3xl font-bold text-foreground tracking-tighter">
+                                                <span className="text-4xl md:text-5xl font-bold text-foreground tracking-tighter">
                                                     {combo.salePrice?.toLocaleString()}₫
                                                 </span>
                                             </div>
-                                            <div className="h-14 w-14 rounded-2xl bg-zinc-900 group-hover:bg-primary text-white flex items-center justify-center transition-all duration-500 shadow-lg group-hover:shadow-primary/40 group-hover:scale-110">
+                                            <Badge variant="destructive" className="mb-2 bg-red-600 hover:bg-red-600 font-bold px-4 py-1.5">
+                                                TIẾT KIỆM {((combo.originalPrice - combo.salePrice) / 1000).toFixed(0)}K
+                                            </Badge>
+                                        </div>
+
+                                        <div className="flex items-center gap-4 group/btn">
+                                            <span className="hidden md:block text-base font-bold text-muted-foreground group-hover/btn:text-primary transition-colors">Xem chi tiết</span>
+                                            <div className="h-16 w-16 rounded-2xl bg-zinc-900 group-hover:bg-primary text-white flex items-center justify-center transition-all duration-500 shadow-xl group-hover:shadow-primary/40 group-hover:scale-110">
                                                 <ChevronRight className="w-8 h-8" />
                                             </div>
                                         </div>

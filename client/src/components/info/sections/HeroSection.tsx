@@ -23,6 +23,11 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
             maximumFractionDigits: 0,
         }).format(amount);
     };
+
+    const courseTitle = mainCourse?.title || mainCourse?.name || section.title;
+    const salePrice = mainCourse?.salePrice || mainCourse?.price || 0;
+    const originalPrice = mainCourse?.price || mainCourse?.originalPrice || 0;
+
     return (
         <section className="w-full pt-8 pb-4 md:pt-10 md:pb-8 lg:pt-16 lg:pb-16 bg-background relative transition-colors duration-300">
             <SectionBackground
@@ -122,7 +127,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     <div className="relative aspect-[16/10] overflow-hidden">
                                         <Image
                                             src={mainCourse.thumbnail || section.image || "/placeholder.jpg"}
-                                            alt={mainCourse.title}
+                                            alt={courseTitle}
                                             fill
                                             className="object-cover transition-transform duration-1000 group-hover:scale-110"
                                             priority
@@ -143,7 +148,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         <div className="flex justify-between items-start">
                                             <div className="space-y-1">
                                                 <h3 className="font-bold text-xl md:text-2xl leading-tight">
-                                                    {mainCourse.title}
+                                                    {courseTitle}
                                                 </h3>
                                                 <p className="text-muted-foreground text-sm line-clamp-1">
                                                     {mainCourse.description || "Lộ trình đào tạo thực chiến A-Z"}
@@ -162,13 +167,13 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                 <div>
                                                     <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-1">Học phí</p>
                                                     <div className="text-2xl md:text-3xl font-bold text-primary">
-                                                        {formatCurrency(mainCourse.salePrice || mainCourse.price || 0)}
+                                                        {formatCurrency(salePrice)}
                                                     </div>
                                                 </div>
-                                                {(mainCourse.salePrice && mainCourse.price > mainCourse.salePrice) && (
+                                                {(originalPrice > salePrice) && (
                                                     <div className="text-right">
                                                         <span className="text-sm text-zinc-500 line-through decoration-red-500/50">
-                                                            {formatCurrency(mainCourse.price)}
+                                                            {formatCurrency(originalPrice)}
                                                         </span>
                                                     </div>
                                                 )}
