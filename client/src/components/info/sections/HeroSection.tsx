@@ -2,15 +2,18 @@
 
 import { SectionTag } from '@/components/SectionTag';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
-import { Section } from '@/types/sections';
 import { SectionBackground } from '../SectionBackground';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { ShoppingBag, Star, Zap, BookOpen } from 'lucide-react';
+import { ShoppingBag, Star, Zap, BookOpen, Clock, CheckCircle2 } from 'lucide-react';
 
 export function HeroSection({ section, mainCourse }: { section: any; mainCourse?: any }) {
+    const router = useRouter();
+    const [activationType, setActivationType] = useState<'EMAIL' | 'CODE'>('EMAIL');
     const isCombo = mainCourse?.type === 'BUNDLE' || mainCourse?.isBundle;
 
     const formatCurrency = (amount: number) => {
@@ -146,7 +149,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                     {mainCourse.description || "Lộ trình đào tạo thực chiến A-Z"}
                                                 </p>
                                             </div>
-                                            {/* Rating - Static for now or from DB if available */}
+                                            {/* Rating */}
                                             <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg">
                                                 <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
                                                 <span className="text-xs font-bold">4.9</span>
@@ -154,37 +157,67 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         </div>
 
                                         {/* Price Section */}
-                                        <div className="pt-4 border-t border-dashed flex items-center justify-between">
-                                            <div className="space-y-0.5">
-                                                <p className="text-[10px] font-semibold text-muted-foreground uppercase">Học phí ưu đãi</p>
-                                                <div className="flex items-center gap-3">
-                                                    <span className="text-2xl md:text-3xl font-bold tracking-tight text-primary">
+                                        <div className="pt-4 border-t border-dashed space-y-4">
+                                            <div className="flex items-end justify-between">
+                                                <div>
+                                                    <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-1">Học phí</p>
+                                                    <div className="text-2xl md:text-3xl font-bold text-primary">
                                                         {formatCurrency(mainCourse.salePrice || mainCourse.price || 0)}
-                                                    </span>
-                                                    {(mainCourse.salePrice && mainCourse.price > mainCourse.salePrice) && (
-                                                        <span className="text-sm text-muted-foreground line-through decoration-red-500/50">
-                                                            {formatCurrency(mainCourse.price)}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <div className="hidden sm:block">
-                                                <div className="flex -space-x-2">
-                                                    {[1, 2, 3].map((i) => (
-                                                        <div key={i} className="h-8 w-8 rounded-full border-2 border-card bg-muted overflow-hidden">
-                                                            <Image src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="avatar" width={32} height={32} />
-                                                        </div>
-                                                    ))}
-                                                    <div className="h-8 w-8 rounded-full border-2 border-card bg-zinc-800 flex items-center justify-center text-[10px] font-semibold text-white leading-none">
-                                                        +2k
                                                     </div>
                                                 </div>
-                                                <p className="text-[9px] text-muted-foreground text-right mt-1 font-medium">Học viên đang học</p>
+                                                {(mainCourse.salePrice && mainCourse.price > mainCourse.salePrice) && (
+                                                    <div className="text-right">
+                                                        <span className="text-sm text-zinc-500 line-through decoration-red-500/50">
+                                                            {formatCurrency(mainCourse.price)}
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </div>
+
+                                            {/* Activation Type Selection */}
+                                            <div className="space-y-2 pt-2">
+                                                <p className="text-[10px] text-muted-foreground font-semibold uppercase">Hình thức kích hoạt:</p>
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <button
+                                                        onClick={() => setActivationType('EMAIL')}
+                                                        className={`text-[11px] px-3 py-2 rounded-xl border transition-all ${activationType === 'EMAIL'
+                                                            ? 'bg-zinc-900 text-white dark:bg-white dark:text-black border-zinc-900 dark:border-white font-bold'
+                                                            : 'bg-transparent text-muted-foreground border-zinc-200 dark:border-zinc-800 hover:border-zinc-400'
+                                                            }`}
+                                                    >
+                                                        Kích hoạt ngay (Email)
+                                                    </button>
+                                                    <button
+                                                        onClick={() => setActivationType('CODE')}
+                                                        className={`text-[11px] px-3 py-2 rounded-xl border transition-all ${activationType === 'CODE'
+                                                            ? 'bg-zinc-900 text-white dark:bg-white dark:text-black border-zinc-900 dark:border-white font-bold'
+                                                            : 'bg-transparent text-muted-foreground border-zinc-200 dark:border-zinc-800 hover:border-zinc-400'
+                                                            }`}
+                                                    >
+                                                        Mua mã kích hoạt
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            {/* Main Buy Button */}
+                                            <Button
+                                                size="lg"
+                                                className="w-full font-bold text-sm shadow-xl border-0 h-12 mt-2 transition-all hover:scale-[1.02] active:scale-[0.98] animate-pulse-slow bg-zinc-900 text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200"
+                                                onClick={() => {
+                                                    const url = isCombo
+                                                        ? `/checkout?bundleId=${mainCourse.id}&activationType=${activationType}`
+                                                        : `/checkout?courseId=${mainCourse.id}&activationType=${activationType}`;
+                                                    router.push(url);
+                                                }}
+                                            >
+                                                {activationType === 'CODE' ? 'Mua mã ngay' : 'Đăng ký ngay'}
+                                            </Button>
+
+                                            <p className="text-center text-[10px] text-muted-foreground font-medium">Hoàn tiền trong 30 ngày nếu không hài lòng</p>
                                         </div>
 
                                         {/* Quick Features */}
-                                        <div className="grid grid-cols-2 gap-3 pt-2">
+                                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-dashed">
                                             {[
                                                 { icon: Zap, label: "Truy cập trọn đời", color: "text-amber-500" },
                                                 { icon: BookOpen, label: isCombo ? "Hệ thống khoá học" : "Video bài giảng 4K", color: "text-blue-500" }
