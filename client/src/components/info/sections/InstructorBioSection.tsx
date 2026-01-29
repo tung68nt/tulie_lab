@@ -50,16 +50,16 @@ export function InstructorBioSection({ section }: { section: Section }) {
                     <div className="w-full lg:w-2/3 space-y-8">
                         {/* Instructor Identity (Name & Role) */}
                         <div className="space-y-2">
-                            {instructor.subtitle && (
-                                <h3 className="text-xl text-primary font-bold">{instructor.subtitle}</h3>
+                            {Boolean(instructor.subtitle) && (
+                                <h3 className="text-xl text-primary font-bold">{String(instructor.subtitle)}</h3>
                             )}
-                            {instructor.title && (
-                                <h2 className="text-3xl md:text-4xl font-bold">{instructor.title}</h2>
+                            {Boolean(instructor.title) && (
+                                <h2 className="text-3xl md:text-4xl font-bold">{String(instructor.title)}</h2>
                             )}
                         </div>
 
                         <div className="prose prose-lg dark:prose-invert max-w-none">
-                            <p className="lead">{instructor.description}</p>
+                            <p className="lead">{String(instructor.description || '')}</p>
                         </div>
 
                         {instructor.features && Array.isArray(instructor.features) && (

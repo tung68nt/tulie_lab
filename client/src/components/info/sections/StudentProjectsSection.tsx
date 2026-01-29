@@ -52,10 +52,10 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                                 <div className="flex flex-col flex-1 p-6 md:p-8 bg-gradient-to-b from-card to-secondary/10">
                                     <div className="mb-4">
                                         <h3 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-1">
-                                            {project.title}
+                                            {String(project.title || '')}
                                         </h3>
                                         <p className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                                            Bởi <span className="text-foreground font-semibold">{project.student || 'Thành viên Tulie'}</span>
+                                            Bởi <span className="text-foreground font-semibold">{String(project.student || 'Thành viên Tulie')}</span>
                                         </p>
                                     </div>
 
@@ -65,7 +65,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
 
                                     {/* Tech tags */}
                                     <div className="mt-auto pt-6 border-t border-border/50 flex flex-wrap gap-2">
-                                        {project.tech && project.tech.map((tech: string, i: number) => (
+                                        {Array.isArray(project.tech) && project.tech.map((tech: string, i: number) => (
                                             <span
                                                 key={i}
                                                 className="px-2.5 py-1 bg-background border border-border/50 rounded-md text-xs font-semibold text-muted-foreground group-hover:border-primary/30 group-hover:text-primary transition-colors"

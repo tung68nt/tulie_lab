@@ -61,12 +61,12 @@ export function ContentBlockSection({ section }: { section: Section }) {
                             {/* Text Side */}
                             <div className="w-full lg:w-1/2 space-y-6">
                                 <div className="space-y-2">
-                                    {item.subtitle && <span className="text-primary font-bold text-sm">{item.subtitle}</span>}
-                                    <h3 className="text-2xl md:text-4xl font-bold leading-tight">{item.title}</h3>
+                                    {Boolean(item.subtitle) && <span className="text-primary font-bold text-sm">{String(item.subtitle)}</span>}
+                                    <h3 className="text-2xl md:text-4xl font-bold leading-tight">{String(item.title || '')}</h3>
                                 </div>
 
                                 <div className="text-lg text-muted-foreground leading-relaxed">
-                                    {item.description}
+                                    {String(item.description || '')}
                                 </div>
 
                                 {item.features && Array.isArray(item.features) && (

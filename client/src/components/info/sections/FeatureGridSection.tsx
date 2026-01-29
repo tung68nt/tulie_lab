@@ -33,17 +33,17 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                                     <DynamicIcon name={item.icon} size={48} className="text-white opacity-40 group-hover:opacity-100 transition-opacity" />
                                 </div>
                             )}
-                            <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
-                            <p className="text-neutral-400 text-sm mb-1">{item.subtitle}</p>
-                            <p className="text-neutral-500 text-xs">{item.description}</p>
+                            <h3 className="text-2xl font-bold mb-2">{String(item.title || '')}</h3>
+                            <p className="text-neutral-400 text-sm mb-1">{String(item.subtitle || '')}</p>
+                            <p className="text-neutral-500 text-xs">{String(item.description || '')}</p>
                         </div>
                     ))}
                 </div>
 
                 {/* Optional Bottom Content */}
-                {section.content && (
+                {Boolean(section.content) && (
                     <div className="max-w-5xl mx-auto bg-neutral-900/80 backdrop-blur-md border border-neutral-800 rounded-2xl p-8 md:p-10 text-center text-neutral-300">
-                        {section.content}
+                        {String(section.content)}
                     </div>
                 )}
             </div>

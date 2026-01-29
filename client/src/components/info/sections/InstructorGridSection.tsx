@@ -52,12 +52,12 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
 
                             {/* Content */}
                             <div className="relative z-10">
-                                <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{item.title}</h3>
+                                <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{String(item.title || '')}</h3>
                                 <div className="inline-flex items-center px-4 py-1 rounded-full bg-muted text-muted-foreground text-[10px] font-bold mb-6 border border-border/50">
-                                    {item.subtitle}
+                                    {String(item.subtitle || '')}
                                 </div>
                                 <p className="text-muted-foreground leading-relaxed mb-8 text-sm md:text-base line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
-                                    {item.description}
+                                    {String(item.description || '')}
                                 </p>
 
                                 {/* Social Links */}
