@@ -127,34 +127,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                     </div>
                 )}
 
-                {/* Benefits Section - Moved from layout to part of the list section or can be a separate block template */}
-                <div className="mt-48 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {[
-                        {
-                            icon: <Sparkles className="w-6 h-6" />,
-                            title: "Tiết kiệm tối đa",
-                            description: "Sở hữu trọn bộ kiến thức với mức giá ưu đãi hơn 50% so với mua lẻ từng khóa học lẻ."
-                        },
-                        {
-                            icon: <BookOpen className="w-6 h-6" />,
-                            title: "Lộ trình bài bản",
-                            description: "Không còn mông lung, các khóa học được sắp xếp theo trình tự học tập tối ưu nhất hiện nay."
-                        },
-                        {
-                            icon: <Clock className="w-6 h-6" />,
-                            title: "Hỗ trợ 1:1",
-                            description: "Được ưu tiên hỗ trợ trực tiếp từ đội ngũ giảng viên và các chuyên gia tại Tulie Academy."
-                        }
-                    ].map((benefit, i) => (
-                        <div key={i} className="group p-10 rounded-[3rem] bg-zinc-50 dark:bg-zinc-900 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 transition-all duration-300">
-                            <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-8 border border-primary/5 group-hover:scale-110 transition-transform">
-                                {benefit.icon}
-                            </div>
-                            <h4 className="text-2xl font-bold mb-4">{benefit.title}</h4>
-                            <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">{benefit.description}</p>
-                        </div>
-                    ))}
-                </div>
+                {/* Benefits Section - Removed per user request */}
             </div>
         </section>
     );

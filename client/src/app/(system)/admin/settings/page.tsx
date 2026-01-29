@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
-import { api } from '@/lib/api';
+import { api, getMediaUrl } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
 import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check } from 'lucide-react';
 import { Switch } from '@/components/Switch';

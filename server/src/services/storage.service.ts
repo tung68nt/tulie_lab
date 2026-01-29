@@ -17,6 +17,11 @@ export class StorageService {
         this.bucket = process.env.R2_BUCKET_NAME || 'academy-tulie-storage';
         this.publicDomain = process.env.R2_PUBLIC_DOMAIN || '';
 
+        // Ensure we use the correct domain even if legacy one is provided in env
+        if (this.publicDomain.includes('pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev')) {
+            this.publicDomain = this.publicDomain.replace('pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev', 'pub-84306d90a5714d098ed77c04f4c85df2.r2.dev');
+        }
+
         if (!accountId || !accessKeyId || !secretAccessKey) {
             console.warn('⚠️ R2 Storage configuration missing. Uploads will fail safely.');
             // Initialize with dummy creds to prevent crash, but operations will fail later
