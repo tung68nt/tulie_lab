@@ -88,6 +88,10 @@ const config: Config = {
                     "25%": { transform: "translate(-10px, -10px)" },
                     "50%": { transform: "translate(0, -20px)" },
                     "75%": { transform: "translate(10px, -10px)" },
+                },
+                "pulse-slow": {
+                    "0%, 100%": { opacity: "0.4", transform: "scale(1)" },
+                    "50%": { opacity: "0.8", transform: "scale(1.05)" },
                 }
             },
             animation: {
@@ -95,6 +99,7 @@ const config: Config = {
                 "accordion-up": "accordion-up 0.2s ease-out",
                 "float": "float 10s ease-in-out infinite",
                 "float-delayed": "float-delayed 12s ease-in-out infinite",
+                "pulse-slow": "pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite",
             },
         },
     },

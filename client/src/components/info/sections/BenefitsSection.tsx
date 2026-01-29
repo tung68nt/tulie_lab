@@ -26,6 +26,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={section.backgroundTheme === 'dark'}
+                glowVariant={1}
             />
 
             <div className="container relative z-10">

@@ -10,6 +10,7 @@ interface SectionBackgroundProps {
     backgroundTheme?: 'light' | 'dark' | 'auto';
     overlayOpacity?: number;
     hideGradients?: boolean;
+    glowVariant?: number;
 }
 
 export const SectionBackground: React.FC<SectionBackgroundProps> = ({
@@ -19,20 +20,23 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     overlayClassName,
     backgroundTheme = 'auto',
     overlayOpacity,
-    hideGradients = false
+    hideGradients = false,
+    glowVariant
 }) => {
-    // Determine overlay base color based on theme
-    // If we have a dark image (theme='dark'), we usually want a dark overlay to ensure text contrast.
-    // If we have a light image (theme='light'), we might want a white overlay.
-    // Default to black/dark for generic 'auto' if image is present, or transparent.
-
-    // Actually, usually 'theme=dark' means "I want the content to be light because the background is dark".
-    // So the overlay should probably be dark to help the text pop? Or maybe just neutral.
-    // Let's stick to the current "dark overlay" default but allow it to be lighter if theme is light? 
-    // If theme is light, we expect dark text. Background might be a light image. Overlay should be white-ish to wash it out?
-
+    // ... rest of the component
     const isLightTheme = backgroundTheme === 'light';
     const isDarkTheme = backgroundTheme === 'dark';
+
+    // Glow configurations (position and very subtle colors)
+    const glows = [
+        { color: 'bg-primary/5', pos: 'top-[10%] left-[5%] w-[600px] h-[600px]' },
+        { color: 'bg-blue-500/5', pos: 'bottom-[10%] right-[5%] w-[500px] h-[500px]' },
+        { color: 'bg-purple-500/5', pos: 'top-[20%] right-[10%] w-[550px] h-[550px]' },
+        { color: 'bg-amber-500/5', pos: 'bottom-[20%] left-[10%] w-[450px] h-[450px]' },
+        { color: 'bg-emerald-500/5', pos: 'top-[40%] left-[20%] w-[500px] h-[500px]' },
+    ];
+
+    const activeGlow = glowVariant !== undefined ? glows[glowVariant % glows.length] : null;
 
     // Fix: Use explicit colors for overlay to ensure contrast regardless of system theme
     const overlayBase = isLightTheme ? 'bg-white/60' : isDarkTheme ? 'bg-black/60' : 'bg-background/60';
@@ -45,6 +49,15 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                     style={{ backgroundImage: `url(${backgroundImage})` }}
                 />
+            )}
+
+            {/* Subtle Background Glows for Light Mode */}
+            {!backgroundImage && isLightTheme && activeGlow && (
+                <div className={cn(
+                    "absolute rounded-full blur-[140px] opacity-60 z-[-1] animate-pulse-slow",
+                    activeGlow.color,
+                    activeGlow.pos
+                )} />
             )}
 
             {/* Backdrop Overlay for Image Readability */}
@@ -79,7 +92,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
             {/* Radial Gradient for Light Mode - Center white to Edges gray */}
             {!backgroundImage && isLightTheme && (
                 <div
-                    className="absolute inset-0 z-[-1]"
+                    className="absolute inset-0 z-[-2]"
                     style={{
                         background: 'radial-gradient(circle at center, white 20%, #f4f4f5 100%)'
                     }}

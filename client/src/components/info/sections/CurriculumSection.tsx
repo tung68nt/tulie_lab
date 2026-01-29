@@ -17,6 +17,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                glowVariant={2}
             />
 
             <div className="container px-4 mx-auto relative z-10">

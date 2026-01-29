@@ -28,6 +28,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={section.backgroundTheme === 'dark'}
+                glowVariant={0}
             />
             <div className="container mx-auto relative z-10">
                 <StandardSectionHeader section={section} align="center" />
