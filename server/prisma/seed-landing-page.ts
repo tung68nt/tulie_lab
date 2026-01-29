@@ -630,6 +630,113 @@ const PAGES_TO_SEED = [
                 "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
             }
         ]
+    },
+    {
+        title: "Khóa học (System)",
+        slug: "courses",
+        description: "Trang danh sách khóa học (Tự động).",
+        isActive: true,
+        type: "SYSTEM",
+        sections: [
+            {
+                id: "courses-hero",
+                type: "heading",
+                title: "Khóa học",
+                subtitle: "Kho tàng kiến thức thực chiến",
+                tag: "LEARNING",
+                showDotPattern: true,
+                backgroundTheme: "light"
+            },
+            {
+                id: "courses-list",
+                type: "system-courses"
+            }
+        ]
+    },
+    {
+        title: "Cửa hàng (System)",
+        slug: "shop",
+        description: "Trang cửa hàng sản phẩm số (Tự động).",
+        isActive: true,
+        type: "SYSTEM",
+        sections: [
+            {
+                id: "shop-hero",
+                type: "heading",
+                title: "Cửa hàng",
+                subtitle: "Công cụ & Tài nguyên Marketing",
+                tag: "SHOP",
+                showDotPattern: true,
+                backgroundTheme: "light"
+            },
+            {
+                id: "shop-list",
+                type: "system-shop"
+            }
+        ]
+    },
+    {
+        title: "Blog & Bài viết (System)",
+        slug: "blog",
+        description: "Trang danh sách bài viết (Tự động).",
+        isActive: true,
+        type: "SYSTEM",
+        sections: [
+            {
+                id: "blog-hero",
+                type: "heading",
+                title: "Bài viết",
+                subtitle: "Chia sẻ kiến thức & Kinh nghiệm",
+                tag: "BLOG",
+                showDotPattern: true,
+                backgroundTheme: "light"
+            },
+            {
+                id: "blog-list",
+                type: "system-blog"
+            }
+        ]
+    },
+    {
+        title: "Combo Lộ trình (System)",
+        slug: "combos",
+        description: "Trang danh sách combo khóa học (Tự động).",
+        isActive: true,
+        type: "SYSTEM",
+        sections: [
+            {
+                id: "combos-hero",
+                type: "heading",
+                title: "Lộ trình Combo",
+                subtitle: "Tiết kiệm hơn khi mua theo lộ trình",
+                tag: "COMBOS",
+                showDotPattern: true,
+                backgroundTheme: "light"
+            },
+            {
+                id: "combos-list",
+                type: "system-combos"
+            }
+        ]
+    },
+    {
+        title: "Giảng viên (System)",
+        slug: "instructors",
+        description: "Trang danh sách giảng viên (Tự động).",
+        isActive: true,
+        type: "SYSTEM",
+        sections: [
+            {
+                id: "instructors-main",
+                type: "system-instructors",
+                title: "Đội ngũ Giảng viên",
+                subtitle: "Những chuyên gia dày dạn kinh nghiệm thực chiến trong lĩnh vực Automation và Quản trị doanh nghiệp.",
+                tag: "GIẢNG VIÊN",
+                showDotPattern: true,
+                backgroundTheme: "light",
+                glowVariant: 5
+            }
+        ]
     }
 ];
 
