@@ -60,12 +60,12 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
     }
 
     return (
-        <div className="min-h-screen relative pt-24 pb-20 overflow-hidden">
+        <div className="min-h-screen relative pt-16 pb-20 overflow-hidden">
             <SectionBackground backgroundTheme="light" showDotPattern={true} />
 
             <div className="container max-w-5xl relative z-10">
                 <div className="mb-10 space-y-4 print:hidden">
-                    <div className="pt-8 pb-10 flex flex-col items-center justify-center text-center gap-6">
+                    <div className="pt-4 pb-10 flex flex-col items-center justify-center text-center gap-6">
                         <div className="space-y-4">
                             <SectionTag className="mb-0">
                                 {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chờ thanh toán'}

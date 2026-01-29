@@ -325,7 +325,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     </div>
                                     <div className="flex items-center gap-2"><FileText className="w-4 h-4" /> MST: {footerData?.taxId}</div>
                                     <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> {footerData?.email || 'support@tulielab.vn'}</div>
-                                    <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> Hotline: {footerData?.hotline || '0336.883.242'}</div>
+                                    <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> Hotline: {settings.contact_hotline || footerData?.hotline || '0336.883.242'}</div>
                                 </div>
                             </div>
                             <div className="text-left md:text-right print:text-right space-y-2 self-start md:pt-1">

@@ -23,6 +23,13 @@ interface Settings {
     pricing_vibe_coding_sale?: string;
     pricing_vibe_coding_original?: string;
     domain_branding?: string; // JSON stringified array of DomainBranding objects
+    // Contact Info
+    contact_hotline?: string;
+    contact_zalo?: string;
+    contact_email_public?: string;
+    contact_facebook?: string;
+    contact_youtube?: string;
+    contact_tiktok?: string;
 }
 
 export interface DomainBranding {
