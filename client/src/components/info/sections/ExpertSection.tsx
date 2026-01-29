@@ -3,7 +3,7 @@ import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 interface ExpertSectionProps {
     section: Section;
 }
@@ -25,8 +25,12 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
 
     return (
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
-            {/* Standard Dot Pattern Background */}
-            {section.showDotPattern !== false && <DotPatternBackground />}
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
 
             <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">

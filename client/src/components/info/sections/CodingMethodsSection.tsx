@@ -2,8 +2,8 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS } from '@/lib/defaultContent';
+import { SectionBackground } from '../SectionBackground';
 
 interface CodingMethodsSectionProps {
     section: Section;
@@ -106,9 +106,12 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
     return (
         <section className="py-24 bg-background text-foreground overflow-hidden relative">
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {section.showDotPattern !== false && <DotPatternBackground />}
-            </div>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
             <div className="container relative z-10">
                 <StandardSectionHeader section={section} align="center" />
 
