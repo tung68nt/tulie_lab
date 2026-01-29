@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Printer, Download, Mail, Globe, MapPin, FileText, Phone } from 'lucide-react';
+import { Printer, Download, Mail, Globe, MapPin, FileText, Phone, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
+import Link from 'next/link';
 import { useSettings } from '@/contexts/SettingsContext';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
@@ -203,8 +204,8 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
             const opt: any = {
                 margin: [10, 10, 10, 10],
-                filename: `Don-hang-${order.code}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
+                filename: `tulielab_order_${order.code.toLowerCase()}.pdf`,
+                image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: {
                     scale: 2,
                     useCORS: true,
@@ -249,7 +250,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
             // Trigger generation
             await html2pdf().set(opt).from(element).save();
 
-            addToast('Đã tải xuống hóa đơn PDF thành công', 'success');
+            addToast('Đã tải xuống đơn hàng PDF thành công', 'success');
         } catch (error: any) {
             console.error('PDF Download Error Detail:', error);
             addToast(`Không thể tạo file PDF: ${error.message || 'Lỗi xử lý màu sắc (oklch)'}`, 'error');
@@ -270,24 +271,33 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
     return (
         <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500 font-sans print:p-0 print:m-0 print:max-w-none">
             {/* Action Bar - Hidden during print */}
-            <div className="flex justify-end gap-3 print:hidden px-4 md:px-0 no-pdf">
-                <Button
-                    variant="outline"
-                    onClick={handleDownload}
-                    disabled={isDownloading}
-                    className="gap-2 min-w-[120px]"
-                >
-                    {isDownloading ? (
-                        <div className="w-4 h-4 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                        <Download className="w-4 h-4" />
-                    )}
-                    {isDownloading ? 'Đang tải...' : 'Tải PDF'}
-                </Button>
-                <Button onClick={handlePrint} className="gap-2 bg-zinc-950 text-white hover:bg-zinc-800">
-                    <Printer className="w-4 h-4" />
-                    In hóa đơn
-                </Button>
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 print:hidden px-4 md:px-0 no-pdf">
+                <Link href="/orders">
+                    <Button variant="outline" className="gap-2 border-zinc-200 group">
+                        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                        <span className="font-bold">Quay lại lịch sử</span>
+                    </Button>
+                </Link>
+
+                <div className="flex items-center gap-3">
+                    <Button
+                        variant="outline"
+                        onClick={handleDownload}
+                        disabled={isDownloading}
+                        className="gap-2 min-w-[120px]"
+                    >
+                        {isDownloading ? (
+                            <div className="w-4 h-4 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
+                        ) : (
+                            <Download className="w-4 h-4" />
+                        )}
+                        {isDownloading ? 'Đang tải...' : 'Tải PDF'}
+                    </Button>
+                    <Button onClick={handlePrint} className="gap-2 bg-zinc-950 text-white hover:bg-zinc-800">
+                        <Printer className="w-4 h-4" />
+                        In đơn hàng
+                    </Button>
+                </div>
             </div>
 
             {/* Invoice Container */}
@@ -382,7 +392,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     )}
                                     {order.metadata?.requireVAT && (
                                         <div className="flex justify-start md:justify-end gap-2">
-                                            <span className="text-zinc-600 shrink-0">Hóa đơn:</span>
+                                            <span className="text-zinc-600 shrink-0">Đơn hàng:</span>
                                             <span className="font-bold text-zinc-900 underline">Đã đăng ký VAT</span>
                                         </div>
                                     )}
@@ -438,7 +448,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                         <tr className="border-t border-zinc-100">
                                             <td colSpan={2} className="px-6 py-4 text-right">
                                                 <span className="text-xs text-zinc-600 mr-2">Số tiền viết bằng chữ:</span>
-                                                <span className="font-bold italic">{toVietnameseWords(totalPayment)}</span>
+                                                <span className="font-bold">{toVietnameseWords(totalPayment)}</span>
                                             </td>
                                         </tr>
                                     </tfoot>
@@ -483,7 +493,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
                         <div className="relative z-10 pt-8 border-t border-zinc-100 flex justify-between items-end opacity-50">
                             <div className="space-y-1">
-                                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Hệ sinh thái Tulie Lab</p>
+                                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Hệ sinh thái Tulie - tulie.vn</p>
                                 <p className="text-xs font-medium text-zinc-500">https://thelab.tulie.vn</p>
                             </div>
                             <div className="text-right">

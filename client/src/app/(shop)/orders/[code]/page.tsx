@@ -35,7 +35,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
         return (
             <div className="min-h-screen pt-24 pb-20 flex flex-col items-center justify-center">
                 <div className="w-12 h-12 border-4 border-zinc-950 border-t-transparent rounded-full animate-spin mb-4" />
-                <p className="text-zinc-500 font-medium">Đang tải hóa đơn...</p>
+                <p className="text-zinc-500 font-medium">Đang tải đơn hàng...</p>
             </div>
         );
     }
@@ -65,13 +65,6 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
 
             <div className="container max-w-5xl relative z-10">
                 <div className="mb-10 space-y-4 print:hidden">
-                    <Link href="/orders" className="inline-flex items-center gap-2 group">
-                        <div className="p-2 rounded-full border border-zinc-200 group-hover:bg-zinc-100 transition-colors">
-                            <ArrowLeft className="w-4 h-4" />
-                        </div>
-                        <span className="font-bold text-sm">Quay lại lịch sử</span>
-                    </Link>
-
                     <div className="pt-8 pb-10 flex flex-col items-center justify-center text-center gap-6">
                         <div className="space-y-4">
                             <SectionTag className="mb-0">
@@ -79,7 +72,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
                             </SectionTag>
                             <div className="flex flex-col items-center gap-2">
                                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
-                                    Chi tiết hóa đơn
+                                    Chi tiết đơn hàng
                                 </h1>
                             </div>
                             <p className="text-zinc-500 font-medium">
