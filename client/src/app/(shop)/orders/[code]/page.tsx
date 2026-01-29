@@ -7,6 +7,8 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { OrderInvoice } from '@/components/shop/OrderInvoice';
+import { SectionBackground } from '@/components/info/SectionBackground';
+import { SectionTag } from '@/components/SectionTag';
 
 export default function OrderDetailPage({ params }: { params: Promise<{ code: string }> }) {
     const { code } = use(params);
@@ -58,31 +60,36 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
     }
 
     return (
-        <div className="min-h-screen bg-zinc-50/50 dark:bg-zinc-950/50 pt-24 pb-20">
-            <div className="container max-w-5xl">
+        <div className="min-h-screen relative pt-24 pb-20 overflow-hidden">
+            <SectionBackground backgroundTheme="light" showDotPattern={true} />
+
+            <div className="container max-w-5xl relative z-10">
                 <div className="mb-10 space-y-4 print:hidden">
                     <Link href="/orders" className="inline-flex items-center gap-2 group">
-                        <div className="p-2 rounded-full border border-zinc-200 group-hover:bg-zinc-100 dark:border-zinc-800 dark:group-hover:bg-zinc-900 transition-colors">
+                        <div className="p-2 rounded-full border border-zinc-200 group-hover:bg-zinc-100 transition-colors">
                             <ArrowLeft className="w-4 h-4" />
                         </div>
                         <span className="font-bold text-sm">Quay lại lịch sử</span>
                     </Link>
 
-                    <div className="pt-6 border-b border-zinc-100 dark:border-zinc-800 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                        <div>
-                            <div className="flex items-center gap-3 mb-2">
-                                <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+                    <div className="pt-8 pb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div className="space-y-4">
+                            <SectionTag className="mb-0">
+                                Giao dịch
+                            </SectionTag>
+                            <div className="flex items-center gap-4">
+                                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">
                                     Chi tiết hóa đơn
                                 </h1>
-                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider ${order.status === 'PAID' || order.status === 'COMPLETED'
-                                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                                    : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400'
+                                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${order.status === 'PAID' || order.status === 'COMPLETED'
+                                    ? 'bg-zinc-900 text-white'
+                                    : 'bg-zinc-100 text-zinc-500'
                                     }`}>
                                     {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chờ thanh toán'}
                                 </span>
                             </div>
-                            <p className="text-zinc-500 dark:text-zinc-400 font-medium">
-                                Mã đơn hàng: <span className="text-zinc-900 dark:text-zinc-200 font-bold">{order.code}</span> • {new Date(order.createdAt).toLocaleDateString('vi-VN')}
+                            <p className="text-zinc-500 font-medium text-lg">
+                                Mã đơn hàng: <span className="text-zinc-950 font-bold">{order.code}</span> • {new Date(order.createdAt).toLocaleDateString('vi-VN')}
                             </p>
                         </div>
                     </div>
