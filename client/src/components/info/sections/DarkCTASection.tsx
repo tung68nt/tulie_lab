@@ -9,6 +9,8 @@ import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { Zap, CheckCircle2, ChevronRight } from 'lucide-react';
 import { SectionTag } from '@/components/SectionTag';
 
+import { SectionBackground } from '../SectionBackground';
+
 export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCourse?: any }) => {
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', {
@@ -18,12 +20,12 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
         }).format(amount);
     };
     return (
-        <section className="section-dark py-24 md:py-40 flex items-center justify-center relative overflow-hidden bg-[#050505]">
-            {/* Ambient Background Glows */}
-            <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[160px] -z-10 opacity-40 animate-pulse" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] -z-10 opacity-30" />
-            <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] opacity-[0.05] [background-size:32px_32px] -z-10" />
-            {/* 4 Corner Dot Patterns removed in favor of more modern ambient glows */}
+        <section className="section-dark py-24 md:py-40 flex items-center justify-center relative overflow-hidden bg-[#050505] text-white">
+            <SectionBackground
+                backgroundTheme="dark"
+                showDotPattern={true}
+                glowVariant={section.glowVariant ?? 0}
+            />
 
             <div className="container relative z-10 px-4 max-w-6xl mx-auto">
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
