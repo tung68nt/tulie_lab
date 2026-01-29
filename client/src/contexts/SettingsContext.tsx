@@ -28,8 +28,8 @@ interface Settings {
 export interface DomainBranding {
     id: string;
     domain: string;
-    logoUrl: string;
-    siteName: string;
+    logo_url: string;
+    site_name: string;
 }
 
 const defaultSettings: Settings = {

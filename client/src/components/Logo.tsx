@@ -38,9 +38,20 @@ export function Logo({ className = "", showText = true }: LogoProps) {
     // Find branding for current hostname
     const currentBranding = useMemo(() => {
         if (!hostname) return null;
-        return domainBrandingList.find((db: any) =>
-            db.domain?.toLowerCase() === hostname.toLowerCase()
-        );
+
+        // Normalize current hostname
+        const normalizedHost = hostname.toLowerCase().replace(/^www\./, '');
+
+        return domainBrandingList.find((db: any) => {
+            if (!db.domain) return false;
+
+            // Normalize configured domain: strip protocol, www, and trailing slashes
+            const normalizedConfigDomain = db.domain.toLowerCase()
+                .replace(/^(https?:\/\/)?(www\.)?/, '')
+                .replace(/\/$/, '');
+
+            return normalizedConfigDomain === normalizedHost;
+        });
     }, [hostname, domainBrandingList]);
 
     // Final logo and name logic with fallback

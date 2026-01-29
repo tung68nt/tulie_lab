@@ -333,6 +333,16 @@ export default function AdminSettingsPage() {
                                                             newDB[idx].domain = e.target.value;
                                                             setDomainBranding(newDB);
                                                         }}
+                                                        onBlur={(e) => {
+                                                            const normalized = e.target.value.toLowerCase()
+                                                                .replace(/^(https?:\/\/)?(www\.)?/, '')
+                                                                .replace(/\/$/, '');
+                                                            if (normalized !== e.target.value) {
+                                                                const newDB = [...domainBranding];
+                                                                newDB[idx].domain = normalized;
+                                                                setDomainBranding(newDB);
+                                                            }
+                                                        }}
                                                         placeholder="thelab.tulie.vn"
                                                         className="bg-background"
                                                     />
@@ -398,6 +408,22 @@ export default function AdminSettingsPage() {
                                                         {uploadingDomainLogo === idx ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                                                     </Button>
                                                 </div>
+
+                                                {db.logo_url && (
+                                                    <div className="mt-2 p-3 border rounded-lg bg-background/50 inline-flex items-center gap-3">
+                                                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">Preview</span>
+                                                        <div className="p-1.5 bg-white rounded border border-border/50">
+                                                            <img
+                                                                src={db.logo_url}
+                                                                alt="Logo preview"
+                                                                className="max-h-8 object-contain"
+                                                                onError={(e) => {
+                                                                    (e.target as HTMLImageElement).style.display = 'none';
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     ))}
