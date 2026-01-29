@@ -33,7 +33,8 @@ export class UserController {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 20;
             const search = req.query.search as string;
-            const result = await this.userService.getAllUsers(page, limit, search);
+            const filter = req.query.filter as string;
+            const result = await this.userService.getAllUsers(page, limit, search, filter);
             res.json(result);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

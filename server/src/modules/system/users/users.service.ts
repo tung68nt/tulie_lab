@@ -226,9 +226,14 @@ export class UserService {
         return updatedUser;
     }
 
-    async getAllUsers(pageIndex: number = 1, limit: number = 20, search?: string) {
+    async getAllUsers(pageIndex: number = 1, limit: number = 20, search?: string, filter?: string) {
         const skip = (pageIndex - 1) * limit;
-        const where: any = {};
+        const now = new Date();
+        const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+        const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+
+        let where: any = { role: 'USER' }; // Default to members only for the list unless search/filter specifies otherwise
+
         if (search) {
             where.OR = [
                 { email: { contains: search, mode: 'insensitive' } },
@@ -236,7 +241,34 @@ export class UserService {
             ];
         }
 
-        const [users, total, roleCounts] = await Promise.all([
+        // Apply segmentation filters
+        if (filter) {
+            switch (filter) {
+                case 'course':
+                    where.enrollments = { some: {} };
+                    break;
+                case 'template':
+                    where.orders = { some: { status: 'PAID', items: { some: { product: { type: 'TEMPLATE' } } } } };
+                    break;
+                case 'both':
+                    where.AND = [
+                        { enrollments: { some: {} } },
+                        { orders: { some: { status: 'PAID', items: { some: { product: { type: 'TEMPLATE' } } } } } }
+                    ];
+                    break;
+                case 'expiring_soon':
+                    where.subscriptions = { some: { status: 'ACTIVE', endDate: { lte: thirtyDaysFromNow, gte: now } } };
+                    break;
+                case 'inactive':
+                    where.activityLogs = { none: { action: 'login', createdAt: { gte: fourteenDaysAgo } } };
+                    break;
+                case 'admin':
+                    where.role = 'ADMIN';
+                    break;
+            }
+        }
+
+        const [users, total, stats] = await Promise.all([
             this.userRepository.findMany({
                 where,
                 select: {
@@ -252,6 +284,13 @@ export class UserService {
                             product: { select: { title: true } }
                         },
                         take: 1
+                    },
+                    enrollments: { select: { id: true }, take: 0 }, // Just to check count if needed, but we'll infer from list
+                    activityLogs: {
+                        where: { action: 'login' },
+                        orderBy: { createdAt: 'desc' },
+                        take: 1,
+                        select: { createdAt: true }
                     }
                 },
                 skip,
@@ -259,16 +298,36 @@ export class UserService {
                 orderBy: { createdAt: 'desc' }
             }),
             this.userRepository.count(where),
-            this.userRepository.groupByRole()
+            // Statistics for cards
+            Promise.all([
+                this.userRepository.count({ role: 'USER' }), // Total Members
+                this.userRepository.count({ role: 'USER', enrollments: { some: {} } }), // Bought Course
+                this.userRepository.count({ role: 'USER', orders: { some: { status: 'PAID', items: { some: { product: { type: 'TEMPLATE' } } } } } }), // Bought Template
+                this.userRepository.count({
+                    role: 'USER',
+                    AND: [
+                        { enrollments: { some: {} } },
+                        { orders: { some: { status: 'PAID', items: { some: { product: { type: 'TEMPLATE' } } } } } }
+                    ]
+                }), // Both
+                this.userRepository.count({ role: 'USER', subscriptions: { some: { status: 'ACTIVE', endDate: { lte: thirtyDaysFromNow, gte: now } } } }), // Expiring Soon
+                this.userRepository.count({ role: 'USER', activityLogs: { none: { action: 'login', createdAt: { gte: fourteenDaysAgo } } } }) // Inactive > 14 days
+            ])
         ]);
 
         return {
-            data: users,
+            data: users.map((u: any) => ({
+                ...u,
+                lastLoginAt: u.activityLogs?.[0]?.createdAt || null
+            })),
             pagination: { page: pageIndex, limit, total, totalPages: Math.ceil(total / limit) },
             stats: {
-                total,
-                admins: roleCounts.find(r => r.role === 'ADMIN')?._count?._all || 0,
-                users: roleCounts.find(r => r.role === 'USER')?._count?._all || 0
+                total: stats[0],
+                totalCourses: stats[1],
+                totalTemplates: stats[2],
+                totalBoth: stats[3],
+                totalExpiring: stats[4],
+                totalInactive: stats[5]
             }
         };
     }
