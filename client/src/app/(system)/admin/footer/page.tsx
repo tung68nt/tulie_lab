@@ -343,7 +343,7 @@ export default function AdminFooterPage() {
                         </div>
                         {footerData.certificationImage && (
                             <div className="pt-4">
-                                <p className="text-sm text-muted-foreground mb-2">Xem trước:</p>
+                                <p className="text-sm text-muted-foreground mb-2">Preview:</p>
                                 <a href={footerData.certificationLink} target="_blank" rel="noopener noreferrer" className="inline-block">
                                     <img
                                         src={footerData.certificationImage}

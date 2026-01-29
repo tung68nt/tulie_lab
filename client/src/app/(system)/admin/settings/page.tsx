@@ -213,7 +213,7 @@ export default function AdminSettingsPage() {
                                     Khuyến nghị PNG, kích thước 200x60px
                                 </p>
                                 {settings.site_logo && (
-                                    <div className="p-4 border rounded-lg">
+                                    <div className="p-4 border rounded-lg bg-muted/20">
                                         <p className="text-xs text-muted-foreground mb-2">Preview:</p>
                                         <img
                                             src={settings.site_logo}
@@ -277,7 +277,7 @@ export default function AdminSettingsPage() {
                                     Khuyến nghị ICO hoặc PNG, kích thước 32x32px
                                 </p>
                                 {settings.site_favicon && (
-                                    <div className="p-4 border rounded-lg inline-flex items-center gap-2">
+                                    <div className="p-4 border rounded-lg inline-flex items-center gap-2 bg-muted/20">
                                         <p className="text-xs text-muted-foreground">Preview:</p>
                                         <img
                                             src={settings.site_favicon}
@@ -297,7 +297,7 @@ export default function AdminSettingsPage() {
                             <div className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <h4 className="text-sm font-bold">Cấu hình Đa Tên miền</h4>
+                                        <label className="text-sm font-medium">Cấu hình Đa tên miền</label>
                                         <p className="text-xs text-muted-foreground">Tự động đổi Logo & Tên theo tên miền truy cập.</p>
                                     </div>
                                     <Button
@@ -411,7 +411,7 @@ export default function AdminSettingsPage() {
 
                                                 {db.logo_url && (
                                                     <div className="mt-2 p-3 border rounded-lg bg-background/50 inline-flex items-center gap-3">
-                                                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">Preview</span>
+                                                        <span className="text-[10px] text-muted-foreground tracking-tight">Preview:</span>
                                                         <div className="p-1.5 bg-white rounded border border-border/50">
                                                             <img
                                                                 src={db.logo_url}
@@ -493,7 +493,7 @@ export default function AdminSettingsPage() {
                             <hr className="my-4" />
 
                             <div className="space-y-4">
-                                <h4 className="text-sm font-bold">Cấu hình SePay (Đồng bộ giao dịch)</h4>
+                                <label className="text-sm font-medium">Cấu hình SePay (Đồng bộ giao dịch)</label>
                                 <div className="grid gap-4 md:grid-cols-2">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">SePay API Key</label>
