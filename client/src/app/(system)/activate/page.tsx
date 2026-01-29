@@ -72,7 +72,7 @@ export default function ActivatePage() {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
                     </span>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-900">Mở khoá nội dung</span>
+                    <span className="text-[11px] font-bold tracking-wider text-zinc-900">Mở khoá nội dung</span>
                 </div>
                 <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
                     Kích hoạt tài khoản

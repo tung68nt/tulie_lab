@@ -233,14 +233,14 @@ export default function BlogPage() {
                                                         />
                                                     ) : (
                                                         <div className="w-full h-full flex items-center justify-center bg-muted/50 text-muted-foreground/20">
-                                                            <div className="text-2xl font-bold italic tracking-tighter">The Lab</div>
+                                                            <div className="text-2xl font-bold tracking-tighter">The Lab</div>
                                                         </div>
                                                     )}
 
                                                     {/* Category Floating Badge */}
                                                     {post.category && (
                                                         <div className="absolute top-4 left-4">
-                                                            <span className="px-4 py-1.5 bg-background/90 backdrop-blur-xl text-[10px] font-bold tracking-wider rounded-lg shadow-sm border border-white/10 uppercase">
+                                                            <span className="px-4 py-1.5 bg-background/90 backdrop-blur-xl text-[10px] font-bold tracking-wider rounded-lg shadow-sm border border-white/10">
                                                                 {post.category.name}
                                                             </span>
                                                         </div>

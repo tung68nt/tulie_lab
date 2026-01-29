@@ -329,7 +329,7 @@ export default function AdminUserDetailPage() {
                                         <CardContent className="space-y-4">
                                             <div className="flex justify-between items-center py-2 border-b">
                                                 <span className="text-sm">Loại tài khoản</span>
-                                                <span className="px-2.5 py-0.5 bg-muted rounded text-xs font-medium uppercase">{user.role}</span>
+                                                <span className="px-2.5 py-0.5 bg-muted rounded text-xs font-medium">{user.role}</span>
                                             </div>
                                             <div className="flex justify-between items-center py-2 border-b">
                                                 <span className="text-sm font-medium">Trạng thái hội viên</span>
@@ -743,7 +743,7 @@ export default function AdminUserDetailPage() {
                                                         </div>
                                                     ))}
                                                     {notes.length === 0 && (
-                                                        <div className="text-center py-20 text-zinc-400 italic text-sm">Chưa có ghi chú nào.</div>
+                                                        <div className="text-center py-20 text-zinc-400 text-sm">Chưa có ghi chú nào.</div>
                                                     )}
                                                 </div>
                                             </div>
@@ -843,7 +843,7 @@ export default function AdminUserDetailPage() {
                                                     <div key={profile.id} className={`p-5 border rounded-2xl space-y-3 transition-all ${profile.isDefault ? 'border-zinc-900 bg-zinc-50' : 'border-zinc-100 hover:border-zinc-300'}`}>
                                                         <div className="flex justify-between items-start">
                                                             <h4 className="text-sm font-bold text-zinc-900">{profile.companyName}</h4>
-                                                            {profile.isDefault && <span className="bg-zinc-900 text-white text-xs px-2 py-0.5 rounded-full uppercase">Mặc định</span>}
+                                                            {profile.isDefault && <span className="bg-zinc-900 text-white text-xs px-2 py-0.5 rounded-full">Mặc định</span>}
                                                         </div>
                                                         <div className="space-y-1.5">
                                                             <div className="text-xs flex items-center justify-between">
@@ -864,7 +864,7 @@ export default function AdminUserDetailPage() {
                                                     </div>
                                                 ))}
                                                 {invoiceProfiles.length === 0 && !showInvoiceForm && (
-                                                    <div className="col-span-2 text-center py-20 bg-zinc-50 border border-dashed rounded-2xl text-zinc-400 italic text-sm">
+                                                    <div className="col-span-2 text-center py-20 bg-zinc-50 border border-dashed rounded-2xl text-zinc-400 text-sm">
                                                         Chưa có hồ sơ hóa đơn nào được lưu.
                                                     </div>
                                                 )}
@@ -968,7 +968,7 @@ export default function AdminUserDetailPage() {
                                                     </div>
                                                 ))}
                                                 {(!user.activities || user.activities.length === 0) && (
-                                                    <p className="text-center py-20 text-sm text-muted-foreground italic">Không có nhật ký hành vi được ghi nhận.</p>
+                                                    <p className="text-center py-20 text-sm text-muted-foreground">Không có nhật ký hành vi được ghi nhận.</p>
                                                 )}
                                             </div>
                                         </CardContent>

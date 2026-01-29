@@ -158,7 +158,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                                     alt={course.title}
                                                     className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                                                 />
-                                                <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                                                <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold tracking-wider">
                                                     Phần {index + 1}
                                                 </div>
                                             </div>
@@ -209,7 +209,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
                             <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
                                 <div className="flex-1 text-center lg:text-left">
-                                    <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-primary-foreground px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-[0.2em] mb-6 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
+                                    <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-primary-foreground px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-[0.2em] mb-6 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
                                         <Sparkles className="w-3.5 h-3.5 text-primary" />
                                         Ưu đãi có hạn
                                     </div>
@@ -224,7 +224,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                 <div className="w-full lg:w-fit shrink-0 bg-black/40 border border-zinc-800 p-8 rounded-3xl backdrop-blur-md">
                                     <div className="space-y-6">
                                         <div className="space-y-1">
-                                            <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Học phí trọn gói</p>
+                                            <p className="text-zinc-500 text-xs font-bold tracking-widest">Học phí trọn gói</p>
                                             <div className="flex items-end gap-3">
                                                 <span className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
                                                     {bundle.salePrice?.toLocaleString()}₫
@@ -247,7 +247,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                             <ChevronRight className="ml-2 w-5 h-5" />
                                         </Button>
 
-                                        <div className="flex items-center justify-center gap-5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest pt-2">
+                                        <div className="flex items-center justify-center gap-5 text-[10px] font-bold text-zinc-400 tracking-widest pt-2">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
                                                     <CheckCircle2 className="w-2.5 h-2.5 text-primary" />

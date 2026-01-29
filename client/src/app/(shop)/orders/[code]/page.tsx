@@ -74,9 +74,9 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
                                 <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
                                     Chi tiết hóa đơn
                                 </h1>
-                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${order.status === 'PAID' || order.status === 'COMPLETED'
-                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                                        : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400'
+                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider ${order.status === 'PAID' || order.status === 'COMPLETED'
+                                    ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                    : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400'
                                     }`}>
                                     {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chờ thanh toán'}
                                 </span>

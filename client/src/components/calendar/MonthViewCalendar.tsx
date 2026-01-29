@@ -85,7 +85,7 @@ export function MonthViewCalendar({ events }: MonthViewCalendarProps) {
             <div className="p-4 sm:p-6">
                 <div className="grid grid-cols-7 mb-4">
                     {['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'].map((day) => (
-                        <div key={day} className="text-center text-xs font-bold text-muted-foreground uppercase tracking-wider py-2">
+                        <div key={day} className="text-center text-xs font-bold text-muted-foreground tracking-wider py-2">
                             {day}
                         </div>
                     ))}

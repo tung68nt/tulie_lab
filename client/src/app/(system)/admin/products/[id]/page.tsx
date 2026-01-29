@@ -439,14 +439,14 @@ export default function ProductEditorPage() {
                                                                 <path d="M8 5v14l11-7z" />
                                                             </svg>
                                                         </div>
-                                                        <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase tracking-wider">
+                                                        <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider">
                                                             Video
                                                         </div>
                                                     </div>
                                                 ) : (
                                                     <>
                                                         <img src={item.url} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                                                        <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase tracking-wider">
+                                                        <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-bold text-white tracking-wider">
                                                             Image
                                                         </div>
                                                     </>

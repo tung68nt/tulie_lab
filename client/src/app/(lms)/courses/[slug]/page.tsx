@@ -211,7 +211,7 @@ export default function CoursePage({ params }: { params: any }) {
                 <div className="container relative z-10">
                     <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-primary-foreground px-4 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-[0.2em] mb-4 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
+                            <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-primary-foreground px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-[0.2em] mb-4 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
                                 <Sparkles className="w-3.5 h-3.5 text-primary" />
                                 {course.deploymentStatus === 'COMING_SOON' ? 'Sắp ra mắt'
                                     : course.deploymentStatus === 'UPDATING' ? 'Đang nâng cấp'

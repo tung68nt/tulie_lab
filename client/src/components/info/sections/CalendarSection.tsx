@@ -8,6 +8,8 @@ import { Calendar as CalendarIcon, List as ListIcon, ExternalLink } from 'lucide
 import { MonthViewCalendar } from '@/components/calendar/MonthViewCalendar';
 import { Button } from '@/components/Button';
 import { SectionBackground } from '../SectionBackground';
+import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '../StandardSectionHeader';
 
 interface Event {
     id: string;
@@ -67,68 +69,46 @@ export const CalendarSection = ({ section }: { section: Section }) => {
                 overlayOpacity={section.overlayOpacity}
             />
             <div className="container relative z-10 mx-auto px-4">
-                {(section.title || section.subtitle) && (
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-                        <div>
-                            {section.title && <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
-                            {section.subtitle && <p className="text-muted-foreground mt-2">{section.subtitle}</p>}
-                        </div>
+                <StandardSectionHeader
+                    section={{
+                        ...section,
+                        tag: section.tag || "Lịch sự kiện",
+                        title: section.title || "Lịch Sự Kiện",
+                        subtitle: section.subtitle || "Các buổi Livestream/Workshop sắp tới"
+                    }}
+                    align="left"
+                />
 
-                        <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
-                            <button
-                                onClick={() => setViewMode('month')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
-                                    ? 'bg-card text-primary shadow-sm'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                            >
-                                <CalendarIcon className="w-4 h-4" />
-                                Xem tháng
-                            </button>
-                            <button
-                                onClick={() => setViewMode('list')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
-                                    ? 'bg-card text-primary shadow-sm'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                            >
-                                <ListIcon className="w-4 h-4" />
-                                Danh sách
-                            </button>
-                        </div>
+                <div className="flex justify-end mb-8 -mt-20 relative z-20">
+                    <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
+                        <button
+                            onClick={() => setViewMode('month')}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
+                                ? 'bg-card text-primary shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground'
+                                }`}
+                        >
+                            <CalendarIcon className="w-4 h-4" />
+                            Xem tháng
+                        </button>
+                        <button
+                            onClick={() => setViewMode('list')}
+                            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
+                                ? 'bg-card text-primary shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground'
+                                }`}
+                        >
+                            <ListIcon className="w-4 h-4" />
+                            Danh sách
+                        </button>
                     </div>
-                )}
+                </div>
 
                 {/* If no title provided, still show toggle but simpler layout? 
                 Actually the toggle was part of the header area. 
                 Let's make sure the toggle is always visible.
             */}
-                {!section.title && !section.subtitle && (
-                    <div className="flex justify-end mb-8">
-                        <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
-                            <button
-                                onClick={() => setViewMode('month')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'month'
-                                    ? 'bg-card text-primary shadow-sm'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                            >
-                                <CalendarIcon className="w-4 h-4" />
-                                Xem tháng
-                            </button>
-                            <button
-                                onClick={() => setViewMode('list')}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${viewMode === 'list'
-                                    ? 'bg-card text-primary shadow-sm'
-                                    : 'text-muted-foreground hover:text-foreground'
-                                    }`}
-                            >
-                                <ListIcon className="w-4 h-4" />
-                                Danh sách
-                            </button>
-                        </div>
-                    </div>
-                )}
+
 
                 {loading ? (
                     <div className="text-center py-12">

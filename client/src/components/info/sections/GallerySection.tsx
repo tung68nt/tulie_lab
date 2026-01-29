@@ -58,19 +58,19 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                             />
 
                             {/* Overlay */}
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-white text-center">
+                            <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-6 text-white text-center">
                                 {item.videoUrl ? (
-                                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center mb-3">
-                                        <Play className="h-6 w-6 ml-1" />
+                                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center mb-4 shadow-lg">
+                                        <Play className="h-6 w-6 ml-1 text-white" />
                                     </div>
                                 ) : (
-                                    <Maximize2 className="h-8 w-8 mb-3 opacity-80" />
+                                    <Maximize2 className="h-10 w-10 mb-4 text-white/80" />
                                 )}
                                 {(item.title || item.description) && (
-                                    <>
-                                        <h4 className="font-bold text-lg">{item.title}</h4>
-                                        {item.description && <p className="text-sm opacity-90">{item.description}</p>}
-                                    </>
+                                    <div className="space-y-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                        <h4 className="font-bold text-xl text-white">{item.title}</h4>
+                                        {item.description && <p className="text-sm text-zinc-200 font-medium leading-relaxed line-clamp-2">{item.description}</p>}
+                                    </div>
                                 )}
                             </div>
                         </motion.div>

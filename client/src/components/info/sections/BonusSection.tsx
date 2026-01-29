@@ -50,7 +50,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 <div className="flex flex-col gap-8">
                     {/* Bonus Cards */}
                     {items.map((item, idx) => (
-                        <div key={idx} className="group relative overflow-hidden rounded-3xl bg-neutral-900/50 border border-white/10 hover:border-[#FF0000]/50 transition-all duration-500 hover:shadow-[10px_10px_50px_-10px_rgba(255,0,0,0.2)]">
+                        <div key={idx} className="group relative overflow-hidden rounded-3xl bg-neutral-900/80 backdrop-blur-md border border-white/20 hover:border-[#FF0000]/60 transition-all duration-500 hover:shadow-[10px_10px_50px_-10px_rgba(255,0,0,0.3)]">
                             {/* Header Stripe */}
                             <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 px-6 py-4 flex items-center border-b border-white/5">
                                 <span className="bg-[#FF0000] text-white text-[10px] font-bold px-3 py-1 rounded-lg mr-4 shadow-lg shadow-red-500/20 whitespace-nowrap">
@@ -81,7 +81,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 {/* Content Column */}
                                 <div className="flex-1 p-6 md:p-8 flex flex-col relative z-10">
                                     <div className="space-y-6 mb-8">
-                                        <p className="text-gray-300 text-lg leading-relaxed font-light">
+                                        <p className="text-white text-lg leading-relaxed font-normal">
                                             {item.description}
                                         </p>
 
@@ -90,7 +90,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                             <div className="bg-background/5 rounded-xl p-4 border border-white/5">
                                                 <ul className="space-y-3">
                                                     {(Array.isArray(item.features) ? item.features : (item.features as string).split('\n')).map((feature: string, i: number) => (
-                                                        <li key={i} className="flex items-start gap-3 text-sm md:text-base text-gray-200">
+                                                        <li key={i} className="flex items-start gap-3 text-sm md:text-base text-zinc-100 font-medium">
                                                             <div className="w-1.5 h-1.5 rounded-full bg-[#FF0000] mt-2 shrink-0 shadow-[0_0_8px_rgba(255,0,0,1)]" />
                                                             <span>{feature}</span>
                                                         </li>
@@ -103,7 +103,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                     {/* Price Tag Footer */}
                                     <div className="mt-auto flex items-end justify-end gap-3 pt-6 border-t border-white/10">
                                         <div className="text-right">
-                                            <div className="text-sm text-gray-500 line-through mb-0.5">Giá gốc: {parsePrice(item.originalPrice || item.price || 0).toLocaleString('vi-VN')}đ</div>
+                                            <div className="text-sm text-zinc-400 line-through mb-0.5 font-medium">Giá gốc: {parsePrice(item.originalPrice || item.price || 0).toLocaleString('vi-VN')}đ</div>
                                             <div className="text-2xl font-bold text-[#FF0000] drop-shadow-sm">
                                                 Miễn phí <span className="text-sm text-gray-400 font-normal ml-1">(Khi mua Combo)</span>
                                             </div>
@@ -123,7 +123,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                     <div className="relative bg-neutral-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 text-center shadow-2xl overflow-hidden ring-1 ring-white/5">
 
                         <div className="relative z-10 flex flex-col items-center">
-                            <h3 className="text-xs md:text-sm font-semibold text-neutral-200 mb-3">
+                            <h3 className="text-sm md:text-base font-bold text-zinc-100 mb-3 uppercase tracking-wider">
                                 Tổng trị giá quà tặng
                             </h3>
 
@@ -142,10 +142,10 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 )}
 
                                 <div className="flex items-start justify-center gap-1 relative px-4 py-2 -my-2 pb-4">
-                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-100 to-white/70 drop-shadow-2xl select-none py-4 pr-2">
+                                    <span className="text-8xl md:text-[9rem] leading-none font-black text-white drop-shadow-[0_10px_30px_rgba(255,255,255,0.2)] select-none py-4 pr-2">
                                         0
                                     </span>
-                                    <span className="text-4xl md:text-5xl font-medium text-neutral-200 mt-6 md:mt-8">đ</span>
+                                    <span className="text-4xl md:text-5xl font-bold text-white mt-6 md:mt-8">đ</span>
                                 </div>
                             </div>
 

@@ -325,11 +325,11 @@ function CheckoutContent() {
                                         <h3 className="text-xl font-bold mb-2">{item?.title || 'Đang tải...'}</h3>
                                         <div className="flex items-center gap-2 mb-3">
                                             {itemType === 'BUNDLE' ? (
-                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold tracking-wider uppercase">
+                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold tracking-wider">
                                                     Combo / Learning Path
                                                 </Badge>
                                             ) : (
-                                                <Badge variant="outline" className="text-[10px] font-bold tracking-wider uppercase opacity-60">
+                                                <Badge variant="outline" className="text-[10px] font-bold tracking-wider opacity-60">
                                                     {itemType === 'COURSE' ? 'Khóa học lẻ' : 'Sản phẩm'}
                                                 </Badge>
                                             )}
@@ -443,7 +443,7 @@ function CheckoutContent() {
                                     <CardContent className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
                                         {invoiceProfiles.length > 0 && (
                                             <div className="space-y-2">
-                                                <label className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Chọn hồ sơ đã lưu</label>
+                                                <label className="text-[10px] font-bold text-zinc-400 tracking-wider">Chọn hồ sơ đã lưu</label>
                                                 <select
                                                     className="w-full text-sm border rounded-lg px-3 h-10 bg-white"
                                                     value={selectedInvoiceProfile}
@@ -461,7 +461,7 @@ function CheckoutContent() {
                                         {(invoiceProfiles.length === 0 || selectedInvoiceProfile === 'new') && (
                                             <div className="grid gap-4 md:grid-cols-2 p-4 bg-white border rounded-xl shadow-sm">
                                                 <div className="space-y-1.5 md:col-span-2">
-                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Tên công ty / Đơn vị</label>
+                                                    <label className="text-[10px] font-bold text-zinc-400">Tên công ty / Đơn vị</label>
                                                     <Input
                                                         placeholder="Công ty TNHH Giải pháp..."
                                                         value={newInvoiceInfo.companyName}
@@ -469,7 +469,7 @@ function CheckoutContent() {
                                                     />
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Mã số thuế</label>
+                                                    <label className="text-[10px] font-bold text-zinc-400">Mã số thuế</label>
                                                     <Input
                                                         placeholder="0101234567"
                                                         value={newInvoiceInfo.taxCode}
@@ -477,7 +477,7 @@ function CheckoutContent() {
                                                     />
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Email nhận HĐ</label>
+                                                    <label className="text-[10px] font-bold text-zinc-400">Email nhận HĐ</label>
                                                     <Input
                                                         placeholder="finance@company.com"
                                                         value={newInvoiceInfo.email}
@@ -485,7 +485,7 @@ function CheckoutContent() {
                                                     />
                                                 </div>
                                                 <div className="space-y-1.5 md:col-span-2">
-                                                    <label className="text-[10px] font-bold text-zinc-400 uppercase">Địa chỉ trụ sở</label>
+                                                    <label className="text-[10px] font-bold text-zinc-400">Địa chỉ trụ sở</label>
                                                     <Input
                                                         placeholder="Số 123, Đường ABC, Quận XYZ..."
                                                         value={newInvoiceInfo.address}

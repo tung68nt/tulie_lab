@@ -46,7 +46,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                 </div>
                             </div>
                             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-foreground text-background text-xs font-bold px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap border border-background">
-                                EXPERT INSTRUCTOR
+                                Expert Instructor
                             </div>
                         </div>
 
@@ -70,7 +70,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                     </div>
                                     <div className="text-left">
                                         <div className="font-bold text-xl leading-none">{instructor.courseCount}</div>
-                                        <div className="text-xs text-muted-foreground font-bold uppercase tracking-wider mt-1">Khóa học</div>
+                                        <div className="text-xs text-muted-foreground font-bold tracking-wider mt-1">Khóa học</div>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-secondary/50 border border-border/50">
@@ -81,7 +81,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                         <div className="font-bold text-xl leading-none">
                                             {(instructor.studentCount || 0) > 0 ? `${instructor.studentCount}+` : 0}
                                         </div>
-                                        <div className="text-xs text-muted-foreground font-bold uppercase tracking-wider mt-1">Học viên</div>
+                                        <div className="text-xs text-muted-foreground font-bold tracking-wider mt-1">Học viên</div>
                                     </div>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                             <div className="pt-4 mt-auto border-t border-border/50 flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
                                                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                                                    <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Đang tuyển sinh</span>
+                                                    <span className="text-xs font-bold text-muted-foreground tracking-wider">Đang tuyển sinh</span>
                                                 </div>
                                                 <span className="font-black text-lg">
                                                     {course.price === 0

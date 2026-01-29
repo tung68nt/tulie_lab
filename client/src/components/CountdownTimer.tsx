@@ -50,26 +50,26 @@ export function CountdownTimer({ targetDate, title = "Ưu đãi kết thúc sau:
 
     return (
         <div className="flex flex-col items-center p-4 bg-primary/10 rounded-xl border border-primary/20 animate-pulse-slow">
-            {title && <p className="text-sm font-semibold text-primary mb-2 uppercase tracking-wider">{title}</p>}
+            {title && <p className="text-sm font-semibold text-primary mb-2 tracking-wider">{title}</p>}
             <div className="flex items-center gap-3 text-foreground">
                 <div className="flex flex-col items-center">
                     <span className="text-2xl md:text-3xl font-bold bg-background px-2 py-1 rounded shadow-sm min-w-[2ch]">{String(timeLeft.days).padStart(2, '0')}</span>
-                    <span className="text-[10px] text-muted-foreground mt-1">NGÀY</span>
+                    <span className="text-[10px] text-muted-foreground mt-1 text-center">Ngày</span>
                 </div>
                 <span className="text-xl font-bold -mt-4">:</span>
                 <div className="flex flex-col items-center">
                     <span className="text-2xl md:text-3xl font-bold bg-background px-2 py-1 rounded shadow-sm min-w-[2ch]">{String(timeLeft.hours).padStart(2, '0')}</span>
-                    <span className="text-[10px] text-muted-foreground mt-1">GIỜ</span>
+                    <span className="text-[10px] text-muted-foreground mt-1 text-center">Giờ</span>
                 </div>
                 <span className="text-xl font-bold -mt-4">:</span>
                 <div className="flex flex-col items-center">
                     <span className="text-2xl md:text-3xl font-bold bg-background px-2 py-1 rounded shadow-sm min-w-[2ch]">{String(timeLeft.minutes).padStart(2, '0')}</span>
-                    <span className="text-[10px] text-muted-foreground mt-1">PHÚT</span>
+                    <span className="text-[10px] text-muted-foreground mt-1 text-center">Phút</span>
                 </div>
                 <span className="text-xl font-bold -mt-4">:</span>
                 <div className="flex flex-col items-center">
                     <span className="text-2xl md:text-3xl font-bold bg-background px-2 py-1 rounded shadow-sm min-w-[2ch]">{String(timeLeft.seconds).padStart(2, '0')}</span>
-                    <span className="text-[10px] text-muted-foreground mt-1">GIÂY</span>
+                    <span className="text-[10px] text-muted-foreground mt-1 text-center">Giây</span>
                 </div>
             </div>
         </div>

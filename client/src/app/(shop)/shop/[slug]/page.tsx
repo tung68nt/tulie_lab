@@ -261,7 +261,7 @@ export default function ProductDetailPage() {
                                 <div className="space-y-8">
                                     {/* Row 1: Single Purchase - Retail Block */}
                                     <div className="group relative p-6 rounded-3xl border border-zinc-200 bg-white flex flex-col transition-all duration-300 hover:border-zinc-900 hover:shadow-lg w-full">
-                                        <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-bold uppercase tracking-wider whitespace-nowrap shadow-sm">
+                                        <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-bold tracking-wider whitespace-nowrap shadow-sm">
                                             Mua lẻ (Single)
                                         </div>
                                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-4">
@@ -317,14 +317,14 @@ export default function ProductDetailPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {/* Membership - Gói Cơ Bản */}
                                         <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-300 hover:bg-white hover:shadow-md">
-                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-white text-zinc-400 text-[9px] font-bold uppercase tracking-wider border border-zinc-100 whitespace-nowrap shadow-sm">
+                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-white text-zinc-400 text-[9px] font-bold tracking-wider border border-zinc-100 whitespace-nowrap shadow-sm">
                                                 Phổ biến
                                             </div>
                                             <div className="mb-6 mt-4">
                                                 <h3 className="text-lg font-bold mb-1 text-zinc-900">{MEMBERSHIP_PRICING.BASIC.title}</h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
                                                     <span className="text-2xl font-bold text-zinc-900">{settings.pricing_membership_basic_sale || MEMBERSHIP_PRICING.BASIC.priceDisplay}</span>
-                                                    <span className="text-[10px] text-zinc-400 font-medium uppercase">{MEMBERSHIP_PRICING.BASIC.period}</span>
+                                                    <span className="text-[10px] text-zinc-400 font-medium">{MEMBERSHIP_PRICING.BASIC.period}</span>
                                                 </div>
                                                 <div className="space-y-2 mt-4">
                                                     <div className="flex items-center gap-2 text-[11px] text-zinc-500 font-medium">
@@ -351,7 +351,7 @@ export default function ProductDetailPage() {
 
                                         {/* Membership - Gói Premium */}
                                         <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-900 hover:bg-white hover:shadow-md">
-                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-950 text-white text-[9px] font-bold uppercase tracking-wider shadow-lg whitespace-nowrap">
+                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-950 text-white text-[9px] font-bold tracking-wider shadow-lg whitespace-nowrap">
                                                 Best Value
                                             </div>
                                             <div className="mb-6 mt-4">
@@ -360,7 +360,7 @@ export default function ProductDetailPage() {
                                                 </h3>
                                                 <div className="flex items-baseline gap-1 mb-2">
                                                     <span className="text-2xl font-bold text-zinc-900">{settings.pricing_membership_premium_sale || MEMBERSHIP_PRICING.PREMIUM.priceDisplay}</span>
-                                                    <span className="text-[10px] text-zinc-400 font-medium uppercase">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
+                                                    <span className="text-[10px] text-zinc-400 font-medium">{MEMBERSHIP_PRICING.PREMIUM.period}</span>
                                                 </div>
                                                 <div className="space-y-2 mt-4">
                                                     <div className="flex items-center gap-2 text-[11px] text-zinc-900 font-bold">
@@ -480,7 +480,7 @@ export default function ProductDetailPage() {
                                                         className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                                                     />
                                                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        <span className="bg-white/90 text-black text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide">
+                                                        <span className="bg-white/90 text-black text-xs font-bold px-3 py-1.5 rounded-full tracking-wide">
                                                             Xem khóa học
                                                         </span>
                                                     </div>

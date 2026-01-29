@@ -172,7 +172,7 @@ export default function AdminProductClassificationsPage() {
                             <CardContent className="pt-6">
                                 <form onSubmit={handleSave} className="space-y-5">
                                     <div>
-                                        <label className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-2 block">Tên hiển thị</label>
+                                        <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Tên hiển thị</label>
                                         <Input
                                             value={currentClassification.name || ''}
                                             onChange={e => setCurrentClassification({ ...currentClassification, name: e.target.value })}

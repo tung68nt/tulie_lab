@@ -3,6 +3,8 @@
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { SectionTag } from '@/components/SectionTag';
+import { StandardSectionHeader } from '../StandardSectionHeader';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SectionBackground } from '@/components/info/SectionBackground';
@@ -706,12 +708,14 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
             <div className="container px-4 mx-auto max-w-6xl relative z-10">
                 {/* Section Header */}
-                {(section.title || section.subtitle) && (
-                    <div className="text-center mb-12 space-y-4">
-                        {section.title && <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>}
-                        {section.subtitle && <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{section.subtitle}</p>}
-                    </div>
-                )}
+                <StandardSectionHeader
+                    section={{
+                        ...section,
+                        tag: section.tag || "Thanh toán & Kích hoạt",
+                        title: section.title || "Thanh Toán & Kích Hoạt",
+                        subtitle: section.subtitle || "Hệ thống kích hoạt tài khoản tự động 24/7."
+                    }}
+                />
 
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 

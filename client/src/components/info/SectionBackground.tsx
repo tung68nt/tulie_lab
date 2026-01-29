@@ -56,7 +56,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                             overlayBase,
                             overlayClassName
                         )}
-                        style={overlayOpacity !== undefined ? { opacity: overlayOpacity } : (isDarkTheme ? { opacity: 0.75 } : { opacity: 0.6 })}
+                        style={overlayOpacity !== undefined ? { opacity: overlayOpacity } : (isDarkTheme ? { opacity: 0.85 } : { opacity: 0.6 })}
                     />
                     {/* Top and Bottom Gradient Shadow for better text pops */}
                     <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/80 via-black/40 to-transparent opacity-100" />

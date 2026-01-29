@@ -253,7 +253,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     )}
                                 </div>
                                 <div className="text-[13px] text-zinc-500 leading-relaxed max-w-sm space-y-1">
-                                    <div className="font-extrabold text-zinc-950 text-base mb-2 uppercase whitespace-nowrap">{footerData?.companyName}</div>
+                                    <div className="font-extrabold text-zinc-950 text-base mb-2 whitespace-nowrap">{footerData?.companyName}</div>
                                     <div className="flex items-start gap-2">
                                         <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
                                         <span>
@@ -272,7 +272,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 </div>
                             </div>
                             <div className="text-left md:text-right print:text-right space-y-2 self-start md:pt-1">
-                                <h1 className="text-3xl md:text-4xl print:text-4xl font-bold uppercase leading-none">ĐƠN HÀNG</h1>
+                                <h1 className="text-3xl md:text-4xl print:text-4xl font-bold leading-none">Đơn Hàng</h1>
                                 <div className="text-sm">
                                     <span className="text-zinc-600">Mã đơn hàng:</span>
                                     <span className="font-bold ml-2 text-base">{order.code}</span>
@@ -371,8 +371,8 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                                     <div className="font-bold text-zinc-900">
                                                         {item.course?.title || item.product?.title || 'Unknown Item'}
                                                     </div>
-                                                    <div className="text-[10px] text-zinc-500 mt-1 uppercase">
-                                                        {item.course ? 'KHÓA HỌC TRỰC TUYẾN' : 'SẢN PHẨM SỐ / TEMPLATE'}
+                                                    <div className="text-[10px] text-zinc-500 mt-1">
+                                                        {item.course ? 'Khóa học trực tuyến' : 'Sản phẩm số / Template'}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 text-right font-bold">

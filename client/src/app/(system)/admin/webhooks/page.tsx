@@ -312,7 +312,7 @@ export default function AdminWebhooksPage() {
                                 <div className="text-center text-xs mt-4 space-y-1">
                                     <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Ngân hàng:</span> <strong className="font-bold">{bankConfig.bank_name || 'N/A'}</strong></p>
                                     <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">STK:</span> <strong className="font-bold font-mono text-sm">{bankConfig.bank_account_no}</strong></p>
-                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Chủ TK:</span> <strong className="font-bold uppercase">{bankConfig.bank_account_name || 'Unknown'}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Chủ TK:</span> <strong className="font-bold">{bankConfig.bank_account_name || 'Unknown'}</strong></p>
                                     <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Số tiền:</span> <strong className="font-bold text-lg">{formatVND(Number(qrAmount) || 0)}</strong></p>
                                     <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Nội dung:</span> <strong className="font-bold font-mono">{qrDescription || 'Thanh toan'}</strong></p>
                                 </div>
@@ -378,7 +378,7 @@ export default function AdminWebhooksPage() {
                                             ctx.fillText(bankConfig.bank_account_no || '0000000000', width / 2, 400);
 
                                             ctx.font = 'bold 20px Inter, sans-serif';
-                                            ctx.fillText((bankConfig.bank_account_name || '').toUpperCase(), width / 2, 440);
+                                            ctx.fillText(bankConfig.bank_account_name || '', width / 2, 440);
 
                                             ctx.font = 'bold 36px Inter, sans-serif';
                                             ctx.fillText(formatVND(Number(qrAmount) || 0), width / 2, 500);
