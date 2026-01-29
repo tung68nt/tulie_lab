@@ -72,23 +72,17 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
                         <span className="font-bold text-sm">Quay lại lịch sử</span>
                     </Link>
 
-                    <div className="pt-8 pb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                    <div className="pt-8 pb-10 flex flex-col items-center justify-center text-center gap-6">
                         <div className="space-y-4">
                             <SectionTag className="mb-0">
-                                Giao dịch
+                                {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chờ thanh toán'}
                             </SectionTag>
-                            <div className="flex items-center gap-4">
-                                <h1 className="text-4xl md:text-5xl font-black tracking-tight text-zinc-900">
+                            <div className="flex flex-col items-center gap-2">
+                                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
                                     Chi tiết hóa đơn
                                 </h1>
-                                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${order.status === 'PAID' || order.status === 'COMPLETED'
-                                    ? 'bg-zinc-900 text-white'
-                                    : 'bg-zinc-100 text-zinc-500'
-                                    }`}>
-                                    {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chờ thanh toán'}
-                                </span>
                             </div>
-                            <p className="text-zinc-500 font-medium text-lg">
+                            <p className="text-zinc-500 font-medium">
                                 Mã đơn hàng: <span className="text-zinc-950 font-bold">{order.code}</span> • {new Date(order.createdAt).toLocaleDateString('vi-VN')}
                             </p>
                         </div>
