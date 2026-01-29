@@ -25,18 +25,18 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'dark'}
+                backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity !== undefined ? section.overlayOpacity : 0.8}
+                glowVariant={5} // Unique variant for BonusSection
             />
 
-            {/* Decorative Ribbons - Breathing Animation */}
+            {/* Decorative Ribbons - Bright Red, Static */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-full max-w-sm">
-                <div className="bg-[#FF0000] text-white font-bold text-lg md:text-xl px-8 py-4 rounded-b-3xl shadow-[0_10px_40px_-10px_rgba(255,0,0,0.6)] text-center animate-pulse-slow relative overflow-hidden">
+                <div className="bg-[#FF0000] text-white font-bold text-lg md:text-xl px-8 py-4 rounded-b-3xl shadow-[0_10px_40px_-10px_rgba(255,0,0,0.6)] text-center relative overflow-hidden">
                     <span className="relative z-10 flex items-center justify-center gap-2">
-                        <Gift className="w-6 h-6 animate-bounce" />
+                        <Gift className="w-6 h-6" />
                         Quà tặng giới hạn
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-shimmer" />
                 </div>
             </div>
 

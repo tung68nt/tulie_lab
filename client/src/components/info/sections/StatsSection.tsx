@@ -10,8 +10,9 @@ export function StatsSection({ section }: { section: Section }) {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme}
+                backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                glowVariant={6}
             />
             <div className="container relative z-10">
                 <StandardSectionHeader

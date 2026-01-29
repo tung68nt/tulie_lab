@@ -13,8 +13,9 @@ export function ComparisonSection({ section }: { section: Section }) {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme}
+                backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                glowVariant={11}
             />
             <div className="container relative z-10">
                 <StandardSectionHeader

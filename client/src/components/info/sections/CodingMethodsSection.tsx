@@ -109,8 +109,9 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme}
+                backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                glowVariant={12}
             />
             <div className="container relative z-10">
                 <StandardSectionHeader section={section} align="center" />

@@ -17,8 +17,9 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme}
+                backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                glowVariant={14}
             />
             <div className="container px-4 mx-auto relative z-10">
                 <div className="text-center mb-16 max-w-2xl mx-auto">

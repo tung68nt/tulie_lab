@@ -28,8 +28,9 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme}
+                backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                glowVariant={8}
             />
 
             <div className="container relative z-10">

@@ -20,6 +20,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={isDark}
+                glowVariant={15}
             />
 
             <div className="container text-center relative z-10 mx-auto px-4">
