@@ -207,10 +207,11 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                 filename: `TulieLab_DH_${order.code.toUpperCase()}.pdf`,
                 image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: {
-                    scale: 2,
+                    scale: 3,
                     useCORS: true,
                     logging: false,
-                    windowWidth: 1024,
+                    letterRendering: true,
+                    windowWidth: 1200,
                     scrollY: 0,
                     scrollX: 0,
                     onclone: (clonedDoc: Document) => {
@@ -307,18 +308,26 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         {/* Header Area */}
                         <div className="relative z-10 border-b border-zinc-100 pb-12 text-zinc-950 space-y-8">
                             {/* Logo Row */}
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center gap-2.5">
+                            <div className="flex justify-between items-center mb-6">
+                                <div className="flex items-center gap-3">
                                     {settings.site_logo ? (
-                                        <img src={settings.site_logo} alt="Logo" className="h-10 w-auto object-contain" />
+                                        <div className="h-12 flex items-center">
+                                            <img
+                                                src={settings.site_logo}
+                                                alt="Logo"
+                                                className="h-full w-auto object-contain"
+                                                style={{ maxHeight: '48px' }}
+                                                crossOrigin="anonymous"
+                                            />
+                                        </div>
                                     ) : (
-                                        <>
-                                            <div className="w-10 h-10 bg-zinc-950 rounded flex items-center justify-center text-white font-bold text-xl">T</div>
-                                            <span className="text-2xl font-bold tracking-tight">tulie.\lab</span>
-                                        </>
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-zinc-950 rounded flex items-center justify-center text-white font-bold text-xl shadow-sm">T</div>
+                                            <span className="text-2xl font-bold tracking-tight text-zinc-900">tulie.vn</span>
+                                        </div>
                                     )}
                                 </div>
-                                <h1 className="text-3xl md:text-4xl print:text-4xl font-bold leading-none">Đơn Hàng</h1>
+                                <h1 className="text-3xl md:text-5xl font-black text-zinc-900 tracking-tighter uppercase">Đơn Hàng</h1>
                             </div>
 
                             {/* Info Row: Company Name & Order Code */}
@@ -360,54 +369,54 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         {/* Customer & Info Grid */}
                         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
                             <div className="space-y-4">
-                                <h3 className="text-sm font-bold text-zinc-600">Thông tin khách hàng</h3>
-                                <div className="space-y-2 text-sm">
-                                    <div className="flex gap-2">
-                                        <span className="text-zinc-600 w-44 shrink-0">Họ tên người mua:</span>
-                                        <span className="font-bold">{order.metadata?.vatBuyerName || order.metadata?.customerName || order.user.profile?.name || order.user.name || ''}</span>
+                                <h3 className="text-[12px] font-black uppercase tracking-widest text-zinc-400 mb-6 border-b border-zinc-100 pb-2">Thông tin khách hàng</h3>
+                                <div className="space-y-4 text-[13px]">
+                                    <div className="flex items-start">
+                                        <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Họ tên người mua:</span>
+                                        <span className="font-bold text-zinc-900">{order.metadata?.vatBuyerName || order.metadata?.customerName || order.user.profile?.name || order.user.name || ''}</span>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <span className="text-zinc-600 w-44 shrink-0">Số điện thoại:</span>
-                                        <span className="font-bold">{order.metadata?.vatPhone || order.metadata?.phone || order.user.profile?.phone || ''}</span>
+                                    <div className="flex items-start">
+                                        <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Số điện thoại:</span>
+                                        <span className="font-bold text-zinc-900">{order.metadata?.vatPhone || order.metadata?.phone || order.user.profile?.phone || ''}</span>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <span className="text-zinc-600 w-44 shrink-0">Email:</span>
-                                        <span className="font-bold">{order.metadata?.vatEmail || order.metadata?.email || order.user.email || ''}</span>
+                                    <div className="flex items-start">
+                                        <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Email:</span>
+                                        <span className="font-bold text-zinc-900">{order.metadata?.vatEmail || order.metadata?.email || order.user.email || ''}</span>
                                     </div>
                                     {order.metadata?.taxId && (
-                                        <div className="flex gap-2">
-                                            <span className="text-zinc-600 w-44 shrink-0">Mã số thuế:</span>
-                                            <span className="font-bold">{order.metadata?.taxId}</span>
+                                        <div className="flex items-start">
+                                            <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Mã số thuế:</span>
+                                            <span className="font-bold text-zinc-900">{order.metadata?.taxId}</span>
                                         </div>
                                     )}
-                                    <div className="flex gap-2">
-                                        <span className="text-zinc-600 w-44 shrink-0">Địa chỉ:</span>
-                                        <span className="font-bold text-zinc-600">{order.metadata?.address || order.user.profile?.address || ''}</span>
+                                    <div className="flex items-start">
+                                        <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Địa chỉ:</span>
+                                        <span className="font-bold text-zinc-900 leading-relaxed">{order.metadata?.address || order.user.profile?.address || ''}</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="space-y-4 md:text-right">
-                                <h3 className="text-sm font-bold text-zinc-600">Thông tin thanh toán</h3>
-                                <div className="space-y-2 text-sm md:text-right">
-                                    <div className="flex justify-start md:justify-end gap-2">
-                                        <span className="text-zinc-600 shrink-0">Hình thức:</span>
-                                        <span className="font-bold">Chuyển khoản</span>
+                                <h3 className="text-[12px] font-black uppercase tracking-widest text-zinc-400 mb-6 border-b border-zinc-100 pb-2 md:text-right">Thông tin thanh toán</h3>
+                                <div className="space-y-4 text-[13px] md:text-right">
+                                    <div className="flex justify-start md:justify-end items-center gap-2">
+                                        <span className="text-zinc-500">Hình thức:</span>
+                                        <span className="font-bold text-zinc-900">Chuyển khoản ngân hàng</span>
                                     </div>
                                     {order.metadata?.isGift && (
-                                        <div className="flex justify-start md:justify-end gap-2">
-                                            <span className="text-zinc-600 shrink-0">Ghi chú:</span>
-                                            <span className="font-bold text-red-600">Mua làm quà tặng</span>
+                                        <div className="flex justify-start md:justify-end items-center gap-2">
+                                            <span className="text-zinc-500">Ghi chú:</span>
+                                            <span className="font-extrabold text-red-600 bg-red-50 px-2 py-0.5 rounded">Mua làm quà tặng</span>
                                         </div>
                                     )}
                                     {order.metadata?.requireVAT && (
-                                        <div className="flex justify-start md:justify-end gap-2">
-                                            <span className="text-zinc-600 shrink-0">Đơn hàng:</span>
-                                            <span className="font-bold text-zinc-900 underline">Đã đăng ký VAT</span>
+                                        <div className="flex justify-start md:justify-end items-center gap-2">
+                                            <span className="text-zinc-500">Thuế GTGT:</span>
+                                            <span className="font-bold text-zinc-950 underline decoration-zinc-300 underline-offset-4">Yêu cầu xuất hóa đơn VAT</span>
                                         </div>
                                     )}
-                                    <div className="flex justify-start md:justify-end gap-2">
-                                        <span className="text-zinc-600 shrink-0">Tài khoản:</span>
-                                        <span className="font-bold">{order.metadata?.createAccount ? 'Tạo mới' : 'Đã có tài khoản'}</span>
+                                    <div className="flex justify-start md:justify-end items-center gap-2">
+                                        <span className="text-zinc-500">Trạng thái tài khoản:</span>
+                                        <span className="font-bold text-zinc-900">{order.metadata?.createAccount ? 'Cấp mới thông tin' : 'Sử dụng tài khoản hiện có'}</span>
                                     </div>
                                 </div>
                             </div>
@@ -500,10 +509,10 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                             </div>
                         )}
 
-                        <div className="relative z-10 pt-8 border-t border-zinc-100 flex justify-between items-end opacity-50">
-                            <div className="space-y-1">
-                                <p className="text-[10px] font-bold text-zinc-400">Hệ sinh thái Tulie TSS</p>
-                                <p className="text-xs font-medium text-zinc-500">tulie.vn</p>
+                        <div className="relative z-10 pt-12 mt-12 border-t border-zinc-100 flex justify-between items-center">
+                            <div className="space-y-0.5">
+                                <p className="text-[12px] font-bold text-[#71717a] tracking-tight">Hệ sinh thái Tulie TSS</p>
+                                <p className="text-[12px] font-bold text-[#71717a] tracking-tight">tulie.vn</p>
                             </div>
                             <div className="text-right">
                                 <FileText className="w-8 h-8 text-zinc-200 ml-auto" />
