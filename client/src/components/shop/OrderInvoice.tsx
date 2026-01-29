@@ -317,7 +317,6 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                                 alt="Logo"
                                                 className="h-full w-auto object-contain"
                                                 style={{ maxHeight: '48px' }}
-                                                crossOrigin="anonymous"
                                             />
                                         </div>
                                     ) : (
