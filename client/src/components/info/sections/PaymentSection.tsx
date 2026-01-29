@@ -229,7 +229,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             </div>
 
             {/* Activation Options Selection */}
-            <div className="bg-secondary/30 p-6 rounded-2xl space-y-4 border border-border">
+            <div className="bg-secondary/20 p-6 rounded-2xl space-y-4 border border-border/40">
                 <p className="text-xs font-bold text-muted-foreground mb-2">Hình thức kích hoạt khoá học</p>
 
                 <div className="grid gap-3">
@@ -237,15 +237,15 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     <div
                         onClick={() => handleFormChange('isGift', false)}
                         className={cn(
-                            "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
-                            !state.form.isGift ? "bg-card border-primary shadow-sm" : "bg-transparent border-border hover:border-border/80"
+                            "flex items-start p-4 rounded-xl border transition-all cursor-pointer",
+                            !state.form.isGift ? "bg-card border-primary/50 shadow-sm" : "bg-transparent border-border/40 hover:border-border/60"
                         )}
                     >
                         <div className={cn(
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
                             !state.form.isGift ? "border-primary bg-primary" : "border-border"
                         )}>
-                            {!state.form.isGift && <div className="w-1.5 h-1.5 rounded-full bg-primary-foreground" />}
+                            {!state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />}
                         </div>
                         <div className="ml-3">
                             <label className="text-sm font-bold text-foreground block cursor-pointer">
@@ -269,7 +269,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
                             state.form.isGift ? "border-zinc-900 bg-zinc-900" : "border-zinc-300"
                         )}>
-                            {state.form.isGift && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                            {state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
                         </div>
                         <div className="ml-3">
                             <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
@@ -720,7 +720,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
                     {/* Left Column: Form or Success Message */}
-                    <div className="lg:col-span-7 bg-background p-8 md:p-10 rounded-3xl border border-zinc-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
+                    <div className="lg:col-span-7 bg-background p-8 md:p-10 rounded-3xl border border-border/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
                         {state.step === 'form' ? (
                             <form onSubmit={handleSubmit}>
                                 {renderForm()}

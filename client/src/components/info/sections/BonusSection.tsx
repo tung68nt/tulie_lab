@@ -129,11 +129,11 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
                             <div className="flex flex-col items-center justify-center mb-6 relative">
                                 {totalValue > 0 && (
-                                    <div className="flex items-center justify-center gap-3 md:gap-4 mb-2 animate-in fade-in zoom-in duration-1000">
+                                    <div className="flex items-center justify-center gap-3 md:gap-4 mb-2">
                                         <span className="text-2xl md:text-4xl text-white/50 font-bold decoration-2 line-through relative">
                                             {totalValue.toLocaleString('vi-VN')}đ
                                         </span>
-                                        <span className="bg-red-500/10 text-red-500 text-xs md:text-sm px-2 py-0.5 rounded border border-red-500/20 font-bold whitespace-nowrap">
+                                        <span className="bg-red-600 text-white text-xs md:text-sm px-2 py-0.5 rounded border border-red-600 font-bold whitespace-nowrap">
                                             TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
                                         </span>
                                     </div>
@@ -147,10 +147,9 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 </div>
                             </div>
 
-                            <div className="inline-flex items-center gap-2 bg-[#FF0000]/10 border border-[#FF0000]/20 text-[#FF0000] px-5 py-2.5 rounded-full animate-pulse-slow">
+                            <div className="inline-flex items-center gap-2 bg-red-600/10 border border-red-600/20 text-red-600 px-5 py-2.5 rounded-full">
                                 <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
                                 </span>
                                 <span className="font-medium text-sm md:text-base">Chỉ nhận được khi đăng ký <span className="font-bold">ngay hôm nay</span></span>
                             </div>
