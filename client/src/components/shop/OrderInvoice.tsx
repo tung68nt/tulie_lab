@@ -327,15 +327,15 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                         </div>
                                     )}
                                 </div>
-                                <h1 className="text-3xl md:text-5xl font-black text-zinc-900 tracking-tighter uppercase">Đơn Hàng</h1>
+                                <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 tracking-tight">Đơn hàng</h1>
                             </div>
 
                             {/* Info Row: Company Name & Order Code */}
                             <div className="flex flex-col md:flex-row print:flex-row justify-between items-center gap-4 text-sm">
                                 <div className="font-bold text-zinc-900 text-base md:text-lg">{footerData?.companyName}</div>
-                                <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1.5 rounded-lg border border-zinc-100">
-                                    <span className="text-zinc-600">Mã đơn hàng:</span>
-                                    <span className="font-bold text-zinc-950">{order.code}</span>
+                                <div className="flex items-center gap-2 text-[13px]">
+                                    <span className="text-zinc-500">Mã đơn hàng:</span>
+                                    <span className="font-bold text-zinc-900">{order.code}</span>
                                 </div>
                             </div>
 
@@ -348,7 +348,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     </div>
                                     <div className="flex items-center gap-2"><FileText className="w-4 h-4" /> MST: {footerData?.taxId}</div>
                                     <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> {footerData?.email || 'support@tulielab.vn'}</div>
-                                    <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> Hotline: {settings.contact_hotline || footerData?.hotline || '0336.883.242'}</div>
+                                    <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> Hotline: {settings.contact_hotline || footerData?.phone || '098.898.4554'}</div>
                                 </div>
                                 <div className="space-y-2 md:text-right print:text-right flex flex-col items-start md:items-end">
                                     <div className="text-sm">
@@ -369,7 +369,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         {/* Customer & Info Grid */}
                         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
                             <div className="space-y-4">
-                                <h3 className="text-[12px] font-black uppercase tracking-widest text-zinc-400 mb-6 border-b border-zinc-100 pb-2">Thông tin khách hàng</h3>
+                                <h3 className="text-[14px] font-bold tracking-tight text-zinc-400 mb-6 border-b border-zinc-100 pb-2">Thông tin khách hàng</h3>
                                 <div className="space-y-4 text-[13px]">
                                     <div className="flex items-start">
                                         <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Họ tên người mua:</span>
@@ -396,7 +396,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 </div>
                             </div>
                             <div className="space-y-4 md:text-right">
-                                <h3 className="text-[12px] font-black uppercase tracking-widest text-zinc-400 mb-6 border-b border-zinc-100 pb-2 md:text-right">Thông tin thanh toán</h3>
+                                <h3 className="text-[14px] font-bold tracking-tight text-zinc-400 mb-6 border-b border-zinc-100 pb-2 md:text-right">Thông tin thanh toán</h3>
                                 <div className="space-y-4 text-[13px] md:text-right">
                                     <div className="flex justify-start md:justify-end items-center gap-2">
                                         <span className="text-zinc-500">Hình thức:</span>
@@ -424,7 +424,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
                         {/* Items Table */}
                         <div className="relative z-10 space-y-4">
-                            <h3 className="text-sm font-bold text-zinc-600">Chi tiết dịch vụ</h3>
+                            <h3 className="text-[14px] font-bold tracking-tight text-zinc-400">Chi tiết dịch vụ</h3>
                             <div className="overflow-x-auto rounded-xl border border-zinc-100">
                                 <table className="w-full text-sm">
                                     <thead>
@@ -440,7 +440,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                                     <div className="font-bold text-zinc-900">
                                                         {item.course?.title || item.product?.title || 'Dịch vụ'}
                                                     </div>
-                                                    <div className="text-[10px] text-zinc-500 mt-1 uppercase font-medium tracking-wider">
+                                                    <div className="text-[10px] text-zinc-500 mt-1 font-medium tracking-wide">
                                                         {item.course ? 'Khóa học trực tuyến' : 'Sản phẩm số'}
                                                     </div>
                                                 </td>
@@ -511,8 +511,8 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
                         <div className="relative z-10 pt-12 mt-12 border-t border-zinc-100 flex justify-between items-center">
                             <div className="space-y-0.5">
-                                <p className="text-[12px] font-bold text-[#71717a] tracking-tight">Hệ sinh thái Tulie TSS</p>
-                                <p className="text-[12px] font-bold text-[#71717a] tracking-tight">tulie.vn</p>
+                                <p className="text-[12px] font-medium text-[#71717a] tracking-tight">Hệ sinh thái Tulie TSS</p>
+                                <p className="text-[12px] font-medium text-[#71717a] tracking-tight">tulie.vn</p>
                             </div>
                             <div className="text-right">
                                 <FileText className="w-8 h-8 text-zinc-200 ml-auto" />
