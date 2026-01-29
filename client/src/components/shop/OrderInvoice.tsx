@@ -306,7 +306,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                 <Card className="border border-zinc-100 shadow-xl print:shadow-none overflow-hidden bg-white text-zinc-950 rounded-xl relative z-10">
                     <CardContent className="pt-16 md:pt-20 pb-12 px-8 md:p-12 space-y-12 print:p-12 relative overflow-hidden invoice-pdf-container">
                         {/* Header Area */}
-                        <div className="relative z-10 border-b border-zinc-100 pb-12 text-zinc-950 space-y-8">
+                        <div className="relative z-10 border-b border-zinc-100 pb-12 text-zinc-950 space-y-5">
                             {/* Logo Row */}
                             <div className="flex justify-between items-center mb-6">
                                 <div className="flex items-center gap-3">
@@ -368,7 +368,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         {/* Customer & Info Grid */}
                         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
                             <div className="space-y-4">
-                                <h3 className="text-[14px] font-bold tracking-tight text-zinc-400 mb-6 border-b border-zinc-100 pb-2">Thông tin khách hàng</h3>
+                                <h3 className="text-[16px] font-semibold tracking-tight text-zinc-900 mb-6 border-b border-zinc-100 pb-2">Thông tin khách hàng</h3>
                                 <div className="space-y-4 text-[13px]">
                                     <div className="flex items-start">
                                         <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Họ tên người mua:</span>
@@ -395,7 +395,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 </div>
                             </div>
                             <div className="space-y-4 md:text-right">
-                                <h3 className="text-[14px] font-bold tracking-tight text-zinc-400 mb-6 border-b border-zinc-100 pb-2 md:text-right">Thông tin thanh toán</h3>
+                                <h3 className="text-[16px] font-semibold tracking-tight text-zinc-900 mb-6 border-b border-zinc-100 pb-2 md:text-right">Thông tin thanh toán</h3>
                                 <div className="space-y-4 text-[13px] md:text-right">
                                     <div className="flex justify-start md:justify-end items-center gap-2">
                                         <span className="text-zinc-500">Hình thức:</span>
@@ -423,7 +423,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
                         {/* Items Table */}
                         <div className="relative z-10 space-y-4">
-                            <h3 className="text-[14px] font-bold tracking-tight text-zinc-400">Chi tiết dịch vụ</h3>
+                            <h3 className="text-[16px] font-semibold tracking-tight text-zinc-900">Chi tiết dịch vụ</h3>
                             <div className="overflow-x-auto rounded-xl border border-zinc-100">
                                 <table className="w-full text-sm">
                                     <thead>
@@ -476,7 +476,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         {/* Transaction History Section */}
                         {(order.status === 'PAID' || order.status === 'COMPLETED') && (
                             <div className="relative z-10 space-y-4 pt-4 border-t border-zinc-100">
-                                <h3 className="text-sm font-bold text-zinc-600">Chi tiết giao dịch</h3>
+                                <h3 className="text-[16px] font-semibold text-zinc-900">Chi tiết giao dịch</h3>
                                 {order.transactions && order.transactions.length > 0 ? (
                                     <div className="overflow-x-auto rounded-xl border border-zinc-100">
                                         <table className="w-full text-sm">
