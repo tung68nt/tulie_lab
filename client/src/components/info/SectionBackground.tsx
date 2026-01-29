@@ -76,15 +76,25 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 </div>
             )}
 
+            {/* Radial Gradient for Light Mode - Center white to Edges gray */}
+            {!backgroundImage && isLightTheme && (
+                <div
+                    className="absolute inset-0 z-[-1]"
+                    style={{
+                        background: 'radial-gradient(circle at center, white 20%, #f4f4f5 100%)'
+                    }}
+                />
+            )}
+
             {/* Optional Gradient Fade - Only show if NO background image and NOT explicitly hidden */}
             {!hideGradients && !backgroundImage && (
                 <>
                     <div className={cn(
-                        "absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t to-transparent",
+                        "absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t to-transparent",
                         isLightTheme ? "from-white" : "from-background"
                     )} />
                     <div className={cn(
-                        "absolute inset-x-0 top-0 h-32 bg-gradient-to-b to-transparent",
+                        "absolute inset-x-0 top-0 h-40 bg-gradient-to-b to-transparent",
                         isLightTheme ? "from-white" : "from-background"
                     )} />
                 </>
