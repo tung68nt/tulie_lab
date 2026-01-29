@@ -58,4 +58,5 @@ export interface Section {
     backgroundTheme?: 'light' | 'dark' | 'auto'; // New: theme preference for content on background
     overlayOpacity?: number; // New: opacity of the background overlay
     align?: 'left' | 'center' | 'right'; // New: text alignment preference
+    glowVariant?: number; // New: variant for background glow effects (0-15)
 }

@@ -21,15 +21,16 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'hero',
             name: 'Standard Hero',
             tag: 'Khởi đầu hành trình',
-            title: 'Học Lập Trình Vibe Coding',
+            title: 'Học lập trình vibe coding',
             subtitle: 'Khóa học thực chiến giúp bạn làm chủ tư duy lập trình và xây dựng sản phẩm công nghệ chỉ sau 3 tháng.',
             image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=2000',
-            ctaText: 'Đăng Ký Học Thử',
+            ctaText: 'Đăng ký học thử',
             ctaLink: '/courses',
             showDotPattern: true,
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 0
         }
     },
     {
@@ -42,7 +43,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'stats-mod',
             type: 'stats',
             name: 'Modern Stats Grid',
-            title: 'Con Số Biết Nói',
+            title: 'Con số biết nói',
             tag: 'Thành tựu',
             subtitle: 'Kết quả thực tế từ cộng đồng học viên',
             content: 'Chúng tôi tự hào về những cột mốc đã đạt được cùng học viên.',
@@ -54,8 +55,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { value: "24/7", label: "Hỗ trợ", icon: "Zap", description: "Mentor giải đáp" }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 1
         }
     },
     {
@@ -68,34 +70,35 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'comparison-tbl',
             type: 'comparison',
             name: 'Comparison Table',
-            title: 'Tại Sao Chọn Chúng Tôi?',
+            title: 'Tại sao chọn chúng tôi?',
             tag: 'So sánh',
             subtitle: 'Sự khác biệt tạo nên thành công',
             content: 'So sánh lộ trình học tập của chúng tôi với các phương pháp khác.',
             showDotPattern: true,
             items: [
                 {
-                    title: "Tự Học Online",
+                    title: "Tự học online",
                     price: "Miễn phí",
                     description: "Phù hợp người có kỷ luật thép",
                     features: ["Không có lộ trình rõ ràng", "Thiếu mentor hướng dẫn", "Dễ bỏ cuộc giữa chừng", "Không có cộng đồng", "Nội dung rời rạc"]
                 },
                 {
                     title: "Vibe Coding Academy",
-                    price: "Tối Ưu",
+                    price: "Tối ưu",
                     description: "Lộ trình chuẩn kỹ sư",
                     features: ["Lộ trình bài bản A-Z", "Mentor hỗ trợ 1:1", "Cam kết đầu ra", "Cộng đồng năng động", "Dự án thực tế"]
                 },
                 {
-                    title: "Trung Tâm Offline",
+                    title: "Trung tâm offline",
                     price: "20tr+",
                     description: "Chi phí cao, thời gian cố định",
                     features: ["Lịch học gò bó", "Sĩ số lớp đông", "Nội dung cập nhật chậm", "Đi lại tốn thời gian", "Học phí đắt đỏ"]
                 }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 2
         }
     },
     {
@@ -108,10 +111,12 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'coding-meth',
             type: 'coding-methods',
             name: 'Coding Methods',
-            title: 'Phương Pháp Vibe Coding',
+            title: 'Phương pháp vibe coding',
             tag: 'Phương pháp đào tạo',
             subtitle: 'Học nhàn, hiểu sâu, ứng dụng ngay',
             showDotPattern: true,
+            backgroundTheme: 'light',
+            glowVariant: 3,
             rowConfig: [
                 { key: "feasibility", label: "Khả thi với Vibe Coding?", icon: "Check" },
                 { key: "goal", label: "Mục tiêu", icon: "Target" },
@@ -214,18 +219,19 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'process-road',
             type: 'process',
             name: 'Process Roadmap',
-            title: 'Lộ Trình Học Tập',
+            title: 'Lộ trình học tập',
             tag: 'Lộ trình thành công',
             subtitle: '3 giai đoạn để trở thành lập trình viên chuyên nghiệp',
             showDotPattern: true,
             items: [
-                { title: "Giai đoạn 1: Nền Tảng", description: "Làm chủ tư duy lập trình và các công cụ cơ bản (HTML, CSS, JS)." },
-                { title: "Giai đoạn 2: Chuyên Sâu", description: "Học các Framework hiện đại (React, Next.js) và xây dựng Backend." },
-                { title: "Giai đoạn 3: Dự Án Thật", description: "Xây dựng sản phẩm hoàn chỉnh, deploy và tối ưu hiệu năng." }
+                { title: "Giai đoạn 1: Nền tảng", description: "Làm chủ tư duy lập trình và các công cụ cơ bản (HTML, CSS, JS)." },
+                { title: "Giai đoạn 2: Chuyên sâu", description: "Học các Framework hiện đại (React, Next.js) và xây dựng Backend." },
+                { title: "Giai đoạn 3: Dự án thật", description: "Xây dựng sản phẩm hoàn chỉnh, deploy và tối ưu hiệu năng." }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 4
         }
     },
     {
@@ -238,21 +244,22 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'feature-grd',
             type: 'features',
             name: 'Features Grid',
-            title: 'Quyền Lợi Học Viên',
+            title: 'Quyền lợi học viên',
             tag: 'Giá trị nhận được',
             subtitle: 'Những điều tuyệt vời bạn sẽ nhận được',
             showDotPattern: true,
             items: [
-                { title: "Mentor Theo Sát 1:1", description: "Không bỏ rơi học viên. Hỗ trợ giải đáp thắc mẳc và sửa bài chi tiết hàng ngày.", icon: "Zap" },
-                { title: "Dự Án Cá Nhân Cao Cấp", description: "Làm chủ trọn bộ kỹ năng để xây dựng sản phẩm chất lượng, có tính ứng dụng cao.", icon: "Cpu" },
-                { title: "Lộ Trình Tối Ưu", description: "Học những gì thực sự cần thiết. Tiết kiệm 80% thời gian so với các phương pháp cũ.", icon: "Target" },
-                { title: "Cộng Đồng Tương Trợ", description: "Tham gia network cùng những người có tư duy đột phá, sẵn sàng chia sẻ.", icon: "Users" },
-                { title: "Hỗ Trợ Việc Làm", description: "Tư vấn CV, kỹ năng phỏng vấn và kết nối trực tiếp với 20+ doanh nghiệp đối tác.", icon: "Briefcase" },
-                { title: "Sở Hữu Tài Liệu Độc Quyền", description: "Bộ template, source code mẫu và ebook chuyên sâu chỉ dành cho học viên.", icon: "Lock" }
+                { title: "Mentor theo sát 1:1", description: "Không bỏ rơi học viên. Hỗ trợ giải đáp thắc mẳc và sửa bài chi tiết hàng ngày.", icon: "Zap" },
+                { title: "Dự án cá nhân cao cấp", description: "Làm chủ trọn bộ kỹ năng để xây dựng sản phẩm chất lượng, có tính ứng dụng cao.", icon: "Cpu" },
+                { title: "Lộ trình tối ưu", description: "Học những gì thực sự cần thiết. Tiết kiệm 80% thời gian so với các phương pháp cũ.", icon: "Target" },
+                { title: "Cộng đồng tương trợ", description: "Tham gia network cùng những người có tư duy đột phá, sẵn sàng chia sẻ.", icon: "Users" },
+                { title: "Hỗ trợ việc làm", description: "Tư vấn CV, kỹ năng phỏng vấn và kết nối trực tiếp với 20+ doanh nghiệp đối tác.", icon: "Briefcase" },
+                { title: "Sở hữu tài liệu độc quyền", description: "Bộ template, source code mẫu và ebook chuyên sâu chỉ dành cho học viên.", icon: "Lock" }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 5
         }
     },
     {
@@ -265,30 +272,31 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'content-block-alt',
             type: 'content-block',
             name: 'Content Block (Alternating)',
-            title: 'Chi Tiết Khóa Học',
+            title: 'Chi tiết khóa học',
             tag: 'Chi tiết nội dung',
             subtitle: 'Nội dung được thiết kế sát với thực tế',
             content: 'Chương trình học được xây dựng dựa trên nhu cầu tuyển dụng thực tế của doanh nghiệp.',
             showDotPattern: true,
             items: [
                 {
-                    title: "Module 1: Frontend Modern",
-                    subtitle: "TUẦN 1-4",
+                    title: "Module 1: Frontend modern",
+                    subtitle: "Tuần 1-4",
                     description: "Làm chủ giao diện người dùng với công nghệ mới nhất.",
                     image: "https://images.unsplash.com/photo-1593720213428-28a5b9e94613?auto=format&fit=crop&q=80&w=1000",
                     features: ["HTML5, CSS3, Flexbox & Grid", "JavaScript ES6+ Deep Dive", "Responsive Design", "UI/UX cơ bản"]
                 },
                 {
                     title: "Module 2: React & Ecosystem",
-                    subtitle: "TUẦN 5-8",
+                    subtitle: "Tuần 5-8",
                     description: "Xây dựng Single Page Application mạnh mẽ.",
                     image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=1000",
                     features: ["React Hooks & Components", "State Management (Redux/Zustand)", "React Query & API Integration", "Performance Optimization"]
                 }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 6
         }
     },
     {
@@ -301,50 +309,51 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'curriculum-lst',
             type: 'curriculum',
             name: 'Lesson Curriculum',
-            title: 'Lộ Trình Đào Tạo Thực Chiến',
+            title: 'Lộ trình đào tạo thực chiến',
             subtitle: 'Chương trình được thiết kế từ cơ bản đến nâng cao, tập trung vào kỹ năng xây dựng sản phẩm.',
             showDotPattern: true,
             items: [
                 {
-                    title: "Module 1: Mindset & Fundamentals",
+                    title: "Module 1: Mindset & fundamentals",
                     description: "Xây dựng tư duy giải quyết vấn đề và nắm vững nền tảng cốt lõi của lập trình hiện đại.",
                     duration: "12 bài học",
                     image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=1000",
                     lessons: [
-                        "Tư duy Vibe Coding: Code để tạo ra giá trị",
-                        "Kiến trúc ứng dụng Web hiện đại",
-                        "Làm chủ Git & Workflow làm việc chuyên nghiệp",
-                        "Tài liệu: Cẩm nang Roadmap thành công"
+                        "Tư duy vibe coding: Code để tạo ra giá trị",
+                        "Kiến trúc ứng dụng web hiện đại",
+                        "Làm chủ git & workflow làm việc chuyên nghiệp",
+                        "Tài liệu: Cẩm nang roadmap thành công"
                     ]
                 },
                 {
-                    title: "Module 2: Frontend Mastery with Next.js",
+                    title: "Module 2: Frontend mastery with Next.js",
                     description: "Xây dựng giao diện đẳng cấp, hiệu năng cao và chuẩn SEO với React & Next.js.",
                     duration: "24 bài học",
                     image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=1000",
                     lessons: [
-                        "Deep Dive into React Server Components",
-                        "State Management & Data Fetching",
-                        "Xây dựng Design System với Tailwind & Shadcn",
-                        "Tài liệu: Bộ UI Kit độc quyền Tulie"
+                        "Deep dive into react server components",
+                        "State management & data fetching",
+                        "Xây dựng design system với tailwind & shadcn",
+                        "Tài liệu: Bộ UI Kit độc quyền tulie"
                     ]
                 },
                 {
-                    title: "Module 3: Fullstack Deployment & AI Integration",
-                    description: "Kết nối Backend, triển khai ứng dụng thực tế và tích hợp sức mạnh từ AI.",
+                    title: "Module 3: Fullstack deployment & AI integration",
+                    description: "Kết nối backend, triển khai ứng dụng thực tế và tích hợp sức mạnh từ AI.",
                     duration: "18 bài học",
                     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000",
                     lessons: [
-                        "Kiến trúc API & Database với Prisma",
+                        "Kiến trúc API & database với prisma",
                         "Tích hợp OpenAI SDK vào ứng dụng",
-                        "Deploy & CI/CD lên Google Cloud Run",
-                        "Tài liệu: Template dự án Fullstack chuẩn"
+                        "Deploy & CI/CD lên google cloud run",
+                        "Tài liệu: Template dự án fullstack chuẩn"
                     ]
                 }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 7
         }
     },
     {
@@ -357,7 +366,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'student-show',
             type: 'student-showcase',
             name: 'Student Showcase',
-            title: 'Sản Phẩm Học Viên',
+            title: 'Sản phẩm học viên',
             tag: 'Sản phẩm thực tế',
             subtitle: 'Những dự án tiêu biểu được xây dựng sau khóa học',
             showDotPattern: true,
@@ -374,7 +383,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 {
                     title: "Real-time Fintech App",
                     subtitle: "Bởi: Hoài Nam (SV năm 3)",
-                    description: "Dashboard quản lý tài chính cá nhân tích hợp Biểu đồ theo thời gian thực và Quản lý giao dịch.",
+                    description: "Dashboard quản lý tàichính cá nhân tích hợp Biểu đồ theo thời gian thực và Quản lý giao dịch.",
                     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
                     link: "#",
                     before: ["Sinh viên trái ngành", "Mất gốc lập trình"],
@@ -391,8 +400,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 8
         }
     },
     {
@@ -405,22 +415,23 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'instructor-bio',
             type: 'instructor-bio',
             name: 'Instructor Bio',
-            title: 'Giảng Viên Của Bạn',
+            title: 'Giảng viên của bạn',
             tag: 'Đội ngũ chuyên gia',
-            subtitle: 'Người đồng hành cùng bạn trên con đường chinh phục Code',
+            subtitle: 'Người đồng hành cùng bạn trên con đường chinh phục code',
             showDotPattern: true,
             items: [
                 {
                     title: "Trần Minh Tùng",
-                    subtitle: "Senior Software Engineer",
+                    subtitle: "Senior software engineer",
                     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=500",
                     description: "10 năm kinh nghiệm phát triển phần mềm tại các startup công nghệ và tập đoàn lớn. Founder của Tulie Academy, đam mê chia sẻ kiến thức và truyền lửa cho thế hệ lập trình viên trẻ.",
-                    features: ["Ex-Tech Lead @ Unicorn Startup", "5000+ Học viên theo học", "Top 1% Creator về Lập trình"]
+                    features: ["Ex-Tech Lead @ Unicorn Startup", "5000+ Học viên theo học", "Top 1% Creator về lập trình"]
                 }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 9
         }
     },
     {
@@ -433,7 +444,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'testimonials-car',
             type: 'testimonials',
             name: 'Testimonials Carousel',
-            title: 'Học Viên Nói Gì',
+            title: 'Học viên nói gì',
             tag: 'Tiếng nói cộng đồng',
             subtitle: 'Câu chuyện thành công từ người thật việc thật',
             align: 'center',
@@ -444,8 +455,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { name: "Tuấn Kiệt", role: "Sinh viên ĐHBK", content: "Nội dung update liên tục, sát thực tế. Rất đáng tiền!", avatar: "https://randomuser.me/api/portraits/men/86.jpg" }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 10
         }
     },
     {
@@ -459,11 +471,12 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'sales-countdown',
             name: 'Sales Countdown',
             highlight: new Date(Date.now() + 86400000 * 2).toISOString(), // 2 days from now
-            ctaText: "Nhận Ưu Đãi 50% Ngay",
+            ctaText: "Nhận ưu đãi 50% ngay",
             ctaLink: "/checkout",
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 11
         }
     },
     {
@@ -476,12 +489,12 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'bonus-sec',
             type: 'bonus',
             name: 'Bonus Section',
-            title: 'Quà Tặng Độc Quyền',
+            title: 'Quà tặng độc quyền',
             subtitle: 'Chỉ dành cho học viên đăng ký hôm nay',
             showDotPattern: true,
             items: [
                 {
-                    title: "Bộ Ebook 'Roadmap to Senior'",
+                    title: "Bộ ebook 'Roadmap to Senior'",
                     price: "Trị giá 500k",
                     description: "Cẩm nang định hướng sự nghiệp chi tiết từ Fresher lên Senior.",
                     image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000",
@@ -489,8 +502,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 12
         }
     },
     {
@@ -503,7 +517,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'faq-std',
             type: 'faq',
             name: 'FAQ Section',
-            title: 'Câu Hỏi Thường Gặp',
+            title: 'Câu hỏi thường gặp',
             tag: 'Giải đáp thắc mắc',
             subtitle: 'Giải đáp thắc mắc của bạn',
             showDotPattern: true,
@@ -513,8 +527,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { title: "Có được hỗ trợ sau khóa học không?", content: "Có. Bạn được tham gia cộng đồng Alumni và được hỗ trợ trọn đời." }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 13
         }
     },
     {
@@ -527,16 +542,17 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'upsell-off',
             type: 'upsell',
             name: 'Upsell Offer',
-            title: 'Nâng Cấp Gói VIP',
-            subtitle: 'Nhận thêm đặc quyền Mentor 1:1',
+            title: 'Nâng cấp gói VIP',
+            subtitle: 'Nhận thêm đặc quyền mentor 1:1',
             price: '499.000',
             oldPrice: '999.000',
-            ctaText: 'Nâng Cấp Ngay',
+            ctaText: 'Nâng cấp ngay',
             ctaLink: '/upgrade',
             showDotPattern: true,
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 14
         }
     },
     {
@@ -549,14 +565,15 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'cta-std',
             type: 'cta',
             name: 'Standard CTA',
-            title: 'Đừng Chờ Đợi Cơ Hội',
+            title: 'Đừng chờ đợi cơ hội',
             subtitle: 'Hãy bắt đầu hành trình thay đổi sự nghiệp của bạn ngay hôm nay.',
-            ctaText: 'Tham Gia Ngay',
+            ctaText: 'Tham gia ngay',
             ctaLink: '/checkout',
             showDotPattern: true,
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'dark',
+            overlayOpacity: 0.6,
+            glowVariant: 15
         }
     },
     {
@@ -569,7 +586,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'instructor-grd',
             type: 'instructor-grid',
             name: 'Instructor Grid',
-            title: 'Đội Ngũ Chuyên Gia',
+            title: 'Đội ngũ chuyên gia',
             tag: 'Đội ngũ giảng viên',
             subtitle: 'Học hỏi trực tiếp từ những kỹ sư dày dặn kinh nghiệm thực chiến',
             align: 'center',
@@ -577,26 +594,27 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             items: [
                 {
                     title: "Minh Tùng",
-                    subtitle: "Founder & Lead Coach",
+                    subtitle: "Founder & Lead coach",
                     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800",
                     description: "Software Architect với 12+ năm kinh nghiệm xây dựng hệ thống Core Banking và Startup Unicorn. Đã đào tạo trực tiếp hơn 5000+ học viên thành công."
                 },
                 {
                     title: "Nguyễn Hà",
-                    subtitle: "Product Designer @ Grab",
+                    subtitle: "Product designer @ Grab",
                     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
                     description: "Chuyên gia về Design System và Human-Centered Design. Giúp bạn tư duy thẩm mỹ và xây dựng trải nghiệm người dùng mượt mà vượt mong đợi."
                 },
                 {
                     title: "Lê Hoàng",
-                    subtitle: "DevOps Engineer @ AWS",
+                    subtitle: "DevOps engineer @ AWS",
                     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800",
                     description: "Kiến trúc sư đám mây chuyên nghiệp. Người sẽ hướng dẫn bạn cách vận hành, deploy và tối ưu hóa ứng dụng trên hạ tầng quy mô hàng triệu người dùng."
                 }
             ],
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 0
         }
     },
     {
@@ -622,13 +640,14 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'payment-std',
             type: 'payment',
             name: 'Payment Section',
-            title: 'Đăng Ký Khóa Học',
+            title: 'Đăng ký khóa học',
             tag: 'Đăng ký ngay',
             subtitle: 'Hoàn tất đăng ký để bắt đầu học ngay.',
             showDotPattern: true,
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 1
         }
     },
     {
@@ -645,8 +664,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             subtitle: 'Lịch trình các hoạt động trong tháng',
             showDotPattern: true,
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 2
         }
     },
     {
@@ -662,6 +682,8 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             title: 'Các gói phổ biến',
             tag: 'Lựa chọn phù hợp',
             subtitle: 'Được nhiều thành viên lựa chọn',
+            backgroundTheme: 'light',
+            glowVariant: 3,
             items: [
                 {
                     id: 'plan-retail',
@@ -733,7 +755,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'video-std',
             type: 'video',
             name: 'Standard Video',
-            title: 'Khám Phá Tulie Academy',
+            title: 'Khám phá tulie academy',
             tag: 'Video giới thiệu',
             subtitle: 'Xem video hướng dẫn để hiểu rõ hơn về hệ thống học tập của chúng tôi.',
             videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
@@ -741,8 +763,9 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             animation: 'fade-up',
             showDotPattern: true,
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 4
         }
     },
     {
@@ -755,7 +778,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'video-txt-l',
             type: 'video-text',
             name: 'Video & Text (Left)',
-            title: 'Học Qua Thực Hành',
+            title: 'Học qua thực hành',
             tag: 'Phương pháp học tập',
             subtitle: 'Phương pháp học tập hiện đại, trực quan.',
             content: 'Chúng tôi tin rằng cách tốt nhất để học lập trình là bắt tay vào xây dựng các sản phẩm thực tế ngay từ ngày đầu tiên.',
@@ -768,11 +791,12 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 { title: 'Tài liệu đi kèm', description: 'Mọi bài học đều có source code và slide chi tiết.' }
             ],
             animation: 'fade-up',
-            ctaText: 'Xem Lộ Trình',
+            ctaText: 'Xem lộ trình',
             ctaLink: '/courses',
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 5
         }
     },
     {
@@ -785,20 +809,21 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             id: 'gallery-grd',
             type: 'gallery',
             name: 'Media Gallery',
-            title: 'Khoảnh Khắc Tulie',
+            title: 'Khoảnh khắc tulie',
             tag: 'Thư viện hình ảnh',
             subtitle: 'Hình ảnh và video hoạt động tại học viện.',
             showDotPattern: true,
             items: [
-                { title: 'Workshop Vibe Coding', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800', description: 'Buổi chia sẻ về tư duy lập trình mới.' },
-                { title: 'Demo Sản Phẩm', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', description: 'Video giới thiệu dự án học viên.' },
-                { title: 'Lớp Học Offline', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800', description: 'Không khí học tập sôi nổi tại văn phòng.' }
+                { title: 'Workshop vibe coding', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800', description: 'Buổi chia sẻ về tư duy lập trình mới.' },
+                { title: 'Demo sản phẩm', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800', videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', description: 'Video giới thiệu dự án học viên.' },
+                { title: 'Lớp học offline', image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800', description: 'Không khí học tập sôi nổi tại văn phòng.' }
             ],
             appearance: 'standard',
             animation: 'fade-up',
             backgroundImage: '',
-            backgroundTheme: 'auto',
-            overlayOpacity: 0.6
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 6
         }
     }
 ];

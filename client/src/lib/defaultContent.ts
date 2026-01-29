@@ -8,21 +8,23 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
         title: 'Ưu đãi có hạn',
         subtitle: 'Đừng bỏ lỡ cơ hội sở hữu bộ công cụ Vibe Coding với giá tốt nhất',
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 0
     },
     {
         id: 'hero-1',
         type: 'hero',
-        tag: 'PLATFORM',
+        tag: 'Platform',
         backgroundImage: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&q=80&w=2070',
-        title: 'Biến ý tưởng thành Web App thực tế - Không cần biết code',
-        subtitle: 'Giải pháp Gói xây dựng App đa lĩnh vực, đa mục đích với các công cụ AI. Từ idea trên giấy đến sản phẩm hoàn chỉnh trong vài tuần.',
-        ctaText: 'Khám phá Khoá học',
+        title: 'Biến ý tưởng thành web app thực tế - không cần biết code',
+        subtitle: 'Giải pháp gói xây dựng app đa lĩnh vực, đa mục đích với các công cụ AI. Từ idea trên giấy đến sản phẩm hoàn chỉnh trong vài tuần.',
+        ctaText: 'Khám phá khoá học',
         ctaLink: '/courses',
         image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 1
     },
     {
         id: 'vibe-pain',
@@ -71,18 +73,29 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
         title: 'Thành viên đã làm được gì?',
         subtitle: 'Kết quả thực tế từ những người như bạn',
         backgroundImage: 'https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=2070',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
+    },
+    {
+        id: 'pricing-hero',
+        type: 'hero',
+        title: 'Gói thành viên ưu đãi',
+        subtitle: 'Lựa chọn gói học phù hợp để bắt đầu hành trình của bạn.',
+        backgroundImage: '',
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 2
     },
     {
         id: 'payment-1',
         type: 'payment',
         title: 'Thanh toán',
-        subtitle: 'Bảo mật - Nhanh chóng - Tự động kích hoạt',
+        subtitle: 'Bảo mật - nhanh chóng - tự động kích hoạt',
         image: '',
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 2
     },
     {
         id: 'cta-1',
@@ -92,7 +105,7 @@ export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
         ctaText: 'Đăng ký miễn phí',
         ctaLink: '/register',
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     }
 ];
@@ -101,23 +114,24 @@ export const DEFAULT_ABOUT_PAGE_SECTIONS: Section[] = [
     {
         id: 'about-hero',
         type: 'hero',
-        title: 'Về The Tulie Lab',
-        subtitle: 'Nơi biến người bình thường thành người xây dựng sản phẩm. Chúng tôi tin rằng ai cũng có thể tạo ra giá trị với công nghệ - chỉ cần đúng phương pháp và Consultant phù hợp.',
-        ctaText: 'Xem Khoá học',
+        title: 'Về the tulie lab',
+        subtitle: 'Nơi biến người bình thường thành người xây dựng sản phẩm. Chúng tôi tin rằng ai cũng có thể tạo ra giá trị với công nghệ - chỉ cần đúng phương pháp và consultant phù hợp.',
+        ctaText: 'Xem khoá học',
         ctaLink: '/courses',
         image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop',
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 3
     },
     {
         id: 'about-mission',
         type: 'content',
         title: 'Sứ mệnh của chúng tôi',
-        subtitle: 'Democratize Software Development',
+        subtitle: 'Democratize software development',
         content: `Trước đây, xây dựng phần mềm là đặc quyền của những người học Computer Science 4 năm, hoặc những người có tiền thuê developer.
 
-Vibe Coding thay đổi điều đó.
+Vibe coding thay đổi điều đó.
 
 Với AI như ChatGPT, Cursor, v0... bất kỳ ai có ý tưởng đều có thể biến nó thành sản phẩm thực. Nhưng AI chỉ là công cụ - bạn vẫn cần:
 
@@ -129,16 +143,17 @@ Với AI như ChatGPT, Cursor, v0... bất kỳ ai có ý tưởng đều có th
 
 • Consultant hướng dẫn - Có người giúp debug khi gặp vấn đề thực tế
 
-The Tulie Lab cung cấp tất cả điều đó trong các Khoá học thực hành, và hỗ trợ xuyên suốt.`,
+The tulie lab cung cấp tất cả điều đó trong các khoá học thực hành, và hỗ trợ xuyên suốt.`,
         image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 4
     },
     {
         id: 'about-method',
         type: 'process',
-        title: 'Phương pháp Vibe Coding',
+        title: 'Phương pháp vibe coding',
         subtitle: 'Thực hành bằng cách làm sản phẩm thật',
         items: [
             {
@@ -146,11 +161,11 @@ The Tulie Lab cung cấp tất cả điều đó trong các Khoá học thực h
                 description: 'Hiểu web app hoạt động thế nào, setup môi trường, làm quen AI tools.'
             },
             {
-                title: 'Session 3-4: Build Core',
+                title: 'Session 3-4: Build core',
                 description: 'Xây dựng tính năng chính của app bạn, database, API với sự hỗ trợ của AI.'
             },
             {
-                title: 'Session 5-6: Polish & Deploy',
+                title: 'Session 5-6: Polish & deploy',
                 description: 'Hoàn thiện UI, tối ưu performance, deploy lên hosting thật.'
             },
             {
@@ -159,23 +174,24 @@ The Tulie Lab cung cấp tất cả điều đó trong các Khoá học thực h
             }
         ],
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 5
     },
     {
         id: 'about-instructor',
         type: 'stats',
-        title: 'Đội ngũ Consultant',
+        title: 'Đội ngũ consultant',
         subtitle: 'Thực chiến, không lý thuyết suông',
         items: [
             {
-                title: 'Tulie (Founder)',
-                description: '10+ năm kinh nghiệm Full-stack. Ex-Tech Lead tại các startup triệu USD. Đã build 50+ products.',
+                title: 'Tulie (founder)',
+                description: '10+ năm kinh nghiệm Full-stack. Ex-tech lead tại các startup triệu USD. Đã build 50+ products.',
                 icon: 'Code2'
             },
             {
-                title: 'Community Mentors',
-                description: 'Đội ngũ TA và mentors là Member xuất sắc đã ship sản phẩm thành công.',
+                title: 'Community mentors',
+                description: 'Đội ngũ TA và mentors là member xuất sắc đã ship sản phẩm thành công.',
                 icon: 'Handshake'
             },
             {
@@ -185,19 +201,21 @@ The Tulie Lab cung cấp tất cả điều đó trong các Khoá học thực h
             }
         ],
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 6
     },
     {
         id: 'about-cta',
         type: 'cta',
         title: 'Sẵn sàng bắt đầu?',
-        subtitle: 'Tham gia cùng 1000+ Member đã thay đổi sự nghiệp với Vibe Coding.',
-        ctaText: 'Đăng ký tham dự Khoá học miễn phí',
+        subtitle: 'Tham gia cùng 1000+ member đã thay đổi sự nghiệp với vibe coding.',
+        ctaText: 'Đăng ký tham dự khoá học miễn phí',
         ctaLink: '/register',
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 7
     }
 ];
 
@@ -207,16 +225,17 @@ export const DEFAULT_VIBE_CODING_SECTIONS: Section[] = [
     {
         id: "vibe-hero",
         type: "hero",
-        title: "VIBE CODING - KỶ NGUYÊN XÂY DỰNG SẢN PHẨM MỚI",
-        subtitle: "The Tulie Lab tiên phong ứng dụng phương pháp Vibe Coding để giúp cá nhân và doanh nghiệp hiện thực hoá ý tưởng phần mềm chỉ bằng ngôn ngữ tự nhiên và tư duy hệ thống.",
+        title: "Vibe coding - kỷ nguyên xây dựng sản phẩm mới",
+        subtitle: "The tulie lab tiên phong ứng dụng phương pháp vibe coding để giúp cá nhân và doanh nghiệp hiện thực hoá ý tưởng phần mềm chỉ bằng ngôn ngữ tự nhiên và tư duy hệ thống.",
         image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2070&auto=format&fit=crop",
         ctaText: "Tìm hiểu phương pháp",
         ctaLink: "#vibe-methodology",
         isVisible: true,
         order: 1,
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 8
     },
     {
         id: "vibe-stats",
@@ -231,7 +250,7 @@ export const DEFAULT_VIBE_CODING_SECTIONS: Section[] = [
         isVisible: true,
         order: 2,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
@@ -248,13 +267,13 @@ export const DEFAULT_VIBE_CODING_SECTIONS: Section[] = [
         isVisible: true,
         order: 3,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "vibe-values",
         type: "benefits",
-        tag: "CORE VALUES",
+        tag: "Core values",
         title: "Giá trị cốt lõi",
         subtitle: "Không chỉ là code, đó là tư duy sản phẩm",
         items: [
@@ -265,18 +284,19 @@ export const DEFAULT_VIBE_CODING_SECTIONS: Section[] = [
         isVisible: true,
         order: 4,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "vibe-cta",
         type: "cta",
-        title: "Bắt đầu hành trình Vibe Coding của bạn",
+        title: "Bắt đầu hành trình vibe coding của bạn",
         subtitle: "Chúng tôi sẵn sàng đồng hành cùng bạn xây dựng những giải pháp đột phá.",
         ctaText: "Liên hệ tư vấn dịch vụ",
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 11
     }
 ];
 
@@ -284,22 +304,23 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
     {
         id: "vibe-hero",
         type: "hero",
-        title: "BIẾN Ý TƯỞNG THÀNH ỨNG DỤNG THỰC TẾ TRONG 30 PHÚT",
-        subtitle: "Làm chủ tư duy \"Vibe Coding\": Tự tay xây dựng 10 Mini Apps giải quyết công việc Marketing, Sales, Admin và Đời sống ngay lập tức.",
-        content: "✅ Không cần học code phức tạp – Chỉ cần biết tiếng Việt và tư duy logic. \n ✅ Sở hữu vĩnh viễn Source Code của 10 ứng dụng thực chiến. \n ✅ Tiết kiệm hàng chục triệu đồng tiền thuê Dev và mua phần mềm mỗi năm.",
+        title: "Biến ý tưởng thành ứng dụng thực tế trong 30 phút",
+        subtitle: "Làm chủ tư duy \"vibe coding\": Tự tay xây dựng 10 mini apps giải quyết công việc marketing, sales, admin và đời sống ngay lập tức.",
+        content: "✅ Không cần học code phức tạp – chỉ cần biết tiếng Việt và tư duy logic. \n ✅ Sở hữu vĩnh viễn source code của 10 ứng dụng thực chiến. \n ✅ Tiết kiệm hàng chục triệu đồng tiền thuê dev và mua phần mềm mỗi năm.",
         image: "/images/heroes/vibe-coding.png",
-        ctaText: "ĐĂNG KÝ HỌC NGAY - 1.790.000Đ",
+        ctaText: "Đăng ký học ngay - 1.790.000đ",
         ctaLink: "/courses/vibe-coding-nguoi-moi",
         isVisible: true,
         order: 1,
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 12
     },
     {
         id: "vibe-pain",
         type: "content-block",
-        tag: "PAIN POINTS",
+        tag: "Pain points",
         title: "Bạn có đang lãng phí thời gian và tiền bạc mỗi ngày?",
         subtitle: "Những rào cản khiến bạn dậm chân tại chỗ",
         items: [
@@ -320,12 +341,15 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
             }
         ],
         isVisible: true,
-        order: 2
+        order: 2,
+        backgroundImage: '',
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6
     },
     {
         id: "vibe-agitation",
         type: "benefits",
-        tag: "AGITATION",
+        tag: "Agitation",
         title: "Bài toán kinh tế: Không học thì mất gì?",
         subtitle: "Cái giá của sự chần chừ đắt hơn bạn nghĩ",
         items: [
@@ -336,13 +360,13 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
         isVisible: true,
         order: 3,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "vibe-solution",
         type: "content",
-        tag: "SOLUTION",
+        tag: "Solution",
         title: "Kỷ nguyên mới: Lập trình bằng Ngôn ngữ tự nhiên",
         subtitle: "Vibe Coding - Lối tắt cho người không chuyên",
         content: "**Vibe Coding** không bắt bạn học thuộc lòng cú pháp khô khan.\n\n* **Bạn là Kiến Trúc Sư:** Đưa ra ý tưởng, luồng đi (Flow), và yêu cầu.\n* **AI là Thợ Xây:** AI (Cursor, Claude, Replit) sẽ viết từng dòng code, sửa lỗi và hoàn thiện sản phẩm cho bạn.\n\nTôi dạy bạn tư duy dùng AI để tạo ra công cụ phục vụ chính công việc của bạn.",
@@ -351,13 +375,13 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
         isVisible: true,
         order: 4,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "vibe-value",
         type: "benefits",
-        tag: "VALUES",
+        tag: "Values",
         title: "Giá trị vượt trội bạn nhận được",
         subtitle: "Khoản đầu tư có lãi suất ngay lập tức",
         items: [
@@ -368,13 +392,13 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
         isVisible: true,
         order: 6,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "vibe-bonuses",
         type: "bonus",
-        tag: "BONUSES",
+        tag: "Bonuses",
         title: "Quà tặng độc quyền (Trị giá 5.000.000đ)",
         subtitle: "Dành cho học viên đăng ký hôm nay",
         items: [
@@ -386,13 +410,13 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
         isVisible: true,
         order: 7,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "vibe-faq",
         type: "faq",
-        tag: "FAQ",
+        tag: "Faq",
         title: "Câu hỏi thường gặp",
         subtitle: "Giải đáp thắc mắc của bạn",
         items: [
@@ -404,7 +428,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
         isVisible: true,
         order: 9,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
@@ -414,7 +438,7 @@ export const DEFAULT_VIBE_CODING_COURSE_SECTIONS: Section[] = [
         subtitle: "Làm chủ AI, giải phóng sức lao động và tự tay xây dựng những ứng dụng tuyệt vời.",
         ctaText: "Khám phá Khoá học",
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     }
 ];
@@ -423,22 +447,23 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "general-hero",
         type: "hero",
-        tag: "WELCOME",
-        title: "KHAI PHÁ SỨC MẠNH AI TRONG CÔNG VIỆC THỰC CHIẾN",
-        subtitle: "Tại The Tulie Lab, chúng tôi giúp bạn làm chủ công nghệ và AI để tự động hóa quy trình, xây dựng ứng dụng chuyên sâu và tối ưu hiệu suất công việc vượt trội.",
+        tag: "Welcome",
+        title: "Khai phá sức mạnh AI trong công việc thực chiến",
+        subtitle: "Tại the tulie lab, chúng tôi giúp bạn làm chủ công nghệ và AI để tự động hóa quy trình, xây dựng ứng dụng chuyên sâu và tối ưu hiệu suất công việc vượt trội.",
         image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
-        ctaText: "Khám phá Khoá học",
+        ctaText: "Khám phá khoá học",
         ctaLink: "/courses",
         isVisible: true,
         order: 1,
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 14
     },
     {
         id: "tulie-stats",
         type: "stats",
-        tag: "NUMBERS",
+        tag: "Numbers",
         title: "Tulie Lab qua những con số",
         subtitle: "Đồng hành cùng sự phát triển của bạn",
         items: [
@@ -450,13 +475,13 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         isVisible: true,
         order: 2,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "vibe-methodology",
         type: "coding-methods",
-        tag: "STAGES",
+        tag: "Stages",
         title: "5 Cấp độ xây dựng App với Vibe Coding",
         subtitle: "Học cách làm chủ AI để tạo ra sản phẩm thực thụ",
         rowConfig: [
@@ -552,13 +577,13 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         isVisible: true,
         order: 3,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "general-cta",
         type: "cta",
-        tag: "ACTION",
+        tag: "Action",
         title: "Sẵn sàng nâng tầm kỹ năng của bạn?",
         subtitle: "Khám phá ngay các khoá học và bộ công cụ giúp bạn bứt phá trong kỷ nguyên AI.",
         ctaText: "Xem tất cả Khoá học",
@@ -566,14 +591,14 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         isVisible: true,
         order: 4,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "video-intro",
         type: "video",
         title: "Video Giới Thiệu",
-        tag: "INTRO",
+        tag: "Intro",
         subtitle: "Xem video để hiểu rõ hơn về phương pháp Vibe Coding",
         videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Replace with actual video
         mediaAspectRatio: "16/9",
@@ -581,14 +606,14 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         order: 5,
         isVisible: true,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
         id: "gallery-showcase",
         type: "gallery",
         title: "Thư Viện Ảnh",
-        tag: "GALLERY",
+        tag: "Gallery",
         subtitle: "Một số hình ảnh hoạt động tại The Tulie Lab",
         items: [
             { title: "Workshop Offline", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800", description: "Buổi offline chia sẻ kinh nghiệm." },
@@ -599,7 +624,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         order: 6,
         isVisible: true,
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     }
 ];
@@ -607,16 +632,14 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
 
 export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
     {
-        id: 'hero-instructors',
-        type: 'hero',
-        title: 'Đội Ngũ Chuyên Gia',
-        subtitle: 'Những người đồng hành cùng bạn trên con đường chinh phục công nghệ.',
-        ctaText: 'Xem khóa học',
-        ctaLink: '/courses',
-        image: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=2070&auto=format&fit=crop',
+        id: "instructors-hero",
+        type: "hero",
+        title: "Đội ngũ của chúng tôi",
+        subtitle: "Kết nối cùng những chuyên gia thực chiến.",
         backgroundImage: '',
-        backgroundTheme: 'auto',
-        overlayOpacity: 0.6
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        glowVariant: 1
     },
     {
         id: 'instructor-bio-main',
@@ -625,7 +648,7 @@ export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
         subtitle: 'Tung Nguyen - Founder The Tulie Lab',
         content: 'Với hơn 10 năm kinh nghiệm trong lĩnh vực phát triển phần mềm và tư vấn giải pháp công nghệ, tôi tin rằng bất cứ ai cũng có thể làm chủ công cụ và tạo ra giá trị đột phá.',
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {
@@ -635,7 +658,7 @@ export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
         subtitle: 'Chuyên gia hàng đầu trong các lĩnh vực',
         items: [],
         backgroundImage: '',
-        backgroundTheme: 'auto',
+        backgroundTheme: 'light',
         overlayOpacity: 0.6
     },
     {

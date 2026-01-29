@@ -13,8 +13,8 @@ export const SectionTag: React.FC<SectionTagProps> = ({ children, className }) =
             className
         )}>
             <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/80 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 dark:bg-zinc-600 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-950 dark:bg-zinc-200"></span>
             </span>
             {children}
         </div>
