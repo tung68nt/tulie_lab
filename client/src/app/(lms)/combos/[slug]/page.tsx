@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from 'react';
 import { api } from '@/lib/api';
+import { Bundle, Course, Lesson } from '@/types/api';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
 import { SectionTag } from '@/components/SectionTag';
@@ -14,7 +15,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
     const { slug } = use(params);
     const router = useRouter();
     const { addToast } = useToast();
-    const [bundle, setBundle] = useState<any>(null);
+    const [bundle, setBundle] = useState<Bundle | null>(null);
     const [loading, setLoading] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -48,7 +49,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
     if (!bundle) return <div className="container py-20 text-center text-xl">Không tìm thấy combo</div>;
 
-    const courses = bundle.courses?.map((bc: any) => bc.course) || [];
+    const courses = bundle.courses?.map((bc) => bc.course) || [];
 
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('vi-VN', {
@@ -154,7 +155,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                     </div>
 
                     <div className="space-y-10">
-                        {courses.map((course: any, idx: number) => (
+                        {courses.map((course: Course, idx: number) => (
                             <div key={course.id || idx} className="group relative bg-background border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5">
                                 <div className="flex flex-col lg:flex-row gap-10 md:gap-12">
                                     {/* Left: Course Info & Thumbnail */}
@@ -208,7 +209,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                             </h4>
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                                                {course.lessons?.map((lesson: any, lidx: number) => (
+                                                {course.lessons?.map((lesson: Lesson, lidx: number) => (
                                                     <div
                                                         key={lesson.id || lidx}
                                                         className="flex items-center gap-4 p-4 rounded-2xl bg-background/50 border border-transparent hover:border-primary/20 hover:bg-background transition-all group/item"

@@ -7,15 +7,16 @@ import { Button } from '@/components/Button';
 import { BookOpen, Clock, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
 import { SectionTag } from '@/components/SectionTag';
 import { Section } from '@/types/sections';
+import { Bundle } from '@/types/api';
 
 export const SystemCombosSection = ({ section }: { section: Section }) => {
-    const [combos, setCombos] = useState<any[]>([]);
+    const [combos, setCombos] = useState<Bundle[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchCombos = async () => {
             try {
-                const data: any = await api.bundles.list();
+                const data = await api.bundles.list() as Bundle[];
                 setCombos(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.error('Failed to fetch combos:', error);
@@ -50,7 +51,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                     </div>
                 ) : (
                     <div className="flex flex-col gap-10 max-w-[1050px] mx-auto">
-                        {combos.map((combo) => (
+                        {combos.map((combo: Bundle) => (
                             <div key={combo.id} className="group relative bg-card border border-zinc-100 dark:border-zinc-800 rounded-[2.5rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col md:flex-row hover:-translate-y-1">
                                 <Link href={`/combos/${combo.slug}`} className="absolute inset-0 z-10" />
 
@@ -108,7 +109,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     {combo.salePrice?.toLocaleString()}₫
                                                 </span>
                                                 <div className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-[11px] font-bold py-1.5 px-3 rounded-xl border border-red-100 dark:border-red-500/20">
-                                                    Tiết kiệm {Math.round((1 - combo.salePrice / (combo.originalPrice || 1)) * 100)}%
+                                                    Tiết kiệm {Math.round((1 - (combo.salePrice || 0) / (combo.originalPrice || 1)) * 100)}%
                                                 </div>
                                             </div>
                                         </div>

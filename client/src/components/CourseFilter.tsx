@@ -1,16 +1,22 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { api } from '@/lib/api';
+import { ApiResponse } from '@/types/api';
 import { Search, ChevronRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/Button';
 
+interface Category {
+    id: string;
+    name: string;
+}
+
 function CourseFilterInner() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [categories, setCategories] = useState<any[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
 
     const category = searchParams.get('category') || '';
     const level = searchParams.get('level') || '';
@@ -21,7 +27,10 @@ function CourseFilterInner() {
 
     useEffect(() => {
         api.categories.list()
-            .then((res: any) => setCategories(res.data || []))
+            .then((res: unknown) => {
+                const data = res as ApiResponse<Category[]>;
+                setCategories(data.data || []);
+            })
             .catch(() => { });
     }, []);
 
@@ -34,7 +43,7 @@ function CourseFilterInner() {
         return () => clearTimeout(timer);
     }, [searchValue]);
 
-    const updateFilter = (key: string, value: string) => {
+    const updateFilter = useCallback((key: string, value: string) => {
         const params = new URLSearchParams(searchParams.toString());
         const currentValues = params.get(key)?.split(',').filter(Boolean) || [];
 
@@ -53,7 +62,7 @@ function CourseFilterInner() {
             }
         }
         router.push(`/courses?${params.toString()}`);
-    };
+    }, [router, searchParams]);
 
     const isSelected = (key: string, value: string) => {
         const currentValues = searchParams.get(key)?.split(',').filter(Boolean) || [];

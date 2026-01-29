@@ -1,5 +1,12 @@
 export type SectionType = 'hero' | 'stats' | 'process' | 'comparison' | 'projects' | 'testimonials' | 'cta' | 'features' | 'content' | 'instructor-grid' | 'benefits' | 'coding-methods' | 'sales-countdown' | 'upsell' | 'payment' | 'custom-html' | 'student-showcase' | 'content-block' | 'instructor-bio' | 'bonus' | 'faq' | 'history' | 'curriculum' | 'pricing' | 'calendar' | 'video' | 'video-text' | 'gallery' | 'system-courses' | 'system-shop' | 'system-blog' | 'system-combos' | 'system-instructors' | 'heading' | 'cta-box';
 
+export interface SectionButton {
+    text: string;
+    link: string;
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+    [key: string]: unknown;
+}
+
 export interface SectionItem {
     id?: string;
     title?: string;
@@ -12,7 +19,7 @@ export interface SectionItem {
     salePrice?: string | number; // For upsells
     productId?: string; // ID for backend order
     features?: string[] | string;
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 export interface TableRowConfig {
@@ -44,7 +51,7 @@ export interface Section {
     price?: string | number;
     oldPrice?: string | number;
     icon?: string;
-    buttons?: any[];
+    buttons?: SectionButton[];
     imagePosition?: 'left' | 'right';
     statsTitle?: string;
     statsValue?: string;

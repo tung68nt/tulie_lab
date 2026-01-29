@@ -186,7 +186,7 @@ export default function AdminContentPage() {
                         <div className="space-y-2">
                             {(() => {
                                 try {
-                                    const sections: any[] = JSON.parse(jsonContent || '[]');
+                                    const sections: Section[] = JSON.parse(jsonContent || '[]');
                                     if (!Array.isArray(sections)) return <p className="font-bold">Invalid JSON structure</p>;
 
                                     const moveSection = (index: number, direction: 'up' | 'down') => {
@@ -224,7 +224,7 @@ export default function AdminContentPage() {
                                     return (
                                         <div className="space-y-4">
                                             <div className="space-y-2">
-                                                {sections.map((section, index) => (
+                                                {sections.map((section: Section, index: number) => (
                                                     <div key={index} className={`flex items-center justify-between p-3 rounded-lg border ${section.isVisible === false ? 'opacity-50 bg-muted' : 'bg-card'}`}>
                                                         <div className="flex items-center gap-3">
                                                             <span className="text-xs px-2 py-1 bg-muted rounded min-w-[24px] text-center">{index + 1}</span>

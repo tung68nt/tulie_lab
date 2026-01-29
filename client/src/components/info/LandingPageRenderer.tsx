@@ -1,5 +1,5 @@
-
 import { notFound } from 'next/navigation';
+import { Section } from '@/types/sections';
 import { HeroSection } from '@/components/info/sections/HeroSection';
 import { StatsSection } from '@/components/info/sections/StatsSection';
 import { BenefitsSection } from '@/components/info/sections/BenefitsSection';
@@ -34,7 +34,7 @@ import { SystemCombosSection } from '@/components/info/sections/SystemCombosSect
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 
 // Map section types to components
-const SECTION_COMPONENTS: Record<string, any> = {
+const SECTION_COMPONENTS: Record<string, React.ElementType> = {
     hero: HeroSection,
     stats: StatsSection,
     features: BenefitsSection,
@@ -99,7 +99,7 @@ async function getLandingPage(slug: string) {
 
 interface LandingPageRendererProps {
     slug: string;
-    fallbackSections?: any[];
+    fallbackSections?: Section[];
     forceFallback?: boolean;
 }
 
@@ -132,7 +132,7 @@ export async function LandingPageRenderer({ slug, fallbackSections, forceFallbac
 
     return (
         <main className="min-h-screen bg-background text-foreground">
-            {sections.filter((s: any) => s.isVisible !== false).map((section: any, index: number) => {
+            {sections.filter((s: Section) => s.isVisible !== false).map((section: Section, index: number) => {
                 const Component = SECTION_COMPONENTS[section.type] || SECTION_COMPONENTS['content']; // Fallback to content
                 if (!Component) {
                     console.warn(`Unknown section type: ${section.type}`);

@@ -51,8 +51,9 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res: any = await api.categories.list();
-                setCategories(Array.isArray(res) ? res : (res.data || []));
+                const res = await api.categories.list() as unknown;
+                const categoriesData = Array.isArray(res) ? (res as Category[]) : ((res as { data?: Category[] }).data || []);
+                setCategories(categoriesData);
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
@@ -65,7 +66,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
             setLoading(true);
             try {
                 const categoryId = selectedCategories.length > 0 ? selectedCategories[0] : undefined;
-                const res: any = await api.blog.list(currentPage, postsPerPage, categoryId);
+                const res = await api.blog.list(currentPage, postsPerPage, categoryId) as { data: BlogPost[]; meta?: { total: number } };
                 const postsData = res.data || [];
                 const total = res.meta?.total || postsData.length;
 

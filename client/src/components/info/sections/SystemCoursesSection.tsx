@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Section } from '@/types/sections';
 import { api } from '@/lib/api';
+import { Course, ApiResponse } from '@/types/api';
 import { CourseCard } from '@/components/CourseCard';
 import { CourseFilter } from '@/components/CourseFilter';
 import { useSearchParams } from 'next/navigation';
@@ -14,7 +15,7 @@ interface SystemCoursesSectionProps {
 
 function SystemCoursesContent() {
     const searchParams = useSearchParams();
-    const [courses, setCourses] = useState<any[]>([]);
+    const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -22,12 +23,12 @@ function SystemCoursesContent() {
             setLoading(true);
             try {
                 // Convert searchParams to an object
-                const params: any = {};
+                const params: Record<string, string> = {};
                 searchParams.forEach((value, key) => {
                     params[key] = value;
                 });
 
-                const res: any = await api.courses.list(params);
+                const res = await api.courses.list(params) as ApiResponse<Course[]>;
                 setCourses(res.data || []);
             } catch (e) {
                 console.error("Failed to fetch courses", e);
@@ -58,8 +59,8 @@ function SystemCoursesContent() {
                     </div>
                 ) : courses.length > 0 ? (
                     <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
-                        {courses.map((course: any) => (
-                            <CourseCard key={course.id} {...course} />
+                        {courses.map((course: Course) => (
+                            <CourseCard key={course.id} {...course} description={course.description || ''} price={Number(course.price || 0)} />
                         ))}
                     </div>
                 ) : (

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
-import { Instructor } from '@/types/api';
+import { Instructor, ApiResponse } from '@/types/api';
 import { Section } from '@/types/sections';
 import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
@@ -17,7 +17,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
     useEffect(() => {
         const fetchInstructors = async () => {
             try {
-                const res: any = await api.instructors.list();
+                const res = await api.instructors.list() as ApiResponse<Instructor[]>;
                 setInstructors(res.data || []);
             } catch (error) {
                 console.error('Failed to fetch instructors:', error);

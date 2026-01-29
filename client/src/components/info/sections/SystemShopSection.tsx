@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers } from 'lucide-react';
 import { Section } from '@/types/sections';
 import { SectionTag } from '@/components/SectionTag';
+import { Product, Order, User, ApiResponse } from '@/types/api';
 
 const CATEGORIES = [
     { id: 'all', label: 'Tất cả lĩnh vực' },
@@ -29,7 +30,7 @@ const PRODUCT_TYPES = [
 ];
 
 export const SystemShopSection = ({ section }: { section: Section }) => {
-    const [products, setProducts] = useState<any[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -40,23 +41,23 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res: any = await api.products.list({ isPublished: true });
+                const res = await api.products.list({ isPublished: true }) as ApiResponse<Product[]>;
                 setProducts(res.data || []);
 
                 try {
-                    const profile = await api.users.getProfile() as any;
+                    const profile = await api.users.getProfile() as User;
                     if (profile) {
-                        const orders = await api.users.getMyOrders() as any[];
+                        const orders = await api.users.getMyOrders() as Order[];
                         const ownedIds = new Set<string>();
-                        orders.forEach((o: any) => {
+                        orders.forEach((o: Order) => {
                             if (o.status === 'PAID' || o.status === 'COMPLETED') {
                                 if (o.items) {
-                                    o.items.forEach((i: any) => {
-                                        if (i.productId) ownedIds.add(i.productId);
+                                    (o.items as Array<{ productId: string }>).forEach(i => {
+                                        if (i.productId) ownedIds.add(String(i.productId));
                                     });
                                 }
                                 if (o.products) {
-                                    o.products.forEach((p: any) => ownedIds.add(p.id));
+                                    (o.products as Array<{ id: string }>).forEach(p => ownedIds.add(String(p.id)));
                                 }
                             }
                         });
@@ -77,11 +78,11 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
 
     const filteredProducts = useMemo(() => {
         return products.filter(product => {
-            const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(product.field);
-            const matchType = selectedTypes.length === 0 || selectedTypes.includes(product.type);
+            const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(String(product.field || ''));
+            const matchType = selectedTypes.length === 0 || selectedTypes.includes(String(product.type || ''));
             const matchSearch = searchQuery === '' ||
                 product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                product.description?.toLowerCase().includes(searchQuery.toLowerCase());
+                (product.description as string || '').toLowerCase().includes(searchQuery.toLowerCase());
             return matchCategory && matchType && matchSearch;
         });
     }, [products, selectedCategories, selectedTypes, searchQuery]);
@@ -316,9 +317,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             {!isOwned ? (
                                                                 <>
                                                                     <span className="text-xl font-semibold text-foreground leading-none">
-                                                                        {product.price === 0 || product.price === '0'
+                                                                        {Number(product.price) === 0
                                                                             ? 'Miễn phí'
-                                                                            : `${new Intl.NumberFormat('vi-VN').format(product.price)} ₫`}
+                                                                            : `${new Intl.NumberFormat('vi-VN').format(Number(product.price))} ₫`}
                                                                     </span>
                                                                     {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
                                                                         <span className="text-[11px] font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded leading-none mb-0.5">
@@ -335,7 +336,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                     </div>
                                                     {(!isOwned && Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
                                                         <div className="text-xs text-muted-foreground line-through -mt-1">
-                                                            {new Intl.NumberFormat('vi-VN').format(product.compareAtPrice)} ₫
+                                                            {new Intl.NumberFormat('vi-VN').format(Number(product.compareAtPrice))} ₫
                                                         </div>
                                                     )}
                                                     <Link href={`/shop/${product.slug}`} className="w-full">
