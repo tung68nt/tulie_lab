@@ -11,6 +11,13 @@ import { SalesCountdownSection } from '@/components/info/sections/SalesCountdown
 import { UpsellSection } from '@/components/info/sections/UpsellSection';
 import { CustomHtmlSection } from '@/components/info/sections/CustomHtmlSection';
 import { ExpertSection } from '@/components/info/sections/ExpertSection';
+import { HeadingSection } from '@/components/info/sections/HeadingSection';
+import { CTABoxSection } from '@/components/info/sections/CTABoxSection';
+import { SystemCoursesSection } from '@/components/info/sections/SystemCoursesSection';
+import { SystemShopSection } from '@/components/info/sections/SystemShopSection';
+import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection';
+import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
+import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 import dynamic from 'next/dynamic';
 import { FadeIn } from '@/components/animations/FadeIn';
 
@@ -61,6 +68,13 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     video: VideoSection,
     'video-text': VideoTextSection,
     gallery: GallerySection,
+    heading: HeadingSection,
+    'cta-box': CTABoxSection,
+    'system-courses': SystemCoursesSection,
+    'system-shop': SystemShopSection,
+    'system-blog': SystemBlogSection,
+    'system-combos': SystemCombosSection,
+    'system-instructors': SystemInstructorsSection,
 };
 
 // Context for checking if section is in preview mode (e.g. editor)

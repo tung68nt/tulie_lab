@@ -4,6 +4,7 @@ import React from 'react';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { SectionBackground } from '../SectionBackground';
+import { SectionTag } from '@/components/SectionTag';
 
 export const HeadingSection = ({ section }: { section: Section }) => {
     const align = section.align || 'center';
@@ -24,15 +25,9 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                     align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'
                 )}>
                     {section.tag && (
-                        <div className={cn(
-                            "inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2",
-                            section.backgroundTheme === 'dark'
-                                ? "bg-primary/20 text-primary border border-primary/20 shadow-[0_0_10px_rgba(var(--primary),0.3)]"
-                                : "bg-primary/10 text-primary border border-primary/10"
-                        )}>
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                        <SectionTag className="mb-2">
                             {section.tag}
-                        </div>
+                        </SectionTag>
                     )}
 
                     {section.title && (

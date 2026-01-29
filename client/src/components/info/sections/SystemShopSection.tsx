@@ -101,7 +101,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
             <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter - Desktop & Tablet */}
-                    <aside className={`w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-20 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
+                    <aside className={`w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-32 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
                         {/* Search Bar */}
                         <div className="space-y-3">
                             <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>
