@@ -114,7 +114,7 @@ export default function AdminSettingsPage() {
             const result: any = await api.uploads.single(file);
             const url = result?.data?.url;
             if (url) {
-                handleChange('site_logo', url);
+                handleChange('site_logo', getMediaUrl(url));
                 addToast('Logo đã được tải lên', 'success');
             } else {
                 throw new Error('Không nhận được URL từ server');
@@ -136,7 +136,7 @@ export default function AdminSettingsPage() {
             const result: any = await api.uploads.single(file);
             const url = result?.data?.url;
             if (url) {
-                handleChange('site_favicon', url);
+                handleChange('site_favicon', getMediaUrl(url));
                 addToast('Favicon đã được tải lên', 'success');
             } else {
                 throw new Error('Không nhận được URL từ server');
@@ -388,7 +388,7 @@ export default function AdminSettingsPage() {
                                                                 const result: any = await api.uploads.single(file);
                                                                 if (result?.data?.url) {
                                                                     const newDB = [...domainBranding];
-                                                                    newDB[idx].logo_url = result.data.url;
+                                                                    newDB[idx].logo_url = getMediaUrl(result.data.url);
                                                                     setDomainBranding(newDB);
                                                                 }
                                                             } catch (err) {
