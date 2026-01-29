@@ -378,11 +378,11 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 </div>
                             </div>
                             <div className="space-y-4 md:text-right">
-                                <h3 className="text-sm font-bold text-zinc-600">Thông tin bổ sung</h3>
+                                <h3 className="text-sm font-bold text-zinc-600">Thông tin thanh toán</h3>
                                 <div className="space-y-2 text-sm md:text-right">
                                     <div className="flex justify-start md:justify-end gap-2">
                                         <span className="text-zinc-600 shrink-0">Hình thức:</span>
-                                        <span className="font-bold">Chuyển khoản / Auto QR</span>
+                                        <span className="font-bold">Chuyển khoản</span>
                                     </div>
                                     {order.metadata?.isGift && (
                                         <div className="flex justify-start md:justify-end gap-2">
