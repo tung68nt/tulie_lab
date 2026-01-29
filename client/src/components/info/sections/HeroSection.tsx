@@ -9,6 +9,7 @@ import { Button } from '@/components/Button';
 import { SectionBackground } from '../SectionBackground';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { StatusDot } from '@/components/StatusDot';
 import { ShoppingBag, Star, Zap, BookOpen, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
 
 export function HeroSection({ section, mainCourse }: { section: any; mainCourse?: any }) {
@@ -96,7 +97,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             });
                                         }
                                     }}
-                                    className="w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
+                                    className="w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] bg-white text-black hover:bg-zinc-200"
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
                                     <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,7 +106,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 </Button>
                             )}
                             <Link href="/contact">
-                                <Button as="div" variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 h-12 font-semibold hover:bg-muted transition-all">
+                                <Button as="div" variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 h-12 font-bold border-white/40 text-white hover:bg-white/10 transition-all backdrop-blur-sm">
                                     Liên hệ tư vấn
                                 </Button>
                             </Link>
@@ -113,20 +114,13 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-medium",
-                            section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
+                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-bold",
+                            section.backgroundTheme === 'dark' ? "text-white" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
-                                <div key={index} className="flex items-center gap-2">
-                                    <div className={cn(
-                                        "h-5 w-5 rounded-full flex items-center justify-center",
-                                        section.backgroundTheme === 'dark' ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
-                                    )}>
-                                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    </div>
-                                    <span>{indicator}</span>
+                                <div key={index} className="flex items-center gap-3 bg-black/50 border border-white/20 px-4 py-2 rounded-full backdrop-blur-md shadow-lg group/indicator transition-all hover:bg-black/60">
+                                    <StatusDot color="white" />
+                                    <span className="not-italic tracking-wide">{indicator}</span>
                                 </div>
                             ))}
                         </div>

@@ -11,7 +11,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
     const [expandedModule, setExpandedModule] = useState<number | null>(null);
 
     return (
-        <section className="py-24 md:py-32 relative overflow-hidden bg-background">
+        <section className="py-24 md:py-32 relative bg-background">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -23,8 +23,8 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
             <div className="container px-4 mx-auto relative z-10">
                 {/* Centered Header */}
                 <div className="max-w-4xl mx-auto text-center mb-16 md:mb-24 space-y-6">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary mb-4">
-                        <span className="text-xs font-bold uppercase tracking-wider">Lộ trình học tập</span>
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary mb-4 font-bold">
+                        <span className="text-xs tracking-wide">Lộ trình học tập</span>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
                         {String(section.title || "Lộ trình học tập Chuyên sâu")}
@@ -35,14 +35,13 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                 </div>
 
                 {/* Vertical Stack Content */}
-                <div className="max-w-[1000px] mx-auto space-y-8">
+                <div className="max-w-[1000px] mx-auto space-y-12">
                     {modules.map((module: any, index: number) => {
-                        const isExpanded = expandedModule === index;
                         return (
-                            <div key={index} className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] overflow-hidden hover:shadow-2xl transition-all duration-500 hover:border-primary/50">
-                                <div className="flex flex-col md:flex-row">
+                            <div key={index} className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[3rem] overflow-hidden hover:shadow-2xl transition-all duration-500 hover:border-primary/50">
+                                <div className="flex flex-col md:flex-row border-b border-zinc-100 dark:border-zinc-800/50">
                                     {/* Thumbnail - Left Side */}
-                                    <div className="relative w-full md:w-[35%] aspect-video md:aspect-auto min-h-[220px]">
+                                    <div className="relative w-full md:w-[40%] aspect-video md:aspect-auto min-h-[240px]">
                                         <Image
                                             src={module.image || "/placeholder.jpg"}
                                             alt={String(module.title || '')}
@@ -50,52 +49,43 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                             className="object-cover group-hover:scale-105 transition-transform duration-700"
                                         />
                                         <div className="absolute top-6 left-6">
-                                            <div className="bg-black/80 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-xl border border-white/10 shadow-lg">
+                                            <div className="bg-black/80 backdrop-blur-md text-white text-xs font-bold px-5 py-2.5 rounded-2xl border border-white/10 shadow-lg">
                                                 Module {index + 1}
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Content - Right Side */}
-                                    <div className="flex-1 p-8 md:p-10 flex flex-col justify-center">
-                                        <h3 className="text-2xl md:text-3xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors">
+                                    <div className="flex-1 p-8 md:p-12 flex flex-col justify-center">
+                                        <h3 className="text-2xl md:text-4xl font-bold leading-tight mb-6 group-hover:text-primary transition-colors">
                                             {String(module.title || '')}
                                         </h3>
 
-                                        <div className="flex items-center gap-6 mb-8 text-sm font-medium text-muted-foreground">
-                                            <div className="flex items-center gap-2">
+                                        <div className="flex flex-wrap items-center gap-6 text-sm font-semibold text-muted-foreground">
+                                            <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-primary/5 text-primary">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                                                <span>{module.lessons?.length || 0} bài học</span>
+                                                <span className="not-italic">{module.lessons?.length || 0} bài học</span>
                                             </div>
-                                            <div className="flex items-center gap-2">
+                                            <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-blue-500/5 text-blue-500">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                                                <span>Video & Tài liệu</span>
+                                                <span className="not-italic">Video & Tài liệu</span>
                                             </div>
-                                        </div>
-
-                                        <div className="flex items-center gap-4">
-                                            <button
-                                                onClick={() => setExpandedModule(isExpanded ? null : index)}
-                                                className="flex-1 md:flex-none h-12 px-8 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-foreground font-bold flex items-center justify-center gap-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
-                                            >
-                                                {isExpanded ? 'Thu gọn' : 'Xem chi tiết'}
-                                                {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Expanded Content */}
-                                {isExpanded && module.lessons && (
-                                    <div className="border-t border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-8 animate-in fade-in slide-in-from-top-4 duration-300">
-                                        <div className="grid md:grid-cols-2 gap-4">
+                                {/* Lesson Grid - Always Visible */}
+                                {module.lessons && module.lessons.length > 0 && (
+                                    <div className="bg-zinc-50/50 dark:bg-zinc-900/30 p-8 md:p-12">
+                                        <div className="grid sm:grid-cols-2 gap-4">
                                             {module.lessons.map((lesson: string, i: number) => (
-                                                <div key={i} className="flex items-center gap-3 p-4 rounded-2xl bg-background border border-border/50 hover:border-primary/30 transition-colors">
-                                                    <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                                                        <PlayCircle size={14} fill="currentColor" className="opacity-20" />
-                                                        <span className="absolute text-[10px] font-bold">{i + 1}</span>
+                                                <div key={i} className="flex items-center gap-4 p-5 rounded-[1.5rem] bg-white dark:bg-zinc-800/50 border border-zinc-200/50 dark:border-zinc-700/50 hover:border-primary/30 hover:shadow-lg transition-all duration-300 group/lesson">
+                                                    <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0 font-bold text-xs group-hover/lesson:bg-primary group-hover/lesson:text-white transition-colors">
+                                                        {i + 1}
                                                     </div>
-                                                    <span className="text-sm font-medium line-clamp-1">{lesson}</span>
+                                                    <span className="text-[15px] font-semibold text-foreground/90 group-hover/lesson:text-foreground transition-colors leading-snug">
+                                                        {lesson}
+                                                    </span>
                                                 </div>
                                             ))}
                                         </div>

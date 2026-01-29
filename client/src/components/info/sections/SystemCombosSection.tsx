@@ -6,6 +6,8 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { BookOpen, Clock, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
 import { SectionTag } from '@/components/SectionTag';
+import { Card } from '@/components/Card';
+import Image from 'next/image';
 import { Section } from '@/types/sections';
 import { Bundle } from '@/types/api';
 
@@ -52,87 +54,98 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                 ) : (
                     <div className="flex flex-col gap-12 max-w-[1050px] mx-auto">
                         {combos.map((combo: Bundle) => (
-                            <div key={combo.id} className="group relative bg-card border border-border/50 rounded-[2rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col md:flex-row hover:-translate-y-1">
-                                <Link href={`/combos/${combo.slug}`} className="absolute inset-0 z-10" />
+                            <div key={combo.id} className="group relative">
+                                <Link href={`/combos/${combo.slug}`}>
+                                    <Card className="h-full flex flex-col overflow-hidden border-border/40 hover:border-primary/20 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 bg-background/50 backdrop-blur-xl group">
+                                        {/* Thumbnail Section */}
+                                        <div className="relative aspect-[16/9] overflow-hidden">
+                                            <Image
+                                                src={combo.thumbnail || "/placeholder.jpg"}
+                                                alt={combo.name}
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                                {/* Image Side */}
-                                <div className="w-full md:w-[35%] relative overflow-hidden bg-muted min-h-[280px] md:min-h-full">
-                                    <img
-                                        src={combo.thumbnail || '/placeholder-combo.jpg'}
-                                        alt={combo.name}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-                                </div>
-
-                                {/* Content Side */}
-                                <div className="flex-1 p-8 md:p-10 flex flex-col justify-between overflow-hidden">
-                                    <div className="space-y-6">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                                                <TrendingUp className="w-3.5 h-3.5" />
+                                            {/* Exclusive Badge */}
+                                            <div className="absolute top-4 left-4 z-10">
+                                                <div className="bg-primary/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-lg border border-white/20 shadow-lg">
+                                                    Tiết kiệm tối đa
+                                                </div>
                                             </div>
-                                            <span className="text-[11px] font-semibold text-primary uppercase tracking-wide">Combo ưu đãi đặc biệt</span>
                                         </div>
 
-                                        <h3 className="text-2xl md:text-3xl font-semibold group-hover:text-primary transition-all leading-tight">
-                                            {combo.name}
-                                        </h3>
+                                        {/* Content Section */}
+                                        <div className="p-6 md:p-8 flex flex-col flex-grow space-y-6">
+                                            <div className="space-y-4">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center border border-primary/20">
+                                                        <TrendingUp className="w-3.5 h-3.5" />
+                                                    </div>
+                                                    <span className="text-[11px] font-bold text-primary tracking-wide">Combo ưu đãi đặc biệt</span>
+                                                </div>
 
-                                        <p className="text-muted-foreground text-sm md:text-base line-clamp-2 leading-relaxed opacity-90">
-                                            {combo.description}
-                                        </p>
+                                                <h3 className="text-xl md:text-2xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
+                                                    {combo.name}
+                                                </h3>
 
-                                        {/* Child Courses List */}
-                                        {combo.courses && combo.courses.length > 0 && (
-                                            <div className="pt-2">
-                                                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-3 block">Bao gồm {combo.courses.length} khóa học:</span>
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                                                    {combo.courses.map((item, i) => (
-                                                        <div key={i} className="flex items-center gap-2 text-xs text-foreground/80 group/item">
-                                                            <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover/item:bg-primary transition-colors" />
-                                                            <span className="truncate">{item.course?.title}</span>
+                                                <p className="text-sm md:text-base text-muted-foreground line-clamp-2 leading-relaxed">
+                                                    {combo.description}
+                                                </p>
+
+                                                {/* Child Courses List */}
+                                                {combo.courses && combo.courses.length > 0 && (
+                                                    <div className="pt-2">
+                                                        <span className="text-[11px] font-bold text-muted-foreground tracking-wider mb-4 block">Bao gồm {combo.courses.length} khóa học:</span>
+                                                        <div className="flex flex-col gap-3">
+                                                            {combo.courses.map((item, i) => (
+                                                                <div key={i} className="flex items-center gap-3 text-[15px] font-medium text-foreground/90 group/item">
+                                                                    <div className="w-2 h-2 rounded-full bg-primary/40 group-hover/item:bg-primary transition-colors" />
+                                                                    <span className="truncate">{item.course?.title}</span>
+                                                                </div>
+                                                            ))}
                                                         </div>
-                                                    ))}
+                                                    </div>
+                                                )}
+
+                                                <div className="flex flex-wrap items-center gap-4 pt-2">
+                                                    <div className="flex items-center gap-2.5 bg-black/40 px-3.5 py-1.5 rounded-full text-[11px] font-bold border border-white/20 text-white backdrop-blur-sm">
+                                                        <BookOpen className="w-3.5 h-3.5" />
+                                                        <span>Lộ trình bài bản</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2.5 bg-black/40 px-3.5 py-1.5 rounded-full text-[11px] font-bold border border-white/20 text-white backdrop-blur-sm">
+                                                        <Clock className="w-3.5 h-3.5" />
+                                                        <span>Hỗ trợ 1:1 chuyên sâu</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        )}
 
-                                        <div className="flex flex-wrap items-center gap-4 pt-2">
-                                            <div className="flex items-center gap-2.5 bg-secondary/50 px-3.5 py-1.5 rounded-full text-[11px] font-semibold border border-border/50">
-                                                <BookOpen className="w-3.5 h-3.5 text-muted-foreground" />
-                                                <span>Lộ trình bài bản</span>
-                                            </div>
-                                            <div className="flex items-center gap-2.5 bg-secondary/50 px-3.5 py-1.5 rounded-full text-[11px] font-semibold border border-border/50">
-                                                <Clock className="w-3.5 h-3.5 text-muted-foreground" />
-                                                <span>Hỗ trợ 1:1 chuyên sâu</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            {/* Price & Action Row */}
+                                            <div className="flex items-center justify-between pt-8 mt-auto border-t border-border/40">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-sm text-muted-foreground line-through opacity-60">
+                                                        {combo.originalPrice?.toLocaleString()}₫
+                                                    </span>
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-3xl md:text-3xl font-bold text-foreground">
+                                                            {combo.salePrice?.toLocaleString()}₫
+                                                        </span>
+                                                        <div className="bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 text-[11px] font-bold py-1 px-2.5 rounded-lg border border-red-500/20">
+                                                            -{Math.round((1 - (combo.salePrice || 0) / (combo.originalPrice || 1)) * 100)}% Tiết kiệm
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                    <div className="flex items-center justify-between pt-8 mt-8 border-t border-border/40">
-                                        <div className="flex flex-col gap-1">
-                                            <span className="text-xs text-muted-foreground line-through opacity-60">
-                                                {combo.originalPrice?.toLocaleString()}₫
-                                            </span>
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-2xl md:text-3xl font-semibold text-foreground">
-                                                    {combo.salePrice?.toLocaleString()}₫
-                                                </span>
-                                                <div className="bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 text-[10px] font-semibold py-1 px-2.5 rounded-lg border border-red-500/20">
-                                                    -{Math.round((1 - (combo.salePrice || 0) / (combo.originalPrice || 1)) * 100)}% Tiết kiệm
+                                                <div className="hidden sm:block">
+                                                    <div className="h-11 px-8 rounded-xl bg-black text-white group-hover:bg-zinc-800 flex items-center justify-center gap-2 transition-all duration-300 shadow-xl text-sm font-bold">
+                                                        <span>Chi tiết</span>
+                                                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div className="hidden sm:block">
-                                            <div className="h-11 px-6 rounded-xl bg-foreground text-background group-hover:bg-primary group-hover:text-white flex items-center justify-center gap-2 transition-all duration-300 shadow-sm text-sm font-semibold">
-                                                <span>Chi tiết</span>
-                                                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </Card>
+                                </Link>
                             </div>
                         ))}
                     </div>
