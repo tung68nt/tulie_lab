@@ -9,7 +9,7 @@ import { Button } from '@/components/Button';
 import { SectionBackground } from '../SectionBackground';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { ShoppingBag, Star, Zap, BookOpen, Clock, CheckCircle2 } from 'lucide-react';
+import { ShoppingBag, Star, Zap, BookOpen, Clock, CheckCircle2, ChevronRight } from 'lucide-react';
 
 export function HeroSection({ section, mainCourse }: { section: any; mainCourse?: any }) {
     const router = useRouter();
@@ -35,11 +35,11 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
         )}>
             {/* Ambient Background Effects */}
             {section.backgroundTheme === 'dark' && (
-                <>
-                    <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10 opacity-60" />
-                    <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] -z-10 opacity-40" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[150px] -z-10" />
-                </>
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-primary/20 rounded-full blur-[160px] opacity-60 animate-pulse" />
+                    <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] opacity-40" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-zinc-900/40 rounded-full blur-[200px] -z-10" />
+                </div>
             )}
 
             <SectionBackground
@@ -140,7 +140,10 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 {/* Glow background */}
                                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-3xl opacity-50 transition-opacity duration-1000 group-hover:opacity-70"></div>
 
-                                <div className="relative bg-card border shadow-2xl rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] border-white/10">
+                                <div className="relative bg-white/5 dark:bg-zinc-900/40 backdrop-blur-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.6)]">
+                                    {/* Glass glow internally */}
+                                    <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] opacity-50 pointer-events-none" />
+                                    <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] opacity-30 pointer-events-none" />
                                     {/* Thumbnail */}
                                     <div className="relative aspect-[16/10] overflow-hidden">
                                         <Image
@@ -184,14 +187,19 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             <div className="flex items-end justify-between gap-4">
                                                 <div className="space-y-1">
                                                     <p className="text-[11px] font-bold text-zinc-400">Học phí</p>
-                                                    <div className="flex items-baseline gap-3">
+                                                    <div className="flex items-center gap-3">
                                                         <span className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
                                                             {formatCurrency(salePrice)}
                                                         </span>
                                                         {originalPrice > salePrice && (
-                                                            <span className="text-sm text-zinc-400 line-through font-medium opacity-60">
-                                                                {formatCurrency(originalPrice)}
-                                                            </span>
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="text-sm text-zinc-400 line-through font-medium opacity-60">
+                                                                    {formatCurrency(originalPrice)}
+                                                                </span>
+                                                                <div className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-[11px] font-bold py-1 px-2.5 rounded-lg border border-red-100 dark:border-red-500/20">
+                                                                    -{Math.round((1 - salePrice / (originalPrice || 1)) * 100)}%
+                                                                </div>
+                                                            </div>
                                                         )}
                                                     </div>
                                                 </div>
@@ -224,7 +232,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             {/* Main Buy Button */}
                                             <Button
                                                 size="lg"
-                                                className="w-full font-bold text-sm shadow-xl border-0 h-12 mt-2 transition-all hover:scale-[1.02] active:scale-[0.98] animate-pulse-slow bg-zinc-900 text-white dark:bg-white dark:text-black hover:bg-zinc-800 dark:hover:bg-zinc-200"
+                                                className="w-full font-bold text-sm shadow-2xl border-0 h-14 mt-4 transition-all hover:scale-[1.02] active:scale-[0.98] bg-white text-black hover:bg-zinc-200 shadow-white/5 flex items-center justify-center gap-3 group"
                                                 onClick={() => {
                                                     const url = isCombo
                                                         ? `/checkout?bundleId=${mainCourse.id}&activationType=${activationType}`
@@ -233,6 +241,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                 }}
                                             >
                                                 {activationType === 'CODE' ? 'Mua mã ngay' : 'Đăng ký ngay'}
+                                                <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                                                    <ChevronRight className="w-5 h-5" />
+                                                </div>
                                             </Button>
 
                                             <p className="text-center text-[10px] text-muted-foreground font-medium">Hoàn tiền trong 30 ngày nếu không hài lòng</p>

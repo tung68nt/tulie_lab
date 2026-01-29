@@ -37,26 +37,25 @@ export default function CombosListPage() {
 
     return (
         <div className="min-h-screen bg-background">
-            {/* Dark Hero Header Section */}
-            <div className="relative bg-[#050505] pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
-                {/* Ambient Effects */}
-                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -z-10 opacity-60" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] -z-10 opacity-40" />
-                <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] opacity-[0.03] [background-size:32px_32px] -z-10" />
+            {/* Redesigned Dark Hero Header Section */}
+            <div className="relative bg-[#050505] pt-32 pb-24 md:pt-48 md:pb-40 overflow-hidden">
+                {/* Immersive Ambient Effects */}
+                <div className="absolute top-[-10%] right-[-5%] w-[1000px] h-[1000px] bg-primary/20 rounded-full blur-[180px] -z-10 opacity-70 animate-pulse" />
+                <div className="absolute bottom-[-10%] left-[-5%] w-[800px] h-[800px] bg-blue-500/10 rounded-full blur-[160px] -z-10 opacity-50" />
+                <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] opacity-[0.05] [background-size:40px_40px] -z-10" />
 
                 <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1200px] mx-auto relative z-10">
-                    <div className="max-w-3xl space-y-8 text-left">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-                            <Sparkles className="w-4 h-4 text-primary" />
-                            <span className="text-xs font-bold text-white tracking-wide">Combo lộ trình chuyên sâu</span>
-                        </div>
+                    <div className="max-w-4xl space-y-10 text-left">
+                        <SectionTag>
+                            Combo lộ trình chuyên sâu
+                        </SectionTag>
 
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1] text-white">
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.95] text-white animate-fade-up">
                             Lộ trình học tập <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-primary/80">Chuyên sâu</span>
                         </h1>
 
-                        <p className="text-lg md:text-xl text-zinc-400 leading-relaxed font-medium max-w-2xl">
+                        <p className="text-xl md:text-2xl text-zinc-400 leading-relaxed font-medium max-w-2xl animate-fade-up delay-100">
                             Tiết kiệm thời gian và chi phí với các bộ combo khóa học được thiết kế bài bản,
                             giúp bạn làm chủ kiến thức từ con số 0 đến cấp độ chuyên gia.
                         </p>
@@ -134,15 +133,16 @@ export default function CombosListPage() {
                                                 <span className="text-3xl md:text-4xl font-bold text-foreground tracking-tighter">
                                                     {combo.salePrice?.toLocaleString()}₫
                                                 </span>
-                                                <div className="bg-primary/10 text-primary text-[11px] font-bold py-1.5 px-3 rounded-xl">
-                                                    Tiết kiệm {((combo.originalPrice - combo.salePrice) / 1000).toFixed(0)}K
+                                                <div className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-[11px] font-bold py-1.5 px-3 rounded-xl border border-red-100 dark:border-red-500/20">
+                                                    Tiết kiệm {Math.round((1 - combo.salePrice / (combo.originalPrice || 1)) * 100)}%
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="flex items-center gap-4">
-                                            <div className="h-14 w-14 rounded-2xl bg-zinc-950 dark:bg-zinc-800 group-hover:bg-primary text-white flex items-center justify-center transition-all duration-300 shadow-xl group-hover:shadow-primary/30 group-hover:scale-105 active:scale-95">
-                                                <ChevronRight className="w-7 h-7" />
+                                            <div className="h-12 px-6 rounded-2xl bg-zinc-950 dark:bg-zinc-800 group-hover:bg-primary text-white flex items-center justify-center gap-2 transition-all duration-300 shadow-xl group-hover:shadow-primary/20 group-hover:scale-105 active:scale-95 text-sm font-bold">
+                                                <span>Xem chi tiết</span>
+                                                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                             </div>
                                         </div>
                                     </div>
