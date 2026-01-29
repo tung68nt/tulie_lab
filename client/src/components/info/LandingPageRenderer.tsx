@@ -82,7 +82,7 @@ async function getLandingPage(slug: string) {
         console.log('[LandingPageRenderer] Fetching:', url);
 
         const res = await fetch(url, {
-            next: { revalidate: 60 }, // Revalidate every minute
+            cache: 'no-store',
         });
 
         if (!res.ok) {

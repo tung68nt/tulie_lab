@@ -53,6 +53,6 @@ export const serverApi = {
          * Get course by slug (public metadata only)
          * Does NOT include secure video URLs
          */
-        get: (slug: string) => serverFetch<any>(`/courses/${slug}`, { revalidate: 60 }),
+        get: (slug: string) => serverFetch<any>(`/courses/${slug}`),
     },
 };
