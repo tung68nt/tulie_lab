@@ -69,7 +69,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 <div className="absolute inset-0 pointer-events-none">
                     <DotPatternBackground
                         className={cn(
-                            backgroundTheme === 'dark' ? "text-white/20" : "text-black/[0.08]"
+                            backgroundTheme === 'dark' ? "text-white/30" : "text-black/15"
                         )}
                         withVignette={false}
                     />
