@@ -21,7 +21,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
     const totalValue = items.reduce((sum, item) => sum + (parsePrice(item.originalPrice) || parsePrice(item.price) || 0), 0);
 
     return (
-        <section className="py-24 md:py-32 relative overflow-hidden transition-colors duration-300">
+        <section className="pt-24 pb-40 md:pt-32 md:pb-56 relative overflow-hidden transition-colors duration-300">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -132,8 +132,6 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                     <div className="flex items-center justify-center gap-3 md:gap-4 mb-2 animate-in fade-in zoom-in duration-1000">
                                         <span className="text-2xl md:text-4xl text-white/50 font-bold decoration-2 line-through relative">
                                             {totalValue.toLocaleString('vi-VN')}đ
-                                            {/* Custom diagonal line for extra visibility */}
-                                            <div className="absolute inset-x-0 top-1/2 h-0.5 bg-red-500/60 -rotate-3 shadow-[0_0_10px_rgba(239,68,68,0.3)]" />
                                         </span>
                                         <span className="bg-red-500/10 text-red-500 text-xs md:text-sm px-2 py-0.5 rounded border border-red-500/20 font-bold whitespace-nowrap">
                                             TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
@@ -142,7 +140,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 )}
 
                                 <div className="flex items-start justify-center gap-1 relative px-4 py-2 -my-2 pb-4">
-                                    <span className="text-8xl md:text-[9rem] leading-none font-black text-white drop-shadow-[0_10px_30px_rgba(255,255,255,0.2)] select-none py-4 pr-2">
+                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-white drop-shadow-[0_10px_30px_rgba(255,255,255,0.2)] select-none py-4 pr-2">
                                         0
                                     </span>
                                     <span className="text-4xl md:text-5xl font-bold text-white mt-6 md:mt-8">đ</span>
