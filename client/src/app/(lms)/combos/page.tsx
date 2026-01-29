@@ -36,108 +36,113 @@ export default function CombosListPage() {
     }
 
     return (
-        <div className="min-h-screen pt-24 pb-20 bg-background relative overflow-hidden">
-            {/* Background Accents */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -z-10" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
-            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:24px_24px] opacity-10 -z-10" />
+        <div className="min-h-screen bg-background">
+            {/* Dark Hero Header Section */}
+            <div className="relative bg-[#050505] pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+                {/* Ambient Effects */}
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -z-10 opacity-60" />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] -z-10 opacity-40" />
+                <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] opacity-[0.03] [background-size:32px_32px] -z-10" />
 
-            <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1200px] mx-auto relative z-10">
-                {/* Header Section */}
-                <div className="max-w-4xl mx-auto text-center mb-20 space-y-6">
-                    <SectionTag>Learning Paths</SectionTag>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
-                        Lộ trình học tập Chuyên sâu
-                    </h1>
-                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
-                        Tiết kiệm thời gian và chi phí với các bộ combo khóa học được thiết kế bài bản,
-                        giúp bạn làm chủ kiến thức từ con số 0 đến cấp độ chuyên gia.
-                    </p>
+                <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1200px] mx-auto relative z-10">
+                    <div className="max-w-3xl space-y-8 text-left">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+                            <Sparkles className="w-4 h-4 text-primary" />
+                            <span className="text-xs font-bold text-white tracking-wide">Combo lộ trình chuyên sâu</span>
+                        </div>
+
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.1] text-white">
+                            Lộ trình học tập <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-primary/80">Chuyên sâu</span>
+                        </h1>
+
+                        <p className="text-lg md:text-xl text-zinc-400 leading-relaxed font-medium max-w-2xl">
+                            Tiết kiệm thời gian và chi phí với các bộ combo khóa học được thiết kế bài bản,
+                            giúp bạn làm chủ kiến thức từ con số 0 đến cấp độ chuyên gia.
+                        </p>
+                    </div>
                 </div>
+            </div>
 
+            <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1200px] mx-auto py-24 relative z-10">
                 {/* Combos List (1 Column) */}
                 {combos.length === 0 ? (
-                    <div className="text-center py-20 bg-card/30 border-2 border-dashed rounded-[3rem] w-full max-w-4xl mx-auto">
+                    <div className="text-center py-24 bg-zinc-50 dark:bg-zinc-900 border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-[3rem] w-full max-w-4xl mx-auto">
                         <BookOpen className="w-16 h-16 text-muted-foreground/30 mx-auto mb-6" />
                         <h3 className="text-xl font-bold mb-2">Chưa có lộ trình nào</h3>
-                        <p className="text-muted-foreground">Vui lòng quay lại sau để cập nhật các lộ trình học tập mới nhất.</p>
+                        <p className="text-muted-foreground">Vui lòng quay lại sau để cập nhật các lộ trình mới nhất.</p>
                         <Link href="/courses" className="mt-8 block">
                             <Button variant="outline">Xem tất cả khóa học</Button>
                         </Link>
                     </div>
                 ) : (
-                    <div className="flex flex-col gap-12">
+                    <div className="flex flex-col gap-10 max-w-[1050px] mx-auto">
                         {combos.map((combo) => (
-                            <div key={combo.id} className="group relative bg-card border rounded-[3rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 flex flex-col md:flex-row hover:-translate-y-2 lg:min-h-[400px]">
+                            <div key={combo.id} className="group relative bg-card border border-zinc-100 dark:border-zinc-800 rounded-[2.5rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 flex flex-col md:flex-row hover:-translate-y-1">
                                 <Link href={`/combos/${combo.slug}`} className="absolute inset-0 z-10" />
 
-                                {/* Image Side */}
-                                <div className="w-full md:w-2/5 relative overflow-hidden bg-zinc-100 min-h-[300px] md:min-h-full">
+                                {/* Image Side - Horizontal aspect */}
+                                <div className="w-full md:w-[38%] relative overflow-hidden bg-zinc-100 min-h-[240px] md:min-h-full">
                                     <img
                                         src={combo.thumbnail || '/placeholder-combo.jpg'}
                                         alt={combo.name}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
                                     />
                                     <div className="absolute top-6 left-6">
-                                        <Badge className="bg-white/90 backdrop-blur-md text-black border-none py-2 px-4 text-xs font-bold shadow-xl rounded-xl">
-                                            -{combo.discountPercent}% OFF
-                                        </Badge>
+                                        <div className="bg-red-500 text-white px-4 py-1.5 rounded-xl text-[11px] font-bold shadow-xl border border-white/20">
+                                            -{combo.discountPercent}% tiết kiệm
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/* Content Side */}
-                                <div className="flex-1 p-8 md:p-12 lg:p-16 flex flex-col justify-between">
+                                <div className="flex-1 p-8 md:p-12 flex flex-col justify-between overflow-hidden">
                                     <div className="space-y-6">
                                         <div className="flex items-center gap-2">
-                                            <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
+                                            <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                                                 <TrendingUp className="w-4 h-4" />
                                             </div>
-                                            <span className="text-[10px] font-bold text-primary uppercase tracking-widest">Combo Ưu đãi</span>
+                                            <span className="text-xs font-bold text-primary">Combo ưu đãi đặc biệt</span>
                                         </div>
 
-                                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold group-hover:text-primary transition-all leading-tight tracking-tight">
+                                        <h3 className="text-3xl md:text-4xl font-bold group-hover:text-primary transition-all leading-tight tracking-tight">
                                             {combo.name}
                                         </h3>
 
-                                        <p className="text-muted-foreground text-lg md:text-xl line-clamp-2 leading-relaxed font-medium opacity-80 max-w-2xl">
+                                        <p className="text-muted-foreground text-sm md:text-base line-clamp-2 leading-relaxed font-medium opacity-80">
                                             {combo.description}
                                         </p>
 
-                                        <div className="flex flex-wrap items-center gap-6 text-sm font-bold text-zinc-500 pt-4">
-                                            <div className="flex items-center gap-3">
-                                                <div className="h-10 w-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                                                    <BookOpen className="w-5 h-5" />
-                                                </div>
+                                        <div className="flex flex-wrap items-center gap-6 text-xs font-bold text-zinc-500 pt-2">
+                                            <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-900 px-4 py-2 rounded-xl">
+                                                <BookOpen className="w-4 h-4 text-zinc-400" />
                                                 <span>{combo.courses?.length || 0} Khóa học chuyên sâu</span>
                                             </div>
-                                            <div className="flex items-center gap-3">
-                                                <div className="h-10 w-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-                                                    <Clock className="w-5 h-5" />
-                                                </div>
-                                                <span>Lộ trình học tập bài bản 1:1</span>
+                                            <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-900 px-4 py-2 rounded-xl">
+                                                <Clock className="w-4 h-4 text-zinc-400" />
+                                                <span>Lộ trình bài bản 1:1</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center justify-between pt-12 mt-12 border-t border-dashed border-border/60">
-                                        <div className="flex items-end gap-6">
-                                            <div className="flex flex-col">
-                                                <span className="text-sm text-muted-foreground line-through font-bold opacity-50 mb-1">
-                                                    {combo.originalPrice?.toLocaleString()}₫
-                                                </span>
-                                                <span className="text-4xl md:text-5xl font-bold text-foreground tracking-tighter">
+                                    <div className="flex items-center justify-between pt-10 mt-8 border-t border-zinc-100 dark:border-zinc-800">
+                                        <div className="flex flex-col">
+                                            <span className="text-xs text-zinc-400 line-through font-bold opacity-50 mb-1">
+                                                {combo.originalPrice?.toLocaleString()}₫
+                                            </span>
+                                            <div className="flex items-center gap-4">
+                                                <span className="text-3xl md:text-4xl font-bold text-foreground tracking-tighter">
                                                     {combo.salePrice?.toLocaleString()}₫
                                                 </span>
+                                                <div className="bg-primary/10 text-primary text-[11px] font-bold py-1.5 px-3 rounded-xl">
+                                                    Tiết kiệm {((combo.originalPrice - combo.salePrice) / 1000).toFixed(0)}K
+                                                </div>
                                             </div>
-                                            <Badge variant="destructive" className="mb-2 bg-red-600 hover:bg-red-600 font-bold px-4 py-1.5">
-                                                TIẾT KIỆM {((combo.originalPrice - combo.salePrice) / 1000).toFixed(0)}K
-                                            </Badge>
                                         </div>
 
-                                        <div className="flex items-center gap-4 group/btn">
-                                            <span className="hidden md:block text-base font-bold text-muted-foreground group-hover/btn:text-primary transition-colors">Xem chi tiết</span>
-                                            <div className="h-16 w-16 rounded-2xl bg-zinc-900 group-hover:bg-primary text-white flex items-center justify-center transition-all duration-500 shadow-xl group-hover:shadow-primary/40 group-hover:scale-110">
-                                                <ChevronRight className="w-8 h-8" />
+                                        <div className="flex items-center gap-4">
+                                            <div className="h-14 w-14 rounded-2xl bg-zinc-950 dark:bg-zinc-800 group-hover:bg-primary text-white flex items-center justify-center transition-all duration-300 shadow-xl group-hover:shadow-primary/30 group-hover:scale-105 active:scale-95">
+                                                <ChevronRight className="w-7 h-7" />
                                             </div>
                                         </div>
                                     </div>
@@ -148,30 +153,30 @@ export default function CombosListPage() {
                 )}
 
                 {/* Benefits Section */}
-                <div className="mt-40 grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div className="mt-48 grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
                         {
                             icon: <Sparkles className="w-6 h-6" />,
                             title: "Tiết kiệm tối đa",
-                            description: "Sở hữu trọn bộ kiến thức với mức giá ưu đãi hơn 50% so với mua lẻ từng khóa."
+                            description: "Sở hữu trọn bộ kiến thức với mức giá ưu đãi hơn 50% so với mua lẻ từng khóa học lẻ."
                         },
                         {
                             icon: <BookOpen className="w-6 h-6" />,
                             title: "Lộ trình bài bản",
-                            description: "Không còn mông lung, các khóa học được sắp xếp theo trình tự học tập tối ưu nhất."
+                            description: "Không còn mông lung, các khóa học được sắp xếp theo trình tự học tập tối ưu nhất hiện nay."
                         },
                         {
                             icon: <Clock className="w-6 h-6" />,
-                            title: "Hỗ trợ 1-1",
-                            description: "Được ưu tiên hỗ trợ trực tiếp từ đội ngũ giảng viên và chuyên gia tại Tulie Academy."
+                            title: "Hỗ trợ 1:1",
+                            description: "Được ưu tiên hỗ trợ trực tiếp từ đội ngũ giảng viên và các chuyên gia tại Tulie Academy."
                         }
                     ].map((benefit, i) => (
-                        <div key={i} className="space-y-4 p-8 rounded-[2rem] bg-zinc-50 dark:bg-zinc-900/50 border border-transparent hover:border-border transition-all">
-                            <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                        <div key={i} className="group p-10 rounded-[3rem] bg-zinc-50 dark:bg-zinc-900 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 transition-all duration-300">
+                            <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-8 border border-primary/5 group-hover:scale-110 transition-transform">
                                 {benefit.icon}
                             </div>
-                            <h4 className="text-xl font-bold">{benefit.title}</h4>
-                            <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
+                            <h4 className="text-2xl font-bold mb-4">{benefit.title}</h4>
+                            <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">{benefit.description}</p>
                         </div>
                     ))}
                 </div>

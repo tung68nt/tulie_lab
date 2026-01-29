@@ -29,13 +29,26 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
     const originalPrice = mainCourse?.price || mainCourse?.originalPrice || 0;
 
     return (
-        <section className="w-full pt-8 pb-4 md:pt-10 md:pb-8 lg:pt-16 lg:pb-16 bg-background relative transition-colors duration-300">
+        <section className={cn(
+            "relative w-full overflow-hidden py-16 md:py-24 transition-all duration-500",
+            section.backgroundTheme === 'dark' ? "bg-[#050505] text-white" : "bg-background"
+        )}>
+            {/* Ambient Background Effects */}
+            {section.backgroundTheme === 'dark' && (
+                <>
+                    <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10 opacity-60" />
+                    <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] -z-10 opacity-40" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[150px] -z-10" />
+                </>
+            )}
+
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
-                hideGradients={section.backgroundTheme === 'dark'}
+                hideGradients={false}
+                className="opacity-100"
             />
 
             <div className="container relative z-10">
@@ -98,16 +111,21 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             </Link>
                         </div>
 
-                        {/* Trust indicators */}
+                        {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex items-center gap-6 justify-center lg:justify-start pt-4 text-sm",
-                            section.backgroundTheme === 'dark' ? "text-zinc-200" : "text-muted-foreground"
+                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-medium",
+                            section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div key={index} className="flex items-center gap-2">
-                                    <svg className={cn("h-5 w-5", section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-foreground")} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
+                                    <div className={cn(
+                                        "h-5 w-5 rounded-full flex items-center justify-center",
+                                        section.backgroundTheme === 'dark' ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
+                                    )}>
+                                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </div>
                                     <span>{indicator}</span>
                                 </div>
                             ))}
@@ -134,11 +152,11 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
 
-                                        {/* Status Badge */}
-                                        <div className="absolute top-4 left-4 z-10">
-                                            <div className="bg-black/60 backdrop-blur-md text-white text-[10px] font-semibold px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
-                                                <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                                                {isCombo ? 'COMBO LỘ TRÌNH' : 'KHOÁ HỌC'}
+                                        {/* Status Badge - No uppercase */}
+                                        <div className="absolute top-6 left-6 z-10">
+                                            <div className="bg-black/40 backdrop-blur-md text-white text-[11px] font-bold px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
+                                                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                                                {isCombo ? 'Combo lộ trình' : 'Khóa học'}
                                             </div>
                                         </div>
                                     </div>
@@ -161,46 +179,45 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             </div>
                                         </div>
 
-                                        {/* Price Section */}
-                                        <div className="pt-4 border-t border-dashed space-y-4">
-                                            <div className="flex items-end justify-between">
-                                                <div>
-                                                    <p className="text-[10px] font-semibold text-muted-foreground uppercase mb-1">Học phí</p>
-                                                    <div className="text-2xl md:text-3xl font-bold text-primary">
-                                                        {formatCurrency(salePrice)}
+                                        {/* Price Section - Simplified layout */}
+                                        <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 space-y-6">
+                                            <div className="flex items-end justify-between gap-4">
+                                                <div className="space-y-1">
+                                                    <p className="text-[11px] font-bold text-zinc-400">Học phí</p>
+                                                    <div className="flex items-baseline gap-3">
+                                                        <span className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
+                                                            {formatCurrency(salePrice)}
+                                                        </span>
+                                                        {originalPrice > salePrice && (
+                                                            <span className="text-sm text-zinc-400 line-through font-medium opacity-60">
+                                                                {formatCurrency(originalPrice)}
+                                                            </span>
+                                                        )}
                                                     </div>
                                                 </div>
-                                                {(originalPrice > salePrice) && (
-                                                    <div className="text-right">
-                                                        <span className="text-sm text-zinc-500 line-through decoration-red-500/50">
-                                                            {formatCurrency(originalPrice)}
-                                                        </span>
-                                                    </div>
-                                                )}
                                             </div>
 
-                                            {/* Activation Type Selection */}
-                                            <div className="space-y-2 pt-2">
-                                                <p className="text-[10px] text-muted-foreground font-semibold uppercase">Hình thức kích hoạt:</p>
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    <button
-                                                        onClick={() => setActivationType('EMAIL')}
-                                                        className={`text-[11px] px-3 py-2 rounded-xl border transition-all ${activationType === 'EMAIL'
-                                                            ? 'bg-zinc-900 text-white dark:bg-white dark:text-black border-zinc-900 dark:border-white font-bold'
-                                                            : 'bg-transparent text-muted-foreground border-zinc-200 dark:border-zinc-800 hover:border-zinc-400'
-                                                            }`}
-                                                    >
-                                                        Kích hoạt ngay (Email)
-                                                    </button>
-                                                    <button
-                                                        onClick={() => setActivationType('CODE')}
-                                                        className={`text-[11px] px-3 py-2 rounded-xl border transition-all ${activationType === 'CODE'
-                                                            ? 'bg-zinc-900 text-white dark:bg-white dark:text-black border-zinc-900 dark:border-white font-bold'
-                                                            : 'bg-transparent text-muted-foreground border-zinc-200 dark:border-zinc-800 hover:border-zinc-400'
-                                                            }`}
-                                                    >
-                                                        Mua mã kích hoạt
-                                                    </button>
+                                            {/* Activation Type - No uppercase */}
+                                            <div className="space-y-3">
+                                                <p className="text-[11px] text-zinc-400 font-bold">Hình thức kích hoạt:</p>
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    {[
+                                                        { id: 'EMAIL', label: 'Học ngay (qua Email)' },
+                                                        { id: 'CODE', label: 'Mua mã kích hoạt' }
+                                                    ].map((item) => (
+                                                        <button
+                                                            key={item.id}
+                                                            onClick={() => setActivationType(item.id as any)}
+                                                            className={cn(
+                                                                "text-[11px] px-4 py-2.5 rounded-xl border transition-all duration-300 font-bold",
+                                                                activationType === item.id
+                                                                    ? "bg-zinc-900 text-white dark:bg-white dark:text-black border-zinc-900 dark:border-white shadow-lg"
+                                                                    : "bg-transparent text-zinc-500 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-600"
+                                                            )}
+                                                        >
+                                                            {item.label}
+                                                        </button>
+                                                    ))}
                                                 </div>
                                             </div>
 
