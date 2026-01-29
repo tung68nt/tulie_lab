@@ -8,8 +8,18 @@ import { Section } from '@/types/sections';
 import { SectionBackground } from '../SectionBackground';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { ShoppingBag, Star, Zap, BookOpen } from 'lucide-react';
 
-export function HeroSection({ section }: { section: Section }) {
+export function HeroSection({ section, mainCourse }: { section: any; mainCourse?: any }) {
+    const isCombo = mainCourse?.type === 'BUNDLE' || mainCourse?.isBundle;
+
+    const formatCurrency = (amount: number) => {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+            maximumFractionDigits: 0,
+        }).format(amount);
+    };
     return (
         <section className="w-full pt-8 pb-4 md:pt-10 md:pb-8 lg:pt-16 lg:pb-16 bg-background relative transition-colors duration-300">
             <SectionBackground
@@ -96,47 +106,117 @@ export function HeroSection({ section }: { section: Section }) {
                         </div>
                     </div>
 
-                    {/* Image with effects */}
-                    {section.image && (
-                        <div className="relative mx-auto lg:mr-0 w-full max-w-[600px] order-1 lg:order-2 p-4 lg:p-8">
-                            {/* Decorative elements */}
-                            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50"></div>
+                    {/* Image / Product Card */}
+                    <div className="relative mx-auto lg:mr-0 w-full max-w-[600px] order-1 lg:order-2 p-4 lg:p-8">
+                        {mainCourse ? (
+                            /* Unified Product Card for Courses/Combos */
+                            <div className="relative group">
+                                {/* Glow background */}
+                                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-3xl opacity-50 transition-opacity duration-1000 group-hover:opacity-70"></div>
 
-                            {/* Main image container */}
-                            <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-black/5 dark:ring-white/10">
-                                <div className="absolute inset-0 overflow-hidden rounded-2xl">
-                                    <Image
-                                        src={section.image}
-                                        alt="Hero"
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 600px"
-                                        className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
-                                        priority
-                                    />
-                                    {/* Overlay gradients for better pop */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+                                <div className="relative bg-card border shadow-2xl rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] dark:hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)] border-white/10">
+                                    {/* Thumbnail */}
+                                    <div className="relative aspect-[16/10] overflow-hidden">
+                                        <Image
+                                            src={mainCourse.thumbnail || section.image || "/placeholder.jpg"}
+                                            alt={mainCourse.title}
+                                            fill
+                                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                            priority
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
+
+                                        {/* Status Badge */}
+                                        <div className="absolute top-4 left-4 z-10">
+                                            <div className="bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
+                                                <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                                {isCombo ? 'COMBO LỘ TRÌNH' : 'KHOÁ HỌC'}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Card Content */}
+                                    <div className="p-8 space-y-6">
+                                        <div className="flex justify-between items-start">
+                                            <div className="space-y-1">
+                                                <h3 className="font-bold text-xl md:text-2xl leading-tight">
+                                                    {mainCourse.title}
+                                                </h3>
+                                                <p className="text-muted-foreground text-sm line-clamp-1">
+                                                    {mainCourse.description || "Lộ trình đào tạo thực chiến A-Z"}
+                                                </p>
+                                            </div>
+                                            {/* Rating - Static for now or from DB if available */}
+                                            <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg">
+                                                <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
+                                                <span className="text-xs font-bold">4.9</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Price Section */}
+                                        <div className="pt-4 border-t border-dashed flex items-center justify-between">
+                                            <div className="space-y-0.5">
+                                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Học phí ưu đãi</p>
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-2xl md:text-3xl font-black tracking-tight text-primary">
+                                                        {formatCurrency(mainCourse.salePrice || mainCourse.price || 0)}
+                                                    </span>
+                                                    {(mainCourse.salePrice && mainCourse.price > mainCourse.salePrice) && (
+                                                        <span className="text-sm text-muted-foreground line-through decoration-red-500/50">
+                                                            {formatCurrency(mainCourse.price)}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="hidden sm:block">
+                                                <div className="flex -space-x-2">
+                                                    {[1, 2, 3].map((i) => (
+                                                        <div key={i} className="h-8 w-8 rounded-full border-2 border-card bg-muted overflow-hidden">
+                                                            <Image src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="avatar" width={32} height={32} />
+                                                        </div>
+                                                    ))}
+                                                    <div className="h-8 w-8 rounded-full border-2 border-card bg-zinc-800 flex items-center justify-center text-[10px] font-bold text-white leading-none">
+                                                        +2k
+                                                    </div>
+                                                </div>
+                                                <p className="text-[9px] text-muted-foreground text-right mt-1 font-medium">Học viên đang học</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Quick Features */}
+                                        <div className="grid grid-cols-2 gap-3 pt-2">
+                                            {[
+                                                { icon: Zap, label: "Truy cập trọn đời", color: "text-amber-500" },
+                                                { icon: BookOpen, label: isCombo ? "Hệ thống khoá học" : "Video bài giảng 4K", color: "text-blue-500" }
+                                            ].map((f, i) => (
+                                                <div key={i} className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                                                    <f.icon className={cn("w-3.5 h-3.5", f.color)} />
+                                                    <span>{f.label}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            {/* Floating badge - positioned relative to outer container to avoid overflow clip */}
-                            {(section.statsTitle || section.statsValue) && (
-                                <div className="absolute bottom-0 -left-4 bg-card border shadow-lg rounded-xl p-3 flex items-center gap-3">
-                                    <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center overflow-hidden">
-                                        {section.image ? (
-                                            <div className="relative w-full h-full">
-                                                <Image src={section.image} alt="" fill className="object-cover" />
-                                            </div>
-                                        ) : (
-                                            <span className="text-lg">{section.statsIcon || '🎓'}</span>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <p className="font-bold text-sm">{section.statsValue}</p>
-                                    </div>
+                        ) : (
+                            /* Standard Hero Image */
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50"></div>
+                                <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden bg-muted">
+                                    {section.image && (
+                                        <Image
+                                            src={section.image}
+                                            alt="Hero"
+                                            fill
+                                            className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
+                                            priority
+                                        />
+                                    )}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                                 </div>
-                            )}
-                        </div>
-                    )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </section>

@@ -11,6 +11,7 @@ import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
 
 import { useConfirm } from '@/components/ConfirmDialog';
+import { Users } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
 
 export default function SystemPagesAdmin() {
@@ -122,6 +123,34 @@ export default function SystemPagesAdmin() {
                         <p className="text-sm mt-2">Nhấn "Tạo trang mới" để bắt đầu.</p>
                     </div>
                 )}
+            </div>
+
+            <div className="mt-8 border-t pt-10">
+                <h2 className="text-xl font-bold mb-6">Tiện ích hệ thống</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Card className="hover:shadow-md transition-shadow border-dashed border-2">
+                        <CardContent className="p-6">
+                            <div className="flex items-start justify-between">
+                                <div className="flex gap-4">
+                                    <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600">
+                                        <Users size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-lg">Quản lý Giảng viên</h3>
+                                        <p className="text-sm text-muted-foreground mb-4">Quản lý danh sách giảng viên, tiểu sử và mạng xã hội.</p>
+                                        <div className="flex gap-2">
+                                            <Link href="/admin/instructors">
+                                                <Button size="sm" variant="outline">
+                                                    Quản lý ngay
+                                                </Button>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </div>
     );

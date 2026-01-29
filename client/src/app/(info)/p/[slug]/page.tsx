@@ -13,19 +13,19 @@ import { SalesCountdownSection } from '@/components/info/sections/SalesCountdown
 import { UpsellSection } from '@/components/info/sections/UpsellSection';
 import { PaymentSection } from '@/components/info/sections/PaymentSection';
 import { api } from '@/lib/api';
-
 import { CustomHtmlSection } from '@/components/info/sections/CustomHtmlSection';
-
 import { ExpertSection } from '@/components/info/sections/ExpertSection';
 import { StudentShowcaseSection } from '@/components/info/sections/StudentShowcaseSection';
 import { BonusSection } from '@/components/info/sections/BonusSection';
 import { InstructorGridSection } from '@/components/info/sections/InstructorGridSection';
+import { ContentBlockSection } from '@/components/info/sections/ContentBlockSection';
 import { PricingSection } from '@/components/info/sections/PricingSection';
-import { CalendarSection } from '@/components/info/sections/CalendarSection';
 import { FAQSection } from '@/components/info/sections/FAQSection';
+import { CodingMethodsSection } from '@/components/info/sections/CodingMethodsSection';
 import { VideoSection } from '@/components/info/sections/VideoSection';
 import { VideoTextSection } from '@/components/info/sections/VideoTextSection';
 import { GallerySection } from '@/components/info/sections/GallerySection';
+import { CalendarSection } from '@/components/info/sections/CalendarSection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -35,7 +35,6 @@ const SECTION_COMPONENTS: Record<string, any> = {
     benefits: BenefitsSection,
     testimonials: TestimonialsSection,
     content: ContentSection,
-    'content-block': ContentSection, // Alias for seed data
     cta: CTASection,
     comparison: ComparisonSection,
     process: ProcessSection,
@@ -58,7 +57,8 @@ const SECTION_COMPONENTS: Record<string, any> = {
     video: VideoSection,
     'video-text': VideoTextSection,
     gallery: GallerySection,
-    'coding-methods': ContentSection, // Fallback for coding-methods if no specific component
+    'coding-methods': CodingMethodsSection,
+    'content-block': ContentBlockSection, // Added missing
 };
 
 async function getLandingPage(slug: string) {
