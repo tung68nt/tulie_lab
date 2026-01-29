@@ -42,7 +42,7 @@ export interface Section {
     videoUrl?: string; // New: link to video (youtube, mp4, etc)
     mediaAspectRatio?: '16/9' | '4/3' | '1/1' | 'auto' | 'original'; // New: fit original or specific ratio
     appearance?: 'standard' | 'glass'; // New: glassmorphism style
-    animation?: 'none' | 'fade-up' | 'fade-in' | 'slide-up'; // New: entry animation
+    animation?: 'none' | 'fade-up' | 'fade-in' | 'fade-left' | 'fade-right' | 'slide-up'; // New: entry animation
     ctaText?: string;
     ctaLink?: string;
     isVisible?: boolean;

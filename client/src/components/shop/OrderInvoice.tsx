@@ -330,17 +330,17 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                             </div>
 
                             {/* Info Row: Company Name & Order Code */}
-                            <div className="flex flex-col md:flex-row print:flex-row justify-between items-center gap-4 text-sm">
+                            <div className="flex flex-col md:flex-row print:flex-row justify-between items-center gap-4 text-[13px]">
                                 <div className="font-bold text-zinc-900 text-base md:text-lg">{footerData?.companyName}</div>
-                                <div className="flex items-center gap-2 text-[13px]">
+                                <div className="flex items-center gap-2">
                                     <span className="text-zinc-500">Mã đơn hàng:</span>
                                     <span className="font-bold text-zinc-900">{order.code}</span>
                                 </div>
                             </div>
 
                             {/* Detailed Info Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-8 text-[13px]">
-                                <div className="space-y-1.5 text-zinc-500">
+                            <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-8 text-[13px] font-medium text-zinc-600">
+                                <div className="space-y-1.5">
                                     <div className="flex items-start gap-2">
                                         <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
                                         <span>{footerData?.address}</span>
@@ -437,10 +437,10 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                             <tr key={index}>
                                                 <td className="px-6 py-4">
                                                     <div className="font-bold text-zinc-900">
-                                                        {item.course?.title || item.product?.title || 'Dịch vụ'}
+                                                        {item.course ? `Dịch vụ tư vấn công nghệ: ${item.course.title}` : (item.product?.title || 'Dịch vụ')}
                                                     </div>
                                                     <div className="text-[10px] text-zinc-500 mt-1 font-medium tracking-wide">
-                                                        {item.course ? 'Khóa học trực tuyến' : 'Sản phẩm số'}
+                                                        Sản phẩm số
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 text-right font-bold text-zinc-900">
@@ -501,7 +501,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                         </table>
                                     </div>
                                 ) : (
-                                    <div className="text-xs font-bold text-zinc-400 py-4 px-6 bg-zinc-50/50 rounded-lg border border-dashed text-center">
+                                    <div className="text-xs font-medium text-zinc-400 py-4 px-6 bg-zinc-50/50 rounded-lg border border-dashed text-center">
                                         Đã thanh toán (Dữ liệu giao dịch đang được đồng bộ...)
                                     </div>
                                 )}

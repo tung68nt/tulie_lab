@@ -348,8 +348,8 @@ export default function CoursePage({ params }: { params: any }) {
                                                 <Button
                                                     size="lg"
                                                     disabled={isPurchasing}
-                                                    className="w-full font-bold text-sm shadow-xl border-0 relative h-10 animate-pulse-slow"
-                                                    style={{ backgroundColor: 'white', color: 'black' }}
+                                                    className="w-full font-bold text-sm shadow-xl border-0 relative h-10"
+                                                    variant="default"
                                                     onClick={handleBuyNow}
                                                 >
                                                     {isPurchasing ? (

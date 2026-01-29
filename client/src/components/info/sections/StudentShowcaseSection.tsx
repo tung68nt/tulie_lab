@@ -61,9 +61,9 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
 
                             <div className="p-6 flex flex-col flex-1 h-full select-none">
                                 <div className="flex flex-col mb-4">
-                                    <h3 className="font-bold text-xl text-neutral-900 mb-1">{String(item.title || '')}</h3>
+                                    <h3 className="font-bold text-xl text-foreground mb-1">{String(item.title || '')}</h3>
                                     {Boolean(item.subtitle) && (
-                                        <p className="text-[11px] text-neutral-500 mb-2 font-medium">{String(item.subtitle)}</p>
+                                        <p className="text-[11px] text-muted-foreground mb-2 font-medium">{String(item.subtitle)}</p>
                                     )}
 
                                     {Boolean(item.description || item.quote) && (

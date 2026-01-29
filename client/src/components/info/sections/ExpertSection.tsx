@@ -92,9 +92,9 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             </StandardSectionHeader>
                         </div>
 
-                        <div className="prose prose-lg text-muted-foreground leading-relaxed">
+                        <div className="prose prose-lg text-muted-foreground leading-relaxed dark:prose-invert">
                             {expert.bio.split('\n').map((paragraph, idx) => (
-                                <p key={idx}>{paragraph}</p>
+                                <p key={idx} className={section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"}>{paragraph}</p>
                             ))}
                         </div>
 

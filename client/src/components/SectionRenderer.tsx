@@ -99,12 +99,22 @@ export const SectionRenderer = ({ section, isPreview = false }: { section: any; 
     // Special case for Hero: show immediately or with very short delay
     const isHero = section.type === 'hero';
 
+    // Determine animation direction from section config or default
+    let direction: 'up' | 'down' | 'left' | 'right' | 'none' = 'up';
+
+    if (section.animation === 'fade-left') direction = 'left';
+    if (section.animation === 'fade-right') direction = 'right';
+    if (section.animation === 'fade-in' || section.animation === 'none') direction = 'none'; // Fade in only (no movement)
+
+    // Hero defaults to none (instant) or custom if specified
+    if (isHero && !section.animation) direction = 'none';
+
     return (
         <SectionPreviewContext.Provider value={isPreview}>
             <FadeIn
-                direction={isHero ? 'none' : 'up'}
+                direction={direction}
                 delay={isHero ? 0 : 0.1}
-                duration={0.6}
+                duration={0.8}
             >
                 <Component section={section} />
             </FadeIn>

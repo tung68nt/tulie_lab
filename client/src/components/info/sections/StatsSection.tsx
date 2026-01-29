@@ -38,10 +38,12 @@ export function StatsSection({ section }: { section: Section }) {
                                     <DynamicIcon name={item.icon || 'Star'} className="h-8 w-8" strokeWidth={2} />
                                 </div>
 
-                                <h3 className="text-2xl font-bold text-foreground mb-4">
+                                <h3 className={`text-2xl font-bold mb-4 ${section.backgroundTheme === 'dark' ? 'text-white' : 'text-foreground'
+                                    }`}>
                                     {String(item.title || '')}
                                 </h3>
-                                <p className="text-muted-foreground text-lg leading-relaxed">
+                                <p className={`text-lg leading-relaxed ${section.backgroundTheme === 'dark' ? 'text-zinc-400' : 'text-muted-foreground'
+                                    }`}>
                                     {String(item.description || item.label || '')}
                                 </p>
                                 {Boolean(item.value) && (

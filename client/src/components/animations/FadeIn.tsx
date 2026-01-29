@@ -21,10 +21,10 @@ export function FadeIn({
     fullWidth = false
 }: FadeInProps) {
     const directions = {
-        up: { y: 15, x: 0 },
-        down: { y: -15, x: 0 },
-        left: { x: 15, y: 0 },
-        right: { x: -15, y: 0 },
+        up: { y: 40, x: 0 },
+        down: { y: -40, x: 0 },
+        left: { x: -40, y: 0 },
+        right: { x: 40, y: 0 },
         none: { x: 0, y: 0 }
     };
 
@@ -37,7 +37,7 @@ export function FadeIn({
         <motion.div
             initial={initial}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
-            viewport={{ once: false, margin: "-100px" }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{
                 duration: duration,
                 delay: delay,

@@ -56,10 +56,10 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                 </div>
 
                                 {/* Content - Right Side (60%) */}
-                                <div className="flex-1 space-y-8">
+                                <div className="flex-1 space-y-5">
                                     <div>
                                         <h3 className={cn(
-                                            "text-2xl md:text-3xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors",
+                                            "text-2xl md:text-3xl font-bold leading-tight mb-3 group-hover:text-primary transition-colors",
                                             section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-zinc-900"
                                         )}>
                                             {String(module.title || '')}
@@ -77,16 +77,16 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
 
                                     {/* Clean Lesson List - Single Column */}
                                     {module.lessons && module.lessons.length > 0 && (
-                                        <div className="flex flex-col gap-4">
+                                        <div className="flex flex-col gap-2.5">
                                             {module.lessons.map((lesson: string, i: number) => (
-                                                <div key={i} className="flex items-start gap-4 group/lesson">
+                                                <div key={i} className="flex items-start gap-3.5 group/lesson">
                                                     <PlayCircle className={cn(
                                                         "w-5 h-5 transition-colors mt-0.5 shrink-0",
                                                         section.backgroundTheme === 'dark' ? "text-zinc-700 group-hover/lesson:text-zinc-500" : "text-zinc-300 group-hover/lesson:text-zinc-400"
                                                     )} />
                                                     <span className={cn(
-                                                        "text-[14px] font-medium transition-all leading-relaxed",
-                                                        section.backgroundTheme === 'dark' ? "text-zinc-400 group-hover/lesson:text-zinc-200" : "text-zinc-600 group-hover/lesson:text-zinc-900"
+                                                        "text-[16px] font-medium transition-all leading-relaxed",
+                                                        section.backgroundTheme === 'dark' ? "text-zinc-300 group-hover/lesson:text-white" : "text-zinc-600 group-hover/lesson:text-zinc-900"
                                                     )}>
                                                         {lesson}
                                                     </span>

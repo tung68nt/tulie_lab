@@ -56,7 +56,6 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
                     <div className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
-                        {/* Badge tag */}
                         <div className="flex justify-center lg:justify-start">
                             <SectionTag variant={section.backgroundTheme === 'dark' ? 'dark' : 'light'}>
                                 {section.tag || "🚀 Học để làm được"}
@@ -97,7 +96,12 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             });
                                         }
                                     }}
-                                    className="w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98] bg-white text-black hover:bg-zinc-200"
+                                    className={cn(
+                                        "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
+                                        section.backgroundTheme === 'dark'
+                                            ? "bg-white text-black hover:bg-zinc-200"
+                                            : "bg-balck text-white hover:bg-zinc-800"
+                                    )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
                                     <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

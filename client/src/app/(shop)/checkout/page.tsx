@@ -315,27 +315,18 @@ function CheckoutContent() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="p-6">
-                                <div className="flex gap-4">
+                                <div className="flex flex-col sm:flex-row gap-6 items-start">
                                     {item.thumbnail && (
-                                        <div className="w-24 h-24 rounded-lg overflow-hidden bg-muted flex-shrink-0 border">
+                                        <div className="w-full sm:w-48 aspect-video rounded-xl overflow-hidden bg-muted flex-shrink-0 border shadow-sm">
                                             <img src={item.thumbnail} alt={item.title} className="w-full h-full object-cover" />
                                         </div>
                                     )}
-                                    <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">{item?.title || 'Đang tải...'}</h3>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            {itemType === 'BUNDLE' ? (
-                                                <Badge className="bg-primary/20 text-primary border-primary/20 hover:bg-primary/30 text-[10px] font-bold tracking-wider">
-                                                    Combo / Learning Path
-                                                </Badge>
-                                            ) : (
-                                                <Badge variant="outline" className="text-[10px] font-bold tracking-wider opacity-60">
-                                                    {itemType === 'COURSE' ? 'Khóa học lẻ' : 'Sản phẩm'}
-                                                </Badge>
-                                            )}
-                                            <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
-                                        </div>
-                                        <div className="flex items-center gap-3">
+                                    <div className="flex-1 space-y-2">
+                                        <h3 className="text-xl md:text-2xl font-bold text-zinc-900 tracking-tight">{item?.title || 'Đang tải...'}</h3>
+                                        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                                            {item.description}
+                                        </p>
+                                        <div className="flex items-center gap-3 pt-2">
                                             <span className="text-2xl font-extrabold text-foreground">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.price || 0)}
                                             </span>
@@ -560,26 +551,26 @@ function CheckoutContent() {
                                         <p className="text-xs text-muted-foreground mt-1">Chọn cách bạn muốn nhận sản phẩm</p>
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="grid grid-cols-1 gap-2">
+                                        <div className="grid grid-cols-1 gap-3">
                                             <button
                                                 onClick={() => setSelectedActivationType('EMAIL')}
-                                                className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'EMAIL'
-                                                    ? 'bg-foreground text-background border-foreground shadow-md'
-                                                    : 'bg-background text-foreground border-border hover:border-primary/50'
+                                                className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${selectedActivationType === 'EMAIL'
+                                                    ? 'bg-zinc-950 text-white border-zinc-950 shadow-lg translate-y-[-1px]'
+                                                    : 'bg-background text-foreground border-zinc-200 hover:border-zinc-300'
                                                     }`}
                                             >
-                                                <span className="text-xs font-bold tracking-wider mb-1">Kích hoạt ngay</span>
-                                                <span className="text-[10px] opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
+                                                <span className="text-[15px] font-semibold mb-1">Kích hoạt ngay</span>
+                                                <span className="text-[13px] opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
                                             </button>
                                             <button
                                                 onClick={() => setSelectedActivationType('CODE')}
-                                                className={`flex flex-col items-start p-3 rounded-xl border transition-all text-left ${selectedActivationType === 'CODE'
-                                                    ? 'bg-foreground text-background border-foreground shadow-md'
-                                                    : 'bg-background text-foreground border-border hover:border-primary/50'
+                                                className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${selectedActivationType === 'CODE'
+                                                    ? 'bg-zinc-950 text-white border-zinc-950 shadow-lg translate-y-[-1px]'
+                                                    : 'bg-background text-foreground border-zinc-200 hover:border-zinc-300'
                                                     }`}
                                             >
-                                                <span className="text-xs font-bold tracking-wider mb-1">Mua mã quà tặng</span>
-                                                <span className="text-[10px] opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
+                                                <span className="text-[15px] font-semibold mb-1">Mua mã quà tặng</span>
+                                                <span className="text-[13px] opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
                                             </button>
                                         </div>
                                     </CardContent>
