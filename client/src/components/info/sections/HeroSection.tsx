@@ -58,7 +58,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                     <div className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
                         {/* Badge tag */}
                         <div className="flex justify-center lg:justify-start">
-                            <SectionTag>
+                            <SectionTag variant={section.backgroundTheme === 'dark' ? 'dark' : 'light'}>
                                 {section.tag || "🚀 Học để làm được"}
                             </SectionTag>
                         </div>
@@ -118,8 +118,16 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             section.backgroundTheme === 'dark' ? "text-white" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
-                                <div key={index} className="flex items-center gap-3 bg-black/50 border border-white/20 px-4 py-2 rounded-full backdrop-blur-md shadow-lg group/indicator transition-all hover:bg-black/60">
-                                    <StatusDot color="white" />
+                                <div
+                                    key={index}
+                                    className={cn(
+                                        "flex items-center gap-3 px-4 py-2 rounded-full backdrop-blur-md shadow-lg group/indicator transition-all",
+                                        section.backgroundTheme === 'dark'
+                                            ? "bg-black/50 border border-white/20 text-white hover:bg-black/60"
+                                            : "bg-white/50 border border-black/10 text-black hover:bg-white/80"
+                                    )}
+                                >
+                                    <StatusDot color={section.backgroundTheme === 'dark' ? "white" : "black"} />
                                     <span className="not-italic tracking-wide">{indicator}</span>
                                 </div>
                             ))}

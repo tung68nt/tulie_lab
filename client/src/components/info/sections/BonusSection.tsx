@@ -115,43 +115,40 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                     ))}
                 </div>
 
-                {/* Total Value Summary - Premium Redesign */}
-                <div className="mt-24 relative">
+                {/* Total Value Summary - Compact & Modern Redesign */}
+                <div className="mt-16 md:mt-24 relative max-w-4xl mx-auto">
                     {/* Ambient Glow */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-red-600/20 blur-[100px] rounded-full pointer-events-none" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/10 blur-[120px] rounded-full pointer-events-none" />
 
-                    <div className="relative bg-neutral-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 text-center shadow-2xl overflow-hidden ring-1 ring-white/5">
+                    <div className="relative bg-white/5 dark:bg-neutral-900/40 backdrop-blur-2xl border border-white/10 dark:border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl overflow-hidden group/bonus-sum">
+                        {/* Decorative background element */}
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 group-hover/bonus-sum:scale-150 transition-transform duration-1000" />
 
-                        <div className="relative z-10 flex flex-col items-center">
-                            <h3 className="text-sm md:text-base font-bold text-zinc-100 mb-3 uppercase tracking-wider">
-                                Tổng trị giá quà tặng
-                            </h3>
-
-                            <div className="flex flex-col items-center justify-center mb-6 relative">
-                                {totalValue > 0 && (
-                                    <div className="flex items-center justify-center gap-3 md:gap-4 mb-2">
-                                        <span className="text-2xl md:text-4xl text-white/50 font-bold decoration-2 line-through relative">
-                                            {totalValue.toLocaleString('vi-VN')}đ
-                                        </span>
-                                        <span className="bg-red-600 text-white text-xs md:text-sm px-2 py-0.5 rounded border border-red-600 font-bold whitespace-nowrap">
-                                            TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
-                                        </span>
-                                    </div>
-                                )}
-
-                                <div className="flex items-start justify-center gap-1 relative px-4 py-2 -my-2 pb-4">
-                                    <span className="text-8xl md:text-[9rem] leading-none font-bold text-white drop-shadow-[0_10px_30px_rgba(255,255,255,0.2)] select-none py-4 pr-2">
-                                        0
+                        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
+                            <div className="text-center md:text-left space-y-2">
+                                <h3 className="text-xs md:text-sm font-bold text-zinc-400 tracking-wide">
+                                    Tổng giá trị quà tặng
+                                </h3>
+                                <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                                    <span className="text-2xl md:text-3xl text-zinc-500 font-bold line-through decoration-red-500/30">
+                                        {totalValue.toLocaleString('vi-VN')}đ
                                     </span>
-                                    <span className="text-4xl md:text-5xl font-bold text-white mt-6 md:mt-8">đ</span>
+                                    <span className="bg-red-500 text-white text-[10px] md:text-xs px-3 py-1 rounded-full font-bold shadow-lg shadow-red-500/20">
+                                        TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
+                                    </span>
                                 </div>
                             </div>
 
-                            <div className="inline-flex items-center gap-2 bg-red-600/10 border border-red-600/20 text-red-600 px-5 py-2.5 rounded-full">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
-                                </span>
-                                <span className="font-medium text-sm md:text-base">Chỉ nhận được khi đăng ký <span className="font-bold">ngay hôm nay</span></span>
+                            <div className="flex flex-col items-center md:items-end">
+                                <div className="flex items-baseline gap-1 mb-2">
+                                    <span className="text-6xl md:text-8xl font-black text-white drop-shadow-2xl tracking-tighter">0</span>
+                                    <span className="text-2xl md:text-3xl font-bold text-white/80">đ</span>
+                                </div>
+
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,1)]" />
+                                    <span className="text-[11px] md:text-xs font-bold whitespace-nowrap">Chỉ nhận được khi đăng ký ngay hôm nay</span>
+                                </div>
                             </div>
                         </div>
                     </div>

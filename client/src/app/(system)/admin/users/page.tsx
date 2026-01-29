@@ -108,7 +108,7 @@ export default function AdminUsersPage() {
             return (
                 <div className="flex flex-col gap-1 items-start">
                     <span className="px-2 py-0.5 rounded bg-zinc-100 text-zinc-900 text-[10px] font-bold border border-zinc-200">
-                        {sub.product?.title || 'PREMIUM'}
+                        {sub.product?.title?.replace(' Membership', '') || 'PREMIUM'}
                     </span>
                     {days !== null && days > 0 && (
                         <span className={`text-[10px] font-medium ${days <= 14 ? 'text-red-600' : 'text-zinc-500'}`}>
@@ -116,7 +116,7 @@ export default function AdminUsersPage() {
                         </span>
                     )}
                     {days !== null && days <= 0 && (
-                        <span className="text-[10px] font-medium text-red-600 italic">Hết hạn</span>
+                        <span className="text-[10px] font-medium text-red-600">Hết hạn</span>
                     )}
                 </div>
             );
@@ -135,12 +135,12 @@ export default function AdminUsersPage() {
             {/* Stats Grid */}
             <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {[
-                    { label: 'Tổng thành viên', icon: Users, value: stats.total, id: '' },
-                    { label: 'Đã mua khóa học', icon: Library, value: stats.totalCourses, id: 'course' },
-                    { label: 'Đã mua template', icon: CreditCard, value: stats.totalTemplates, id: 'template' },
-                    { label: 'Đã mua cả hai', icon: ShieldCheck, value: stats.totalBoth, id: 'both' },
-                    { label: 'Sắp hết hạn', icon: AlertCircle, value: stats.totalExpiring, id: 'expiring_soon' },
-                    { label: 'Ngừng hoạt động', icon: UserX, value: stats.totalInactive, id: 'inactive' },
+                    { label: 'Total', icon: Users, value: stats.total, id: '' },
+                    { label: 'Courses', icon: Library, value: stats.totalCourses, id: 'course' },
+                    { label: 'Templates', icon: CreditCard, value: stats.totalTemplates, id: 'template' },
+                    { label: 'Both', icon: ShieldCheck, value: stats.totalBoth, id: 'both' },
+                    { label: 'Expiring', icon: AlertCircle, value: stats.totalExpiring, id: 'expiring_soon' },
+                    { label: 'Inactive', icon: UserX, value: stats.totalInactive, id: 'inactive' },
                 ].map((item, idx) => (
                     <Card
                         key={idx}
@@ -149,8 +149,8 @@ export default function AdminUsersPage() {
                     >
                         <CardContent className="!p-4 flex flex-col items-center justify-center text-center space-y-2 h-[110px]">
                             <item.icon size={18} className={filter === item.id ? 'text-zinc-950' : 'text-muted-foreground'} />
-                            <div className="text-xl font-bold text-zinc-950">{item.value}</div>
-                            <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{item.label}</div>
+                            <div className="text-2xl font-bold text-zinc-950 tabular-nums">{item.value.toLocaleString('vi-VN')}</div>
+                            <div className="text-[10px] font-bold text-muted-foreground tracking-wider">{item.label}</div>
                         </CardContent>
                     </Card>
                 ))}
@@ -240,7 +240,6 @@ export default function AdminUsersPage() {
                                             <td className="py-4 px-4 text-right text-zinc-500 align-top">
                                                 <div className="flex flex-col items-end">
                                                     <span className="font-medium text-zinc-900">{formatDate(user.createdAt)}</span>
-                                                    <span className="text-[10px]">Thành viên mới</span>
                                                 </div>
                                             </td>
                                             <td className="py-4 px-4 text-right align-top">
@@ -251,7 +250,7 @@ export default function AdminUsersPage() {
                                                             <span className="text-[10px] text-zinc-500">Đã đăng nhập</span>
                                                         </>
                                                     ) : (
-                                                        <span className="text-zinc-400 italic">Chưa hoạt động</span>
+                                                        <span className="text-zinc-400">Chưa hoạt động</span>
                                                     )}
                                                 </div>
                                             </td>

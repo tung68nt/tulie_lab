@@ -713,7 +713,8 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         ...section,
                         tag: section.tag || "Thanh toán & Kích hoạt",
                         title: section.title || "Thanh Toán & Kích Hoạt",
-                        subtitle: section.subtitle || "Hệ thống kích hoạt tài khoản tự động 24/7."
+                        subtitle: section.subtitle || "Hệ thống kích hoạt tài khoản tự động 24/7.",
+                        backgroundTheme: section.backgroundTheme // Ensure it's passed
                     }}
                 />
 

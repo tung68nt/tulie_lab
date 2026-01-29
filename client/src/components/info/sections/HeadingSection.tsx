@@ -25,7 +25,10 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                     align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'
                 )}>
                     {section.tag && (
-                        <SectionTag className="mb-2">
+                        <SectionTag
+                            variant={section.backgroundTheme === 'dark' ? 'dark' : 'light'}
+                            className="mb-2"
+                        >
                             {section.tag}
                         </SectionTag>
                     )}

@@ -5,15 +5,23 @@ import { StatusDot } from './StatusDot';
 interface SectionTagProps {
     children: React.ReactNode;
     className?: string;
+    variant?: 'light' | 'dark';
 }
 
-export const SectionTag: React.FC<SectionTagProps> = ({ children, className }) => {
+export const SectionTag: React.FC<SectionTagProps> = ({
+    children,
+    className,
+    variant = 'dark'
+}) => {
     return (
         <div className={cn(
-            "inline-flex h-9 items-center gap-2 rounded-full border border-white/20 dark:border-white/30 bg-black/40 px-4 py-1.5 text-sm font-semibold text-white mb-6 shadow-xl backdrop-blur-md select-none",
+            "inline-flex h-9 items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold mb-6 shadow-xl backdrop-blur-md select-none transition-all duration-300",
+            variant === 'dark'
+                ? "border-white/20 dark:border-white/30 bg-black/40 text-white"
+                : "border-black/10 bg-white/50 text-black",
             className
         )}>
-            <StatusDot color="white" />
+            <StatusDot color={variant === 'dark' ? "white" : "black"} />
             {children}
         </div>
     );

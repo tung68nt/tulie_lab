@@ -77,7 +77,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                             {/* Content */}
                             <div className="flex-1 flex flex-col text-center">
                                 <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{instructor.name}</h3>
-                                <p className="text-primary/60 text-xs font-bold uppercase tracking-widest mb-6">{String(instructor.role || 'Expert Instructor')}</p>
+                                <p className="text-primary/60 text-xs font-bold tracking-wide mb-6">{String(instructor.role || 'Expert Instructor')}</p>
 
                                 <p className="text-muted-foreground text-[15px] leading-relaxed mb-10 line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
                                     {String(instructor.bio || '')}

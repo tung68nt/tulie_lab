@@ -75,29 +75,29 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
 
                                 {/* Before/After stats if available */}
                                 {(Boolean(item.before) && Boolean(item.after)) && (
-                                    <div className="pt-4 border-t border-border grid grid-cols-2 gap-4 mt-auto">
-                                        <div>
-                                            <p className="text-xs text-red-500 font-bold mb-1">Trước khi học</p>
-                                            <ul className="text-[11px] text-neutral-500 space-y-1">
+                                    <div className="pt-6 border-t border-border grid grid-cols-2 gap-6 mt-auto">
+                                        <div className="flex flex-col">
+                                            <p className="text-[13px] text-red-500 font-bold mb-3 h-5 flex items-center">Trước khi học</p>
+                                            <ul className="text-[12px] text-neutral-500 space-y-2.5">
                                                 {Array.isArray(item.before) && item.before.map((p: string, i: number) => (
                                                     <li key={i} className="flex items-start gap-2">
                                                         <span className="shrink-0 mt-0.5 text-red-500">
                                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                                         </span>
-                                                        <span>{p}</span>
+                                                        <span className="leading-normal">{p}</span>
                                                     </li>
                                                 ))}
                                             </ul>
                                         </div>
-                                        <div>
-                                            <p className="text-[10px] text-green-600 font-bold mb-1">Kết quả đạt được</p>
-                                            <ul className="text-[11px] text-neutral-600 font-medium space-y-1">
+                                        <div className="flex flex-col">
+                                            <p className="text-[13px] text-green-600 font-bold mb-3 h-5 flex items-center">Kết quả đạt được</p>
+                                            <ul className="text-[12px] text-neutral-600 font-medium space-y-2.5">
                                                 {Array.isArray(item.after) && item.after.map((p: string, i: number) => (
                                                     <li key={i} className="flex items-start gap-2">
                                                         <span className="shrink-0 mt-0.5 text-green-600">
                                                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                                                         </span>
-                                                        <span>{p}</span>
+                                                        <span className="leading-normal">{p}</span>
                                                     </li>
                                                 ))}
                                             </ul>

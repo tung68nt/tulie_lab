@@ -270,7 +270,12 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                                     />
                                                     <div className="absolute top-4 right-4 flex gap-2">
-                                                        <Badge className="bg-background/80 backdrop-blur-md border border-white/20 text-foreground py-1 px-3 text-xs capitalize flex items-center gap-1.5">
+                                                        <Badge className={cn(
+                                                            "backdrop-blur-md border py-1 px-3 text-xs capitalize flex items-center gap-1.5 transition-all shadow-sm",
+                                                            section.backgroundTheme === 'dark'
+                                                                ? "bg-black/50 border-white/20 text-white"
+                                                                : "bg-white/50 border-black/10 text-black"
+                                                        )}>
                                                             {(() => {
                                                                 switch (product.type) {
                                                                     case 'TEMPLATE': return <Layout className="w-3 h-3" />;

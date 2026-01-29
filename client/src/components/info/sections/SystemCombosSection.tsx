@@ -8,6 +8,7 @@ import { BookOpen, Clock, ChevronRight, Sparkles, TrendingUp } from 'lucide-reac
 import { SectionTag } from '@/components/SectionTag';
 import { Card } from '@/components/Card';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 import { Section } from '@/types/sections';
 import { Bundle } from '@/types/api';
 
@@ -109,11 +110,21 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                 )}
 
                                                 <div className="flex flex-wrap items-center gap-4 pt-2">
-                                                    <div className="flex items-center gap-2.5 bg-black/40 px-3.5 py-1.5 rounded-full text-[11px] font-bold border border-white/20 text-white backdrop-blur-sm">
+                                                    <div className={cn(
+                                                        "flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold border backdrop-blur-sm",
+                                                        section.backgroundTheme === 'dark'
+                                                            ? "bg-black/40 border-white/20 text-white"
+                                                            : "bg-white/50 border-black/10 text-black"
+                                                    )}>
                                                         <BookOpen className="w-3.5 h-3.5" />
                                                         <span>Lộ trình bài bản</span>
                                                     </div>
-                                                    <div className="flex items-center gap-2.5 bg-black/40 px-3.5 py-1.5 rounded-full text-[11px] font-bold border border-white/20 text-white backdrop-blur-sm">
+                                                    <div className={cn(
+                                                        "flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold border backdrop-blur-sm",
+                                                        section.backgroundTheme === 'dark'
+                                                            ? "bg-black/40 border-white/20 text-white"
+                                                            : "bg-white/50 border-black/10 text-black"
+                                                    )}>
                                                         <Clock className="w-3.5 h-3.5" />
                                                         <span>Hỗ trợ 1:1 chuyên sâu</span>
                                                     </div>

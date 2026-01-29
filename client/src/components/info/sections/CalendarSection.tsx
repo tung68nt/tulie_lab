@@ -72,9 +72,10 @@ export const CalendarSection = ({ section }: { section: Section }) => {
                 <StandardSectionHeader
                     section={{
                         ...section,
-                        tag: section.tag || "Lịch sự kiện",
-                        title: section.title || "Lịch Sự Kiện",
-                        subtitle: section.subtitle || "Các buổi Livestream/Workshop sắp tới"
+                        tag: section.tag || "Lịch khai giảng",
+                        title: section.title || "Lịch Khai Giảng & Lộ Trình",
+                        subtitle: section.subtitle || "Cập nhật lộ trình học tập và thời gian khai giảng các khóa học mới nhất.",
+                        backgroundTheme: section.backgroundTheme // Ensure it's passed
                     }}
                     align="left"
                 />
