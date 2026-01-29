@@ -204,7 +204,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
             const opt: any = {
                 margin: [10, 10, 10, 10],
-                filename: `tulielab_order_${order.code.toLowerCase()}.pdf`,
+                filename: `TulieLab_DH_${order.code.toUpperCase()}.pdf`,
                 image: { type: 'jpeg', quality: 1.0 },
                 html2canvas: {
                     scale: 2,
@@ -304,9 +304,10 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
             <div ref={invoiceRef} className="print:w-[210mm] print:min-h-[297mm] print:bg-white mx-auto relative group/invoice">
                 <Card className="border border-zinc-100 shadow-xl print:shadow-none overflow-hidden bg-white text-zinc-950 rounded-xl relative z-10">
                     <CardContent className="pt-16 md:pt-20 pb-12 px-8 md:p-12 space-y-12 print:p-12 relative overflow-hidden invoice-pdf-container">
-                        {/* Header: Company & Invoice Info */}
-                        <div className="relative z-10 flex flex-col md:flex-row print:flex-row justify-between items-start gap-8 border-b border-zinc-100 pb-12 text-zinc-950">
-                            <div className="space-y-4 text-left">
+                        {/* Header Area */}
+                        <div className="relative z-10 border-b border-zinc-100 pb-12 text-zinc-950 space-y-8">
+                            {/* Logo Row */}
+                            <div className="flex justify-between items-center">
                                 <div className="flex items-center gap-2.5">
                                     {settings.site_logo ? (
                                         <img src={settings.site_logo} alt="Logo" className="h-10 w-auto object-contain" />
@@ -317,8 +318,21 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                         </>
                                     )}
                                 </div>
-                                <div className="text-[13px] text-zinc-500 leading-relaxed max-w-sm space-y-1">
-                                    <div className="font-bold text-zinc-950 text-base mb-2 whitespace-nowrap">{footerData?.companyName}</div>
+                                <h1 className="text-3xl md:text-4xl print:text-4xl font-bold leading-none">Đơn Hàng</h1>
+                            </div>
+
+                            {/* Info Row: Company Name & Order Code */}
+                            <div className="flex flex-col md:flex-row print:flex-row justify-between items-center gap-4 text-sm">
+                                <div className="font-bold text-zinc-900 text-base md:text-lg">{footerData?.companyName}</div>
+                                <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1.5 rounded-lg border border-zinc-100">
+                                    <span className="text-zinc-600">Mã đơn hàng:</span>
+                                    <span className="font-bold text-zinc-950">{order.code}</span>
+                                </div>
+                            </div>
+
+                            {/* Detailed Info Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-8 text-[13px]">
+                                <div className="space-y-1.5 text-zinc-500">
                                     <div className="flex items-start gap-2">
                                         <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
                                         <span>{footerData?.address}</span>
@@ -327,23 +341,18 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> {footerData?.email || 'support@tulielab.vn'}</div>
                                     <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> Hotline: {settings.contact_hotline || footerData?.hotline || '0336.883.242'}</div>
                                 </div>
-                            </div>
-                            <div className="text-left md:text-right print:text-right space-y-2 self-start md:pt-1">
-                                <h1 className="text-3xl md:text-4xl print:text-4xl font-bold leading-none">Đơn Hàng</h1>
-                                <div className="text-sm">
-                                    <span className="text-zinc-600">Mã đơn hàng:</span>
-                                    <span className="font-bold ml-2 text-base">{order.code}</span>
-                                </div>
-                                <div className="text-sm">
-                                    <span className="text-zinc-600">Ngày tạo:</span>
-                                    <span className="font-medium ml-2">{formatDate(order.createdAt)}</span>
-                                </div>
-                                <div className="mt-4">
-                                    <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold
-                                        ${order.status === 'PAID' || order.status === 'COMPLETED' ? 'bg-zinc-950 text-white' : 'bg-zinc-100 text-zinc-500'}
-                                    `}>
-                                        {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chưa thanh toán'}
-                                    </span>
+                                <div className="space-y-2 md:text-right print:text-right flex flex-col items-start md:items-end">
+                                    <div className="text-sm">
+                                        <span className="text-zinc-600">Ngày tạo:</span>
+                                        <span className="font-medium ml-2">{formatDate(order.createdAt)}</span>
+                                    </div>
+                                    <div>
+                                        <span className={`inline-flex px-3 py-1 rounded-full text-xs font-bold
+                                            ${order.status === 'PAID' || order.status === 'COMPLETED' ? 'bg-zinc-950 text-white' : 'bg-zinc-100 text-zinc-500'}
+                                        `}>
+                                            {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Đã thanh toán' : 'Chưa thanh toán'}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
