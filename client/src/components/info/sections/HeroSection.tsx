@@ -128,7 +128,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                         {/* Status Badge */}
                                         <div className="absolute top-4 left-4 z-10">
-                                            <div className="bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
+                                            <div className="bg-black/60 backdrop-blur-md text-white text-[10px] font-semibold px-3 py-1 rounded-full border border-white/20 flex items-center gap-1.5">
                                                 <div className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></div>
                                                 {isCombo ? 'COMBO LỘ TRÌNH' : 'KHOÁ HỌC'}
                                             </div>
@@ -156,9 +156,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         {/* Price Section */}
                                         <div className="pt-4 border-t border-dashed flex items-center justify-between">
                                             <div className="space-y-0.5">
-                                                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Học phí ưu đãi</p>
+                                                <p className="text-[10px] font-semibold text-muted-foreground uppercase">Học phí ưu đãi</p>
                                                 <div className="flex items-center gap-3">
-                                                    <span className="text-2xl md:text-3xl font-black tracking-tight text-primary">
+                                                    <span className="text-2xl md:text-3xl font-bold tracking-tight text-primary">
                                                         {formatCurrency(mainCourse.salePrice || mainCourse.price || 0)}
                                                     </span>
                                                     {(mainCourse.salePrice && mainCourse.price > mainCourse.salePrice) && (
@@ -175,7 +175,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                             <Image src={`https://i.pravatar.cc/100?u=${i + 10}`} alt="avatar" width={32} height={32} />
                                                         </div>
                                                     ))}
-                                                    <div className="h-8 w-8 rounded-full border-2 border-card bg-zinc-800 flex items-center justify-center text-[10px] font-bold text-white leading-none">
+                                                    <div className="h-8 w-8 rounded-full border-2 border-card bg-zinc-800 flex items-center justify-center text-[10px] font-semibold text-white leading-none">
                                                         +2k
                                                     </div>
                                                 </div>

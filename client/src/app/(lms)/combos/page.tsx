@@ -42,11 +42,11 @@ export default function CombosListPage() {
             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px] -z-10" />
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:24px_24px] opacity-10 -z-10" />
 
-            <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1800px] mx-auto relative z-10">
+            <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1200px] mx-auto relative z-10">
                 {/* Header Section */}
                 <div className="max-w-4xl mx-auto text-center mb-20 space-y-6">
                     <SectionTag>Learning Paths</SectionTag>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
                         Lộ trình học tập Chuyên sâu
                     </h1>
                     <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
@@ -80,7 +80,7 @@ export default function CombosListPage() {
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
                                         />
                                         <div className="absolute top-4 left-4">
-                                            <Badge className="bg-white/90 backdrop-blur-md text-black border-none py-1.5 px-3 text-[10px] font-black tracking-wider shadow-xl">
+                                            <Badge className="bg-white/90 backdrop-blur-md text-black border-none py-1.5 px-3 text-[10px] font-bold shadow-xl">
                                                 -{combo.discountPercent}% OFF
                                             </Badge>
                                         </div>
@@ -93,9 +93,9 @@ export default function CombosListPage() {
                                                 <div className="p-1.5 rounded-lg bg-primary/10 text-primary">
                                                     <TrendingUp className="w-4 h-4" />
                                                 </div>
-                                                <span className="text-[10px] font-black text-primary tracking-[0.2em] uppercase">Combo Ưu đãi</span>
+                                                <span className="text-[10px] font-bold text-primary uppercase">Combo Ưu đãi</span>
                                             </div>
-                                            <h3 className="text-2xl md:text-3xl font-black mb-4 group-hover:text-primary transition-all leading-tight tracking-tight">
+                                            <h3 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-primary transition-all leading-tight tracking-tight">
                                                 {combo.name}
                                             </h3>
                                             <p className="text-muted-foreground text-base line-clamp-2 mb-8 leading-relaxed font-medium opacity-80">
@@ -107,13 +107,13 @@ export default function CombosListPage() {
                                                     <div className="h-8 w-8 rounded-xl bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-center shrink-0">
                                                         <BookOpen className="w-4 h-4 text-zinc-500" />
                                                     </div>
-                                                    <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">{combo.courses?.length || 0} Khóa học</span>
+                                                    <span className="text-[10px] font-semibold text-zinc-500 uppercase">{combo.courses?.length || 0} Khóa học</span>
                                                 </div>
                                                 <div className="flex items-center gap-3 p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50">
                                                     <div className="h-8 w-8 rounded-xl bg-white dark:bg-zinc-900 shadow-sm flex items-center justify-center shrink-0">
                                                         <Clock className="w-4 h-4 text-zinc-500" />
                                                     </div>
-                                                    <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Lộ trình 1:1</span>
+                                                    <span className="text-[10px] font-semibold text-zinc-500 uppercase">Lộ trình 1:1</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@ export default function CombosListPage() {
                                                 <span className="text-sm text-muted-foreground line-through font-bold opacity-50">
                                                     {combo.originalPrice?.toLocaleString()}₫
                                                 </span>
-                                                <span className="text-3xl font-black text-foreground tracking-tighter">
+                                                <span className="text-3xl font-bold text-foreground tracking-tighter">
                                                     {combo.salePrice?.toLocaleString()}₫
                                                 </span>
                                             </div>

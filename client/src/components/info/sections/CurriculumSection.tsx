@@ -33,9 +33,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                     isEven ? "md:flex-row" : "md:flex-row-reverse"
                                 )}>
                                     {/* Date/Order Badge for Desktop (Center) */}
-                                    <div className="absolute left-4 md:left-1/2 top-0 md:top-8 w-8 h-8 md:w-12 md:h-12 -translate-x-1/2 bg-background border-4 border-primary rounded-full z-20 flex items-center justify-center shadow-[0_0_20px_rgba(var(--primary),0.3)]">
-                                        <span className="text-xs md:text-sm font-black text-primary">{index + 1}</span>
-                                    </div>
+                                    <span className="text-xs md:text-sm font-bold text-primary">{index + 1}</span>
 
                                     {/* Content Card */}
                                     <div className={cn(
@@ -54,7 +52,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                                     />
                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                                                     <div className="absolute bottom-4 left-4">
-                                                        <span className="bg-primary/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20">
+                                                        <span className="bg-primary/90 backdrop-blur-md text-white text-[10px] font-semibold px-3 py-1 rounded-full border border-white/20">
                                                             MODULE {index + 1}
                                                         </span>
                                                     </div>
@@ -79,7 +77,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                                                     <PlayCircle size={12} strokeWidth={3} />
                                                                 )}
                                                             </div>
-                                                            <span className="text-sm font-bold text-foreground/80 group-hover/lesson:text-foreground transition-colors">
+                                                            <span className="text-sm font-semibold text-foreground/80 group-hover/lesson:text-foreground transition-colors">
                                                                 {lesson}
                                                             </span>
                                                         </div>
@@ -99,7 +97,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                     {/* End Signal */}
                     <div className="absolute -bottom-12 left-4 md:left-1/2 -translate-x-1/2 flex flex-col items-center">
                         <div className="w-4 h-4 rounded-full bg-primary animate-ping" />
-                        <div className="mt-2 text-[10px] font-black uppercase tracking-widest text-primary">Finish line</div>
+                        <div className="mt-2 text-[10px] font-bold uppercase text-primary">Finish line</div>
                     </div>
                 </div>
             </div>

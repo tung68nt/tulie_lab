@@ -26,10 +26,10 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                     <div className="flex-1 text-center lg:text-left">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-primary mb-6 animate-fade-up">
                             <Zap size={14} className="fill-current" />
-                            <span className="text-[10px] font-bold uppercase tracking-widest">Ưu đãi có hạn</span>
+                            <span className="text-[10px] font-bold uppercase">Ưu đãi có hạn</span>
                         </div>
 
-                        <h2 className="text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight leading-[1.1] bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-400 to-white py-2">
+                        <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight leading-[1.1] bg-clip-text text-transparent bg-gradient-to-r from-white via-neutral-400 to-white py-2">
                             {section.title || "Sẵn sàng bứt phá thu nhập?"}
                         </h2>
 
@@ -55,9 +55,9 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
 
                             <div className="relative z-10 space-y-6">
                                 <div className="space-y-1">
-                                    <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Học phí trọn gói</p>
+                                    <p className="text-[10px] font-semibold text-primary uppercase">Học phí trọn gói</p>
                                     <div className="flex items-baseline gap-3">
-                                        <span className="text-4xl md:text-5xl font-black text-white tracking-tighter">
+                                        <span className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
                                             {mainCourse ? formatCurrency(mainCourse.salePrice || mainCourse.price || 0) : 'LIÊN HỆ'}
                                         </span>
                                         {mainCourse?.salePrice && mainCourse.price > mainCourse.salePrice && (
@@ -99,13 +99,13 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                                                     window.location.href = section.ctaLink;
                                                 }
                                             }}
-                                            className="w-full h-16 bg-white hover:bg-neutral-200 text-black text-lg font-black rounded-2xl transition-all duration-300 shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] active:scale-95 flex items-center justify-center gap-3 group"
+                                            className="w-full h-16 bg-white hover:bg-neutral-200 text-black text-lg font-bold rounded-2xl transition-all duration-300 shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] active:scale-95 flex items-center justify-center gap-3 group"
                                         >
                                             {section.ctaText || 'Đăng ký ngay'}
                                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                         </button>
                                     )}
-                                    <p className="text-center text-[10px] text-neutral-500 mt-4 font-bold uppercase tracking-widest">Đảm bảo bảo mật thanh toán</p>
+                                    <p className="text-center text-[10px] text-neutral-500 mt-4 font-semibold uppercase">Đảm bảo bảo mật thanh toán</p>
                                 </div>
                             </div>
                         </div>
