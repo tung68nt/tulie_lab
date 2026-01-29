@@ -3,14 +3,23 @@ import Image from 'next/image';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { cn } from '@/lib/utils';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { SectionBackground } from '../SectionBackground';
 
 export function ContentBlockSection({ section }: { section: Section }) {
     if (!section.items) return null;
 
     return (
-        <section className="py-20 bg-background overflow-hidden space-y-24 relative">
-            {section.showDotPattern !== false && <DotPatternBackground />}
+        <section className={cn(
+            "py-20 overflow-hidden space-y-24 relative",
+            section.backgroundTheme === 'dark' ? "bg-[#050505] text-white" : "bg-background"
+        )}>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme || 'light'}
+                overlayOpacity={section.overlayOpacity}
+                glowVariant={section.glowVariant}
+            />
             <div className="container px-4 mx-auto space-y-24 relative z-10">
                 <StandardSectionHeader section={section} />
 
