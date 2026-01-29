@@ -100,6 +100,10 @@
     @apply bg-background text-foreground;
   }
 
+  .section-radial-gradient {
+    background: radial-gradient(circle at center, hsl(var(--background)) 20%, hsl(var(--muted)) 100%);
+  }
+
   h1 {
     @apply text-4xl md:text-5xl lg:text-6xl font-black tracking-normal leading-[1.4];
   }

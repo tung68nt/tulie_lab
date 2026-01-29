@@ -187,28 +187,28 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
     const renderForm = () => (
         <div className="space-y-6">
-            <h3 className="text-xl font-semibold flex items-center gap-3 text-zinc-900">
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-900 text-white shadow-sm">
+            <h3 className="text-xl font-semibold flex items-center gap-3 text-foreground">
+                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground shadow-sm">
                     <DynamicIcon name="User" className="w-4 h-4" />
                 </span>
                 Thông tin cá nhân
             </h3>
             <div className="grid md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <label className="text-xs font-semibold text-zinc-500 mb-1 block">Họ và tên</label>
+                    <label className="text-xs font-semibold text-muted-foreground mb-1 block">Họ và tên</label>
                     <input
                         required
-                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
+                        className="flex h-11 w-full rounded-xl border border-border bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                         placeholder="Ví dụ: Nguyễn Văn A"
                         value={state.form.name}
                         onChange={e => handleFormChange('name', e.target.value)}
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-xs font-semibold text-zinc-500 mb-1 block">Số điện thoại (Zalo hỗ trợ)</label>
+                    <label className="text-xs font-semibold text-muted-foreground mb-1 block">Số điện thoại (Zalo hỗ trợ)</label>
                     <input
                         required
-                        className="flex h-11 w-full rounded-xl border border-zinc-200 bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 transition-all"
+                        className="flex h-11 w-full rounded-xl border border-border bg-background px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                         placeholder="0912..."
                         value={state.form.phone}
                         onChange={e => handleFormChange('phone', e.target.value)}
@@ -229,8 +229,8 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             </div>
 
             {/* Activation Options Selection */}
-            <div className="bg-zinc-50/50 p-6 rounded-2xl space-y-4 border border-zinc-100">
-                <p className="text-xs font-bold text-zinc-400 mb-2">Hình thức kích hoạt khoá học</p>
+            <div className="bg-secondary/30 p-6 rounded-2xl space-y-4 border border-border">
+                <p className="text-xs font-bold text-muted-foreground mb-2">Hình thức kích hoạt khoá học</p>
 
                 <div className="grid gap-3">
                     {/* Option 1: Direct Activation */}
@@ -238,20 +238,20 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         onClick={() => handleFormChange('isGift', false)}
                         className={cn(
                             "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
-                            !state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-transparent border-zinc-100 hover:border-zinc-200"
+                            !state.form.isGift ? "bg-card border-primary shadow-sm" : "bg-transparent border-border hover:border-border/80"
                         )}
                     >
                         <div className={cn(
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
-                            !state.form.isGift ? "border-zinc-900 bg-zinc-900" : "border-zinc-300"
+                            !state.form.isGift ? "border-primary bg-primary" : "border-border"
                         )}>
-                            {!state.form.isGift && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                            {!state.form.isGift && <div className="w-1.5 h-1.5 rounded-full bg-primary-foreground" />}
                         </div>
                         <div className="ml-3">
-                            <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
+                            <label className="text-sm font-bold text-foreground block cursor-pointer">
                                 Kích hoạt trực tiếp vào tài khoản
                             </label>
-                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+                            <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
                                 Khóa học sẽ được kích hoạt ngay vào tài khoản email đăng ký ở trên sau khi thanh toán thành công.
                             </p>
                         </div>
@@ -452,28 +452,28 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             </div>
 
             {/* Main Product Selection */}
-            <div className="space-y-4 pt-6 mt-4 border-t border-zinc-100">
-                <h3 className="text-lg font-semibold flex items-center gap-3 text-zinc-900">
-                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-900 text-white shadow-sm">
+            <div className="space-y-4 pt-6 mt-4 border-t border-border">
+                <h3 className="text-lg font-semibold flex items-center gap-3 text-foreground">
+                    <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground shadow-sm">
                         <DynamicIcon name="ShoppingBag" className="w-4 h-4" />
                     </span>
                     Sản phẩm đăng ký
                 </h3>
-                <div className="p-6 rounded-[1.5rem] border border-zinc-200 bg-background flex items-center gap-5 transition-all hover:border-zinc-400">
-                    <div className="w-14 h-14 bg-zinc-100 rounded-xl overflow-hidden shrink-0 border border-zinc-50">
+                <div className="p-6 rounded-[1.5rem] border border-border bg-card flex items-center gap-5 transition-all hover:border-primary/50">
+                    <div className="w-14 h-14 bg-secondary rounded-xl overflow-hidden shrink-0 border border-border/50">
                         {state.cart[0] && state.cart[0].image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
                     </div>
                     <div className="flex-1">
-                        <h4 className="font-semibold text-zinc-900 leading-tight">{state.cart[0]?.title || section.title}</h4>
+                        <h4 className="font-semibold text-foreground leading-tight">{state.cart[0]?.title || section.title}</h4>
                         <div className="text-sm flex items-center gap-2 mt-1">
-                            <span className="font-semibold text-zinc-900">{formatPrice(state.cart[0]?.price || 0)}</span>
+                            <span className="font-semibold text-foreground">{formatPrice(state.cart[0]?.price || 0)}</span>
                             {state.cart[0] && state.cart[0].originalPrice && state.cart[0].originalPrice > (state.cart[0].price || 0) && (
-                                <span className="text-xs text-zinc-400 line-through">{formatPrice(state.cart[0].originalPrice)}</span>
+                                <span className="text-xs text-muted-foreground line-through">{formatPrice(state.cart[0].originalPrice)}</span>
                             )}
                         </div>
                     </div>
-                    <div className="w-6 h-6 rounded-full bg-zinc-900 flex items-center justify-center">
-                        <DynamicIcon name="Check" className="w-3.5 h-3.5 text-white" />
+                    <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center">
+                        <DynamicIcon name="Check" className="w-3.5 h-3.5 text-primary-foreground" />
                     </div>
                 </div>
             </div>
@@ -481,9 +481,9 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
             {/* Upsells List */}
             {((section.items && section.items.length > 0) || upsellCourse) && (
                 <div className="space-y-4 pt-4">
-                    <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
-                        <h3 className="text-lg font-semibold text-zinc-900">Tổng thanh toán</h3>
-                        <span className="text-xl font-semibold text-zinc-900">{formatPrice(totalAmount)}</span>
+                    <div className="flex items-center justify-between border-b border-border pb-4">
+                        <h3 className="text-lg font-semibold text-foreground">Tổng thanh toán</h3>
+                        <span className="text-xl font-semibold text-foreground">{formatPrice(totalAmount)}</span>
                     </div>
 
                     <div className="grid gap-4">
@@ -739,8 +739,8 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     {/* Right Column: Sticky Cart Summary */}
                     <div className="hidden lg:block lg:col-span-5 sticky top-24 space-y-6">
                         <div className="bg-background p-6 rounded-2xl shadow-lg border border-border/60">
-                            <h3 className="text-lg font-semibold flex items-center gap-3 text-zinc-900 mb-6">
-                                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-zinc-900 text-white shadow-sm">
+                            <h3 className="text-lg font-semibold flex items-center gap-3 text-foreground mb-6">
+                                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground shadow-sm">
                                     <DynamicIcon name="ShoppingBag" className="w-4 h-4" />
                                 </span>
                                 Thông tin đơn hàng

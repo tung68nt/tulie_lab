@@ -67,19 +67,19 @@ export const PricingSection = ({ section }: { section: Section }) => {
                                         </span>
                                     )}
                                 </div>
-                                <p className="text-sm text-neutral-500 leading-relaxed">
+                                <p className="text-sm text-muted-foreground leading-relaxed">
                                     {item.description}
                                 </p>
                             </div>
 
                             {/* Features List - Line now aligns across cards */}
-                            <div className="flex-1 flex flex-col border-t border-zinc-100 pt-8 mt-2">
+                            <div className="flex-1 flex flex-col border-t border-border pt-8 mt-2">
                                 {item.features && (
                                     <div className="space-y-4 mb-8">
                                         {item.features.map((feature: string, idx: number) => (
                                             <div key={idx} className="flex items-start gap-3">
-                                                <div className="mt-0.5 w-5 h-5 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
-                                                    <Check className="w-3.5 h-3.5 text-zinc-900" />
+                                                <div className="mt-0.5 w-5 h-5 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                                                    <Check className="w-3.5 h-3.5 text-foreground" />
                                                 </div>
                                                 <span className="text-[13px] font-medium text-foreground/80 leading-tight">{feature}</span>
                                             </div>

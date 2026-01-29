@@ -26,7 +26,7 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                     "relative overflow-hidden rounded-3xl p-8 md:p-12 border transition-all duration-500 hover:shadow-2xl hover:-translate-y-1",
                     section.backgroundTheme === 'dark'
                         ? "bg-zinc-900 border-zinc-800 shadow-xl shadow-black/20"
-                        : "bg-white border-zinc-200 shadow-lg shadow-zinc-200/50"
+                        : "bg-card border-border shadow-lg"
                 )}>
                     {/* Decorative gradient blob */}
                     <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
@@ -40,7 +40,7 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                             {section.title && (
                                 <h3 className={cn(
                                     "text-2xl md:text-3xl font-bold",
-                                    section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-900"
+                                    section.backgroundTheme === 'dark' ? "text-white" : "text-foreground"
                                 )}>
                                     {section.title}
                                 </h3>

@@ -12,7 +12,7 @@ export const CTASection = ({ section }: { section: Section }) => {
     return (
         <section className={cn(
             "py-20 md:py-32 relative overflow-hidden flex items-center justify-center transition-colors duration-300",
-            isDark ? "bg-black text-white" : "bg-white text-zinc-900"
+            isDark ? "bg-black text-white" : "bg-background text-foreground"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
@@ -26,13 +26,13 @@ export const CTASection = ({ section }: { section: Section }) => {
             <div className="container text-center relative z-10 mx-auto px-4">
                 <h2 className={cn(
                     "text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight tracking-tight py-2",
-                    isDark ? "text-white" : "text-zinc-900"
+                    isDark ? "text-white" : "text-foreground"
                 )}>
                     {section.title}
                 </h2>
                 <p className={cn(
                     "text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed",
-                    isDark ? "text-zinc-400" : "text-zinc-600"
+                    isDark ? "text-zinc-400" : "text-muted-foreground"
                 )}>
                     {section.subtitle}
                 </p>

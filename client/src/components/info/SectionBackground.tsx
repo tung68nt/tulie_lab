@@ -38,8 +38,8 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
 
     const activeGlow = glowVariant !== undefined ? glows[glowVariant % glows.length] : null;
 
-    // Fix: Use explicit colors for overlay to ensure contrast regardless of system theme
-    const overlayBase = isLightTheme ? 'bg-white/60' : isDarkTheme ? 'bg-black/60' : 'bg-background/60';
+    // Fix: Use theme variables for overlay to ensure contrast regardless of system theme
+    const overlayBase = isLightTheme ? 'bg-background/60 dark:bg-black/60' : isDarkTheme ? 'bg-black/60' : 'bg-background/60';
 
     return (
         <div className={cn("absolute inset-0 z-0 overflow-hidden rounded-[inherit] pointer-events-none", className)}>
@@ -82,21 +82,16 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 <div className="absolute inset-0 pointer-events-none">
                     <DotPatternBackground
                         className={cn(
-                            backgroundTheme === 'dark' ? "text-white/30" : "text-black/15"
+                            backgroundTheme === 'dark' ? "text-white/30" : "text-black/15 dark:text-white/15"
                         )}
                         withVignette={false}
                     />
                 </div>
             )}
 
-            {/* Radial Gradient for Light Mode - Center white to Edges gray */}
+            {/* Radial Gradient for Light Mode - responsive to theme */}
             {!backgroundImage && isLightTheme && (
-                <div
-                    className="absolute inset-0 z-[-2]"
-                    style={{
-                        background: 'radial-gradient(circle at center, white 20%, #f4f4f5 100%)'
-                    }}
-                />
+                <div className="absolute inset-0 z-[-2] section-radial-gradient" />
             )}
 
             {/* Optional Gradient Fade - Only show if NO background image and NOT explicitly hidden */}
@@ -104,11 +99,11 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 <>
                     <div className={cn(
                         "absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t to-transparent",
-                        isLightTheme ? "from-white" : "from-background"
+                        isLightTheme ? "from-background/80" : "from-background"
                     )} />
                     <div className={cn(
                         "absolute inset-x-0 top-0 h-40 bg-gradient-to-b to-transparent",
-                        isLightTheme ? "from-white" : "from-background"
+                        isLightTheme ? "from-background/80" : "from-background"
                     )} />
                 </>
             )}

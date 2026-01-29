@@ -67,7 +67,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             "text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight py-2",
                             section.backgroundTheme === 'dark'
                                 ? "text-white"
-                                : "bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white"
+                                : "text-foreground bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white"
                         )}>
                             {section.title}
                         </h1>
