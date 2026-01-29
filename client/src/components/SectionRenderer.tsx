@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useContext } from 'react';
 import { HeroSection } from '@/components/info/sections/HeroSection';
 import { StatsSection } from '@/components/info/sections/StatsSection';
