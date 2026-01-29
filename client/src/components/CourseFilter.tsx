@@ -102,7 +102,7 @@ function CourseFilterInner() {
     );
 
     return (
-        <aside className="w-full md:w-72 shrink-0 space-y-5 md:sticky md:top-24 md:self-start">
+        <aside className="w-full md:w-72 shrink-0 space-y-5 md:sticky md:top-20 md:self-start">
             {/* Search */}
             <div className="space-y-2">
                 <h3 className="text-sm font-bold text-muted-foreground/80 px-2">Tìm kiếm</h3>

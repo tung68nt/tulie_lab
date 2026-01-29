@@ -99,9 +99,9 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
     return (
         <section className="py-12 md:py-20 bg-background">
             <div className="container px-6 max-w-[1200px] mx-auto">
-                <div className="flex flex-col lg:flex-row gap-12">
+                <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter */}
-                    <aside className="w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-24 lg:self-start">
+                    <aside className="w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-20 lg:self-start">
                         {/* Search Bar */}
                         <div className="space-y-3">
                             <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>

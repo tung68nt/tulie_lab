@@ -1,19 +1,15 @@
+'use client';
+
 import React from 'react';
 import { Section } from '@/types/sections';
-import { SectionTag } from '@/components/SectionTag';
 import { cn } from '@/lib/utils';
 import { SectionBackground } from '../SectionBackground';
 
-interface HeadingSectionProps {
-    section: Section;
-}
+export const HeadingSection = ({ section }: { section: Section }) => {
+    const align = section.align || 'center';
 
-export const HeadingSection: React.FC<HeadingSectionProps> = ({ section }) => {
     return (
-        <section className={cn(
-            "relative pt-24 pb-12 overflow-hidden",
-            section.className
-        )}>
+        <section className={cn("py-12 relative overflow-hidden", section.className)}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -22,18 +18,37 @@ export const HeadingSection: React.FC<HeadingSectionProps> = ({ section }) => {
                 glowVariant={section.glowVariant}
             />
 
-            <div className="container relative z-10 mx-auto px-6 max-w-[1200px] text-center">
-                <div className="flex flex-col items-center justify-center">
+            <div className="container relative z-10 px-6 mx-auto max-w-[1240px]">
+                <div className={cn(
+                    "max-w-3xl mx-auto space-y-4",
+                    align === 'center' ? 'text-center' : align === 'right' ? 'text-right' : 'text-left'
+                )}>
                     {section.tag && (
-                        <SectionTag className="mb-6">
+                        <div className={cn(
+                            "inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2",
+                            section.backgroundTheme === 'dark'
+                                ? "bg-primary/20 text-primary border border-primary/20 shadow-[0_0_10px_rgba(var(--primary),0.3)]"
+                                : "bg-primary/10 text-primary border border-primary/10"
+                        )}>
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                             {section.tag}
-                        </SectionTag>
+                        </div>
                     )}
-                    <h1 className="text-4xl font-bold sm:text-5xl md:text-6xl lg:text-7xl mb-6 tracking-tight">
-                        {section.title}
-                    </h1>
+
+                    {section.title && (
+                        <h2 className={cn(
+                            "text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight",
+                            section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-900"
+                        )}>
+                            {section.title}
+                        </h2>
+                    )}
+
                     {section.subtitle && (
-                        <p className="max-w-[800px] text-xl text-muted-foreground leading-relaxed">
+                        <p className={cn(
+                            "text-lg",
+                            section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
+                        )}>
                             {section.subtitle}
                         </p>
                     )}

@@ -33,7 +33,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/courses', label: 'Khóa học' },
                 { href: '/admin/bundles', label: 'Combo / Bundle' },
                 { href: '/admin/categories', label: 'Chuyên mục' },
-                { href: '/admin/instructors', label: 'Instructors' },
                 { href: '/admin/events', label: 'Sự kiện' },
             ]
         },
@@ -58,6 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/landing-pages', label: 'Landing Pages' },
                 { href: '/admin/sections', label: 'Kho section' },
                 { href: '/admin/policies', label: 'Chính sách' },
+                { href: '/admin/instructors', label: 'Giảng viên' },
                 { href: '/admin/system-pages', label: 'Trang thông tin' },
                 { href: '/admin/blog', label: 'Bài viết / Blog' },
                 { href: '/admin/contact', label: 'Liên hệ / Leads' },

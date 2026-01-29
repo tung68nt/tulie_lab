@@ -1,58 +1,75 @@
+'use client';
+
 import React from 'react';
 import { Section } from '@/types/sections';
-import { Button } from '@/components/Button';
 import { cn } from '@/lib/utils';
 import { SectionBackground } from '../SectionBackground';
+import { Button } from '@/components/Button';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
-interface CTABoxSectionProps {
-    section: Section;
-}
+export const CTABoxSection = ({ section }: { section: Section }) => {
+    const align = section.align || 'center';
 
-export const CTABoxSection: React.FC<CTABoxSectionProps> = ({ section }) => {
     return (
-        <section className={cn(
-            "py-20 md:py-32 relative overflow-hidden",
-            section.className
-        )}>
-            <div className="container px-6 mx-auto max-w-[1240px]">
-                <div className="relative rounded-[2.5rem] bg-[#0A0A0A] p-10 md:p-16 lg:p-20 overflow-hidden border border-white/5 shadow-2xl">
-                    {/* Background Pattern Sync */}
-                    <SectionBackground
-                        backgroundTheme="dark"
-                        showDotPattern={true}
-                        glowVariant={section.glowVariant ?? 0}
-                    />
+        <section className={cn("py-12 relative overflow-hidden", section.className)}>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme || 'light'}
+                overlayOpacity={section.overlayOpacity}
+                glowVariant={section.glowVariant}
+            />
 
-                    <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-                        <div className="max-w-2xl text-center lg:text-left">
-                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-8 leading-[1.2] tracking-tight">
-                                {section.title?.split('\n').map((line, i) => (
-                                    <React.Fragment key={i}>
-                                        {line}
-                                        {i < (section.title?.split('\n').length || 0) - 1 && <br />}
-                                    </React.Fragment>
-                                ))}
-                            </h2>
+            <div className="container relative z-10 px-6 mx-auto max-w-[1000px]">
+                <div className={cn(
+                    "relative overflow-hidden rounded-3xl p-8 md:p-12 border transition-all duration-500 hover:shadow-2xl hover:-translate-y-1",
+                    section.backgroundTheme === 'dark'
+                        ? "bg-zinc-900 border-zinc-800 shadow-xl shadow-black/20"
+                        : "bg-white border-zinc-200 shadow-lg shadow-zinc-200/50"
+                )}>
+                    {/* Decorative gradient blob */}
+                    <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                    <div className={cn(
+                        "relative z-10 flex flex-col md:flex-row items-center gap-8",
+                        align === 'center' ? 'text-center md:text-left' : ''
+                    )}>
+                        <div className="flex-1 space-y-3">
+                            {section.title && (
+                                <h3 className={cn(
+                                    "text-2xl md:text-3xl font-bold",
+                                    section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-900"
+                                )}>
+                                    {section.title}
+                                </h3>
+                            )}
                             {section.subtitle && (
-                                <p className="text-lg text-white/60 md:text-xl leading-relaxed mb-0">
+                                <p className={cn(
+                                    "text-base md:text-lg leading-relaxed",
+                                    section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
+                                )}>
                                     {section.subtitle}
                                 </p>
                             )}
                         </div>
 
-                        {(section.ctaText && section.ctaLink) && (
-                            <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-                                <Link href={section.ctaLink}>
-                                    <Button
-                                        as="div"
-                                        size="lg"
-                                        className="rounded-2xl h-14 px-10 text-base font-bold bg-white text-black hover:bg-zinc-200 border-none transition-all shadow-xl hover:scale-105 active:scale-95"
-                                    >
-                                        {section.ctaText}
-                                    </Button>
-                                </Link>
-                            </div>
+                        {section.ctaText && section.ctaLink && (
+                            <Link href={section.ctaLink}>
+                                <Button
+                                    size="lg"
+                                    className={cn(
+                                        "rounded-full px-8 h-12 font-bold shadow-lg transition-transform hover:scale-105 active:scale-95",
+                                        section.backgroundTheme === 'dark'
+                                            ? "bg-white text-black hover:bg-zinc-200"
+                                            : "bg-black text-white hover:bg-zinc-800"
+                                    )}
+                                >
+                                    {section.ctaText}
+                                    <ArrowRight className="ml-2 w-4 h-4" />
+                                </Button>
+                            </Link>
                         )}
                     </div>
                 </div>
