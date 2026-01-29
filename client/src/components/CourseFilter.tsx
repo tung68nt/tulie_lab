@@ -83,10 +83,10 @@ function CourseFilterInner() {
             )}
         >
             <div className={cn(
-                "w-4 h-4 rounded border flex items-center justify-center transition-all",
+                "w-7 h-7 rounded-lg border flex items-center justify-center transition-all",
                 active ? "bg-black border-black" : "border-muted-foreground/30"
             )}>
-                {active && <div className="w-1 h-1 bg-white rounded-full" />}
+                {active && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
             </div>
             <span className="truncate">{label}</span>
         </button>

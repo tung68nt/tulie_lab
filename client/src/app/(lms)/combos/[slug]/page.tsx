@@ -122,9 +122,9 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                         </div>
 
                         {/* Thumbnail Side */}
-                        <div className="relative group lg:ml-auto w-full max-w-[500px]">
+                        <div className="relative group lg:ml-auto w-full max-w-[440px]">
                             <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-transparent rounded-[2.5rem] blur-3xl opacity-50"></div>
-                            <div className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl skew-y-1 transform transition-all duration-700 hover:skew-y-0">
+                            <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl skew-y-1 transform transition-all duration-700 hover:skew-y-0">
                                 <Image
                                     src={bundle.thumbnail || "/placeholder.jpg"}
                                     alt={bundle.name}
@@ -139,67 +139,97 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
             </section>
 
             {/* Curriculum Detail Section */}
-            <section className="py-24 bg-muted/30">
-                <div className="container mx-auto px-6 max-w-[1200px]">
-                    <div className="max-w-4xl">
-                        <div className="mb-16">
-                            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                                Nội dung lộ trình chi tiết
-                            </h2>
-                            <p className="text-muted-foreground leading-relaxed font-medium">
-                                Lộ trình bao gồm {courses.length} khóa học được thiết kế bài bản theo thứ tự từ cơ bản đến nâng cao.
-                            </p>
-                        </div>
+            <section className="py-24 relative overflow-hidden bg-muted/20">
+                <DotPatternBackground className="text-muted-foreground/10" />
 
-                        <div className="space-y-12">
-                            {courses.map((course: any, idx: number) => (
-                                <div key={course.id || idx} className="group relative flex flex-col md:flex-row gap-8 pb-12 border-b border-zinc-100 last:border-0">
-                                    {/* Course Number & Info */}
-                                    <div className="md:w-1/3 flex flex-col pt-1">
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-zinc-200 text-xs font-medium text-zinc-500 bg-white">
+                <div className="container relative z-10 mx-auto px-6 max-w-[1200px]">
+                    <div className="mb-20 text-center max-w-2xl mx-auto">
+                        <SectionTag className="mb-6 mx-auto">Nội dung chi tiết</SectionTag>
+                        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                            Lộ trình học tập toàn diện
+                        </h2>
+                        <p className="text-muted-foreground leading-relaxed font-medium">
+                            Lộ trình này được liên kết từ {courses.length} khóa học chuyên sâu, thiết kế bài bản để giúp bạn làm chủ kỹ năng từ cơ bản đến thực chiến nhất.
+                        </p>
+                    </div>
+
+                    <div className="space-y-10">
+                        {courses.map((course: any, idx: number) => (
+                            <div key={course.id || idx} className="group relative bg-background border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5">
+                                <div className="flex flex-col lg:flex-row gap-10 md:gap-12">
+                                    {/* Left: Course Info & Thumbnail */}
+                                    <div className="lg:w-2/5 flex flex-col">
+                                        <div className="flex items-center gap-3 mb-6">
+                                            <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-xs font-bold">
                                                 {idx + 1}
                                             </span>
-                                            {/* Minimalist Tag instead of uppercase */}
-                                            <span className="text-[10px] font-bold py-0.5 px-2 bg-zinc-100 text-zinc-600 rounded-md">
+                                            <span className="text-[10px] font-bold py-1 px-3 bg-muted text-muted-foreground rounded-full tracking-wider uppercase">
                                                 Phần {idx + 1}
                                             </span>
                                         </div>
-                                        <h3 className="text-xl font-semibold text-zinc-900 mb-4 group-hover:text-zinc-950 transition-colors">
+
+                                        <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-border/50 group-hover:border-primary/20 transition-colors">
+                                            <Image
+                                                src={course.thumbnail || "/placeholder.jpg"}
+                                                alt={course.title}
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                                        </div>
+
+                                        <h3 className="text-2xl font-bold text-foreground mb-4 leading-tight group-hover:text-primary transition-colors">
                                             {course.title}
                                         </h3>
-                                        <p className="text-sm text-zinc-500 leading-relaxed mb-6">
+
+                                        <p className="text-[15px] text-muted-foreground leading-relaxed mb-8 line-clamp-3">
                                             {course.description}
                                         </p>
+
+                                        <div className="mt-auto pt-8 border-t border-border/50 flex items-center justify-between">
+                                            <div className="flex flex-col">
+                                                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Giá gốc khoá học</span>
+                                                <span className="text-lg font-bold text-foreground">{formatCurrency(course.price || 0)}</span>
+                                            </div>
+                                            <Button variant="ghost" size="sm" className="rounded-full gap-2 font-bold group/btn" onClick={() => router.push(`/courses/${course.slug}`)}>
+                                                Xem chi tiết <ChevronRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                                            </Button>
+                                        </div>
                                     </div>
 
-                                    {/* Lessons List - The Detail Content Area */}
-                                    <div className="md:w-2/3">
-                                        <div className="bg-background border border-border/50 rounded-3xl p-6 md:p-8 shadow-sm">
-                                            <h4 className="text-sm font-bold text-foreground mb-6 flex items-center gap-2">
-                                                <BookOpen className="w-4 h-4 text-muted-foreground" />
-                                                Chi tiết bài học
+                                    {/* Right: Lessons List */}
+                                    <div className="lg:w-3/5">
+                                        <div className="h-full bg-muted/30 rounded-[2rem] p-8 md:p-10 border border-border/30">
+                                            <h4 className="text-sm font-bold text-foreground mb-8 flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-lg bg-background flex items-center justify-center border border-border/50">
+                                                    <BookOpen className="w-4 h-4 text-primary" />
+                                                </div>
+                                                Nội dung bài học
                                             </h4>
-                                            <div className="grid sm:grid-cols-1 gap-y-3">
+
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                                                 {course.lessons?.map((lesson: any, lidx: number) => (
                                                     <div
                                                         key={lesson.id || lidx}
-                                                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-muted/50 transition-colors border border-transparent hover:border-border/50 group/item"
+                                                        className="flex items-center gap-4 p-4 rounded-2xl bg-background/50 border border-transparent hover:border-primary/20 hover:bg-background transition-all group/item"
                                                     >
-                                                        <div className="w-5 h-5 rounded-md bg-muted flex items-center justify-center shrink-0 mt-0.5 group-hover/item:bg-foreground group-hover/item:text-background transition-colors">
+                                                        <div className="w-6 h-6 rounded-lg bg-muted flex items-center justify-center shrink-0 group-hover/item:bg-primary group-hover/item:text-primary-foreground transition-colors">
                                                             <span className="text-[10px] font-bold">{lidx + 1}</span>
                                                         </div>
-                                                        <span className="text-sm font-bold text-muted-foreground group-hover/item:text-foreground transition-colors">
+                                                        <span className="text-sm font-bold text-muted-foreground group-hover/item:text-foreground transition-colors line-clamp-1">
                                                             {lesson.title}
                                                         </span>
                                                     </div>
                                                 ))}
+                                                {(!course.lessons || course.lessons.length === 0) && (
+                                                    <p className="text-sm text-muted-foreground italic col-span-2">Đang cập nhật bài học...</p>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

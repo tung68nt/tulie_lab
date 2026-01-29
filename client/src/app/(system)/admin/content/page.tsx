@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { ArrowUp, ArrowDown, X, Edit, Eye, EyeOff, Trash2 } from 'lucide-react';
-import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS, DEFAULT_ABOUT_PAGE_SECTIONS, DEFAULT_INSTRUCTORS_PAGE_SECTIONS } from '@/lib/defaultContent';
+import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS, DEFAULT_ABOUT_PAGE_SECTIONS, DEFAULT_INSTRUCTORS_PAGE_SECTIONS, DEFAULT_COURSES_PAGE_SECTIONS, DEFAULT_SHOP_PAGE_SECTIONS, DEFAULT_BLOG_PAGE_SECTIONS, DEFAULT_COMBOS_PAGE_SECTIONS } from '@/lib/defaultContent';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { SectionLibraryModal } from '@/components/system/admin/SectionLibraryModal';
@@ -23,6 +23,10 @@ const getCmsKey = (tab: string) => {
         case 'home': return 'home_page_sections';
         case 'about': return 'about_page_sections';
         case 'instructors': return 'instructors_sections';
+        case 'courses': return 'courses_page_sections';
+        case 'shop': return 'shop_page_sections';
+        case 'blog': return 'blog_page_sections';
+        case 'combos': return 'combos_page_sections';
         default: return 'home_page_sections';
     }
 };
@@ -32,6 +36,10 @@ const getDefaultContent = (tab: string) => {
         case 'home': return DEFAULT_HOME_SECTIONS;
         case 'about': return DEFAULT_ABOUT_PAGE_SECTIONS;
         case 'instructors': return DEFAULT_INSTRUCTORS_PAGE_SECTIONS;
+        case 'courses': return DEFAULT_COURSES_PAGE_SECTIONS;
+        case 'shop': return DEFAULT_SHOP_PAGE_SECTIONS;
+        case 'blog': return DEFAULT_BLOG_PAGE_SECTIONS;
+        case 'combos': return DEFAULT_COMBOS_PAGE_SECTIONS;
         default: return [];
     }
 };
@@ -42,7 +50,7 @@ const getDefaultContent = (tab: string) => {
 export default function AdminContentPage() {
     const { addToast } = useToast();
     const confirm = useConfirm();
-    const [activeTab, setActiveTab] = useState<'home' | 'about' | 'instructors'>('home');
+    const [activeTab, setActiveTab] = useState<'home' | 'about' | 'instructors' | 'courses' | 'shop' | 'blog' | 'combos'>('home');
     const [jsonContent, setJsonContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
@@ -159,13 +167,17 @@ export default function AdminContentPage() {
             </div>
 
             <div className="flex gap-2 border-b pb-2">
-                <Button variant={activeTab === 'home' ? 'default' : 'ghost'} onClick={() => setActiveTab('home')}>Home Page</Button>
-                <Button variant={activeTab === 'about' ? 'default' : 'ghost'} onClick={() => setActiveTab('about')}>About Page</Button>
+                <Button variant={activeTab === 'home' ? 'default' : 'ghost'} onClick={() => setActiveTab('home')}>Home</Button>
+                <Button variant={activeTab === 'about' ? 'default' : 'ghost'} onClick={() => setActiveTab('about')}>About</Button>
                 <Button variant={activeTab === 'instructors' ? 'default' : 'ghost'} onClick={() => setActiveTab('instructors')}>Instructors</Button>
+                <Button variant={activeTab === 'courses' ? 'default' : 'ghost'} onClick={() => setActiveTab('courses')}>Courses</Button>
+                <Button variant={activeTab === 'shop' ? 'default' : 'ghost'} onClick={() => setActiveTab('shop')}>Shop</Button>
+                <Button variant={activeTab === 'blog' ? 'default' : 'ghost'} onClick={() => setActiveTab('blog')}>Blog</Button>
+                <Button variant={activeTab === 'combos' ? 'default' : 'ghost'} onClick={() => setActiveTab('combos')}>Combos</Button>
             </div>
 
             {/* Page Builder UI - Enabled for all tabs */}
-            {(activeTab === 'home' || activeTab === 'about' || activeTab === 'instructors') && (
+            {['home', 'about', 'instructors', 'courses', 'shop', 'blog', 'combos'].includes(activeTab) && (
                 <Card className="mb-6">
                     <CardHeader>
                         <CardTitle>Page Builder (Structure & Ordering)</CardTitle>

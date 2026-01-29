@@ -825,5 +825,107 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             overlayOpacity: 0.6,
             glowVariant: 6
         }
+    },
+    {
+        id: 'heading-minimal',
+        name: 'Simple Heading',
+        category: 'Content',
+        description: 'Phần tiêu đề và mô tả tối giản, hỗ trợ Section Tag.',
+        data: {
+            id: 'heading-1',
+            type: 'heading',
+            name: 'Phần tiêu đề',
+            title: 'Tiêu đề chính của bạn',
+            subtitle: 'Mô tả chi tiết hơn về nội dung bên dưới hoặc thông điệp quan trọng.',
+            tag: 'THÔNG TIN',
+            showDotPattern: true,
+            backgroundTheme: 'light',
+            glowVariant: 0
+        }
+    },
+    {
+        id: 'cta-box',
+        name: 'CTA Box (Rounded)',
+        category: 'Conversion',
+        description: 'Hộp kêu gọi hành động bo tròn, nổi bật với nền tối.',
+        data: {
+            id: 'cta-box-1',
+            type: 'cta-box',
+            name: 'Hộp CTA',
+            title: 'Khám phá ngay lộ trình\nhọc tập tối ưu nhất',
+            subtitle: 'Gia nhập cộng đồng 10,000+ học viên đã thành công tại Tulie Academy.',
+            ctaText: 'Bắt đầu ngay',
+            ctaLink: '/courses',
+            glowVariant: 5
+        }
+    },
+    {
+        id: 'system-courses',
+        name: 'System: Course List',
+        category: 'System',
+        description: 'Danh sách khóa học kèm bộ lọc sidebar (Hệ thống).',
+        data: {
+            id: 'system-courses-1',
+            type: 'system-courses',
+            name: 'Danh sách khóa học (System)',
+            showDotPattern: false,
+            backgroundTheme: 'light'
+        }
+    },
+    {
+        id: 'system-shop',
+        name: 'System: Product Shop',
+        category: 'System',
+        description: 'Cửa hàng sản phẩm/template kèm bộ lọc (Hệ thống).',
+        data: {
+            id: 'system-shop-1',
+            type: 'system-shop',
+            name: 'Cửa hàng (System)',
+            showDotPattern: false,
+            backgroundTheme: 'light'
+        }
+    },
+    {
+        id: 'system-blog',
+        name: 'System: Blog Grid',
+        category: 'System',
+        description: 'Danh sách bài viết blog kèm bộ lọc (Hệ thống).',
+        data: {
+            id: 'system-blog-1',
+            type: 'system-blog',
+            name: 'Blog (System)',
+            showDotPattern: false,
+            backgroundTheme: 'light'
+        }
+    },
+    {
+        id: 'system-combos',
+        name: 'System: Combo List',
+        category: 'System',
+        description: 'Danh sách các combo lộ trình học tập (Hệ thống).',
+        data: {
+            id: 'system-combos-1',
+            type: 'system-combos',
+            name: 'Lộ trình Combo (System)',
+            showDotPattern: false,
+            backgroundTheme: 'light'
+        }
+    },
+    {
+        id: 'system-instructors',
+        name: 'System: Instructors',
+        category: 'System',
+        description: 'Danh sách đội ngũ giảng viên (Hệ thống).',
+        data: {
+            id: 'system-instructors-1',
+            type: 'system-instructors',
+            name: 'Đội ngũ giảng viên (System)',
+            title: 'Đội ngũ Giảng viên',
+            subtitle: 'Gặp gỡ những chuyên gia hàng đầu trong lĩnh vực của họ.',
+            tag: 'GIẢNG VIÊN',
+            showDotPattern: true,
+            backgroundTheme: 'light',
+            glowVariant: 2
+        }
     }
 ];

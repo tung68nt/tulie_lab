@@ -1,6 +1,90 @@
 import { Section } from '@/types/sections';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
 
+export const DEFAULT_COURSES_PAGE_SECTIONS: Section[] = [
+    {
+        id: 'courses-heading',
+        type: 'heading',
+        name: 'Tiêu đề trang khóa học',
+        title: 'Thư viện Khóa học',
+        subtitle: 'Khám phá các khóa học chuyên sâu từ cơ bản đến nâng cao về Automation, Google Apps Script và tối ưu hóa quy trình doanh nghiệp.',
+        tag: 'HỌC TẬP',
+        showDotPattern: true,
+        backgroundTheme: 'light',
+        glowVariant: 0
+    },
+    {
+        id: 'system-courses-main',
+        type: 'system-courses',
+        name: 'Danh sách khóa học',
+        showDotPattern: false,
+        backgroundTheme: 'light'
+    }
+];
+
+export const DEFAULT_SHOP_PAGE_SECTIONS: Section[] = [
+    {
+        id: 'shop-heading',
+        type: 'heading',
+        name: 'Tiêu đề cửa hàng',
+        title: 'Cửa hàng Phụ trợ',
+        subtitle: 'Sở hữu các template, add-on và giải pháp dựng sẵn để tăng tốc quy trình làm việc của bạn ngay lập tức.',
+        tag: 'CỬA HÀNG',
+        showDotPattern: true,
+        backgroundTheme: 'light',
+        glowVariant: 2
+    },
+    {
+        id: 'system-shop-main',
+        type: 'system-shop',
+        name: 'Cửa hàng sản phẩm',
+        showDotPattern: false,
+        backgroundTheme: 'light'
+    }
+];
+
+export const DEFAULT_BLOG_PAGE_SECTIONS: Section[] = [
+    {
+        id: 'blog-heading',
+        type: 'heading',
+        name: 'Tiêu đề Blog',
+        title: 'Góc chia sẻ',
+        subtitle: 'Cập nhật kiến thức mới nhất về công nghệ, quản trị và các mẹo tối ưu quy trình làm việc hiệu quả.',
+        tag: 'BLOG',
+        showDotPattern: true,
+        backgroundTheme: 'light',
+        glowVariant: 4
+    },
+    {
+        id: 'system-blog-main',
+        type: 'system-blog',
+        name: 'Danh sách bài viết',
+        showDotPattern: false,
+        backgroundTheme: 'light'
+    }
+];
+
+export const DEFAULT_COMBOS_PAGE_SECTIONS: Section[] = [
+    {
+        id: 'combos-heading',
+        type: 'heading',
+        name: 'Tiêu đề Combo',
+        title: 'Lộ trình Tiết kiệm',
+        subtitle: 'Tiết kiệm lên đến 50% khi đăng ký theo lộ trình học tập trọn gói. Được thiết kế để đưa bạn từ con số 0 đến chuyên gia.',
+        tag: 'COMBOS',
+        showDotPattern: true,
+        backgroundTheme: 'light',
+        glowVariant: 1
+    },
+    {
+        id: 'system-combos-main',
+        type: 'system-combos',
+        name: 'Danh sách Combo',
+        showDotPattern: false,
+        backgroundTheme: 'light'
+    }
+];
+
 export const DEFAULT_LANDING_PAGE_SECTIONS: Section[] = [
     {
         id: 'countdown-1',

@@ -25,6 +25,13 @@ import { CodingMethodsSection } from '@/components/info/sections/CodingMethodsSe
 import { VideoSection } from '@/components/info/sections/VideoSection';
 import { VideoTextSection } from '@/components/info/sections/VideoTextSection';
 import { GallerySection } from '@/components/info/sections/GallerySection';
+import { HeadingSection } from '@/components/info/sections/HeadingSection';
+import { CTABoxSection } from '@/components/info/sections/CTABoxSection';
+import { SystemCoursesSection } from '@/components/info/sections/SystemCoursesSection';
+import { SystemShopSection } from '@/components/info/sections/SystemShopSection';
+import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection';
+import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
+import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -56,6 +63,13 @@ const SECTION_COMPONENTS: Record<string, any> = {
     video: VideoSection,
     'video-text': VideoTextSection,
     gallery: GallerySection,
+    heading: HeadingSection,
+    'cta-box': CTABoxSection,
+    'system-courses': SystemCoursesSection,
+    'system-shop': SystemShopSection,
+    'system-blog': SystemBlogSection,
+    'system-combos': SystemCombosSection,
+    'system-instructors': SystemInstructorsSection,
 };
 
 async function getLandingPage(slug: string) {
