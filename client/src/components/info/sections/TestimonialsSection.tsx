@@ -148,7 +148,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
 
                                         {/* After Column */}
                                         <div className="flex-1">
-                                            <h4 className="text-[10px] font-bold text-green-500 mb-2">Kết quả đạt được</h4>
+                                            <h4 className="text-xs font-bold text-green-500 mb-2">Kết quả đạt được</h4>
                                             {testimonial.after && testimonial.after.map((point: string, i: number) => (
                                                 <div key={i} className="flex gap-2 text-sm font-medium text-foreground dark:text-white mb-2">
                                                     <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />

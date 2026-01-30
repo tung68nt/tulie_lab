@@ -16,7 +16,6 @@ export const CTASection = ({ section }: { section: Section }) => {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern !== false}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={isDark}
@@ -54,7 +53,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                         className={cn(
                             "text-lg px-8 py-6 font-semibold transition-colors shadow-xl",
                             isDark
-                                ? "bg-white text-black hover:bg-zinc-200"
+                                ? "bg-foreground/90 text-background hover:bg-foreground"
                                 : "bg-black text-white hover:bg-zinc-800"
                         )}
                     >

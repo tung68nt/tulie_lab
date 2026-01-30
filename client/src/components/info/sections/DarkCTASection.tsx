@@ -23,7 +23,6 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
         <section className="section-dark py-24 md:py-40 flex items-center justify-center relative overflow-hidden bg-[#050505] text-white">
             <SectionBackground
                 backgroundTheme="dark"
-                showDotPattern={section.showDotPattern !== false}
                 glowVariant={section.glowVariant ?? 0}
             />
 

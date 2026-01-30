@@ -20,9 +20,9 @@ export function InstructorBioSection({ section }: { section: Section }) {
             <div className="container relative z-10 px-4 mx-auto">
                 <StandardSectionHeader section={section} align="left" />
 
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 max-w-6xl mx-auto">
+                <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-20 max-w-6xl mx-auto">
                     {/* Visual - Circular Portrait */}
-                    <div className="w-full lg:w-1/3 flex justify-center">
+                    <div className="w-full lg:w-1/3 flex justify-start">
                         <div className="relative w-80 h-80 lg:w-96 lg:h-96">
                             <div className="absolute inset-0 rounded-full border-2 border-primary/20 animate-[spin_10s_linear_infinite]" />
                             <div className="absolute inset-4 rounded-full border border-dashed border-primary/40 animate-[spin_15s_linear_infinite_reverse]" />
@@ -36,7 +36,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
                             </div>
 
                             {/* Name Badge */}
-                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-card text-card-foreground px-6 py-3 rounded-full shadow-xl border text-center whitespace-nowrap flex items-center gap-2">
+                            <div className="absolute -bottom-6 left-0 bg-card text-card-foreground px-6 py-3 rounded-full shadow-xl border text-center whitespace-nowrap flex items-center gap-2">
                                 <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary">
                                     <DynamicIcon name="Check" className="w-4 h-4" />
                                 </div>

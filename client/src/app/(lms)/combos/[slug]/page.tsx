@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, use } from 'react';
-import { api } from '@/lib/api';
+import { api, getMediaUrl } from '@/lib/api';
 import { Bundle, Course, Lesson } from '@/types/api';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
@@ -70,8 +70,8 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
                 <div className="container relative z-10 mx-auto px-6 max-w-[1200px]">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        <div className="flex flex-col">
-                            <SectionTag className="mb-8" variant="black-pill">
+                        <div className="flex flex-col items-start text-left">
+                            <SectionTag className="mb-8 w-fit shrink-0 overflow-hidden" variant="black-pill">
                                 Combo Lộ Trình
                             </SectionTag>
 
@@ -125,11 +125,10 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                         <div className="relative group lg:ml-auto w-full max-w-[440px]">
                             <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-transparent rounded-[2.5rem] blur-3xl opacity-50"></div>
                             <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl transition-all duration-700">
-                                <Image
-                                    src={bundle.thumbnail || "/hero_vibe_coding.png"}
+                                <img
+                                    src={getMediaUrl(bundle.thumbnail || "") || "/hero_vibe_coding.png"}
                                     alt={bundle.name}
-                                    fill
-                                    className="object-cover"
+                                    className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60"></div>
                             </div>
@@ -169,11 +168,10 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                         </div>
 
                                         <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-border/50 group-hover:border-primary/20 transition-colors">
-                                            <Image
-                                                src={course.thumbnail || "/hero_vibe_coding.png"}
+                                            <img
+                                                src={getMediaUrl(course.thumbnail || "") || "/hero_vibe_coding.png"}
                                                 alt={course.title}
-                                                fill
-                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                         </div>

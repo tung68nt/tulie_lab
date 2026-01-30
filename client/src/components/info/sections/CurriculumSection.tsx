@@ -18,7 +18,6 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
         <section className="py-24 md:py-32 relative bg-background">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern !== false}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={2}

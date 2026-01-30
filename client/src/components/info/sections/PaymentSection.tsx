@@ -238,20 +238,26 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         onClick={() => handleFormChange('isGift', false)}
                         className={cn(
                             "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
-                            !state.form.isGift ? "bg-white border-zinc-950 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
+                            !state.form.isGift ? "bg-zinc-900 border-zinc-950 shadow-sm" : "bg-card/50 border-border/40 hover:border-zinc-700"
                         )}
                     >
                         <div className={cn(
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
-                            !state.form.isGift ? "border-zinc-950 bg-zinc-950" : "border-zinc-300"
+                            !state.form.isGift ? "border-primary bg-primary" : "border-zinc-700"
                         )}>
-                            {!state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
+                            {!state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-zinc-950" />}
                         </div>
                         <div className="ml-3">
-                            <label className="text-sm font-semibold text-zinc-950 block cursor-pointer">
+                            <label className={cn(
+                                "text-sm font-semibold block cursor-pointer",
+                                !state.form.isGift ? "text-white" : "text-zinc-400"
+                            )}>
                                 Kích hoạt ngay
                             </label>
-                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed font-medium">
+                            <p className={cn(
+                                "text-[11px] mt-1 leading-relaxed font-bold",
+                                !state.form.isGift ? "text-zinc-400" : "text-zinc-600"
+                            )}>
                                 Gắn trực tiếp vào tài khoản {state.form.email || 'đăng ký'}.
                             </p>
                         </div>
@@ -262,20 +268,26 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         onClick={() => handleFormChange('isGift', true)}
                         className={cn(
                             "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
-                            state.form.isGift ? "bg-white border-zinc-950 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
+                            state.form.isGift ? "bg-zinc-900 border-zinc-950 shadow-sm" : "bg-card/50 border-border/40 hover:border-zinc-700"
                         )}
                     >
                         <div className={cn(
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
-                            state.form.isGift ? "border-zinc-950 bg-zinc-950" : "border-zinc-300"
+                            state.form.isGift ? "border-primary bg-primary" : "border-zinc-700"
                         )}>
-                            {state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
+                            {state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-zinc-950" />}
                         </div>
                         <div className="ml-3">
-                            <label className="text-sm font-semibold text-zinc-950 block cursor-pointer">
+                            <label className={cn(
+                                "text-sm font-semibold block cursor-pointer",
+                                state.form.isGift ? "text-white" : "text-zinc-400"
+                            )}>
                                 Mua mã kích hoạt
                             </label>
-                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed font-medium">
+                            <p className={cn(
+                                "text-[11px] mt-1 leading-relaxed font-bold",
+                                state.form.isGift ? "text-zinc-400" : "text-zinc-600"
+                            )}>
                                 Nhận mã qua email để tặng hoặc kích hoạt sau.
                             </p>
                         </div>
@@ -781,7 +793,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                     <Button
                                         size="lg"
                                         type="button"
-                                        className="w-full font-semibold text-lg h-14 shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all bg-white text-black border-2 border-zinc-950 hover:bg-zinc-100"
+                                        className="w-full font-bold text-lg h-14 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:shadow-primary/30 hover:-translate-y-0.5 transition-all bg-zinc-950 text-white border-zinc-900 border"
                                         onClick={(e) => {
                                             const form = document.getElementById('checkout-form') as HTMLFormElement;
                                             if (form) {
