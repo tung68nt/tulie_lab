@@ -30,9 +30,9 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
 
     return (
         <Link href={`/courses/${slug}`} className="group block h-full" onClick={handleCardClick}>
-            <Card className="flex h-full flex-col md:flex-row overflow-hidden transition-all duration-300 hover:shadow-2xl dark:border-zinc-800 bg-card/50 backdrop-blur-sm border-zinc-200/50">
-                {/* Thumbnail - Left Side (40%) */}
-                <div className="relative aspect-video md:aspect-auto md:w-[40%] shrink-0 overflow-hidden bg-muted group-hover:brightness-110 transition-all duration-500">
+            <Card className="flex h-full flex-col overflow-hidden transition-all duration-300 hover:shadow-2xl dark:border-zinc-800 bg-card/50 backdrop-blur-sm border-zinc-200/50">
+                {/* Thumbnail - Top Side */}
+                <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-muted group-hover:brightness-110 transition-all duration-500">
                     {thumbnail ? (
                         <img
                             src={thumbnail}
@@ -71,17 +71,17 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                     )}
                 </div>
 
-                {/* Content - Right Side */}
-                <div className="flex flex-1 flex-col p-6 md:p-8 bg-gradient-to-br from-transparent to-zinc-50/10">
+                {/* Content - Bottom Side */}
+                <div className="flex flex-1 flex-col p-6 bg-gradient-to-br from-transparent to-zinc-50/10">
                     <div className="mb-4">
                         <div className="flex items-center gap-2 mb-3">
                             <div className="h-1 w-8 bg-primary/40 rounded-full" />
                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Course Roadmap</span>
                         </div>
-                        <h3 className="mb-3 line-clamp-2 font-heading text-2xl md:text-3xl font-black tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
+                        <h3 className="mb-3 line-clamp-2 font-heading text-xl font-black tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
                             {title}
                         </h3>
-                        <p className="line-clamp-3 text-sm md:text-base text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+                        <p className="line-clamp-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
                             {description}
                         </p>
                     </div>
@@ -91,19 +91,19 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                             {price > 0 ? (
                                 <>
                                     <span className="text-[10px] text-zinc-400 uppercase font-black tracking-widest mb-1">Học phí ưu đãi</span>
-                                    <span className="text-2xl font-black text-foreground flex items-baseline gap-1">
+                                    <span className="text-xl font-black text-foreground flex items-baseline gap-1">
                                         {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
-                                        <span className="text-sm font-black text-zinc-400">₫</span>
+                                        <span className="text-xs font-black text-zinc-400">₫</span>
                                     </span>
                                 </>
                             ) : (
-                                <span className="text-xl font-black text-primary uppercase tracking-tight">Truy cập miễn phí</span>
+                                <span className="text-lg font-black text-primary uppercase tracking-tight">Truy cập miễn phí</span>
                             )}
                         </div>
 
-                        <div className="group/btn relative px-6 py-2.5 rounded-full bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-sm font-black transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2">
+                        <div className="group/btn relative px-5 py-2 rounded-full bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-xs font-black transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2">
                             Chi tiết
-                            <svg className="w-4 h-4 translate-x-0 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
+                            <svg className="w-3.5 h-3.5 translate-x-0 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
                         </div>
                     </div>
                 </div>

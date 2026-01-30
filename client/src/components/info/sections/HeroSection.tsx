@@ -57,7 +57,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                     {/* Text content */}
                     <FadeIn direction="up" duration={0.8} className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
                         <div className="flex justify-center lg:justify-start">
-                            <SectionTag variant={section.backgroundTheme === 'dark' ? 'dark' : 'default'}>
+                            <SectionTag>
                                 {section.tag || "🚀 Học để làm được"}
                             </SectionTag>
                         </div>
@@ -128,13 +128,10 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 <div
                                     key={index}
                                     className={cn(
-                                        "flex items-center gap-3 px-4 py-2 rounded-full shadow-lg group/indicator transition-all",
-                                        section.backgroundTheme === 'dark'
-                                            ? "bg-black/50 border border-zinc-800 text-white hover:bg-zinc-900"
-                                            : "bg-background border border-border text-foreground hover:bg-accent/50"
+                                        "flex items-center gap-3 px-4 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-zinc-800 text-white hover:bg-zinc-900"
                                     )}
                                 >
-                                    <StatusDot color={section.backgroundTheme === 'dark' ? "white" : "black"} />
+                                    <StatusDot color="white" />
                                     <span className="not-italic tracking-wide">{indicator}</span>
                                 </div>
                             ))}

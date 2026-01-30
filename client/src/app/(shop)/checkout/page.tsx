@@ -668,7 +668,7 @@ function CheckoutContent() {
                                 <div className="space-y-4">
                                     <Button
                                         size="lg"
-                                        className="w-full h-14 text-lg font-semibold shadow-xl transition-all hover:-translate-y-1 active:scale-[0.98] bg-white text-black hover:bg-zinc-200 border-2 border-zinc-950"
+                                        className="w-full h-14 text-lg font-semibold shadow-xl transition-all hover:-translate-y-1 active:scale-[0.98] bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 border-2 border-zinc-950"
                                         onClick={handleCheckout}
                                         disabled={processing}
                                     >

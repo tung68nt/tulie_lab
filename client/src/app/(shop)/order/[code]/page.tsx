@@ -223,9 +223,6 @@ export default function OrderPage({ params }: { params: any }) {
                                         <span className="text-xs text-zinc-500">Số tài khoản</span>
                                         <div className="flex items-center gap-2">
                                             <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">{accountNo}</span>
-                                            <button onClick={() => copyToClipboard(accountNo, 'account')} className="text-zinc-300 hover:text-zinc-500 transition-colors">
-                                                {copiedField === 'account' ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
-                                            </button>
                                         </div>
                                     </div>
 
@@ -240,12 +237,15 @@ export default function OrderPage({ params }: { params: any }) {
                                     <div className="space-y-1.5 pt-1">
                                         <div className="flex justify-between items-center">
                                             <label className="text-[10px] font-medium text-zinc-400">Nội dung chuyển khoản</label>
-                                            <button onClick={() => copyToClipboard(transferContent, 'content')} className="text-zinc-900 dark:text-zinc-100 text-[10px] font-medium hover:underline flex items-center gap-1">
-                                                {copiedField === 'content' ? 'Đã sao chép' : 'Sao chép nội dung'}
-                                            </button>
                                         </div>
-                                        <div className="bg-zinc-50 dark:bg-zinc-900 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 text-center">
+                                        <div
+                                            onClick={() => copyToClipboard(transferContent, 'content')}
+                                            className="bg-zinc-50 dark:bg-zinc-900 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 text-center relative cursor-pointer hover:border-zinc-300 dark:hover:border-zinc-700 transition-all group/content"
+                                        >
                                             <p className="text-lg font-semibold text-zinc-900 dark:text-white tracking-tight">{transferContent}</p>
+                                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                                {copiedField === 'content' ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-zinc-300 group-hover/content:text-zinc-500" />}
+                                            </div>
                                         </div>
                                     </div>
 

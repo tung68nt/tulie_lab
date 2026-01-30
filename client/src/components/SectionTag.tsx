@@ -10,26 +10,14 @@ interface SectionTagProps {
 
 export const SectionTag: React.FC<SectionTagProps> = ({
     children,
-    className,
-    variant = 'default'
+    className
 }) => {
-    // default: adapts to system theme (white in light mode, black in dark mode)
-    // dark: always black (for dark sections)
-    // light: always white (for light sections)
-
     return (
         <div className={cn(
-            "inline-flex h-9 items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold mb-6 shadow-xl backdrop-blur-md select-none transition-all duration-300",
-            (variant === 'dark' || variant === 'black-pill') && "border-zinc-800 bg-black text-white shadow-2xl",
-            variant === 'light' && "border-zinc-200 bg-white text-black shadow-sm",
-            variant === 'default' && "border-zinc-200 bg-white text-black shadow-sm dark:border-zinc-800 dark:bg-black dark:text-white",
+            "inline-flex h-9 items-center gap-2 rounded-full border border-zinc-900 bg-black text-white px-4 py-1.5 text-sm font-semibold mb-6 shadow-2xl backdrop-blur-md select-none transition-all duration-300",
             className
         )}>
-            <StatusDot color={
-                (variant === 'dark' || variant === 'black-pill') ? "white" :
-                    variant === 'light' ? "black" :
-                        "auto"
-            } />
+            <StatusDot color="white" />
             {children}
         </div>
     );
