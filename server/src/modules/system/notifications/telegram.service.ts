@@ -57,7 +57,7 @@ export class TelegramService {
 <b>Trạng thái:</b> <code>${order.status}</code>
 <b>Nội dung:</b> ${order.items?.map((i: any) => i.course?.title || i.product?.title).join(', ') || 'N/A'}
 ━━━━━━━━━━━━━━━━━━
-<i>Hệ thống Academy Tulie</i>
+<i>Hệ thống Tulie Academy</i>
         `.trim();
 
         return this.sendMessage(message);
@@ -129,7 +129,7 @@ export class TelegramService {
 - Cảnh báo bảo mật: <b>${data.securityRisks > 0 ? `⚠️ ${data.securityRisks} vụ` : '✅ An toàn'}</b>
 - Trạng thái: <code>${data.systemStatus || 'Hoạt động ổn định'}</code>
 ━━━━━━━━━━━━━━━━━━
-<i>Hệ thống Academy Tulie - ${new Date().toLocaleDateString('vi-VN')}</i>
+<i>Hệ thống Tulie Academy - ${new Date().toLocaleDateString('vi-VN')}</i>
         `.trim();
 
         return this.sendMessage(message);

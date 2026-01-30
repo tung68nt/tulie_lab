@@ -35,8 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: {
-      template: `%s | ${settings?.site_title || 'Academy Tulie'}`,
-      default: settings?.site_title || 'Academy Tulie - Làm chủ Tương lai Công nghệ',
+      template: `%s | ${settings?.site_title || 'Tulie Academy'}`,
+      default: settings?.site_title || 'Tulie Academy - Làm chủ Tương lai Công nghệ',
     },
     description: settings?.site_description || 'Khai phá tiềm năng của bạn với các khóa học chuyên sâu về AI, Fullstack Development và Vibe Coding.',
     icons: {
@@ -47,7 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
       apple: favicon,
     },
     openGraph: {
-      title: settings?.site_title || 'Academy Tulie',
+      title: settings?.site_title || 'Tulie Academy',
       description: settings?.site_description || 'Làm chủ Tương lai Công nghệ',
       type: 'website',
     },
@@ -67,8 +67,8 @@ export default async function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-            window.__APP_VERSION__ = "0.1.7";
-            console.log("🚀 Academy Tulie v" + window.__APP_VERSION__);
+            window.__APP_VERSION__ = "0.1.8";
+            console.log("🚀 Tulie Academy v" + window.__APP_VERSION__);
             if (typeof window !== 'undefined' && window.location.search.includes('reset=true')) {
               console.warn("Force Reset requested via URL. Clearing local storage...");
               localStorage.clear();

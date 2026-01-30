@@ -233,7 +233,7 @@ export default function AdminSettingsPage() {
                                 <Input
                                     value={settings.site_name || ''}
                                     onChange={(e) => handleChange('site_name', e.target.value)}
-                                    placeholder="Academy Tulie"
+                                    placeholder="Tulie Academy"
                                 />
                                 <div className="flex items-center gap-2 mt-2">
                                     <Switch
