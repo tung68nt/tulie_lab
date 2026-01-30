@@ -4,6 +4,7 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { DEFAULT_LANDING_PAGE_SECTIONS, DEFAULT_HOME_SECTIONS } from '@/lib/defaultContent';
 import { SectionBackground } from '../SectionBackground';
+import { FadeIn } from '@/components/animations/FadeIn';
 
 interface CodingMethodsSectionProps {
     section: Section;
@@ -117,70 +118,72 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                 <StandardSectionHeader section={section} align="center" />
 
                 {/* RESPONSIVE TABLE VIEW: Scrollable on mobile, Grid on desktop */}
-                <div className="overflow-x-auto pb-4 -mx-4 px-4">
-                    <div className="min-w-[800px] md:min-w-[1000px] border border-border rounded-[32px] overflow-hidden bg-card/50 shadow-sm relative">
-                        {/* Table Header */}
-                        <div className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border border-b border-border bg-muted/30">
-                            <div className="p-4 md:p-6 flex items-center justify-center font-medium text-foreground/80 sticky left-0 bg-background/95 backdrop-blur-sm z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]">
-                                Tiêu chí
-                            </div>
-                            {safeMethods.map((method: any, idx: number) => (
-                                <div key={method.id || idx} className="p-4 md:p-6 flex flex-col items-center gap-3 md:gap-4 text-center relative group h-full justify-start min-w-[140px]">
-                                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                        style={{ backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))` }} />
-
-                                    <div className={cn(
-                                        "w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center text-white shadow-lg mb-1 md:mb-2",
-                                        "bg-zinc-900 dark:bg-zinc-800"
-                                    )}>
-                                        <DynamicIcon name={method.icon || 'Code'} className="w-5 h-5 md:w-6 md:h-6" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-bold text-base md:text-lg leading-tight">{method.name}</h3>
-                                        <p className="text-[10px] md:text-xs text-muted-foreground mt-1 line-clamp-2 md:line-clamp-none">{method.subtitle}</p>
-                                    </div>
-                                    <div className="px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-secondary text-secondary-foreground text-[10px] md:text-xs font-bold mt-auto whitespace-nowrap">
-                                        {method.time}
-                                    </div>
+                <FadeIn direction="up" delay={0.4} duration={0.6}>
+                    <div className="overflow-x-auto pb-4 -mx-4 px-4">
+                        <div className="min-w-[800px] md:min-w-[1000px] border border-border rounded-[32px] overflow-hidden bg-card/50 shadow-sm relative">
+                            {/* Table Header */}
+                            <div className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border border-b border-border bg-muted/30">
+                                <div className="p-4 md:p-6 flex items-center justify-center font-medium text-foreground/80 sticky left-0 bg-background/95 backdrop-blur-sm z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]">
+                                    Tiêu chí
                                 </div>
-                            ))}
-                        </div>
+                                {safeMethods.map((method: any, idx: number) => (
+                                    <div key={method.id || idx} className="p-4 md:p-6 flex flex-col items-center gap-3 md:gap-4 text-center relative group h-full justify-start min-w-[140px]">
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                            style={{ backgroundImage: `linear-gradient(to right, var(--tw-gradient-stops))` }} />
 
-                        {/* Table Body */}
-                        <div className="divide-y divide-border">
-                            {activeRowConfig?.map((row: any) => {
-                                return (
-                                    <div key={row.key} className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border hover:bg-muted/5 transition-colors group/row">
-                                        {/* Row Header - Sticky */}
-                                        <div className="p-4 md:p-6 flex flex-col items-center justify-start gap-2 bg-background/95 backdrop-blur-sm sticky left-0 z-10 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)] group-hover/row:bg-muted/20 transition-colors">
-                                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-background border border-border flex items-center justify-center text-muted-foreground shrink-0">
-                                                <DynamicIcon name={row.icon || 'CheckCircle'} className="w-4 h-4 md:w-5 md:h-5" />
-                                            </div>
-                                            <span className="font-bold text-xs md:text-sm text-center line-clamp-2">{row.label}</span>
+                                        <div className={cn(
+                                            "w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center text-white shadow-lg mb-1 md:mb-2",
+                                            "bg-zinc-900 dark:bg-zinc-800"
+                                        )}>
+                                            <DynamicIcon name={method.icon || 'Code'} className="w-5 h-5 md:w-6 md:h-6" />
                                         </div>
-
-                                        {/* Cells */}
-                                        {safeMethods.map((method: any, methodIdx: number) => {
-                                            const step = method.stepsDetail?.[row.key];
-                                            if (step?.status === 'skip') return <div key={`${method.id || methodIdx}-${row.key}`} className="p-3 md:p-4 bg-muted/5 min-w-[140px]" />;
-
-                                            return (
-                                                <div key={`${method.id}-${row.key}`} className={cn(
-                                                    "p-3 md:p-4 text-xs md:text-sm text-foreground/90 flex justify-center h-full min-w-[140px]",
-                                                    row.key === 'feasibility' ? "items-center" : "items-start"
-                                                )}>
-                                                    <div className="text-left w-full">
-                                                        {step ? renderStepContent(row.key, step.detail, methodIdx) : '-'}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
+                                        <div>
+                                            <h3 className="font-bold text-base md:text-lg leading-tight">{method.name}</h3>
+                                            <p className="text-[10px] md:text-xs text-muted-foreground mt-1 line-clamp-2 md:line-clamp-none">{method.subtitle}</p>
+                                        </div>
+                                        <div className="px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-secondary text-secondary-foreground text-[10px] md:text-xs font-bold mt-auto whitespace-nowrap">
+                                            {method.time}
+                                        </div>
                                     </div>
-                                );
-                            })}
+                                ))}
+                            </div>
+
+                            {/* Table Body */}
+                            <div className="divide-y divide-border">
+                                {activeRowConfig?.map((row: any) => {
+                                    return (
+                                        <div key={row.key} className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border hover:bg-muted/5 transition-colors group/row">
+                                            {/* Row Header - Sticky */}
+                                            <div className="p-4 md:p-6 flex flex-col items-center justify-start gap-2 bg-background/95 backdrop-blur-sm sticky left-0 z-10 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)] group-hover/row:bg-muted/20 transition-colors">
+                                                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-background border border-border flex items-center justify-center text-muted-foreground shrink-0">
+                                                    <DynamicIcon name={row.icon || 'CheckCircle'} className="w-4 h-4 md:w-5 md:h-5" />
+                                                </div>
+                                                <span className="font-bold text-xs md:text-sm text-center line-clamp-2">{row.label}</span>
+                                            </div>
+
+                                            {/* Cells */}
+                                            {safeMethods.map((method: any, methodIdx: number) => {
+                                                const step = method.stepsDetail?.[row.key];
+                                                if (step?.status === 'skip') return <div key={`${method.id || methodIdx}-${row.key}`} className="p-3 md:p-4 bg-muted/5 min-w-[140px]" />;
+
+                                                return (
+                                                    <div key={`${method.id}-${row.key}`} className={cn(
+                                                        "p-3 md:p-4 text-xs md:text-sm text-foreground/90 flex justify-center h-full min-w-[140px]",
+                                                        row.key === 'feasibility' ? "items-center" : "items-start"
+                                                    )}>
+                                                        <div className="text-left w-full">
+                                                            {step ? renderStepContent(row.key, step.detail, methodIdx) : '-'}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </FadeIn>
 
                 {/* Mobile hint */}
                 <div className="lg:hidden text-center mt-4 text-xs text-muted-foreground animate-pulse">

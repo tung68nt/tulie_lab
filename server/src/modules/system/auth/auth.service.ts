@@ -43,7 +43,7 @@ export class AuthService {
         }
 
         const token = jwt.sign(
-            { id: user.id, role: user.role },
+            { id: user.id, role: user.role, email: user.email },
             JWT_SECRET,
             { expiresIn: '7d' }
         );
@@ -81,7 +81,7 @@ export class AuthService {
         }
 
         const token = jwt.sign(
-            { id: user.id, role: user.role },
+            { id: user.id, role: user.role, email: user.email },
             JWT_SECRET,
             { expiresIn: '7d' }
         );
@@ -212,7 +212,7 @@ export class AuthService {
 
             // 3. Issue our own JWT
             const ownToken = jwt.sign(
-                { id: user.id, role: user.role },
+                { id: user.id, role: user.role, email: user.email },
                 JWT_SECRET,
                 { expiresIn: '7d' }
             );

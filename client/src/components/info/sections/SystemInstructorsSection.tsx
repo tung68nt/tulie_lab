@@ -9,6 +9,7 @@ import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { Twitter, Linkedin, Github, ExternalLink, Mail, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/Button';
+import { FadeIn } from '@/components/animations/FadeIn';
 
 export const SystemInstructorsSection = ({ section }: { section: Section }) => {
     const [instructors, setInstructors] = useState<Instructor[]>([]);
@@ -50,57 +51,59 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
             <div className="container px-6 mx-auto relative z-10 max-w-[1240px]">
                 <StandardSectionHeader section={section} align={section.align || "center"} />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 mt-16">
-                    {instructors.map((instructor, index) => (
-                        <div key={instructor.id || index} className="group flex flex-col h-full bg-card/50 backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2">
-                            {/* Avatar Section */}
-                            <div className="relative mb-10 w-44 h-44 mx-auto">
-                                <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-primary/20 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700" />
-                                <div className="relative w-full h-full rounded-full border-4 border-background shadow-2xl overflow-hidden ring-1 ring-border/50 z-10">
-                                    {instructor.avatar ? (
-                                        <div className="relative w-full h-full">
-                                            <Image
-                                                src={instructor.avatar}
-                                                alt={instructor?.name || 'Instructor'}
-                                                fill
-                                                className="object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-muted">
-                                            <span className="text-4xl font-bold text-muted-foreground">{instructor?.name?.charAt(0) || 'G'}</span>
-                                        </div>
-                                    )}
+                <FadeIn direction="up" delay={0.4} duration={0.6}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 mt-16">
+                        {instructors.map((instructor, index) => (
+                            <div key={instructor.id || index} className="group flex flex-col h-full bg-card/50 backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2">
+                                {/* Avatar Section */}
+                                <div className="relative mb-10 w-44 h-44 mx-auto">
+                                    <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-primary/20 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700" />
+                                    <div className="relative w-full h-full rounded-full border-4 border-background shadow-2xl overflow-hidden ring-1 ring-border/50 z-10">
+                                        {instructor.avatar ? (
+                                            <div className="relative w-full h-full">
+                                                <Image
+                                                    src={instructor.avatar}
+                                                    alt={instructor?.name || 'Instructor'}
+                                                    fill
+                                                    className="object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center bg-muted">
+                                                <span className="text-4xl font-bold text-muted-foreground">{instructor?.name?.charAt(0) || 'G'}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Content */}
+                                <div className="flex-1 flex flex-col text-center">
+                                    <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{instructor?.name || 'Đang tải...'}</h3>
+                                    <p className="text-primary/60 text-xs font-bold tracking-wide mb-6">{String(instructor.role || 'Expert Instructor')}</p>
+
+                                    <p className="text-muted-foreground text-[15px] leading-relaxed mb-10 line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
+                                        {String(instructor.bio || '')}
+                                    </p>
+
+                                    <div className="mt-auto pt-8 border-t border-border/50 flex items-center justify-center gap-5 text-muted-foreground">
+                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                                            <Mail className="w-4 h-4" />
+                                        </button>
+                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-[#0077b5] hover:text-white transition-all">
+                                            <Linkedin className="w-4 h-4" />
+                                        </button>
+                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-[#333] hover:text-white transition-all">
+                                            <Github className="w-4 h-4" />
+                                        </button>
+                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                                            <ExternalLink className="w-4 h-4" />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
-                            {/* Content */}
-                            <div className="flex-1 flex flex-col text-center">
-                                <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{instructor?.name || 'Đang tải...'}</h3>
-                                <p className="text-primary/60 text-xs font-bold tracking-wide mb-6">{String(instructor.role || 'Expert Instructor')}</p>
-
-                                <p className="text-muted-foreground text-[15px] leading-relaxed mb-10 line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
-                                    {String(instructor.bio || '')}
-                                </p>
-
-                                <div className="mt-auto pt-8 border-t border-border/50 flex items-center justify-center gap-5 text-muted-foreground">
-                                    <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
-                                        <Mail className="w-4 h-4" />
-                                    </button>
-                                    <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-[#0077b5] hover:text-white transition-all">
-                                        <Linkedin className="w-4 h-4" />
-                                    </button>
-                                    <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-[#333] hover:text-white transition-all">
-                                        <Github className="w-4 h-4" />
-                                    </button>
-                                    <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
-                                        <ExternalLink className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                </FadeIn>
 
                 {/* Bottom CTA for Instructors Page */}
                 <div className="mt-24 text-center">

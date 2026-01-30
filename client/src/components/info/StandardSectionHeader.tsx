@@ -48,10 +48,10 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     // Otherwise (auto), we use standard colors that adapt to system theme (zinc-900 / dark:white).
 
     const titleGradientClass = isDarkBg
-        ? "bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-300 to-zinc-500"
+        ? "bg-clip-text text-transparent bg-gradient-to-b from-white via-zinc-200 to-zinc-400"
         : isLightBg
-            ? "bg-clip-text text-transparent bg-gradient-to-r from-black via-zinc-800 to-zinc-600"
-            : "bg-clip-text text-transparent bg-gradient-to-r from-black via-zinc-800 to-zinc-600 dark:from-white dark:via-zinc-300 dark:to-zinc-500";
+            ? "bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-700 to-zinc-800"
+            : "bg-clip-text text-transparent bg-gradient-to-b from-black via-zinc-700 to-zinc-800 dark:from-white dark:via-zinc-200 dark:to-zinc-400";
 
     const subtitleClass = isDarkBg
         ? "text-white"
@@ -64,7 +64,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <FadeIn direction="up" delay={0.1} duration={0.5}>
-                        <SectionTag variant={isDarkBg ? 'dark' : isLightBg ? 'light' : 'default'}>
+                        <SectionTag variant={isDarkBg ? 'dark' : isLightBg ? 'light' : 'black-pill'}>
                             {tag}
                         </SectionTag>
                     </FadeIn>

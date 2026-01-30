@@ -4,6 +4,7 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { SectionBackground } from '../SectionBackground';
+import { FadeIn } from '@/components/animations/FadeIn';
 interface ExpertSectionProps {
     section: Section;
 }
@@ -37,7 +38,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                 <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
 
                     {/* Left: Image (Portrait) - Stylized */}
-                    <div className="lg:col-span-5 order-2 lg:order-1 relative group">
+                    <FadeIn direction="right" delay={0.2} duration={0.8} className="lg:col-span-5 order-2 lg:order-1 relative group">
                         <div className="relative mx-auto max-w-sm lg:max-w-full z-10">
                             {/* Abstract Shapes */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -74,10 +75,10 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </FadeIn>
 
                     {/* Right: Content */}
-                    <div className="lg:col-span-7 order-1 lg:order-2 space-y-8">
+                    <FadeIn direction="left" delay={0.4} duration={0.8} className="lg:col-span-7 order-1 lg:order-2 space-y-8">
                         <div>
                             <StandardSectionHeader
                                 section={section}
@@ -115,7 +116,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
                             <div className="h-px flex-1 bg-border"></div>
                             <span className="text-sm font-medium text-muted-foreground">Connect with me</span>
                         </div>
-                    </div>
+                    </FadeIn>
                 </div>
             </div>
         </section>

@@ -8,6 +8,11 @@ import { CourseCard } from '@/components/CourseCard';
 import { CourseFilter } from '@/components/CourseFilter';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { FadeIn } from '@/components/animations/FadeIn';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { SectionBackground } from '../SectionBackground';
+import { DynamicIcon } from '@/components/DynamicIcon';
+
 
 interface SystemCoursesSectionProps {
     section: Section;
@@ -41,36 +46,38 @@ function SystemCoursesContent() {
     }, [searchParams]);
 
     return (
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
-            {/* Sidebar Filter */}
-            <CourseFilter />
+        <FadeIn direction="up" delay={0.4} duration={0.6}>
+            <div className="flex flex-col lg:flex-row gap-12 items-start">
+                {/* Sidebar Filter */}
+                <CourseFilter />
 
-            {/* Course Grid */}
-            <main className="flex-1">
-                {loading ? (
-                    <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
-                        {[1, 2, 3, 4].map(i => (
-                            <div key={i} className="animate-pulse space-y-4">
-                                <div className="aspect-video bg-muted rounded-3xl" />
-                                <div className="h-4 bg-muted rounded w-3/4" />
-                                <div className="h-4 bg-muted rounded w-1/2" />
-                            </div>
-                        ))}
-                    </div>
-                ) : courses.length > 0 ? (
-                    <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
-                        {courses.map((course: Course) => (
-                            <CourseCard key={course.id} {...course} description={course.description || ''} price={Number(course.price || 0)} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center py-32 border-2 border-dashed rounded-[3rem] bg-muted/10">
-                        <h3 className="text-2xl font-bold mb-3 text-muted-foreground">Trống trải quá...</h3>
-                        <p className="text-muted-foreground mb-8">Chúng tôi chưa tìm thấy khóa học nào phù hợp với bộ lọc này.</p>
-                    </div>
-                )}
-            </main>
-        </div>
+                {/* Course Grid */}
+                <main className="flex-1">
+                    {loading ? (
+                        <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
+                            {[1, 2, 3, 4].map(i => (
+                                <div key={i} className="animate-pulse space-y-4">
+                                    <div className="aspect-video bg-muted rounded-3xl" />
+                                    <div className="h-4 bg-muted rounded w-3/4" />
+                                    <div className="h-4 bg-muted rounded w-1/2" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : courses.length > 0 ? (
+                        <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
+                            {courses.map((course: Course) => (
+                                <CourseCard key={course.id} {...course} description={course.description || ''} price={Number(course.price || 0)} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-32 border-2 border-dashed rounded-[3rem] bg-muted/10">
+                            <h3 className="text-2xl font-bold mb-3 text-muted-foreground">Trống trải quá...</h3>
+                            <p className="text-muted-foreground mb-8">Chúng tôi chưa tìm thấy khóa học nào phù hợp với bộ lọc này.</p>
+                        </div>
+                    )}
+                </main>
+            </div>
+        </FadeIn>
     );
 }
 
