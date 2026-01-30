@@ -2,6 +2,9 @@ import { EventBus } from '../../../core/event-bus';
 import { telegramService } from './telegram.service';
 import prisma from '../../../config/prisma';
 
+import { CrmService } from '../crm/crm.service';
+const crmService = new CrmService();
+
 export class TelegramEventSubscriber {
     private static instance: TelegramEventSubscriber;
     private eventBus: EventBus;
@@ -118,7 +121,15 @@ export class TelegramEventSubscriber {
                     }
                 });
 
-                await telegramService.sendDailyReport(pendingOrdersCount, inactiveUsers);
+                // 3. Get detailed daily business metrics
+                const dailyStats = await crmService.getDailyReportStats();
+
+                await telegramService.sendDailyReport({
+                    ...dailyStats,
+                    pendingOrders: pendingOrdersCount,
+                    inactiveUsers: inactiveUsers,
+                    systemStatus: 'Hoạt động ổn định'
+                });
             } catch (error) {
                 console.error('[TelegramSubscriber] Error generating daily report:', error);
             }

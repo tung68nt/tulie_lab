@@ -101,6 +101,36 @@ export class CrmService {
         return { subscriptions, total, page, limit };
     }
 
+    async getDailyReportStats() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const [
+            todayOrders,
+            todayPaidOrders,
+            todayRevenue,
+            todayNewUsers,
+            securityRisks
+        ] = await Promise.all([
+            prisma.order.count({ where: { createdAt: { gte: today } } }),
+            prisma.order.count({ where: { createdAt: { gte: today }, status: 'PAID' } }),
+            prisma.order.aggregate({
+                where: { createdAt: { gte: today }, status: 'PAID' },
+                _sum: { amount: true }
+            }),
+            prisma.user.count({ where: { createdAt: { gte: today } } }),
+            prisma.securityLog.count({ where: { createdAt: { gte: today } } })
+        ]);
+
+        return {
+            todayOrders,
+            todayPaidOrders,
+            todayRevenue: Number(todayRevenue._sum.amount || 0),
+            todayNewUsers,
+            securityRisks
+        };
+    }
+
     async getStats() {
         const [totalRevenue, totalOrders, totalUsers, activeSubscriptions] = await Promise.all([
             prisma.order.aggregate({
@@ -113,7 +143,7 @@ export class CrmService {
         ]);
 
         return {
-            revenue: totalRevenue._sum.amount || 0,
+            revenue: Number(totalRevenue._sum.amount || 0),
             orders: totalOrders,
             users: totalUsers,
             activeSubscriptions
