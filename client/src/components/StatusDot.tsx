@@ -15,7 +15,7 @@ export const StatusDot: React.FC<StatusDotProps> = ({
     color = 'white'
 }) => {
     const colorClasses = {
-        white: 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]',
+        white: 'bg-white',
         black: 'bg-black',
         zinc: 'bg-zinc-950 dark:bg-zinc-200',
         primary: 'bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]',

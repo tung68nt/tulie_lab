@@ -672,7 +672,7 @@ function CheckoutContent() {
                                         onClick={handleCheckout}
                                         disabled={processing}
                                         variant="white"
-                                        className="w-full text-lg font-extrabold h-14 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                                        className="w-full text-lg font-bold h-14 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
                                     >
                                         {processing ? (
                                             <span className="flex items-center gap-2">
@@ -681,7 +681,7 @@ function CheckoutContent() {
                                             </span>
                                         ) : (
                                             <>
-                                                <span className="relative z-10 tracking-wide font-extrabold">
+                                                <span className="relative z-10 tracking-wide font-bold">
                                                     {finalAmount === 0 ? 'Đăng ký ngay' : 'Thanh toán ngay'}
                                                 </span>
                                                 <MoveRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform relative z-10" />
