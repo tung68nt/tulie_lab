@@ -32,7 +32,11 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
     return (
         <section className={cn(
             "relative w-full py-16 md:py-24 transition-all duration-500",
-            section.backgroundTheme === 'dark' ? "bg-black text-white" : "bg-background text-foreground"
+            section.backgroundTheme === 'dark'
+                ? "bg-black text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background text-foreground"
         )}>
             {/* Ambient Background Effects */}
             {section.backgroundTheme === 'dark' && (
@@ -67,7 +71,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             "text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-7xl leading-tight md:leading-tight py-2",
                             section.backgroundTheme === 'dark'
                                 ? "text-white"
-                                : "text-foreground"
+                                : section.backgroundTheme === 'light'
+                                    ? "text-foreground"
+                                    : "text-foreground"
                         )}>
                             {section.title}
                         </h1>
@@ -75,7 +81,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                         {/* Subtitle */}
                         <p className={cn(
                             "mx-auto lg:mx-0 max-w-[600px] text-base md:text-lg lg:text-xl leading-relaxed",
-                            section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
+                            section.backgroundTheme === 'dark' ? "text-zinc-300" : section.backgroundTheme === 'light' ? "text-muted-foreground" : "text-muted-foreground"
                         )}>
                             {section.subtitle}
                         </p>

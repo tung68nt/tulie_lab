@@ -24,7 +24,12 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
     return (
         <section className={cn(
             "py-16 md:py-20 relative",
-            isDark ? "bg-[#050505] text-white" : "bg-background"
+            "py-16 md:py-20 relative",
+            isDark
+                ? "bg-[#050505] text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
@@ -62,11 +67,17 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                         </div>
                                     </div>
 
-                                    <h3 className="text-xl font-bold mb-3 text-zinc-900 dark:text-zinc-50 group-hover:text-primary transition-colors">
+                                    <h3 className={cn(
+                                        "text-xl font-bold mb-3 transition-colors group-hover:text-primary",
+                                        isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900" : "text-zinc-900 dark:text-zinc-50")
+                                    )}>
                                         {item.title || item.label}
                                     </h3>
 
-                                    <p className="text-zinc-500 dark:text-zinc-300 leading-relaxed text-sm flex-1">
+                                    <p className={cn(
+                                        "leading-relaxed text-sm flex-1",
+                                        isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                                    )}>
                                         {item.description || item.content || 'Nội dung chi tiết đang được cập nhật.'}
                                     </p>
 

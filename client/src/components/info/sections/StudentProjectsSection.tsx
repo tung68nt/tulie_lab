@@ -8,7 +8,16 @@ import { SectionBackground } from '../SectionBackground';
 
 export const StudentProjectsSection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-20 md:py-32 relative overflow-hidden transition-colors duration-300">
+        <section
+            className={cn(
+                "py-20 md:py-32 relative overflow-hidden transition-colors duration-300",
+                section.backgroundTheme === 'dark'
+                    ? "bg-[#050505] text-white"
+                    : section.backgroundTheme === 'light'
+                        ? "bg-white text-zinc-950"
+                        : "bg-background"
+            )}
+        >
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

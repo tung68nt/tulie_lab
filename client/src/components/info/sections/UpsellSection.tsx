@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
@@ -13,7 +14,14 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
     if (displayItems.length === 0) return null;
 
     return (
-        <section className="py-24 relative overflow-hidden transition-colors duration-300">
+        <section className={cn(
+            "py-24 relative overflow-hidden transition-colors duration-300",
+            section.backgroundTheme === 'dark'
+                ? "bg-[#050505] text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -24,7 +32,10 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
             <div className="container px-4 mx-auto relative z-10">
                 <div className="text-center mb-16 max-w-2xl mx-auto">
                     <h2 className="text-3xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
-                    <p className="text-zinc-500 dark:text-zinc-300 text-lg leading-relaxed">{section.subtitle}</p>
+                    <p className={cn(
+                        "text-lg leading-relaxed",
+                        section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                    )}>{section.subtitle}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -78,11 +89,17 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                     </div>
                                 </div>
 
-                                <p className="text-zinc-500 dark:text-zinc-300 text-sm leading-relaxed mb-8 min-h-[3rem]">{item.description}</p>
+                                <p className={cn(
+                                    "text-sm leading-relaxed mb-8 min-h-[3rem]",
+                                    section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                                )}>{item.description}</p>
 
                                 <ul className="space-y-4 mb-10 flex-1">
                                     {item.features?.map((feature: string, i: number) => (
-                                        <li key={i} className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-300 font-medium">
+                                        <li key={i} className={cn(
+                                            "flex items-center gap-3 text-xs font-medium",
+                                            section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                                        )}>
                                             <div className="w-5 h-5 rounded-full bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center flex-shrink-0">
                                                 <DynamicIcon name="Check" className="w-2.5 h-2.5 text-zinc-400 dark:text-zinc-300 stroke-[3px]" />
                                             </div>

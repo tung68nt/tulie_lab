@@ -65,7 +65,12 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
     return (
         <section className={cn(
             "py-20 md:py-32 relative transition-colors duration-300",
-            isDark ? "bg-[#050505] text-white" : "bg-background"
+            "py-20 md:py-32 relative transition-colors duration-300",
+            isDark
+                ? "bg-[#050505] text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}

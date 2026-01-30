@@ -8,7 +8,14 @@ import { SectionBackground } from '../SectionBackground';
 
 export function StatsSection({ section }: { section: Section }) {
     return (
-        <section className="w-full py-16 bg-background relative">
+        <section className={cn(
+            "w-full py-16 relative",
+            section.backgroundTheme === 'dark'
+                ? "bg-[#050505] text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background text-foreground"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -48,13 +55,23 @@ export function StatsSection({ section }: { section: Section }) {
 
                                     <h3 className={cn(
                                         "text-2xl font-bold mb-4",
-                                        section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
+                                        "text-2xl font-bold mb-4",
+                                        section.backgroundTheme === 'dark'
+                                            ? "text-white"
+                                            : section.backgroundTheme === 'light'
+                                                ? "text-zinc-950"
+                                                : "text-zinc-950 dark:text-white"
                                     )}>
                                         {String(item.title || '')}
                                     </h3>
                                     <p className={cn(
                                         "text-lg leading-relaxed",
-                                        section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-zinc-500 dark:text-zinc-300"
+                                        "text-lg leading-relaxed",
+                                        section.backgroundTheme === 'dark'
+                                            ? "text-zinc-300"
+                                            : section.backgroundTheme === 'light'
+                                                ? "text-zinc-500"
+                                                : "text-zinc-500 dark:text-zinc-300"
                                     )}>
                                         {String(item.description || item.label || '')}
                                     </p>

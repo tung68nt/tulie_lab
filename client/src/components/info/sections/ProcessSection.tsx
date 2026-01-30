@@ -25,7 +25,11 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
     return (
         <section className={cn(
             "py-24 relative",
-            isDark ? "bg-[#050505] text-white" : "bg-background"
+            isDark
+                ? "bg-[#050505] text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
@@ -85,13 +89,23 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                         <div className="w-full flex-1 p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
                                             <h3 className={cn(
                                                 "text-xl font-bold mb-3 tracking-tight",
-                                                section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
+                                                "text-xl font-bold mb-3 tracking-tight",
+                                                section.backgroundTheme === 'dark'
+                                                    ? "text-white"
+                                                    : section.backgroundTheme === 'light'
+                                                        ? "text-zinc-950"
+                                                        : "text-zinc-950 dark:text-white"
                                             )}>
                                                 {String(item.title || '')}
                                             </h3>
                                             <p className={cn(
                                                 "line-relaxed",
-                                                section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-zinc-500 dark:text-zinc-300"
+                                                "line-relaxed",
+                                                section.backgroundTheme === 'dark'
+                                                    ? "text-zinc-300"
+                                                    : section.backgroundTheme === 'light'
+                                                        ? "text-zinc-500"
+                                                        : "text-zinc-500 dark:text-zinc-300"
                                             )}>
                                                 {String(item.description || item.label || '')}
                                             </p>

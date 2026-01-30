@@ -12,7 +12,12 @@ export function ContentBlockSection({ section }: { section: Section }) {
     return (
         <section className={cn(
             "py-20 overflow-hidden space-y-24 relative",
-            isDark ? "bg-[#050505] text-white" : "bg-background"
+            "py-20 overflow-hidden space-y-24 relative",
+            isDark
+                ? "bg-[#050505] text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
@@ -64,13 +69,22 @@ export function ContentBlockSection({ section }: { section: Section }) {
                                     {Boolean(item.subtitle) && <span className="text-primary font-bold text-sm">{String(item.subtitle)}</span>}
                                     <h3 className={cn(
                                         "text-2xl md:text-4xl font-bold leading-tight",
-                                        isDark ? "text-white" : "text-foreground"
+                                        isDark
+                                            ? "text-white"
+                                            : section.backgroundTheme === 'light'
+                                                ? "text-zinc-950"
+                                                : "text-foreground"
                                     )}>{String(item.title || '')}</h3>
                                 </div>
 
                                 <div className={cn(
                                     "text-lg leading-relaxed",
-                                    isDark ? "text-zinc-300" : "text-muted-foreground"
+                                    "text-lg leading-relaxed",
+                                    isDark
+                                        ? "text-zinc-300"
+                                        : section.backgroundTheme === 'light'
+                                            ? "text-muted-foreground"
+                                            : "text-muted-foreground"
                                 )}>
                                     {String(item.description || '')}
                                 </div>
