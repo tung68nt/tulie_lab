@@ -20,7 +20,6 @@ export function ContentBlockSection({ section }: { section: Section }) {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={section.glowVariant}
@@ -71,7 +70,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                                         isDark
                                             ? "text-white"
                                             : section.backgroundTheme === 'light'
-                                                ? "text-zinc-950"
+                                                ? "text-zinc-950 dark:text-white"
                                                 : "text-foreground"
                                     )}>{String(item.title || '')}</h3>
                                 </div>
@@ -82,7 +81,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                                     isDark
                                         ? "text-zinc-300"
                                         : section.backgroundTheme === 'light'
-                                            ? "text-muted-foreground"
+                                            ? "text-muted-foreground dark:text-zinc-400"
                                             : "text-muted-foreground"
                                 )}>
                                     {String(item.description || '')}

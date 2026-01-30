@@ -17,7 +17,6 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
         <section className="py-12 md:py-20 relative overflow-hidden transition-colors duration-300">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={13}

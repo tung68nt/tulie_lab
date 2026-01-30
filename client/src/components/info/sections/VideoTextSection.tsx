@@ -52,7 +52,6 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={section.backgroundTheme === 'dark'}

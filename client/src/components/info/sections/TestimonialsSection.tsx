@@ -74,7 +74,6 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={isDark}
@@ -117,15 +116,15 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                             />
                                         </div>
                                         <div>
-                                            <h3 className="text-xl font-bold text-foreground">{testimonial.name}</h3>
-                                            <p className="text-sm font-medium text-muted-foreground">{testimonial.role}</p>
+                                            <h3 className="text-xl font-bold text-foreground dark:text-white">{testimonial.name}</h3>
+                                            <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400">{testimonial.role}</p>
                                         </div>
                                     </div>
 
                                     {/* Quote Area */}
                                     <div className="mb-4 h-14 flex items-center">
                                         {testimonial.content ? (
-                                            <p className="text-base text-foreground/80 font-medium line-clamp-2">
+                                            <p className="text-base text-foreground/80 dark:text-zinc-300 font-medium line-clamp-2">
                                                 "{testimonial.content}"
                                             </p>
                                         ) : null}
@@ -151,7 +150,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                         <div className="flex-1">
                                             <h4 className="text-[10px] font-bold text-green-500 mb-2">Kết quả đạt được</h4>
                                             {testimonial.after && testimonial.after.map((point: string, i: number) => (
-                                                <div key={i} className="flex gap-2 text-sm font-medium text-foreground mb-2">
+                                                <div key={i} className="flex gap-2 text-sm font-medium text-foreground dark:text-white mb-2">
                                                     <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                                                     <span className="line-clamp-2">{point}</span>
                                                 </div>

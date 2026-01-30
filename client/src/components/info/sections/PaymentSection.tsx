@@ -701,7 +701,6 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
         <section id="payment-section" className="py-16 md:py-24 relative">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />

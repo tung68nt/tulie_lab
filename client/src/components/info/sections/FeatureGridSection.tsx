@@ -20,7 +20,6 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
             />
@@ -36,12 +35,28 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                             <div key={idx} className="flex-1 min-w-[280px] max-w-[350px] bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 p-8 rounded-2xl text-center hover:border-neutral-700 transition-colors">
                                 {item.icon && (
                                     <div className="mb-6 flex justify-center overflow-visible">
-                                        <DynamicIcon name={item.icon} size={48} className="text-white opacity-40 group-hover:opacity-100 transition-opacity" />
+                                        <DynamicIcon
+                                            name={item.icon}
+                                            size={48}
+                                            className={cn(
+                                                "opacity-40 group-hover:opacity-100 transition-opacity",
+                                                section.backgroundTheme === 'light' ? "text-primary dark:text-white" : "text-white"
+                                            )}
+                                        />
                                     </div>
                                 )}
-                                <h3 className="text-2xl font-bold mb-2 text-white">{String(item.title || '')}</h3>
-                                <p className="text-zinc-300 text-sm mb-1">{String(item.subtitle || '')}</p>
-                                <p className="text-zinc-400 text-xs">{String(item.description || '')}</p>
+                                <h3 className={cn(
+                                    "text-2xl font-bold mb-2",
+                                    section.backgroundTheme === 'light' ? "text-zinc-950 dark:text-white" : "text-white"
+                                )}>{String(item.title || '')}</h3>
+                                <p className={cn(
+                                    "text-sm mb-1",
+                                    section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-300" : "text-zinc-300"
+                                )}>{String(item.subtitle || '')}</p>
+                                <p className={cn(
+                                    "text-xs",
+                                    section.backgroundTheme === 'light' ? "text-zinc-400 dark:text-zinc-400" : "text-zinc-400"
+                                )}>{String(item.description || '')}</p>
                             </div>
                         ))}
                     </div>

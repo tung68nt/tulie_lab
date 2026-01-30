@@ -64,7 +64,6 @@ export const CalendarSection = ({ section }: { section: Section }) => {
         <section className="py-12 md:py-20 relative overflow-hidden transition-colors duration-300" id={section.id}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />

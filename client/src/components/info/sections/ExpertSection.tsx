@@ -28,7 +28,6 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
         <section className="py-20 md:py-32 bg-background relative overflow-hidden">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={8}

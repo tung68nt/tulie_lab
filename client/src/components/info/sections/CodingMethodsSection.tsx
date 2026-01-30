@@ -119,7 +119,6 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'auto'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={12}
@@ -157,7 +156,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                                         <div>
                                             <h3 className={cn(
                                                 "font-bold text-base md:text-lg leading-tight",
-                                                isDark ? "text-zinc-50" : "text-zinc-950"
+                                                isDark ? "text-zinc-50" : "text-zinc-950 dark:text-white"
                                             )}>{method.name}</h3>
                                             <p className="text-[10px] md:text-xs text-muted-foreground mt-1 line-clamp-2 md:line-clamp-none">{method.subtitle}</p>
                                         </div>

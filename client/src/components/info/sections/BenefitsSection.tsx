@@ -33,7 +33,6 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={isDark}
@@ -76,14 +75,14 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
                                     <h3 className={cn(
                                         "text-xl font-bold mb-3 transition-colors group-hover:text-primary",
-                                        isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900" : "text-zinc-900 dark:text-zinc-50")
+                                        isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-50")
                                     )}>
                                         {item.title || item.label}
                                     </h3>
 
                                     <p className={cn(
                                         "leading-relaxed text-sm flex-1",
-                                        isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                                        isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
                                     )}>
                                         {item.description || item.content || 'Nội dung chi tiết đang được cập nhật.'}
                                     </p>

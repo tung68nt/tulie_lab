@@ -52,7 +52,6 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={false}
@@ -76,7 +75,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 ? "text-white"
                                 : section.backgroundTheme === 'light'
                                     ? "text-foreground dark:text-white"
-                                    : "text-foreground"
+                                    : "text-foreground dark:text-white"
                         )}>
                             {section.title}
                         </h1>
@@ -84,7 +83,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                         {/* Subtitle */}
                         <p className={cn(
                             "mx-auto lg:mx-0 max-w-[600px] text-base md:text-lg lg:text-xl leading-relaxed",
-                            section.backgroundTheme === 'dark' ? "text-zinc-300" : section.backgroundTheme === 'light' ? "text-muted-foreground dark:text-zinc-300" : "text-muted-foreground"
+                            section.backgroundTheme === 'dark' ? "text-zinc-300" : section.backgroundTheme === 'light' ? "text-muted-foreground dark:text-zinc-400" : "text-muted-foreground"
                         )}>
                             {section.subtitle}
                         </p>

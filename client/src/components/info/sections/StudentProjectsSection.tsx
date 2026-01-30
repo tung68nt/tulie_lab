@@ -20,7 +20,6 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
         >
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={9}
@@ -74,15 +73,15 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                                             : "bg-gradient-to-b from-card to-secondary/10"
                                 )}>
                                     <div className="mb-4">
-                                        <h3 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                                        <h3 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-1 text-foreground dark:text-white">
                                             {String(project.title || '')}
                                         </h3>
-                                        <p className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                                            Bởi <span className="text-foreground font-semibold">{String(project.student || 'Thành viên Tulie')}</span>
+                                        <p className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors dark:text-zinc-400">
+                                            Bởi <span className="text-foreground font-semibold dark:text-white">{String(project.student || 'Thành viên Tulie')}</span>
                                         </p>
                                     </div>
 
-                                    <p className="text-muted-foreground mb-6 line-clamp-2 leading-relaxed">
+                                    <p className="text-muted-foreground dark:text-zinc-400 mb-6 line-clamp-2 leading-relaxed">
                                         {project.description}
                                     </p>
 

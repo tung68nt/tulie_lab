@@ -33,7 +33,6 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={10}
@@ -100,7 +99,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                                 section.backgroundTheme === 'dark'
                                                     ? "text-white"
                                                     : section.backgroundTheme === 'light'
-                                                        ? "text-zinc-950"
+                                                        ? "text-zinc-950 dark:text-white"
                                                         : "text-zinc-950 dark:text-white"
                                             )}>
                                                 {String(item.title || '')}
@@ -111,7 +110,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                                 section.backgroundTheme === 'dark'
                                                     ? "text-zinc-300"
                                                     : section.backgroundTheme === 'light'
-                                                        ? "text-zinc-500"
+                                                        ? "text-zinc-500 dark:text-zinc-400"
                                                         : "text-zinc-500 dark:text-zinc-300"
                                             )}>
                                                 {String(item.description || item.label || '')}

@@ -37,7 +37,6 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={3}
@@ -79,7 +78,7 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                                 {(item.title || item.description) && (
                                     <div className="space-y-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                                         <h4 className="font-bold text-xl text-white">{item.title}</h4>
-                                        {item.description && <p className="text-sm text-zinc-200 font-medium leading-relaxed line-clamp-2">{item.description}</p>}
+                                        {item.description && <p className="text-sm text-zinc-200 dark:text-zinc-200 font-medium leading-relaxed line-clamp-2">{item.description}</p>}
                                     </div>
                                 )}
                             </div>

@@ -14,7 +14,6 @@ export function InstructorBioSection({ section }: { section: Section }) {
         <section className="py-24 relative overflow-hidden">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />

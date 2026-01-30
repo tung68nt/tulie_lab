@@ -25,7 +25,6 @@ export const PricingSection = ({ section }: { section: Section }) => {
         <section className="py-12 md:py-20 relative overflow-hidden" id={section.id}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={section.backgroundTheme === 'dark'}

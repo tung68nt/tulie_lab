@@ -53,7 +53,6 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />
@@ -87,20 +86,18 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             ? "bg-white border-zinc-200 shadow-sm"
                                             : "bg-background/50 border-border/40"
                                 )}>
-                                    {/* Thumbnail Section - Left side - Clean & Rebuilt */}
-                                    <div className="relative w-full md:w-[45%] h-64 md:h-auto overflow-hidden shrink-0 bg-muted/20">
-                                        <Image
+                                    {/* Thumbnail Section - Left side - Narrower & Standard img for external support */}
+                                    <div className="relative w-full md:w-[35%] h-64 md:h-auto overflow-hidden shrink-0 bg-muted/20">
+                                        <img
                                             src={getMediaUrl(combo.thumbnail || "") || "/hero_vibe_coding.png"}
                                             alt={combo.name}
-                                            fill
-                                            className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
-                                            priority={false}
+                                            className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
                                         />
                                         {/* Minimal overlay for depth */}
                                         <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
                                     </div>
 
-                                    {/* Content Section - Right side */}
+                                    {/* Content Section - Right side - Expanded */}
                                     <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
                                         <div className="space-y-6">
                                             <div className="space-y-4">
@@ -111,7 +108,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     section.backgroundTheme === 'dark'
                                                         ? "text-zinc-50"
                                                         : section.backgroundTheme === 'light'
-                                                            ? "text-zinc-900"
+                                                            ? "text-zinc-900 dark:text-white"
                                                             : "text-foreground"
                                                 )}>
                                                     {combo.name}
@@ -122,7 +119,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     section.backgroundTheme === 'dark'
                                                         ? "text-zinc-300"
                                                         : section.backgroundTheme === 'light'
-                                                            ? "text-zinc-500"
+                                                            ? "text-zinc-500 dark:text-zinc-400"
                                                             : "text-muted-foreground"
                                                 )}>
                                                     {combo.description}
@@ -147,7 +144,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                                     section.backgroundTheme === 'dark'
                                                                         ? "text-zinc-300"
                                                                         : section.backgroundTheme === 'light'
-                                                                            ? "text-zinc-700"
+                                                                            ? "text-zinc-700 dark:text-zinc-300"
                                                                             : "text-foreground"
                                                                 )}>{item.course?.title}</span>
                                                             </div>
@@ -182,8 +179,8 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             </div>
                                         </div>
 
-                                        {/* Price & Action Row */}
-                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-8 mt-6">
+                                        {/* Price & Action Row - Re-stacked for better flow */}
+                                        <div className="flex flex-col gap-6 pt-8 mt-6">
                                             <div className="flex flex-col gap-1">
                                                 <span className="text-sm text-zinc-500 dark:text-zinc-400 line-through opacity-50 font-medium">
                                                     {combo.originalPrice?.toLocaleString('vi-VN')}₫
@@ -198,10 +195,10 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                 </div>
                                             </div>
 
-                                            <div className="w-full sm:w-auto">
+                                            <div className="w-full">
                                                 <Link href={`/combos/${combo.slug}`}>
                                                     <div className={cn(
-                                                        "h-12 px-10 rounded-2xl group-hover:scale-105 flex items-center justify-center gap-2 transition-all duration-300 shadow-xl text-sm font-bold border-0",
+                                                        "h-14 w-full rounded-2xl group-hover:scale-[1.02] flex items-center justify-center gap-3 transition-all duration-300 shadow-xl text-base font-bold border-0",
                                                         section.backgroundTheme === 'dark'
                                                             ? "bg-white text-black hover:bg-zinc-200"
                                                             : section.backgroundTheme === 'light'
@@ -209,7 +206,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                                 : "bg-primary text-primary-foreground hover:bg-primary/90"
                                                     )}>
                                                         <span>Khám phá lộ trình</span>
-                                                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                                     </div>
                                                 </Link>
                                             </div>

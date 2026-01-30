@@ -24,7 +24,6 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={14}
@@ -34,7 +33,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                     <h2 className="text-3xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
                     <p className={cn(
                         "text-lg leading-relaxed",
-                        section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                        section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
                     )}>{section.subtitle}</p>
                 </div>
 
@@ -86,10 +85,10 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                         <DynamicIcon name={item.icon || 'Package'} className="w-6 h-6 stroke-[1.5px]" />
                                     </div>
 
-                                    <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
+                                    <h3 className="text-xl font-semibold text-foreground dark:text-white mb-2">{item.title}</h3>
 
                                     <div className="flex items-baseline gap-2 mb-4">
-                                        <span className="text-2xl font-semibold text-foreground">{item.price}</span>
+                                        <span className="text-2xl font-semibold text-foreground dark:text-white">{item.price}</span>
                                         {item.originalPrice && (
                                             <span className="text-sm text-muted-foreground line-through font-normal">{item.originalPrice}</span>
                                         )}
@@ -98,14 +97,14 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
 
                                 <p className={cn(
                                     "text-sm leading-relaxed mb-8 min-h-[3rem]",
-                                    section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                                    section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
                                 )}>{item.description}</p>
 
                                 <ul className="space-y-4 mb-10 flex-1">
                                     {item.features?.map((feature: string, i: number) => (
                                         <li key={i} className={cn(
                                             "flex items-center gap-3 text-xs font-medium",
-                                            section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500" : "text-zinc-500 dark:text-zinc-300")
+                                            section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
                                         )}>
                                             <div className="w-5 h-5 rounded-full bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center flex-shrink-0">
                                                 <DynamicIcon name="Check" className="w-2.5 h-2.5 text-zinc-400 dark:text-zinc-300 stroke-[3px]" />

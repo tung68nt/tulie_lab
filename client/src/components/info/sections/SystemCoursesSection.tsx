@@ -92,11 +92,10 @@ export const SystemCoursesSection: React.FC<SystemCoursesSectionProps> = ({ sect
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
                     ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
-                    : "bg-background"
+                    : "bg-background dark:text-white"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />
