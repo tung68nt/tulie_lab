@@ -30,11 +30,11 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 glowVariant={5} // Unique variant for BonusSection
             />
 
-            <div className="container relative z-10 pt-16">
-                <div className="flex flex-col items-center mb-12">
-                    <div className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-red-600 text-white shadow-[0_10px_30px_-10px_rgba(255,0,0,1)] border border-red-500/50 mb-8 animate-bounce-subtle">
-                        <Gift className="w-5 h-5 fill-white/20" />
-                        <span className="text-sm md:text-base font-bold tracking-tight">Quà tặng giới hạn</span>
+            <div className="container relative z-10 pt-8">
+                <div className="flex flex-col items-center mb-10">
+                    <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-[#FF3B30] text-white shadow-[0_10px_30px_-10px_rgba(255,59,48,0.5)] border border-white/20 mb-6 animate-bounce-subtle">
+                        <Gift className="w-6 h-6 fill-white/20" />
+                        <span className="text-base md:text-lg font-medium tracking-tight">Quà tặng giới hạn</span>
                     </div>
                     <StandardSectionHeader
                         section={section}
