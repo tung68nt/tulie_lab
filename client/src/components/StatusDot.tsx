@@ -21,7 +21,7 @@ export const StatusDot: React.FC<StatusDotProps> = ({
         primary: 'bg-primary',
         green: 'bg-green-500',
         red: 'bg-red-500',
-        auto: 'bg-zinc-950 dark:bg-zinc-100'
+        auto: 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
     };
 
     const bgColor = colorClasses[color] || colorClasses.white;

@@ -20,9 +20,9 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     return (
         <div className={cn(
             "inline-flex h-9 items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold mb-6 shadow-xl backdrop-blur-md select-none transition-all duration-300",
-            variant === 'dark' && "border-zinc-800 bg-black text-white shadow-md",
-            variant === 'light' && "border-black/5 bg-white text-zinc-950 shadow-sm",
-            variant === 'default' && "border-black/5 bg-white text-zinc-950 shadow-sm dark:border-zinc-800 dark:bg-black dark:text-white",
+            variant === 'dark' && "border-white/10 bg-zinc-900/50 text-white shadow-xl",
+            variant === 'light' && "border-black/10 bg-white/80 text-zinc-950 shadow-sm",
+            variant === 'default' && "border-black/5 bg-white text-zinc-950 shadow-sm dark:border-white/10 dark:bg-zinc-900/50 dark:text-white",
             className
         )}>
             <StatusDot color={

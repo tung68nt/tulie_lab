@@ -14,8 +14,9 @@ interface ProcessSectionProps {
 }
 
 import { SectionBackground } from '../SectionBackground';
-import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { StandardSectionHeader } from '../StandardSectionHeader';
 import { FadeIn } from '@/components/animations/FadeIn';
+import { cn } from '@/lib/utils';
 
 export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProps) => {
     if (!section.items) return null;
@@ -30,7 +31,11 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                 glowVariant={10}
             />
             <div className="container relative z-10">
-                <StandardSectionHeader section={section} align="center" />
+                <FadeIn direction="up">
+                    <StandardSectionHeader
+                        section={section}
+                    />
+                </FadeIn>
 
                 {/* Decorative Background Elements */}
                 <div className="absolute top-20 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 pointer-events-none" />
@@ -74,8 +79,18 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                         </div>
                                         {/* Content */}
                                         <div className="w-full flex-1 p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
-                                            <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                                            <div className="text-muted-foreground text-sm whitespace-pre-line">{item.description}</div>
+                                            <h3 className={cn(
+                                                "text-xl font-bold mb-3 tracking-tight",
+                                                section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
+                                            )}>
+                                                {String(item.title || '')}
+                                            </h3>
+                                            <p className={cn(
+                                                "text-zinc-500 line-relaxed",
+                                                section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-500 dark:text-zinc-400"
+                                            )}>
+                                                {String(item.description || item.label || '')}
+                                            </p>
                                         </div>
                                     </div>
                                 </FadeIn>

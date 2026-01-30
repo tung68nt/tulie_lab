@@ -57,7 +57,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
         } else if (dynamicMainProduct) {
             mainProduct = {
                 id: dynamicMainProduct.id,
-                title: dynamicMainProduct.name,
+                title: dynamicMainProduct.title || dynamicMainProduct.name || 'Sản phẩm không tên',
                 price: Number(dynamicMainProduct.price || 0),
                 image: dynamicMainProduct.image || section.image,
                 originalPrice: Number(dynamicMainProduct.originalPrice || dynamicMainProduct.price || 0)
@@ -524,7 +524,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                 // Add dynamic upsell product to the list
                                 combinedItems.push({
                                     id: upsellProduct.id,
-                                    title: upsellProduct.name,
+                                    title: upsellProduct.title || upsellProduct.name || 'Gói bổ trợ',
                                     price: upsellProduct.price,
                                     salePrice: Number(upsellPrice) > 0 ? Number(upsellPrice) : (upsellProduct.salePrice || upsellProduct.price),
                                     image: upsellProduct.image,

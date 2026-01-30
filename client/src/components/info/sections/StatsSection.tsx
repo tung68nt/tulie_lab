@@ -2,6 +2,7 @@ import { Section } from '@/types/sections';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { FadeIn } from '@/components/animations/FadeIn';
+import { cn } from '@/lib/utils';
 
 import { SectionBackground } from '../SectionBackground';
 
@@ -16,9 +17,11 @@ export function StatsSection({ section }: { section: Section }) {
                 glowVariant={6}
             />
             <div className="container relative z-10">
-                <StandardSectionHeader
-                    section={section}
-                />
+                <FadeIn direction="up">
+                    <StandardSectionHeader
+                        section={section}
+                    />
+                </FadeIn>
 
                 <div className={`grid gap-6 ${section.items && section.items.length === 1 ? 'grid-cols-1 max-w-sm mx-auto' :
                     section.items && section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-3xl mx-auto' :
@@ -43,12 +46,16 @@ export function StatsSection({ section }: { section: Section }) {
                                         <DynamicIcon name={item.icon || 'Star'} className="h-8 w-8" strokeWidth={2} />
                                     </div>
 
-                                    <h3 className={`text-2xl font-bold mb-4 ${section.backgroundTheme === 'dark' ? 'text-white' : 'text-foreground'
-                                        }`}>
+                                    <h3 className={cn(
+                                        "text-2xl font-bold mb-4",
+                                        section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
+                                    )}>
                                         {String(item.title || '')}
                                     </h3>
-                                    <p className={`text-lg leading-relaxed ${section.backgroundTheme === 'dark' ? 'text-zinc-400' : 'text-muted-foreground'
-                                        }`}>
+                                    <p className={cn(
+                                        "text-lg leading-relaxed",
+                                        section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-500 dark:text-zinc-400"
+                                    )}>
                                         {String(item.description || item.label || '')}
                                     </p>
                                     {Boolean(item.value) && (

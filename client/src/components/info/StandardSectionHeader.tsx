@@ -2,6 +2,7 @@ import React from 'react';
 import { SectionTag } from '@/components/SectionTag';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
+import { FadeIn } from '../animations/FadeIn';
 
 interface StandardSectionHeaderProps {
     section: Partial<Section>; // Allow partial so we can pass ad-hoc objects if needed
@@ -47,10 +48,10 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     // Otherwise (auto), we use standard colors that adapt to system theme (zinc-900 / dark:white).
 
     const titleGradientClass = isDarkBg
-        ? "text-zinc-50"
+        ? "text-white"
         : isLightBg
-            ? "text-zinc-900"
-            : "text-zinc-900 dark:text-zinc-50";
+            ? "text-zinc-950"
+            : "text-zinc-950 dark:text-white";
 
     const subtitleClass = isDarkBg
         ? "text-zinc-300"
@@ -62,28 +63,34 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
         <div className={cn("mb-10 md:mb-16 relative z-10 flex flex-col", alignClass, className)}>
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
-                    <SectionTag variant={isDarkBg ? 'dark' : isLightBg ? 'light' : 'default'}>
-                        {tag}
-                    </SectionTag>
+                    <FadeIn direction="up" delay={0.1} duration={0.5}>
+                        <SectionTag variant={isDarkBg ? 'dark' : isLightBg ? 'light' : 'default'}>
+                            {tag}
+                        </SectionTag>
+                    </FadeIn>
                 </div>
             )}
 
-            <h2 className={cn(
-                "text-4xl md:text-5xl font-bold mb-6 leading-[1.15] py-2",
-                titleGradientClass,
-                align === 'center' ? 'px-4' : 'pr-4'
-            )}>
-                {title}
-            </h2>
+            <FadeIn direction="up" delay={0.2} duration={0.5}>
+                <h2 className={cn(
+                    "text-4xl md:text-5xl font-bold mb-6 leading-[1.15] py-2",
+                    titleGradientClass,
+                    align === 'center' ? 'px-4' : 'pr-4'
+                )}>
+                    {title}
+                </h2>
+            </FadeIn>
 
             {subtitle && (
-                <p className={cn(
-                    "text-lg md:text-xl leading-relaxed max-w-3xl",
-                    subtitleClass,
-                    align === 'center' ? 'mx-auto px-4' : 'pr-4'
-                )}>
-                    {subtitle}
-                </p>
+                <FadeIn direction="up" delay={0.3} duration={0.5}>
+                    <p className={cn(
+                        "text-lg md:text-xl leading-relaxed max-w-3xl",
+                        subtitleClass,
+                        align === 'center' ? 'mx-auto px-4' : 'pr-4'
+                    )}>
+                        {subtitle}
+                    </p>
+                </FadeIn>
             )}
 
             {children}

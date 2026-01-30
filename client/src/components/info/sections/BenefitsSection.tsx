@@ -1,7 +1,9 @@
 import { DynamicIcon } from '@/components/DynamicIcon';
 import Link from 'next/link';
 import { BENEFITS_DATA } from '@/lib/benefits';
-import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { StandardSectionHeader } from '../StandardSectionHeader';
+import { FadeIn } from '@/components/animations/FadeIn';
+import { cn } from '@/lib/utils';
 
 import { Section } from '@/types/sections';
 
@@ -30,7 +32,11 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
             />
 
             <div className="container relative z-10">
-                <StandardSectionHeader section={section} align="center" />
+                <FadeIn direction="up">
+                    <StandardSectionHeader
+                        section={section}
+                    />
+                </FadeIn>
 
                 <div className="flex flex-wrap justify-center gap-6">
                     {displayItems.map((item: any, idx) => (

@@ -7,6 +7,7 @@ import { SectionBackground } from '../SectionBackground';
 import { SectionTag } from '@/components/SectionTag';
 import { cn } from '@/lib/utils';
 import { FadeIn } from '@/components/animations/FadeIn';
+import { StandardSectionHeader } from '../StandardSectionHeader';
 
 export const CurriculumSection = ({ section }: { section: Section }) => {
     const modules = section.items || [];
@@ -23,18 +24,11 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
             />
 
             <div className="container px-4 mx-auto relative z-10">
-                {/* Centered Header */}
-                <div className="max-w-4xl mx-auto text-center mb-16 md:mb-24 space-y-6">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary mb-4 font-bold">
-                        <span className="text-xs tracking-wide">Lộ trình học tập</span>
-                    </div>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
-                        {String(section.title || "Lộ trình học tập Chuyên sâu")}
-                    </h2>
-                    <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                        {String(section.subtitle || "Các khóa học được sắp xếp theo trình tự logic, giúp bạn nắm vững kiến thức từ nền tảng đến chuyên sâu.")}
-                    </p>
-                </div>
+                <FadeIn direction="up">
+                    <StandardSectionHeader
+                        section={section}
+                    />
+                </FadeIn>
 
                 {/* Vertical Stack Content */}
                 <div className="max-w-[1100px] mx-auto space-y-16">
