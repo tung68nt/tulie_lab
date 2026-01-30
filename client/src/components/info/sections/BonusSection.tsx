@@ -25,7 +25,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity !== undefined ? section.overlayOpacity : 0.8}
                 glowVariant={5} // Unique variant for BonusSection
             />

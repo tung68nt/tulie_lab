@@ -13,7 +13,7 @@ export function ComparisonSection({ section }: { section: Section }) {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={11}
             />
@@ -40,7 +40,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                                         <div className="flex justify-between items-start gap-4">
                                             <CardTitle className={cn(
                                                 "text-xl font-bold",
-                                                section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-zinc-900"
+                                                section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-foreground"
                                             )}>
                                                 {item.title}
                                             </CardTitle>
@@ -59,7 +59,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                                     {item.description && (
                                         <p className={cn(
                                             "text-sm leading-relaxed",
-                                            section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-600"
+                                            section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
                                         )}>
                                             {item.description}
                                         </p>
@@ -84,8 +84,8 @@ export function ComparisonSection({ section }: { section: Section }) {
                                                 <span className={cn(
                                                     "text-sm",
                                                     index === 1
-                                                        ? (section.backgroundTheme === 'dark' ? "font-medium text-zinc-200" : "font-medium text-zinc-900")
-                                                        : (section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-500")
+                                                        ? (section.backgroundTheme === 'dark' ? "font-medium text-zinc-200" : "font-medium text-foreground")
+                                                        : (section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground")
                                                 )}>
                                                     {feat}
                                                 </span>

@@ -17,7 +17,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={2}
             />
@@ -68,7 +68,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                             <div>
                                                 <h3 className={cn(
                                                     "text-2xl md:text-3xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors",
-                                                    section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-zinc-900"
+                                                    section.backgroundTheme === 'dark' ? "text-white" : "text-foreground"
                                                 )}>
                                                     {String(module.title || '')}
                                                 </h3>

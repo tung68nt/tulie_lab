@@ -63,7 +63,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={section.backgroundTheme === 'dark'}
                 glowVariant={7}

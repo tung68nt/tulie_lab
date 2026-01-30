@@ -32,7 +32,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
     return (
         <section className={cn(
             "relative w-full overflow-hidden py-16 md:py-24 transition-all duration-500",
-            section.backgroundTheme === 'dark' ? "bg-[#050505] text-white" : "bg-background"
+            section.backgroundTheme === 'dark' ? "bg-black text-white" : "bg-background text-foreground"
         )}>
             {/* Ambient Background Effects */}
             {section.backgroundTheme === 'dark' && (
@@ -67,7 +67,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             "text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight py-2",
                             section.backgroundTheme === 'dark'
                                 ? "text-white"
-                                : "text-foreground bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white"
+                                : "text-foreground"
                         )}>
                             {section.title}
                         </h1>
@@ -75,7 +75,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                         {/* Subtitle */}
                         <p className={cn(
                             "mx-auto lg:mx-0 max-w-[600px] text-base md:text-lg lg:text-xl leading-relaxed",
-                            section.backgroundTheme === 'dark' ? "text-zinc-100" : "text-muted-foreground"
+                            section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {section.subtitle}
                         </p>
@@ -100,7 +100,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme === 'dark'
                                             ? "bg-white text-black hover:bg-zinc-200"
-                                            : "bg-black text-white hover:bg-zinc-800"
+                                            : "bg-primary text-primary-foreground hover:bg-primary/90"
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
@@ -114,7 +114,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     "w-full sm:w-auto text-base px-8 h-12 font-bold transition-all backdrop-blur-sm",
                                     section.backgroundTheme === 'dark'
                                         ? "border-white/40 text-white hover:bg-white/10"
-                                        : "border-black/20 text-black hover:bg-black/5"
+                                        : "border-input bg-background hover:bg-accent hover:text-accent-foreground"
                                 )}>
                                     Liên hệ tư vấn
                                 </Button>
@@ -124,7 +124,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
                             "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-bold",
-                            section.backgroundTheme === 'dark' ? "text-white" : "text-muted-foreground"
+                            section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div
@@ -132,8 +132,8 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     className={cn(
                                         "flex items-center gap-3 px-4 py-2 rounded-full shadow-lg group/indicator transition-all",
                                         section.backgroundTheme === 'dark'
-                                            ? "bg-black border border-zinc-800 text-white hover:bg-zinc-900"
-                                            : "bg-white border border-black/5 text-black hover:bg-zinc-50"
+                                            ? "bg-black/50 border border-zinc-800 text-white hover:bg-zinc-900"
+                                            : "bg-background border border-border text-foreground hover:bg-accent/50"
                                     )}
                                 >
                                     <StatusDot color={section.backgroundTheme === 'dark' ? "white" : "black"} />
@@ -151,7 +151,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 {/* Glow background */}
                                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-3xl opacity-50 transition-opacity duration-1000 group-hover:opacity-70"></div>
 
-                                <div className="relative bg-white/5 dark:bg-zinc-900/40 backdrop-blur-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.6)]">
+                                <div className="relative bg-card/80 dark:bg-zinc-900/40 backdrop-blur-3xl border border-border/50 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.6)]">
                                     {/* Glass glow internally */}
                                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] opacity-50 pointer-events-none" />
                                     <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] opacity-30 pointer-events-none" />
@@ -168,7 +168,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                         {/* Status Badge - No uppercase */}
                                         <div className="absolute top-6 left-6 z-10">
-                                            <div className="bg-black/40 backdrop-blur-md text-white text-[11px] font-bold px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
+                                            <div className="bg-black/60 backdrop-blur-md text-white text-[11px] font-bold px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
                                                 <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
                                                 {isCombo ? 'Combo lộ trình' : 'Khóa học'}
                                             </div>
@@ -179,7 +179,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     <div className="p-8 space-y-6">
                                         <div className="flex justify-between items-start">
                                             <div className="space-y-1">
-                                                <h3 className="font-bold text-xl md:text-2xl leading-tight">
+                                                <h3 className="font-bold text-xl md:text-2xl leading-tight text-foreground">
                                                     {courseTitle}
                                                 </h3>
                                                 <p className="text-muted-foreground text-sm line-clamp-1">
@@ -187,27 +187,27 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                 </p>
                                             </div>
                                             {/* Rating */}
-                                            <div className="flex items-center gap-1 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-lg">
+                                            <div className="flex items-center gap-1 bg-muted px-2 py-1 rounded-lg">
                                                 <Star className="w-3.5 h-3.5 fill-yellow-500 text-yellow-500" />
-                                                <span className="text-xs font-bold">4.9</span>
+                                                <span className="text-xs font-bold text-foreground">4.9</span>
                                             </div>
                                         </div>
 
                                         {/* Price Section - Simplified layout */}
-                                        <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 space-y-6">
+                                        <div className="pt-6 border-t border-border space-y-6">
                                             <div className="flex items-end justify-between gap-4">
                                                 <div className="space-y-1">
-                                                    <p className="text-[11px] font-bold text-zinc-400">Học phí</p>
+                                                    <p className="text-[11px] font-bold text-muted-foreground">Học phí</p>
                                                     <div className="flex items-center gap-3">
                                                         <span className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
                                                             {formatCurrency(salePrice)}
                                                         </span>
                                                         {originalPrice > salePrice && (
                                                             <div className="flex items-center gap-3">
-                                                                <span className="text-sm text-zinc-400 line-through font-medium opacity-60">
+                                                                <span className="text-sm text-muted-foreground line-through font-medium opacity-60">
                                                                     {formatCurrency(originalPrice)}
                                                                 </span>
-                                                                <div className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-[11px] font-bold py-1 px-2.5 rounded-lg border border-red-100 dark:border-red-500/20">
+                                                                <div className="bg-red-500/10 text-red-500 text-[11px] font-bold py-1 px-2.5 rounded-lg border border-red-500/20">
                                                                     -{Math.round((1 - salePrice / (originalPrice || 1)) * 100)}%
                                                                 </div>
                                                             </div>
@@ -218,7 +218,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                             {/* Activation Type - No uppercase */}
                                             <div className="space-y-3">
-                                                <p className="text-[11px] text-zinc-400 font-bold">Hình thức kích hoạt:</p>
+                                                <p className="text-[11px] text-muted-foreground font-bold">Hình thức kích hoạt:</p>
                                                 <div className="grid grid-cols-2 gap-3">
                                                     {[
                                                         { id: 'EMAIL', label: 'Học ngay (qua Email)' },
@@ -230,8 +230,8 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                             className={cn(
                                                                 "text-[11px] px-4 py-2.5 rounded-xl border transition-all duration-300 font-bold",
                                                                 activationType === item.id
-                                                                    ? "bg-zinc-900 text-white dark:bg-white dark:text-black border-zinc-900 dark:border-white shadow-lg"
-                                                                    : "bg-transparent text-zinc-500 border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-600"
+                                                                    ? "bg-primary text-primary-foreground border-primary shadow-lg"
+                                                                    : "bg-transparent text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
                                                             )}
                                                         >
                                                             {item.label}
@@ -243,7 +243,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             {/* Main Buy Button */}
                                             <Button
                                                 size="lg"
-                                                className="w-full font-bold text-sm shadow-2xl border-0 h-14 mt-4 transition-all hover:scale-[1.02] active:scale-[0.98] bg-white text-black hover:bg-zinc-200 shadow-white/5 flex items-center justify-center gap-3 group"
+                                                className="w-full font-bold text-sm shadow-2xl border-0 h-14 mt-4 transition-all hover:scale-[1.02] active:scale-[0.98] bg-primary text-primary-foreground hover:opacity-90 shadow-primary/5 flex items-center justify-center gap-3 group"
                                                 onClick={() => {
                                                     const url = isCombo
                                                         ? `/checkout?bundleId=${mainCourse.id}&activationType=${activationType}`
@@ -252,7 +252,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                 }}
                                             >
                                                 {activationType === 'CODE' ? 'Mua mã ngay' : 'Đăng ký ngay'}
-                                                <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                                                <div className="w-8 h-8 rounded-full bg-background text-foreground flex items-center justify-center group-hover:translate-x-1 transition-transform">
                                                     <ChevronRight className="w-5 h-5" />
                                                 </div>
                                             </Button>
@@ -261,7 +261,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         </div>
 
                                         {/* Quick Features */}
-                                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-dashed">
+                                        <div className="grid grid-cols-2 gap-3 pt-4 border-t border-dashed border-border">
                                             {[
                                                 { icon: Zap, label: "Truy cập trọn đời", color: "text-amber-500" },
                                                 { icon: BookOpen, label: isCombo ? "Hệ thống khoá học" : "Video bài giảng 4K", color: "text-blue-500" }
@@ -279,7 +279,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             /* Standard Hero Image */
                             <div className="relative group">
                                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50"></div>
-                                <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-black/5 dark:ring-white/10 overflow-hidden bg-muted">
+                                <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-border overflow-hidden bg-muted">
                                     {section.image && (
                                         <Image
                                             src={section.image}

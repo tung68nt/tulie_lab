@@ -528,18 +528,20 @@ export default function AdminDashboardPage() {
             </AdminPageHeader>
 
 
-            {/* Stats Cards */}
+            {/* Stats Cards - Redesigned (Monochrome) */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
-                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-primary/5 mb-2">
-                            <DollarSign className="w-8 h-8 text-primary" strokeWidth={1.5} />
+                <Card className="border shadow-sm">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
+                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <DollarSign className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="text-3xl font-medium tracking-normal text-foreground">
-                            {formatCurrency(data.totalRevenue)}
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground">
+                                {formatCurrency(data.totalRevenue)}
+                            </div>
+                            <div className="text-sm font-bold text-muted-foreground">Doanh thu</div>
                         </div>
-                        <div className="text-sm font-medium text-muted-foreground">Doanh thu</div>
-                        <div className="text-xs text-muted-foreground/80 pt-1">
+                        <div className="text-xs text-muted-foreground font-medium">
                             {data.totalRevenue > 0
                                 ? `+${formatCurrency(data.monthlyRevenue)} tháng này`
                                 : 'Chưa có doanh thu'}
@@ -547,46 +549,52 @@ export default function AdminDashboardPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
-                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-green-500/10 mb-2">
-                            <CheckCircle2 className="w-8 h-8 text-green-600 dark:text-green-400" strokeWidth={1.5} />
+                <Card className="border shadow-sm">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
+                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <CheckCircle2 className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="text-3xl font-medium tracking-normal text-foreground">
-                            {data.paidOrders}
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground">
+                                {data.paidOrders}
+                            </div>
+                            <div className="text-sm font-bold text-muted-foreground">Đơn thành công</div>
                         </div>
-                        <div className="text-sm font-medium text-muted-foreground">Đơn thành công</div>
-                        <div className="text-xs text-muted-foreground/80 pt-1">
+                        <div className="text-xs text-muted-foreground font-medium">
                             Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
-                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-orange-500/10 mb-2">
-                            <Clock className="w-8 h-8 text-orange-600 dark:text-orange-400" strokeWidth={1.5} />
+                <Card className="border shadow-sm">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
+                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <Clock className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="text-3xl font-medium tracking-normal text-foreground">
-                            {data.pendingOrders}
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground">
+                                {data.pendingOrders}
+                            </div>
+                            <div className="text-sm font-bold text-muted-foreground">Đợi xử lý</div>
                         </div>
-                        <div className="text-sm font-medium text-muted-foreground">Đợi xử lý</div>
-                        <div className="text-xs text-muted-foreground/80 pt-1">
+                        <div className="text-xs text-muted-foreground font-medium">
                             Cần duyệt: {data.pendingOrders} đơn
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
-                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-blue-500/10 mb-2">
-                            <Users className="w-8 h-8 text-blue-600 dark:text-blue-400" strokeWidth={1.5} />
+                <Card className="border shadow-sm">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-4">
+                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <Users className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="text-3xl font-medium tracking-normal text-foreground">
-                            {data.totalUsers}
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground">
+                                {data.totalUsers}
+                            </div>
+                            <div className="text-sm font-bold text-muted-foreground">Học viên</div>
                         </div>
-                        <div className="text-sm font-medium text-muted-foreground">Học viên</div>
-                        <div className="text-xs text-muted-foreground/80 pt-1">
+                        <div className="text-xs text-muted-foreground font-medium">
                             {data.activeUsers} đang hoạt động
                         </div>
                     </CardContent>

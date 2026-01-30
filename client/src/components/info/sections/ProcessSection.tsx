@@ -25,7 +25,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={10}
             />

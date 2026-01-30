@@ -22,7 +22,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}
-                <StandardSectionHeader section={section} />
+                <StandardSectionHeader section={{ ...section, backgroundTheme: isDark ? 'dark' : 'light' }} />
 
                 {/* Dynamic Cards */}
                 <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-16">
