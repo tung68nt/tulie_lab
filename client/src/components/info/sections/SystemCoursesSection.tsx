@@ -47,13 +47,13 @@ function SystemCoursesContent() {
     }, [searchParams]);
 
     return (
-        <FadeIn direction="up" delay={0.4} duration={0.6}>
-            <div className="flex flex-col lg:flex-row gap-12 items-start">
-                {/* Sidebar Filter */}
-                <CourseFilter />
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
+            {/* Sidebar Filter */}
+            <CourseFilter />
 
-                {/* Course Grid */}
-                <main className="flex-1">
+            {/* Course Grid */}
+            <main className="flex-1">
+                <FadeIn direction="up" delay={0.4} duration={0.6} fullWidth>
                     {loading ? (
                         <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
                             {[1, 2, 3, 4].map(i => (
@@ -76,9 +76,9 @@ function SystemCoursesContent() {
                             <p className="text-muted-foreground mb-8">Chúng tôi chưa tìm thấy khóa học nào phù hợp với bộ lọc này.</p>
                         </div>
                     )}
-                </main>
-            </div>
-        </FadeIn>
+                </FadeIn>
+            </main>
+        </div>
     );
 }
 

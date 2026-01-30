@@ -98,13 +98,15 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
     };
 
     return (
-        <section className="py-10 md:py-16 bg-background relative overflow-hidden">
-            <SectionBackground
-                backgroundImage={section.backgroundImage}
-                backgroundTheme={section.backgroundTheme || 'light'}
-                overlayOpacity={section.overlayOpacity}
-                showDotPattern={true}
-            />
+        <section className="py-10 md:py-16 bg-background relative">
+            <div className="absolute inset-0 overflow-hidden">
+                <SectionBackground
+                    backgroundImage={section.backgroundImage}
+                    backgroundTheme={section.backgroundTheme || 'light'}
+                    overlayOpacity={section.overlayOpacity}
+                    showDotPattern={true}
+                />
+            </div>
             <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter */}
