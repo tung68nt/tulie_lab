@@ -101,7 +101,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                     <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
                                         <div className="space-y-6">
                                             <div className="space-y-4">
-                                                <SectionTag variant="black-pill" className="border-white/10 backdrop-blur-md shadow-xl">Combo Lộ Trình</SectionTag>
+                                                <SectionTag variant="black-pill">Combo Lộ Trình</SectionTag>
 
                                                 <h3 className={cn(
                                                     "text-2xl md:text-3xl font-bold font-heading leading-tight group-hover:text-primary transition-colors",

@@ -7,6 +7,7 @@ import { SectionBackground } from '../SectionBackground';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { SectionTag } from '@/components/SectionTag';
 
 export const CTABoxSection = ({ section }: { section: Section }) => {
     const isDarkBg = section.backgroundTheme === 'dark';
@@ -42,11 +43,10 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-2 justify-center md:justify-start">
                                         {section.tag && (
-                                            <span className="text-sm font-bold tracking-wider text-primary uppercase">
+                                            <SectionTag variant={isDarkBg ? 'black-pill' : 'default'}>
                                                 {section.tag}
-                                            </span>
+                                            </SectionTag>
                                         )}
-                                        <div className="w-2 h-2 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
                                     </div>
                                     <h3 className={cn(
                                         "text-3xl md:text-4xl font-bold tracking-tight",

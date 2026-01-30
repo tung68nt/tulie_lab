@@ -142,7 +142,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         "flex items-center gap-3 px-4 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900"
                                     )}
                                 >
-                                    <StatusDot color="white" />
+                                    <StatusDot color="white" className="w-1.5 h-1.5" />
                                     <span className="not-italic">{indicator}</span>
                                 </div>
                             ))}
@@ -174,10 +174,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                         {/* Status Badge - No uppercase */}
                                         <div className="absolute top-6 left-6 z-10">
-                                            <div className="bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
-                                                <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+                                            <SectionTag variant="black-pill" className="h-7 border-white/20 bg-black/60 shadow-none backdrop-blur-md">
                                                 {isCombo ? 'Combo lộ trình' : 'Khóa học'}
-                                            </div>
+                                            </SectionTag>
                                         </div>
                                     </div>
 

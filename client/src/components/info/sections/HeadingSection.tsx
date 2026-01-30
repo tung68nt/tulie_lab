@@ -13,7 +13,9 @@ export const HeadingSection = ({ section }: { section: Section }) => {
     return (
         <section className={cn(
             "py-12 relative overflow-hidden",
-            (section.backgroundTheme === 'dark' || !section.backgroundTheme) ? "bg-[#050505] text-white" : "bg-background text-foreground",
+            (section.backgroundTheme === 'dark' || !section.backgroundTheme)
+                ? "bg-[#050505] text-white"
+                : "bg-white text-zinc-900",
             section.className
         )}>
             <SectionBackground
@@ -43,9 +45,7 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                                 "text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight",
                                 (section.backgroundTheme === 'dark' || !section.backgroundTheme)
                                     ? "text-white"
-                                    : section.backgroundTheme === 'light'
-                                        ? "text-zinc-900"
-                                        : "text-zinc-900 dark:text-white"
+                                    : "text-zinc-900 dark:text-white"
                             )}>
                                 {section.title}
                             </h2>
@@ -54,11 +54,9 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                         {section.subtitle && (
                             <p className={cn(
                                 "text-lg",
-                                section.backgroundTheme === 'dark'
+                                (section.backgroundTheme === 'dark' || !section.backgroundTheme)
                                     ? "text-zinc-400"
-                                    : section.backgroundTheme === 'light'
-                                        ? "text-zinc-600"
-                                        : "text-zinc-600 dark:text-zinc-400"
+                                    : "text-zinc-600 dark:text-zinc-400"
                             )}>
                                 {section.subtitle}
                             </p>

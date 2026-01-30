@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader } from './Card';
+import { Badge } from '@/components/Badge';
+import { SectionTag } from '@/components/SectionTag';
+import { BookOpen, Clock, Users, Play, Star, ChevronRight, Layout, Code, Key, Zap, Package } from 'lucide-react';
 import { Button } from './Button';
 import { sendGTMEvent } from '@/lib/gtm';
 
@@ -14,9 +17,11 @@ interface CourseCardProps {
     thumbnail?: string;
     deploymentStatus?: 'RELEASED' | 'COMING_SOON' | 'UPDATING';
     tag?: 'NONE' | 'BEST_SELLER' | 'HOT' | 'NEW' | 'DISCOUNT';
+    isBundle?: boolean;
+    category?: string;
 }
 
-export function CourseCard({ title, slug, description, price, originalPrice, thumbnail, deploymentStatus = 'RELEASED', tag = 'NONE' }: CourseCardProps) {
+export function CourseCard({ title, slug, description, price, originalPrice, thumbnail, deploymentStatus = 'RELEASED', tag = 'NONE', isBundle = false, category }: CourseCardProps) {
     const handleCardClick = () => {
         sendGTMEvent('view_item', {
             currency: 'VND',
@@ -47,7 +52,15 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                     )}
 
                     {/* Tags on Thumbnail */}
-                    <div className="absolute top-4 left-4 flex flex-col gap-2">
+                    <div className="absolute top-4 left-4 flex flex-col gap-2 z-10 transition-transform duration-500 group-hover:translate-x-1">
+                        <Badge variant="secondary" showDot className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1 px-3">
+                            {isBundle ? 'Combo lộ trình' : 'Khóa học'}
+                        </Badge>
+                        {category && (
+                            <Badge variant="secondary" showDot className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1 px-3">
+                                {category}
+                            </Badge>
+                        )}
                         {price === 0 && deploymentStatus === 'RELEASED' && (
                             <div className="rounded-md bg-white/90 backdrop-blur-md px-2 py-1 text-[10px] font-semibold text-black border border-zinc-200">
                                 Miễn phí
