@@ -83,10 +83,10 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                     <DotPatternBackground
                         className={cn(
                             (backgroundTheme === 'dark' || isDarkTheme)
-                                ? "text-white/[0.25]" // Increased from 0.12
+                                ? backgroundImage ? "text-white/[0.25]" : "text-white/[0.15]"
                                 : backgroundTheme === 'light'
-                                    ? "text-black/[0.12]" // Increased from 0.08
-                                    : "text-black/[0.08] dark:text-white/[0.2]" // Increased from 0.05/0.1
+                                    ? "text-black/[0.12]"
+                                    : "text-black/[0.08] dark:text-white/[0.25]"
                         )}
                         withVignette={false}
                     />

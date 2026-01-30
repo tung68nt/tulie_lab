@@ -205,7 +205,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             <div className="w-full">
                                                 <Link href={`/combos/${combo.slug}`}>
                                                     <div className={cn(
-                                                        "h-14 w-full rounded-2xl group-hover:scale-[1.02] flex items-center justify-center gap-3 transition-all duration-300 shadow-xl text-base font-bold border-0",
+                                                        "h-14 w-full rounded-2xl group-hover:scale-[1.02] flex items-center justify-center gap-3 transition-all duration-300 shadow-xl text-base font-semibold border-0",
                                                         section.backgroundTheme === 'dark'
                                                             ? "bg-white text-black hover:bg-zinc-200"
                                                             : section.backgroundTheme === 'light'
