@@ -163,7 +163,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                             <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-xs font-bold">
                                                 {idx + 1}
                                             </span>
-                                            <span className="text-[10px] font-bold py-1 px-3 bg-muted text-muted-foreground rounded-full tracking-wider uppercase">
+                                            <span className="text-[10px] font-bold py-1 px-3 bg-muted text-muted-foreground rounded-full">
                                                 Phần {idx + 1}
                                             </span>
                                         </div>
@@ -188,7 +188,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
                                         <div className="mt-auto pt-8 border-t border-border/50 flex items-center justify-between">
                                             <div className="flex flex-col">
-                                                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Giá gốc khoá học</span>
+                                                <span className="text-[10px] font-bold text-muted-foreground mb-1">Giá gốc khoá học</span>
                                                 <span className="text-lg font-bold text-foreground">{formatCurrency(course.price || 0)}</span>
                                             </div>
                                             <Button variant="ghost" size="sm" className="rounded-full gap-2 font-bold group/btn" onClick={() => router.push(`/courses/${course.slug}`)}>
@@ -222,7 +222,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                                     </div>
                                                 ))}
                                                 {(!course.lessons || course.lessons.length === 0) && (
-                                                    <p className="text-sm text-muted-foreground italic col-span-2">Đang cập nhật bài học...</p>
+                                                    <p className="text-sm text-muted-foreground col-span-2">Đang cập nhật bài học...</p>
                                                 )}
                                             </div>
                                         </div>
