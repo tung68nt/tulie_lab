@@ -98,7 +98,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
 
                                                     <p className={cn(
                                                         "text-lg line-clamp-2 leading-relaxed max-w-2xl",
-                                                        section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-600"
+                                                        section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-zinc-600"
                                                     )}>
                                                         {combo.description}
                                                     </p>
@@ -150,7 +150,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             {/* Price & Action Row */}
                                             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-8 mt-6">
                                                 <div className="flex flex-col gap-1">
-                                                    <span className="text-sm text-muted-foreground line-through opacity-50 font-medium">
+                                                    <span className="text-sm text-zinc-500 dark:text-zinc-400 line-through opacity-50 font-medium">
                                                         {combo.originalPrice?.toLocaleString('vi-VN')}₫
                                                     </span>
                                                     <div className="flex items-center gap-4">

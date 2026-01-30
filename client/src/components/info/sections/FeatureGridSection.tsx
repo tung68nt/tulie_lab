@@ -35,9 +35,9 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                                         <DynamicIcon name={item.icon} size={48} className="text-white opacity-40 group-hover:opacity-100 transition-opacity" />
                                     </div>
                                 )}
-                                <h3 className="text-2xl font-bold mb-2">{String(item.title || '')}</h3>
-                                <p className="text-neutral-400 text-sm mb-1">{String(item.subtitle || '')}</p>
-                                <p className="text-neutral-500 text-xs">{String(item.description || '')}</p>
+                                <h3 className="text-2xl font-bold mb-2 text-white">{String(item.title || '')}</h3>
+                                <p className="text-zinc-300 text-sm mb-1">{String(item.subtitle || '')}</p>
+                                <p className="text-zinc-400 text-xs">{String(item.description || '')}</p>
                             </div>
                         ))}
                     </div>

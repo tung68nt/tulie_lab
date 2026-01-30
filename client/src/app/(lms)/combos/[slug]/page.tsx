@@ -125,7 +125,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                         {/* Thumbnail Side */}
                         <div className="relative group lg:ml-auto w-full max-w-[440px]">
                             <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-transparent rounded-[2.5rem] blur-3xl opacity-50"></div>
-                            <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl skew-y-1 transform transition-all duration-700 hover:skew-y-0">
+                            <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl transition-all duration-700">
                                 <Image
                                     src={bundle.thumbnail || "/hero_vibe_coding.png"}
                                     alt={bundle.name}

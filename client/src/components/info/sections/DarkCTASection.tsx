@@ -39,7 +39,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                             {section.title || "Sẵn sàng bứt phá thu nhập?"}
                         </h2>
 
-                        <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed font-medium">
+                        <p className="text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed font-medium">
                             {section.subtitle || "Tham gia ngay cộng đồng 2,000+ học viên và sở hữu lộ trình đào tạo thực chiến nhất thị trường."}
                         </p>
 
@@ -86,15 +86,15 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
 
                                 <div className="space-y-4 pt-6 border-t border-white/5">
                                     <div className="flex items-center justify-between text-sm font-medium">
-                                        <span className="text-zinc-400">Thời gian học</span>
+                                        <span className="text-zinc-300">Thời gian học</span>
                                         <span className="text-white">Trọn đời</span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm font-medium">
-                                        <span className="text-zinc-400">Hình thức</span>
+                                        <span className="text-zinc-300">Hình thức</span>
                                         <span className="text-white">Online Video + Live</span>
                                     </div>
                                     <div className="flex items-center justify-between text-sm font-medium">
-                                        <span className="text-zinc-400">Cam kết</span>
+                                        <span className="text-zinc-300">Cam kết</span>
                                         <span className="text-white">Hoàn tiền 100%</span>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                                             </div>
                                         </button>
                                     )}
-                                    <p className="text-center text-[10px] text-zinc-500 mt-4 font-semibold">Đảm bảo bảo mật thanh toán</p>
+                                    <p className="text-center text-[10px] text-zinc-400 mt-4 font-semibold">Đảm bảo bảo mật thanh toán</p>
                                 </div>
                             </div>
                         </div>

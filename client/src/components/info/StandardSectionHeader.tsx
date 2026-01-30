@@ -55,7 +55,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             : "text-zinc-950 dark:text-white";
 
     const subtitleClass = isDarkBg
-        ? "text-zinc-400"
+        ? "text-zinc-300"
         : isLightBg
             ? "text-zinc-600"
             : "text-zinc-600 dark:text-zinc-400";
@@ -65,7 +65,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <FadeIn direction="up" delay={0.1} duration={0.5}>
-                        <SectionTag>
+                        <SectionTag variant={isDarkBg ? 'light' : 'default'}>
                             {tag}
                         </SectionTag>
                     </FadeIn>

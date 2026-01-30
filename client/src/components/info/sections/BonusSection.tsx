@@ -105,9 +105,9 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                         {/* Price Tag Footer */}
                                         <div className="mt-auto flex items-end justify-end gap-3 pt-6 border-t border-white/10">
                                             <div className="text-right">
-                                                <div className="text-sm text-zinc-400 line-through mb-0.5 font-medium">Giá gốc: {parsePrice(item.originalPrice || item.price || 0).toLocaleString('vi-VN')}đ</div>
+                                                <div className="text-sm text-zinc-300 line-through mb-0.5 font-medium">Giá gốc: {parsePrice(item.originalPrice || item.price || 0).toLocaleString('vi-VN')}đ</div>
                                                 <div className="text-2xl font-bold text-[#FF0000] drop-shadow-sm">
-                                                    Miễn phí <span className="text-sm text-gray-400 font-normal ml-1">(Khi mua Combo)</span>
+                                                    Miễn phí <span className="text-sm text-zinc-400 font-normal ml-1">(Khi mua Combo)</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,11 +130,11 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
                             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
                                 <div className="text-center md:text-left space-y-2">
-                                    <h3 className="text-sm md:text-base font-medium text-zinc-400 tracking-wide">
+                                    <h3 className="text-sm md:text-base font-medium text-zinc-300 tracking-wide">
                                         Tổng giá trị quà tặng
                                     </h3>
                                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                                        <span className="text-3xl md:text-4xl text-zinc-500 font-bold line-through decoration-red-500/30">
+                                        <span className="text-3xl md:text-4xl text-zinc-400 font-bold line-through decoration-red-500/30">
                                             {totalValue.toLocaleString('vi-VN')}đ
                                         </span>
                                         <span className="bg-red-500 text-white text-[10px] md:text-xs px-3 py-1 rounded-full font-bold shadow-lg shadow-red-500/20">

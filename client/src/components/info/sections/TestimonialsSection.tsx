@@ -117,7 +117,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                             <h4 className="text-xs font-bold text-red-500 mb-2">Trước khi học</h4>
                                             <div className="">
                                                 {testimonial.before && testimonial.before.map((point: string, i: number) => (
-                                                    <div key={i} className="flex gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+                                                    <div key={i} className="flex gap-2 text-sm text-zinc-500 dark:text-zinc-300 mb-2">
                                                         <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                                                         <span className="line-clamp-2 opacity-80">{point}</span>
                                                     </div>

@@ -86,8 +86,8 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                                 {String(item.title || '')}
                                             </h3>
                                             <p className={cn(
-                                                "text-zinc-500 line-relaxed",
-                                                section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-500 dark:text-zinc-400"
+                                                "line-relaxed",
+                                                section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-zinc-500 dark:text-zinc-300"
                                             )}>
                                                 {String(item.description || item.label || '')}
                                             </p>
@@ -115,8 +115,8 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary font-bold text-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors z-10">
                                         {idx + 1}
                                     </div>
-                                    <h3 className="text-lg font-bold mb-3 z-10">{item.title}</h3>
-                                    <div className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed z-10">{item.description}</div>
+                                    <h3 className="text-lg font-bold mb-3 z-10 text-foreground dark:text-white">{item.title}</h3>
+                                    <div className="text-zinc-500 dark:text-zinc-300 text-sm whitespace-pre-line leading-relaxed z-10">{item.description}</div>
                                 </div>
                             </FadeIn>
                         ))}

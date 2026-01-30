@@ -54,7 +54,7 @@ export function StatsSection({ section }: { section: Section }) {
                                     </h3>
                                     <p className={cn(
                                         "text-lg leading-relaxed",
-                                        section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-400 dark:text-zinc-400"
+                                        section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-zinc-500 dark:text-zinc-300"
                                     )}>
                                         {String(item.description || item.label || '')}
                                     </p>

@@ -62,7 +62,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                         {item.title || item.label}
                                     </h3>
 
-                                    <p className="text-muted-foreground leading-relaxed text-sm flex-1">
+                                    <p className="text-zinc-500 dark:text-zinc-300 leading-relaxed text-sm flex-1">
                                         {item.description || item.content || 'Nội dung chi tiết đang được cập nhật.'}
                                     </p>
 

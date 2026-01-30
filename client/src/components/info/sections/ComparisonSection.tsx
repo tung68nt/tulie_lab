@@ -61,7 +61,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                                         {item.description && (
                                             <p className={cn(
                                                 "text-sm leading-relaxed",
-                                                section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
+                                                section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                                             )}>
                                                 {item.description}
                                             </p>
@@ -80,14 +80,14 @@ export function ComparisonSection({ section }: { section: Section }) {
                                                     ) : (
                                                         <span className={cn(
                                                             "text-xl leading-none mt-[-2px]",
-                                                            section.backgroundTheme === 'dark' ? "text-zinc-700" : "text-zinc-300"
+                                                            section.backgroundTheme === 'dark' ? "text-zinc-500" : "text-zinc-300"
                                                         )}>•</span>
                                                     )}
                                                     <span className={cn(
                                                         "text-sm",
                                                         index === 1
-                                                            ? (section.backgroundTheme === 'dark' ? "font-medium text-zinc-200" : "font-medium text-foreground")
-                                                            : (section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground")
+                                                            ? (section.backgroundTheme === 'dark' ? "font-medium text-zinc-100" : "font-medium text-foreground")
+                                                            : (section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground")
                                                     )}>
                                                         {feat}
                                                     </span>

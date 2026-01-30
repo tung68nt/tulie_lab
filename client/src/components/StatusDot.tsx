@@ -27,14 +27,9 @@ export const StatusDot: React.FC<StatusDotProps> = ({
     const bgColor = colorClasses[color as keyof typeof colorClasses] || colorClasses.white;
 
     return (
-        <span className={cn("relative flex h-2 w-2 shrink-0", className)}>
+        <span className={cn("relative flex h-1.5 w-1.5 shrink-0", className)}>
             <span className={cn(
-                "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
-                bgColor,
-                pingClassName
-            )}></span>
-            <span className={cn(
-                "relative inline-flex rounded-full h-2 w-2",
+                "relative inline-flex rounded-full h-full w-full",
                 bgColor,
                 dotClassName
             )}></span>
