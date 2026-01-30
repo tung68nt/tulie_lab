@@ -140,6 +140,10 @@ async function initializeApp() {
     // --- Initialize Dependency Injection ---
     try {
       console.log('📦 Initializing Dependency Injection...');
+      /**
+       * Backend Entry Point
+       * Triggering redeploy for database schema sync
+       */
       const { bootstrapDI } = await import('./bootstrap');
       bootstrapDI();
       console.log('✅ Dependency Injection initialized.');
