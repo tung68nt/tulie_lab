@@ -57,8 +57,6 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                             variant="secondary"
                             showDot
                             animate={false}
-                            bold={false}
-                            size="lg"
                             className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1.5 px-3"
                         >
                             {isBundle ? 'Combo lộ trình' : 'Khóa học'}
@@ -68,8 +66,6 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                                 variant="secondary"
                                 showDot
                                 animate={false}
-                                bold={false}
-                                size="lg"
                                 className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1.5 px-3"
                             >
                                 {category}
