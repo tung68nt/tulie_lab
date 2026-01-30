@@ -178,8 +178,8 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                 variant="black-pill"
                                                 animate={false}
                                                 bold={false}
-                                                size="md"
-                                                className="h-8 border-white/20 bg-black/60 shadow-none backdrop-blur-md"
+                                                size="lg"
+                                                className="h-9 border-white/20 bg-black/60 shadow-none backdrop-blur-md"
                                             >
                                                 {isCombo ? 'Combo lộ trình' : 'Khóa học'}
                                             </SectionTag>
