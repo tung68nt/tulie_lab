@@ -86,8 +86,8 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             ? "bg-white border-zinc-200 shadow-sm"
                                             : "bg-background/50 border-border/40"
                                 )}>
-                                    {/* Thumbnail Section - Left side - Narrower & Standard img for external support */}
-                                    <div className="relative w-full md:w-[35%] h-64 md:h-auto overflow-hidden shrink-0 bg-muted/20">
+                                    {/* Thumbnail Section - Left side - Increased width & Standard img for external support */}
+                                    <div className="relative w-full md:w-[42%] h-64 md:h-auto overflow-hidden shrink-0 bg-muted/20">
                                         <img
                                             src={getMediaUrl(combo.thumbnail || "") || "/hero_vibe_coding.png"}
                                             alt={combo.name}
