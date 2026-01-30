@@ -71,8 +71,8 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                 <div className="container relative z-10 mx-auto px-6 max-w-[1200px]">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div className="flex flex-col">
-                            <SectionTag className="mb-8">
-                                Combo lộ trình chuyên sâu
+                            <SectionTag className="mb-8" variant="black-pill">
+                                Combo Lộ Trình
                             </SectionTag>
 
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.15] mb-8 tracking-tight text-foreground">
@@ -85,7 +85,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
                             <div className="flex flex-col sm:flex-row items-center gap-6 pt-4 border-t border-border/50">
                                 <div className="flex flex-col">
-                                    <span className="text-xs font-bold text-muted-foreground/60 mb-1 leading-none uppercase tracking-wider">Học phí combo</span>
+                                    <span className="text-xs font-bold text-muted-foreground/60 mb-1 leading-none">Học phí combo</span>
                                     <div className="flex items-baseline gap-3">
                                         <span className="text-3xl font-bold text-foreground leading-none">
                                             {formatCurrency(salePrice)}
@@ -111,10 +111,9 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                             <div className="flex flex-wrap items-center gap-8 mt-16 pt-8 border-t border-border/10">
                                 {[
                                     { icon: Clock, label: 'Truy cập trọn đời' },
-                                    { icon: BookOpen, label: `${courses.length} khóa học chuyên nghiệp` },
-                                    { icon: CheckCircle2, label: 'Chứng chỉ hoàn thành' }
+                                    { icon: BookOpen, label: `${courses.length} khóa học chuyên nghiệp` }
                                 ].map((item, i) => (
-                                    <div key={i} className="flex items-center gap-2.5 text-sm font-bold text-muted-foreground/70">
+                                    <div key={i} className="flex items-center gap-2.5 text-sm font-medium text-muted-foreground/70">
                                         <item.icon className="w-4 h-4" strokeWidth={2.5} />
                                         <span>{item.label}</span>
                                     </div>
