@@ -100,7 +100,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme === 'dark'
                                             ? "bg-white text-black hover:bg-zinc-200"
-                                            : "bg-balck text-white hover:bg-zinc-800"
+                                            : "bg-black text-white hover:bg-zinc-800"
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
@@ -110,7 +110,12 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 </Button>
                             )}
                             <Link href="/contact">
-                                <Button as="div" variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 h-12 font-bold border-white/40 text-white hover:bg-white/10 transition-all backdrop-blur-sm">
+                                <Button as="div" variant="outline" size="lg" className={cn(
+                                    "w-full sm:w-auto text-base px-8 h-12 font-bold transition-all backdrop-blur-sm",
+                                    section.backgroundTheme === 'dark'
+                                        ? "border-white/40 text-white hover:bg-white/10"
+                                        : "border-black/20 text-black hover:bg-black/5"
+                                )}>
                                     Liên hệ tư vấn
                                 </Button>
                             </Link>

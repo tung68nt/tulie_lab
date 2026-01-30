@@ -51,7 +51,12 @@ export const CTASection = ({ section }: { section: Section }) => {
                                 });
                             }
                         }}
-                        className="text-lg px-8 py-6 font-bold bg-white text-black hover:bg-zinc-200 transition-colors shadow-xl"
+                        className={cn(
+                            "text-lg px-8 py-6 font-bold transition-colors shadow-xl",
+                            isDark
+                                ? "bg-white text-black hover:bg-zinc-200"
+                                : "bg-black text-white hover:bg-zinc-800"
+                        )}
                     >
                         {section.ctaText || 'Đăng ký ngay'}
                     </Button>
