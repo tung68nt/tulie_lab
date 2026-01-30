@@ -440,7 +440,7 @@ function CheckoutContent() {
                         {/* Invoice & Activation */}
                         <div className="grid gap-6 md:grid-cols-1">
                             {/* Invoice Request */}
-                            <Card className={requestInvoice ? 'border-zinc-900 bg-zinc-50' : ''}>
+                            <Card className={requestInvoice ? 'border-zinc-900 bg-zinc-50 dark:bg-zinc-900/40' : ''}>
                                 <CardHeader className="pb-3">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
@@ -463,7 +463,7 @@ function CheckoutContent() {
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-bold text-zinc-400 tracking-wider">Chọn hồ sơ đã lưu</label>
                                                 <select
-                                                    className="w-full text-sm border rounded-lg px-3 h-10 bg-white"
+                                                    className="w-full text-sm border rounded-lg px-3 h-10 bg-white dark:bg-zinc-900"
                                                     value={selectedInvoiceProfile}
                                                     onChange={(e) => setSelectedInvoiceProfile(e.target.value)}
                                                 >
@@ -477,7 +477,7 @@ function CheckoutContent() {
                                         )}
 
                                         {(invoiceProfiles.length === 0 || selectedInvoiceProfile === 'new') && (
-                                            <div className="grid gap-4 md:grid-cols-2 p-4 bg-white border rounded-xl shadow-sm">
+                                            <div className="grid gap-4 md:grid-cols-2 p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm">
                                                 <div className="space-y-1.5 md:col-span-2">
                                                     <label className="text-[10px] font-bold text-zinc-400">Tên công ty / Đơn vị</label>
                                                     <Input
@@ -668,7 +668,7 @@ function CheckoutContent() {
                                     <Button
                                         onClick={handleCheckout}
                                         disabled={processing}
-                                        className="w-full text-lg font-bold h-14 rounded-xl bg-white text-black hover:bg-zinc-50 shadow-xl border border-zinc-200 dark:border-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                                        className="w-full text-lg font-extrabold h-14 rounded-xl bg-white text-black hover:bg-zinc-50 shadow-xl border border-zinc-200 dark:border-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
                                     >
                                         {processing ? (
                                             <span className="flex items-center gap-2">
@@ -677,7 +677,7 @@ function CheckoutContent() {
                                             </span>
                                         ) : (
                                             <>
-                                                <span className="relative z-10 tracking-wide">
+                                                <span className="relative z-10 tracking-wide font-extrabold">
                                                     {finalAmount === 0 ? 'Đăng ký ngay' : 'Thanh toán ngay'}
                                                 </span>
                                                 <MoveRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform relative z-10" />
