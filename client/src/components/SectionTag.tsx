@@ -8,6 +8,9 @@ interface SectionTagProps {
     variant?: 'light' | 'dark' | 'default' | 'black-pill' | 'yellow' | 'outline' | 'primary';
     showDot?: boolean;
     dotColor?: 'white' | 'black' | 'primary' | 'green' | 'auto' | 'red' | 'blue' | 'yellow';
+    animate?: boolean;
+    bold?: boolean;
+    size?: 'sm' | 'md' | 'lg';
 }
 
 export const SectionTag: React.FC<SectionTagProps> = ({
@@ -15,7 +18,10 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     className,
     variant = 'default',
     showDot = true,
-    dotColor: customDotColor
+    dotColor: customDotColor,
+    animate = true,
+    bold = true,
+    size = 'md'
 }) => {
     const variantClasses = {
         default: "border-zinc-800 bg-black text-white shadow-lg shadow-black/5",
@@ -32,12 +38,16 @@ export const SectionTag: React.FC<SectionTagProps> = ({
 
     return (
         <div className={cn(
-            "inline-flex h-8 items-center gap-2.5 rounded-full border px-4 py-2 text-[11px] font-bold select-none transition-all duration-300",
+            "inline-flex items-center gap-2.5 rounded-full border px-4 py-2 select-none transition-all duration-300",
+            size === 'sm' ? "h-7 text-[10px]" : size === 'lg' ? "h-10 text-[13px] px-5" : "h-8 text-[11px]",
+            bold ? "font-bold" : "font-medium",
             variantClasses,
             className
         )}>
-            {showDot && <StatusDot color={finalDotColor as any} />}
-            <span className="relative top-[0.5px] tracking-wider">
+            {showDot && <StatusDot color={finalDotColor as any} animate={animate} />}
+            <span className={cn(
+                "relative top-[0.5px] tracking-wider first-letter:uppercase",
+            )}>
                 {children}
             </span>
         </div>

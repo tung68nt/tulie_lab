@@ -273,8 +273,11 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                         <Badge
                                                             variant="default"
                                                             showDot
+                                                            animate={false}
+                                                            bold={false}
+                                                            size="md"
                                                             className={cn(
-                                                                "backdrop-blur-md border py-1 px-3 text-xs capitalize flex items-center gap-1.5 transition-all shadow-sm",
+                                                                "backdrop-blur-md border py-1.5 px-3 text-xs flex items-center gap-1.5 transition-all shadow-sm",
                                                                 section.backgroundTheme === 'dark'
                                                                     ? "bg-black/50 border-white/20 text-white"
                                                                     : "bg-white/50 border-black/10 text-black"
@@ -282,11 +285,11 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                         >
                                                             {(() => {
                                                                 switch (product.type) {
-                                                                    case 'TEMPLATE': return <Layout className="w-3 h-3" />;
-                                                                    case 'APP': return <Code className="w-3 h-3" />;
-                                                                    case 'LICENSE': return <Key className="w-3 h-3" />;
-                                                                    case 'SUBSCRIPTION': return <Zap className="w-3 h-3" />;
-                                                                    default: return <Package className="w-3 h-3" />;
+                                                                    case 'TEMPLATE': return <Layout className="w-3.5 h-3.5" />;
+                                                                    case 'APP': return <Code className="w-3.5 h-3.5" />;
+                                                                    case 'LICENSE': return <Key className="w-3.5 h-3.5" />;
+                                                                    case 'SUBSCRIPTION': return <Zap className="w-3.5 h-3.5" />;
+                                                                    default: return <Package className="w-3.5 h-3.5" />;
                                                                 }
                                                             })()}
                                                             {product.type.toLowerCase()}
@@ -298,16 +301,23 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                             <div className="p-6 flex flex-col flex-1">
                                                 <div className="mb-4">
                                                     <div className="flex items-center gap-2 mb-3">
-                                                        <SectionTag variant="primary" showDot className="h-7 px-3">
-                                                            <div className="flex items-center gap-1.5">
+                                                        <SectionTag
+                                                            variant="primary"
+                                                            showDot
+                                                            animate={false}
+                                                            bold={false}
+                                                            size="md"
+                                                            className="h-8 px-3"
+                                                        >
+                                                            <div className="flex items-center gap-2">
                                                                 {(() => {
                                                                     switch (product.field) {
-                                                                        case 'ACCOUNTING': return <Calculator className="w-3 h-3" />;
-                                                                        case 'HR': return <Users className="w-3 h-3" />;
-                                                                        case 'MARKETING': return <TrendingUp className="w-3 h-3" />;
-                                                                        case 'BUSINESS': return <Briefcase className="w-3 h-3" />;
-                                                                        case 'CREATIVE': return <Palette className="w-3 h-3" />;
-                                                                        default: return <Folder className="w-3 h-3" />;
+                                                                        case 'ACCOUNTING': return <Calculator className="w-3.5 h-3.5" />;
+                                                                        case 'HR': return <Users className="w-3.5 h-3.5" />;
+                                                                        case 'MARKETING': return <TrendingUp className="w-3.5 h-3.5" />;
+                                                                        case 'BUSINESS': return <Briefcase className="w-3.5 h-3.5" />;
+                                                                        case 'CREATIVE': return <Palette className="w-3.5 h-3.5" />;
+                                                                        default: return <Folder className="w-3.5 h-3.5" />;
                                                                     }
                                                                 })()}
                                                                 {product.field.toLowerCase()}

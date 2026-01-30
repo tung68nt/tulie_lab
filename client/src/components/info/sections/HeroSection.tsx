@@ -174,7 +174,13 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                         {/* Status Badge - No uppercase */}
                                         <div className="absolute top-6 left-6 z-10">
-                                            <SectionTag variant="black-pill" className="h-7 border-white/20 bg-black/60 shadow-none backdrop-blur-md">
+                                            <SectionTag
+                                                variant="black-pill"
+                                                animate={false}
+                                                bold={false}
+                                                size="md"
+                                                className="h-8 border-white/20 bg-black/60 shadow-none backdrop-blur-md"
+                                            >
                                                 {isCombo ? 'Combo lộ trình' : 'Khóa học'}
                                             </SectionTag>
                                         </div>

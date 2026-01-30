@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { StatusDot } from "./StatusDot"
 
 const badgeVariants = cva(
-    "inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1.5",
+    "inline-flex items-center rounded-full border px-2.5 py-0.5 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1.5",
     {
         variants: {
             variant: {
@@ -27,18 +27,28 @@ const badgeVariants = cva(
 export interface BadgeProps
     extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {
-    showDot?: boolean,
-    dotColor?: 'white' | 'black' | 'primary' | 'green' | 'auto' | 'red' | 'blue' | 'yellow'
+    showDot?: boolean;
+    dotColor?: 'white' | 'black' | 'primary' | 'green' | 'auto' | 'red' | 'blue' | 'yellow';
+    animate?: boolean;
+    bold?: boolean;
+    size?: 'sm' | 'md' | 'lg';
 }
 
-function Badge({ className, variant, showDot, dotColor, children, ...props }: BadgeProps) {
+function Badge({ className, variant, showDot, dotColor, animate = true, bold = true, size = 'sm', children, ...props }: BadgeProps) {
     const defaultDotColor = (variant === 'default') ? 'white' : 'auto';
     const finalDotColor = dotColor || defaultDotColor;
 
     return (
-        <div className={badgeVariants({ variant, className })} {...props}>
-            {showDot && <StatusDot color={finalDotColor as any} className="w-1 h-1" />}
-            {children}
+        <div
+            className={cn(
+                badgeVariants({ variant, className }),
+                bold ? "font-bold" : "font-medium",
+                size === 'sm' ? "text-[10px]" : size === 'lg' ? "text-[13px] px-4 py-1.5" : "text-[11px] px-3 py-1",
+            )}
+            {...props}
+        >
+            {showDot && <StatusDot color={finalDotColor as any} className={size === 'lg' ? "w-2 h-2" : "w-1 h-1"} animate={animate} />}
+            <span className="first-letter:uppercase">{children}</span>
         </div>
     )
 }

@@ -53,11 +53,25 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
 
                     {/* Tags on Thumbnail */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2 z-10 transition-transform duration-500 group-hover:translate-x-1">
-                        <Badge variant="secondary" showDot className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1 px-3">
+                        <Badge
+                            variant="secondary"
+                            showDot
+                            animate={false}
+                            bold={false}
+                            size="md"
+                            className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1.5 px-3"
+                        >
                             {isBundle ? 'Combo lộ trình' : 'Khóa học'}
                         </Badge>
                         {category && (
-                            <Badge variant="secondary" showDot className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1 px-3">
+                            <Badge
+                                variant="secondary"
+                                showDot
+                                animate={false}
+                                bold={false}
+                                size="md"
+                                className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl py-1.5 px-3"
+                            >
                                 {category}
                             </Badge>
                         )}

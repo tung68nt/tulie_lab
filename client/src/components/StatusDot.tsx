@@ -6,13 +6,15 @@ interface StatusDotProps {
     dotClassName?: string;
     pingClassName?: string;
     color?: 'white' | 'black' | 'primary' | 'green' | 'auto' | 'red' | 'blue' | 'yellow';
+    animate?: boolean;
 }
 
 export const StatusDot: React.FC<StatusDotProps> = ({
     className,
     dotClassName,
     pingClassName,
-    color = 'white'
+    color = 'white',
+    animate = true
 }) => {
     const dotStyles = (color === 'white' ? "bg-white" :
         color === 'green' ? "bg-emerald-500" :
@@ -26,7 +28,7 @@ export const StatusDot: React.FC<StatusDotProps> = ({
     return (
         <div className={cn("relative flex items-center justify-center shrink-0", className)}>
             {/* The pulsing ring */}
-            {color !== 'black' && (
+            {color !== 'black' && animate && (
                 <div className={cn(
                     "absolute h-full w-full rounded-full animate-ping opacity-75",
                     dotStyles,
