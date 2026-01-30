@@ -535,15 +535,15 @@ export default function AdminDashboardPage() {
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <CircleDollarSign className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-3">
                             <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
-                                {formatCurrency(data.totalRevenue)}
+                                {formatCompactNumber(data.totalRevenue)}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground">Doanh thu</div>
+                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Doanh thu</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium">
+                        <div className="text-xs text-muted-foreground font-medium pt-2">
                             {data.totalRevenue > 0
-                                ? `+${formatCurrency(data.monthlyRevenue)} tháng này`
+                                ? `+${formatCompactNumber(data.monthlyRevenue)} tháng này`
                                 : 'Chưa có doanh thu'}
                         </div>
                     </CardContent>
@@ -554,13 +554,13 @@ export default function AdminDashboardPage() {
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <ShoppingBag className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-3">
                             <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
                                 {data.paidOrders}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground">Đơn thành công</div>
+                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Đơn thành công</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium">
+                        <div className="text-xs text-muted-foreground font-medium pt-2">
                             Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%
                         </div>
                     </CardContent>
@@ -571,13 +571,13 @@ export default function AdminDashboardPage() {
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <Hourglass className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-3">
                             <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
                                 {data.pendingOrders}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground">Đợi xử lý</div>
+                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Đợi xử lý</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium">
+                        <div className="text-xs text-muted-foreground font-medium pt-2">
                             Cần duyệt: {data.pendingOrders} đơn
                         </div>
                     </CardContent>
@@ -588,13 +588,13 @@ export default function AdminDashboardPage() {
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <UsersRound className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-1">
+                        <div className="space-y-3">
                             <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
                                 {data.totalUsers}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground">Học viên</div>
+                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Học viên</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium">
+                        <div className="text-xs text-muted-foreground font-medium pt-2">
                             {data.activeUsers} đang hoạt động
                         </div>
                     </CardContent>

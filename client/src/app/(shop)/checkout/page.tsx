@@ -230,14 +230,15 @@ function CheckoutContent() {
 
             console.log('Calling api.payments.checkout...');
             const response: any = await api.payments.checkout(orderData);
-            console.log('Checkout response received:', response);
+            console.log('Checkout response received:', JSON.stringify(response, null, 2));
 
             // Handle response structure variations
-            const order = response.order || response;
-            console.log('Parsed Order:', order);
+            const order = response?.order || response?.data?.order || response?.data || response;
+            console.log('Parsed Order:', JSON.stringify(order, null, 2));
 
             if (!order || (!order.code && !order.id)) {
-                throw new Error('Không nhận được thông tin đơn hàng');
+                console.error('Invalid order object received:', order);
+                throw new Error('Không nhận được thông tin đơn hàng hợp lệ từ máy chủ');
             }
 
             // If free course (amount 0), redirect to dashboard immediately

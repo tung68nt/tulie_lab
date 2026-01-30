@@ -347,7 +347,7 @@ export function Navbar() {
 
                                                 <div className="flex flex-col items-start gap-1">
                                                     {(() => {
-                                                        const activeSub = Array.isArray(user?.subscriptions) ? user?.subscriptions?.find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date()) : undefined;
+                                                        const activeSub = (Array.isArray(user?.subscriptions) ? user.subscriptions : []).find(s => s.status?.toUpperCase() === 'ACTIVE' && new Date(s.endDate) > new Date());
                                                         const isAdmin = user?.role === 'ADMIN';
 
                                                         return (

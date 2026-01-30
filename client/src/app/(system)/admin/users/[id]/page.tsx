@@ -157,7 +157,7 @@ export default function AdminUserDetailPage() {
                         <Button
                             variant="outline"
                             size="sm"
-                            className="bg-zinc-50 hover:bg-zinc-100"
+                            className="bg-background hover:bg-zinc-100 dark:hover:bg-zinc-800"
                             onClick={() => handleAction(() => api.admin.unblockUser(id as string), 'Đã kích hoạt lại tài khoản')}
                         >
                             Kích hoạt lại
@@ -188,10 +188,10 @@ export default function AdminUserDetailPage() {
 
             {/* Quick Stats Banner */}
             <div className="grid gap-4 md:grid-cols-4">
-                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                <Card className="overflow-hidden border shadow-none bg-zinc-50 dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Gói thành viên</div>
-                        <div className="text-xl font-bold text-zinc-900 max-w-full px-2">
+                        <div className="text-xl font-bold text-foreground max-w-full px-2">
                             {isMemberActive ? (activeSub.product?.title?.replace('Hội viên ', '') || 'Premium') : 'Free'}
                         </div>
                         <div className="text-xs text-zinc-400 mt-1.5 font-medium min-h-[32px] flex items-end">
@@ -199,19 +199,19 @@ export default function AdminUserDetailPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                <Card className="overflow-hidden border shadow-none bg-zinc-50 dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Chi tiêu (Paid)</div>
-                        <div className="text-xl font-bold text-zinc-900">{formatCurrency(user.stats?.totalPaid || 0)}</div>
+                        <div className="text-xl font-bold text-foreground">{formatCurrency(user.stats?.totalPaid || 0)}</div>
                         <div className="text-xs text-zinc-400 mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
                             Tổng cộng đơn hàng đã thanh toán
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                <Card className="overflow-hidden border shadow-none bg-zinc-50 dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Tỷ lệ hoàn thành học</div>
-                        <div className="text-xl font-bold text-zinc-900 flex items-center gap-2">
+                        <div className="text-xl font-bold text-foreground flex items-center gap-2">
                             {user.stats?.totalLessons > 0
                                 ? Math.round((user.stats?.completedLessons / user.stats?.totalLessons) * 100)
                                 : 0}%
@@ -221,10 +221,10 @@ export default function AdminUserDetailPage() {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                <Card className="overflow-hidden border shadow-none bg-zinc-50 dark:bg-zinc-900/40 border-zinc-200 dark:border-zinc-800">
                     <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
                         <div className="text-xs font-medium text-zinc-400 mb-2">Đăng nhập cuối</div>
-                        <div className="text-xl font-bold text-zinc-900 flex items-center gap-2 px-2">
+                        <div className="text-xl font-bold text-foreground flex items-center gap-2 px-2">
                             {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString('vi-VN') : 'Unknown'}
                         </div>
                         <div className="text-xs text-zinc-400 mt-1.5 leading-tight font-medium min-h-[32px] flex items-end">
@@ -263,7 +263,7 @@ export default function AdminUserDetailPage() {
                         {activeTab === 'overview' && (
                             <div className="grid gap-6 md:grid-cols-3">
                                 <div className="md:col-span-2 space-y-6">
-                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                                    <Card className="overflow-hidden border shadow-none bg-card border-zinc-200 dark:border-zinc-800">
                                         <CardHeader>
                                             <CardTitle className="text-base flex items-center gap-2">
                                                 <User size={18} /> Thông tin hồ sơ
@@ -273,21 +273,21 @@ export default function AdminUserDetailPage() {
                                             <div className="space-y-4">
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-xs text-zinc-400 font-medium">Họ và tên</span>
-                                                    <span className="text-sm font-medium text-zinc-900">{user.profile?.name || 'Chưa cập nhật'}</span>
+                                                    <span className="text-sm font-medium text-foreground">{user.profile?.name || 'Chưa cập nhật'}</span>
                                                 </div>
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-xs text-zinc-400 font-medium">Email</span>
-                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                    <span className="text-sm font-medium text-foreground flex items-center gap-2 truncate">
                                                         {user.email} <Mail size={12} className="text-zinc-300" />
                                                     </span>
                                                 </div>
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-xs text-zinc-400 font-medium">Số điện thoại</span>
-                                                    <span className="text-sm font-medium text-zinc-900">{user.profile?.phone || 'Chưa cập nhật'}</span>
+                                                    <span className="text-sm font-medium text-foreground">{user.profile?.phone || 'Chưa cập nhật'}</span>
                                                 </div>
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-xs text-zinc-400 font-medium">Ngày sinh</span>
-                                                    <span className="text-sm font-medium text-zinc-900">{user.profile?.birthDate ? new Date(user.profile.birthDate).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}</span>
+                                                    <span className="text-sm font-medium text-foreground">{user.profile?.birthDate ? new Date(user.profile.birthDate).toLocaleDateString('vi-VN') : 'Chưa cập nhật'}</span>
                                                 </div>
                                             </div>
                                             <div className="space-y-4">
@@ -299,20 +299,20 @@ export default function AdminUserDetailPage() {
                                                 </div>
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-xs text-zinc-400 font-medium">Công ty</span>
-                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                    <span className="text-sm font-medium text-foreground flex items-center gap-2 truncate">
                                                         <Building size={14} className="text-zinc-300" /> {user.profile?.company || 'Chưa cập nhật'}
                                                     </span>
                                                 </div>
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-xs text-zinc-400 font-medium">Địa chỉ</span>
-                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2 truncate">
+                                                    <span className="text-sm font-medium text-foreground flex items-center gap-2 truncate">
                                                         <MapPin size={14} className="text-zinc-300" />
                                                         {[user.profile?.address, user.profile?.city].filter(Boolean).join(', ') || 'Chưa cập nhật'}
                                                     </span>
                                                 </div>
                                                 <div className="flex flex-col gap-1">
                                                     <span className="text-xs text-zinc-400 font-medium">Ngày tham gia</span>
-                                                    <span className="text-sm font-medium text-zinc-900 flex items-center gap-2">
+                                                    <span className="text-sm font-medium text-foreground flex items-center gap-2">
                                                         <Calendar size={14} className="text-zinc-300" /> {formatDate(user.createdAt)}
                                                     </span>
                                                 </div>
@@ -320,7 +320,7 @@ export default function AdminUserDetailPage() {
                                         </CardContent>
                                     </Card>
 
-                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                                    <Card className="overflow-hidden border shadow-none bg-card border-zinc-200 dark:border-zinc-800">
                                         <CardHeader>
                                             <CardTitle className="text-base font-medium flex items-center gap-2">
                                                 <Shield size={18} className="text-zinc-400" /> Phân quyền & Bảo mật
@@ -338,9 +338,9 @@ export default function AdminUserDetailPage() {
                                                     if (!activeSub) return <span className="bg-muted text-muted-foreground text-xs px-2.5 py-0.5 rounded-full font-medium">Free</span>;
                                                     const title = (activeSub.product?.title || '').toUpperCase();
                                                     if (title.includes('PRO')) {
-                                                        return <span className="bg-zinc-100 text-zinc-900 border border-zinc-200 text-xs px-2.5 py-0.5 rounded-full font-medium">Pro</span>;
+                                                        return <span className="bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700 text-xs px-2.5 py-0.5 rounded-full font-medium">Pro</span>;
                                                     }
-                                                    return <span className="bg-zinc-900 text-white text-xs px-2.5 py-0.5 rounded-full font-medium">Premium</span>;
+                                                    return <span className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 text-xs px-2.5 py-0.5 rounded-full font-medium">Premium</span>;
                                                 })()}
                                             </div>
                                             <div className="flex justify-between items-center py-2">
@@ -352,45 +352,45 @@ export default function AdminUserDetailPage() {
                                 </div>
 
                                 <div className="space-y-6">
-                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                                    <Card className="overflow-hidden border shadow-none bg-card border-zinc-200 dark:border-zinc-800">
                                         <CardHeader className="pb-2">
-                                            <CardTitle className="text-sm font-medium text-zinc-900 flex items-center gap-2">
-                                                <div className="w-1 h-3 bg-zinc-900 rounded-full" />
+                                            <CardTitle className="text-sm font-medium text-foreground flex items-center gap-2">
+                                                <div className="w-1 h-3 bg-zinc-900 dark:bg-zinc-100 rounded-full" />
                                                 Tóm tắt hoạt động
                                             </CardTitle>
                                         </CardHeader>
                                         <CardContent className="space-y-6">
                                             <div className="flex gap-4 items-center">
-                                                <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                                <div className="h-10 w-10 shrink-0 bg-background rounded-xl flex items-center justify-center border border-zinc-100 dark:border-zinc-800 shadow-sm">
                                                     <BookOpen size={18} className="text-zinc-400" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-zinc-900 leading-none">{user.stats?.totalEnrollments || 0}</p>
+                                                    <p className="text-sm font-medium text-foreground leading-none">{user.stats?.totalEnrollments || 0}</p>
                                                     <p className="text-xs text-zinc-400 mt-1.5 font-medium">Khóa học đăng ký</p>
                                                 </div>
                                             </div>
                                             <div className="flex gap-4 items-center">
-                                                <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                                <div className="h-10 w-10 shrink-0 bg-background rounded-xl flex items-center justify-center border border-zinc-100 dark:border-zinc-800 shadow-sm">
                                                     <Package size={18} className="text-zinc-400" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-zinc-900 leading-none">{user.purchasedProducts?.length || 0}</p>
+                                                    <p className="text-sm font-medium text-foreground leading-none">{user.purchasedProducts?.length || 0}</p>
                                                     <p className="text-xs text-zinc-400 mt-1.5 font-medium">Sản phẩm sở hữu</p>
                                                 </div>
                                             </div>
                                             <div className="flex gap-4 items-center">
-                                                <div className="h-10 w-10 shrink-0 bg-white rounded-xl flex items-center justify-center border border-zinc-100 shadow-sm">
+                                                <div className="h-10 w-10 shrink-0 bg-background rounded-xl flex items-center justify-center border border-zinc-100 dark:border-zinc-800 shadow-sm">
                                                     <CreditCard size={18} className="text-zinc-400" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-zinc-900 leading-none">{user.orders?.length || 0}</p>
+                                                    <p className="text-sm font-medium text-foreground leading-none">{user.orders?.length || 0}</p>
                                                     <p className="text-xs text-zinc-400 mt-1.5 font-medium">Tổng đơn hàng</p>
                                                 </div>
                                             </div>
                                         </CardContent>
                                     </Card>
 
-                                    <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                                    <Card className="overflow-hidden border shadow-none bg-card border-zinc-200 dark:border-zinc-800">
                                         <CardHeader>
                                             <CardTitle className="text-sm font-bold">Thiết bị gần nhất</CardTitle>
                                         </CardHeader>
@@ -415,7 +415,7 @@ export default function AdminUserDetailPage() {
 
                         {
                             activeTab === 'courses' && (
-                                <Card className="overflow-hidden border shadow-none bg-white border-zinc-200">
+                                <Card className="overflow-hidden border shadow-none bg-card border-zinc-200 dark:border-zinc-800">
                                     <div className="border-b p-6 space-y-4">
                                         <div className="w-full text-left space-y-1">
                                             <CardTitle className="text-base">Khóa học đã đăng ký</CardTitle>
@@ -423,7 +423,7 @@ export default function AdminUserDetailPage() {
                                         </div>
                                         <div className="flex gap-2 w-full">
                                             <select
-                                                className="flex-1 text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-900 cursor-pointer"
+                                                className="flex-1 text-sm border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 h-10 bg-background dark:bg-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:focus:ring-zinc-100 cursor-pointer"
                                                 value={selectedCourse}
                                                 onChange={(e) => setSelectedCourse(e.target.value)}
                                             >
@@ -434,7 +434,7 @@ export default function AdminUserDetailPage() {
                                             </select>
                                             <Button
                                                 size="sm"
-                                                className="bg-zinc-900 h-10 text-white shadow-none hover:bg-zinc-800"
+                                                className="bg-zinc-900 dark:bg-zinc-100 h-10 text-white dark:text-zinc-900 shadow-none hover:bg-zinc-800 dark:hover:bg-zinc-200"
                                                 disabled={!selectedCourse}
                                                 onClick={() => handleAction(() => api.admin.enrollUser(id as string, selectedCourse), 'Đã kích hoạt khóa học thành công')}
                                             >
@@ -445,7 +445,7 @@ export default function AdminUserDetailPage() {
                                     <CardContent className="p-6">
                                         <div className="flex flex-col gap-4 w-full">
                                             {user.enrollments?.map((enroll: any) => (
-                                                <div key={enroll.id} className="flex gap-4 p-4 border border-zinc-100 rounded-xl hover:bg-zinc-50 transition-colors w-full group items-start bg-white">
+                                                <div key={enroll.id} className="flex gap-4 p-4 border border-zinc-100 dark:border-zinc-800 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors w-full group items-start bg-card">
                                                     <div className="h-20 w-32 shrink-0 bg-zinc-100 rounded-lg overflow-hidden border border-zinc-200">
                                                         {enroll.course?.thumbnail && <img src={enroll.course.thumbnail} className="h-full w-full object-cover" />}
                                                     </div>
@@ -507,7 +507,7 @@ export default function AdminUserDetailPage() {
                                                                     <div className="h-10 w-10 rounded border bg-muted shrink-0 overflow-hidden">
                                                                         {p.thumbnail && <img src={p.thumbnail} className="h-full w-full object-cover" />}
                                                                     </div>
-                                                                    <span className="font-bold">{p.title}</span>
+                                                                    <span className="font-bold text-foreground">{p.title}</span>
                                                                 </div>
                                                             </td>
                                                             <td className="py-4 px-4 font-mono text-xs text-zinc-900">v{p.currentVersion || '1.0.0'}</td>
@@ -541,9 +541,9 @@ export default function AdminUserDetailPage() {
                                             <CardDescription>Cấp quyền hội viên Premium để truy cập tất cả nội dung.</CardDescription>
                                         </CardHeader>
                                         <CardContent className="space-y-6">
-                                            <div className="flex items-center justify-between p-4 border rounded-xl bg-zinc-50/50">
+                                            <div className="flex items-center justify-between p-4 border dark:border-zinc-800 rounded-xl bg-zinc-50/50 dark:bg-zinc-900/40">
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`h-12 w-12 rounded-full flex items-center justify-center ${isMemberActive ? 'bg-zinc-100 text-zinc-900 border' : 'bg-muted text-muted-foreground'}`}>
+                                                    <div className={`h-12 w-12 rounded-full flex items-center justify-center ${isMemberActive ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border' : 'bg-muted text-muted-foreground'}`}>
                                                         <Shield size={24} />
                                                     </div>
                                                     <div>
@@ -560,11 +560,11 @@ export default function AdminUserDetailPage() {
                                                 </span>
                                             </div>
 
-                                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border rounded-xl bg-zinc-50/50">
+                                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 items-end p-4 border dark:border-zinc-800 rounded-xl bg-zinc-50/50 dark:bg-zinc-900/40">
                                                 <div className="flex flex-col gap-2">
                                                     <label className="text-xs font-medium text-zinc-400">Gói hội viên</label>
                                                     <select
-                                                        className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white focus:outline-none focus:ring-1 focus:ring-zinc-900 cursor-pointer"
+                                                        className="w-full text-sm border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 h-10 bg-background dark:bg-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:focus:ring-zinc-100 cursor-pointer text-foreground"
                                                         value={membershipForm.tier}
                                                         onChange={(e) => setMembershipForm({ ...membershipForm, tier: e.target.value })}
                                                     >
@@ -610,7 +610,7 @@ export default function AdminUserDetailPage() {
                                                                 <span className="text-xs text-muted-foreground">
                                                                     {new Date(s.startDate).toLocaleDateString('vi-VN')} - {new Date(s.endDate).toLocaleDateString('vi-VN')}
                                                                 </span>
-                                                                <span className={`text-xs font-medium ${s.status === 'ACTIVE' ? 'text-zinc-900 border border-zinc-200 px-2 py-0.5 rounded-full bg-white' : 'text-zinc-400'}`}>
+                                                                <span className={`text-xs font-medium ${s.status === 'ACTIVE' ? 'text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded-full bg-background' : 'text-zinc-400'}`}>
                                                                     {s.status === 'ACTIVE' ? 'Active' : 'Expired'}
                                                                 </span>
                                                             </div>
@@ -708,13 +708,13 @@ export default function AdminUserDetailPage() {
                                         <CardContent className="space-y-6">
                                             <div className="flex gap-4">
                                                 <textarea
-                                                    className="flex-1 min-h-[100px] p-3 text-sm border border-zinc-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-zinc-900 resize-none"
+                                                    className="flex-1 min-h-[100px] p-3 text-sm border border-zinc-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:focus:ring-zinc-100 resize-none bg-background dark:bg-zinc-900 text-foreground"
                                                     placeholder="Nhập ghi chú mới tại đây..."
                                                     value={newNote}
                                                     onChange={(e) => setNewNote(e.target.value)}
                                                 />
                                                 <Button
-                                                    className="self-end h-10 bg-zinc-900"
+                                                    className="self-end h-10 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900"
                                                     disabled={!newNote || processingAction === 'note'}
                                                     onClick={() => handleAction(async () => {
                                                         const note = await api.admin.notes.add(id as string, newNote);
@@ -730,7 +730,7 @@ export default function AdminUserDetailPage() {
                                                 <h4 className="text-xs font-medium text-zinc-400">Lịch sử ghi chú</h4>
                                                 <div className="space-y-3">
                                                     {notes.map((note: any) => (
-                                                        <div key={note.id} className="p-4 bg-zinc-50 border border-zinc-100 rounded-xl space-y-2">
+                                                        <div key={note.id} className="p-4 bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-100 dark:border-zinc-800 rounded-xl space-y-2">
                                                             <div className="flex justify-between items-start">
                                                                 <span className="text-xs font-medium text-zinc-400 flex items-center gap-1">
                                                                     <Clock size={10} /> {formatDate(note.createdAt)}
@@ -739,7 +739,7 @@ export default function AdminUserDetailPage() {
                                                                     {note.adminName || 'Admin'}
                                                                 </span>
                                                             </div>
-                                                            <p className="text-sm text-zinc-800 leading-relaxed whitespace-pre-wrap">{note.content}</p>
+                                                            <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{note.content}</p>
                                                         </div>
                                                     ))}
                                                     {notes.length === 0 && (
@@ -777,11 +777,11 @@ export default function AdminUserDetailPage() {
                                         </CardHeader>
                                         <CardContent className="space-y-6">
                                             {showInvoiceForm && (
-                                                <div className="p-5 border border-zinc-100 bg-zinc-50 rounded-2xl grid gap-4 md:grid-cols-2">
+                                                <div className="p-5 border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 rounded-2xl grid gap-4 md:grid-cols-2">
                                                     <div className="space-y-2">
                                                         <label className="text-xs font-medium text-zinc-400">Tên công ty</label>
                                                         <input
-                                                            className="w-full text-sm border border-zinc-200 rounded-lg px-3 h-10 bg-white"
+                                                            className="w-full text-sm border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 h-10 bg-background dark:bg-zinc-900 text-foreground"
                                                             value={invoiceForm.companyName}
                                                             onChange={(e) => setInvoiceForm({ ...invoiceForm, companyName: e.target.value })}
                                                         />
