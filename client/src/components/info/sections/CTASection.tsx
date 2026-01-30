@@ -12,7 +12,7 @@ export const CTASection = ({ section }: { section: Section }) => {
     return (
         <section className={cn(
             "py-20 md:py-32 relative overflow-hidden flex items-center justify-center transition-colors duration-300",
-            isDark ? "bg-black text-white" : "bg-background text-foreground"
+            (section.backgroundTheme === 'dark' || !section.backgroundTheme) ? "bg-[#050505] text-white" : "bg-background text-foreground"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
@@ -37,7 +37,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                 </p>
                 {section.ctaLink && (
                     <Button
-                        variant="light"
+                        variant={isDark ? "white" : "default"}
                         size="lg"
                         onClick={() => {
                             const el = document.getElementById(section.ctaLink?.replace('#', '') || 'payment-section');
@@ -52,9 +52,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                         }}
                         className={cn(
                             "text-lg px-8 py-6 font-semibold transition-colors shadow-xl",
-                            isDark
-                                ? "bg-foreground/90 text-background hover:bg-foreground"
-                                : "bg-black text-white hover:bg-zinc-800"
+                            !isDark && "bg-black text-white hover:bg-zinc-800"
                         )}
                     >
                         {section.ctaText || 'Đăng ký ngay'}

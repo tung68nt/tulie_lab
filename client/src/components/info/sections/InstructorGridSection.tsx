@@ -3,6 +3,7 @@ import { Twitter, Linkedin, Github, ExternalLink } from 'lucide-react';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { SectionBackground } from '../SectionBackground';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export const InstructorGridSection = ({ section }: { section: Section }) => {
     if (!section.items) return null;
@@ -39,7 +40,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                         <img
                                             src={item.image}
                                             alt={item.title}
-                                            className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                                            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                                         />
                                     </div>
                                 ) : (
@@ -56,7 +57,9 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
 
                             {/* Content */}
                             <div className="relative z-10">
-                                <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{String(item.title || '')}</h3>
+                                <Link href={`/instructors/${(item as any).slug || (item as any).id || '#'}`} className="group/name">
+                                    <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300 hover:underline decoration-2 underline-offset-4">{String(item.title || '')}</h3>
+                                </Link>
                                 <div className={cn(
                                     "inline-flex items-center px-4 py-1 rounded-full text-[10px] font-bold mb-6 border border-border/50",
                                     isDark ? "bg-white/10 text-zinc-300" : "bg-muted text-muted-foreground"

@@ -16,11 +16,16 @@ export class InstructorService {
         return this.instructorRepository.findById(id);
     }
 
+    async getInstructorBySlug(slug: string) {
+        return this.instructorRepository.findBySlug(slug);
+    }
+
     async createInstructor(data: any) {
-        const { name, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
+        const { name, slug, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
 
         const payload: Prisma.InstructorCreateInput = {
             name,
+            slug,
             title,
             bio,
             avatar,
@@ -33,10 +38,11 @@ export class InstructorService {
     }
 
     async updateInstructor(id: string, data: any) {
-        const { name, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
+        const { name, slug, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
 
         const payload: Prisma.InstructorUpdateInput = {
             name,
+            slug,
             title,
             bio,
             avatar,

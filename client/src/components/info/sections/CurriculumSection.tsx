@@ -29,10 +29,10 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                 />
 
                 {/* Vertical Stack Content */}
-                <div className="max-w-[1100px] mx-auto space-y-16">
+                <div className="max-w-[1100px] mx-auto space-y-8">
                     {modules.map((module: any, index: number) => {
                         return (
-                            <FadeIn key={index} delay={index * 0.1}>
+                            <FadeIn key={index} direction="up" delay={index * 0.1} duration={0.6}>
                                 <div className="group relative bg-card rounded-3xl p-6 md:p-8 lg:p-10 border border-border hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-2xl">
                                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
                                         {/* Thumbnail - Left Side (35%) */}

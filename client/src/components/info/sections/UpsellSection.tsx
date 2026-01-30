@@ -16,7 +16,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
     return (
         <section className={cn(
             "py-24 relative overflow-hidden transition-colors duration-300",
-            section.backgroundTheme === 'dark'
+            section.backgroundTheme === 'dark' || !section.backgroundTheme
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
                     ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"

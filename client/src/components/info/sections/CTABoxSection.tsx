@@ -62,9 +62,9 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                                     size="lg"
                                     className={cn(
                                         "rounded-full px-8 h-12 font-bold shadow-lg transition-transform hover:scale-105 active:scale-95",
-                                        section.backgroundTheme === 'dark'
-                                            ? "bg-foreground/90 text-background hover:bg-foreground"
-                                            : "bg-black text-white hover:bg-zinc-800"
+                                        section.backgroundTheme !== 'dark'
+                                            ? "bg-black text-white hover:bg-zinc-800 dark:border dark:border-white/20 dark:bg-black"
+                                            : "bg-white text-black hover:bg-zinc-200" // Explicit high contrast
                                     )}
                                 >
                                     {section.ctaText}

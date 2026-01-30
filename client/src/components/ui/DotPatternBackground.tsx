@@ -17,8 +17,8 @@ export function DotPatternBackground({ className, fadeClassName, withVignette = 
             {/* The mask makes dots visible in center and fade out towards edges */}
             <div className={cn(
                 "absolute inset-0",
-                "[mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]",
-                "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]",
+                "[mask-image:radial-gradient(ellipse_at_center,black_90%,transparent_100%)]",
+                "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_90%,transparent_100%)]",
                 fadeClassName
             )}
                 style={{
@@ -29,7 +29,7 @@ export function DotPatternBackground({ className, fadeClassName, withVignette = 
 
             {/* Vignette Overlay (Darken edges) */}
             {withVignette && (
-                <div className="absolute inset-0 bg-black/20 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
+                <div className="absolute inset-0 bg-black/40 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
             )}
         </div>
     );

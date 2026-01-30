@@ -108,8 +108,8 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     className={cn(
                                         "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme !== 'dark'
-                                            ? "bg-black text-white hover:bg-zinc-800 dark:border dark:border-white/20 dark:bg-black dark:text-white"
-                                            : "bg-white text-black hover:bg-zinc-100" // Ensure black text on white bg
+                                            ? "bg-black text-white hover:bg-zinc-800 dark:border dark:border-white/20 dark:bg-black"
+                                            : "bg-white text-black hover:bg-zinc-200" // Explicit high contrast
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}

@@ -11,191 +11,129 @@ interface InstructorDetailViewProps {
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
     return (
-        <div className="min-h-screen bg-background pb-20">
-            {/* Modern Monochrome Banner */}
-            <div className="relative h-[280px] md:h-[320px] w-full overflow-hidden">
-                <div className="absolute inset-0 bg-zinc-950">
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 mix-blend-overlay"></div>
-                    <div className="absolute inset-0 bg-dot-white [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
-                </div>
-                {/* Decorative Elements - Subtle Monochrome Glows */}
-                <div className="absolute -top-24 -right-24 w-96 h-96 bg-zinc-800/50 rounded-full blur-3xl opacity-50" />
-                <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-zinc-800/50 rounded-full blur-3xl opacity-50" />
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-20">
+            {/* Clean Header Area */}
+            <div className="h-48 md:h-64 bg-zinc-900 border-b border-white/5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-dot-white/[0.1] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
             </div>
 
-            {/* Profile Info Container */}
-            <div className="container px-4 relative -mt-32 md:-mt-40 z-10">
-                <div className="bg-card shadow-2xl rounded-2xl p-6 md:p-10 overflow-hidden relative group">
-
-                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-start text-center md:text-left">
-                        {/* Avatar */}
-                        <div className="relative shrink-0 group-hover:scale-105 transition-transform duration-500">
-                            <div className="w-32 h-32 md:w-48 md:h-48 rounded-[2rem] p-1.5 bg-gradient-to-br from-zinc-200 to-zinc-400 dark:from-zinc-800 dark:to-zinc-600 shadow-2xl rotate-3 hover:rotate-0 transition-all duration-300">
-                                <div className="w-full h-full rounded-[1.7rem] overflow-hidden bg-background border-4 border-background relative">
-                                    {instructor.avatar ? (
-                                        <img
-                                            src={instructor.avatar}
-                                            alt={instructor?.name || 'Instructor'}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 text-5xl font-bold">
-                                            {instructor?.name?.charAt(0) || 'G'}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-foreground text-background text-xs font-bold px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap border border-background">
-                                Expert Instructor
+            {/* Profile Card Container */}
+            <div className="container max-w-6xl px-4 relative -mt-24 md:-mt-32 z-10">
+                <div className="bg-white dark:bg-zinc-900 shadow-xl border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] p-8 md:p-12">
+                    <div className="flex flex-col md:flex-row gap-10 md:gap-14 items-center md:items-start text-center md:text-left">
+                        {/* Avatar - Large & Modern */}
+                        <div className="relative shrink-0">
+                            <div className="w-40 h-40 md:w-56 md:h-56 rounded-[3rem] overflow-hidden border-8 border-white dark:border-zinc-900 shadow-2xl">
+                                {instructor.avatar ? (
+                                    <img
+                                        src={instructor.avatar}
+                                        alt={instructor?.name || 'Instructor'}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 text-6xl font-bold">
+                                        {instructor?.name?.charAt(0) || 'G'}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
                         {/* Info Content */}
                         <div className="flex-1 pt-4">
-                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold mb-3 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-100 dark:to-zinc-400">
+                            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-4">
+                                Expert Instructor
+                            </div>
+                            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-zinc-900 dark:text-white">
                                 {instructor?.name || 'Đang tải...'}
                             </h1>
                             {instructor.title && (
-                                <p className="text-lg md:text-xl text-zinc-500 font-medium mb-6 flex items-center justify-center md:justify-start gap-2">
-                                    <Award className="w-5 h-5 text-primary" />
+                                <p className="text-xl md:text-2xl text-zinc-500 dark:text-zinc-400 font-medium mb-8">
                                     {instructor.title}
                                 </p>
                             )}
 
-                            {/* Stats */}
-                            <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 mb-8">
-                                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-secondary/50 border border-border/50">
-                                    <div className="w-10 h-10 rounded-xl bg-foreground text-background flex items-center justify-center">
-                                        <BookOpen className="w-5 h-5" />
-                                    </div>
-                                    <div className="text-left">
-                                        <div className="font-bold text-xl leading-none">{instructor.courseCount}</div>
-                                        <div className="text-xs text-muted-foreground font-bold tracking-wider mt-1">Khóa học</div>
-                                    </div>
+                            {/* Stats Grid */}
+                            <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-10">
+                                <div className="flex flex-col">
+                                    <span className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">{instructor.courseCount || 0}</span>
+                                    <span className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mt-1">Khóa học</span>
                                 </div>
-                                <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-secondary/50 border border-border/50">
-                                    <div className="w-10 h-10 rounded-xl bg-foreground text-background flex items-center justify-center">
-                                        <Users className="w-5 h-5" />
-                                    </div>
-                                    <div className="text-left">
-                                        <div className="font-bold text-xl leading-none">
-                                            {(instructor.studentCount || 0) > 0 ? `${instructor.studentCount}+` : 0}
-                                        </div>
-                                        <div className="text-xs text-muted-foreground font-bold tracking-wider mt-1">Học viên</div>
-                                    </div>
+                                <div className="w-px h-12 bg-zinc-200 dark:bg-zinc-800 hidden md:block"></div>
+                                <div className="flex flex-col">
+                                    <span className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">
+                                        {instructor.studentCount && instructor.studentCount > 0 ? `${instructor.studentCount.toLocaleString()}+` : 0}
+                                    </span>
+                                    <span className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mt-1">Học viên</span>
+                                </div>
+                                <div className="w-px h-12 bg-zinc-200 dark:bg-zinc-800 hidden md:block"></div>
+                                <div className="flex flex-col">
+                                    <span className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">4.9/5</span>
+                                    <span className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mt-1">Đánh giá</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    {/* Bio Section */}
+                    {instructor.bio && (
+                        <div className="mt-16 pt-16 border-t border-zinc-100 dark:border-zinc-800">
+                            <h2 className="text-2xl font-bold mb-8 text-zinc-900 dark:text-white flex items-center gap-3">
+                                <GraduationCap className="w-7 h-7 text-primary" />
+                                Về giảng viên
+                            </h2>
+                            <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-400 leading-relaxed whitespace-pre-wrap">
+                                {instructor.bio}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                {/* Main Content Layout: Bio First -> Then Courses */}
-                <div className="mt-16 container px-0 space-y-16">
+                {/* Courses Section */}
+                <div className="mt-24">
+                    <div className="flex items-center justify-between mb-12">
+                        <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Khóa học đang giảng dạy</h2>
+                        <div className="h-1 flex-1 mx-8 bg-zinc-100 dark:bg-zinc-900 rounded-full hidden md:block"></div>
+                    </div>
 
-                    {/* 1. Introduction & Bio Section */}
-                    {instructor.bio && (
-                        <section className="animate-in fade-in slide-in-from-bottom-8 duration-700">
-                            <div className="flex items-center gap-4 mb-8 border-b pb-4">
-                                <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center shadow-lg">
-                                    <GraduationCap className="w-5 h-5" />
-                                </div>
-                                <h2 className="text-2xl font-semibold tracking-tight text-foreground">Về giảng viên</h2>
-                            </div>
-
-                            <div className="flex flex-col gap-8">
-                                <div className="w-full bg-card border border-border/50 rounded-3xl p-8 shadow-sm">
-                                    <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap font-light">
-                                        {instructor.bio}
-                                    </div>
-                                </div>
-
-                                {/* Experience Column/Box */}
-                                {instructor.experiences && instructor.experiences.length > 0 && (
-                                    <div className="space-y-6">
-                                        <h3 className="text-lg font-semibold tracking-wider text-zinc-400 ml-1">Kinh nghiệm</h3>
-                                        <div className="space-y-4">
-                                            {instructor.experiences.map((exp: any) => (
-                                                <div key={exp.id} className="bg-muted/30 border border-border/50 rounded-2xl p-5 hover:bg-card hover:shadow-md transition-all duration-300 group">
-                                                    <div className="flex items-start gap-4">
-                                                        <div className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center shrink-0 group-hover:border-foreground transition-colors">
-                                                            {(!exp.icon || exp.icon === 'building') && <Building2 className="w-5 h-5" />}
-                                                            {exp.icon === 'school' && <GraduationCap className="w-5 h-5" />}
-                                                            {exp.icon === 'users' && <Users className="w-5 h-5" />}
-                                                        </div>
-                                                        <div>
-                                                            <h3 className="font-semibold text-base group-hover:underline decoration-1 underline-offset-4">{exp.company}</h3>
-                                                            <p className="text-sm text-zinc-500 font-medium mb-1">{exp.position}</p>
-                                                            {exp.period && (
-                                                                <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded bg-foreground text-background inline-block mt-1">
-                                                                    {exp.period}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
+                    <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+                        {courses.map((course) => (
+                            <Link key={course.id} href={`/courses/${course.slug}`} className="group">
+                                <div className="bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                                    {course.thumbnail && (
+                                        <div className="aspect-[16/10] overflow-hidden">
+                                            <img
+                                                src={course.thumbnail}
+                                                alt={course.title}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                            />
+                                        </div>
+                                    )}
+                                    <div className="p-8">
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <span className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                                                {course.lessons?.length || 0} bài học
+                                            </span>
+                                        </div>
+                                        <h3 className="font-bold text-xl mb-4 text-zinc-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2">
+                                            {course.title}
+                                        </h3>
+                                        <p className="text-zinc-500 dark:text-zinc-400 text-sm line-clamp-2 mb-8 leading-relaxed">
+                                            {course.description}
+                                        </p>
+                                        <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
+                                            <span className="text-sm font-bold text-green-500">Đang tuyển sinh</span>
+                                            <span className="font-bold text-lg text-zinc-900 dark:text-white">
+                                                {course.price === 0
+                                                    ? 'Miễn phí'
+                                                    : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(course.price || 0)
+                                                }
+                                            </span>
                                         </div>
                                     </div>
-                                )}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* 2. Courses Section */}
-                    <section className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
-                        <div className="flex items-center justify-between mb-8 border-b border-border/40 pb-4">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center shadow-lg">
-                                    <BookOpen className="w-6 h-6" />
                                 </div>
-                                <h2 className="text-3xl font-semibold tracking-tight text-foreground">Khóa học đang giảng dạy</h2>
-                            </div>
-                        </div>
-
-                        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                            {courses.map((course) => (
-                                <Link key={course.id} href={`/courses/${course.slug}`} className="group h-full">
-                                    <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 h-full border-border/50 group-hover:border-foreground/20 bg-card rounded-[2rem] flex flex-col">
-                                        {course.thumbnail && (
-                                            <div className="aspect-[4/3] bg-muted overflow-hidden relative">
-                                                <img
-                                                    src={course.thumbnail}
-                                                    alt={course.title}
-                                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
-                                                />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-
-                                                <div className="absolute bottom-4 left-4 right-4">
-                                                    <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/90 text-black text-xs font-bold backdrop-blur-sm">
-                                                        {course.lessons?.length || 0} bài học
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        )}
-                                        <CardContent className="p-6 flex flex-col flex-1">
-                                            <h3 className="font-semibold text-xl mb-3 line-clamp-2 mt-1 group-hover:underline decoration-2 underline-offset-4">{course.title}</h3>
-                                            <p className="text-sm text-zinc-500 mb-6 line-clamp-2 leading-relaxed flex-1">
-                                                {course.description}
-                                            </p>
-                                            <div className="pt-4 mt-auto border-t border-border/50 flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                                                    <span className="text-xs font-bold text-muted-foreground tracking-wider">Đang tuyển sinh</span>
-                                                </div>
-                                                <span className="font-semibold text-lg text-foreground">
-                                                    {course.price === 0
-                                                        ? 'Miễn phí'
-                                                        : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(course.price || 0)
-                                                    }
-                                                </span>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            ))}
-                        </div>
-                    </section>
-
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
 

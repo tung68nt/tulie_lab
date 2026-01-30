@@ -39,7 +39,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     const activeGlow = glowVariant !== undefined ? glows[glowVariant % glows.length] : null;
 
     // Fix: Use theme variables for overlay to ensure contrast regardless of system theme
-    const overlayBase = isLightTheme ? 'bg-background/60 dark:bg-black/60' : isDarkTheme ? 'bg-black/60' : 'bg-background/60';
+    const overlayBase = isLightTheme ? 'bg-background/60 dark:bg-black/80' : isDarkTheme ? 'bg-black/90' : 'bg-background/60';
 
     return (
         <div className={cn("absolute inset-0 z-0 overflow-visible rounded-[inherit] pointer-events-none", className)}>
@@ -69,11 +69,11 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                             overlayBase,
                             overlayClassName
                         )}
-                        style={overlayOpacity !== undefined ? { opacity: overlayOpacity } : (isDarkTheme ? { opacity: 0.85 } : { opacity: 0.6 })}
+                        style={overlayOpacity !== undefined ? { opacity: overlayOpacity } : (isDarkTheme ? { opacity: 0.9 } : { opacity: 0.7 })}
                     />
                     {/* Top and Bottom Gradient Shadow for better text pops */}
-                    <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/80 via-black/40 to-transparent opacity-100" />
-                    <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-100" />
+                    <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/95 via-black/50 to-transparent opacity-100" />
+                    <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black/95 via-black/50 to-transparent opacity-100" />
                 </>
             )}
 
@@ -82,11 +82,11 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 <div className="absolute inset-0 pointer-events-none">
                     <DotPatternBackground
                         className={cn(
-                            backgroundTheme === 'dark'
-                                ? "text-white/[0.07]"
+                            backgroundTheme === 'dark' || isDarkTheme
+                                ? "text-white/[0.45]" // Even stronger in dark mode
                                 : backgroundTheme === 'light'
-                                    ? "text-black/10" // Force dark dots on light theme (even in system dark mode)
-                                    : "text-black/10 dark:text-white/10" // Auto behavior
+                                    ? "text-black/[0.2]" // Stronger in light mode
+                                    : "text-black/[0.15] dark:text-white/[0.4]" // Auto behavior
                         )}
                         withVignette={false}
                     />

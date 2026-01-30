@@ -22,7 +22,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
     const totalValue = items.reduce((sum, item) => sum + (parsePrice(item.originalPrice) || parsePrice(item.price) || 0), 0);
 
     return (
-        <section className="pt-24 pb-40 md:pt-32 md:pb-56 relative overflow-hidden transition-colors duration-300">
+        <section className="pt-24 pb-40 md:pt-32 md:pb-56 relative overflow-hidden bg-[#050505] text-white transition-colors duration-300">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
@@ -123,20 +123,24 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                         {/* Ambient Glow */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/10 blur-[120px] rounded-full pointer-events-none" />
 
-                        <div className="relative bg-white/5 dark:bg-neutral-900/40 backdrop-blur-2xl border border-white/10 dark:border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl overflow-hidden group/bonus-sum">
+                        <div className="relative bg-white backdrop-blur-2xl border border-white/20 rounded-[2.5rem] p-8 md:p-12 shadow-2xl overflow-hidden group/bonus-sum">
                             {/* Decorative background element */}
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/10 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 group-hover/bonus-sum:scale-150 transition-transform duration-1000" />
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2 group-hover/bonus-sum:scale-150 transition-transform duration-1000" />
 
                             <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
                                 <div className="text-center md:text-left space-y-2">
-                                    <h3 className="text-sm md:text-base font-medium text-zinc-300">
+                                    <h3 className="text-sm md:text-base font-bold text-zinc-950">
                                         Tổng giá trị quà tặng
                                     </h3>
-                                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                                        <span className="text-3xl md:text-4xl text-zinc-400 font-bold line-through decoration-red-500/30">
-                                            {totalValue.toLocaleString('vi-VN')}đ
-                                        </span>
-                                        <span className="bg-red-500 text-white text-[10px] md:text-xs px-3 py-1 rounded-full font-bold shadow-lg shadow-red-500/20">
+                                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                                        <div className="relative">
+                                            <span className="text-3xl md:text-5xl text-zinc-950 font-black tracking-tight">
+                                                {totalValue.toLocaleString('vi-VN')}đ
+                                            </span>
+                                            {/* Solid Red Strike-through */}
+                                            <div className="absolute top-[55%] left-[-5%] right-[-5%] h-[4px] bg-[#FF0000] opacity-100 rounded-full shadow-[0_0_10px_rgba(255,0,0,0.5)]" />
+                                        </div>
+                                        <span className="bg-red-500 text-white text-[10px] md:text-xs px-4 py-2 rounded-full font-black shadow-lg shadow-red-500/30 uppercase tracking-wider">
                                             TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
                                         </span>
                                     </div>

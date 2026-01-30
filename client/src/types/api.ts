@@ -19,6 +19,7 @@ export interface User {
 export interface Instructor {
     id: string;
     name: string;
+    slug?: string;
     avatar?: string;
     title?: string;
     bio?: string;

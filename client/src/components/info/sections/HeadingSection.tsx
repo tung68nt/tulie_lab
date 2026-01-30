@@ -11,7 +11,11 @@ export const HeadingSection = ({ section }: { section: Section }) => {
     const align = section.align || 'center';
 
     return (
-        <section className={cn("py-12 relative overflow-hidden", section.className)}>
+        <section className={cn(
+            "py-12 relative overflow-hidden",
+            (section.backgroundTheme === 'dark' || !section.backgroundTheme) ? "bg-[#050505] text-white" : "bg-background text-foreground",
+            section.className
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'dark'}
@@ -27,7 +31,7 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                     )}>
                         {section.tag && (
                             <SectionTag
-                                variant={section.backgroundTheme === 'dark' ? 'dark' : 'default'}
+                                variant={(section.backgroundTheme === 'dark' || !section.backgroundTheme) ? 'dark' : 'default'}
                                 className="mb-2"
                             >
                                 {section.tag}
@@ -37,7 +41,7 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                         {section.title && (
                             <h2 className={cn(
                                 "text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight",
-                                section.backgroundTheme === 'dark'
+                                (section.backgroundTheme === 'dark' || !section.backgroundTheme)
                                     ? "text-white"
                                     : section.backgroundTheme === 'light'
                                         ? "text-zinc-900"

@@ -9,7 +9,7 @@ import { InstructorDetailView } from '@/components/InstructorDetailView';
 
 export default function InstructorPage() {
     const params = useParams();
-    const instructorId = params.id as string;
+    const instructorSlug = params.slug as string;
 
     const [loading, setLoading] = useState(true);
     const [instructor, setInstructor] = useState<any>(null);
@@ -18,14 +18,23 @@ export default function InstructorPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [instructorData, allCourses]: any = await Promise.all([
-                    api.instructors.get(instructorId),
+                // Try fetching by slug first, fallback to ID if it's a UUID
+                let instructorData;
+                const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(instructorSlug);
+
+                if (isUuid) {
+                    instructorData = await api.instructors.get(instructorSlug);
+                } else {
+                    instructorData = await api.instructors.getBySlug(instructorSlug);
+                }
+
+                const [allCourses]: any = await Promise.all([
                     api.courses.list()
                 ]);
 
                 setInstructor(instructorData);
                 const courseList = Array.isArray(allCourses) ? allCourses : (allCourses as any).courses || [];
-                setCourses(courseList.filter((c: any) => c.instructorId === instructorId && c.isPublished));
+                setCourses(courseList.filter((c: any) => c.instructorId === instructorData?.id && c.isPublished));
             } catch (e) {
                 console.error('Error loading instructor:', e);
             } finally {
@@ -33,7 +42,7 @@ export default function InstructorPage() {
             }
         };
         fetchData();
-    }, [instructorId]);
+    }, [instructorSlug]);
 
     if (loading) {
         return (

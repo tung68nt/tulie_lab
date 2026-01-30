@@ -25,6 +25,10 @@ export class PrismaInstructorRepository implements IInstructorRepository {
         return prisma.instructor.findUnique({ where: { id } });
     }
 
+    async findBySlug(slug: string): Promise<Instructor | null> {
+        return prisma.instructor.findUnique({ where: { slug } });
+    }
+
     async create(data: Prisma.InstructorCreateInput): Promise<Instructor> {
         return prisma.instructor.create({ data });
     }

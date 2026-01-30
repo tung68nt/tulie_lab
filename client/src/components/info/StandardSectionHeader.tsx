@@ -40,28 +40,19 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
         right: 'justify-end'
     }[align];
 
-    const isDarkBg = section?.backgroundTheme === 'dark';
+    const isDarkBg = !section?.backgroundTheme || section?.backgroundTheme === 'dark';
     const isLightBg = section?.backgroundTheme === 'light';
-
-    // Text Color Logic:
-    // If background is dark (isDarkBg), we force text to be white/light.
-    // If background is light (isLightBg), we force text to be dark.
-    // Otherwise (auto), we use standard colors that adapt to system theme (zinc-900 / dark:white).
 
     const titleGradientClass = isDarkBg
         ? "text-white"
-        : isLightBg
-            ? "text-zinc-950 dark:text-white"
-            : "text-zinc-950 dark:text-white";
+        : "text-zinc-950 dark:text-white";
 
     const subtitleClass = isDarkBg
         ? "text-zinc-300"
-        : isLightBg
-            ? "text-zinc-600 dark:text-zinc-400"
-            : "text-zinc-600 dark:text-zinc-400";
+        : "text-zinc-600 dark:text-zinc-400";
 
     return (
-        <div className={cn("mb-6 md:mb-10 relative pt-12 pb-2 px-6 flex flex-col z-20", alignClass, className)}>
+        <div className={cn("mb-6 md:mb-10 relative pt-12 pb-2 flex flex-col z-20", alignClass, className)}>
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <FadeIn direction="up" delay={0.1} duration={0.5}>

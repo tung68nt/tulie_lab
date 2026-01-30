@@ -144,6 +144,7 @@ export const api: any = {
     instructors: {
         list: () => request<{ data: Instructor[], meta: any }>('/instructors'),
         get: (id: string) => request<Instructor>(`/instructors/${id}`),
+        getBySlug: (slug: string) => request<Instructor>(`/instructors/slug/${slug}`),
     },
     admin: {
         listUsers: (params?: SearchParams) => {

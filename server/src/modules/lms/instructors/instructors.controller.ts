@@ -31,6 +31,16 @@ export class InstructorController {
         }
     }
 
+    async getBySlug(req: Request, res: Response) {
+        try {
+            const instructor = await this.instructorService.getInstructorBySlug(req.params.slug as string);
+            if (!instructor) return res.status(404).json({ message: 'Instructor not found' });
+            res.json(instructor);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async create(req: Request, res: Response) {
         try {
             const instructor = await this.instructorService.createInstructor(req.body);

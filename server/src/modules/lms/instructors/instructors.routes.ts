@@ -8,6 +8,7 @@ const router = Router();
 
 // Public
 router.get('/', (req, res) => instructorController.list(req, res));
+router.get('/slug/:slug', (req, res) => instructorController.getBySlug(req, res));
 router.get('/:id', (req, res) => instructorController.getById(req, res));
 
 // Admin only routes
