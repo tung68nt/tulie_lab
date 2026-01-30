@@ -59,7 +59,7 @@ import { SectionBackground } from '../SectionBackground';
 
 export const TestimonialsSection = ({ section }: { section: Section }) => {
     return (
-        <section className="py-20 md:py-32 relative overflow-hidden transition-colors duration-300">
+        <section className="py-20 md:py-32 relative transition-colors duration-300">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -74,14 +74,14 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                 <StandardSectionHeader section={section} align={section.align || "left"} />
 
                 {/* Testimonials grid */}
-                <div className="flex flex-wrap justify-center gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {(section.items || testimonials).map((testimonial: any, index) => (
                         <FadeIn
                             key={index}
                             delay={index * 0.1}
-                            className="w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] flex flex-col"
+                            className="flex flex-col h-full"
                         >
-                            <div className="h-full bg-card border border-border/50 rounded-3xl p-1 shadow-sm hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 transition-all duration-300">
+                            <div className="h-full bg-card border border-border/50 rounded-3xl p-1 shadow-sm hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 transition-all duration-300">
                                 <div className="bg-background rounded-[1.25rem] p-5 md:p-6 h-full flex flex-col">
                                     {/* Header: Profile */}
                                     <div className="flex items-start gap-4 mb-5">
@@ -95,7 +95,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                             />
                                         </div>
                                         <div>
-                                            <h3 className="text-xl font-bold">{testimonial.name}</h3>
+                                            <h3 className="text-xl font-bold text-foreground">{testimonial.name}</h3>
                                             <p className="text-sm font-medium text-muted-foreground">{testimonial.role}</p>
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                             <h4 className="text-xs font-bold text-red-500 mb-2">Trước khi học</h4>
                                             <div className="">
                                                 {testimonial.before && testimonial.before.map((point: string, i: number) => (
-                                                    <div key={i} className="flex gap-3 text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+                                                    <div key={i} className="flex gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-2">
                                                         <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                                                         <span className="line-clamp-2 opacity-80">{point}</span>
                                                     </div>
@@ -129,7 +129,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                         <div className="flex-1">
                                             <h4 className="text-[10px] font-bold text-green-500 mb-2">Kết quả đạt được</h4>
                                             {testimonial.after && testimonial.after.map((point: string, i: number) => (
-                                                <div key={i} className="flex gap-3 text-sm font-medium text-foreground mb-2">
+                                                <div key={i} className="flex gap-2 text-sm font-medium text-foreground mb-2">
                                                     <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
                                                     <span className="line-clamp-2">{point}</span>
                                                 </div>

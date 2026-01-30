@@ -237,22 +237,22 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     <div
                         onClick={() => handleFormChange('isGift', false)}
                         className={cn(
-                            "flex items-start p-4 rounded-xl border transition-all cursor-pointer",
-                            !state.form.isGift ? "bg-card border-primary/50 shadow-sm" : "bg-transparent border-border/40 hover:border-border/60"
+                            "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
+                            !state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
                         )}
                     >
                         <div className={cn(
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
-                            !state.form.isGift ? "border-primary bg-primary" : "border-border"
+                            !state.form.isGift ? "border-zinc-900 bg-zinc-900" : "border-zinc-300"
                         )}>
-                            {!state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />}
+                            {!state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
                         </div>
                         <div className="ml-3">
-                            <label className="text-sm font-bold text-foreground block cursor-pointer">
-                                Kích hoạt trực tiếp vào tài khoản
+                            <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
+                                Kích hoạt ngay
                             </label>
-                            <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
-                                Khóa học sẽ được kích hoạt ngay vào tài khoản email đăng ký ở trên sau khi thanh toán thành công.
+                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+                                Gắn trực tiếp vào tài khoản {state.form.email || 'đăng ký'}.
                             </p>
                         </div>
                     </div>
@@ -262,7 +262,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         onClick={() => handleFormChange('isGift', true)}
                         className={cn(
                             "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
-                            state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-transparent border-zinc-100 hover:border-zinc-200"
+                            state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
                         )}
                     >
                         <div className={cn(
@@ -273,10 +273,10 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         </div>
                         <div className="ml-3">
                             <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
-                                Mua mã kích hoạt (Gửi qua email)
+                                Mua mã quà tặng
                             </label>
                             <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
-                                Bạn sẽ nhận được 01 mã kích hoạt gửi về email để dành tặng cho người khác hoặc tự kích hoạt vào tài khoản bất kỳ sau này.
+                                Nhận mã qua email để tặng hoặc kích hoạt sau.
                             </p>
                         </div>
                     </div>
@@ -460,7 +460,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     Sản phẩm đăng ký
                 </h3>
                 <div className="p-6 rounded-[1.5rem] border border-border bg-card flex items-center gap-5 transition-all hover:border-primary/50">
-                    <div className="w-14 h-14 bg-secondary rounded-xl overflow-hidden shrink-0 border border-border/50">
+                    <div className="w-14 h-14 bg-secondary rounded-xl shrink-0 border border-border/50">
                         {state.cart[0] && state.cart[0].image && <img src={state.cart[0].image} alt="" className="w-full h-full object-cover" />}
                     </div>
                     <div className="flex-1">
@@ -698,7 +698,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
     );
 
     return (
-        <section id="payment-section" className="py-16 md:py-24 relative overflow-hidden">
+        <section id="payment-section" className="py-16 md:py-24 relative">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
@@ -723,7 +723,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     {/* Left Column: Form or Success Message */}
                     <div className="lg:col-span-7 bg-background p-8 md:p-10 rounded-3xl border border-border/60 shadow-[0_8px_30px_rgb(0,0,0,0.02)]">
                         {state.step === 'form' ? (
-                            <form onSubmit={handleSubmit}>
+                            <form id="checkout-form" onSubmit={handleSubmit}>
                                 {renderForm()}
                                 <div className="mt-10 lg:hidden">
                                     <Button type="submit" size="lg" className="w-full py-7 rounded-2xl bg-zinc-950 text-white font-semibold text-lg shadow-xl shadow-zinc-200">
@@ -781,16 +781,17 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                 <div className="pt-6">
                                     <Button
                                         size="lg"
+                                        type="button"
                                         className="w-full font-bold text-lg h-14 shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all"
                                         onClick={(e) => {
-                                            // Trigger form submit externally if needed, or just let the form button handle it. 
-                                            // For React, easiest is to put this button inside form or link via formId.
-                                            // Here we assume the desktop user clicks this, but it needs to submit the form in Left Col.
-                                            // We will verify form validity using constraints or just duplicate the button inside form.
-                                            // Actually better UX: Make this button distinct or just scroll to form.
-                                            // But standard ecommerce pattern: Button in sticky summary submits form.
-                                            const form = document.querySelector('form');
-                                            if (form) form.requestSubmit();
+                                            const form = document.getElementById('checkout-form') as HTMLFormElement;
+                                            if (form) {
+                                                if (form.checkValidity()) {
+                                                    form.requestSubmit();
+                                                } else {
+                                                    form.reportValidity();
+                                                }
+                                            }
                                         }}
                                     >
                                         Thanh toán ngay

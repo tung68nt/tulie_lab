@@ -151,7 +151,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 {/* Glow background */}
                                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-[2.5rem] blur-3xl opacity-50 transition-opacity duration-1000 group-hover:opacity-70"></div>
 
-                                <div className="relative bg-card/80 dark:bg-zinc-900/40 backdrop-blur-3xl border border-border/50 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.6)]">
+                                <div className="relative bg-card/80 dark:bg-zinc-900/40 backdrop-blur-3xl border border-border/50 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_60px_120px_-20px_rgba(0,0,0,0.6)]">
                                     {/* Glass glow internally */}
                                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] opacity-50 pointer-events-none" />
                                     <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] opacity-30 pointer-events-none" />

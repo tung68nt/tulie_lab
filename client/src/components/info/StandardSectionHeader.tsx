@@ -50,13 +50,13 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
         ? "text-zinc-50"
         : isLightBg
             ? "text-zinc-900"
-            : "text-foreground dark:text-zinc-50";
+            : "text-zinc-900 dark:text-zinc-50";
 
     const subtitleClass = isDarkBg
         ? "text-zinc-300"
         : isLightBg
             ? "text-zinc-600"
-            : "text-muted-foreground dark:text-zinc-400";
+            : "text-zinc-500 dark:text-zinc-400";
 
     return (
         <div className={cn("mb-10 md:mb-16 relative z-10 flex flex-col", alignClass, className)}>

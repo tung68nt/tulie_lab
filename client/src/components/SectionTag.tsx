@@ -28,7 +28,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
             <StatusDot color={
                 variant === 'dark' ? "white" :
                     variant === 'light' ? "black" :
-                        "auto" // Will let StatusDot handle auto/system theme
+                        "auto"
             } />
             {children}
         </div>

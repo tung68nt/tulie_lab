@@ -103,14 +103,33 @@ export class TelegramService {
         return this.sendMessage(message);
     }
 
-    async sendDailyReport(pendingOrdersCount: number, inactiveUsersCount: number) {
+    async sendDailyReport(data: {
+        todayOrders: number;
+        todayPaidOrders: number;
+        todayRevenue: number;
+        todayNewUsers: number;
+        pendingOrders: number;
+        inactiveUsers: number;
+        securityRisks: number;
+        systemStatus?: string;
+    }) {
         const message = `
-<b>📊 Báo cáo định kỳ</b>
+<b>📊 BÁO CÁO KINH DOANH & HỆ THỐNG</b>
 ━━━━━━━━━━━━━━━━━━
-⏳ <b>Đơn hàng pending:</b> ${pendingOrdersCount} đơn chưa thanh toán
-😴 <b>Học viên "ngủ đông":</b> ${inactiveUsersCount} người (>14 ngày)
+💰 <b>Kết quả hôm nay:</b>
+- Doanh thu: <code>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.todayRevenue)}</code>
+- Đơn hàng: <b>${data.todayPaidOrders}</b>/${data.todayOrders} (Thành công/Tổng)
+- Thành viên mới: <b>${data.todayNewUsers}</b>
+
+⏳ <b>Tình hình tồn đọng:</b>
+- Đơn hàng pending: <b>${data.pendingOrders}</b> đơn
+- Học viên "ngủ đông": <b>${data.inactiveUsers}</b> người (>14 ngày)
+
+🛡️ <b>Bảo mật & Sức khỏe:</b>
+- Cảnh báo bảo mật: <b>${data.securityRisks > 0 ? `⚠️ ${data.securityRisks} vụ` : '✅ An toàn'}</b>
+- Trạng thái: <code>${data.systemStatus || 'Hoạt động ổn định'}</code>
 ━━━━━━━━━━━━━━━━━━
-<i>Vui lòng kiểm tra và chăm sóc khách hàng!</i>
+<i>Hệ thống Academy Tulie - ${new Date().toLocaleDateString('vi-VN')}</i>
         `.trim();
 
         return this.sendMessage(message);

@@ -83,9 +83,9 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
 
                                             {/* Clean Lesson List */}
                                             {module.lessons && module.lessons.length > 0 && (
-                                                <div className="flex flex-col gap-3 pt-2">
+                                                <div className="flex flex-col gap-0.5 pt-2">
                                                     {module.lessons.map((lesson: string, i: number) => (
-                                                        <div key={i} className="flex items-start gap-3.5 group/lesson p-2 -ml-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
+                                                        <div key={i} className="flex items-start gap-3 group/lesson py-1.5 px-2 -ml-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                                                             <div className="mt-1 shrink-0">
                                                                 <PlayCircle className={cn(
                                                                     "w-5 h-5 transition-colors",
