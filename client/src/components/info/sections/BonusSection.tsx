@@ -126,11 +126,11 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
                         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
                             <div className="text-center md:text-left space-y-2">
-                                <h3 className="text-xs md:text-sm font-bold text-zinc-400 tracking-wide">
+                                <h3 className="text-sm md:text-base font-medium text-zinc-400 tracking-wide">
                                     Tổng giá trị quà tặng
                                 </h3>
                                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                                    <span className="text-2xl md:text-3xl text-zinc-500 font-bold line-through decoration-red-500/30">
+                                    <span className="text-3xl md:text-4xl text-zinc-500 font-bold line-through decoration-red-500/30">
                                         {totalValue.toLocaleString('vi-VN')}đ
                                     </span>
                                     <span className="bg-red-500 text-white text-[10px] md:text-xs px-3 py-1 rounded-full font-bold shadow-lg shadow-red-500/20">
@@ -141,8 +141,8 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
                             <div className="flex flex-col items-center md:items-end">
                                 <div className="flex items-baseline gap-1 mb-2">
-                                    <span className="text-6xl md:text-8xl font-black text-white drop-shadow-2xl tracking-tighter">0</span>
-                                    <span className="text-2xl md:text-3xl font-bold text-white/80">đ</span>
+                                    <span className="text-6xl md:text-8xl font-black text-zinc-950 dark:text-white drop-shadow-2xl tracking-tighter">0</span>
+                                    <span className="text-2xl md:text-3xl font-bold text-zinc-950/80 dark:text-white/80">đ</span>
                                 </div>
 
                                 <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500">
