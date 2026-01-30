@@ -237,6 +237,17 @@ async function initializeApp() {
         }
       });
 
+      app.get('/api/diag/db/fix', async (req, res) => {
+        try {
+          const prisma = (await import('./config/prisma')).default;
+          await prisma.$executeRawUnsafe('ALTER TABLE "Instructor" ADD COLUMN IF NOT EXISTS "slug" TEXT;');
+          await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "Instructor_slug_key" ON "Instructor"("slug");');
+          res.json({ message: 'Production DB slug fixation attempted successfully' });
+        } catch (error: any) {
+          res.status(500).json({ error: error.message });
+        }
+      });
+
       // JSON 404 Handler - MUST be after all routes
       app.use('/api', (req, res) => {
         console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
