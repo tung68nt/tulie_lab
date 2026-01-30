@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight, Timer, TrendingDown } from 'lucide-react';
 import { Section } from '@/types/sections';
 import { useSectionPreview } from '@/contexts/SectionPreviewContext';
 import { SectionTag } from '@/components/SectionTag';
+import { SectionBackground } from '../SectionBackground';
 
 interface TimeLeft {
     days: number;
@@ -99,18 +100,14 @@ export function SalesCountdownSection({ section }: { section: Section }) {
     useEffect(() => setMounted(true), []);
 
     const content = (
-        <section id="sales-countdown-section" className="w-full bg-[#0a0a0a] text-white py-2 md:py-3 border-b border-yellow-500/20 shadow-2xl overflow-hidden relative">
-            {/* Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-yellow-900/10 via-transparent to-yellow-900/10 animate-pulse-slow pointer-events-none" />
-
-            {/* Dot Pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(#fab005_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.15] pointer-events-none" />
-
-            {/* Corner Gradients */}
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-500/10 blur-[50px] rounded-full pointer-events-none" />
+        <section id="sales-countdown-section" className="w-full relative py-2 md:py-3 border-b border-yellow-500/20 shadow-2xl overflow-hidden bg-zinc-950 text-white">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                backgroundTheme="dark"
+                overlayOpacity={0.9}
+                hideGradients={true}
+                showDotPattern={true}
+            />
 
             <div className="container relative z-10 px-4">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-8 lg:gap-12">

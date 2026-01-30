@@ -46,11 +46,7 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
     const isDark = section.backgroundTheme === 'dark';
 
     return (
-        <section className={cn(
-            "py-20 px-4 relative overflow-hidden",
-            isDark ? "bg-[#050505] text-white" : "bg-background",
-            section.className
-        )}>
+        <section className={cn("py-12 md:py-20 relative overflow-hidden", section.className)}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}

@@ -1,3 +1,4 @@
+'use client';
 import { Section } from '@/types/sections';
 import Image from 'next/image';
 import { DynamicIcon } from '@/components/DynamicIcon';
