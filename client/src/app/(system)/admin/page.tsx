@@ -538,7 +538,7 @@ export default function AdminDashboardPage() {
             {/* Stats Cards - Redesigned (Monochrome) */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 <Card className="border shadow-sm">
-                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
+                    <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <CircleDollarSign className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
@@ -557,7 +557,7 @@ export default function AdminDashboardPage() {
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
+                    <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <ShoppingBag className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
@@ -574,7 +574,7 @@ export default function AdminDashboardPage() {
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
+                    <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <Hourglass className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
@@ -591,7 +591,7 @@ export default function AdminDashboardPage() {
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
+                    <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <UsersRound className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
