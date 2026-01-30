@@ -9,15 +9,17 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 export const CTABoxSection = ({ section }: { section: Section }) => {
+    const isDarkBg = section.backgroundTheme === 'dark';
     const align = section.align || 'center';
 
     return (
-        <section className={cn("py-12 relative overflow-hidden", section.className)}>
+        <section className={cn("py-12 relative overflow-hidden bg-background", section.className)}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'dark'}
-                overlayOpacity={section.overlayOpacity}
+                overlayOpacity={section.overlayOpacity || 0.6}
                 glowVariant={section.glowVariant}
+                className="opacity-100"
             />
 
             <div className="container relative z-10 px-6 mx-auto max-w-[1000px]">
@@ -37,19 +39,27 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                     )}>
                         <div className="flex-1 space-y-3">
                             {section.title && (
-                                <h3 className={cn(
-                                    "text-2xl md:text-3xl font-bold",
-                                    section.backgroundTheme === 'dark'
-                                        ? "text-white"
-                                        : "text-foreground"
-                                )}>
-                                    {section.title}
-                                </h3>
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-2 justify-center md:justify-start">
+                                        {section.tag && (
+                                            <span className="text-sm font-bold tracking-wider text-primary uppercase">
+                                                {section.tag}
+                                            </span>
+                                        )}
+                                        <div className="w-2 h-2 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                                    </div>
+                                    <h3 className={cn(
+                                        "text-3xl md:text-4xl font-bold tracking-tight",
+                                        isDarkBg ? "text-white" : "text-zinc-950 dark:text-white"
+                                    )}>
+                                        {section.title}
+                                    </h3>
+                                </div>
                             )}
                             {section.subtitle && (
                                 <p className={cn(
                                     "text-base md:text-lg leading-relaxed",
-                                    section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground dark:text-zinc-400"
+                                    isDarkBg ? "text-zinc-400" : "text-muted-foreground dark:text-zinc-400"
                                 )}>
                                     {section.subtitle}
                                 </p>

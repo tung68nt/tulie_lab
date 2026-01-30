@@ -213,7 +213,7 @@ export default function AdminSettingsPage() {
                                     Khuyến nghị PNG, kích thước 200x60px
                                 </p>
                                 {settings.site_logo && (
-                                    <div className="p-4 border rounded-lg bg-muted/20">
+                                    <div className="p-4 border rounded-lg bg-[url('/bg-check.png')] bg-zinc-950/50">
                                         <p className="text-xs text-muted-foreground mb-2">Preview:</p>
                                         <img
                                             src={settings.site_logo}
@@ -277,7 +277,7 @@ export default function AdminSettingsPage() {
                                     Khuyến nghị ICO hoặc PNG, kích thước 32x32px
                                 </p>
                                 {settings.site_favicon && (
-                                    <div className="p-4 border rounded-lg inline-flex items-center gap-2 bg-muted/20">
+                                    <div className="p-4 border rounded-lg inline-flex items-center gap-2 bg-[url('/bg-check.png')] bg-zinc-950/50">
                                         <p className="text-xs text-muted-foreground">Preview:</p>
                                         <img
                                             src={settings.site_favicon}
@@ -410,9 +410,9 @@ export default function AdminSettingsPage() {
                                                 </div>
 
                                                 {db.logo_url && (
-                                                    <div className="mt-2 p-3 border rounded-lg bg-background/50 inline-flex items-center gap-3">
+                                                    <div className="mt-2 p-3 border rounded-lg bg-[url('/bg-check.png')] bg-black/40 inline-flex items-center gap-3">
                                                         <span className="text-[10px] text-muted-foreground tracking-tight">Preview:</span>
-                                                        <div className="p-1.5 bg-white rounded border border-border/50">
+                                                        <div className="p-1.5 rounded overflow-hidden">
                                                             <img
                                                                 src={db.logo_url}
                                                                 alt="Logo preview"
@@ -566,9 +566,7 @@ export default function AdminSettingsPage() {
 
                             <div className="space-y-4 pt-2">
                                 <h4 className="text-xs font-bold tracking-wider text-muted-foreground">Các loại thông báo</h4>
-
                                 <div className="grid gap-4 sm:grid-cols-2">
-                                    {/* Groups settings but shows more info */}
                                     <div className="p-4 border rounded-xl space-y-4 flex flex-col">
                                         <div className="flex items-center justify-between gap-4">
                                             <div className="space-y-0.5 min-w-0">
@@ -580,8 +578,8 @@ export default function AdminSettingsPage() {
                                                 onChange={(checked) => handleChange('telegram_notify_orders', checked ? 'true' : 'false')}
                                             />
                                         </div>
-                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
-                                            <p className="font-bold text-blue-500 mb-1">Mẫu tin nhắn:</p>
+                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
+                                            <p className="font-bold text-blue-500 mb-2">Mẫu tin nhắn:</p>
                                             🔔 <b>Đơn hàng mới!</b><br />
                                             Mã: <code>#ABC123</code><br />
                                             Khách: Nguyễn Văn A<br />
@@ -600,8 +598,8 @@ export default function AdminSettingsPage() {
                                                 onChange={(checked) => handleChange('telegram_notify_registrations', checked ? 'true' : 'false')}
                                             />
                                         </div>
-                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
-                                            <p className="font-bold text-blue-500 mb-1">Mẫu tin nhắn:</p>
+                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
+                                            <p className="font-bold text-blue-500 mb-2">Mẫu tin nhắn:</p>
                                             👤 <b>Thành viên mới!</b><br />
                                             Tên: Nguyễn Văn A<br />
                                             Email: user@example.com
@@ -619,8 +617,8 @@ export default function AdminSettingsPage() {
                                                 onChange={(checked) => handleChange('telegram_notify_security', checked ? 'true' : 'false')}
                                             />
                                         </div>
-                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
-                                            <p className="font-bold text-red-500 mb-1">Mẫu tin nhắn:</p>
+                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
+                                            <p className="font-bold text-red-500 mb-2">Mẫu tin nhắn:</p>
                                             ⚠️ <b>Cảnh báo Bảo mật!</b><br />
                                             Hành vi: FAILED_LOGIN<br />
                                             IP: <code>1.2.3.4</code>
@@ -660,15 +658,18 @@ export default function AdminSettingsPage() {
                                                         className="h-8 text-xs"
                                                     />
                                                 </div>
-                                                <p className="col-span-2 text-[9px] text-muted-foreground italic">
+                                                <p className="col-span-2 text-[9px] text-muted-foreground italic font-inter">
                                                     * Nếu nhập Giờ gửi, Tần suất sẽ bị bỏ qua.
                                                 </p>
                                             </div>
                                         )}
 
-                                        <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
-                                            <p className="font-bold text-amber-500 mb-1">Mẫu tin nhắn:</p>
-                                            📊 <b>Báo cáo định kỳ</b><br />
+                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
+                                            <p className="font-bold text-amber-500 mb-2">Mẫu tin nhắn:</p>
+                                            📊 <b>Báo cáo định kỳ {new Date().toLocaleDateString('vi-VN')}</b><br />
+                                            💰 <b>Doanh thu:</b> 5.200.000 ₫<br />
+                                            🛒 <b>Đơn hàng mới:</b> 8 đơn<br />
+                                            👤 <b>User mới:</b> 12 thành viên<br />
                                             ⏳ <b>Đơn pending:</b> 5 đơn<br />
                                             😴 <b>Nghỉ học lâu:</b> 12 người (&gt;14d)
                                         </div>
@@ -696,7 +697,7 @@ export default function AdminSettingsPage() {
                                             type="text"
                                             readOnly
                                             value={apiKey || '••••••••••••••••••••••••••••••••'}
-                                            className="font-mono text-xs pr-10"
+                                            className="font-inter text-xs pr-10"
                                         />
                                         <button
                                             type="button"
@@ -730,8 +731,8 @@ export default function AdminSettingsPage() {
                             Lưu cấu hình
                         </Button>
                     </div>
-                </div>
-            </form>
-        </div>
+                </div >
+            </form >
+        </div >
     );
 }

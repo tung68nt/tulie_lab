@@ -5,7 +5,7 @@ interface StatusDotProps {
     className?: string;
     dotClassName?: string;
     pingClassName?: string;
-    color?: 'white' | 'black' | 'primary' | 'green' | 'auto';
+    color?: 'white' | 'black' | 'primary' | 'green' | 'auto' | 'red' | 'blue' | 'yellow';
 }
 
 export const StatusDot: React.FC<StatusDotProps> = ({
@@ -14,25 +14,21 @@ export const StatusDot: React.FC<StatusDotProps> = ({
     pingClassName,
     color = 'white'
 }) => {
-    const colorClasses = {
-        white: 'bg-white',
-        black: 'bg-black',
-        zinc: 'bg-zinc-950 dark:bg-zinc-200',
-        primary: 'bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]',
-        green: 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]',
-        red: 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]',
-        auto: 'bg-black dark:bg-white'
-    };
-
-    const bgColor = colorClasses[color as keyof typeof colorClasses] || colorClasses.white;
+    const dotStyles = (color === 'white' ? "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" :
+        color === 'green' ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" :
+            color === 'red' ? "bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.5)]" :
+                color === 'blue' ? "bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" :
+                    color === 'yellow' ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]" :
+                        color === 'black' ? "bg-zinc-950" :
+                            color === 'primary' ? "bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]" :
+                                "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]");
 
     return (
-        <span className={cn("relative flex h-1.5 w-1.5 shrink-0", className)}>
-            <span className={cn(
-                "relative inline-flex rounded-full h-full w-full",
-                bgColor,
-                dotClassName
-            )}></span>
-        </span>
+        <div className={cn(
+            "h-1.5 w-1.5 rounded-full shrink-0",
+            dotStyles,
+            color !== 'black' && "animate-pulse",
+            className
+        )} />
     );
 };
