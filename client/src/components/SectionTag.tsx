@@ -20,8 +20,8 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     showDot = true,
     dotColor: customDotColor,
     animate = true,
-    bold = true,
-    size = 'md'
+    bold = false,
+    size = 'lg'
 }) => {
     const variantClasses = {
         default: "border-zinc-800 bg-black text-white shadow-lg shadow-black/5",

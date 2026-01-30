@@ -104,8 +104,6 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                 <SectionTag
                                                     variant="black-pill"
                                                     animate={false}
-                                                    bold={false}
-                                                    size="lg"
                                                 >
                                                     Combo lộ trình
                                                 </SectionTag>

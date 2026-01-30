@@ -274,8 +274,6 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             variant="default"
                                                             showDot
                                                             animate={false}
-                                                            bold={false}
-                                                            size="lg"
                                                             className={cn(
                                                                 "backdrop-blur-md border py-1.5 px-3 text-xs flex items-center gap-1.5 transition-all shadow-sm",
                                                                 section.backgroundTheme === 'dark'
@@ -305,8 +303,6 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             variant="primary"
                                                             showDot
                                                             animate={false}
-                                                            bold={false}
-                                                            size="lg"
                                                             className="h-9 px-4"
                                                         >
                                                             <div className="flex items-center gap-2">
