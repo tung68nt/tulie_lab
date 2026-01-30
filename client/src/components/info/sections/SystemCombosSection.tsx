@@ -113,7 +113,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             {combo.courses && combo.courses.length > 0 && (
                                                 <div className="py-4 border-y border-border/40">
                                                     <span className={cn(
-                                                        "text-base font-bold mb-4 block opacity-60",
+                                                        "text-base font-medium mb-4 block opacity-60",
                                                         section.backgroundTheme === 'dark' ? "text-zinc-500" : "text-muted-foreground"
                                                     )}>Lộ trình bao gồm {combo.courses.length} chặng học:</span>
                                                     <div className="flex flex-col gap-4">
