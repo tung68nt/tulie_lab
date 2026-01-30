@@ -590,8 +590,8 @@ function CheckoutContent() {
                                         <div className="grid grid-cols-1 gap-3">
                                             <button
                                                 onClick={() => setSelectedActivationType('EMAIL')}
-                                                className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${selectedActivationType === 'EMAIL'
-                                                    ? 'bg-zinc-950 text-white border-zinc-950 shadow-lg translate-y-[-1px]'
+                                                className={`flex flex-col items-start p-4 rounded-xl border-2 transition-all text-left ${selectedActivationType === 'EMAIL'
+                                                    ? 'bg-white text-black border-zinc-950 shadow-sm translate-y-[-1px] font-semibold'
                                                     : 'bg-background text-foreground border-zinc-200 hover:border-zinc-300'
                                                     }`}
                                             >
@@ -600,12 +600,12 @@ function CheckoutContent() {
                                             </button>
                                             <button
                                                 onClick={() => setSelectedActivationType('CODE')}
-                                                className={`flex flex-col items-start p-4 rounded-xl border transition-all text-left ${selectedActivationType === 'CODE'
-                                                    ? 'bg-zinc-950 text-white border-zinc-950 shadow-lg translate-y-[-1px]'
+                                                className={`flex flex-col items-start p-4 rounded-xl border-2 transition-all text-left ${selectedActivationType === 'CODE'
+                                                    ? 'bg-white text-black border-zinc-950 shadow-sm translate-y-[-1px] font-semibold'
                                                     : 'bg-background text-foreground border-zinc-200 hover:border-zinc-300'
                                                     }`}
                                             >
-                                                <span className="text-[15px] font-semibold mb-1">Mua mã quà tặng</span>
+                                                <span className="text-[15px] font-semibold mb-1">Mua mã kích hoạt</span>
                                                 <span className="text-xs opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
                                             </button>
                                         </div>
