@@ -117,12 +117,12 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             {combo.courses && combo.courses.length > 0 && (
                                                 <div className="py-4 border-y border-border/40">
                                                     <span className={cn(
-                                                        "text-[10px] font-bold mb-4 block opacity-60",
+                                                        "text-base font-bold mb-4 block opacity-60",
                                                         section.backgroundTheme === 'dark' ? "text-zinc-500" : "text-muted-foreground"
                                                     )}>Lộ trình bao gồm {combo.courses.length} chặng học:</span>
                                                     <div className="flex flex-col gap-4">
                                                         {combo.courses.map((item, i) => (
-                                                            <div key={i} className="flex items-center gap-3 text-sm font-medium group/item">
+                                                            <div key={i} className="flex items-center gap-3 text-base font-medium group/item">
                                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover/item:bg-primary transition-colors shrink-0" />
                                                                 <span className={cn(
                                                                     "truncate",
