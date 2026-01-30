@@ -74,10 +74,6 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                 {/* Content - Bottom Side */}
                 <div className="flex flex-1 flex-col p-6 bg-gradient-to-br from-transparent to-zinc-50/10">
                     <div className="mb-4">
-                        <div className="flex items-center gap-2 mb-3">
-                            <div className="h-1 w-8 bg-primary/40 rounded-full" />
-                            <span className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500">Course Roadmap</span>
-                        </div>
                         <h3 className="mb-3 line-clamp-2 text-xl font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
                             {title}
                         </h3>
@@ -90,7 +86,7 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                         <div className="flex flex-col">
                             {price > 0 ? (
                                 <>
-                                    <span className="text-[10px] text-zinc-400 font-semibold tracking-widest mb-1 shadow-sm">Học phí ưu đãi</span>
+                                    <span className="text-[10px] text-zinc-400 mb-1">Học phí ưu đãi</span>
                                     <span className="text-xl font-semibold text-foreground flex items-baseline gap-1">
                                         {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
                                         <span className="text-xs font-semibold text-zinc-400">₫</span>

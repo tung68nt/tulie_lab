@@ -24,6 +24,13 @@ export class CourseService {
                 course.learningOutcomes = [];
             }
         }
+        if (course.structure && typeof course.structure === 'string') {
+            try {
+                course.structure = JSON.parse(course.structure);
+            } catch (e) {
+                course.structure = [];
+            }
+        }
         return course;
     }
 
@@ -157,6 +164,9 @@ export class CourseService {
             uniqueSlug = `${createData.slug}-${counter}`;
             counter++;
         }
+        if (createData.structure && typeof createData.structure === 'object') {
+            createData.structure = JSON.stringify(createData.structure);
+        }
         createData.slug = uniqueSlug;
 
         if (createData.instructorId === '') delete createData.instructorId;
@@ -180,6 +190,10 @@ export class CourseService {
         if (filteredData.introVideoUrl === '') filteredData.introVideoUrl = null;
         if (filteredData.thumbnail === '') filteredData.thumbnail = null;
         if (filteredData.description === '') filteredData.description = null;
+
+        if (filteredData.structure && typeof filteredData.structure === 'object') {
+            filteredData.structure = JSON.stringify(filteredData.structure);
+        }
 
         const updatedCourse = await this.courseRepository.update(id, filteredData);
         return this.parseCourse(updatedCourse);

@@ -99,7 +99,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     variant={section.backgroundTheme === 'dark' ? "white" : "default"}
                                     className={cn(
                                         "w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
-                                        section.backgroundTheme !== 'dark' && "bg-black text-white hover:bg-zinc-800"
+                                        section.backgroundTheme !== 'dark'
+                                            ? "bg-black text-white hover:bg-zinc-800"
+                                            : "text-black" // Explicitly force black text for dark theme button
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
@@ -278,15 +280,14 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             <div className="relative group">
                                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50"></div>
                                 <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-border overflow-hidden bg-muted">
-                                    {section.image && (
-                                        <Image
-                                            src={section.image}
-                                            alt="Hero"
-                                            fill
-                                            className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
-                                            priority
-                                        />
-                                    )}
+                                    {/* Explicitly fallback to placeholder if no section.image */}
+                                    <Image
+                                        src={section.image || "/placeholder.jpg"}
+                                        alt="Hero"
+                                        fill
+                                        className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
+                                        priority
+                                    />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                                 </div>
                             </div>

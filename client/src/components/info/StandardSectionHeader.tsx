@@ -49,10 +49,10 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     // Otherwise (auto), we use standard colors that adapt to system theme (zinc-900 / dark:white).
 
     const titleGradientClass = isDarkBg
-        ? "bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-100 to-zinc-400"
+        ? "text-white"
         : isLightBg
-            ? "bg-clip-text text-transparent bg-gradient-to-r from-black via-zinc-700 to-zinc-900"
-            : "bg-clip-text text-transparent bg-gradient-to-r from-black via-zinc-700 to-zinc-900 dark:from-white dark:via-zinc-100 dark:to-zinc-400";
+            ? "text-zinc-900"
+            : "text-zinc-900 dark:text-white";
 
     const subtitleClass = isDarkBg
         ? "text-zinc-400"
