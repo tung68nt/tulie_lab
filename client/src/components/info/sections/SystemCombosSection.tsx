@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { BookOpen, Clock, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
-import { SectionTag } from '@/components/SectionTag';
+
 import { Card } from '@/components/Card';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';

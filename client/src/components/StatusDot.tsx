@@ -5,7 +5,7 @@ interface StatusDotProps {
     className?: string;
     dotClassName?: string;
     pingClassName?: string;
-    color?: 'white' | 'black' | 'primary' | 'green';
+    color?: 'white' | 'black' | 'primary' | 'green' | 'auto';
 }
 
 export const StatusDot: React.FC<StatusDotProps> = ({
@@ -18,7 +18,8 @@ export const StatusDot: React.FC<StatusDotProps> = ({
         white: 'bg-white',
         black: 'bg-zinc-950',
         primary: 'bg-primary',
-        green: 'bg-green-500'
+        green: 'bg-green-500',
+        auto: 'bg-zinc-950 dark:bg-white'
     };
 
     const bgColor = colorClasses[color] || colorClasses.white;

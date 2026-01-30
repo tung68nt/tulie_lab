@@ -5,23 +5,31 @@ import { StatusDot } from './StatusDot';
 interface SectionTagProps {
     children: React.ReactNode;
     className?: string;
-    variant?: 'light' | 'dark';
+    variant?: 'light' | 'dark' | 'default';
 }
 
 export const SectionTag: React.FC<SectionTagProps> = ({
     children,
     className,
-    variant = 'dark'
+    variant = 'default'
 }) => {
+    // default: adapts to system theme (white in light mode, black in dark mode)
+    // dark: always black (for dark sections)
+    // light: always white (for light sections)
+
     return (
         <div className={cn(
             "inline-flex h-9 items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold mb-6 shadow-xl backdrop-blur-md select-none transition-all duration-300",
-            variant === 'dark'
-                ? "border-zinc-800 bg-zinc-950 text-white shadow-md"
-                : "border-black/5 bg-white text-zinc-950 shadow-sm",
+            variant === 'dark' && "border-zinc-800 bg-black text-white shadow-md",
+            variant === 'light' && "border-black/5 bg-white text-zinc-950 shadow-sm",
+            variant === 'default' && "border-black/5 bg-white text-zinc-950 shadow-sm dark:border-zinc-800 dark:bg-black dark:text-white",
             className
         )}>
-            <StatusDot color={variant === 'dark' ? "white" : "black"} />
+            <StatusDot color={
+                variant === 'dark' ? "white" :
+                    variant === 'light' ? "black" :
+                        "auto" // Will let StatusDot handle auto/system theme
+            } />
             {children}
         </div>
     );

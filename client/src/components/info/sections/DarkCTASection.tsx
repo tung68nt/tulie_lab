@@ -31,7 +31,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
                     {/* Text Content */}
                     <div className="flex-1 text-center lg:text-left">
-                        <SectionTag className="mb-8">
+                        <SectionTag className="mb-8" variant="dark">
                             {section.tag || "Ưu đãi có hạn"}
                         </SectionTag>
 
