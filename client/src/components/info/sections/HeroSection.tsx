@@ -27,7 +27,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
     const courseTitle = mainCourse?.title || mainCourse?.name || section.title;
     const salePrice = mainCourse?.salePrice || mainCourse?.price || 0;
-    const originalPrice = mainCourse?.compareAtPrice || mainCourse?.originalPrice || (salePrice > 0 ? (mainCourse?.price || 0) : 0);
+    const originalPrice = mainCourse?.compareAtPrice ? Number(mainCourse.compareAtPrice) : (mainCourse?.originalPrice ? Number(mainCourse.originalPrice) : 0);
 
     return (
         <section className={cn(

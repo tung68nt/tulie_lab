@@ -104,6 +104,7 @@ export class CourseService {
                 thumbnail: true,
                 deploymentStatus: true,
                 tag: true,
+                compareAtPrice: true,
                 category: { select: { id: true, name: true, slug: true } },
             },
             orderBy: { createdAt: 'desc' }

@@ -14,6 +14,7 @@ import { CourseChapter } from '@/components/lms/CourseChapter';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { Sparkles, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
+import { SectionTag } from '@/components/SectionTag';
 
 // Helper function to parse duration string to seconds
 function parseDurationToSeconds(duration: string): number {
@@ -211,12 +212,11 @@ export default function CoursePage({ params }: { params: any }) {
                 <div className="container relative z-10">
                     <div className="grid gap-8 md:gap-12 md:grid-cols-2 lg:gap-20">
                         <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 text-primary-foreground px-4 py-1.5 rounded-full text-[10px] font-extrabold tracking-[0.2em] mb-4 shadow-[0_0_20px_rgba(var(--primary-rgb),0.1)]">
-                                <Sparkles className="w-3.5 h-3.5 text-primary" />
+                            <SectionTag variant="black-pill" className="mb-4">
                                 {course.deploymentStatus === 'COMING_SOON' ? 'Sắp ra mắt'
                                     : course.deploymentStatus === 'UPDATING' ? 'Đang nâng cấp'
                                         : 'Chính thức'}
-                            </div>
+                            </SectionTag>
                             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                                 {course.title}
                             </h1>

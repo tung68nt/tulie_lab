@@ -10,14 +10,24 @@ interface SectionTagProps {
 
 export const SectionTag: React.FC<SectionTagProps> = ({
     children,
-    className
+    className,
+    variant = 'default'
 }) => {
+    const variantClasses = {
+        default: "border-zinc-800 bg-black text-white",
+        light: "border-zinc-200 bg-white text-zinc-900",
+        dark: "border-zinc-800 bg-zinc-900 text-white",
+        'black-pill': "border-white/10 bg-black/60 text-white backdrop-blur-md"
+    }[variant];
+
+    const dotColor = (variant === 'light') ? 'black' : 'white';
     return (
         <div className={cn(
-            "inline-flex h-9 items-center gap-2 rounded-full border border-zinc-900 bg-black text-white px-4 py-1.5 text-sm font-semibold mb-6 shadow-2xl backdrop-blur-md select-none transition-all duration-300",
+            "inline-flex h-8 items-center gap-2 rounded-full border px-4 py-1.5 text-[10px] font-bold tracking-widest uppercase select-none transition-all duration-300 shadow-xl",
+            variantClasses,
             className
         )}>
-            <StatusDot color="white" />
+            <StatusDot color={dotColor} className="animate-pulse" />
             {children}
         </div>
     );

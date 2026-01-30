@@ -66,7 +66,7 @@ function SystemCoursesContent() {
                     ) : courses.length > 0 ? (
                         <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
                             {courses.map((course: Course) => (
-                                <CourseCard key={course.id} {...course} description={course.description || ''} price={Number(course.price || 0)} originalPrice={course.compareAtPrice ? Number(course.compareAtPrice) : undefined} />
+                                <CourseCard key={course.id} {...course} description={course.description || ''} price={Number(course.price || 0)} originalPrice={course.compareAtPrice ? Number(course.compareAtPrice) : 0} />
                             ))}
                         </div>
                     ) : (

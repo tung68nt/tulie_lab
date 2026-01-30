@@ -332,7 +332,7 @@ export default function AdminInstructorsPage() {
                                     </div>
                                     <div className="flex gap-2">
                                         <TableActions
-                                            viewUrl={`/instructors`}
+                                            viewUrl={`/instructors/${inst.id}`}
                                             onEdit={() => handleEdit(inst)}
                                             onDelete={() => handleDelete(inst.id)}
                                         />

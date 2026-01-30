@@ -14,8 +14,8 @@ export const HeadingSection = ({ section }: { section: Section }) => {
         <section className={cn("py-12 relative overflow-hidden", section.className)}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                showDotPattern={true}
+                backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={section.glowVariant}
             />
@@ -39,10 +39,10 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                             <h2 className={cn(
                                 "text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight",
                                 section.backgroundTheme === 'dark'
-                                    ? "text-zinc-50"
+                                    ? "text-white"
                                     : section.backgroundTheme === 'light'
                                         ? "text-zinc-900"
-                                        : "text-zinc-900 dark:text-zinc-50"
+                                        : "text-zinc-900 dark:text-white"
                             )}>
                                 {section.title}
                             </h2>
