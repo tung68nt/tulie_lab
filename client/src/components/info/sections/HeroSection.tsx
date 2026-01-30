@@ -1,3 +1,4 @@
+'use client';
 import { SectionTag } from '@/components/SectionTag';
 import { FadeIn } from '@/components/animations/FadeIn';
 
