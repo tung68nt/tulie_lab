@@ -80,7 +80,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                                     {module.lessons.map((lesson: string, i: number) => (
                                                         <div key={i} className="flex items-start gap-3 group/lesson py-1.5 px-2 -ml-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                                                             <div className="mt-1 shrink-0">
-                                                                className={cn(
+                                                                <PlayCircle className={cn(
                                                                     "w-5 h-5 transition-colors",
                                                                     isDark ? "text-zinc-600 group-hover/lesson:text-primary" : "text-zinc-400 group-hover/lesson:text-primary"
                                                                 )} />
