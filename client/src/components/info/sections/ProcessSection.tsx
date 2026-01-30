@@ -15,6 +15,7 @@ interface ProcessSectionProps {
 
 import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { FadeIn } from '@/components/animations/FadeIn';
 
 export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProps) => {
     if (!section.items) return null;
@@ -56,26 +57,28 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                             ) && !isLastItem;
 
                             return (
-                                <div key={idx} className={`relative group ${orderClass}`}>
-                                    {/* Connectors */}
-                                    <div className="hidden lg:block absolute top-[2.5rem] left-0 w-full -z-10 h-1">
-                                        {snakeLineRight && <div className="absolute right-[-50%] top-0 w-full border-t-2 border-dashed border-muted-foreground/30" />}
-                                        {snakeLineLeft && <div className="absolute left-[-50%] top-0 w-full border-t-2 border-dashed border-muted-foreground/30" />}
-                                        {snakeLineDown && <div className="absolute left-1/2 top-0 h-[calc(100%+8rem)] w-0.5 border-l-2 border-dashed border-muted-foreground/30" />}
+                                <FadeIn key={idx} delay={idx * 0.1}>
+                                    <div className={`relative group ${orderClass}`}>
+                                        {/* Connectors */}
+                                        <div className="hidden lg:block absolute top-[2.5rem] left-0 w-full -z-10 h-1">
+                                            {snakeLineRight && <div className="absolute right-[-50%] top-0 w-full border-t-2 border-dashed border-muted-foreground/30" />}
+                                            {snakeLineLeft && <div className="absolute left-[-50%] top-0 w-full border-t-2 border-dashed border-muted-foreground/30" />}
+                                            {snakeLineDown && <div className="absolute left-1/2 top-0 h-[calc(100%+8rem)] w-0.5 border-l-2 border-dashed border-muted-foreground/30" />}
+                                        </div>
+                                        {!isLastItem && <div className="lg:hidden absolute top-20 left-1/2 w-0.5 h-16 bg-border/50 -z-10" />}
+                                        {/* Circle */}
+                                        <div className="w-20 h-20 rounded-full bg-background border-4 border-muted group-hover:border-primary transition-all duration-300 flex items-center justify-center mb-8 relative z-10 shadow-sm group-hover:shadow-lg scale-100 group-hover:scale-110 shrink-0">
+                                            <span className="text-3xl font-bold text-muted-foreground group-hover:text-primary transition-colors">
+                                                {String(idx + 1).padStart(2, '0')}
+                                            </span>
+                                        </div>
+                                        {/* Content */}
+                                        <div className="w-full flex-1 p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+                                            <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                                            <div className="text-muted-foreground text-sm whitespace-pre-line">{item.description}</div>
+                                        </div>
                                     </div>
-                                    {!isLastItem && <div className="lg:hidden absolute top-20 left-1/2 w-0.5 h-16 bg-border/50 -z-10" />}
-                                    {/* Circle */}
-                                    <div className="w-20 h-20 rounded-full bg-background border-4 border-muted group-hover:border-primary transition-all duration-300 flex items-center justify-center mb-8 relative z-10 shadow-sm group-hover:shadow-lg scale-100 group-hover:scale-110 shrink-0">
-                                        <span className="text-3xl font-bold text-muted-foreground group-hover:text-primary transition-colors">
-                                            {String(idx + 1).padStart(2, '0')}
-                                        </span>
-                                    </div>
-                                    {/* Content */}
-                                    <div className="w-full flex-1 p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
-                                        <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                                        <div className="text-muted-foreground text-sm whitespace-pre-line">{item.description}</div>
-                                    </div>
-                                </div>
+                                </FadeIn>
                             );
                         })}
                     </div>
@@ -87,18 +90,20 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
                         } justify-center`}>
                         {section.items.map((item, idx) => (
-                            <div key={idx} className="bg-card p-6 rounded-2xl border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col items-start h-full relative overflow-hidden">
-                                {/* Decorative Number */}
-                                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                    <span className="text-8xl font-bold text-primary">{idx + 1}</span>
-                                </div>
+                            <FadeIn key={idx} delay={idx * 0.1} className="h-full">
+                                <div className="bg-card p-6 rounded-2xl border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col items-start h-full relative overflow-hidden">
+                                    {/* Decorative Number */}
+                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                        <span className="text-8xl font-bold text-primary">{idx + 1}</span>
+                                    </div>
 
-                                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary font-bold text-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors z-10">
-                                    {idx + 1}
+                                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary font-bold text-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors z-10">
+                                        {idx + 1}
+                                    </div>
+                                    <h3 className="text-lg font-bold mb-3 z-10">{item.title}</h3>
+                                    <div className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed z-10">{item.description}</div>
                                 </div>
-                                <h3 className="text-lg font-bold mb-3 z-10">{item.title}</h3>
-                                <div className="text-muted-foreground text-sm whitespace-pre-line leading-relaxed z-10">{item.description}</div>
-                            </div>
+                            </FadeIn>
                         ))}
                     </div>
                 )}

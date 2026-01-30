@@ -101,7 +101,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 {/* Extend sidebar border up */}
                                 <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border z-40"></div>
                                 <div className="sticky top-16 flex flex-col h-[calc(100vh-64px)]">
-                                    <div className="px-6 pt-8 pb-6 border-b bg-muted/20">
+                                    <div className="px-6 pt-14 pb-6 border-b bg-muted/20">
                                         <div className="flex flex-col gap-1">
                                             <span className="text-sm text-muted-foreground leading-none">Quản lý</span>
                                             <span className="text-xl font-bold text-foreground tracking-tight">Hệ thống Tulie</span>

@@ -1,6 +1,7 @@
 import { Section } from '@/types/sections';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { FadeIn } from '@/components/animations/FadeIn';
 
 import { SectionBackground } from '../SectionBackground';
 
@@ -25,32 +26,37 @@ export function StatsSection({ section }: { section: Section }) {
                             'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
                     }`}>
                     {section.items?.map((item, index) => (
-                        <div
+                        <FadeIn
                             key={index}
-                            className="bg-card border border-border/50 hover:border-primary/50 p-8 rounded-2xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden"
+                            delay={index * 0.1}
+                            className="h-full"
                         >
-                            <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-500">
-                                <DynamicIcon name={item.icon || 'Star'} className="h-32 w-32" />
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className="mb-8 inline-flex p-4 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                                    <DynamicIcon name={item.icon || 'Star'} className="h-8 w-8" strokeWidth={2} />
+                            <div
+                                className="bg-card border border-border/50 hover:border-primary/50 p-8 rounded-2xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden h-full"
+                            >
+                                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-500">
+                                    <DynamicIcon name={item.icon || 'Star'} className="h-32 w-32" />
                                 </div>
 
-                                <h3 className={`text-2xl font-bold mb-4 ${section.backgroundTheme === 'dark' ? 'text-white' : 'text-foreground'
-                                    }`}>
-                                    {String(item.title || '')}
-                                </h3>
-                                <p className={`text-lg leading-relaxed ${section.backgroundTheme === 'dark' ? 'text-zinc-400' : 'text-muted-foreground'
-                                    }`}>
-                                    {String(item.description || item.label || '')}
-                                </p>
-                                {Boolean(item.value) && (
-                                    <p className="text-4xl font-bold text-primary mt-6">{String(item.value)}</p>
-                                )}
+                                <div className="relative z-10">
+                                    <div className="mb-8 inline-flex p-4 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                                        <DynamicIcon name={item.icon || 'Star'} className="h-8 w-8" strokeWidth={2} />
+                                    </div>
+
+                                    <h3 className={`text-2xl font-bold mb-4 ${section.backgroundTheme === 'dark' ? 'text-white' : 'text-foreground'
+                                        }`}>
+                                        {String(item.title || '')}
+                                    </h3>
+                                    <p className={`text-lg leading-relaxed ${section.backgroundTheme === 'dark' ? 'text-zinc-400' : 'text-muted-foreground'
+                                        }`}>
+                                        {String(item.description || item.label || '')}
+                                    </p>
+                                    {Boolean(item.value) && (
+                                        <p className="text-4xl font-bold text-primary mt-6">{String(item.value)}</p>
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        </FadeIn>
                     ))}
                 </div>
             </div>

@@ -87,7 +87,7 @@ function BarChart({ data }: { data: { month: string; value: number; date?: Date 
                                             </div>
                                             {/* Bar */}
                                             <div
-                                                className={`transition-all hover:opacity-80 ${weekend ? 'bg-zinc-300' : 'bg-foreground'} w-[90%] max-w-[20px] h-full`}
+                                                className={`transition-all hover:opacity-80 ${weekend ? 'bg-muted' : 'bg-foreground'} w-[90%] max-w-[20px] h-full`}
                                             />
                                         </div>
                                     </div>
@@ -374,7 +374,7 @@ export default function AdminDashboardPage() {
         const date = new Date(dateStr);
         return (
             <div className="flex flex-col text-[10px] leading-tight text-muted-foreground">
-                <span className="font-bold text-zinc-900 text-xs">
+                <span className="font-bold text-foreground text-xs">
                     {date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
                 </span>
                 <span>
@@ -530,39 +530,65 @@ export default function AdminDashboardPage() {
 
             {/* Stats Cards */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-                <Card className="border shadow-none bg-white border-zinc-200">
-                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Doanh thu</div>
-                        <div className="text-2xl font-bold">{formatCurrency(data.totalRevenue)}</div>
-                        <div className="text-sm text-muted-foreground mt-1">
+                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
+                        <div className="p-3 rounded-full bg-primary/5 mb-2">
+                            <DollarSign className="w-8 h-8 text-primary" strokeWidth={1.5} />
+                        </div>
+                        <div className="text-3xl font-medium tracking-normal text-foreground">
+                            {formatCurrency(data.totalRevenue)}
+                        </div>
+                        <div className="text-sm font-medium text-muted-foreground">Doanh thu</div>
+                        <div className="text-xs text-muted-foreground/80 pt-1">
                             {data.totalRevenue > 0
-                                ? `Tháng này: ${formatCurrency(data.monthlyRevenue)}`
+                                ? `+${formatCurrency(data.monthlyRevenue)} tháng này`
                                 : 'Chưa có doanh thu'}
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border shadow-none bg-white border-zinc-200">
-                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Đã thanh toán</div>
-                        <div className="text-3xl font-bold">{data.paidOrders}</div>
-                        <div className="text-sm text-muted-foreground mt-1">Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%</div>
+                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
+                        <div className="p-3 rounded-full bg-green-500/10 mb-2">
+                            <CheckCircle2 className="w-8 h-8 text-green-600 dark:text-green-400" strokeWidth={1.5} />
+                        </div>
+                        <div className="text-3xl font-medium tracking-normal text-foreground">
+                            {data.paidOrders}
+                        </div>
+                        <div className="text-sm font-medium text-muted-foreground">Đơn thành công</div>
+                        <div className="text-xs text-muted-foreground/80 pt-1">
+                            Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%
+                        </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border shadow-none bg-white border-zinc-200">
-                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Đợi xử lý</div>
-                        <div className="text-3xl font-bold">{data.pendingOrders}</div>
-                        <div className="text-sm text-muted-foreground mt-1">Cần duyệt: {data.pendingOrders} đơn</div>
+                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
+                        <div className="p-3 rounded-full bg-orange-500/10 mb-2">
+                            <Clock className="w-8 h-8 text-orange-600 dark:text-orange-400" strokeWidth={1.5} />
+                        </div>
+                        <div className="text-3xl font-medium tracking-normal text-foreground">
+                            {data.pendingOrders}
+                        </div>
+                        <div className="text-sm font-medium text-muted-foreground">Đợi xử lý</div>
+                        <div className="text-xs text-muted-foreground/80 pt-1">
+                            Cần duyệt: {data.pendingOrders} đơn
+                        </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border shadow-none bg-white border-zinc-200">
-                    <CardContent className="!p-6 flex flex-col items-center justify-center h-[120px] text-center">
-                        <div className="text-sm font-medium text-muted-foreground mb-1">Học viên</div>
-                        <div className="text-2xl font-extrabold">{data.totalUsers}</div>
-                        <div className="text-sm text-muted-foreground mt-1">{data.activeUsers} đang hoạt động</div>
+                <Card className="border shadow-sm bg-card/50 hover:bg-card transition-all duration-200">
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center space-y-2">
+                        <div className="p-3 rounded-full bg-blue-500/10 mb-2">
+                            <Users className="w-8 h-8 text-blue-600 dark:text-blue-400" strokeWidth={1.5} />
+                        </div>
+                        <div className="text-3xl font-medium tracking-normal text-foreground">
+                            {data.totalUsers}
+                        </div>
+                        <div className="text-sm font-medium text-muted-foreground">Học viên</div>
+                        <div className="text-xs text-muted-foreground/80 pt-1">
+                            {data.activeUsers} đang hoạt động
+                        </div>
                     </CardContent>
                 </Card>
             </div>
@@ -610,20 +636,20 @@ export default function AdminDashboardPage() {
             <div className="space-y-6">
                 {/* Recent Orders Table */}
                 {data.recentOrders.length > 0 && (
-                    <Card className="overflow-hidden border shadow-none border-zinc-200">
-                        <CardHeader className="py-8 flex flex-col items-center justify-center bg-white border-b space-y-4">
+                    <Card className="overflow-hidden border shadow-none border-border">
+                        <CardHeader className="py-8 flex flex-col items-center justify-center bg-card border-b space-y-4">
                             <div className="text-center">
                                 <CardTitle className="text-base font-bold">Đơn hàng mới nhất</CardTitle>
                                 <p className="text-sm text-muted-foreground">5 đơn hàng vừa phát sinh trên hệ thống</p>
                             </div>
                             <Link href="/admin/orders">
-                                <Button variant="outline" size="sm" className="h-9 text-xs px-6 font-medium bg-white hover:bg-zinc-50 border-zinc-200">Chi tiết -{'>'}</Button>
+                                <Button variant="outline" size="sm" className="h-9 text-xs px-6 font-medium bg-card hover:bg-accent border-border">Chi tiết -{'>'}</Button>
                             </Link>
                         </CardHeader>
                         <CardContent className="p-0">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
-                                    <thead className="bg-zinc-50/50">
+                                    <thead className="bg-muted/50">
                                         <tr className="border-b">
                                             <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Mã đơn</th>
                                             <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Member</th>
@@ -632,20 +658,20 @@ export default function AdminDashboardPage() {
                                             <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Thời gian</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-zinc-100">
+                                    <tbody className="divide-y divide-border">
                                         {data.recentOrders.map(order => (
-                                            <tr key={order.id} className="hover:bg-zinc-50/30 transition-colors">
+                                            <tr key={order.id} className="hover:bg-muted/30 transition-colors">
                                                 <td className="py-3 px-4">
                                                     <span className="text-xs bg-muted px-2 py-1 rounded font-mono font-bold">
                                                         {order.code}
                                                     </span>
                                                 </td>
                                                 <td className="py-3 px-4 text-xs font-medium">{order.userName}</td>
-                                                <td className="py-3 px-4 text-right font-medium text-zinc-900">{formatCurrency(order.amount)}</td>
+                                                <td className="py-3 px-4 text-right font-medium text-foreground">{formatCurrency(order.amount)}</td>
                                                 <td className="py-3 px-4 text-center">
                                                     <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold ${order.status === 'PAID' || order.status === 'COMPLETED'
-                                                        ? 'bg-zinc-900 text-zinc-100'
-                                                        : 'bg-zinc-100 text-zinc-500'
+                                                        ? 'bg-foreground text-background'
+                                                        : 'bg-muted text-muted-foreground'
                                                         }`}>
                                                         {order.status === 'PAID' || order.status === 'COMPLETED' ? <CheckCircle2 size={10} /> : <Clock size={10} />}
                                                         {order.status === 'PAID' || order.status === 'COMPLETED' ? 'Paid' : 'Pending'}
@@ -662,20 +688,20 @@ export default function AdminDashboardPage() {
                 )}
 
                 {/* Recent Transactions Table */}
-                <Card className="overflow-hidden border shadow-none border-zinc-200">
-                    <CardHeader className="py-8 flex flex-col items-center justify-center bg-white border-b space-y-4">
+                <Card className="overflow-hidden border shadow-none border-border">
+                    <CardHeader className="py-8 flex flex-col items-center justify-center bg-card border-b space-y-4">
                         <div className="text-center">
                             <CardTitle className="text-base font-bold">Lịch sử Giao dịch</CardTitle>
                             <p className="text-sm text-muted-foreground">Các giao dịch tài chính vừa được đồng bộ</p>
                         </div>
                         <Link href="/admin/payments">
-                            <Button variant="outline" size="sm" className="h-9 text-xs px-6 font-medium bg-white hover:bg-zinc-50 border-zinc-200">Chi tiết -{'>'}</Button>
+                            <Button variant="outline" size="sm" className="h-9 text-xs px-6 font-medium bg-card hover:bg-accent border-border">Chi tiết -{'>'}</Button>
                         </Link>
                     </CardHeader>
                     <CardContent className="p-0">
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
-                                <thead className="bg-zinc-50/50">
+                                <thead className="bg-muted/50">
                                     <tr className="border-b">
                                         <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Thời gian</th>
                                         <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Ngân hàng</th>
@@ -684,15 +710,15 @@ export default function AdminDashboardPage() {
                                         <th className="text-center py-3 px-4 font-bold text-xs text-muted-foreground/70 text-nowrap">Mã đơn</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-zinc-100">
+                                <tbody className="divide-y divide-border">
                                     {transactions.length > 0 ? (
                                         transactions.map((tx: any) => (
-                                            <tr key={tx.id} className="hover:bg-zinc-50/30 transition-colors">
+                                            <tr key={tx.id} className="hover:bg-muted/30 transition-colors">
                                                 <td className="py-3 px-4">
                                                     {renderTransactionDate(tx.transactionDate || tx.createdAt)}
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <div className="font-bold text-zinc-900 text-xs">{tx.gateway}</div>
+                                                    <div className="font-bold text-foreground text-xs">{tx.gateway}</div>
                                                     <div className="text-[10px] text-muted-foreground font-mono">{tx.accountNumber}</div>
                                                 </td>
                                                 <td className="py-3 px-4 min-w-[200px] max-w-[350px]">
@@ -700,14 +726,14 @@ export default function AdminDashboardPage() {
                                                         {tx.content || tx.description || 'N/A'}
                                                     </div>
                                                 </td>
-                                                <td className="py-3 px-4 text-right font-bold text-zinc-900 text-sm">
+                                                <td className="py-3 px-4 text-right font-bold text-foreground text-sm">
                                                     {formatCurrency(Number(tx.amountIn))}
                                                 </td>
                                                 <td className="py-3 px-4 text-center">
                                                     {tx.code ? (
                                                         <Link href={tx.orderId ? `/admin/orders/${tx.orderId}` : `/admin/orders?search=${tx.code}`}>
                                                             <div className="group flex items-center justify-center gap-1.5 cursor-pointer">
-                                                                <span className="text-[10px] bg-zinc-900 text-zinc-100 px-2 py-0.5 rounded-full font-mono font-bold whitespace-nowrap group-hover:bg-zinc-700 transition-colors shadow-sm">
+                                                                <span className="text-[10px] bg-foreground text-background px-2 py-0.5 rounded-full font-mono font-bold whitespace-nowrap group-hover:bg-primary/80 transition-colors shadow-sm">
                                                                     {tx.code}
                                                                 </span>
                                                             </div>
@@ -735,10 +761,10 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* Inactive Users Widget */}
-                <Card className="overflow-hidden border shadow-none border-zinc-200">
-                    <CardHeader className="py-8 flex flex-col items-center justify-center bg-white border-b space-y-4 relative">
+                <Card className="overflow-hidden border shadow-none border-border">
+                    <CardHeader className="py-8 flex flex-col items-center justify-center bg-card border-b space-y-4 relative">
                         <div className="absolute top-4 right-4">
-                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-zinc-100" onClick={loadInactiveUsers} disabled={loadingInactive}>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-muted" onClick={loadInactiveUsers} disabled={loadingInactive}>
                                 {loadingInactive ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCcw size={14} />}
                             </Button>
                         </div>
@@ -750,43 +776,43 @@ export default function AdminDashboardPage() {
                     <CardContent className="p-0">
                         {loadingInactive ? (
                             <div className="flex items-center justify-center py-12">
-                                <Loader2 className="h-8 w-8 animate-spin text-zinc-900" />
+                                <Loader2 className="h-8 w-8 animate-spin text-foreground" />
                             </div>
                         ) : inactiveUsers.length === 0 ? (
                             <div className="text-center py-12">
-                                <div className="mx-auto w-12 h-12 bg-zinc-50 flex items-center justify-center rounded-full mb-3">
-                                    <CheckCircle2 size={24} className="text-zinc-300" />
+                                <div className="mx-auto w-12 h-12 bg-muted flex items-center justify-center rounded-full mb-3">
+                                    <CheckCircle2 size={24} className="text-muted-foreground" />
                                 </div>
                                 <p className="text-sm text-muted-foreground font-medium">Tất cả học viên đều đang hoạt động tích cực!</p>
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
-                                    <thead className="bg-zinc-50/50">
+                                    <thead className="bg-muted/50">
                                         <tr className="border-b">
                                             <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Học viên</th>
                                             <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Khoá học</th>
                                             <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Vắng mặt</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-zinc-100">
+                                    <tbody className="divide-y divide-border">
                                         {inactiveUsers.map((user: any) => (
-                                            <tr key={user.id} className="group hover:bg-zinc-50/30 transition-colors">
+                                            <tr key={user.id} className="group hover:bg-muted/30 transition-colors">
                                                 <td className="py-3 px-4">
                                                     <Link href={`/admin/users/${user.id}`} className="block">
-                                                        <div className="font-bold text-zinc-900 group-hover:text-zinc-700 transition-colors">{user.name || 'Chưa đặt tên'}</div>
+                                                        <div className="font-bold text-foreground group-hover:text-primary transition-colors">{user.name || 'Chưa đặt tên'}</div>
                                                         <div className="text-xs text-muted-foreground">{user.email}</div>
                                                     </Link>
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <span className="text-xs text-zinc-600 font-medium bg-zinc-100 px-2 py-1 rounded inline-block max-w-[200px] truncate">
+                                                    <span className="text-xs text-muted-foreground font-medium bg-muted px-2 py-1 rounded inline-block max-w-[200px] truncate">
                                                         {user.courses?.length > 0 ? user.courses[0] : 'Chưa đăng ký'}
                                                         {user.courses?.length > 1 && ` +${user.courses.length - 1}`}
                                                     </span>
                                                 </td>
                                                 <td className="py-3 px-4 text-right">
                                                     <div className="inline-flex flex-col items-end">
-                                                        <span className="font-bold text-zinc-900">{user.daysSinceActivity} ngày</span>
+                                                        <span className="font-bold text-foreground">{user.daysSinceActivity} ngày</span>
                                                         <span className="text-[10px] text-muted-foreground">Không hoạt động</span>
                                                     </div>
                                                 </td>
@@ -795,9 +821,9 @@ export default function AdminDashboardPage() {
                                     </tbody>
                                 </table>
                                 {inactiveUsers.length > 0 && (
-                                    <div className="p-4 border-t border-zinc-100">
+                                    <div className="p-4 border-t border-border">
                                         <Link href="/admin/users" className="block w-full">
-                                            <Button variant="outline" size="sm" className="w-full text-xs h-9 font-medium bg-white hover:bg-zinc-50 border-dashed border-zinc-200">
+                                            <Button variant="outline" size="sm" className="w-full text-xs h-9 font-medium bg-card hover:bg-accent border-dashed border-border">
                                                 Xem tất cả thành viên
                                             </Button>
                                         </Link>

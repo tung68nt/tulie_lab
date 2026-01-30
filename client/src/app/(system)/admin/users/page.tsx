@@ -144,13 +144,19 @@ export default function AdminUsersPage() {
                 ].map((item, idx) => (
                     <Card
                         key={idx}
-                        className={`cursor-pointer hover:border-zinc-900 transition-all border shadow-none bg-white ${filter === item.id ? 'border-zinc-950 ring-1 ring-zinc-950' : 'border-zinc-200'}`}
+                        className={`cursor-pointer transition-all duration-200 border shadow-sm ${filter === item.id
+                            ? 'bg-primary/5 border-primary ring-1 ring-primary/20'
+                            : 'bg-card/50 hover:bg-card border-border hover:border-primary/30'}`}
                         onClick={() => setFilter(item.id)}
                     >
-                        <CardContent className="!p-4 flex flex-col items-center justify-center text-center space-y-2 h-[110px]">
-                            <item.icon size={18} className={filter === item.id ? 'text-zinc-950' : 'text-muted-foreground'} />
-                            <div className="text-2xl font-bold text-zinc-950 tabular-nums">{item.value.toLocaleString('vi-VN')}</div>
-                            <div className="text-[10px] font-bold text-muted-foreground tracking-wider">{item.label}</div>
+                        <CardContent className="!p-6 flex flex-col items-center justify-center text-center space-y-2">
+                            <div className={`p-3 rounded-full mb-2 ${filter === item.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                                <item.icon size={24} strokeWidth={1.5} />
+                            </div>
+                            <div className="text-3xl font-medium tracking-normal text-foreground tabular-nums">
+                                {item.value.toLocaleString('vi-VN')}
+                            </div>
+                            <div className="text-sm font-medium text-muted-foreground">{item.label}</div>
                         </CardContent>
                     </Card>
                 ))}
@@ -187,16 +193,16 @@ export default function AdminUsersPage() {
             </div>
 
             {/* Members Table */}
-            <Card className="border shadow-none bg-white border-zinc-200">
-                <CardHeader className="border-b bg-zinc-50/50 py-4 px-6 flex flex-row items-center justify-between">
-                    <CardTitle className="text-base font-bold text-zinc-900">
+            <Card className="border shadow-none bg-card border-border">
+                <CardHeader className="border-b border-border bg-muted/20 py-4 px-6 flex flex-row items-center justify-between">
+                    <CardTitle className="text-base font-bold text-foreground">
                         Danh sách kết quả ({loading ? '...' : total})
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="!p-0">
                     {loading ? (
                         <div className="flex items-center justify-center py-20">
-                            <Loader2 className="h-8 w-8 animate-spin text-zinc-900" />
+                            <Loader2 className="h-8 w-8 animate-spin text-foreground" />
                         </div>
                     ) : users.length === 0 ? (
                         <div className="text-center py-20 text-muted-foreground">
@@ -206,11 +212,11 @@ export default function AdminUsersPage() {
                         <div className="overflow-x-auto overflow-y-hidden">
                             <table className="w-full text-[13px] border-collapse">
                                 <thead>
-                                    <tr className="bg-zinc-50 border-b border-zinc-100">
-                                        <th className="text-left font-bold text-zinc-500 py-3 px-6 w-[250px]">Thành viên</th>
-                                        <th className="text-center font-bold text-zinc-500 py-3 px-4">Quyền hạn / Gói cước</th>
-                                        <th className="text-right font-bold text-zinc-500 py-3 px-4">Ngày gia nhập</th>
-                                        <th className="text-right font-bold text-zinc-500 py-3 px-4">Hoạt động cuối</th>
+                                    <tr className="bg-muted/50 border-b border-border">
+                                        <th className="text-left font-bold text-muted-foreground py-3 px-6 w-[250px]">Thành viên</th>
+                                        <th className="text-center font-bold text-muted-foreground py-3 px-4">Quyền hạn / Gói cước</th>
+                                        <th className="text-right font-bold text-muted-foreground py-3 px-4">Ngày gia nhập</th>
+                                        <th className="text-right font-bold text-muted-foreground py-3 px-4">Hoạt động cuối</th>
                                         <th className="text-center py-3 px-6"></th>
                                     </tr>
                                 </thead>
@@ -218,17 +224,17 @@ export default function AdminUsersPage() {
                                     {users.map((user) => (
                                         <tr
                                             key={user.id}
-                                            className="group border-b border-zinc-50 hover:bg-zinc-50/50 transition-colors cursor-pointer"
+                                            className="group border-b border-border hover:bg-muted/50 transition-colors cursor-pointer"
                                             onClick={() => router.push(`/admin/users/${user.id}`)}
                                         >
                                             <td className="py-4 px-6">
                                                 <div className="flex items-center gap-3 min-w-0">
-                                                    <div className="w-9 h-9 rounded-full bg-zinc-100 flex items-center justify-center font-bold text-zinc-400 border border-zinc-200 shrink-0">
+                                                    <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground border border-border shrink-0">
                                                         {user.profile?.name?.charAt(0)?.toUpperCase() || user.email.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <div className="font-bold text-zinc-900 truncate">{user.profile?.name || 'Chưa đặt tên'}</div>
-                                                        <div className="text-[11px] text-zinc-500 truncate">{user.email}</div>
+                                                        <div className="font-bold text-foreground truncate">{user.profile?.name || 'Chưa đặt tên'}</div>
+                                                        <div className="text-[11px] text-muted-foreground truncate">{user.email}</div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -237,25 +243,25 @@ export default function AdminUsersPage() {
                                                     {getStatusLabels(user)}
                                                 </div>
                                             </td>
-                                            <td className="py-4 px-4 text-right text-zinc-500 align-top">
+                                            <td className="py-4 px-4 text-right text-muted-foreground align-top">
                                                 <div className="flex flex-col items-end">
-                                                    <span className="font-medium text-zinc-900">{formatDate(user.createdAt)}</span>
+                                                    <span className="font-medium text-foreground">{formatDate(user.createdAt)}</span>
                                                 </div>
                                             </td>
                                             <td className="py-4 px-4 text-right align-top">
                                                 <div className="flex flex-col items-end">
                                                     {user.lastLoginAt ? (
                                                         <>
-                                                            <span className="font-medium text-zinc-900">{formatDate(user.lastLoginAt)}</span>
-                                                            <span className="text-[10px] text-zinc-500">Đã đăng nhập</span>
+                                                            <span className="font-medium text-foreground">{formatDate(user.lastLoginAt)}</span>
+                                                            <span className="text-[10px] text-muted-foreground">Đã đăng nhập</span>
                                                         </>
                                                     ) : (
-                                                        <span className="text-zinc-400">Chưa hoạt động</span>
+                                                        <span className="text-muted-foreground">Chưa hoạt động</span>
                                                     )}
                                                 </div>
                                             </td>
                                             <td className="py-4 px-6 text-right">
-                                                <div className="h-8 w-8 rounded-full flex items-center justify-center group-hover:bg-zinc-100 transition-all text-zinc-400 group-hover:text-zinc-900 group-hover:translate-x-1 duration-200">
+                                                <div className="h-8 w-8 rounded-full flex items-center justify-center group-hover:bg-muted transition-all text-muted-foreground group-hover:text-foreground group-hover:translate-x-1 duration-200">
                                                     <ChevronRight size={18} />
                                                 </div>
                                             </td>

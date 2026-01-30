@@ -3,6 +3,7 @@ import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import { FadeIn } from '@/components/animations/FadeIn';
 
 const testimonials = [
     {
@@ -75,8 +76,9 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                 {/* Testimonials grid */}
                 <div className="flex flex-wrap justify-center gap-8">
                     {(section.items || testimonials).map((testimonial: any, index) => (
-                        <div
+                        <FadeIn
                             key={index}
+                            delay={index * 0.1}
                             className="w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] flex flex-col"
                         >
                             <div className="h-full bg-card border border-border/50 rounded-3xl p-1 shadow-sm hover:shadow-lg hover:border-primary/50 hover:-translate-y-1 transition-all duration-300">
@@ -136,7 +138,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </FadeIn>
                     ))}
                 </div>
             </div>
