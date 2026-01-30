@@ -538,17 +538,17 @@ export default function AdminDashboardPage() {
             {/* Stats Cards - Redesigned (Monochrome) */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <CircleDollarSign className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-3">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
+                        <div className="space-y-1">
+                            <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
                                 {formatCompactNumber(data.totalRevenue)}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Doanh thu</div>
+                            <div className="text-sm font-semibold text-muted-foreground">Doanh thu</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium pt-2">
+                        <div className="text-[11px] text-muted-foreground font-medium pt-1">
                             {data.totalRevenue > 0
                                 ? `+${formatCompactNumber(data.monthlyRevenue)} tháng này`
                                 : 'Chưa có doanh thu'}
@@ -557,51 +557,51 @@ export default function AdminDashboardPage() {
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <ShoppingBag className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-3">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
+                        <div className="space-y-1">
+                            <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
                                 {data.paidOrders}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Đơn thành công</div>
+                            <div className="text-sm font-semibold text-muted-foreground">Đơn thành công</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium pt-2">
+                        <div className="text-[11px] text-muted-foreground font-medium pt-1">
                             Tỷ lệ: {data.totalOrders > 0 ? ((data.paidOrders / data.totalOrders) * 100).toFixed(1) : 0}%
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <Hourglass className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-3">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
+                        <div className="space-y-1">
+                            <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
                                 {data.pendingOrders}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Đợi xử lý</div>
+                            <div className="text-sm font-semibold text-muted-foreground">Đợi xử lý</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium pt-2">
+                        <div className="text-[11px] text-muted-foreground font-medium pt-1">
                             Cần duyệt: {data.pendingOrders} đơn
                         </div>
                     </CardContent>
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                    <CardContent className="py-5 px-4 flex flex-col items-center justify-center text-center space-y-2">
                         <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
                             <UsersRound className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-3">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
+                        <div className="space-y-1">
+                            <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
                                 {data.totalUsers}
                             </div>
-                            <div className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Học viên</div>
+                            <div className="text-sm font-semibold text-muted-foreground">Học viên</div>
                         </div>
-                        <div className="text-xs text-muted-foreground font-medium pt-2">
+                        <div className="text-[11px] text-muted-foreground font-medium pt-1">
                             {data.activeUsers} đang hoạt động
                         </div>
                     </CardContent>

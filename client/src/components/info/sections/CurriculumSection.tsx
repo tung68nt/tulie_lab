@@ -39,12 +39,12 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                     <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
                                         {/* Thumbnail - Left Side (35%) */}
                                         <div className="relative w-full lg:w-[35%] shrink-0">
-                                            <div className="aspect-video rounded-3xl overflow-hidden shadow-lg border border-border/50">
+                                            <div className="aspect-video rounded-2xl overflow-hidden shadow-lg border border-border/50">
                                                 <Image
                                                     src={module.image || "/placeholder.jpg"}
                                                     alt={String(module.title || '')}
                                                     fill
-                                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                                    className="object-cover rounded-2xl group-hover:scale-105 transition-transform duration-700"
                                                 />
                                             </div>
                                             <div className="absolute top-4 left-4">

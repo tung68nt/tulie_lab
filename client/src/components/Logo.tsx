@@ -41,8 +41,9 @@ export function Logo({ className = "", showText = true }: LogoProps) {
 
         // Normalize current hostname
         const normalizedHost = hostname.toLowerCase().replace(/^www\./, '');
+        console.log('Current Hostname:', normalizedHost); // Debugging log
 
-        return domainBrandingList.find((db: any) => {
+        const foundBranding = domainBrandingList.find((db: any) => {
             if (!db.domain) return false;
 
             // Normalize configured domain: strip protocol, www, and trailing slashes
@@ -50,8 +51,20 @@ export function Logo({ className = "", showText = true }: LogoProps) {
                 .replace(/^(https?:\/\/)?(www\.)?/, '')
                 .replace(/\/$/, '');
 
-            return normalizedConfigDomain === normalizedHost;
+            // Match exact domain or subdomains
+            const isMatch = normalizedConfigDomain === normalizedHost ||
+                normalizedHost.endsWith(`.${normalizedConfigDomain}`);
+
+            if (isMatch) {
+                console.log('Matched Branding Domain:', normalizedConfigDomain, 'with Host:', normalizedHost); // Debugging log
+            }
+            return isMatch;
         });
+
+        if (!foundBranding) {
+            console.log('No branding found for host:', normalizedHost); // Debugging log
+        }
+        return foundBranding;
     }, [hostname, domainBrandingList]);
 
     // Final logo and name logic with fallback

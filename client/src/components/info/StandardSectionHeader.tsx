@@ -50,14 +50,14 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     const titleGradientClass = isDarkBg
         ? "text-white"
         : isLightBg
-            ? "text-zinc-950"
-            : "text-zinc-950 dark:text-white";
+            ? "bg-clip-text text-transparent bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-950"
+            : "bg-clip-text text-transparent bg-gradient-to-r from-zinc-950 via-zinc-800 to-zinc-950 dark:from-white dark:via-zinc-300 dark:to-white";
 
     const subtitleClass = isDarkBg
-        ? "text-zinc-300"
+        ? "text-zinc-400"
         : isLightBg
             ? "text-zinc-600"
-            : "text-zinc-500 dark:text-zinc-400";
+            : "text-zinc-600 dark:text-zinc-400";
 
     return (
         <div className={cn("mb-10 md:mb-16 relative z-10 flex flex-col", alignClass, className)}>
