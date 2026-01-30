@@ -7,9 +7,12 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
 import { Loader2 } from 'lucide-react';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { useTheme } from 'next-themes';
 
 export default function ContactPage() {
     const { addToast } = useToast();
+    const { theme } = useTheme();
     const [loading, setLoading] = useState(false);
     const [settings, setSettings] = useState<any>({});
     const [formData, setFormData] = useState({
@@ -50,8 +53,16 @@ export default function ContactPage() {
     };
 
     return (
-        <div className="container pt-12 md:pt-16" style={{ paddingBottom: '120px' }}>
-            <div className="mx-auto max-w-2xl">
+        <div className="container pt-12 md:pt-16 relative min-h-screen" style={{ paddingBottom: '120px' }}>
+            {/* Dot Pattern Background */}
+            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <DotPatternBackground
+                    className={theme === 'dark' ? "text-zinc-500/[0.20]" : "text-zinc-500/[0.15]"}
+                    withVignette={false}
+                />
+            </div>
+
+            <div className="mx-auto max-w-2xl relative z-10">
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-2xl">Liên hệ với chúng tôi</CardTitle>
