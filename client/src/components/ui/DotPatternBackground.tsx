@@ -17,8 +17,8 @@ export function DotPatternBackground({ className, fadeClassName, withVignette = 
             {/* The mask makes dots visible in center and fade out towards edges */}
             <div className={cn(
                 "absolute inset-0",
-                "[mask-image:radial-gradient(ellipse_at_center,black_80%,transparent_100%)]",
-                "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_80%,transparent_100%)]",
+                "[mask-image:radial-gradient(ellipse_at_center,black_90%,transparent_100%)]",
+                "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_90%,transparent_100%)]",
                 fadeClassName
             )}
                 style={{
