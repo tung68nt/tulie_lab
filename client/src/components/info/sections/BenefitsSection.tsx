@@ -19,7 +19,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
     const displayItems = items.length > 0 ? items : BENEFITS_DATA;
 
     return (
-        <section className="py-16 md:py-20 bg-background relative overflow-hidden">
+        <section className="py-16 md:py-20 bg-background relative">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

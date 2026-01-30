@@ -7,7 +7,7 @@ import { SectionBackground } from '../SectionBackground';
 
 export function StatsSection({ section }: { section: Section }) {
     return (
-        <section className="w-full py-16 bg-background relative overflow-hidden">
+        <section className="w-full py-16 bg-background relative">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

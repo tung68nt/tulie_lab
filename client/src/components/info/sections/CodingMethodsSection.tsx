@@ -105,11 +105,11 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
     };
 
     return (
-        <section className="py-24 bg-background text-foreground overflow-hidden relative">
+        <section className="py-24 bg-background text-foreground relative">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                backgroundTheme={section.backgroundTheme || 'auto'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={12}
             />

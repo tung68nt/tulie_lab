@@ -9,7 +9,7 @@ import { SectionBackground } from '../SectionBackground';
 
 export function ComparisonSection({ section }: { section: Section }) {
     return (
-        <section className="w-full py-24 md:py-32 relative overflow-hidden">
+        <section className="w-full py-24 md:py-32 relative">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

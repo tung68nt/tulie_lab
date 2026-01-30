@@ -21,7 +21,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
     if (!section.items) return null;
 
     return (
-        <section className="py-24 bg-background relative overflow-hidden">
+        <section className="py-24 bg-background relative">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

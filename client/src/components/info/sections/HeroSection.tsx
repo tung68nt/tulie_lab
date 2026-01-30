@@ -31,12 +31,12 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
     return (
         <section className={cn(
-            "relative w-full overflow-hidden py-16 md:py-24 transition-all duration-500",
+            "relative w-full py-16 md:py-24 transition-all duration-500",
             section.backgroundTheme === 'dark' ? "bg-black text-white" : "bg-background text-foreground"
         )}>
             {/* Ambient Background Effects */}
             {section.backgroundTheme === 'dark' && (
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="absolute inset-0 pointer-events-none">
                     <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-primary/20 rounded-full blur-[160px] opacity-60 animate-pulse" />
                     <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] opacity-40" />
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-zinc-900/40 rounded-full blur-[200px] -z-10" />

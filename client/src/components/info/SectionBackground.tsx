@@ -42,7 +42,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     const overlayBase = isLightTheme ? 'bg-background/60 dark:bg-black/60' : isDarkTheme ? 'bg-black/60' : 'bg-background/60';
 
     return (
-        <div className={cn("absolute inset-0 z-0 overflow-hidden rounded-[inherit] pointer-events-none", className)}>
+        <div className={cn("absolute inset-0 z-0 overflow-visible rounded-[inherit] pointer-events-none", className)}>
             {/* Background Image Layer */}
             {backgroundImage && (
                 <div
@@ -82,7 +82,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                 <div className="absolute inset-0 pointer-events-none">
                     <DotPatternBackground
                         className={cn(
-                            backgroundTheme === 'dark' ? "text-white/25" : "text-black/10 dark:text-white/25"
+                            backgroundTheme === 'dark' ? "text-white/25" : "text-black/10 dark:text-white/20"
                         )}
                         withVignette={false}
                     />
@@ -98,11 +98,11 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
             {!hideGradients && !backgroundImage && (
                 <>
                     <div className={cn(
-                        "absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t to-transparent",
+                        "absolute inset-x-0 bottom-[-1px] h-96 bg-gradient-to-t to-transparent z-10",
                         "from-background"
                     )} />
                     <div className={cn(
-                        "absolute inset-x-0 top-0 h-64 bg-gradient-to-b to-transparent",
+                        "absolute inset-x-0 top-[-1px] h-96 bg-gradient-to-b to-transparent z-10",
                         "from-background"
                     )} />
                 </>
