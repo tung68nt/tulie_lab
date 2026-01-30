@@ -127,7 +127,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                             <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-transparent rounded-[2.5rem] blur-3xl opacity-50"></div>
                             <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-border/50 shadow-2xl skew-y-1 transform transition-all duration-700 hover:skew-y-0">
                                 <Image
-                                    src={bundle.thumbnail || "/placeholder.jpg"}
+                                    src={bundle.thumbnail || "/hero_vibe_coding.png"}
                                     alt={bundle.name}
                                     fill
                                     className="object-cover"
@@ -171,7 +171,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
                                         <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-border/50 group-hover:border-primary/20 transition-colors">
                                             <Image
-                                                src={course.thumbnail || "/placeholder.jpg"}
+                                                src={course.thumbnail || "/hero_vibe_coding.png"}
                                                 alt={course.title}
                                                 fill
                                                 className="object-cover transition-transform duration-700 group-hover:scale-110"

@@ -156,7 +156,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     {/* Thumbnail */}
                                     <div className="relative w-full md:w-2/5 aspect-[16/10] md:aspect-auto overflow-hidden rounded-t-[2.5rem] md:rounded-l-[2.5rem] md:rounded-tr-none">
                                         <Image
-                                            src={mainCourse.thumbnail || section.image || "/placeholder.jpg"}
+                                            src={mainCourse.thumbnail || section.image || "/hero_vibe_coding.png"}
                                             alt={courseTitle}
                                             fill
                                             className="object-cover transition-transform duration-1000 group-hover:scale-110"

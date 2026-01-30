@@ -39,7 +39,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                         <div className="relative w-full lg:w-[35%] shrink-0">
                                             <div className="aspect-video rounded-2xl overflow-hidden shadow-lg border border-border/50">
                                                 <Image
-                                                    src={module.image || "/placeholder.jpg"}
+                                                    src={module.image || "/hero_vibe_coding.png"}
                                                     alt={String(module.title || '')}
                                                     fill
                                                     className="object-cover rounded-2xl group-hover:scale-105 transition-transform duration-700"

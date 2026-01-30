@@ -61,7 +61,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                         {/* Thumbnail Section */}
                                         <div className="relative aspect-[16/9] overflow-hidden">
                                             <Image
-                                                src={combo.thumbnail || "/placeholder.jpg"}
+                                                src={combo.thumbnail || "/hero_vibe_coding.png"}
                                                 alt={combo.name}
                                                 fill
                                                 className="object-cover transition-transform duration-700 group-hover:scale-110"

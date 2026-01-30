@@ -40,7 +40,9 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                             {section.title && (
                                 <h3 className={cn(
                                     "text-2xl md:text-3xl font-bold",
-                                    section.backgroundTheme === 'dark' ? "text-white" : "text-foreground"
+                                    section.backgroundTheme === 'dark'
+                                        ? "text-white"
+                                        : "text-foreground"
                                 )}>
                                     {section.title}
                                 </h3>
