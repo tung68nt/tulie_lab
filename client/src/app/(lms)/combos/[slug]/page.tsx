@@ -71,8 +71,14 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                 <div className="container relative z-10 mx-auto px-6 max-w-[1200px]">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div className="flex flex-col items-start text-left">
-                            <SectionTag className="mb-8 w-fit shrink-0 overflow-hidden" variant="black-pill">
-                                Combo Lộ Trình
+                            <SectionTag
+                                className="mb-8 w-fit shrink-0 overflow-hidden"
+                                variant="black-pill"
+                                animate={false}
+                                bold={false}
+                                size="lg"
+                            >
+                                Combo lộ trình
                             </SectionTag>
 
                             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.15] mb-8 tracking-tight text-foreground">
@@ -233,22 +239,22 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
             </section>
 
             {/* Bottom CTA Section */}
-            <section className="py-24 relative overflow-hidden bg-foreground text-background">
-                <div className="absolute inset-0 opacity-10 pointer-events-none">
-                    <DotPatternBackground className="text-background" />
+            <section className="py-24 relative overflow-hidden bg-[#050505] text-white">
+                <div className="absolute inset-0 opacity-15 pointer-events-none">
+                    <DotPatternBackground className="text-white" />
                 </div>
-                <div className="container relative z-10 mx-auto px-6 text-center max-w-[1200px]">
+                <div className="container relative z-10 mx-auto px-6 text-center max-w-[1240px]">
                     <div className="max-w-2xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-white">
                             Tham gia lộ trình ngay hôm nay
                         </h2>
-                        <p className="text-background/70 mb-10 text-lg font-medium">
+                        <p className="text-zinc-400 mb-10 text-lg font-medium">
                             Sở hữu trọn bộ {courses.length} khóa học với ưu đãi tốt nhất. Bắt đầu hành trình chinh phục mục tiêu của bạn.
                         </p>
                         <Button
                             size="lg"
                             onClick={() => router.push(`/checkout?bundleId=${bundle.id}`)}
-                            className="px-12 h-14 bg-background text-foreground hover:bg-background/90 rounded-2xl font-bold transition-all shadow-2xl shadow-background/5"
+                            className="px-12 h-14 bg-white text-black hover:bg-zinc-200 rounded-2xl font-bold transition-all shadow-2xl shadow-white/5"
                         >
                             Đăng ký combo ngay
                         </Button>
