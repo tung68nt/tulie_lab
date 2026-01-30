@@ -16,7 +16,7 @@ export const CTASection = ({ section }: { section: Section }) => {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
+                showDotPattern={true}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={isDark}
@@ -25,7 +25,7 @@ export const CTASection = ({ section }: { section: Section }) => {
 
             <div className="container text-center relative z-10 mx-auto px-4">
                 <h2 className={cn(
-                    "text-3xl md:text-5xl lg:text-6xl font-bold mb-8 leading-tight tracking-tight py-2",
+                    "text-3xl md:text-5xl lg:text-7xl font-semibold mb-8 leading-tight tracking-tight py-2",
                     isDark ? "text-zinc-50" : "text-zinc-900"
                 )}>
                     {section.title}
@@ -41,7 +41,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                         variant="light"
                         size="lg"
                         onClick={() => {
-                            const el = document.getElementById('payment-section');
+                            const el = document.getElementById(section.ctaLink?.replace('#', '') || 'payment-section');
                             if (el) {
                                 const offset = 80;
                                 const elementPosition = el.getBoundingClientRect().top + window.scrollY;

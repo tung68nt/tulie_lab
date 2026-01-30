@@ -35,7 +35,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                             {section.tag || "Ưu đãi có hạn"}
                         </SectionTag>
 
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-[1.05] text-white tracking-tighter">
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold mb-8 leading-[1.05] text-white tracking-tighter">
                             {section.title || "Sẵn sàng bứt phá thu nhập?"}
                         </h2>
 
@@ -43,7 +43,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                             {section.subtitle || "Tham gia ngay cộng đồng 2,000+ học viên và sở hữu lộ trình đào tạo thực chiến nhất thị trường."}
                         </p>
 
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-8 text-sm font-bold text-zinc-300">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-8 text-sm font-semibold text-zinc-300">
                             {["Truy cập trọn đời", "Hỗ trợ 1:1", "Update liên tục"].map((t, i) => (
                                 <div key={i} className="flex items-center gap-3">
                                     <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
@@ -68,7 +68,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                                 <div className="space-y-1">
                                     <p className="text-[10px] font-semibold text-primary">Học phí trọn gói</p>
                                     <div className="flex items-center gap-3">
-                                        <span className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+                                        <span className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
                                             {mainCourse ? formatCurrency(mainCourse.salePrice || mainCourse.price || 0) : 'LIÊN HỆ'}
                                         </span>
                                         {mainCourse?.salePrice && mainCourse.price > mainCourse.salePrice && (
@@ -76,7 +76,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                                                 <span className="text-lg text-zinc-500 line-through decoration-red-500/50">
                                                     {formatCurrency(mainCourse.price)}
                                                 </span>
-                                                <div className="bg-red-500/10 text-red-400 text-[11px] font-bold py-1 px-2.5 rounded-lg border border-red-500/20">
+                                                <div className="bg-red-500/10 text-red-400 text-[11px] font-semibold py-1 px-2.5 rounded-lg border border-red-500/20">
                                                     -{Math.round((1 - (mainCourse.salePrice || 0) / (mainCourse.price || 1)) * 100)}%
                                                 </div>
                                             </div>

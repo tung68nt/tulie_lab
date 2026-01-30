@@ -3,6 +3,7 @@ import { SectionTag } from '@/components/SectionTag';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { FadeIn } from '../animations/FadeIn';
+import { SectionBackground } from './SectionBackground';
 
 interface StandardSectionHeaderProps {
     section: Partial<Section>; // Allow partial so we can pass ad-hoc objects if needed
@@ -60,7 +61,12 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             : "text-zinc-600 dark:text-zinc-400";
 
     return (
-        <div className={cn("mb-10 md:mb-16 relative z-10 flex flex-col", alignClass, className)}>
+        <div className={cn("mb-10 md:mb-16 relative py-12 px-6 overflow-hidden flex flex-col", alignClass, className)}>
+            <SectionBackground
+                showDotPattern={true}
+                backgroundTheme={isDarkBg ? 'dark' : isLightBg ? 'light' : 'auto'}
+                className="opacity-100"
+            />
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <FadeIn direction="up" delay={0.1} duration={0.5}>

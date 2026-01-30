@@ -52,12 +52,12 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
 
                         {/* Info Content */}
                         <div className="flex-1 pt-4">
-                            <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight text-foreground">
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-semibold mb-3 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-700 to-zinc-500 dark:from-white dark:via-zinc-100 dark:to-zinc-400">
                                 {instructor?.name || 'Đang tải...'}
                             </h1>
                             {instructor.title && (
-                                <p className="text-lg md:text-xl text-muted-foreground font-medium mb-6 flex items-center justify-center md:justify-start gap-2">
-                                    <Award className="w-5 h-5" />
+                                <p className="text-lg md:text-xl text-zinc-500 font-medium mb-6 flex items-center justify-center md:justify-start gap-2">
+                                    <Award className="w-5 h-5 text-primary" />
                                     {instructor.title}
                                 </p>
                             )}
@@ -96,10 +96,10 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                     {instructor.bio && (
                         <section className="animate-in fade-in slide-in-from-bottom-8 duration-700">
                             <div className="flex items-center gap-4 mb-8 border-b pb-4">
-                                <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center shadow-lg">
+                                <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center shadow-lg">
                                     <GraduationCap className="w-5 h-5" />
                                 </div>
-                                <h2 className="text-2xl font-bold tracking-tight">Về giảng viên</h2>
+                                <h2 className="text-2xl font-semibold tracking-tight text-foreground">Về giảng viên</h2>
                             </div>
 
                             <div className="flex flex-col gap-8">
@@ -112,7 +112,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                 {/* Experience Column/Box */}
                                 {instructor.experiences && instructor.experiences.length > 0 && (
                                     <div className="space-y-6">
-                                        <h3 className="text-lg font-bold tracking-wider text-muted-foreground ml-1">Kinh nghiệm</h3>
+                                        <h3 className="text-lg font-semibold tracking-wider text-zinc-400 ml-1">Kinh nghiệm</h3>
                                         <div className="space-y-4">
                                             {instructor.experiences.map((exp: any) => (
                                                 <div key={exp.id} className="bg-muted/30 border border-border/50 rounded-2xl p-5 hover:bg-card hover:shadow-md transition-all duration-300 group">
@@ -123,8 +123,8 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                                             {exp.icon === 'users' && <Users className="w-5 h-5" />}
                                                         </div>
                                                         <div>
-                                                            <h3 className="font-bold text-base group-hover:underline decoration-1 underline-offset-4">{exp.company}</h3>
-                                                            <p className="text-sm text-muted-foreground font-medium mb-1">{exp.position}</p>
+                                                            <h3 className="font-semibold text-base group-hover:underline decoration-1 underline-offset-4">{exp.company}</h3>
+                                                            <p className="text-sm text-zinc-500 font-medium mb-1">{exp.position}</p>
                                                             {exp.period && (
                                                                 <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded bg-foreground text-background inline-block mt-1">
                                                                     {exp.period}
@@ -145,10 +145,10 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                     <section className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
                         <div className="flex items-center justify-between mb-8 border-b border-border/40 pb-4">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center shadow-lg">
+                                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center shadow-lg">
                                     <BookOpen className="w-6 h-6" />
                                 </div>
-                                <h2 className="text-3xl font-bold tracking-tight">Khóa học đang giảng dạy</h2>
+                                <h2 className="text-3xl font-semibold tracking-tight text-foreground">Khóa học đang giảng dạy</h2>
                             </div>
                         </div>
 
@@ -173,8 +173,8 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                             </div>
                                         )}
                                         <CardContent className="p-6 flex flex-col flex-1">
-                                            <h3 className="font-bold text-xl mb-3 line-clamp-2 mt-1 group-hover:underline decoration-2 underline-offset-4">{course.title}</h3>
-                                            <p className="text-sm text-muted-foreground mb-6 line-clamp-2 leading-relaxed flex-1">
+                                            <h3 className="font-semibold text-xl mb-3 line-clamp-2 mt-1 group-hover:underline decoration-2 underline-offset-4">{course.title}</h3>
+                                            <p className="text-sm text-zinc-500 mb-6 line-clamp-2 leading-relaxed flex-1">
                                                 {course.description}
                                             </p>
                                             <div className="pt-4 mt-auto border-t border-border/50 flex items-center justify-between">
@@ -182,10 +182,10 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                                                     <span className="text-xs font-bold text-muted-foreground tracking-wider">Đang tuyển sinh</span>
                                                 </div>
-                                                <span className="font-black text-lg">
+                                                <span className="font-semibold text-lg text-foreground">
                                                     {course.price === 0
                                                         ? 'Miễn phí'
-                                                        : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price || 0)
+                                                        : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(course.price || 0)
                                                     }
                                                 </span>
                                             </div>

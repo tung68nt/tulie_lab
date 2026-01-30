@@ -64,7 +64,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Title with proper line height for Vietnamese */}
                         <h1 className={cn(
-                            "text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl leading-tight md:leading-tight py-2",
+                            "text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-7xl leading-tight md:leading-tight py-2",
                             section.backgroundTheme === 'dark'
                                 ? "text-white"
                                 : "text-foreground"
@@ -88,7 +88,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     onClick={() => {
                                         const el = document.getElementById('payment-section');
                                         if (el) {
-                                            const offset = 80; // Adjust for header
+                                            const offset = 80;
                                             const elementPosition = el.getBoundingClientRect().top + window.scrollY;
                                             window.scrollTo({
                                                 top: elementPosition - offset,
@@ -96,9 +96,10 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             });
                                         }
                                     }}
-                                    variant="white"
+                                    variant={section.backgroundTheme === 'dark' ? "white" : "default"}
                                     className={cn(
-                                        "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
+                                        "w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
+                                        section.backgroundTheme !== 'dark' && "bg-black text-white hover:bg-zinc-800"
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
@@ -109,7 +110,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             )}
                             <Link href="/contact">
                                 <Button as="div" variant="outline" size="lg" className={cn(
-                                    "w-full sm:w-auto text-base px-8 h-12 font-bold transition-all backdrop-blur-sm",
+                                    "w-full sm:w-auto text-base px-8 h-12 font-semibold transition-all backdrop-blur-sm",
                                     section.backgroundTheme === 'dark'
                                         ? "border-white/40 text-white hover:bg-white/10"
                                         : "border-input bg-background hover:bg-accent hover:text-accent-foreground"
@@ -121,7 +122,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-semibold",
+                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-medium",
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
@@ -139,7 +140,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                     </FadeIn>
 
                     {/* Image / Product Card */}
-                    <FadeIn direction="up" delay={0.2} className="relative mx-auto lg:mr-0 w-full max-w-[850px] order-1 lg:order-2 p-4 lg:p-8">
+                    <FadeIn direction="up" delay={0.2} className="relative mx-auto lg:mr-0 w-full max-w-[650px] order-1 lg:order-2 p-0">
                         {mainCourse ? (
                             /* Unified Product Card for Courses/Combos */
                             <div className="relative group">
@@ -163,7 +164,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                         {/* Status Badge - No uppercase */}
                                         <div className="absolute top-6 left-6 z-10">
-                                            <div className="bg-black/60 backdrop-blur-md text-white text-[11px] font-bold px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
+                                            <div className="bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2">
                                                 <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
                                                 {isCombo ? 'Combo lộ trình' : 'Khóa học'}
                                             </div>
@@ -175,11 +176,11 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         <div className="space-y-6">
                                             <div className="flex justify-between items-start gap-4">
                                                 <div className="space-y-2">
-                                                    <div className="inline-flex items-center gap-2 px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[10px] font-bold text-zinc-500">
+                                                    <div className="inline-flex items-center gap-2 px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-[10px] font-semibold text-zinc-500">
                                                         <TrendingUp className="w-3 h-3" />
                                                         Combo ưu đãi đặc biệt
                                                     </div>
-                                                    <h3 className="font-bold text-xl md:text-2xl leading-tight text-foreground">
+                                                    <h3 className="font-semibold text-xl md:text-2xl leading-tight text-foreground">
                                                         {courseTitle}
                                                     </h3>
                                                     <p className="text-muted-foreground text-xs leading-relaxed line-clamp-2">
@@ -209,11 +210,11 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             )}
 
                                             <div className="flex flex-wrap gap-2">
-                                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-border shadow-sm text-[10px] font-bold">
+                                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-border shadow-sm text-[10px] font-semibold">
                                                     <BookOpen className="w-3 h-3 text-primary" />
                                                     Lộ trình bài bản
                                                 </div>
-                                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-border shadow-sm text-[10px] font-bold">
+                                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background border border-border shadow-sm text-[10px] font-semibold">
                                                     <TrendingUp className="w-3 h-3 text-primary" />
                                                     Hỗ trợ 1:1 chuyên sâu
                                                 </div>
@@ -229,11 +230,11 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                             </span>
                                                         )}
                                                         <div className="flex items-center gap-3">
-                                                            <span className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
+                                                            <span className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight">
                                                                 {formatCurrency(salePrice)}
                                                             </span>
                                                             {originalPrice > salePrice && (
-                                                                <div className="bg-red-500/10 text-red-500 text-[10px] font-bold py-1 px-2 rounded-full border border-red-500/20">
+                                                                <div className="bg-red-500/10 text-red-500 text-[10px] font-semibold py-1 px-2 rounded-full border border-red-500/20">
                                                                     -{Math.round((1 - salePrice / (originalPrice || 1)) * 100)}% Tiết kiệm
                                                                 </div>
                                                             )}
@@ -242,7 +243,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                                     <Button
                                                         size="lg"
-                                                        className="font-bold text-sm shadow-xl border-0 h-12 px-8 transition-all hover:scale-[1.05] active:scale-[0.95] bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 flex items-center gap-2 rounded-xl"
+                                                        className="font-semibold text-sm shadow-xl border-0 h-12 px-8 transition-all hover:scale-[1.05] active:scale-[0.95] bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 flex items-center gap-2 rounded-xl"
                                                         onClick={() => {
                                                             const url = isCombo
                                                                 ? `/checkout?bundleId=${mainCourse.id}`
