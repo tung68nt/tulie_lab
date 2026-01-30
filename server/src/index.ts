@@ -195,63 +195,6 @@ async function initializeApp() {
         }
       }
 
-      // Basic Diagnostic Endpoint
-      app.get('/api/diag', async (req, res) => {
-        let dbStatus = 'checking...';
-        let mediaModelStatus = 'unknown';
-        try {
-          const prisma = (await import('./config/prisma')).default;
-          await prisma.$queryRaw`SELECT 1`;
-          dbStatus = 'connected';
-          // @ts-ignore
-          mediaModelStatus = prisma.media ? 'exists' : 'missing';
-        } catch (error: any) {
-          dbStatus = `error: ${error.message}`;
-        }
-        res.json({
-          status: 'online',
-          database: dbStatus,
-          mediaModel: mediaModelStatus,
-          mountingErrors: mountingErrors,
-          timestamp: new Date().toISOString(),
-          env: process.env.NODE_ENV,
-          version: 'v1.1.2-db-fix-v3'
-        });
-      });
-
-      app.get('/api/diag/db', async (req, res) => {
-        try {
-          const prisma = (await import('./config/prisma')).default;
-          const columns: any[] = await prisma.$queryRawUnsafe(`
-            SELECT table_schema, table_name, column_name, data_type 
-            FROM information_schema.columns 
-            WHERE table_name = 'Instructor'
-          `);
-          res.json({
-            table: 'Instructor',
-            columns: columns,
-            database_url_masked: process.env.DATABASE_URL?.replace(/:[^@:]+@/, ':****@')
-          });
-        } catch (error: any) {
-          res.status(500).json({ error: error.message });
-        }
-      });
-
-      app.get('/api/diag/db/fix', async (req, res) => {
-        try {
-          const prisma = (await import('./config/prisma')).default;
-          await prisma.$executeRawUnsafe('ALTER TABLE "Instructor" ADD COLUMN IF NOT EXISTS "slug" TEXT;');
-          await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "Instructor_slug_key" ON "Instructor"("slug");');
-
-          // Also update site name/title settings if they exist
-          await prisma.$executeRawUnsafe(`UPDATE "SystemSetting" SET "value" = 'Tulie Academy' WHERE "key" = 'site_name' OR "key" = 'site_title'`);
-
-          res.json({ message: 'Production DB slug fixation and rebranding attempted successfully' });
-        } catch (error: any) {
-          res.status(500).json({ error: error.message });
-        }
-      });
-
       // JSON 404 Handler - MUST be after all routes
       app.use('/api', (req, res) => {
         console.warn(`[404] Route not found: ${req.method} ${req.originalUrl}`);
