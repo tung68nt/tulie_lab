@@ -97,7 +97,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     </h3>
 
                                                     <p className={cn(
-                                                        "text-base line-clamp-2 leading-relaxed max-w-2xl",
+                                                        "text-lg line-clamp-2 leading-relaxed max-w-2xl",
                                                         section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-zinc-600"
                                                     )}>
                                                         {combo.description}
@@ -111,7 +111,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                             "text-[10px] font-bold tracking-wider mb-4 block uppercase opacity-60",
                                                             section.backgroundTheme === 'dark' ? "text-zinc-500" : "text-muted-foreground"
                                                         )}>Lộ trình bao gồm {combo.courses.length} chặng học:</span>
-                                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                        <div className="flex flex-col gap-4">
                                                             {combo.courses.map((item, i) => (
                                                                 <div key={i} className="flex items-center gap-3 text-sm font-medium group/item">
                                                                     <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover/item:bg-primary transition-colors shrink-0" />

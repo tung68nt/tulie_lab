@@ -83,7 +83,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                         </p>
                     </div>
 
-                    <div className="mt-auto pt-6 border-t border-zinc-100 dark:border-zinc-800/50 flex items-center justify-between">
+                    <div className="mt-auto pt-6 border-t border-zinc-100 dark:border-zinc-800/50 space-y-4">
                         <div className="flex flex-col">
                             {price > 0 ? (
                                 <>
@@ -110,7 +110,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                             )}
                         </div>
 
-                        <div className="group/btn relative px-5 py-2 rounded-full bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-xs font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2">
+                        <div className="group/btn relative w-full h-11 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-xs font-semibold transition-all duration-300 hover:brightness-110 flex items-center justify-center gap-2">
                             Xem chi tiết
                             <svg className="w-3.5 h-3.5 translate-x-0 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
                         </div>
