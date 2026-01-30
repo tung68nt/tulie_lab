@@ -1,6 +1,5 @@
-'use client';
-
 import { SectionTag } from '@/components/SectionTag';
+import { FadeIn } from '@/components/animations/FadeIn';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -55,7 +54,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
             <div className="container relative z-10">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
-                    <div className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
+                    <FadeIn direction="up" duration={0.8} className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
                         <div className="flex justify-center lg:justify-start">
                             <SectionTag variant={section.backgroundTheme === 'dark' ? 'dark' : 'default'}>
                                 {section.tag || "🚀 Học để làm được"}
@@ -98,9 +97,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     }}
                                     className={cn(
                                         "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
-                                        section.backgroundTheme === 'dark'
-                                            ? "bg-white text-black hover:bg-zinc-200"
-                                            : "bg-primary text-primary-foreground hover:bg-primary/90"
+                                        "bg-white text-black hover:bg-zinc-200"
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
@@ -123,7 +120,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-bold",
+                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-semibold",
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
@@ -141,10 +138,10 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </FadeIn>
 
                     {/* Image / Product Card */}
-                    <div className="relative mx-auto lg:mr-0 w-full max-w-[850px] order-1 lg:order-2 p-4 lg:p-8">
+                    <FadeIn direction="up" delay={0.2} className="relative mx-auto lg:mr-0 w-full max-w-[850px] order-1 lg:order-2 p-4 lg:p-8">
                         {mainCourse ? (
                             /* Unified Product Card for Courses/Combos */
                             <div className="relative group">
@@ -295,7 +292,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </FadeIn>
                 </div>
             </div>
         </section>

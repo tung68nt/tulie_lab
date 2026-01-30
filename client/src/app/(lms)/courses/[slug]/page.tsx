@@ -322,7 +322,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                         <button
                                                             onClick={() => setActivationType('EMAIL')}
                                                             className={`text-xs px-3 py-2 rounded-lg border transition-all ${activationType === 'EMAIL'
-                                                                ? 'bg-white text-black border-white font-bold'
+                                                                ? 'bg-white text-black border-white font-semibold'
                                                                 : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-500'
                                                                 }`}
                                                         >
@@ -331,11 +331,11 @@ export default function CoursePage({ params }: { params: any }) {
                                                         <button
                                                             onClick={() => setActivationType('CODE')}
                                                             className={`text-xs px-3 py-2 rounded-lg border transition-all ${activationType === 'CODE'
-                                                                ? 'bg-white text-black border-white font-bold'
+                                                                ? 'bg-white text-black border-white font-semibold'
                                                                 : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-500'
                                                                 }`}
                                                         >
-                                                            Mua mã kích hoạt
+                                                            Mua mã kích hoàn
                                                         </button>
                                                     </div>
                                                     {activationType === 'CODE' && (
@@ -348,7 +348,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                 <Button
                                                     size="lg"
                                                     disabled={isPurchasing}
-                                                    className="w-full font-bold text-sm shadow-xl border-0 relative h-10"
+                                                    className="w-full font-semibold text-sm shadow-xl border-0 relative h-10 bg-white text-black hover:bg-zinc-200"
                                                     variant="default"
                                                     onClick={handleBuyNow}
                                                 >
@@ -425,8 +425,9 @@ export default function CoursePage({ params }: { params: any }) {
             </div>
 
             {/* Content Section */}
-            <div className="container py-16 mt-12 bg-background md:mt-20">
-                <div className="grid gap-8 md:gap-12 md:grid-cols-3">
+            <div className="container py-16 mt-12 bg-background md:mt-20 relative">
+                <DotPatternBackground className="opacity-[0.03] dark:opacity-[0.05]" withVignette={false} />
+                <div className="grid gap-8 md:gap-12 md:grid-cols-3 relative z-10">
                     <div className="md:col-span-2">
                         {/* Course Curriculum */}
                         <section className="mb-12">

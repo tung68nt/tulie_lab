@@ -638,6 +638,34 @@ export default function AdminSettingsPage() {
                                                 onChange={(checked) => handleChange('telegram_notify_reports', checked ? 'true' : 'false')}
                                             />
                                         </div>
+
+                                        {settings.telegram_notify_reports === 'true' && (
+                                            <div className="grid grid-cols-2 gap-4 pt-2 border-t border-dashed">
+                                                <div className="space-y-1">
+                                                    <label className="text-[10px] font-bold uppercase text-muted-foreground">Tần suất (Giờ)</label>
+                                                    <Input
+                                                        type="number"
+                                                        value={settings.telegram_report_frequency || '12'}
+                                                        onChange={(e) => handleChange('telegram_report_frequency', e.target.value)}
+                                                        className="h-8 text-xs"
+                                                    />
+                                                </div>
+                                                <div className="space-y-1">
+                                                    <label className="text-[10px] font-bold uppercase text-muted-foreground">Giờ gửi (HH:mm)</label>
+                                                    <Input
+                                                        type="text"
+                                                        value={settings.telegram_report_time || ''}
+                                                        onChange={(e) => handleChange('telegram_report_time', e.target.value)}
+                                                        placeholder="08:00"
+                                                        className="h-8 text-xs"
+                                                    />
+                                                </div>
+                                                <p className="col-span-2 text-[9px] text-muted-foreground italic">
+                                                    * Nếu nhập Giờ gửi, Tần suất sẽ bị bỏ qua.
+                                                </p>
+                                            </div>
+                                        )}
+
                                         <div className="mt-auto bg-muted/50 p-3 rounded-lg border border-dashed text-[10px] font-mono text-muted-foreground leading-relaxed">
                                             <p className="font-bold text-amber-500 mb-1">Mẫu tin nhắn:</p>
                                             📊 <b>Báo cáo định kỳ</b><br />

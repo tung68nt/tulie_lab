@@ -94,13 +94,52 @@ export class TelegramEventSubscriber {
     }
 
     private startReportingJob() {
-        // Run every 12 hours
-        const INTERVAL = 12 * 60 * 60 * 1000;
+        // Run every 1 hour to check if a report should be sent
+        // This allows for much more flexible scheduling (e.g., specific time of day)
+        const TICK_INTERVAL = 60 * 60 * 1000;
 
         setInterval(async () => {
             if (!(await this.isEnabled('telegram_notify_reports'))) return;
 
             try {
+                const settings = await prisma.systemSetting.findMany({
+                    where: {
+                        key: { in: ['telegram_report_frequency', 'telegram_report_last_sent', 'telegram_report_time'] }
+                    }
+                });
+
+                const settingsMap = settings.reduce((acc: any, s) => {
+                    acc[s.key] = s.value;
+                    return acc;
+                }, {});
+
+                const frequencyHours = parseInt(settingsMap.telegram_report_frequency || '12');
+                const lastSent = settingsMap.telegram_report_last_sent ? new Date(settingsMap.telegram_report_last_sent) : new Date(0);
+                const reportTime = settingsMap.telegram_report_time; // HH:mm format
+
+                const now = new Date();
+                const diffMs = now.getTime() - lastSent.getTime();
+                const diffHours = diffMs / (1000 * 60 * 60);
+
+                let shouldSend = false;
+
+                if (reportTime) {
+                    // If a specific time is set, check if we've passed it today and haven't sent a report yet
+                    const [hour, minute] = reportTime.split(':').map(Number);
+                    const targetTimeToday = new Date();
+                    targetTimeToday.setHours(hour, minute, 0, 0);
+
+                    // If it's past the target time and we haven't sent a report today
+                    if (now >= targetTimeToday && lastSent.getDate() !== now.getDate()) {
+                        shouldSend = true;
+                    }
+                } else if (diffHours >= frequencyHours) {
+                    // Fallback to frequency-based reporting
+                    shouldSend = true;
+                }
+
+                if (!shouldSend) return;
+
                 // 1. Count pending orders
                 const pendingOrdersCount = await prisma.order.count({
                     where: { status: 'PENDING' }
@@ -110,14 +149,11 @@ export class TelegramEventSubscriber {
                 const fourteenDaysAgo = new Date();
                 fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
 
-                // Check lastSession expiry or createdAt/updatedAt if no session tracking
-                // Since we have ActivityLog, we can check latest log
                 const inactiveUsers = await prisma.user.count({
                     where: {
                         role: 'USER',
                         isActive: true,
                         updatedAt: { lt: fourteenDaysAgo },
-                        // Optional: Join with activity logs or sessions if they exist
                     }
                 });
 
@@ -130,9 +166,17 @@ export class TelegramEventSubscriber {
                     inactiveUsers: inactiveUsers,
                     systemStatus: 'Hoạt động ổn định'
                 });
+
+                // Update last sent time
+                await prisma.systemSetting.upsert({
+                    where: { key: 'telegram_report_last_sent' },
+                    update: { value: now.toISOString() },
+                    create: { key: 'telegram_report_last_sent', value: now.toISOString(), type: 'text' }
+                });
+
             } catch (error) {
                 console.error('[TelegramSubscriber] Error generating daily report:', error);
             }
-        }, INTERVAL);
+        }, TICK_INTERVAL);
     }
 }

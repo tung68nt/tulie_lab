@@ -17,18 +17,16 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
         <section className="py-24 md:py-32 relative bg-background">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={section.showDotPattern}
+                showDotPattern={true}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={2}
             />
 
             <div className="container px-4 mx-auto relative z-10">
-                <FadeIn direction="up">
-                    <StandardSectionHeader
-                        section={section}
-                    />
-                </FadeIn>
+                <StandardSectionHeader
+                    section={section}
+                />
 
                 {/* Vertical Stack Content */}
                 <div className="max-w-[1100px] mx-auto space-y-16">

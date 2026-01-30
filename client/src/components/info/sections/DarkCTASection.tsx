@@ -115,7 +115,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                                                     window.location.href = section.ctaLink;
                                                 }
                                             }}
-                                            className="w-full h-16 bg-white hover:bg-zinc-200 text-black text-lg font-bold rounded-2xl transition-all duration-300 shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] active:scale-95 flex items-center justify-center gap-3 group"
+                                            className="w-full h-16 bg-white hover:bg-zinc-200 text-black text-lg font-semibold rounded-2xl transition-all duration-300 shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] active:scale-95 flex items-center justify-center gap-3 group"
                                         >
                                             {section.ctaText || 'Đăng ký ngay'}
                                             <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">

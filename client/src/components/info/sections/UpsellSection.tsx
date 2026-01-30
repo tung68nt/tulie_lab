@@ -47,8 +47,8 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                 }}
                                 variant={isRetail ? "outline" : "default"}
                                 className={`w-full py-6 rounded-2xl shadow-none transition-all duration-300 ${isRetail
-                                    ? "bg-zinc-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100"
-                                    : "bg-zinc-950 text-white hover:bg-zinc-800"
+                                    ? "bg-zinc-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100 font-semibold"
+                                    : "bg-white text-black hover:bg-zinc-100 font-semibold border border-zinc-200"
                                     }`}
                             >
                                 {item.ctaText || "Đăng ký ngay"}

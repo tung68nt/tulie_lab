@@ -30,69 +30,81 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
 
     return (
         <Link href={`/courses/${slug}`} className="group block h-full" onClick={handleCardClick}>
-            <Card className="flex h-full flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-zinc-800">
-                <div className="relative aspect-video w-full overflow-hidden bg-muted rounded-t-xl">
+            <Card className="flex h-full flex-col md:flex-row overflow-hidden transition-all duration-300 hover:shadow-2xl dark:border-zinc-800 bg-card/50 backdrop-blur-sm border-zinc-200/50">
+                {/* Thumbnail - Left Side (40%) */}
+                <div className="relative aspect-video md:aspect-auto md:w-[40%] shrink-0 overflow-hidden bg-muted group-hover:brightness-110 transition-all duration-500">
                     {thumbnail ? (
                         <img
                             src={thumbnail}
                             alt={title}
-                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center bg-muted">
-                            <span className="text-4xl text-muted-foreground">—</span>
+                            <span className="text-4xl text-zinc-300">—</span>
                         </div>
                     )}
-                    {price === 0 && deploymentStatus === 'RELEASED' && (
-                        <div className="absolute right-3 top-3 rounded-full bg-foreground px-3 py-1 text-xs font-bold text-background backdrop-blur-sm">
-                            MIỄN PHÍ
-                        </div>
-                    )}
+
+                    {/* Tags on Thumbnail */}
+                    <div className="absolute top-4 left-4 flex flex-col gap-2">
+                        {price === 0 && deploymentStatus === 'RELEASED' && (
+                            <div className="rounded-md bg-white/90 backdrop-blur-md px-2 py-1 text-[10px] font-bold text-black border border-zinc-200">
+                                MIỄN PHÍ
+                            </div>
+                        )}
+                        {tag && tag !== 'NONE' && deploymentStatus === 'RELEASED' && (
+                            <div className="rounded-md bg-black/80 backdrop-blur-md px-2 py-1 text-[10px] font-bold text-white border border-zinc-800">
+                                {tag === 'BEST_SELLER' && 'BEST SELLER'}
+                                {tag === 'HOT' && 'HOT'}
+                                {tag === 'NEW' && 'NEW'}
+                                {tag === 'DISCOUNT' && 'GIẢM GIÁ'}
+                            </div>
+                        )}
+                    </div>
+
                     {(deploymentStatus === 'COMING_SOON' || deploymentStatus === 'UPDATING') && (
-                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-zinc-950/70 backdrop-blur-[1px] transition-colors group-hover:bg-zinc-950/60">
-                            <span className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-black/30 px-5 py-2 text-sm font-bold tracking-wider text-white backdrop-blur-md">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-800 dark:bg-zinc-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800 dark:bg-white"></span>
-                                </span>
+                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-zinc-950/40 backdrop-blur-[2px]">
+                            <span className="inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-1.5 text-[10px] font-bold tracking-widest text-white uppercase border border-white/10">
                                 {deploymentStatus === 'COMING_SOON' ? 'Sắp ra mắt' : 'Đang nâng cấp'}
                             </span>
                         </div>
                     )}
-                    {tag && tag !== 'NONE' && deploymentStatus === 'RELEASED' && (
-                        <div className="absolute left-3 top-3 rounded-full bg-foreground px-3 py-1 text-xs font-bold text-background backdrop-blur-sm">
-                            {tag === 'BEST_SELLER' && 'BEST SELLER'}
-                            {tag === 'HOT' && 'HOT'}
-                            {tag === 'NEW' && 'NEW'}
-                            {tag === 'DISCOUNT' && 'GIẢM GIÁ'}
-                        </div>
-                    )}
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
-                    <h3 className="mb-2 line-clamp-2 font-heading text-xl font-bold group-hover:text-primary transition-colors">
-                        {title}
-                    </h3>
-                    <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
-                        {description}
-                    </p>
+                {/* Content - Right Side */}
+                <div className="flex flex-1 flex-col p-6 md:p-8 bg-gradient-to-br from-transparent to-zinc-50/10">
+                    <div className="mb-4">
+                        <div className="flex items-center gap-2 mb-3">
+                            <div className="h-1 w-8 bg-primary/40 rounded-full" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Course Roadmap</span>
+                        </div>
+                        <h3 className="mb-3 line-clamp-2 font-heading text-2xl md:text-3xl font-black tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
+                            {title}
+                        </h3>
+                        <p className="line-clamp-3 text-sm md:text-base text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+                            {description}
+                        </p>
+                    </div>
 
-                    <div className="mt-auto flex items-center justify-between">
+                    <div className="mt-auto pt-6 border-t border-zinc-100 dark:border-zinc-800/50 flex items-center justify-between">
                         <div className="flex flex-col">
                             {price > 0 ? (
                                 <>
-                                    <span className="text-xs text-muted-foreground tracking-wider font-semibold">Giá</span>
-                                    <span className="text-lg font-bold text-primary">
-                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)}
+                                    <span className="text-[10px] text-zinc-400 uppercase font-black tracking-widest mb-1">Học phí ưu đãi</span>
+                                    <span className="text-2xl font-black text-foreground flex items-baseline gap-1">
+                                        {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
+                                        <span className="text-sm font-black text-zinc-400">₫</span>
                                     </span>
                                 </>
                             ) : (
-                                <span className="text-lg font-bold text-foreground">Truy cập miễn phí</span>
+                                <span className="text-xl font-black text-primary uppercase tracking-tight">Truy cập miễn phí</span>
                             )}
                         </div>
-                        <Button as="div" variant="outline" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                            Xem chi tiết
-                        </Button>
+
+                        <div className="group/btn relative px-6 py-2.5 rounded-full bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 text-sm font-black transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center gap-2">
+                            Chi tiết
+                            <svg className="w-4 h-4 translate-x-0 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
+                        </div>
                     </div>
                 </div>
             </Card>

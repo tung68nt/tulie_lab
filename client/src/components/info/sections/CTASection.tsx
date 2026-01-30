@@ -52,7 +52,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                             }
                         }}
                         className={cn(
-                            "text-lg px-8 py-6 font-bold transition-colors shadow-xl",
+                            "text-lg px-8 py-6 font-semibold transition-colors shadow-xl",
                             isDark
                                 ? "bg-white text-black hover:bg-zinc-200"
                                 : "bg-black text-white hover:bg-zinc-800"

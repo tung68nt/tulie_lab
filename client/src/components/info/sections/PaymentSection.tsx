@@ -238,20 +238,20 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         onClick={() => handleFormChange('isGift', false)}
                         className={cn(
                             "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
-                            !state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
+                            !state.form.isGift ? "bg-white border-zinc-950 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
                         )}
                     >
                         <div className={cn(
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
-                            !state.form.isGift ? "border-zinc-900 bg-zinc-900" : "border-zinc-300"
+                            !state.form.isGift ? "border-zinc-950 bg-zinc-950" : "border-zinc-300"
                         )}>
                             {!state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
                         </div>
                         <div className="ml-3">
-                            <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
+                            <label className="text-sm font-semibold text-zinc-950 block cursor-pointer">
                                 Kích hoạt ngay
                             </label>
-                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed font-medium">
                                 Gắn trực tiếp vào tài khoản {state.form.email || 'đăng ký'}.
                             </p>
                         </div>
@@ -262,20 +262,20 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         onClick={() => handleFormChange('isGift', true)}
                         className={cn(
                             "flex items-start p-4 rounded-xl border-2 transition-all cursor-pointer",
-                            state.form.isGift ? "bg-white border-zinc-900 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
+                            state.form.isGift ? "bg-white border-zinc-950 shadow-sm" : "bg-white border-zinc-100 hover:border-zinc-200"
                         )}
                     >
                         <div className={cn(
                             "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 shrink-0",
-                            state.form.isGift ? "border-zinc-900 bg-zinc-900" : "border-zinc-300"
+                            state.form.isGift ? "border-zinc-950 bg-zinc-950" : "border-zinc-300"
                         )}>
                             {state.form.isGift && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
                         </div>
                         <div className="ml-3">
-                            <label className="text-sm font-bold text-zinc-900 block cursor-pointer">
-                                Mua mã quà tặng
+                            <label className="text-sm font-semibold text-zinc-950 block cursor-pointer">
+                                Mua mã kích hoạt
                             </label>
-                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+                            <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed font-medium">
                                 Nhận mã qua email để tặng hoặc kích hoạt sau.
                             </p>
                         </div>
@@ -782,7 +782,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                     <Button
                                         size="lg"
                                         type="button"
-                                        className="w-full font-bold text-lg h-14 shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all"
+                                        className="w-full font-semibold text-lg h-14 shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all bg-white text-black border-2 border-zinc-950 hover:bg-zinc-100"
                                         onClick={(e) => {
                                             const form = document.getElementById('checkout-form') as HTMLFormElement;
                                             if (form) {

@@ -108,10 +108,10 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
                                 {section.items.map((item, idx) => (
                                     <motion.li
                                         key={idx}
-                                        initial={{ opacity: 1, x: -20 }}
+                                        initial={{ opacity: 0, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
-                                        transition={{ delay: idx * 0.1 }}
+                                        transition={{ delay: idx * 0.1, duration: 0.5 }}
                                         className="flex items-start gap-3"
                                     >
                                         <CheckCircle2 className="h-6 w-6 text-primary shrink-0 mt-0.5" />
