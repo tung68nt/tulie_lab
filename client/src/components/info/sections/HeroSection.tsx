@@ -96,9 +96,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             });
                                         }
                                     }}
+                                    variant="white"
                                     className={cn(
-                                        "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
-                                        "bg-white text-black hover:bg-zinc-200"
+                                        "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}

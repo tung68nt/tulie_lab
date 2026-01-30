@@ -335,7 +335,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                                 : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-500'
                                                                 }`}
                                                         >
-                                                            Mua mã kích hoàn
+                                                            Mua mã kích hoạt
                                                         </button>
                                                     </div>
                                                     {activationType === 'CODE' && (
@@ -348,8 +348,8 @@ export default function CoursePage({ params }: { params: any }) {
                                                 <Button
                                                     size="lg"
                                                     disabled={isPurchasing}
-                                                    className="w-full font-semibold text-sm shadow-xl border-0 relative h-10 bg-white text-black hover:bg-zinc-200"
-                                                    variant="default"
+                                                    className="w-full font-semibold text-sm shadow-xl border-0 relative h-10"
+                                                    variant="white"
                                                     onClick={handleBuyNow}
                                                 >
                                                     {isPurchasing ? (
@@ -426,7 +426,7 @@ export default function CoursePage({ params }: { params: any }) {
 
             {/* Content Section */}
             <div className="container py-16 mt-12 bg-background md:mt-20 relative">
-                <DotPatternBackground className="opacity-[0.03] dark:opacity-[0.05]" withVignette={false} />
+                <DotPatternBackground className="opacity-[0.08] dark:opacity-[0.1]" withVignette={false} />
                 <div className="grid gap-8 md:gap-12 md:grid-cols-3 relative z-10">
                     <div className="md:col-span-2">
                         {/* Course Curriculum */}
