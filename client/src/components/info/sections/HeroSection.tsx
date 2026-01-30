@@ -135,7 +135,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     )}
                                 >
                                     <StatusDot color="white" />
-                                    <span className="not-italic tracking-wide">{indicator}</span>
+                                    <span className="not-italic">{indicator}</span>
                                 </div>
                             ))}
                         </div>
@@ -199,7 +199,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             {/* Course List for Bundle */}
                                             {isCombo && mainCourse.courses && mainCourse.courses.length > 0 && (
                                                 <div className="space-y-3">
-                                                    <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Bao gồm {mainCourse.courses.length} khóa học:</p>
+                                                    <p className="text-[10px] font-bold text-zinc-400">Bao gồm {mainCourse.courses.length} khóa học:</p>
                                                     <ul className="space-y-2">
                                                         {mainCourse.courses.map((c: any, i: number) => (
                                                             <li key={i} className="flex items-center gap-2 text-xs font-medium text-zinc-600 dark:text-zinc-400">
@@ -232,7 +232,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                             </span>
                                                         )}
                                                         <div className="flex items-center gap-3">
-                                                            <span className="text-3xl md:text-4xl font-semibold text-foreground tracking-tight">
+                                                            <span className="text-3xl md:text-4xl font-semibold text-foreground">
                                                                 {formatCurrency(salePrice)}
                                                             </span>
                                                             {originalPrice > salePrice && (

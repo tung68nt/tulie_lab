@@ -93,7 +93,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center border border-primary/20">
                                                         <TrendingUp className="w-3.5 h-3.5" />
                                                     </div>
-                                                    <span className="text-[11px] font-bold text-primary tracking-wide">Combo lộ trình tối ưu</span>
+                                                    <span className="text-[11px] font-bold text-primary">Combo lộ trình tối ưu</span>
                                                 </div>
 
                                                 <h3 className={cn(
@@ -117,7 +117,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             {combo.courses && combo.courses.length > 0 && (
                                                 <div className="py-4 border-y border-border/40">
                                                     <span className={cn(
-                                                        "text-[10px] font-bold tracking-wider mb-4 block uppercase opacity-60",
+                                                        "text-[10px] font-bold mb-4 block opacity-60",
                                                         section.backgroundTheme === 'dark' ? "text-zinc-500" : "text-muted-foreground"
                                                     )}>Lộ trình bao gồm {combo.courses.length} chặng học:</span>
                                                     <div className="flex flex-col gap-4">

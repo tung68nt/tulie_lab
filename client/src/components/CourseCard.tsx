@@ -65,7 +65,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
 
                     {(deploymentStatus === 'COMING_SOON' || deploymentStatus === 'UPDATING') && (
                         <div className="absolute inset-0 z-10 flex items-center justify-center bg-zinc-950/40 backdrop-blur-[2px]">
-                            <span className="inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-1.5 text-[10px] font-semibold tracking-widest text-white border border-white/10">
+                            <span className="inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-1.5 text-[10px] font-semibold text-white border border-white/10">
                                 {deploymentStatus === 'COMING_SOON' ? 'Sắp ra mắt' : 'Đang nâng cấp'}
                             </span>
                         </div>
