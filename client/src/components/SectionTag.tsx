@@ -17,20 +17,20 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     children,
     className,
     variant = 'default',
-    showDot = false,
+    showDot = true,
     dotColor: customDotColor,
     animate = true,
     bold = false,
     size = 'lg'
 }) => {
     const variantClasses = {
-        default: "border-zinc-800 bg-black text-white shadow-lg shadow-black/5",
-        light: "border-zinc-100 bg-white text-zinc-900 shadow-sm",
-        dark: "border-zinc-800 bg-zinc-900 text-white",
-        'black-pill': "border-white/10 bg-black text-white shadow-xl",
-        yellow: "border-yellow-500/20 bg-yellow-500/10 text-yellow-500",
-        primary: "border-primary/20 bg-primary/10 text-primary",
-        outline: "border-zinc-200 dark:border-zinc-800 bg-transparent text-foreground"
+        default: "border-zinc-800 bg-zinc-950 text-white shadow-md",
+        light: "border-zinc-300 bg-zinc-100 text-zinc-900 shadow-sm",
+        dark: "border-zinc-700 bg-zinc-900 text-white shadow-md",
+        'black-pill': "border-white/20 bg-black text-white shadow-lg",
+        yellow: "border-yellow-600 bg-yellow-500 text-white shadow-sm",
+        primary: "border-primary/40 bg-primary text-primary-foreground shadow-sm",
+        outline: "border-zinc-300 dark:border-zinc-700 bg-background text-foreground"
     }[variant];
 
     const defaultDotColor = (variant === 'light' || variant === 'outline') ? 'auto' : 'white';
@@ -38,8 +38,8 @@ export const SectionTag: React.FC<SectionTagProps> = ({
 
     return (
         <div className={cn(
-            "inline-flex items-center gap-2.5 rounded-full border px-4 select-none transition-all duration-300 whitespace-nowrap justify-center",
-            size === 'sm' ? "h-6 text-[10px] px-2.5" : size === 'lg' ? "h-9 text-[13px] px-5" : "h-8 text-[11px] px-3",
+            "inline-flex items-center gap-2 rounded-full border px-4 select-none transition-all duration-300 whitespace-nowrap justify-center overflow-hidden",
+            size === 'sm' ? "h-[22px] text-[10px] px-2" : size === 'lg' ? "h-8 text-[13px] px-4" : "h-7 text-[11px] px-3",
             bold ? "font-bold" : "font-normal",
             variantClasses,
             className

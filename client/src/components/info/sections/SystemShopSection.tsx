@@ -88,6 +88,27 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
         });
     }, [products, selectedCategories, selectedTypes, searchQuery]);
 
+    const getFieldIcon = (id: string | null) => {
+        switch (id) {
+            case 'ACCOUNTING': return <Calculator className="w-4 h-4" />;
+            case 'HR': return <Users className="w-4 h-4" />;
+            case 'MARKETING': return <TrendingUp className="w-4 h-4" />;
+            case 'BUSINESS': return <Briefcase className="w-4 h-4" />;
+            case 'CREATIVE': return <Palette className="w-4 h-4" />;
+            default: return <Folder className="w-4 h-4" />;
+        }
+    };
+
+    const getTypeIcon = (type: string | null) => {
+        switch (type) {
+            case 'TEMPLATE': return <Layout className="w-4 h-4" />;
+            case 'APP': return <Code className="w-4 h-4" />;
+            case 'LICENSE': return <Key className="w-4 h-4" />;
+            case 'SUBSCRIPTION': return <Zap className="w-4 h-4" />;
+            default: return <Package className="w-4 h-4" />;
+        }
+    };
+
     if (loading) {
         return (
             <div className="py-20 flex flex-col items-center justify-center">
@@ -108,10 +129,10 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
             <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter - Desktop & Tablet */}
-                    <aside className={`w-full lg:w-72 shrink-0 space-y-4 lg:sticky lg:top-32 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
+                    <aside className={`w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-32 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
                         {/* Search Bar */}
                         <div className="space-y-3">
-                            <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>
+                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>
                             <div className="relative group">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 w-3.5 h-3.5 group-focus-within:text-primary transition-colors" />
                                 <input
@@ -125,23 +146,12 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                         </div>
 
                         {/* Categories List */}
-                        <div className="space-y-1">
-                            <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Lĩnh vực</h3>
+                        <div className="space-y-2">
+                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Lĩnh vực</h3>
                             <nav className="flex flex-col gap-0.5">
                                 {CATEGORIES.map((cat) => {
                                     const isAll = cat.id === 'all';
                                     const isActive = isAll ? selectedCategories.length === 0 : selectedCategories.includes(cat.id);
-
-                                    const getFieldIcon = (id: string) => {
-                                        switch (id) {
-                                            case 'ACCOUNTING': return <Calculator className="w-4 h-4" />;
-                                            case 'HR': return <Users className="w-4 h-4" />;
-                                            case 'MARKETING': return <TrendingUp className="w-4 h-4" />;
-                                            case 'BUSINESS': return <Briefcase className="w-4 h-4" />;
-                                            case 'CREATIVE': return <Palette className="w-4 h-4" />;
-                                            default: return <Folder className="w-4 h-4" />;
-                                        }
-                                    };
 
                                     return (
                                         <button
@@ -158,9 +168,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                 }
                                             }}
                                             className={cn(
-                                                "group flex items-center gap-3 px-3 py-1 rounded-xl text-sm transition-all",
+                                                "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
                                                 isActive
-                                                    ? "bg-muted/50 text-foreground font-bold"
+                                                    ? "bg-zinc-200/80 dark:bg-zinc-800 text-foreground font-semibold shadow-sm"
                                                     : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
                                             )}
                                         >
@@ -178,8 +188,8 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                         </div>
 
                         {/* Product Types */}
-                        <div className="space-y-1">
-                            <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Loại hình</h3>
+                        <div className="space-y-2">
+                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Loại hình</h3>
                             <nav className="flex flex-col gap-0.5">
                                 {PRODUCT_TYPES.map((type) => {
                                     const isAll = type.id === 'all';
@@ -199,9 +209,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                 }
                                             }}
                                             className={cn(
-                                                "group flex items-center gap-3 px-3 py-1 rounded-xl text-sm transition-all",
+                                                "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
                                                 isActive
-                                                    ? "bg-muted/50 text-foreground font-bold"
+                                                    ? "bg-zinc-200/80 dark:bg-zinc-800 text-foreground font-semibold shadow-sm"
                                                     : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
                                             )}
                                         >
@@ -248,7 +258,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                     </div>
 
                     {/* Main Content - Products Grid */}
-                    <main className="flex-1">
+                    <main className="flex-1 w-full">
                         {filteredProducts.length === 0 ? (
                             <div className="text-center py-32 rounded-[3rem] border-2 border-dashed border-border/50 bg-muted/10">
                                 <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-6" />
@@ -281,22 +291,14 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             variant="default"
                                                             showDot={false}
                                                             className={cn(
-                                                                "backdrop-blur-md border text-xs flex items-center gap-1.5 transition-all shadow-sm",
+                                                                "border text-xs flex items-center gap-1.5 transition-all shadow-sm",
                                                                 section.backgroundTheme === 'dark'
-                                                                    ? "bg-black/50 border-white/20 text-white"
-                                                                    : "bg-white/50 border-black/10 text-black"
+                                                                    ? "bg-black border-white/20 text-white"
+                                                                    : "bg-white border-black/10 text-black"
                                                             )}
                                                         >
-                                                            {(() => {
-                                                                switch (product.type) {
-                                                                    case 'TEMPLATE': return <Layout className="w-4 h-4" />;
-                                                                    case 'APP': return <Code className="w-4 h-4" />;
-                                                                    case 'LICENSE': return <Key className="w-4 h-4" />;
-                                                                    case 'SUBSCRIPTION': return <Zap className="w-4 h-4" />;
-                                                                    default: return <Package className="w-4 h-4" />;
-                                                                }
-                                                            })()}
-                                                            {product.type.toLowerCase()}
+                                                            {getTypeIcon(product.type)}
+                                                            <span className="capitalize">{product.type.toLowerCase()}</span>
                                                         </Badge>
                                                     </div>
                                                 </div>
@@ -307,20 +309,12 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                     <div className="flex items-center gap-2 mb-3">
                                                         <SectionTag
                                                             variant="primary"
+                                                            size="sm"
                                                             showDot={false}
                                                         >
                                                             <div className="flex items-center gap-2">
-                                                                {(() => {
-                                                                    switch (product.field) {
-                                                                        case 'ACCOUNTING': return <Calculator className="w-4 h-4" />;
-                                                                        case 'HR': return <Users className="w-4 h-4" />;
-                                                                        case 'MARKETING': return <TrendingUp className="w-4 h-4" />;
-                                                                        case 'BUSINESS': return <Briefcase className="w-4 h-4" />;
-                                                                        case 'CREATIVE': return <Palette className="w-4 h-4" />;
-                                                                        default: return <Folder className="w-4 h-4" />;
-                                                                    }
-                                                                })()}
-                                                                {product.field.toLowerCase()}
+                                                                {getFieldIcon(product.field)}
+                                                                <span className="capitalize">{product.field.toLowerCase()}</span>
                                                             </div>
                                                         </SectionTag>
                                                     </div>

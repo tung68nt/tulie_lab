@@ -9,13 +9,13 @@ const badgeVariants = cva(
         variants: {
             variant: {
                 default:
-                    "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+                    "border-transparent bg-primary text-primary-foreground hover:bg-primary/95",
                 secondary:
-                    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/95",
                 destructive:
-                    "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-                outline: "text-foreground border-zinc-200 dark:border-zinc-800",
-                yellow: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+                    "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/95",
+                outline: "text-foreground border-zinc-300 dark:border-zinc-700 bg-background",
+                yellow: "bg-yellow-500 text-white border-yellow-600 shadow-sm",
             },
         },
         defaultVariants: {
@@ -34,7 +34,7 @@ export interface BadgeProps
     size?: 'sm' | 'md' | 'lg';
 }
 
-function Badge({ className, variant, showDot = false, dotColor, animate = true, bold = false, size = 'lg', children, ...props }: BadgeProps) {
+function Badge({ className, variant, showDot = true, dotColor, animate = true, bold = false, size = 'lg', children, ...props }: BadgeProps) {
     const defaultDotColor = (variant === 'default') ? 'white' : 'auto';
     const finalDotColor = dotColor || defaultDotColor;
 
@@ -43,8 +43,8 @@ function Badge({ className, variant, showDot = false, dotColor, animate = true, 
             className={cn(
                 badgeVariants({ variant, className }),
                 bold ? "font-bold" : "font-normal",
-                size === 'sm' ? "h-6 text-[10px] px-2.5" : size === 'lg' ? "h-9 text-[13px] px-4" : "h-8 text-[11px] px-3",
-                "inline-flex items-center justify-center whitespace-nowrap"
+                size === 'sm' ? "h-[22px] text-[10px] px-2" : size === 'lg' ? "h-8 text-[13px] px-3.5" : "h-7 text-[11px] px-2.5",
+                "inline-flex items-center justify-center whitespace-nowrap overflow-hidden"
             )}
             {...props}
         >

@@ -176,6 +176,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         <div className="absolute top-6 left-6 z-10">
                                             <SectionTag
                                                 variant="black-pill"
+                                                showDot={false}
                                                 animate={false}
                                                 className="h-9 border-white/20 bg-black/60 shadow-none backdrop-blur-md"
                                             >
