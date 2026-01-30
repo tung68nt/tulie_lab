@@ -37,7 +37,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
             className
         )}>
             {showDot && <StatusDot color={finalDotColor as any} />}
-            <span className="relative top-[0.5px] uppercase tracking-wider">
+            <span className="relative top-[0.5px] tracking-wider">
                 {children}
             </span>
         </div>

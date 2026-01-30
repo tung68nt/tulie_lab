@@ -24,11 +24,21 @@ export const StatusDot: React.FC<StatusDotProps> = ({
                                 "bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]");
 
     return (
-        <div className={cn(
-            "h-1.5 w-1.5 rounded-full shrink-0",
-            dotStyles,
-            color !== 'black' && "animate-pulse",
-            className
-        )} />
+        <div className={cn("relative flex items-center justify-center shrink-0", className)}>
+            {/* The pulsing ring */}
+            {color !== 'black' && (
+                <div className={cn(
+                    "absolute h-full w-full rounded-full animate-ping opacity-75",
+                    dotStyles.replace('shadow-[0_0_8px_rgba(255,255,255,0.8)]', ''), // Remove shadow from ping
+                    pingClassName
+                )} />
+            )}
+            {/* The static core dot */}
+            <div className={cn(
+                "relative h-1.5 w-1.5 rounded-full",
+                dotStyles,
+                dotClassName
+            )} />
+        </div>
     );
 };
