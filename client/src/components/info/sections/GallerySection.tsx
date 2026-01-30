@@ -14,8 +14,10 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
 
     const animationVariants = {
         none: {},
-        'fade-up': { initial: { opacity: 1, y: 30 }, whileInView: { opacity: 1, y: 0 } },
-        'fade-in': { initial: { opacity: 1 }, whileInView: { opacity: 1 } },
+        'fade-up': { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 } },
+        'fade-in': { initial: { opacity: 0 }, whileInView: { opacity: 1 } },
+        'fade-left': { initial: { opacity: 0, x: -30 }, whileInView: { opacity: 1, x: 0 } },
+        'fade-right': { initial: { opacity: 0, x: 30 }, whileInView: { opacity: 1, x: 0 } },
         'slide-up': { initial: { y: 50 }, whileInView: { y: 0 } }
     };
 
