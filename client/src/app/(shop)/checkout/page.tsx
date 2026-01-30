@@ -668,7 +668,7 @@ function CheckoutContent() {
                                     <Button
                                         onClick={handleCheckout}
                                         disabled={processing}
-                                        className="w-full text-lg font-bold h-14 rounded-2xl bg-zinc-900 hover:bg-black text-white dark:bg-white dark:text-black dark:hover:bg-zinc-100 shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                                        className="w-full text-lg font-bold h-14 rounded-xl bg-white text-black hover:bg-zinc-50 shadow-xl border border-zinc-200 dark:border-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
                                     >
                                         {processing ? (
                                             <span className="flex items-center gap-2">
