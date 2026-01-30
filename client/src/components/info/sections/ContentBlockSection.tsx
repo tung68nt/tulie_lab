@@ -4,6 +4,7 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { cn } from '@/lib/utils';
 import { SectionBackground } from '../SectionBackground';
+import { motion } from 'framer-motion';
 
 export function ContentBlockSection({ section }: { section: Section }) {
     if (!section.items) return null;
@@ -11,7 +12,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
 
     return (
         <section className={cn(
-            "py-20 overflow-hidden space-y-24 relative",
+            "py-16 overflow-hidden space-y-24 relative",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
@@ -30,7 +31,14 @@ export function ContentBlockSection({ section }: { section: Section }) {
                 {(section.items || []).map((item, index) => {
                     const isEven = index % 2 === 0;
                     return (
-                        <div key={item.id || index} className={cn("flex flex-col gap-12 items-center", isEven ? "lg:flex-row" : "lg:flex-row-reverse")}>
+                        <motion.div
+                            key={item.id || index}
+                            initial={{ opacity: 0, y: 40 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            className={cn("flex flex-col gap-12 items-center", isEven ? "lg:flex-row" : "lg:flex-row-reverse")}
+                        >
                             {/* Visual Side */}
                             <div className="w-full lg:w-1/2 relative">
                                 <div className={cn(
@@ -100,7 +108,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                                     </ul>
                                 )}
                             </div>
-                        </div>
+                        </motion.div>
                     );
                 })}
             </div>
