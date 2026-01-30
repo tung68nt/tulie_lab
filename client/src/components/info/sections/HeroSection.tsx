@@ -282,7 +282,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-border overflow-hidden bg-muted">
                                     {/* Explicitly fallback to placeholder if no section.image */}
                                     <Image
-                                        src={section.image || "/placeholder.jpg"}
+                                        src={section.image || "/hero_vibe_coding.png"}
                                         alt="Hero"
                                         fill
                                         className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
