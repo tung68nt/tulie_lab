@@ -1,4 +1,5 @@
-```typescript
+'use client';
+
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
@@ -92,62 +93,59 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                             <div className="absolute inset-0 bg-primary/10 rounded-full blur-sm"></div>
                                             <Image
                                                 src={testimonial.avatar || `https://i.pravatar.cc/150?u=${index}`}
-alt = { testimonial.name }
-fill
-className = "object-cover rounded-full border-2 border-white dark:border-neutral-800 shadow-md relative z-10"
-    />
-                                        </div >
-    <div>
-        <h3 className="text-xl font-bold text-foreground">{testimonial.name}</h3>
-        <p className="text-sm font-medium text-muted-foreground">{testimonial.role}</p>
-    </div>
-                                    </div >
+                                                alt={testimonial.name}
+                                                fill
+                                                className="object-cover rounded-full border-2 border-white dark:border-neutral-800 shadow-md relative z-10"
+                                            />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xl font-bold text-foreground">{testimonial.name}</h3>
+                                            <p className="text-sm font-medium text-muted-foreground">{testimonial.role}</p>
+                                        </div>
+                                    </div>
 
-    {/* Quote Area */ }
-    < div className = "mb-4 h-14 flex items-center" >
-    {
-        testimonial.content ? (
-            <p className="text-base text-foreground/80 font-medium line-clamp-2">
-                "{testimonial.content}"
-            </p>
-        ) : null
-    }
-                                    </div >
+                                    {/* Quote Area */}
+                                    <div className="mb-4 h-14 flex items-center">
+                                        {testimonial.content ? (
+                                            <p className="text-base text-foreground/80 font-medium line-clamp-2">
+                                                "{testimonial.content}"
+                                            </p>
+                                        ) : null}
+                                    </div>
 
-    <div className="space-y-4 flex-grow flex flex-col">
-        {/* Before Column */}
-        <div className="flex-none min-h-[10rem]">
-            <h4 className="text-xs font-bold text-red-500 mb-2">Trước khi học</h4>
-            <div className="">
-                {testimonial.before && testimonial.before.map((point: string, i: number) => (
-                    <div key={i} className="flex gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-2">
-                        <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                        <span className="line-clamp-2 opacity-80">{point}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
+                                    <div className="space-y-4 flex-grow flex flex-col">
+                                        {/* Before Column */}
+                                        <div className="flex-none min-h-[10rem]">
+                                            <h4 className="text-xs font-bold text-red-500 mb-2">Trước khi học</h4>
+                                            <div className="">
+                                                {testimonial.before && testimonial.before.map((point: string, i: number) => (
+                                                    <div key={i} className="flex gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+                                                        <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                                                        <span className="line-clamp-2 opacity-80">{point}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
 
-        <div className="h-px bg-border/50 border-t border-dashed border-border shrink-0"></div>
+                                        <div className="h-px bg-border/50 border-t border-dashed border-border shrink-0"></div>
 
-        {/* After Column */}
-        <div className="flex-1">
-            <h4 className="text-[10px] font-bold text-green-500 mb-2">Kết quả đạt được</h4>
-            {testimonial.after && testimonial.after.map((point: string, i: number) => (
-                <div key={i} className="flex gap-2 text-sm font-medium text-foreground mb-2">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                    <span className="line-clamp-2">{point}</span>
-                </div>
-            ))}
-        </div>
-    </div>
-                                </div >
-                            </div >
-                        </FadeIn >
+                                        {/* After Column */}
+                                        <div className="flex-1">
+                                            <h4 className="text-[10px] font-bold text-green-500 mb-2">Kết quả đạt được</h4>
+                                            {testimonial.after && testimonial.after.map((point: string, i: number) => (
+                                                <div key={i} className="flex gap-2 text-sm font-medium text-foreground mb-2">
+                                                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+                                                    <span className="line-clamp-2">{point}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </FadeIn>
                     ))}
-                </div >
-            </div >
-        </section >
+                </div>
+            </div>
+        </section>
     );
 };
-```
