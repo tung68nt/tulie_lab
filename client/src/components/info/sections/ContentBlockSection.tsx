@@ -30,8 +30,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                             {/* Visual Side */}
                             <div className="w-full lg:w-1/2 relative">
                                 <div className={cn(
-                                    "relative aspect-video rounded-3xl overflow-hidden border border-border/50 shadow-2xl skew-y-1 transform transition-all duration-700 hover:skew-y-0",
-                                    isEven ? "-rotate-1" : "rotate-1"
+                                    "relative aspect-video rounded-3xl overflow-hidden border border-border/50 shadow-2xl transition-all duration-700"
                                 )}>
                                     {item.image ? (
                                         <Image

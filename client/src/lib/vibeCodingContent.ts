@@ -82,6 +82,7 @@ export const VIBE_CODING_SECTIONS: Section[] = [
     {
         id: 'curriculum',
         type: 'curriculum',
+        tag: 'Lộ trình',
         title: 'Lộ trình thực chiến 10 ngày - "cầm tay chỉ việc"',
         subtitle: 'Xây dựng 10 ứng dụng giải quyết nỗi đau sát sườn, từ marketing đến quản trị.',
         backgroundTheme: 'light',

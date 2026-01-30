@@ -101,7 +101,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme !== 'dark'
                                             ? "bg-black text-white hover:bg-zinc-800"
-                                            : "bg-white !text-black hover:bg-zinc-100" // Explicitly force black text on white bg
+                                            : "bg-white text-black hover:bg-zinc-100" // Ensure black text on white bg
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
@@ -131,7 +131,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 <div
                                     key={index}
                                     className={cn(
-                                        "flex items-center gap-3 px-4 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-zinc-800 text-white hover:bg-zinc-900"
+                                        "flex items-center gap-3 px-4 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900"
                                     )}
                                 >
                                     <StatusDot color="white" />
@@ -245,7 +245,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                                                     <Button
                                                         size="lg"
-                                                        className="font-semibold text-sm shadow-xl border-0 h-12 px-8 transition-all hover:scale-[1.05] active:scale-[0.95] bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 flex items-center gap-2 rounded-xl"
+                                                        className="font-semibold text-sm shadow-xl border-0 h-12 px-8 transition-all hover:scale-[1.05] active:scale-[0.95] bg-black text-white hover:bg-zinc-800 flex items-center gap-2 rounded-xl"
                                                         onClick={() => {
                                                             const url = isCombo
                                                                 ? `/checkout?bundleId=${mainCourse.id}`

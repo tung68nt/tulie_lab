@@ -310,6 +310,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             type: 'curriculum',
             name: 'Lesson Curriculum',
             title: 'Lộ trình đào tạo thực chiến',
+            tag: 'Lộ trình',
             subtitle: 'Chương trình được thiết kế từ cơ bản đến nâng cao, tập trung vào kỹ năng xây dựng sản phẩm.',
             showDotPattern: true,
             items: [
