@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { Section } from '@/types/sections';
 import { Bundle } from '@/types/api';
 import { SectionBackground } from '../SectionBackground';
+import { SectionTag } from '@/components/SectionTag';
 
 export const SystemCombosSection = ({ section }: { section: Section }) => {
     const [combos, setCombos] = useState<Bundle[]>([]);
@@ -68,7 +69,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                             <div key={combo.id} className="group relative">
                                 <Card className="flex flex-col md:flex-row overflow-hidden border-border/40 hover:border-primary/20 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 bg-background/50 backdrop-blur-xl group min-h-[400px]">
                                     {/* Thumbnail Section - Left side */}
-                                    <div className="relative w-full md:w-[42%] aspect-[16/9] md:h-full overflow-hidden">
+                                    <div className="relative w-full md:w-[42%] h-64 md:h-auto overflow-hidden">
                                         <Image
                                             src={combo.thumbnail || "/hero_vibe_coding.png"}
                                             alt={combo.name}
@@ -89,12 +90,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                     <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
                                         <div className="space-y-6">
                                             <div className="space-y-4">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center border border-primary/20">
-                                                        <TrendingUp className="w-3.5 h-3.5" />
-                                                    </div>
-                                                    <span className="text-[11px] font-bold text-primary">Combo lộ trình tối ưu</span>
-                                                </div>
+                                                <SectionTag variant="black-pill" className="border-white/10 backdrop-blur-md shadow-xl">Combo Lộ Trình</SectionTag>
 
                                                 <h3 className={cn(
                                                     "text-2xl md:text-3xl font-bold font-heading leading-tight group-hover:text-primary transition-colors",
