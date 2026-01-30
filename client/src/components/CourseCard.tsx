@@ -10,12 +10,13 @@ interface CourseCardProps {
     slug: string;
     description: string;
     price: number;
+    originalPrice?: number;
     thumbnail?: string;
     deploymentStatus?: 'RELEASED' | 'COMING_SOON' | 'UPDATING';
     tag?: 'NONE' | 'BEST_SELLER' | 'HOT' | 'NEW' | 'DISCOUNT';
 }
 
-export function CourseCard({ title, slug, description, price, thumbnail, deploymentStatus = 'RELEASED', tag = 'NONE' }: CourseCardProps) {
+export function CourseCard({ title, slug, description, price, originalPrice, thumbnail, deploymentStatus = 'RELEASED', tag = 'NONE' }: CourseCardProps) {
     const handleCardClick = () => {
         sendGTMEvent('view_item', {
             currency: 'VND',
@@ -87,10 +88,22 @@ export function CourseCard({ title, slug, description, price, thumbnail, deploym
                             {price > 0 ? (
                                 <>
                                     <span className="text-[10px] text-zinc-400 mb-1">Học phí ưu đãi</span>
-                                    <span className="text-xl font-semibold text-foreground flex items-baseline gap-1">
-                                        {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
-                                        <span className="text-xs font-semibold text-zinc-400">₫</span>
-                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xl font-semibold text-foreground flex items-baseline gap-1">
+                                            {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
+                                            <span className="text-xs font-semibold text-zinc-400">₫</span>
+                                        </span>
+                                        {originalPrice && originalPrice > price && (
+                                            <>
+                                                <span className="text-xs text-zinc-400 line-through">
+                                                    {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(originalPrice)}₫
+                                                </span>
+                                                <span className="text-[10px] font-semibold text-red-500 bg-red-500/10 px-1.5 py-0.5 rounded-full">
+                                                    -{Math.round((1 - price / originalPrice) * 100)}%
+                                                </span>
+                                            </>
+                                        )}
+                                    </div>
                                 </>
                             ) : (
                                 <span className="text-lg font-semibold text-primary tracking-tight">Truy cập miễn phí</span>

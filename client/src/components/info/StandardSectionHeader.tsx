@@ -49,7 +49,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     // Otherwise (auto), we use standard colors that adapt to system theme (zinc-900 / dark:white).
 
     const titleGradientClass = isDarkBg
-        ? "text-white"
+        ? "bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-100 to-zinc-400"
         : isLightBg
             ? "text-zinc-900"
             : "text-zinc-900 dark:text-white";
@@ -66,6 +66,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
                 showDotPattern={true}
                 backgroundTheme={isDarkBg ? 'dark' : isLightBg ? 'light' : 'auto'}
                 className="opacity-100"
+                hideGradients={true}
             />
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
