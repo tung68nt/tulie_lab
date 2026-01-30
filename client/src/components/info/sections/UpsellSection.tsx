@@ -67,7 +67,14 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                         );
 
                         return (
-                            <div key={item.id || index} className="relative group rounded-[2rem] border border-zinc-100 bg-background p-8 hover:shadow-[0_20px_40px_rgb(0,0,0,0.04)] transition-all duration-500 flex flex-col overflow-hidden">
+                            <div key={item.id || index} className={cn(
+                                "relative group rounded-[2rem] border border-zinc-100 p-8 hover:shadow-[0_20px_40px_rgb(0,0,0,0.04)] transition-all duration-500 flex flex-col overflow-hidden",
+                                section.backgroundTheme === 'dark'
+                                    ? "bg-zinc-900"
+                                    : section.backgroundTheme === 'light'
+                                        ? "bg-white"
+                                        : "bg-background"
+                            )}>
                                 {item.tag && (
                                     <div className="absolute -top-3 right-8 text-[10px] font-medium px-3 py-1 rounded-full border border-zinc-100 bg-background text-zinc-600">
                                         {item.tag}

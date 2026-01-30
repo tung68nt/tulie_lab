@@ -93,8 +93,18 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                             delay={index * 0.1}
                             className="flex flex-col h-full"
                         >
-                            <div className="h-full bg-card border border-border/50 rounded-3xl p-1 shadow-sm hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 transition-all duration-300">
-                                <div className="bg-background rounded-[1.25rem] p-5 md:p-6 h-full flex flex-col">
+                            <div className={cn(
+                                "h-full border border-border/50 rounded-3xl p-1 shadow-sm hover:shadow-xl hover:border-primary/50 hover:-translate-y-1 transition-all duration-300",
+                                section.backgroundTheme === 'dark'
+                                    ? "bg-zinc-900 border-zinc-800"
+                                    : section.backgroundTheme === 'light'
+                                        ? "bg-white border-zinc-200"
+                                        : "bg-card"
+                            )}>
+                                <div className={cn(
+                                    "rounded-[1.25rem] p-5 md:p-6 h-full flex flex-col",
+                                    section.backgroundTheme === 'dark' ? "bg-black" : (section.backgroundTheme === 'light' ? "bg-zinc-50" : "bg-background")
+                                )}>
                                     {/* Header: Profile */}
                                     <div className="flex items-start gap-4 mb-5">
                                         <div className="relative w-14 h-14 shrink-0">

@@ -86,7 +86,14 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                             </span>
                                         </div>
                                         {/* Content */}
-                                        <div className="w-full flex-1 p-6 rounded-2xl bg-card border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
+                                        <div className={cn(
+                                            "w-full flex-1 p-6 rounded-2xl border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1",
+                                            section.backgroundTheme === 'dark'
+                                                ? "bg-zinc-900 border-zinc-800"
+                                                : section.backgroundTheme === 'light'
+                                                    ? "bg-white border-zinc-200"
+                                                    : "bg-card"
+                                        )}>
                                             <h3 className={cn(
                                                 "text-xl font-bold mb-3 tracking-tight",
                                                 "text-xl font-bold mb-3 tracking-tight",
@@ -124,7 +131,14 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                         } justify-center`}>
                         {section.items.map((item, idx) => (
                             <FadeIn key={idx} delay={idx * 0.1} className="h-full">
-                                <div className="bg-card p-6 rounded-2xl border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col items-start h-full relative overflow-hidden">
+                                <div className={cn(
+                                    "p-6 rounded-2xl border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col items-start h-full relative overflow-hidden",
+                                    section.backgroundTheme === 'dark'
+                                        ? "bg-zinc-900 border-zinc-800"
+                                        : section.backgroundTheme === 'light'
+                                            ? "bg-white border-zinc-200"
+                                            : "bg-card"
+                                )}>
                                     {/* Decorative Number */}
                                     <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                                         <span className="text-8xl font-bold text-primary">{idx + 1}</span>

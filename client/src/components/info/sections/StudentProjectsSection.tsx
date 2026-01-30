@@ -39,7 +39,14 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                         >
                             <Link
                                 href={`/projects/${project.slug}`}
-                                className="group relative flex flex-col h-full bg-card border border-border/40 rounded-2xl overflow-hidden hover:shadow-lg dark:hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] hover:-translate-y-1 transition-all duration-300 hover:border-primary/50"
+                                className={cn(
+                                    "group relative flex flex-col h-full border border-border/40 rounded-2xl overflow-hidden hover:shadow-lg dark:hover:shadow-[0_20px_40px_-15px_rgba(255,255,255,0.1)] hover:-translate-y-1 transition-all duration-300 hover:border-primary/50",
+                                    section.backgroundTheme === 'dark'
+                                        ? "bg-zinc-900"
+                                        : section.backgroundTheme === 'light'
+                                            ? "bg-white"
+                                            : "bg-card"
+                                )}
                             >
                                 {/* Project image */}
                                 <div className="aspect-[4/3] overflow-hidden bg-muted relative">
@@ -58,7 +65,14 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                                 </div>
 
                                 {/* Content */}
-                                <div className="flex flex-col flex-1 p-6 md:p-8 bg-gradient-to-b from-card to-secondary/10">
+                                <div className={cn(
+                                    "flex flex-col flex-1 p-6 md:p-8",
+                                    section.backgroundTheme === 'dark'
+                                        ? "bg-gradient-to-b from-zinc-900 to-zinc-950"
+                                        : section.backgroundTheme === 'light'
+                                            ? "bg-white"
+                                            : "bg-gradient-to-b from-card to-secondary/10"
+                                )}>
                                     <div className="mb-4">
                                         <h3 className="text-xl md:text-2xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-1">
                                             {String(project.title || '')}

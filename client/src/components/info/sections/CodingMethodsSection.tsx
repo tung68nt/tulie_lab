@@ -130,10 +130,16 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                 {/* RESPONSIVE TABLE VIEW: Scrollable on mobile, Grid on desktop */}
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
                     <div className="overflow-x-auto pb-4 -mx-4 px-4">
-                        <div className="min-w-[800px] md:min-w-[1000px] border border-border rounded-[32px] overflow-hidden bg-card/50 shadow-sm relative">
+                        <div className={cn(
+                            "min-w-[800px] md:min-w-[1000px] border border-border rounded-[32px] overflow-hidden shadow-sm relative",
+                            section.backgroundTheme === 'dark' ? "bg-zinc-900/50" : (section.backgroundTheme === 'light' ? "bg-white" : "bg-card/50")
+                        )}>
                             {/* Table Header */}
                             <div className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border border-b border-border bg-muted/30">
-                                <div className="p-4 md:p-6 flex items-center justify-center font-medium text-foreground/80 sticky left-0 bg-background/95 backdrop-blur-sm z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]">
+                                <div className={cn(
+                                    "p-4 md:p-6 flex items-center justify-center font-medium text-foreground/80 sticky left-0 backdrop-blur-sm z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]",
+                                    section.backgroundTheme === 'dark' ? "bg-[#050505]/95" : (section.backgroundTheme === 'light' ? "bg-white/95" : "bg-background/95")
+                                )}>
                                     Tiêu chí
                                 </div>
                                 {safeMethods.map((method: any, idx: number) => (
@@ -168,7 +174,10 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                                     return (
                                         <div key={row.key} className="grid grid-cols-[100px_repeat(5,1fr)] md:grid-cols-[120px_repeat(5,1fr)] divide-x divide-border hover:bg-muted/5 transition-colors group/row">
                                             {/* Row Header - Sticky */}
-                                            <div className="p-4 md:p-6 flex flex-col items-center justify-start gap-2 bg-background/95 backdrop-blur-sm sticky left-0 z-10 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)] group-hover/row:bg-muted/20 transition-colors">
+                                            <div className={cn(
+                                                "p-4 md:p-6 flex flex-col items-center justify-start gap-2 backdrop-blur-sm sticky left-0 z-10 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)] group-hover/row:bg-muted/20 transition-colors",
+                                                section.backgroundTheme === 'dark' ? "bg-[#050505]/95" : (section.backgroundTheme === 'light' ? "bg-white/95" : "bg-background/95")
+                                            )}>
                                                 <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-background border border-border flex items-center justify-center text-muted-foreground shrink-0">
                                                     <DynamicIcon name={row.icon || 'CheckCircle'} className="w-4 h-4 md:w-5 md:h-5" />
                                                 </div>

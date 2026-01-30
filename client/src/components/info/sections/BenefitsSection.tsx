@@ -54,7 +54,14 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                 key={idx}
                                 className="group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] min-w-[280px] flex flex-col"
                             >
-                                <Link href={item.href || item.link || `/blog/${item.slug || 'all'}`} className="h-full bg-card hover:bg-card/50 border border-border/50 hover:border-primary/30 p-8 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative block text-left">
+                                <Link href={item.href || item.link || `/blog/${item.slug || 'all'}`} className={cn(
+                                    "h-full border border-border/50 hover:border-primary/30 p-8 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative block text-left",
+                                    section.backgroundTheme === 'dark'
+                                        ? "bg-zinc-900 border-zinc-800"
+                                        : section.backgroundTheme === 'light'
+                                            ? "bg-white border-zinc-200 hover:bg-zinc-50"
+                                            : "bg-card hover:bg-card/50"
+                                )}>
                                     {/* Decorative Glow - Removed or toned down */}
 
                                     <div className="mb-6 relative">

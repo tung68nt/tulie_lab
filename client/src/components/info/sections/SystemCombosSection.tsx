@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { api, getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { BookOpen, Clock, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
 
@@ -41,10 +41,15 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
         );
     }
 
+
     return (
         <section className={cn(
             "py-12 md:py-24 relative",
-            section.backgroundTheme === 'dark' ? "bg-[#050505]" : "bg-background"
+            section.backgroundTheme === 'dark'
+                ? "bg-[#050505] text-white"
+                : section.backgroundTheme === 'light'
+                    ? "bg-white text-zinc-950"
+                    : "bg-background text-foreground"
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
@@ -55,7 +60,14 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
             <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1240px] mx-auto relative z-10">
                 {/* Combos List (1 Column) */}
                 {combos.length === 0 ? (
-                    <div className="text-center py-24 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] w-full max-w-4xl mx-auto">
+                    <div className={cn(
+                        "text-center py-24 border rounded-[2.5rem] w-full max-w-4xl mx-auto",
+                        section.backgroundTheme === 'dark'
+                            ? "bg-zinc-900 border-zinc-800"
+                            : section.backgroundTheme === 'light'
+                                ? "bg-zinc-50 border-zinc-200"
+                                : "bg-card border-border"
+                    )}>
                         <BookOpen className="w-16 h-16 text-muted-foreground/30 mx-auto mb-6" />
                         <h3 className="text-xl font-semibold mb-2">Chưa có lộ trình nào</h3>
                         <p className="text-muted-foreground text-sm">Vui lòng quay lại sau để cập nhật các lộ trình mới nhất.</p>
@@ -67,11 +79,18 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                     <div className="flex flex-col gap-10 max-w-[1100px] mx-auto">
                         {combos.map((combo: Bundle) => (
                             <div key={combo.id} className="group relative">
-                                <Card className="flex flex-col md:flex-row overflow-hidden border-border/40 hover:border-primary/20 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 bg-background/50 backdrop-blur-xl group min-h-[400px]">
+                                <Card className={cn(
+                                    "flex flex-col md:flex-row overflow-hidden hover:border-primary/20 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5 backdrop-blur-xl group min-h-[400px]",
+                                    section.backgroundTheme === 'dark'
+                                        ? "bg-zinc-900/50 border-white/10"
+                                        : section.backgroundTheme === 'light'
+                                            ? "bg-white border-zinc-200 shadow-sm"
+                                            : "bg-background/50 border-border/40"
+                                )}>
                                     {/* Thumbnail Section - Left side */}
                                     <div className="relative w-full md:w-[42%] h-64 md:h-auto overflow-hidden">
                                         <Image
-                                            src={combo.thumbnail || "/hero_vibe_coding.png"}
+                                            src={getMediaUrl(combo.thumbnail || "") || "/hero_vibe_coding.png"}
                                             alt={combo.name}
                                             fill
                                             className="object-cover transition-transform duration-1000 group-hover:scale-110"
@@ -96,14 +115,20 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     "text-2xl md:text-3xl font-bold font-heading leading-tight group-hover:text-primary transition-colors",
                                                     section.backgroundTheme === 'dark'
                                                         ? "text-zinc-50"
-                                                        : "text-zinc-900"
+                                                        : section.backgroundTheme === 'light'
+                                                            ? "text-zinc-900"
+                                                            : "text-foreground"
                                                 )}>
                                                     {combo.name}
                                                 </h3>
 
                                                 <p className={cn(
                                                     "text-lg line-clamp-2 leading-relaxed max-w-2xl",
-                                                    section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-zinc-600"
+                                                    section.backgroundTheme === 'dark'
+                                                        ? "text-zinc-300"
+                                                        : section.backgroundTheme === 'light'
+                                                            ? "text-zinc-500"
+                                                            : "text-muted-foreground"
                                                 )}>
                                                     {combo.description}
                                                 </p>
@@ -114,7 +139,9 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                 <div className="py-4 border-y border-border/40">
                                                     <span className={cn(
                                                         "text-base font-medium mb-4 block opacity-60",
-                                                        section.backgroundTheme === 'dark' ? "text-zinc-500" : "text-muted-foreground"
+                                                        section.backgroundTheme === 'dark' || section.backgroundTheme === 'light'
+                                                            ? "text-current" // Inherit from parent
+                                                            : "text-muted-foreground"
                                                     )}>Lộ trình bao gồm {combo.courses.length} chặng học:</span>
                                                     <div className="flex flex-col gap-4">
                                                         {combo.courses.map((item, i) => (
@@ -122,7 +149,11 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover/item:bg-primary transition-colors shrink-0" />
                                                                 <span className={cn(
                                                                     "truncate",
-                                                                    section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-zinc-800"
+                                                                    section.backgroundTheme === 'dark'
+                                                                        ? "text-zinc-300"
+                                                                        : section.backgroundTheme === 'light'
+                                                                            ? "text-zinc-700"
+                                                                            : "text-foreground"
                                                                 )}>{item.course?.title}</span>
                                                             </div>
                                                         ))}
@@ -135,7 +166,9 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     "flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-semibold border backdrop-blur-sm",
                                                     section.backgroundTheme === 'dark'
                                                         ? "bg-white/5 border-white/10 text-zinc-300"
-                                                        : "bg-zinc-100 border-zinc-200 text-zinc-700"
+                                                        : section.backgroundTheme === 'light'
+                                                            ? "bg-zinc-100 border-zinc-200 text-zinc-700"
+                                                            : "bg-muted/50 border-border text-muted-foreground"
                                                 )}>
                                                     <BookOpen className="w-3.5 h-3.5 text-primary" />
                                                     <span>Kiến thức thực chiến</span>
@@ -144,7 +177,9 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     "flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-semibold border backdrop-blur-sm",
                                                     section.backgroundTheme === 'dark'
                                                         ? "bg-white/5 border-white/10 text-zinc-300"
-                                                        : "bg-zinc-100 border-zinc-200 text-zinc-700"
+                                                        : section.backgroundTheme === 'light'
+                                                            ? "bg-zinc-100 border-zinc-200 text-zinc-700"
+                                                            : "bg-muted/50 border-border text-muted-foreground"
                                                 )}>
                                                     <Clock className="w-3.5 h-3.5 text-primary" />
                                                     <span>Truy cập trọn đời</span>
@@ -170,7 +205,14 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
 
                                             <div className="w-full sm:w-auto">
                                                 <Link href={`/combos/${combo.slug}`}>
-                                                    <div className="h-12 px-10 rounded-2xl bg-zinc-900 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 group-hover:scale-105 flex items-center justify-center gap-2 transition-all duration-300 shadow-xl text-sm font-bold border-0">
+                                                    <div className={cn(
+                                                        "h-12 px-10 rounded-2xl group-hover:scale-105 flex items-center justify-center gap-2 transition-all duration-300 shadow-xl text-sm font-bold border-0",
+                                                        section.backgroundTheme === 'dark'
+                                                            ? "bg-white text-black hover:bg-zinc-200"
+                                                            : section.backgroundTheme === 'light'
+                                                                ? "bg-black text-white hover:bg-zinc-800"
+                                                                : "bg-primary text-primary-foreground hover:bg-primary/90"
+                                                    )}>
                                                         <span>Khám phá lộ trình</span>
                                                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                     </div>
