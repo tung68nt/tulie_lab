@@ -1,11 +1,16 @@
-'use client';
-
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+
+// ... (existing imports)
+
+// ... inside component ...
+
+
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
+import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt } from 'lucide-react';
@@ -288,8 +293,19 @@ function CheckoutContent() {
     });
 
     return (
-        <div className="min-h-screen bg-background pt-12 pb-20">
-            <div className="container px-4">
+        <div className="min-h-screen bg-background pt-12 pb-20 relative overflow-hidden">
+            {/* Background Decoration */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+                <DotPatternBackground className="text-zinc-900/5 dark:text-white/5" />
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+                <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
+
+                {/* Corner Glows */}
+                <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-normal" />
+                <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-normal" />
+            </div>
+
+            <div className="container px-4 relative z-10">
                 {/* Max Width Container */}
                 <div className="mx-auto max-w-6xl">
                     {/* Header */}
@@ -322,7 +338,7 @@ function CheckoutContent() {
                                         </div>
                                     )}
                                     <div className="flex-1 space-y-2">
-                                        <h3 className="text-xl md:text-2xl font-bold text-zinc-900 tracking-tight">{item?.title || 'Đang tải...'}</h3>
+                                        <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{item?.title || 'Đang tải...'}</h3>
                                         <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                                             {item.description}
                                         </p>
@@ -421,11 +437,12 @@ function CheckoutContent() {
                                             <div className="p-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-foreground">
                                                 <Receipt className="w-4 h-4" />
                                             </div>
-                                            <CardTitle className="text-lg">Xuất hóa đơn VAT</CardTitle>
+                                            <CardTitle className="text-lg">Nhập thông tin xuất hoá đơn VAT</CardTitle>
                                         </div>
                                         <Switch
                                             checked={requestInvoice}
                                             onChange={setRequestInvoice}
+                                            className={requestInvoice ? "" : "!bg-zinc-200 dark:!bg-zinc-700"}
                                         />
                                     </div>
                                     <p className="text-xs text-muted-foreground mt-1">Yêu cầu cung cấp hóa đơn giá trị gia tăng (8-10%)</p>
@@ -560,7 +577,7 @@ function CheckoutContent() {
                                                     }`}
                                             >
                                                 <span className="text-[15px] font-semibold mb-1">Kích hoạt ngay</span>
-                                                <span className="text-[13px] opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
+                                                <span className="text-xs opacity-70">Gán trực tiếp vào tài khoản {user?.email}</span>
                                             </button>
                                             <button
                                                 onClick={() => setSelectedActivationType('CODE')}
@@ -570,7 +587,7 @@ function CheckoutContent() {
                                                     }`}
                                             >
                                                 <span className="text-[15px] font-semibold mb-1">Mua mã quà tặng</span>
-                                                <span className="text-[13px] opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
+                                                <span className="text-xs opacity-70">Nhận mã qua email để tặng hoặc kích hoạt sau</span>
                                             </button>
                                         </div>
                                     </CardContent>
