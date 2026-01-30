@@ -242,7 +242,11 @@ async function initializeApp() {
           const prisma = (await import('./config/prisma')).default;
           await prisma.$executeRawUnsafe('ALTER TABLE "Instructor" ADD COLUMN IF NOT EXISTS "slug" TEXT;');
           await prisma.$executeRawUnsafe('CREATE UNIQUE INDEX IF NOT EXISTS "Instructor_slug_key" ON "Instructor"("slug");');
-          res.json({ message: 'Production DB slug fixation attempted successfully' });
+
+          // Also update site name/title settings if they exist
+          await prisma.$executeRawUnsafe(`UPDATE "SystemSetting" SET "value" = 'Tulie Academy' WHERE "key" = 'site_name' OR "key" = 'site_title'`);
+
+          res.json({ message: 'Production DB slug fixation and rebranding attempted successfully' });
         } catch (error: any) {
           res.status(500).json({ error: error.message });
         }

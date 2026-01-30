@@ -214,7 +214,7 @@ export function Footer() {
 
                     {/* Social Links */}
                     <div className="space-y-4 col-span-2 md:col-span-1">
-                        <p className="text-sm font-bold tracking-wide">Theo dõi The Tulie Lab</p>
+                        <p className="text-sm font-bold tracking-wide">Theo dõi Tulie Academy</p>
                         <div className="flex flex-wrap gap-3">
                             {footerData.socialLinks.map((link, index) => (
                                 <a

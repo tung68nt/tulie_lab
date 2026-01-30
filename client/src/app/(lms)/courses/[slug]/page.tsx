@@ -198,7 +198,7 @@ export default function CoursePage({ params }: { params: any }) {
             {/* Hero Section */}
             <div className="bg-[#050505] pt-24 md:pt-28 pb-16 text-white md:pb-24 relative overflow-hidden">
                 {/* Background pattern */}
-                <DotPatternBackground className="opacity-10" withVignette={false} />
+                <DotPatternBackground className="opacity-[0.25] dark:opacity-[0.4] text-zinc-500 dark:text-zinc-400" withVignette={false} />
 
                 {/* Corner Glows / Fades */}
                 <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
@@ -552,7 +552,7 @@ export default function CoursePage({ params }: { params: any }) {
                                     </div>
                                 )}
                                 <div>
-                                    <h3 className="font-bold text-lg">{course.instructor?.name || 'Academy Tulie Team'}</h3>
+                                    <h3 className="font-bold text-lg">{course.instructor?.name || 'Tulie Academy Team'}</h3>
                                     <p className="text-sm text-zinc-500 mb-2">{course.instructor?.title || 'Đội ngũ giảng viên chuyên nghiệp'}</p>
                                     <p className="text-sm text-muted-foreground whitespace-pre-line">
                                         {course.instructor?.bio || 'Chúng tôi là đội ngũ đam mê công nghệ, cam kết mang lại nền tảng học tập tốt nhất cho bạn.'}
