@@ -98,10 +98,10 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     }}
                                     variant={section.backgroundTheme === 'dark' ? "white" : "default"}
                                     className={cn(
-                                        "w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
+                                        "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme !== 'dark'
                                             ? "bg-black text-white hover:bg-zinc-800"
-                                            : "!text-black" // Force black text for white button in dark theme
+                                            : "bg-white !text-black hover:bg-zinc-100" // Explicitly force black text on white bg
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
