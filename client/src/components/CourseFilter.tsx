@@ -85,7 +85,7 @@ function CourseFilterInner() {
         <button
             onClick={onClick}
             className={cn(
-                "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
+                "group flex items-center gap-3 px-3 py-1 rounded-xl text-sm transition-all",
                 active
                     ? "bg-muted/50 text-foreground font-bold"
                     : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
@@ -102,7 +102,7 @@ function CourseFilterInner() {
     );
 
     return (
-        <aside className="w-full md:w-72 shrink-0 space-y-5 md:sticky md:top-32 md:self-start">
+        <aside className="w-full md:w-72 shrink-0 space-y-4 md:sticky md:top-32 md:self-start">
             {/* Search */}
             <div className="space-y-2">
                 <h3 className="text-sm font-bold text-muted-foreground/80 px-2">Tìm kiếm</h3>

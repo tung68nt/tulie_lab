@@ -10,6 +10,7 @@ import { Twitter, Linkedin, Github, ExternalLink, Mail, ArrowRight } from 'lucid
 import Image from 'next/image';
 import { Button } from '@/components/Button';
 import { FadeIn } from '@/components/animations/FadeIn';
+import { cn } from '@/lib/utils';
 
 export const SystemInstructorsSection = ({ section }: { section: Section }) => {
     const [instructors, setInstructors] = useState<Instructor[]>([]);
@@ -38,8 +39,13 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
         );
     }
 
+    const isDark = section.backgroundTheme === 'dark';
+
     return (
-        <section className="py-24 relative overflow-hidden bg-background">
+        <section className={cn(
+            "py-24 relative overflow-hidden",
+            isDark ? "bg-[#050505] text-white" : "bg-background"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

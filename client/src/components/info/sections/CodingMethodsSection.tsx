@@ -105,8 +105,13 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
         return <span className="text-sm text-foreground">{detail}</span>;
     };
 
+    const isDark = section.backgroundTheme === 'dark';
+
     return (
-        <section className="py-24 bg-background text-foreground relative">
+        <section className={cn(
+            "py-24 relative",
+            isDark ? "bg-[#050505] text-white" : "bg-background text-foreground"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

@@ -19,15 +19,19 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
     const items = section?.items || [];
 
     const displayItems = items.length > 0 ? items : BENEFITS_DATA;
+    const isDark = section?.backgroundTheme === 'dark';
 
     return (
-        <section className="py-16 md:py-20 bg-background relative">
+        <section className={cn(
+            "py-16 md:py-20 relative",
+            isDark ? "bg-[#050505] text-white" : "bg-background"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
-                hideGradients={section.backgroundTheme === 'dark'}
+                hideGradients={isDark}
                 glowVariant={1}
             />
 

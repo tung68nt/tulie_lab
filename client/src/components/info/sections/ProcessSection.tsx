@@ -20,9 +20,13 @@ import { cn } from '@/lib/utils';
 
 export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProps) => {
     if (!section.items) return null;
+    const isDark = section.backgroundTheme === 'dark';
 
     return (
-        <section className="py-24 bg-background relative">
+        <section className={cn(
+            "py-24 relative",
+            isDark ? "bg-[#050505] text-white" : "bg-background"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

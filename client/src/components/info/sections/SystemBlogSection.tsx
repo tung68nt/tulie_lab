@@ -101,7 +101,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
             <div className="container px-6 max-w-[1200px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter */}
-                    <aside className="w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-32 lg:self-start">
+                    <aside className="w-full lg:w-72 shrink-0 space-y-4 lg:sticky lg:top-32 lg:self-start">
                         {/* Search Bar */}
                         <div className="space-y-3">
                             <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>
@@ -116,13 +116,13 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                         </div>
 
                         {/* Categories List */}
-                        <div className="space-y-3">
+                        <div className="space-y-1">
                             <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Chuyên mục</h3>
-                            <nav className="flex flex-col gap-1">
+                            <nav className="flex flex-col gap-0.5">
                                 <button
                                     onClick={() => toggleCategory('all')}
                                     className={cn(
-                                        "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
+                                        "group flex items-center gap-3 px-3 py-1 rounded-xl text-sm transition-all",
                                         selectedCategories.length === 0
                                             ? "bg-muted/50 text-foreground font-bold"
                                             : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
@@ -141,7 +141,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                                         key={cat.id}
                                         onClick={() => toggleCategory(cat.id)}
                                         className={cn(
-                                            "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
+                                            "group flex items-center gap-3 px-3 py-1 rounded-xl text-sm transition-all",
                                             selectedCategories.includes(cat.id)
                                                 ? "bg-muted/50 text-foreground font-bold"
                                                 : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"

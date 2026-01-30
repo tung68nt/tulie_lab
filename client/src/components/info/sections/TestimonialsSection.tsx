@@ -60,14 +60,19 @@ const testimonials = [
 import { SectionBackground } from '../SectionBackground';
 
 export const TestimonialsSection = ({ section }: { section: Section }) => {
+    const isDark = section.backgroundTheme === 'dark';
+
     return (
-        <section className="py-20 md:py-32 relative transition-colors duration-300">
+        <section className={cn(
+            "py-20 md:py-32 relative transition-colors duration-300",
+            isDark ? "bg-[#050505] text-white" : "bg-background"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
-                hideGradients={section.backgroundTheme === 'dark'}
+                hideGradients={isDark}
                 glowVariant={7}
             />
 

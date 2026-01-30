@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Section } from '@/types/sections';
 import { Bundle } from '@/types/api';
+import { SectionBackground } from '../SectionBackground';
 
 export const SystemCombosSection = ({ section }: { section: Section }) => {
     const [combos, setCombos] = useState<Bundle[]>([]);
@@ -40,7 +41,16 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
     }
 
     return (
-        <section className="py-12 md:py-24 bg-background">
+        <section className={cn(
+            "py-12 md:py-24 relative",
+            section.backgroundTheme === 'dark' ? "bg-[#050505]" : "bg-background"
+        )}>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
             <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1240px] mx-auto relative z-10">
                 {/* Combos List (1 Column) */}
                 {combos.length === 0 ? (

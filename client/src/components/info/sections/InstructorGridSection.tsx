@@ -2,12 +2,17 @@ import { Section } from '@/types/sections';
 import { Twitter, Linkedin, Github, ExternalLink } from 'lucide-react';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { SectionBackground } from '../SectionBackground';
+import { cn } from '@/lib/utils';
 
 export const InstructorGridSection = ({ section }: { section: Section }) => {
     if (!section.items) return null;
+    const isDark = section.backgroundTheme === 'dark';
 
     return (
-        <section className="py-24 relative overflow-hidden">
+        <section className={cn(
+            "py-24 relative overflow-hidden",
+            isDark ? "bg-[#050505] text-white" : "bg-background"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

@@ -12,6 +12,7 @@ import { FadeIn } from '@/components/animations/FadeIn';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { SectionBackground } from '../SectionBackground';
 import { DynamicIcon } from '@/components/DynamicIcon';
+import { cn } from '@/lib/utils';
 
 
 interface SystemCoursesSectionProps {
@@ -82,9 +83,20 @@ function SystemCoursesContent() {
 }
 
 export const SystemCoursesSection: React.FC<SystemCoursesSectionProps> = ({ section }) => {
+    const isDark = section.backgroundTheme === 'dark';
+
     return (
-        <section className="py-12 md:py-20 bg-background">
-            <div className="container mx-auto px-6 max-w-[1200px]">
+        <section className={cn(
+            "py-12 md:py-20 relative",
+            isDark ? "bg-[#050505] text-white" : "bg-background"
+        )}>
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                showDotPattern={section.showDotPattern}
+                backgroundTheme={section.backgroundTheme}
+                overlayOpacity={section.overlayOpacity}
+            />
+            <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
                 <Suspense fallback={<div>Loading courses...</div>}>
                     <SystemCoursesContent />
                 </Suspense>

@@ -33,9 +33,13 @@ export function FAQSection({ section }: { section: Section }) {
     };
 
     if (!items || items.length === 0) return null;
+    const isDark = section.backgroundTheme === 'dark';
 
     return (
-        <section className="py-20 md:py-28 bg-background dark:bg-neutral-950 relative overflow-hidden">
+        <section className={cn(
+            "py-20 md:py-28 relative overflow-hidden",
+            isDark ? "bg-[#050505]" : "bg-background dark:bg-neutral-950"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}

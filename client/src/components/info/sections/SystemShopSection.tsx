@@ -101,7 +101,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
             <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter - Desktop & Tablet */}
-                    <aside className={`w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-32 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
+                    <aside className={`w-full lg:w-72 shrink-0 space-y-4 lg:sticky lg:top-32 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
                         {/* Search Bar */}
                         <div className="space-y-3">
                             <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>
@@ -118,9 +118,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                         </div>
 
                         {/* Categories List */}
-                        <div className="space-y-3">
+                        <div className="space-y-1">
                             <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Lĩnh vực</h3>
-                            <nav className="flex flex-col gap-1">
+                            <nav className="flex flex-col gap-0.5">
                                 {CATEGORIES.map((cat) => {
                                     const isAll = cat.id === 'all';
                                     const isActive = isAll ? selectedCategories.length === 0 : selectedCategories.includes(cat.id);
@@ -151,7 +151,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                 }
                                             }}
                                             className={cn(
-                                                "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
+                                                "group flex items-center gap-3 px-3 py-1 rounded-xl text-sm transition-all",
                                                 isActive
                                                     ? "bg-muted/50 text-foreground font-bold"
                                                     : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
@@ -171,9 +171,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                         </div>
 
                         {/* Product Types */}
-                        <div className="space-y-3">
+                        <div className="space-y-1">
                             <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Loại hình</h3>
-                            <nav className="flex flex-col gap-1">
+                            <nav className="flex flex-col gap-0.5">
                                 {PRODUCT_TYPES.map((type) => {
                                     const isAll = type.id === 'all';
                                     const isActive = isAll ? selectedTypes.length === 0 : selectedTypes.includes(type.id);
@@ -192,7 +192,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                 }
                                             }}
                                             className={cn(
-                                                "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
+                                                "group flex items-center gap-3 px-3 py-1 rounded-xl text-sm transition-all",
                                                 isActive
                                                     ? "bg-muted/50 text-foreground font-bold"
                                                     : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"

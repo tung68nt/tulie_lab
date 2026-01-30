@@ -9,8 +9,13 @@ import { FadeIn } from '@/components/animations/FadeIn';
 import { SectionBackground } from '../SectionBackground';
 
 export function ComparisonSection({ section }: { section: Section }) {
+    const isDark = section.backgroundTheme === 'dark';
+
     return (
-        <section className="w-full py-24 md:py-32 relative">
+        <section className={cn(
+            "w-full py-24 md:py-32 relative",
+            isDark ? "bg-[#050505] text-white" : "bg-background"
+        )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 showDotPattern={section.showDotPattern}
