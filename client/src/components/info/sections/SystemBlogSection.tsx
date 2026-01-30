@@ -7,6 +7,7 @@ import { Button } from '@/components/Button';
 import { ChevronRight, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Section } from '@/types/sections';
+import { SectionBackground } from '../SectionBackground';
 
 interface BlogPost {
     id: string;
@@ -97,8 +98,14 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
     };
 
     return (
-        <section className="py-12 md:py-20 bg-background">
-            <div className="container px-6 max-w-[1200px] mx-auto">
+        <section className="py-12 md:py-20 bg-background relative overflow-hidden">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                backgroundTheme={section.backgroundTheme || 'light'}
+                overlayOpacity={section.overlayOpacity}
+                showDotPattern={true}
+            />
+            <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter */}
                     <aside className="w-full lg:w-72 shrink-0 space-y-4 lg:sticky lg:top-32 lg:self-start">

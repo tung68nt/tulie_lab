@@ -2,7 +2,6 @@ import { Section } from '@/types/sections';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Check } from 'lucide-react';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { cn } from '@/lib/utils';
 import { FadeIn } from '@/components/animations/FadeIn';
 

@@ -4,6 +4,7 @@ import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { SectionBackground } from '../SectionBackground';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { Badge } from '@/components/Badge';
 
 export const InstructorGridSection = ({ section }: { section: Section }) => {
     if (!section.items) return null;
@@ -50,8 +51,10 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                 )}
 
                                 {/* Floating Badge */}
-                                <div className="absolute -bottom-2 -right-2 bg-primary text-primary-foreground text-[10px] font-bold px-3 py-1 rounded-full shadow-lg z-20 border-2 border-background transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                    Expert
+                                <div className="absolute -bottom-2 -right-2 z-20 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                                    <Badge size="sm" variant="default" showDot={false} className="shadow-lg border-2 border-background">
+                                        Expert
+                                    </Badge>
                                 </div>
                             </div>
 
@@ -60,11 +63,13 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                 <Link href={`/instructors/${(item as any).slug || (item as any).id || '#'}`} className="group/name">
                                     <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300 hover:underline decoration-2 underline-offset-4">{String(item.title || '')}</h3>
                                 </Link>
-                                <div className={cn(
-                                    "inline-flex items-center px-4 py-1 rounded-full text-[10px] font-bold mb-6 border border-border/50",
-                                    isDark ? "bg-white/10 text-zinc-300" : "bg-muted text-muted-foreground"
-                                )}>
-                                    {String(item.subtitle || '')}
+                                <div className="mb-6">
+                                    <Badge variant="secondary" showDot={false} className={cn(
+                                        "border-border/50",
+                                        isDark ? "bg-white/10 text-zinc-300" : "bg-muted text-muted-foreground"
+                                    )}>
+                                        {String(item.subtitle || '')}
+                                    </Badge>
                                 </div>
                                 <p className={cn(
                                     "leading-relaxed mb-8 text-sm md:text-base line-clamp-4 group-hover:line-clamp-none transition-all duration-500",

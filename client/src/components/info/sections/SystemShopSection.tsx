@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers } from 'lucide-react';
 import { Section } from '@/types/sections';
 import { SectionTag } from '@/components/SectionTag';
+import { SectionBackground } from '../SectionBackground';
 import { Product, Order, User, ApiResponse } from '@/types/api';
 
 const CATEGORIES = [
@@ -97,7 +98,13 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
     }
 
     return (
-        <section className="py-12 md:py-20 bg-background">
+        <section className="py-12 md:py-20 bg-background relative overflow-hidden">
+            <SectionBackground
+                backgroundImage={section.backgroundImage}
+                backgroundTheme={section.backgroundTheme || 'light'}
+                overlayOpacity={section.overlayOpacity}
+                showDotPattern={true}
+            />
             <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 items-start">
                     {/* Sidebar Filter - Desktop & Tablet */}

@@ -34,7 +34,7 @@ export interface BadgeProps
     size?: 'sm' | 'md' | 'lg';
 }
 
-function Badge({ className, variant, showDot, dotColor, animate = true, bold = false, size = 'lg', children, ...props }: BadgeProps) {
+function Badge({ className, variant, showDot = false, dotColor, animate = true, bold = false, size = 'lg', children, ...props }: BadgeProps) {
     const defaultDotColor = (variant === 'default') ? 'white' : 'auto';
     const finalDotColor = dotColor || defaultDotColor;
 

@@ -103,7 +103,6 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             <div className="space-y-4">
                                                 <SectionTag
                                                     variant="black-pill"
-                                                    animate={false}
                                                 >
                                                     Combo lộ trình
                                                 </SectionTag>

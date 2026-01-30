@@ -17,7 +17,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     children,
     className,
     variant = 'default',
-    showDot = true,
+    showDot = false,
     dotColor: customDotColor,
     animate = true,
     bold = false,

@@ -4,7 +4,6 @@ import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 
 import { Zap, CheckCircle2, ChevronRight } from 'lucide-react';
 import { SectionTag } from '@/components/SectionTag';

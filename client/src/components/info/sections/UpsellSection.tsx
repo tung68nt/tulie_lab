@@ -26,12 +26,12 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                backgroundTheme={section.backgroundTheme || 'light'}
+                backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={14}
             />
             <div className="container px-4 mx-auto relative z-10">
-                <div className="text-center mb-16 max-w-2xl mx-auto">
+                <div className="text-center mb-12 max-w-2xl mx-auto">
                     <h2 className="text-3xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
                     <p className={cn(
                         "text-lg leading-relaxed",
@@ -69,7 +69,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
 
                         return (
                             <div key={item.id || index} className={cn(
-                                "relative group rounded-[2rem] border border-zinc-100 p-8 hover:shadow-[0_20px_40px_rgb(0,0,0,0.04)] transition-all duration-500 flex flex-col overflow-hidden",
+                                "relative group rounded-[2rem] border border-zinc-100 p-6 md:p-8 hover:shadow-[0_20px_40px_rgb(0,0,0,0.04)] transition-all duration-500 flex flex-col overflow-hidden",
                                 section.backgroundTheme === 'dark'
                                     ? "bg-zinc-900"
                                     : section.backgroundTheme === 'light'
@@ -85,13 +85,13 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                 )}
 
                                 <div className="mb-8">
-                                    <div className={`w-14 h-14 rounded-2xl bg-zinc-50 flex items-center justify-center text-zinc-400 mb-6 group-hover:bg-zinc-100 transition-colors duration-300`}>
+                                    <div className={`w-14 h-14 rounded-2xl bg-zinc-50 flex items-center justify-center text-zinc-400 mb-5 group-hover:bg-zinc-100 transition-colors duration-300`}>
                                         <DynamicIcon name={item.icon || 'Package'} className="w-6 h-6 stroke-[1.5px]" />
                                     </div>
 
                                     <h3 className="text-xl font-semibold text-foreground dark:text-white mb-2">{item.title}</h3>
 
-                                    <div className="flex items-baseline gap-2 mb-4">
+                                    <div className="flex items-baseline gap-2 mb-3">
                                         <span className="text-2xl font-semibold text-foreground dark:text-white">{item.price}</span>
                                         {item.originalPrice && (
                                             <span className="text-sm text-muted-foreground line-through font-normal">{item.originalPrice}</span>
@@ -100,11 +100,11 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                 </div>
 
                                 <p className={cn(
-                                    "text-sm leading-relaxed mb-8 min-h-[3rem]",
+                                    "text-sm leading-relaxed mb-6 min-h-[3rem]",
                                     section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
                                 )}>{item.description}</p>
 
-                                <ul className="space-y-4 mb-10 flex-1">
+                                <ul className="space-y-4 mb-8 flex-1">
                                     {item.features?.map((feature: string, i: number) => (
                                         <li key={i} className={cn(
                                             "flex items-center gap-3 text-xs font-medium",

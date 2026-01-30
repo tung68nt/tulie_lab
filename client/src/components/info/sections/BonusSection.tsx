@@ -30,22 +30,20 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 glowVariant={5} // Unique variant for BonusSection
             />
 
-            {/* Decorative Ribbons - Bright Red, Static */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 w-full max-w-sm">
-                <div className="bg-[#FF0000] text-white font-bold text-lg md:text-xl px-8 py-4 rounded-b-3xl shadow-[0_10px_40px_-10px_rgba(255,0,0,0.6)] text-center relative overflow-hidden">
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                        <Gift className="w-6 h-6" />
-                        Quà tặng giới hạn
-                    </span>
+            <div className="container relative z-10 pt-16">
+                <div className="flex flex-col items-center mb-12">
+                    <div className="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-red-600 text-white shadow-[0_10px_30px_-10px_rgba(255,0,0,1)] border border-red-500/50 mb-8 animate-bounce-subtle">
+                        <Gift className="w-5 h-5 fill-white/20" />
+                        <span className="text-sm md:text-base font-bold tracking-tight">Quà tặng giới hạn</span>
+                    </div>
+                    <StandardSectionHeader
+                        section={section}
+                        titleOverride={section.title || "Quà Tặng Đặc Biệt"}
+                        subtitleOverride={section.subtitle || "Dành riêng cho 50 bạn đăng ký sớm nhất hôm nay"}
+                        align="center"
+                        className="mb-0"
+                    />
                 </div>
-            </div>
-
-            <div className="container relative z-10 pt-12">
-                <StandardSectionHeader
-                    section={section}
-                    titleOverride={section.title || "Quà Tặng Đặc Biệt"}
-                    subtitleOverride={section.subtitle || "Dành riêng cho 50 bạn đăng ký sớm nhất hôm nay"}
-                />
 
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
                     <div className="flex flex-col gap-8">
