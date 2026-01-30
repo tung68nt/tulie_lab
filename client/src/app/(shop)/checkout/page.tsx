@@ -22,10 +22,10 @@ import { Switch } from '@/components/Switch';
 function CheckoutContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const courseId = searchParams.get('courseId');
-    const productId = searchParams.get('productId');
-    const bundleId = searchParams.get('bundleId');
-    const activationType = searchParams.get('activationType');
+    const courseId = searchParams.get('courseId') || searchParams.get('courseid');
+    const productId = searchParams.get('productId') || searchParams.get('productid');
+    const bundleId = searchParams.get('bundleId') || searchParams.get('bundleid');
+    const activationType = searchParams.get('activationType') || searchParams.get('activationtype');
     const { addToast } = useToast();
 
     const [loading, setLoading] = useState(true);
@@ -222,7 +222,9 @@ function CheckoutContent() {
                 metadata: {
                     requestInvoice,
                     invoiceInfo: requestInvoice ? (
-                        selectedInvoiceProfile === 'new' ? newInvoiceInfo : invoiceProfiles.find(p => p.id === selectedInvoiceProfile)
+                        selectedInvoiceProfile === 'new'
+                            ? newInvoiceInfo
+                            : (invoiceProfiles.find(p => p.id === selectedInvoiceProfile) || newInvoiceInfo)
                     ) : null
                 }
             };
@@ -669,11 +671,12 @@ function CheckoutContent() {
                                     <Button
                                         onClick={handleCheckout}
                                         disabled={processing}
-                                        className="w-full text-lg font-extrabold h-14 rounded-xl bg-white text-black hover:bg-zinc-50 shadow-xl border border-zinc-200 dark:border-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+                                        variant="white"
+                                        className="w-full text-lg font-extrabold h-14 rounded-xl shadow-xl border border-zinc-200 dark:border-zinc-800 active:scale-95 transition-all flex items-center justify-center gap-3 relative overflow-hidden group/btn"
                                     >
                                         {processing ? (
                                             <span className="flex items-center gap-2">
-                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                <div className="w-5 h-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
                                                 Đang xử lý...
                                             </span>
                                         ) : (
@@ -684,7 +687,7 @@ function CheckoutContent() {
                                                 <MoveRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform relative z-10" />
                                             </>
                                         )}
-                                        <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500" />
+                                        <div className="absolute inset-0 bg-zinc-100/50 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500" />
                                     </Button>
 
                                     <div className="pt-4 space-y-2 border-t">

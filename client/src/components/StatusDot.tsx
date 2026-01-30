@@ -16,12 +16,12 @@ export const StatusDot: React.FC<StatusDotProps> = ({
 }) => {
     const colorClasses = {
         white: 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]',
-        black: 'bg-zinc-950 dark:bg-zinc-200',
-        zinc: 'bg-zinc-400 dark:bg-zinc-500',
+        black: 'bg-black',
+        zinc: 'bg-zinc-950 dark:bg-zinc-200',
         primary: 'bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]',
         green: 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]',
         red: 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]',
-        auto: 'bg-zinc-400 dark:bg-zinc-500' // Neutral fallback
+        auto: 'bg-black dark:bg-white'
     };
 
     const bgColor = colorClasses[color as keyof typeof colorClasses] || colorClasses.white;

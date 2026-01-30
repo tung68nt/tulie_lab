@@ -61,14 +61,14 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                         <div className="relative w-full h-full">
                                             <Image
                                                 src={instructor.avatar}
-                                                alt={instructor.name}
+                                                alt={instructor?.name || 'Instructor'}
                                                 fill
                                                 className="object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
                                             />
                                         </div>
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-muted">
-                                            <span className="text-4xl font-bold text-muted-foreground">{instructor.name.charAt(0)}</span>
+                                            <span className="text-4xl font-bold text-muted-foreground">{instructor?.name?.charAt(0) || 'G'}</span>
                                         </div>
                                     )}
                                 </div>
@@ -76,7 +76,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
 
                             {/* Content */}
                             <div className="flex-1 flex flex-col text-center">
-                                <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{instructor.name}</h3>
+                                <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{instructor?.name || 'Đang tải...'}</h3>
                                 <p className="text-primary/60 text-xs font-bold tracking-wide mb-6">{String(instructor.role || 'Expert Instructor')}</p>
 
                                 <p className="text-muted-foreground text-[15px] leading-relaxed mb-10 line-clamp-4 group-hover:line-clamp-none transition-all duration-500">

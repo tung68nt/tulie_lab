@@ -176,7 +176,7 @@ export default function BlogPostPage() {
                                                 <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" />
                                             ) : (
                                                 <div className="w-full h-full flex items-center justify-center font-bold">
-                                                    {post.author.name[0]}
+                                                    {post.author?.name?.charAt(0) || 'A'}
                                                 </div>
                                             )}
                                         </div>
@@ -248,7 +248,7 @@ export default function BlogPostPage() {
                                         <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-2xl font-bold">
-                                            {post.author?.name[0] || 'A'}
+                                            {post.author?.name?.charAt(0) || 'A'}
                                         </div>
                                     )}
                                 </div>

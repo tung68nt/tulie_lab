@@ -372,7 +372,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                 <div className="space-y-4 text-[13px]">
                                     <div className="flex items-start">
                                         <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Họ tên người mua:</span>
-                                        <span className="font-bold text-zinc-900">{order.metadata?.vatBuyerName || order.metadata?.customerName || order.user.profile?.name || order.user.name || ''}</span>
+                                        <span className="font-bold text-zinc-900">{order.metadata?.vatBuyerName || order.metadata?.customerName || order.user?.profile?.name || order.user?.name || ''}</span>
                                     </div>
                                     <div className="flex items-start">
                                         <span className="text-zinc-500 inline-block" style={{ width: '140px', flexShrink: 0 }}>Số điện thoại:</span>

@@ -35,12 +35,12 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                     {instructor.avatar ? (
                                         <img
                                             src={instructor.avatar}
-                                            alt={instructor.name}
+                                            alt={instructor?.name || 'Instructor'}
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 text-5xl font-bold">
-                                            {instructor.name?.charAt(0) || 'G'}
+                                            {instructor?.name?.charAt(0) || 'G'}
                                         </div>
                                     )}
                                 </div>
@@ -53,7 +53,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                         {/* Info Content */}
                         <div className="flex-1 pt-4">
                             <h1 className="text-3xl md:text-5xl font-bold mb-3 tracking-tight text-foreground">
-                                {instructor.name}
+                                {instructor?.name || 'Đang tải...'}
                             </h1>
                             {instructor.title && (
                                 <p className="text-lg md:text-xl text-muted-foreground font-medium mb-6 flex items-center justify-center md:justify-start gap-2">
