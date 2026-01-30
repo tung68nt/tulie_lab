@@ -32,9 +32,9 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
             <div className="container relative z-10 pt-8">
                 <div className="flex flex-col items-center mb-10">
-                    <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-[#FF3B30] text-white shadow-[0_10px_30px_-10px_rgba(255,59,48,0.5)] border border-white/20 mb-6 animate-bounce-subtle">
+                    <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-[#FF0000] text-white shadow-[0_10px_30px_-10px_rgba(255,0,0,0.5)] border border-white/20 mb-6 animate-bounce-subtle">
                         <Gift className="w-6 h-6 fill-white/20" />
-                        <span className="text-base md:text-lg font-medium tracking-tight">Quà tặng giới hạn</span>
+                        <span className="text-base md:text-lg font-bold tracking-tight">Quà tặng giới hạn</span>
                     </div>
                     <StandardSectionHeader
                         section={section}
@@ -138,7 +138,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                             {/* Solid Red Strike-through */}
                                             <div className="absolute top-[55%] left-[-5%] right-[-5%] h-[4px] bg-[#FF0000] opacity-100 rounded-full shadow-[0_0_10px_rgba(255,0,0,0.5)]" />
                                         </div>
-                                        <span className="bg-red-500 text-white text-[10px] md:text-xs px-4 py-2 rounded-full font-black shadow-lg shadow-red-500/30 tracking-wider">
+                                        <span className="bg-[#FF0000] text-white text-[10px] md:text-xs px-4 py-2 rounded-full font-black shadow-lg shadow-red-500/30 tracking-wider">
                                             TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
                                         </span>
                                     </div>
@@ -146,8 +146,8 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
 
                                 <div className="flex flex-col items-center md:items-end">
                                     <div className="flex items-baseline gap-1 mb-2">
-                                        <span className="text-6xl md:text-8xl font-bold text-zinc-950 dark:text-white drop-shadow-2xl">0</span>
-                                        <span className="text-2xl md:text-3xl font-bold text-zinc-950/80 dark:text-white/80">đ</span>
+                                        <span className="text-6xl md:text-8xl font-black text-black dark:text-black drop-shadow-2xl">0</span>
+                                        <span className="text-2xl md:text-3xl font-black text-black/80 dark:text-black/80">đ</span>
                                     </div>
 
                                     <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500">

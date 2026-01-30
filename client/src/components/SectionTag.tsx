@@ -5,7 +5,7 @@ import { StatusDot } from './StatusDot';
 interface SectionTagProps {
     children: React.ReactNode;
     className?: string;
-    variant?: 'light' | 'dark' | 'default' | 'black-pill' | 'yellow' | 'outline' | 'primary';
+    variant?: 'light' | 'dark' | 'default' | 'black-pill' | 'yellow' | 'outline' | 'primary' | 'red';
     showDot?: boolean;
     dotColor?: 'white' | 'black' | 'primary' | 'green' | 'auto' | 'red' | 'blue' | 'yellow';
     animate?: boolean;
@@ -29,6 +29,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
         dark: "border-zinc-700 bg-zinc-900 text-white shadow-md",
         'black-pill': "border-white/20 bg-black text-white shadow-lg",
         yellow: "border-yellow-600 bg-yellow-500 text-white shadow-sm",
+        red: "border-red-600 bg-red-600 text-white shadow-sm shadow-red-500/20",
         primary: "border-primary/40 bg-primary text-primary-foreground shadow-sm",
         outline: "border-zinc-300 dark:border-zinc-700 bg-background text-foreground"
     }[variant];
