@@ -2,7 +2,7 @@
 
 import { useEffect, useState, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
+import { api, getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { PriceInput } from '@/components/PriceInput';
@@ -227,7 +227,7 @@ export default function EditBundlePage({ params }: { params: Promise<{ id: strin
                             {formData.thumbnail && (
                                 <div className="mt-2 rounded-lg overflow-hidden border aspect-video bg-muted max-w-sm">
                                     <img
-                                        src={formData.thumbnail}
+                                        src={getMediaUrl(formData.thumbnail)}
                                         alt="Thumbnail preview"
                                         className="w-full h-full object-cover"
                                         onError={(e) => (e.currentTarget.style.display = 'none')}
