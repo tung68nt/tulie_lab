@@ -23,6 +23,13 @@ interface DashboardData {
     recentOrders: { id: string; code: string; amount: number; status: string; createdAt: string; userName: string }[];
 }
 
+const formatCompactNumber = (value: number) => {
+    return value.toLocaleString('vi-VN', {
+        notation: 'compact',
+        maximumFractionDigits: 1
+    }).replace('tr', 'triệu').replace('t', 'tỷ');
+};
+
 // Simple Bar Chart - Black/White only, always visible bars
 function BarChart({ data }: { data: { month: string; value: number; date?: Date }[] }) {
     const maxValue = Math.max(...data.map(d => d.value), 1);
