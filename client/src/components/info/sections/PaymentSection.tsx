@@ -216,7 +216,7 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                    <label className="text-xs font-medium text-zinc-500 mb-2 block">Email nhận khoá học</label>
+                    <label className="text-xs font-medium text-muted-foreground mb-2 block">Email nhận khoá học</label>
                     <input
                         required
                         type="email"

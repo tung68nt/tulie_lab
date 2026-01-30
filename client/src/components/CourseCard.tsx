@@ -93,13 +93,13 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                                             {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
                                             <span className="text-xs font-semibold text-zinc-400">₫</span>
                                         </span>
-                                        {originalPrice && originalPrice > price && (
+                                        {originalPrice && Number(originalPrice) > Number(price) && (
                                             <>
                                                 <span className="text-xs text-zinc-400 line-through">
-                                                    {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(originalPrice)}₫
+                                                    {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(Number(originalPrice))}₫
                                                 </span>
                                                 <span className="text-[10px] font-semibold text-red-500 bg-red-500/10 px-1.5 py-0.5 rounded-full">
-                                                    -{Math.round((1 - price / originalPrice) * 100)}%
+                                                    -{Math.round((1 - Number(price) / Number(originalPrice)) * 100)}%
                                                 </span>
                                             </>
                                         )}

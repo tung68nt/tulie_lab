@@ -98,11 +98,11 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
             {!hideGradients && !backgroundImage && (
                 <>
                     <div className={cn(
-                        "absolute inset-x-0 bottom-[-1px] h-96 bg-gradient-to-t to-transparent z-10",
+                        "absolute inset-x-0 bottom-[-1px] h-96 bg-gradient-to-t to-transparent z-0",
                         "from-background"
                     )} />
                     <div className={cn(
-                        "absolute inset-x-0 top-[-1px] h-96 bg-gradient-to-b to-transparent z-10",
+                        "absolute inset-x-0 top-[-1px] h-96 bg-gradient-to-b to-transparent z-0",
                         "from-background"
                     )} />
                 </>

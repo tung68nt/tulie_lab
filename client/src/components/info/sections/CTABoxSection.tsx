@@ -50,7 +50,7 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                             {section.subtitle && (
                                 <p className={cn(
                                     "text-base md:text-lg leading-relaxed",
-                                    section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground"
+                                    section.backgroundTheme === 'dark' ? "text-zinc-400" : "text-muted-foreground dark:text-zinc-400"
                                 )}>
                                     {section.subtitle}
                                 </p>

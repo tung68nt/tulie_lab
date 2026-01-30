@@ -60,7 +60,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                             <div>
                                                 <h3 className={cn(
                                                     "text-2xl md:text-3xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors",
-                                                    section.backgroundTheme === 'dark' ? "text-white" : "text-foreground"
+                                                    section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
                                                 )}>
                                                     {String(module.title || '')}
                                                 </h3>

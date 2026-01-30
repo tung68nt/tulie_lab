@@ -88,7 +88,9 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
 
                                                 <h3 className={cn(
                                                     "text-xl md:text-2xl font-bold leading-tight group-hover:text-primary transition-colors",
-                                                    section.backgroundTheme === 'dark' ? "text-zinc-50" : "text-zinc-900"
+                                                    section.backgroundTheme === 'dark'
+                                                        ? "text-zinc-50"
+                                                        : "text-zinc-900 dark:text-zinc-50"
                                                 )}>
                                                     {combo.name}
                                                 </h3>

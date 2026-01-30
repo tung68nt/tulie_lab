@@ -27,7 +27,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
     const courseTitle = mainCourse?.title || mainCourse?.name || section.title;
     const salePrice = mainCourse?.salePrice || mainCourse?.price || 0;
-    const originalPrice = mainCourse?.price || mainCourse?.originalPrice || 0;
+    const originalPrice = mainCourse?.compareAtPrice || mainCourse?.originalPrice || (salePrice > 0 ? (mainCourse?.price || 0) : 0);
 
     return (
         <section className={cn(
@@ -101,7 +101,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         "w-full sm:w-auto text-base px-8 h-12 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme !== 'dark'
                                             ? "bg-black text-white hover:bg-zinc-800"
-                                            : "text-black" // Explicitly force black text for dark theme button
+                                            : "!text-black" // Force black text for white button in dark theme
                                     )}
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
@@ -154,7 +154,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] opacity-50 pointer-events-none" />
                                     <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] opacity-30 pointer-events-none" />
                                     {/* Thumbnail */}
-                                    <div className="relative w-full md:w-2/5 aspect-[16/10] md:aspect-auto overflow-hidden rounded-t-[2.5rem] md:rounded-l-[2.5rem] md:rounded-tr-none">
+                                    <div className="relative w-full md:w-[45%] aspect-[16/10] md:aspect-[4/5] min-h-[300px] overflow-hidden rounded-t-[2.5rem] md:rounded-l-[2.5rem] md:rounded-tr-none">
                                         <Image
                                             src={mainCourse.thumbnail || section.image || "/hero_vibe_coding.png"}
                                             alt={courseTitle}
@@ -277,19 +277,16 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             </div>
                         ) : (
                             /* Standard Hero Image */
-                            <div className="relative group">
-                                <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-2xl blur-2xl opacity-50"></div>
-                                <div className="relative aspect-[4/3] w-full shadow-2xl rounded-2xl ring-1 ring-border overflow-hidden bg-muted">
-                                    {/* Explicitly fallback to placeholder if no section.image */}
-                                    <Image
-                                        src={section.image || "/hero_vibe_coding.png"}
-                                        alt="Hero"
-                                        fill
-                                        className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
-                                        priority
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
-                                </div>
+                            <div className="relative aspect-[4/3] w-full min-h-[400px] shadow-2xl rounded-2xl ring-1 ring-border overflow-hidden bg-muted">
+                                {/* Explicitly fallback to placeholder if no section.image */}
+                                <Image
+                                    src={section.image || "/hero_vibe_coding.png"}
+                                    alt="Hero"
+                                    fill
+                                    className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
+                                    priority
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
                             </div>
                         )}
                     </FadeIn>

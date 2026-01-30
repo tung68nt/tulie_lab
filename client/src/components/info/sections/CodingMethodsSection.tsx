@@ -138,7 +138,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                                             <DynamicIcon name={method.icon || 'Code'} className="w-5 h-5 md:w-6 md:h-6" />
                                         </div>
                                         <div>
-                                            <h3 className="font-bold text-base md:text-lg leading-tight">{method.name}</h3>
+                                            <h3 className="font-bold text-base md:text-lg leading-tight text-zinc-950 dark:text-zinc-50">{method.name}</h3>
                                             <p className="text-[10px] md:text-xs text-muted-foreground mt-1 line-clamp-2 md:line-clamp-none">{method.subtitle}</p>
                                         </div>
                                         <div className="px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-secondary text-secondary-foreground text-[10px] md:text-xs font-bold mt-auto whitespace-nowrap">

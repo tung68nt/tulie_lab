@@ -17,11 +17,13 @@ export class CourseService {
         if (!course) return null;
         if (course.learningOutcomes && typeof course.learningOutcomes === 'string') {
             try {
-                course.learningOutcomes = JSON.parse(course.learningOutcomes);
+                const parsed = JSON.parse(course.learningOutcomes);
+                if (parsed !== null && (typeof parsed === 'object' || Array.isArray(parsed))) {
+                    course.learningOutcomes = parsed;
+                }
             } catch (e) {
-                // If it fails to parse (e.g. not JSON), keep as is or empty array?
-                // Better to be safe for frontend expecting array
-                course.learningOutcomes = [];
+                // If it fails to parse (e.g. plain text with newlines from Admin UI), 
+                // keep as a string so frontend can split it by \n
             }
         }
         if (course.structure && typeof course.structure === 'string') {
