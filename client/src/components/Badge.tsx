@@ -42,13 +42,14 @@ function Badge({ className, variant, showDot, dotColor, animate = true, bold = f
         <div
             className={cn(
                 badgeVariants({ variant, className }),
-                bold ? "font-bold" : "font-medium",
-                size === 'sm' ? "text-[10px]" : size === 'lg' ? "text-[13px] px-4 py-1.5" : "text-[11px] px-3 py-1",
+                bold ? "font-bold" : "font-normal",
+                size === 'sm' ? "h-6 text-[10px] px-2.5" : size === 'lg' ? "h-9 text-[13px] px-4" : "h-8 text-[11px] px-3",
+                "inline-flex items-center justify-center whitespace-nowrap"
             )}
             {...props}
         >
             {showDot && <StatusDot color={finalDotColor as any} className={size === 'lg' ? "w-2 h-2" : "w-1 h-1"} animate={animate} />}
-            <span className="first-letter:uppercase">{children}</span>
+            <span className="first-letter:uppercase leading-none">{children}</span>
         </div>
     )
 }

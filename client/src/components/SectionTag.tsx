@@ -38,15 +38,15 @@ export const SectionTag: React.FC<SectionTagProps> = ({
 
     return (
         <div className={cn(
-            "inline-flex items-center gap-2.5 rounded-full border px-4 py-2 select-none transition-all duration-300",
-            size === 'sm' ? "h-7 text-[10px]" : size === 'lg' ? "h-10 text-[13px] px-5" : "h-8 text-[11px]",
-            bold ? "font-bold" : "font-medium",
+            "inline-flex items-center gap-2.5 rounded-full border px-4 select-none transition-all duration-300 whitespace-nowrap justify-center",
+            size === 'sm' ? "h-6 text-[10px] px-2.5" : size === 'lg' ? "h-9 text-[13px] px-5" : "h-8 text-[11px] px-3",
+            bold ? "font-bold" : "font-normal",
             variantClasses,
             className
         )}>
             {showDot && <StatusDot color={finalDotColor as any} animate={animate} />}
             <span className={cn(
-                "relative top-[0.5px] tracking-wider first-letter:uppercase",
+                "relative top-[0.5px] first-letter:uppercase leading-none",
             )}>
                 {children}
             </span>

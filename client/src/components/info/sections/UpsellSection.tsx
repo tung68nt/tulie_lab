@@ -8,6 +8,8 @@ import { DynamicIcon } from '@/components/DynamicIcon';
 
 import { SectionBackground } from '../SectionBackground';
 
+import { Badge } from '@/components/Badge';
+
 export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPrice }: { section: Section; upsellCourse?: any; upsellProduct?: any; upsellPrice?: any }) {
     const displayItems = section.items || [];
 
@@ -75,8 +77,10 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                         : "bg-background"
                             )}>
                                 {item.tag && (
-                                    <div className="absolute -top-3 right-8 text-[10px] font-medium px-3 py-1 rounded-full border border-zinc-100 bg-background text-zinc-600">
-                                        {item.tag}
+                                    <div className="absolute -top-1.5 right-8">
+                                        <Badge variant="outline" showDot={false} className="bg-background">
+                                            {item.tag}
+                                        </Badge>
                                     </div>
                                 )}
 

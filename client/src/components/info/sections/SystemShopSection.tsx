@@ -272,10 +272,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                     <div className="absolute top-4 right-4 flex gap-2">
                                                         <Badge
                                                             variant="default"
-                                                            showDot
-                                                            animate={false}
+                                                            showDot={false}
                                                             className={cn(
-                                                                "backdrop-blur-md border py-1.5 px-3 text-xs flex items-center gap-1.5 transition-all shadow-sm",
+                                                                "backdrop-blur-md border text-xs flex items-center gap-1.5 transition-all shadow-sm",
                                                                 section.backgroundTheme === 'dark'
                                                                     ? "bg-black/50 border-white/20 text-white"
                                                                     : "bg-white/50 border-black/10 text-black"
@@ -301,9 +300,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                     <div className="flex items-center gap-2 mb-3">
                                                         <SectionTag
                                                             variant="primary"
-                                                            showDot
-                                                            animate={false}
-                                                            className="h-9 px-4"
+                                                            showDot={false}
                                                         >
                                                             <div className="flex items-center gap-2">
                                                                 {(() => {

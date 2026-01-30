@@ -72,9 +72,12 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                             </Badge>
                         )}
                         {price === 0 && deploymentStatus === 'RELEASED' && (
-                            <div className="rounded-md bg-white/90 backdrop-blur-md px-2 py-1 text-[10px] font-semibold text-black border border-zinc-200">
+                            <Badge
+                                variant="secondary"
+                                className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20"
+                            >
                                 Miễn phí
-                            </div>
+                            </Badge>
                         )}
                         {tag && tag !== 'NONE' && deploymentStatus === 'RELEASED' && (
                             <div className="rounded-md bg-black/80 backdrop-blur-md px-2 py-1 text-[10px] font-semibold text-white border border-zinc-800">
