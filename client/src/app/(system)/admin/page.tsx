@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
-import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, RefreshCw, UserX, Loader2 } from 'lucide-react';
+import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, RefreshCw, UserX, Loader2, CircleDollarSign, ShoppingBag, Hourglass, UsersRound } from 'lucide-react';
 import Link from 'next/link';
 import { RealtimeHealthChart } from '@/components/system/analytics/RealtimeHealthChart';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -531,12 +531,12 @@ export default function AdminDashboardPage() {
             {/* Stats Cards - Redesigned (Monochrome) */}
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-10 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <DollarSign className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <CircleDollarSign className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-0">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none mb-1">
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
                                 {formatCurrency(data.totalRevenue)}
                             </div>
                             <div className="text-sm font-bold text-muted-foreground">Doanh thu</div>
@@ -550,12 +550,12 @@ export default function AdminDashboardPage() {
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-10 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <CheckCircle2 className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <ShoppingBag className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-0">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none mb-1">
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
                                 {data.paidOrders}
                             </div>
                             <div className="text-sm font-bold text-muted-foreground">Đơn thành công</div>
@@ -567,12 +567,12 @@ export default function AdminDashboardPage() {
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-10 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <Clock className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <Hourglass className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-0">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none mb-1">
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
                                 {data.pendingOrders}
                             </div>
                             <div className="text-sm font-bold text-muted-foreground">Đợi xử lý</div>
@@ -584,12 +584,12 @@ export default function AdminDashboardPage() {
                 </Card>
 
                 <Card className="border shadow-sm">
-                    <CardContent className="pt-10 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <Users className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                    <CardContent className="pt-8 pb-5 px-6 flex flex-col items-center justify-center text-center space-y-3">
+                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
+                            <UsersRound className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
                         </div>
-                        <div className="space-y-0">
-                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none mb-1">
+                        <div className="space-y-1">
+                            <div className="text-3xl font-bold tracking-tight text-foreground leading-none">
                                 {data.totalUsers}
                             </div>
                             <div className="text-sm font-bold text-muted-foreground">Học viên</div>
