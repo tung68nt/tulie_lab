@@ -42,8 +42,8 @@ function Badge({ className, variant, showDot = true, dotColor, animate = true, b
         <div
             className={cn(
                 badgeVariants({ variant, className }),
-                bold ? "font-bold" : "font-normal",
-                size === 'sm' ? "h-[22px] text-[10px] px-2" : size === 'lg' ? "h-8 text-[13px] px-3.5" : "h-7 text-[11px] px-2.5",
+                bold ? "font-bold" : "font-medium",
+                size === 'sm' ? "h-[22px] text-[10px] px-2" : size === 'lg' ? "h-8 text-[14px] px-3.5" : "h-7 text-[12px] px-2.5",
                 "inline-flex items-center justify-center whitespace-nowrap overflow-hidden"
             )}
             {...props}
