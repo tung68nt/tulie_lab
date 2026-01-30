@@ -64,12 +64,13 @@ export function FAQSection({ section }: { section: Section }) {
                                     >
                                         <span className={cn(
                                             "text-lg font-semibold pr-8 transition-colors",
-                                            openIndex === index ? "text-primary dark:text-white" : "text-neutral-700 dark:text-neutral-300"
+                                            openIndex === index ? (isDark ? "text-white" : "text-primary") : (isDark ? "text-neutral-300" : "text-neutral-700")
                                         )}>
                                             {item.question}
                                         </span>
                                         <span className={cn(
-                                            "p-2 rounded-full bg-white dark:bg-neutral-800 shadow-sm transition-transform duration-300 shrink-0",
+                                            "p-2 rounded-full shadow-sm transition-transform duration-300 shrink-0",
+                                            isDark ? "bg-neutral-800" : "bg-white",
                                             openIndex === index ? "rotate-180" : ""
                                         )}>
                                             <ChevronDown className="w-5 h-5 text-neutral-500" />
@@ -82,7 +83,7 @@ export function FAQSection({ section }: { section: Section }) {
                                             openIndex === index ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                                         )}
                                     >
-                                        <div className="p-6 pt-0 text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                                        <div className={cn("p-6 pt-0 leading-relaxed", isDark ? "text-neutral-400" : "text-neutral-600")}>
                                             <div dangerouslySetInnerHTML={{ __html: item.answer }} />
                                         </div>
                                     </div>

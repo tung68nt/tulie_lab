@@ -12,12 +12,13 @@ import { StandardSectionHeader } from '../StandardSectionHeader';
 export const CurriculumSection = ({ section }: { section: Section }) => {
     const modules = section.items || [];
     const [expandedModule, setExpandedModule] = useState<number | null>(null);
+    const isDark = section.backgroundTheme === 'dark';
 
     return (
         <section className="py-24 md:py-32 relative bg-background">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={true}
+                showDotPattern={section.showDotPattern !== false}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={2}
@@ -79,14 +80,14 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                                     {module.lessons.map((lesson: string, i: number) => (
                                                         <div key={i} className="flex items-start gap-3 group/lesson py-1.5 px-2 -ml-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
                                                             <div className="mt-1 shrink-0">
-                                                                <PlayCircle className={cn(
+                                                                className={cn(
                                                                     "w-5 h-5 transition-colors",
-                                                                    "text-zinc-400 dark:text-zinc-600 group-hover/lesson:text-primary"
+                                                                    isDark ? "text-zinc-600 group-hover/lesson:text-primary" : "text-zinc-400 group-hover/lesson:text-primary"
                                                                 )} />
                                                             </div>
                                                             <span className={cn(
                                                                 "text-[16px] font-medium transition-colors leading-relaxed",
-                                                                "text-zinc-600 dark:text-zinc-400 group-hover/lesson:text-zinc-900 dark:group-hover/lesson:text-zinc-200"
+                                                                isDark ? "text-zinc-400 group-hover/lesson:text-zinc-200" : "text-zinc-600 group-hover/lesson:text-zinc-900"
                                                             )}>
                                                                 {lesson}
                                                             </span>

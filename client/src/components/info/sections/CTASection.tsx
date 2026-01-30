@@ -16,7 +16,7 @@ export const CTASection = ({ section }: { section: Section }) => {
         )}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={true}
+                showDotPattern={section.showDotPattern !== false}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
                 hideGradients={isDark}

@@ -15,7 +15,7 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
         <section className={cn("py-12 relative overflow-hidden", section.className)}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
-                showDotPattern={true}
+                showDotPattern={section.showDotPattern !== false}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={section.glowVariant}

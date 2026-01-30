@@ -60,7 +60,10 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 mt-16">
                         {instructors.map((instructor, index) => (
-                            <div key={instructor.id || index} className="group flex flex-col h-full bg-card/50 backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2">
+                            <div key={instructor.id || index} className={cn(
+                                "group flex flex-col items-center h-full backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2",
+                                isDark ? "bg-white/5" : "bg-card/50"
+                            )}>
                                 {/* Avatar Section */}
                                 <div className="relative mb-10 w-44 h-44 mx-auto">
                                     <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-primary/20 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-700" />
@@ -87,7 +90,10 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                     <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">{instructor?.name || 'Đang tải...'}</h3>
                                     <p className="text-primary/60 text-xs font-bold mb-6">{String(instructor.role || 'Expert Instructor')}</p>
 
-                                    <p className="text-muted-foreground text-[15px] leading-relaxed mb-10 line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
+                                    <p className={cn(
+                                        "text-[15px] leading-relaxed mb-10 line-clamp-4 group-hover:line-clamp-none transition-all duration-500",
+                                        isDark ? "text-zinc-400" : "text-muted-foreground"
+                                    )}>
                                         {String(instructor.bio || '')}
                                     </p>
 
@@ -101,7 +107,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                         <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-[#333] hover:text-white transition-all">
                                             <Github className="w-4 h-4" />
                                         </button>
-                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-primary hover:text-white transition-all">
+                                        <button className={cn("w-10 h-10 rounded-full flex items-center justify-center transition-all", isDark ? "bg-white/10 hover:bg-white hover:text-black" : "bg-muted/30 hover:bg-primary hover:text-white")}>
                                             <ExternalLink className="w-4 h-4" />
                                         </button>
                                     </div>

@@ -45,7 +45,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                     </div>
                                 ) : (
                                     <div className="w-full h-full rounded-full bg-muted flex items-center justify-center border-[6px] border-background shadow-2xl relative z-10 ring-1 ring-border/50">
-                                        <span className="text-5xl font-bold text-muted-foreground">{item.title?.charAt(0) || '?'}</span>
+                                        <span className={cn("text-5xl font-bold", isDark ? "text-zinc-500" : "text-muted-foreground")}>{item.title?.charAt(0) || '?'}</span>
                                     </div>
                                 )}
 
@@ -58,10 +58,16 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                             {/* Content */}
                             <div className="relative z-10">
                                 <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{String(item.title || '')}</h3>
-                                <div className="inline-flex items-center px-4 py-1 rounded-full bg-muted text-muted-foreground text-[10px] font-bold mb-6 border border-border/50">
+                                <div className={cn(
+                                    "inline-flex items-center px-4 py-1 rounded-full text-[10px] font-bold mb-6 border border-border/50",
+                                    isDark ? "bg-white/10 text-zinc-300" : "bg-muted text-muted-foreground"
+                                )}>
                                     {String(item.subtitle || '')}
                                 </div>
-                                <p className="text-muted-foreground leading-relaxed mb-8 text-sm md:text-base line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
+                                <p className={cn(
+                                    "leading-relaxed mb-8 text-sm md:text-base line-clamp-4 group-hover:line-clamp-none transition-all duration-500",
+                                    isDark ? "text-zinc-400" : "text-muted-foreground"
+                                )}>
                                     {String(item.description || '')}
                                 </p>
 
@@ -74,13 +80,19 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                     ].map((social, i) => (
                                         <button
                                             key={i}
-                                            className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300"
+                                            className={cn(
+                                                "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
+                                                isDark ? "bg-white/10 text-zinc-400 hover:bg-white/20 hover:text-white" : "bg-muted/30 text-muted-foreground hover:text-primary hover:bg-primary/10"
+                                            )}
                                             title={social.label}
                                         >
                                             <social.icon className="w-4 h-4" />
                                         </button>
                                     ))}
-                                    <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-300" title="Portfolio">
+                                    <button className={cn(
+                                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
+                                        isDark ? "bg-white/10 text-zinc-400 hover:bg-white/20 hover:text-white" : "bg-muted/30 text-muted-foreground hover:text-primary hover:bg-primary/10"
+                                    )} title="Portfolio">
                                         <ExternalLink className="w-4 h-4" />
                                     </button>
                                 </div>
