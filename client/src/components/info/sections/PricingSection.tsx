@@ -22,7 +22,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
     };
 
     return (
-        <section className="py-12 md:py-20 relative overflow-hidden" id={section.id}>
+        <section id={section.id} className="py-10 md:py-16 relative overflow-hidden bg-background">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}

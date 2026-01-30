@@ -87,7 +87,7 @@ export const SystemCoursesSection: React.FC<SystemCoursesSectionProps> = ({ sect
 
     return (
         <section className={cn(
-            "py-12 md:py-20 relative",
+            "py-10 md:py-16 relative",
             section.backgroundTheme === 'dark'
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'

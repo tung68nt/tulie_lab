@@ -26,8 +26,8 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
 
     return (
         <section className={cn(
-            "py-20 px-4 relative overflow-hidden",
-            "py-20 px-4 relative overflow-hidden",
+            "py-16 px-4 relative overflow-hidden",
+            "py-16 px-4 relative overflow-hidden",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'

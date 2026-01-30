@@ -25,7 +25,7 @@ export const ExpertSection: React.FC<ExpertSectionProps> = ({ section }) => {
     };
 
     return (
-        <section className="py-20 md:py-32 bg-background relative overflow-hidden">
+        <section id={section.id} className="py-16 bg-background relative overflow-hidden">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}

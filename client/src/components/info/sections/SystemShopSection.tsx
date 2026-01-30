@@ -119,7 +119,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
     }
 
     return (
-        <section className="py-12 md:py-20 bg-background relative overflow-hidden">
+        <section className="py-10 md:py-16 bg-background relative overflow-hidden">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}
