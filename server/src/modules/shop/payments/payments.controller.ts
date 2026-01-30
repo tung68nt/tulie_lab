@@ -22,12 +22,12 @@ export const checkout = async (req: Request, res: Response) => {
 
         const result = await paymentService.createOrder({
             ...(user?.id ? { userId: user.id } : {}),
-            ...(form ? {
+            ...(form || (user as any)?.profile ? {
                 userInfo: {
-                    name: form.name,
-                    email: form.email,
-                    phone: form.phone,
-                    password: form.password
+                    name: form?.name || (user as any)?.profile?.name || 'Guest User',
+                    email: form?.email || user?.email || '',
+                    phone: form?.phone || (user as any)?.profile?.phone || '',
+                    password: form?.password
                 }
             } : {}),
             items,
@@ -35,20 +35,20 @@ export const checkout = async (req: Request, res: Response) => {
             isGift,
             promoCodeId,
             metadata: {
-                customerName: form.name, // General customer name
-                phone: form.phone,
-                email: form.email,
-                isGift: !!form.isGift,
-                createAccount: !!form.createAccount,
-                ...(form.requireVAT ? {
+                customerName: form?.name || (user as any)?.profile?.name || 'Guest',
+                phone: form?.phone || (user as any)?.profile?.phone || '',
+                email: form?.email || user?.email || '',
+                isGift: !!form?.isGift,
+                createAccount: !!form?.createAccount,
+                ...(form?.requireVAT ? {
                     requireVAT: true,
-                    vatBuyerName: form.vatBuyerName,
-                    customerName: form.vatBuyerName, // Override for invoice consistency if VAT is requested
-                    companyName: form.vatCompanyName,
-                    taxId: form.vatTaxId,
-                    address: form.vatAddress,
-                    vatEmail: form.vatEmail,
-                    vatPhone: form.vatPhone
+                    vatBuyerName: form?.vatBuyerName,
+                    customerName: form?.vatBuyerName, // Override for invoice consistency if VAT is requested
+                    companyName: form?.vatCompanyName,
+                    taxId: form?.vatTaxId,
+                    address: form?.vatAddress,
+                    vatEmail: form?.vatEmail,
+                    vatPhone: form?.vatPhone
                 } : {})
             }
         });

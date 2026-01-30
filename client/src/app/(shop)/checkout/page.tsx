@@ -192,9 +192,12 @@ function CheckoutContent() {
     };
 
     const handleCheckout = async () => {
+        if (processing) return;
+
         console.log('handleCheckout started');
         if (!item || !user) {
             console.error('Missing item or user', { item, user });
+            addToast('Thông tin thanh toán không đầy đủ. Vui lòng tải lại trang.', 'error');
             return;
         }
 
