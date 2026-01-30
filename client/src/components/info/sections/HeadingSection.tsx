@@ -35,8 +35,8 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                             <SectionTag
                                 variant={(section.backgroundTheme === 'dark' || !section.backgroundTheme) ? 'dark' : 'default'}
                                 className="mb-2"
-                                animate={false}
-                                bold={false}
+                                animate={true}
+                                bold={true}
                                 size="lg"
                             >
                                 {section.tag}
