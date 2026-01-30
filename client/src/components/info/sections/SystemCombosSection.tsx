@@ -48,7 +48,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
             section.backgroundTheme === 'dark'
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                     : "bg-background text-foreground"
         )}>
             <SectionBackground
@@ -87,22 +87,17 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             ? "bg-white border-zinc-200 shadow-sm"
                                             : "bg-background/50 border-border/40"
                                 )}>
-                                    {/* Thumbnail Section - Left side */}
-                                    <div className="relative w-full md:w-[42%] h-64 md:h-auto overflow-hidden">
+                                    {/* Thumbnail Section - Left side - Clean & Rebuilt */}
+                                    <div className="relative w-full md:w-[45%] h-64 md:h-auto overflow-hidden shrink-0 bg-muted/20">
                                         <Image
                                             src={getMediaUrl(combo.thumbnail || "") || "/hero_vibe_coding.png"}
                                             alt={combo.name}
                                             fill
-                                            className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                                            className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                                            priority={false}
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-30" />
-
-                                        {/* Exclusive Badge */}
-                                        <div className="absolute top-6 left-6 z-10">
-                                            <div className="bg-primary/90 backdrop-blur-md text-white text-[10px] font-bold px-4 py-1.5 rounded-full border border-white/20 shadow-lg">
-                                                Tiết kiệm tối đa
-                                            </div>
-                                        </div>
+                                        {/* Minimal overlay for depth */}
+                                        <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
                                     </div>
 
                                     {/* Content Section - Right side */}
@@ -140,7 +135,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     <span className={cn(
                                                         "text-base font-medium mb-4 block opacity-60",
                                                         section.backgroundTheme === 'dark' || section.backgroundTheme === 'light'
-                                                            ? "text-current" // Inherit from parent
+                                                            ? "text-current opacity-80" // Inherit from parent
                                                             : "text-muted-foreground"
                                                     )}>Lộ trình bao gồm {combo.courses.length} chặng học:</span>
                                                     <div className="flex flex-col gap-4">

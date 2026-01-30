@@ -12,11 +12,10 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
     return (
         <section className={cn(
             "py-24 flex items-center justify-center relative overflow-hidden transition-colors duration-300",
-            "py-24 flex items-center justify-center relative overflow-hidden transition-colors duration-300",
             section.backgroundTheme === 'dark'
                 ? "bg-black text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-black text-zinc-950 dark:text-white"
                     : "bg-background text-foreground"
         )}>
             <SectionBackground

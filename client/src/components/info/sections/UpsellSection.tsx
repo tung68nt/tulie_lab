@@ -19,7 +19,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
             section.backgroundTheme === 'dark'
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                     : "bg-background"
         )}>
             <SectionBackground
@@ -59,7 +59,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                 variant={isRetail ? "outline" : "default"}
                                 className={`w-full py-6 rounded-2xl shadow-none transition-all duration-300 ${isRetail
                                     ? "bg-zinc-50 border-zinc-200 text-zinc-700 hover:bg-zinc-100 font-semibold"
-                                    : "bg-white text-black hover:bg-zinc-100 font-semibold border border-zinc-200"
+                                    : "bg-white text-black hover:bg-zinc-100 font-semibold border border-zinc-200 dark:border-zinc-700 dark:bg-black dark:text-white"
                                     }`}
                             >
                                 {item.ctaText || "Đăng ký ngay"}
@@ -72,7 +72,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                 section.backgroundTheme === 'dark'
                                     ? "bg-zinc-900"
                                     : section.backgroundTheme === 'light'
-                                        ? "bg-white"
+                                        ? "bg-white dark:bg-zinc-900"
                                         : "bg-background"
                             )}>
                                 {item.tag && (

@@ -28,7 +28,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                     : "bg-background"
         )}>
             <SectionBackground
@@ -91,7 +91,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                             section.backgroundTheme === 'dark'
                                                 ? "bg-zinc-900 border-zinc-800"
                                                 : section.backgroundTheme === 'light'
-                                                    ? "bg-white border-zinc-200"
+                                                    ? "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800"
                                                     : "bg-card"
                                         )}>
                                             <h3 className={cn(
@@ -136,7 +136,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                     section.backgroundTheme === 'dark'
                                         ? "bg-zinc-900 border-zinc-800"
                                         : section.backgroundTheme === 'light'
-                                            ? "bg-white border-zinc-200"
+                                            ? "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800"
                                             : "bg-card"
                                 )}>
                                     {/* Decorative Number */}

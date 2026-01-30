@@ -28,7 +28,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                     : "bg-background"
         )}>
             <SectionBackground
@@ -59,7 +59,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                     section.backgroundTheme === 'dark'
                                         ? "bg-zinc-900 border-zinc-800"
                                         : section.backgroundTheme === 'light'
-                                            ? "bg-white border-zinc-200 hover:bg-zinc-50"
+                                            ? "bg-white border-zinc-200 hover:bg-zinc-50 dark:bg-zinc-900 dark:border-zinc-800 dark:hover:bg-zinc-900/80"
                                             : "bg-card hover:bg-card/50"
                                 )}>
                                     {/* Decorative Glow - Removed or toned down */}

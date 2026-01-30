@@ -14,7 +14,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                 section.backgroundTheme === 'dark'
                     ? "bg-[#050505] text-white"
                     : section.backgroundTheme === 'light'
-                        ? "bg-white text-zinc-950"
+                        ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                         : "bg-background"
             )}
         >
@@ -44,7 +44,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                                     section.backgroundTheme === 'dark'
                                         ? "bg-zinc-900"
                                         : section.backgroundTheme === 'light'
-                                            ? "bg-white"
+                                            ? "bg-white dark:bg-zinc-900"
                                             : "bg-card"
                                 )}
                             >
@@ -70,7 +70,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
                                     section.backgroundTheme === 'dark'
                                         ? "bg-gradient-to-b from-zinc-900 to-zinc-950"
                                         : section.backgroundTheme === 'light'
-                                            ? "bg-white"
+                                            ? "bg-white dark:bg-zinc-900"
                                             : "bg-gradient-to-b from-card to-secondary/10"
                                 )}>
                                     <div className="mb-4">

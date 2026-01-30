@@ -12,11 +12,10 @@ export function ContentBlockSection({ section }: { section: Section }) {
     return (
         <section className={cn(
             "py-20 overflow-hidden space-y-24 relative",
-            "py-20 overflow-hidden space-y-24 relative",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                     : "bg-background"
         )}>
             <SectionBackground

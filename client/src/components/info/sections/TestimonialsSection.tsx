@@ -69,7 +69,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                     : "bg-background"
         )}>
             <SectionBackground
@@ -98,12 +98,12 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                 section.backgroundTheme === 'dark'
                                     ? "bg-zinc-900 border-zinc-800"
                                     : section.backgroundTheme === 'light'
-                                        ? "bg-white border-zinc-200"
+                                        ? "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800"
                                         : "bg-card"
                             )}>
                                 <div className={cn(
                                     "rounded-[1.25rem] p-5 md:p-6 h-full flex flex-col",
-                                    section.backgroundTheme === 'dark' ? "bg-black" : (section.backgroundTheme === 'light' ? "bg-zinc-50" : "bg-background")
+                                    section.backgroundTheme === 'dark' ? "bg-black" : (section.backgroundTheme === 'light' ? "bg-zinc-50 dark:bg-black" : "bg-background")
                                 )}>
                                     {/* Header: Profile */}
                                     <div className="flex items-start gap-4 mb-5">

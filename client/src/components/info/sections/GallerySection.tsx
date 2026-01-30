@@ -31,7 +31,7 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-[#050505] text-zinc-950 dark:text-white"
                     : "bg-background",
             section.className
         )}>

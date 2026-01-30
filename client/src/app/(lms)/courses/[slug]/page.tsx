@@ -308,7 +308,11 @@ export default function CoursePage({ params }: { params: any }) {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            {course.price != null && Number(course.price) > 0 && <span className="line-through text-zinc-600 text-xs">{(Number(course.price) * 1.5).toLocaleString()} ₫</span>}
+                                            {course.compareAtPrice != null && Number(course.compareAtPrice) > Number(course.price || 0) && (
+                                                <span className="line-through text-zinc-600 text-xs">
+                                                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.compareAtPrice))}
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
 

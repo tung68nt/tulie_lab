@@ -35,12 +35,15 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
             section.backgroundTheme === 'dark'
                 ? "bg-black text-white"
                 : section.backgroundTheme === 'light'
-                    ? "bg-white text-zinc-950"
+                    ? "bg-white dark:bg-black text-zinc-950 dark:text-white"
                     : "bg-background text-foreground"
         )}>
             {/* Ambient Background Effects */}
-            {section.backgroundTheme === 'dark' && (
-                <div className="absolute inset-0 pointer-events-none">
+            {(section.backgroundTheme === 'dark' || section.backgroundTheme === 'light') && (
+                <div className={cn(
+                    "absolute inset-0 pointer-events-none",
+                    section.backgroundTheme === 'light' ? "dark:block hidden" : "block"
+                )}>
                     <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-primary/20 rounded-full blur-[160px] opacity-60 animate-pulse" />
                     <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] opacity-40" />
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-zinc-900/40 rounded-full blur-[200px] -z-10" />
@@ -72,7 +75,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             section.backgroundTheme === 'dark'
                                 ? "text-white"
                                 : section.backgroundTheme === 'light'
-                                    ? "text-foreground"
+                                    ? "text-foreground dark:text-white"
                                     : "text-foreground"
                         )}>
                             {section.title}
@@ -81,7 +84,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                         {/* Subtitle */}
                         <p className={cn(
                             "mx-auto lg:mx-0 max-w-[600px] text-base md:text-lg lg:text-xl leading-relaxed",
-                            section.backgroundTheme === 'dark' ? "text-zinc-300" : section.backgroundTheme === 'light' ? "text-muted-foreground" : "text-muted-foreground"
+                            section.backgroundTheme === 'dark' ? "text-zinc-300" : section.backgroundTheme === 'light' ? "text-muted-foreground dark:text-zinc-300" : "text-muted-foreground"
                         )}>
                             {section.subtitle}
                         </p>
@@ -106,7 +109,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     className={cn(
                                         "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme !== 'dark'
-                                            ? "bg-black text-white hover:bg-zinc-800"
+                                            ? "bg-black text-white hover:bg-zinc-800 dark:border dark:border-white/20 dark:bg-black dark:text-white"
                                             : "bg-white text-black hover:bg-zinc-100" // Ensure black text on white bg
                                     )}
                                 >

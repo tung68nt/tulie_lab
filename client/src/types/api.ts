@@ -41,6 +41,7 @@ export interface Course {
     description?: string;
     thumbnail?: string;
     price?: number;
+    compareAtPrice?: number;
     lessons?: Lesson[];
     instructor?: Instructor;
     [key: string]: unknown;
