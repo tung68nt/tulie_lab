@@ -192,10 +192,15 @@ function CheckoutContent() {
     };
 
     const handleCheckout = async () => {
-        if (!item || !user) return;
+        console.log('handleCheckout started');
+        if (!item || !user) {
+            console.error('Missing item or user', { item, user });
+            return;
+        }
 
         setProcessing(true);
         try {
+            console.log('Building cart...');
             // Build cart with main item + selected upsells
             const cart: any[] = [{
                 id: item.id,
@@ -221,12 +226,15 @@ function CheckoutContent() {
                     ) : null
                 }
             };
+            console.log('Order Data prepared:', JSON.stringify(orderData, null, 2));
 
+            console.log('Calling api.payments.checkout...');
             const response: any = await api.payments.checkout(orderData);
-            console.log('Checkout response:', response);
+            console.log('Checkout response received:', response);
 
             // Handle response structure variations
             const order = response.order || response;
+            console.log('Parsed Order:', order);
 
             if (!order || (!order.code && !order.id)) {
                 throw new Error('Không nhận được thông tin đơn hàng');
