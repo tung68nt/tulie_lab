@@ -16,11 +16,11 @@ app.set('trust proxy', true);
 // --- CRITICAL: Register health check FIRST, before any blocking operations ---
 // This ensures Cloud Run's health check always passes.
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', version: 'v1.1.0-membership-access', timestamp: new Date().toISOString() });
+  res.status(200).json({ status: 'ok', version: 'v1.1.1-db-diag', timestamp: new Date().toISOString() });
 });
 
 app.get('/api/check', (req, res) => {
-  res.json({ message: 'Deployment Success', version: 'v1.1.0-membership-access', time: new Date().toISOString() });
+  res.json({ message: 'Deployment Success', version: 'v1.1.1-db-diag', time: new Date().toISOString() });
 });
 
 // --- START LISTENING IMMEDIATELY ---
@@ -215,8 +215,26 @@ async function initializeApp() {
           mountingErrors: mountingErrors,
           timestamp: new Date().toISOString(),
           env: process.env.NODE_ENV,
-          version: 'v1.1.0-membership-access'
+          version: 'v1.1.1-db-diag'
         });
+      });
+
+      app.get('/api/diag/db', async (req, res) => {
+        try {
+          const prisma = (await import('./config/prisma')).default;
+          const columns: any[] = await prisma.$queryRawUnsafe(`
+            SELECT table_schema, table_name, column_name, data_type 
+            FROM information_schema.columns 
+            WHERE table_name = 'Instructor'
+          `);
+          res.json({
+            table: 'Instructor',
+            columns: columns,
+            database_url_masked: process.env.DATABASE_URL?.replace(/:[^@:]+@/, ':****@')
+          });
+        } catch (error: any) {
+          res.status(500).json({ error: error.message });
+        }
       });
 
       // JSON 404 Handler - MUST be after all routes
