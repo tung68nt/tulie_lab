@@ -41,16 +41,26 @@ export function SalesCountdownSection({ section }: { section: Section }) {
     const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const INITIAL_MINUTES = 39;
     const [targetDate, setTargetDate] = useState<Date | null>(null);
-    const [isSticky, setIsSticky] = useState(false); // This state is no longer used due to portal
     const isPreview = useSectionPreview();
 
     useEffect(() => {
+        let date: Date | null = null;
+
         if (section.highlight) {
-            setTargetDate(new Date(section.highlight));
-        } else {
-            const duration = (section as any).duration || (section as any).settings?.duration || INITIAL_MINUTES;
-            setTargetDate(new Date(new Date().getTime() + duration * 60 * 1000));
+            const parsed = new Date(section.highlight);
+            // Check if date is valid
+            if (!isNaN(parsed.getTime())) {
+                date = parsed;
+            }
         }
+
+        // Fallback to duration if no valid date or date is in past (optional, keeping duration logic if highlight missing)
+        if (!date) {
+            const duration = (section as any).duration || (section as any).settings?.duration || INITIAL_MINUTES;
+            date = new Date(new Date().getTime() + duration * 60 * 1000);
+        }
+
+        setTargetDate(date);
 
         // Measure height and set global CSS variable
         const updateHeight = () => {
