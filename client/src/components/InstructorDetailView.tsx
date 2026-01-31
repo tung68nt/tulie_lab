@@ -164,104 +164,104 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                                     ))}
                                 </div>
                             ) : (
-                            ): (
-                                    // Fallback/Mock Data if no experiences
-                                    <div className = "space-y-6">
-                                     <div className = "flex gap-4 p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
-                                        <div className = "w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center shrink-0 text-foreground">
-                                            <Building2 size = { 24 } />
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-foreground text-lg">Senior AI Engineer - TechFlow Global</h4>
-                            <p className="text-xs font-semibold text-zinc-400 mb-2">2020 - Hiện tại</p>
-                            <p className="text-muted-foreground text-sm">
-                                Dẫn dắt đội ngũ phát triển các giải pháp tự động hóa quy trình nghiệp vụ sử dụng LLMs và RAG cho các doanh nghiệp Fortune 500.
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex gap-4 p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
-                        <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center shrink-0 text-foreground">
-                            <Zap size={24} />
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-foreground text-lg">Fullstack Developer - Creative Cloud</h4>
-                            <p className="text-xs font-semibold text-zinc-400 mb-2">2016 - 2020</p>
-                            <p className="text-muted-foreground text-sm">
-                                Xây dựng hệ thống quản lý dữ liệu lớn và các ứng dụng web quy mô lớn sử dụng React và Python.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                            )}
-            </div>
 
-            {/* Related Courses */}
-            {courses.length > 0 && (
-                <div className="space-y-8 pt-8 border-t border-dashed border-zinc-200 dark:border-zinc-800">
-                    <div className="flex items-center justify-between">
-                        <h3 className="text-2xl font-bold text-foreground">Khoá học đang giảng dạy</h3>
-                        <Link href="/courses" className="text-sm font-semibold text-zinc-500 hover:text-primary flex items-center gap-1 transition-colors">
-                            Xem tất cả <ChevronRight size={14} />
-                        </Link>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {courses.map((course) => (
-                            <Link href={`/courses/${course.slug}`} key={course.id} className="group">
-                                <div className="bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:shadow-xl hover:shadow-zinc-200/50 dark:hover:shadow-black/50 transition-all duration-500">
-                                    <div className="aspect-[16/9] relative overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-                                        {course.thumbnail ? (
-                                            <Image src={course.thumbnail} alt={course.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-zinc-300">IMG</div>
-                                        )}
-
-                                        {/* Badge Overlay */}
-                                        <div className="absolute top-4 left-4">
-                                            <span className="bg-white/90 dark:bg-black/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
-                                                Phổ biến
-                                            </span>
+                                // Fallback/Mock Data if no experiences
+                                <div className="space-y-6">
+                                    <div className="flex gap-4 p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
+                                        <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center shrink-0 text-foreground">
+                                            <Building2 size={24} />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-foreground text-lg">Senior AI Engineer - TechFlow Global</h4>
+                                            <p className="text-xs font-semibold text-zinc-400 mb-2">2020 - Hiện tại</p>
+                                            <p className="text-muted-foreground text-sm">
+                                                Dẫn dắt đội ngũ phát triển các giải pháp tự động hóa quy trình nghiệp vụ sử dụng LLMs và RAG cho các doanh nghiệp Fortune 500.
+                                            </p>
                                         </div>
                                     </div>
-                                    <div className="p-6 md:p-8">
-                                        <h4 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
-                                            {course.title}
-                                        </h4>
-                                        <p className="text-sm text-muted-foreground line-clamp-2 mb-6">
-                                            {course.description || "Làm chủ kỹ nguyên AI bằng cách học cách cộng tác hiệu quả với các công cụ lập trình AI..."}
-                                        </p>
-
-                                        <div className="flex items-center justify-between pt-4 border-t border-zinc-50 dark:border-zinc-800">
-                                            <div className="flex items-center gap-4 text-xs font-semibold text-zinc-500">
-                                                <div className="flex items-center gap-1.5">
-                                                    <Clock className="w-4 h-4" />
-                                                    <span>{course.lessonsCount || 12} bài học</span>
-                                                </div>
-                                                <div className="flex items-center gap-1.5">
-                                                    <User className="w-4 h-4" />
-                                                    <span>1.2k</span>
-                                                </div>
-                                            </div>
-                                            <span className="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                                                Xem thêm <ArrowRight size={12} />
-                                            </span>
+                                    <div className="flex gap-4 p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
+                                        <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center shrink-0 text-foreground">
+                                            <Zap size={24} />
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-foreground text-lg">Fullstack Developer - Creative Cloud</h4>
+                                            <p className="text-xs font-semibold text-zinc-400 mb-2">2016 - 2020</p>
+                                            <p className="text-muted-foreground text-sm">
+                                                Xây dựng hệ thống quản lý dữ liệu lớn và các ứng dụng web quy mô lớn sử dụng React và Python.
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
-                        ))}
+                            )}
+                        </div>
+
+                        {/* Related Courses */}
+                        {courses.length > 0 && (
+                            <div className="space-y-8 pt-8 border-t border-dashed border-zinc-200 dark:border-zinc-800">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-2xl font-bold text-foreground">Khoá học đang giảng dạy</h3>
+                                    <Link href="/courses" className="text-sm font-semibold text-zinc-500 hover:text-primary flex items-center gap-1 transition-colors">
+                                        Xem tất cả <ChevronRight size={14} />
+                                    </Link>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {courses.map((course) => (
+                                        <Link href={`/courses/${course.slug}`} key={course.id} className="group">
+                                            <div className="bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:shadow-xl hover:shadow-zinc-200/50 dark:hover:shadow-black/50 transition-all duration-500">
+                                                <div className="aspect-[16/9] relative overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                                                    {course.thumbnail ? (
+                                                        <Image src={course.thumbnail} alt={course.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                                    ) : (
+                                                        <div className="w-full h-full flex items-center justify-center text-zinc-300">IMG</div>
+                                                    )}
+
+                                                    {/* Badge Overlay */}
+                                                    <div className="absolute top-4 left-4">
+                                                        <span className="bg-white/90 dark:bg-black/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
+                                                            Phổ biến
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="p-6 md:p-8">
+                                                    <h4 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                                                        {course.title}
+                                                    </h4>
+                                                    <p className="text-sm text-muted-foreground line-clamp-2 mb-6">
+                                                        {course.description || "Làm chủ kỹ nguyên AI bằng cách học cách cộng tác hiệu quả với các công cụ lập trình AI..."}
+                                                    </p>
+
+                                                    <div className="flex items-center justify-between pt-4 border-t border-zinc-50 dark:border-zinc-800">
+                                                        <div className="flex items-center gap-4 text-xs font-semibold text-zinc-500">
+                                                            <div className="flex items-center gap-1.5">
+                                                                <Clock className="w-4 h-4" />
+                                                                <span>{course.lessonsCount || 12} bài học</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-1.5">
+                                                                <User className="w-4 h-4" />
+                                                                <span>1.2k</span>
+                                                            </div>
+                                                        </div>
+                                                        <span className="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                                            Xem thêm <ArrowRight size={12} />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </div>
-            )}
-        </div>
                 </div >
             </div >
-        <BottomCTA
-            title="Học hỏi từ chuyên gia hàng đầu"
-            subtitle="Đăng ký ngay để được trực tiếp dẫn dắt bởi những giảng viên giàu kinh nghiệm."
-            buttonText="Xem tất cả khóa học"
-            buttonHref="/courses"
-        />
+            <BottomCTA
+                title="Học hỏi từ chuyên gia hàng đầu"
+                subtitle="Đăng ký ngay để được trực tiếp dẫn dắt bởi những giảng viên giàu kinh nghiệm."
+                buttonText="Xem tất cả khóa học"
+                buttonHref="/courses"
+            />
         </div >
     );
 }
