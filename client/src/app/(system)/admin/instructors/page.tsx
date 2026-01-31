@@ -374,7 +374,7 @@ export default function AdminInstructorsPage() {
                                             />
                                         )}
                                         <div>
-                                            <p className="font-semibold text-zinc-900">{inst.name}</p>
+                                            <p className="font-semibold text-zinc-900 dark:text-zinc-100">{inst.name}</p>
                                             <p className="text-sm text-muted-foreground">{inst.title}</p>
                                             <div className="flex gap-4 text-xs text-muted-foreground mt-1">
                                                 <span>{inst.courseCount} khóa học</span>
