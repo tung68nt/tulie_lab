@@ -1,3 +1,5 @@
+'use client';
+
 import { Section } from '@/types/sections';
 
 // Tailwind safelist for dynamic orders

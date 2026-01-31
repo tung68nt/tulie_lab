@@ -96,11 +96,15 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
 
                                     <div className="flex items-baseline gap-2 mb-3">
                                         <span className={cn(
-                                            "text-2xl font-semibold",
+                                            "text-2xl font-semibold flex items-baseline gap-0.5",
                                             section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
-                                        )}>{item.price}</span>
-                                        {item.originalPrice && (
-                                            <span className="text-sm text-muted-foreground line-through font-normal">{item.originalPrice}</span>
+                                        )}>
+                                            {item.price}<sup className="text-xs">đ</sup>
+                                        </span>
+                                        {Boolean(item.originalPrice) && (
+                                            <span className="text-sm text-muted-foreground line-through font-normal flex items-baseline gap-0.5">
+                                                {item.originalPrice}<sup className="text-[10px]">đ</sup>
+                                            </span>
                                         )}
                                     </div>
                                 </div>

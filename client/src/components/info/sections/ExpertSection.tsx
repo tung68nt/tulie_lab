@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { Section } from '@/types/sections';

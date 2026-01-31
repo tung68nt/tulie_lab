@@ -337,10 +337,10 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                         <div className="flex items-end gap-2">
                                                             {!isOwned ? (
                                                                 <>
-                                                                    <span className="text-xl font-semibold text-zinc-950 dark:text-white leading-none">
+                                                                    <span className="text-xl font-semibold text-zinc-950 dark:text-white leading-none flex items-baseline gap-0.5">
                                                                         {Number(product.price) === 0
                                                                             ? 'Miễn phí'
-                                                                            : `${new Intl.NumberFormat('vi-VN').format(Number(product.price))} ₫`}
+                                                                            : <>{new Intl.NumberFormat('vi-VN').format(Number(product.price))}<sup className="text-[10px] ml-0.5">đ</sup></>}
                                                                     </span>
                                                                     {(Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
                                                                         <span className="text-[11px] font-medium text-red-600 bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 rounded leading-none mb-0.5">
@@ -355,9 +355,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             )}
                                                         </div>
                                                     </div>
-                                                    {(!isOwned && Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
-                                                        <div className="text-xs text-muted-foreground line-through -mt-1">
-                                                            {new Intl.NumberFormat('vi-VN').format(Number(product.compareAtPrice))} ₫
+                                                    {Boolean(!isOwned && Number(product.compareAtPrice) > Number(product.price) && Number(product.compareAtPrice) > 0) && (
+                                                        <div className="text-xs text-muted-foreground line-through -mt-1 flex items-baseline gap-0.5">
+                                                            {new Intl.NumberFormat('vi-VN').format(Number(product.compareAtPrice))}<sup className="text-[8px]">đ</sup>
                                                         </div>
                                                     )}
                                                     <Link href={`/shop/${product.slug}`} className="w-full">

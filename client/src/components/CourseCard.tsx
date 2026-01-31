@@ -99,14 +99,15 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                                 <>
                                     <span className="text-[10px] text-zinc-400 mb-1">Học phí ưu đãi</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-xl font-semibold text-zinc-950 dark:text-white flex items-baseline gap-1">
+                                        <span className="text-xl font-semibold text-zinc-950 dark:text-white flex items-baseline gap-0.5">
                                             {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
-                                            <span className="text-xs font-semibold text-zinc-400">₫</span>
+                                            <sup className="text-[10px] font-semibold text-zinc-400">₫</sup>
                                         </span>
-                                        {originalPrice && Number(originalPrice) > Number(price) && (
+                                        {Boolean(originalPrice && Number(originalPrice) > Number(price)) && (
                                             <>
-                                                <span className="text-xs text-zinc-400 line-through">
-                                                    {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(Number(originalPrice))}₫
+                                                <span className="text-xs text-zinc-400 line-through flex items-baseline gap-0.5">
+                                                    {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(Number(originalPrice))}
+                                                    <sup className="text-[8px]">₫</sup>
                                                 </span>
                                                 <span className="text-[10px] font-semibold text-red-500 bg-red-500/10 px-1.5 py-0.5 rounded-full">
                                                     -{Math.round((1 - Number(price) / Number(originalPrice)) * 100)}%

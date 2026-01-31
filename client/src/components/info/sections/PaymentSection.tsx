@@ -478,9 +478,13 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                     <div className="flex-1">
                         <h4 className="font-semibold text-foreground leading-tight">{state.cart[0]?.title || section.title}</h4>
                         <div className="text-sm flex items-center gap-2 mt-1">
-                            <span className="font-semibold text-foreground">{formatPrice(state.cart[0]?.price || 0)}</span>
-                            {state.cart[0] && state.cart[0].originalPrice && state.cart[0].originalPrice > (state.cart[0].price || 0) && (
-                                <span className="text-xs text-muted-foreground line-through">{formatPrice(state.cart[0].originalPrice)}</span>
+                            <span className="font-semibold text-foreground flex items-baseline gap-0.5">
+                                {new Intl.NumberFormat('vi-VN').format(state.cart[0]?.price || 0)}<sup className="text-[10px]">đ</sup>
+                            </span>
+                            {Boolean(state.cart[0] && state.cart[0].originalPrice && state.cart[0].originalPrice > (state.cart[0].price || 0)) && (
+                                <span className="text-xs text-muted-foreground line-through flex items-baseline gap-0.5">
+                                    {new Intl.NumberFormat('vi-VN').format(state.cart[0].originalPrice || 0)}<sup className="text-[8px]">đ</sup>
+                                </span>
                             )}
                         </div>
                     </div>
@@ -495,7 +499,9 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 <div className="space-y-4 pt-4">
                     <div className="flex items-center justify-between border-b border-border pb-4">
                         <h3 className="text-lg font-semibold text-foreground">Tổng thanh toán</h3>
-                        <span className="text-xl font-semibold text-foreground">{formatPrice(totalAmount)}</span>
+                        <span className="text-xl font-semibold text-foreground flex items-baseline gap-0.5">
+                            {new Intl.NumberFormat('vi-VN').format(totalAmount)}<sup className="text-sm">đ</sup>
+                        </span>
                     </div>
 
                     <div className="grid gap-4">
@@ -567,9 +573,13 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                                 <div className="flex justify-between items-start gap-2">
                                                     <h4 className="font-semibold text-sm md:text-base line-clamp-2">{item.title}</h4>
                                                     <div className="text-right shrink-0">
-                                                        <div className="font-semibold text-red-600 block">{formatPrice(salePrice)}</div>
-                                                        {original > salePrice && (
-                                                            <div className="text-xs text-muted-foreground line-through decoration-slate-400 block">{formatPrice(original)}</div>
+                                                        <div className="font-semibold text-red-600 flex items-baseline justify-end gap-0.5">
+                                                            {new Intl.NumberFormat('vi-VN').format(salePrice)}<sup className="text-[10px]">đ</sup>
+                                                        </div>
+                                                        {Boolean(original > salePrice) && (
+                                                            <div className="text-xs text-muted-foreground line-through decoration-slate-400 flex items-baseline justify-end gap-0.5">
+                                                                {new Intl.NumberFormat('vi-VN').format(original)}<sup className="text-[8px]">đ</sup>
+                                                            </div>
                                                         )}
                                                     </div>
                                                 </div>
@@ -636,7 +646,9 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                         <div className="flex justify-between items-center group">
                             <div className="text-sm text-muted-foreground">Số tiền:</div>
                             <div className="flex items-center gap-2 text-right">
-                                <span className="text-xl font-bold text-foreground">{formatPrice(state.payment.amount || 0)}</span>
+                                <span className="text-xl font-bold text-foreground flex items-baseline gap-0.5">
+                                    {new Intl.NumberFormat('vi-VN').format(state.payment.amount || 0)}<sup className="text-sm">đ</sup>
+                                </span>
                                 <button onClick={() => copyToClipboard(String(state.payment.amount), 'số tiền')} className="p-1 hover:bg-gray-100 rounded text-muted-foreground opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                                     <DynamicIcon name="Copy" className="w-3.5 h-3.5" />
                                 </button>
@@ -737,8 +749,8 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                             <form id="checkout-form" onSubmit={handleSubmit}>
                                 {renderForm()}
                                 <div className="mt-10 lg:hidden">
-                                    <Button type="submit" size="lg" className="w-full py-7 rounded-2xl bg-zinc-950 text-white font-semibold text-lg shadow-xl shadow-zinc-200">
-                                        Thanh toán ngay • {formatPrice(totalAmount)}
+                                    <Button type="submit" size="lg" className="w-full py-7 rounded-2xl bg-zinc-950 text-white font-semibold text-lg shadow-xl shadow-zinc-200 flex items-center justify-center gap-2">
+                                        Thanh toán ngay • {new Intl.NumberFormat('vi-VN').format(totalAmount)}<sup className="text-[10px]">đ</sup>
                                     </Button>
                                     <p className="text-center text-[10px] text-zinc-400 mt-4">An toàn & Bảo mật 100%</p>
                                 </div>
@@ -771,11 +783,13 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                                             {item.isGift ? (
                                                 <span className="text-red-500">MIỄN PHÍ</span>
                                             ) : (
-                                                formatPrice(item.price)
+                                                <span className="flex items-baseline gap-0.5">
+                                                    {new Intl.NumberFormat('vi-VN').format(item.price)}<sup className="text-[10px]">đ</sup>
+                                                </span>
                                             )}
-                                            {(item.originalPrice ?? 0) > item.price && (
-                                                <span className="text-[10px] text-muted-foreground line-through decoration-slate-400">
-                                                    {formatPrice(item.originalPrice ?? 0)}
+                                            {Boolean((item.originalPrice ?? 0) > item.price) && (
+                                                <span className="text-[10px] text-muted-foreground line-through decoration-slate-400 flex items-baseline gap-0.5">
+                                                    {new Intl.NumberFormat('vi-VN').format(item.originalPrice ?? 0)}<sup className="text-[8px]">đ</sup>
                                                 </span>
                                             )}
                                         </div>
@@ -785,7 +799,9 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
 
                             <div className="pt-4 mt-2 border-t border-dashed border-border flex justify-between items-end">
                                 <span className="text-muted-foreground">Tổng thanh toán</span>
-                                <span className="text-2xl font-semibold text-primary">{formatPrice(totalAmount)}</span>
+                                <span className="text-2xl font-semibold text-primary flex items-baseline gap-0.5">
+                                    {new Intl.NumberFormat('vi-VN').format(totalAmount)}<sup className="text-sm">đ</sup>
+                                </span>
                             </div>
 
                             {state.step === 'form' && (

@@ -1,3 +1,5 @@
+'use client';
+
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
 import { MonitorPlay, Check, Users, MessageCircle, Video } from 'lucide-react';

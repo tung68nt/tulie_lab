@@ -1,3 +1,5 @@
+'use client';
+
 import { DynamicIcon } from '@/components/DynamicIcon';
 import Link from 'next/link';
 import { BENEFITS_DATA } from '@/lib/benefits';

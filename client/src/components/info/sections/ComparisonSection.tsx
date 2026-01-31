@@ -1,3 +1,5 @@
+'use client';
+
 import { Section } from '@/types/sections';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Check } from 'lucide-react';

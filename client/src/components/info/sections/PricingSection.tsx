@@ -1,3 +1,5 @@
+'use client';
+
 import { Section } from '@/types/sections';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
@@ -60,10 +62,12 @@ export const PricingSection = ({ section }: { section: Section }) => {
                                         {item.title}
                                     </h3>
                                     <div className="flex items-baseline gap-1 mb-3">
-                                        <span className="text-4xl font-semibold text-zinc-950 dark:text-white">{item.price}</span>
-                                        {item.originalPrice && (
-                                            <span className="text-lg text-neutral-400 line-through font-medium ml-2">
-                                                {item.originalPrice}
+                                        <span className="text-4xl font-semibold text-zinc-950 dark:text-white flex items-baseline gap-0.5">
+                                            {item.price}<sup className="text-lg">đ</sup>
+                                        </span>
+                                        {Boolean(item.originalPrice) && (
+                                            <span className="text-lg text-neutral-400 line-through font-medium ml-2 flex items-baseline gap-0.5">
+                                                {item.originalPrice}<sup className="text-xs">đ</sup>
                                             </span>
                                         )}
                                     </div>

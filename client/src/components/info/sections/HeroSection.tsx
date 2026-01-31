@@ -238,16 +238,16 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                             <div className="pt-6 border-t border-border space-y-6">
                                                 <div className="flex flex-row items-center justify-between gap-4">
                                                     <div className="space-y-0.5">
-                                                        {originalPrice > salePrice && (
-                                                            <span className="text-sm text-zinc-400 line-through font-medium">
-                                                                {formatCurrency(originalPrice)}
+                                                        {Boolean(originalPrice > salePrice) && (
+                                                            <span className="text-sm text-zinc-400 line-through font-medium flex items-baseline gap-0.5">
+                                                                {new Intl.NumberFormat('vi-VN').format(originalPrice)}<sup className="text-[10px]">đ</sup>
                                                             </span>
                                                         )}
                                                         <div className="flex items-center gap-3">
-                                                            <span className="text-3xl md:text-4xl font-semibold text-foreground">
-                                                                {formatCurrency(salePrice)}
+                                                            <span className="text-3xl md:text-4xl font-semibold text-foreground flex items-baseline gap-1">
+                                                                {new Intl.NumberFormat('vi-VN').format(salePrice)}<sup className="text-xl">đ</sup>
                                                             </span>
-                                                            {originalPrice > salePrice && (
+                                                            {Boolean(originalPrice > salePrice) && (
                                                                 <div className="bg-red-500/10 text-red-500 text-[10px] font-semibold py-1 px-2 rounded-full border border-red-500/20">
                                                                     -{Math.round((1 - salePrice / (originalPrice || 1)) * 100)}% Tiết kiệm
                                                                 </div>

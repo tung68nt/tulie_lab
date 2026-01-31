@@ -187,15 +187,17 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                         {/* Price & Action Row - Re-stacked for better flow */}
                                         <div className="flex flex-col gap-6 pt-8 mt-6">
                                             <div className="flex flex-col gap-1 items-end">
-                                                <span className="text-sm text-zinc-500 dark:text-zinc-400 line-through opacity-50 font-medium">
-                                                    {combo.originalPrice?.toLocaleString('vi-VN')}₫
-                                                </span>
+                                                {Boolean(combo.originalPrice) && (
+                                                    <span className="text-sm text-zinc-500 dark:text-zinc-400 line-through opacity-50 font-medium flex items-baseline gap-0.5">
+                                                        {combo.originalPrice?.toLocaleString('vi-VN')}<sup className="text-[10px]">đ</sup>
+                                                    </span>
+                                                )}
                                                 <div className="flex items-center justify-end gap-4">
                                                     <div className="bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 text-[11px] font-bold py-1 px-3 rounded-full border border-red-500/20">
                                                         -{Math.round((1 - (combo.salePrice || 0) / (combo.originalPrice || 1)) * 100)}% Tiết kiệm
                                                     </div>
-                                                    <span className="text-3xl font-bold text-zinc-900 dark:text-white">
-                                                        {combo.salePrice?.toLocaleString('vi-VN')}₫
+                                                    <span className="text-3xl font-bold text-zinc-900 dark:text-white flex items-baseline gap-1">
+                                                        {combo.salePrice?.toLocaleString('vi-VN')}<sup className="text-sm">đ</sup>
                                                     </span>
                                                 </div>
                                             </div>

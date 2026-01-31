@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';
@@ -102,8 +104,10 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                         {/* Price Tag Footer */}
                                         <div className="mt-auto flex items-end justify-end gap-3 pt-6 border-t border-white/10">
                                             <div className="text-right">
-                                                <div className="text-sm text-zinc-300 line-through mb-0.5 font-medium">Giá gốc: {parsePrice(item.originalPrice || item.price || 0).toLocaleString('vi-VN')}đ</div>
-                                                <div className="text-2xl font-bold text-[#FF0000] drop-shadow-sm">
+                                                <div className="text-sm text-zinc-300 line-through mb-0.5 font-medium flex items-baseline justify-end gap-0.5">
+                                                    Giá gốc: {parsePrice(item.originalPrice || item.price || 0).toLocaleString('vi-VN')}<sup className="text-[10px]">đ</sup>
+                                                </div>
+                                                <div className="text-2xl font-bold text-[#FF0000] drop-shadow-sm flex items-baseline justify-end gap-0.5">
                                                     Miễn phí <span className="text-sm text-zinc-400 font-normal ml-1">(Khi mua Combo)</span>
                                                 </div>
                                             </div>
@@ -132,14 +136,14 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                     </h3>
                                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                                         <div className="relative">
-                                            <span className="text-3xl md:text-5xl text-zinc-950 font-black tracking-tight">
-                                                {totalValue.toLocaleString('vi-VN')}đ
+                                            <span className="text-3xl md:text-5xl text-zinc-950 font-black tracking-tight flex items-baseline gap-1">
+                                                {totalValue.toLocaleString('vi-VN')}<sup className="text-xl">đ</sup>
                                             </span>
                                             {/* Solid Red Strike-through */}
                                             <div className="absolute top-[55%] left-[-5%] right-[-5%] h-[4px] bg-[#FF0000] opacity-100 rounded-full shadow-[0_0_10px_rgba(255,0,0,0.5)]" />
                                         </div>
-                                        <span className="bg-[#FF0000] text-white text-[10px] md:text-xs px-4 py-2 rounded-full font-black shadow-lg shadow-red-500/30 tracking-wider">
-                                            TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}đ
+                                        <span className="bg-[#FF0000] text-white text-[10px] md:text-xs px-4 py-2 rounded-full font-black shadow-lg shadow-red-500/30 tracking-wider flex items-center gap-1">
+                                            TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}<sup className="text-[10px]">đ</sup>
                                         </span>
                                     </div>
                                 </div>
@@ -147,7 +151,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                 <div className="flex flex-col items-center md:items-end">
                                     <div className="flex items-baseline gap-1 mb-2">
                                         <span className="text-6xl md:text-8xl font-black text-black dark:text-black drop-shadow-2xl">0</span>
-                                        <span className="text-2xl md:text-3xl font-black text-black/80 dark:text-black/80">đ</span>
+                                        <sup className="text-2xl md:text-3xl font-black text-black/80 dark:text-black/80 mt-2 md:mt-4">đ</sup>
                                     </div>
 
                                     <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500">

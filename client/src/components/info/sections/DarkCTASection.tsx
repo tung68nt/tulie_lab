@@ -66,13 +66,13 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                                 <div className="space-y-1">
                                     <p className="text-[10px] font-semibold text-primary">Học phí trọn gói</p>
                                     <div className="flex items-center gap-3">
-                                        <span className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
-                                            {mainCourse ? formatCurrency(mainCourse.salePrice || mainCourse.price || 0) : 'LIÊN HỆ'}
+                                        <span className="text-4xl md:text-5xl font-semibold text-white tracking-tight flex items-baseline gap-1">
+                                            {mainCourse ? <>{new Intl.NumberFormat('vi-VN').format(mainCourse.salePrice || mainCourse.price || 0)}<sup className="text-2xl">đ</sup></> : 'LIÊN HỆ'}
                                         </span>
-                                        {mainCourse?.salePrice && mainCourse.price > mainCourse.salePrice && (
+                                        {Boolean(mainCourse?.salePrice && mainCourse.price > mainCourse.salePrice) && (
                                             <div className="flex items-center gap-3">
-                                                <span className="text-lg text-zinc-500 line-through decoration-red-500/50">
-                                                    {formatCurrency(mainCourse.price)}
+                                                <span className="text-lg text-zinc-500 line-through decoration-red-500/50 flex items-baseline gap-0.5">
+                                                    {new Intl.NumberFormat('vi-VN').format(mainCourse.price)}<sup className="text-[10px]">đ</sup>
                                                 </span>
                                                 <div className="bg-red-500/10 text-red-400 text-[11px] font-semibold py-1 px-2.5 rounded-lg border border-red-500/20">
                                                     -{Math.round((1 - (mainCourse.salePrice || 0) / (mainCourse.price || 1)) * 100)}%
