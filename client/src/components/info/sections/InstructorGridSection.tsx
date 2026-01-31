@@ -25,12 +25,9 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
             <div className="container px-4 mx-auto relative z-10">
                 <StandardSectionHeader section={section} align={section.align || "left"} />
 
-                <div className={`grid gap-10 md:gap-12 ${section.items.length === 1 ? 'grid-cols-1 max-w-md mx-auto' :
-                    section.items.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' :
-                        'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-                    } justify-items-center`}>
+                <div className="flex flex-wrap justify-center gap-10 md:gap-12">
                     {section.items.map((item, index) => (
-                        <div key={index} className="group relative w-full max-w-md bg-card border border-border/40 p-8 md:p-10 rounded-3xl transition-all duration-500 hover:border-primary/30 shadow-sm hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]">
+                        <div key={index} className="group relative w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)] max-w-md bg-card border border-border/40 p-8 md:p-10 rounded-3xl transition-all duration-500 hover:border-primary/30 shadow-sm hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]">
                             {/* Card Glow Effect */}
                             <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
 
