@@ -32,6 +32,7 @@ import { SystemShopSection } from '@/components/info/sections/SystemShopSection'
 import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection';
 import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
+import { SectionErrorBoundary } from '@/components/info/SectionErrorBoundary';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, React.ElementType> = {
@@ -143,7 +144,11 @@ export async function LandingPageRenderer({ slug, fallbackSections, forceFallbac
                     console.warn(`Unknown section type: ${section.type}`);
                     return null;
                 }
-                return <Component key={section.id || index} section={section} mainCourse={page?.course} upsellCourse={page?.upsellCourse} upsellPrice={page?.upsellPrice} allSections={sections} />;
+                return (
+                    <SectionErrorBoundary key={section.id || index} sectionName={section.type}>
+                        <Component section={section} mainCourse={page?.course} upsellCourse={page?.upsellCourse} upsellPrice={page?.upsellPrice} allSections={sections} />
+                    </SectionErrorBoundary>
+                );
             })}
         </main>
     );
