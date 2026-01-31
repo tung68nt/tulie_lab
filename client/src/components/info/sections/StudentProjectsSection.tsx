@@ -27,7 +27,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}
-                <StandardSectionHeader section={section} align="left" />
+                <StandardSectionHeader section={section} align="left" tagOverride="Thành tựu" />
 
                 {/* Projects grid - Added p-4 -mx-4 to allow shadow overflow without Scrollbar */}
                 <div className="flex flex-wrap justify-center gap-8 -mx-4 pb-4">

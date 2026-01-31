@@ -28,7 +28,7 @@ export const StatusDot: React.FC<StatusDotProps> = ({
     return (
         <div className={cn("relative flex items-center justify-center shrink-0", className)}>
             {/* The pulsing ring */}
-            {color !== 'black' && animate && (
+            {animate && (
                 <div className={cn(
                     "absolute h-full w-full rounded-full animate-ping opacity-75",
                     dotStyles,
