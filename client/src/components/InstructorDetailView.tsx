@@ -24,8 +24,12 @@ import { BottomCTA } from '@/components/BottomCTA';
 
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { Section } from '@/types/sections';
+import { SectionBackground } from '@/components/info/SectionBackground';
 
-// ... (other imports)
+interface InstructorDetailViewProps {
+    instructor: Instructor;
+    courses: Course[];
+}
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
     // ... (stats)
