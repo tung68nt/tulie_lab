@@ -16,8 +16,7 @@ export class UserService {
                             product: {
                                 include: {
                                     versions: {
-                                        orderBy: { createdAt: 'desc' },
-                                        take: 1
+                                        orderBy: { createdAt: 'desc' }
                                     }
                                 }
                             }
