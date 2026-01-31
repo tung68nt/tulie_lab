@@ -52,14 +52,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                     )}
 
                     {/* Tags on Thumbnail */}
-                    <div className="absolute top-4 left-4 flex flex-col gap-2 z-10 transition-transform duration-500 group-hover:translate-x-1">
-                        <Badge
-                            variant="secondary"
-                            showDot={false}
-                            className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl"
-                        >
-                            {isBundle ? 'Combo lộ trình' : 'Khóa học'}
-                        </Badge>
+                    <div className="absolute top-4 left-4 flex flex-col gap-2 z-10 transition-transform duration-500">
                         {category && (
                             <Badge
                                 variant="secondary"
@@ -71,7 +64,8 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                         {price === 0 && deploymentStatus === 'RELEASED' && (
                             <Badge
                                 variant="secondary"
-                                className="bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20"
+                                showDot={true}
+                                className="bg-[#16a34a] text-white border-green-600 shadow-sm"
                             >
                                 Miễn phí
                             </Badge>
