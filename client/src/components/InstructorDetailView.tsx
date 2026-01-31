@@ -43,7 +43,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
     return (
         <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
             <SectionBackground showDotPattern={true} backgroundTheme="light" />
-            <div className="container relative z-10 mx-auto max-w-7xl pt-16 md:pt-24 px-4">
+            <div className="container relative z-10 mx-auto max-w-7xl pt-16 md:pt-24 px-4 pb-24">
                 <div className="max-w-3xl mx-auto mb-16 md:mb-24 relative z-10">
                     <StandardSectionHeader
                         section={sectionData}
