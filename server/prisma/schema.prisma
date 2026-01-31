@@ -285,19 +285,35 @@ model LessonProgress {
 }
 
 model Instructor {
-  id           String     @id @default(uuid())
+  id           String                 @id @default(uuid())
   name         String
-  slug         String?    @unique
+  slug         String?                @unique
   title        String?
   bio          String?
   avatar       String?
   socialLinks  String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  courseCount  Int        @default(0)
-  studentCount Int        @default(0)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  courseCount  Int                    @default(0)
+  studentCount Int                    @default(0)
   blogPosts    BlogPost[]
   courses      Course[]
+  experiences  InstructorExperience[]
+}
+
+model InstructorExperience {
+  id           String     @id @default(uuid())
+  instructorId String
+  company      String
+  position     String
+  period       String?
+  description  String?
+  icon         String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  instructor   Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
+  @@index([instructorId])
 }
 
 model CourseRegistration {

@@ -21,7 +21,7 @@ export class InstructorService {
     }
 
     async createInstructor(data: any) {
-        const { name, slug, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
+        const { name, slug, title, bio, avatar, socialLinks, studentCount, courseCount, experiences } = data;
 
         const payload: Prisma.InstructorCreateInput = {
             name,
@@ -32,13 +32,22 @@ export class InstructorService {
             socialLinks,
             studentCount: studentCount !== undefined ? Number(studentCount) : 0,
             courseCount: courseCount !== undefined ? Number(courseCount) : 0,
+            experiences: experiences ? {
+                create: experiences.map((exp: any) => ({
+                    company: exp.company,
+                    position: exp.position,
+                    period: exp.period,
+                    description: exp.description,
+                    icon: exp.icon
+                }))
+            } : undefined
         };
 
         return this.instructorRepository.create(payload);
     }
 
     async updateInstructor(id: string, data: any) {
-        const { name, slug, title, bio, avatar, socialLinks, studentCount, courseCount } = data;
+        const { name, slug, title, bio, avatar, socialLinks, studentCount, courseCount, experiences } = data;
 
         const payload: Prisma.InstructorUpdateInput = {
             name,
@@ -47,13 +56,25 @@ export class InstructorService {
             bio,
             avatar,
             socialLinks,
+            expenses: undefined, // Fix typings if needed, but Prisma generated types should allow experiences
         };
 
-        if (studentCount !== undefined) {
-            payload.studentCount = Number(studentCount);
-        }
-        if (courseCount !== undefined) {
-            payload.courseCount = Number(courseCount);
+        // Explicitly handle fields
+        if (studentCount !== undefined) payload.studentCount = Number(studentCount);
+        if (courseCount !== undefined) payload.courseCount = Number(courseCount);
+
+        // Handle nested update for experiences
+        if (experiences) {
+            payload.experiences = {
+                deleteMany: {},
+                create: experiences.map((exp: any) => ({
+                    company: exp.company,
+                    position: exp.position,
+                    period: exp.period,
+                    description: exp.description,
+                    icon: exp.icon
+                }))
+            };
         }
 
         return this.instructorRepository.update(id, payload);

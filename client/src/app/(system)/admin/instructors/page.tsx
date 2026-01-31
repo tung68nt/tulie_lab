@@ -17,6 +17,7 @@ interface InstructorExperience {
     position: string;
     period: string;
     icon: string;
+    description?: string;
 }
 
 interface Instructor {
@@ -294,8 +295,19 @@ export default function AdminInstructorsPage() {
 
                             <div className="space-y-3">
                                 {formData.experiences.map((exp, idx) => (
-                                    <div key={idx} className="flex flex-col md:flex-row gap-2 items-start border p-3 rounded bg-muted/20">
-                                        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 flex-1 w-full">
+                                    <div key={idx} className="flex flex-col gap-3 border p-4 rounded bg-muted/20 relative">
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            className="absolute top-2 right-2 h-6 w-6 text-muted-foreground hover:text-destructive"
+                                            onClick={() => removeExperience(idx)}
+                                        >
+                                            <span className="sr-only">Delete</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" x2="10" y1="11" y2="17" /><line x1="14" x2="14" y1="11" y2="17" /></svg>
+                                        </Button>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pr-8">
                                             <Input
                                                 placeholder="Tổ chức / Công ty"
                                                 value={exp.company}
@@ -306,6 +318,8 @@ export default function AdminInstructorsPage() {
                                                 value={exp.position}
                                                 onChange={e => updateExperience(idx, 'position', e.target.value)}
                                             />
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             <Input
                                                 placeholder="Giai đoạn (VD: 2020-2023)"
                                                 value={exp.period || ''}
@@ -321,15 +335,13 @@ export default function AdminInstructorsPage() {
                                                 <option value="users">Users (Cộng đồng/CLB)</option>
                                             </select>
                                         </div>
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="sm"
-                                            className="mt-1 md:mt-0 text-black border-black hover:bg-black hover:text-white transition-colors"
-                                            onClick={() => removeExperience(idx)}
-                                        >
-                                            X
-                                        </Button>
+                                        <textarea
+                                            placeholder="Mô tả công việc (tùy chọn)..."
+                                            className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                            value={exp.description || ''}
+                                            onChange={e => updateExperience(idx, 'description', e.target.value)}
+                                            rows={2}
+                                        />
                                     </div>
                                 ))}
                                 {formData.experiences.length === 0 && (
