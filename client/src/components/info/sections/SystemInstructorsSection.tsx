@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
+import { api, getMediaUrl } from '@/lib/api';
 import { Instructor, ApiResponse } from '@/types/api';
 import { Section } from '@/types/sections';
 import { SectionBackground } from '../SectionBackground';
@@ -71,7 +71,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                         {instructor.avatar ? (
                                             <div className="relative w-full h-full">
                                                 <Image
-                                                    src={instructor.avatar}
+                                                    src={getMediaUrl(instructor.avatar)}
                                                     alt={instructor?.name || 'Instructor'}
                                                     fill
                                                     className="object-cover transition-all duration-700 group-hover:scale-110"
@@ -95,7 +95,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                     <p className="text-primary/60 text-xs font-bold mb-6">{String(instructor.role || 'Expert Instructor')}</p>
 
                                     <p className={cn(
-                                        "text-[15px] leading-relaxed mb-10 line-clamp-4 group-hover:line-clamp-none transition-all duration-500",
+                                        "text-[15px] leading-relaxed mb-10 line-clamp-3 transition-all duration-500",
                                         isDark ? "text-zinc-400" : "text-muted-foreground"
                                     )}>
                                         {String(instructor.bio || '')}
