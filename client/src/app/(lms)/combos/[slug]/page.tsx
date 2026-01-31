@@ -254,7 +254,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                         <Button
                             size="lg"
                             onClick={() => router.push(`/checkout?bundleId=${bundle.id}`)}
-                            className="px-12 h-14 bg-white text-black hover:bg-zinc-200 rounded-2xl font-bold transition-all shadow-2xl shadow-white/5"
+                            className="px-12 h-14 bg-white !text-black hover:bg-zinc-200 rounded-2xl font-bold transition-all shadow-2xl shadow-white/5"
                         >
                             Đăng ký combo ngay
                         </Button>
