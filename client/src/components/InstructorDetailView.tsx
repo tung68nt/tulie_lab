@@ -32,7 +32,29 @@ interface InstructorDetailViewProps {
 }
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
-    // ... (stats)
+    // Mock/Derived data for the "Information" box
+    const stats = [
+        {
+            icon: <Briefcase size={16} />,
+            label: "Kinh nghiệm",
+            value: "10+ năm"
+        },
+        {
+            icon: <GraduationCap size={16} />,
+            label: "Học viên",
+            value: instructor.studentCount ? `${instructor.studentCount}+` : "5,000+"
+        },
+        {
+            icon: <FolderGit2 size={16} />,
+            label: "Dự án",
+            value: instructor.courseCount ? `${instructor.courseCount}+` : "120+"
+        },
+        {
+            icon: <Languages size={16} />,
+            label: "Ngôn ngữ",
+            value: "Việt, Anh"
+        }
+    ];
 
     const avatarUrl = instructor.avatar || instructor.image;
 
