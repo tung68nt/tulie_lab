@@ -55,18 +55,26 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
 
     return (
         <div className="min-h-screen bg-background pb-20">
-            {/* Header/Banner Area - Minimalist */}
-            <div className="h-48 md:h-64 bg-zinc-900 border-b border-white/5 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(#ffffff33_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
-            </div>
+            <div className="container relative z-10 mx-auto max-w-7xl pt-16 md:pt-24 px-4">
+                {/* Section Header */}
+                <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+                    <div className="inline-flex items-center px-3 py-1 mb-6 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-[10px] uppercase font-bold tracking-widest">
+                        Instructor
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
+                        Giảng viên
+                    </h2>
+                    <p className="text-lg text-muted-foreground leading-relaxed">
+                        Đội ngũ chuyên gia giàu kinh nghiệm thực chiến trong lĩnh vực AI & Automation.
+                    </p>
+                </div>
 
-            <div className="container relative z-10 mx-auto max-w-7xl -mt-20 px-4">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
                     {/* Left Sidebar - Sticky */}
                     <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
                         {/* Profile Card */}
                         <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 text-center border border-zinc-100 dark:border-zinc-800 shadow-xl relative overflow-hidden group">
-                            <div className="relative w-40 h-40 mx-auto mb-6 rounded-[2.5rem] overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-inner rotate-3 group-hover:rotate-0 transition-transform duration-500 ring-4 ring-white dark:ring-zinc-800">
+                            <div className="relative w-40 h-40 mx-auto mb-6 rounded-[2rem] overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-inner group-hover:scale-105 transition-transform duration-500">
                                 {avatarUrl ? (
                                     <Image
                                         src={getMediaUrl(String(avatarUrl))}
@@ -124,7 +132,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                     </div>
 
                     {/* Right Content */}
-                    <div className="lg:col-span-8 space-y-12 pt-8 lg:pt-20">
+                    <div className="lg:col-span-8 space-y-12">
 
                         {/* Bio */}
                         <div className="space-y-6">
