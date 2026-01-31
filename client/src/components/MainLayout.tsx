@@ -21,7 +21,7 @@ export function MainLayout({ children }: MainLayoutProps) {
     // Public pages: Full width (Sections handle their own containers)
     // Admin/Learn: Managed by their own layouts
     return (
-        <div className="relative flex min-h-screen flex-col overflow-x-hidden">
+        <div className="relative flex min-h-screen flex-col overflow-clip">
             <div id="top-banner-portal" className="sticky top-0 z-[60]" />
             <Suspense fallback={null}>
                 <ActivityTracker />
