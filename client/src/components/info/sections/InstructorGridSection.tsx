@@ -61,7 +61,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                             {/* Content */}
                             <div className="relative z-10">
                                 <Link href={`/instructors/${(item as any).slug || (item as any).id || '#'}`} className="group/name">
-                                    <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300 hover:underline decoration-2 underline-offset-4">{String(item.title || '')}</h3>
+                                    <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300">{String(item.title || '')}</h3>
                                 </Link>
                                 <div className="mb-6">
                                     <Badge variant="secondary" showDot={false} className={cn(
