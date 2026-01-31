@@ -1,3 +1,5 @@
+'use client';
+
 import { Section } from '@/types/sections';
 import { Twitter, Linkedin, Github, ExternalLink } from 'lucide-react';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
