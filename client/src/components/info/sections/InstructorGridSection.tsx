@@ -5,6 +5,7 @@ import { SectionBackground } from '../SectionBackground';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Badge } from '@/components/Badge';
+import { getMediaUrl } from '@/lib/api';
 
 export const InstructorGridSection = ({ section }: { section: Section }) => {
     if (!section.items) return null;
@@ -39,7 +40,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                 {item.image ? (
                                     <div className="w-full h-full rounded-full border-[6px] border-background shadow-2xl relative z-10 overflow-hidden ring-1 ring-border/50">
                                         <img
-                                            src={item.image}
+                                            src={getMediaUrl(item.image)}
                                             alt={item.title}
                                             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                                         />
