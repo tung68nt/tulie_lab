@@ -222,7 +222,7 @@ export default function OrderPage({ params }: { params: any }) {
                                             </div>
                                             <div className="flex justify-between items-center">
                                                 <span className="text-sm text-zinc-500">Số tài khoản</span>
-                                                <span className="text-sm font-semibold text-zinc-900 font-mono">{accountNo}</span>
+                                                <span className="text-sm font-semibold text-zinc-900">{accountNo}</span>
                                             </div>
                                             <div className="flex justify-between items-center">
                                                 <span className="text-sm text-zinc-500">Chủ tài khoản</span>
@@ -238,7 +238,7 @@ export default function OrderPage({ params }: { params: any }) {
                                             onClick={() => copyToClipboard(transferContent, 'content')}
                                             className="bg-zinc-50 border border-zinc-200 p-3 rounded-xl text-center relative cursor-pointer hover:border-zinc-400 transition-all group/content active:scale-[0.99]"
                                         >
-                                            <p className="text-base font-mono font-semibold text-zinc-900 tracking-wide">
+                                            <p className="text-base font-semibold text-zinc-900 tracking-wide">
                                                 {transferContent}
                                             </p>
                                             <div className="absolute right-3 top-1/2 -translate-y-1/2">
