@@ -98,7 +98,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                         "text-[15px] leading-relaxed mb-10 line-clamp-3 transition-all duration-500",
                                         isDark ? "text-zinc-400" : "text-muted-foreground"
                                     )}>
-                                        {String(instructor.bio || '')}
+                                        {(instructor.bio || '').split('\n')[0]}
                                     </p>
 
                                     <div className="mt-auto pt-8 border-t border-border/50 flex items-center justify-center gap-5 text-muted-foreground">
