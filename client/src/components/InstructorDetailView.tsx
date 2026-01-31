@@ -33,7 +33,8 @@ interface InstructorDetailViewProps {
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
     // Parse bio and metadata
-    const rawBio = instructor.bio || instructor.description || "";
+    // Parse bio and metadata
+    const rawBio = String(instructor.bio || instructor.description || "");
     const [bioText, metadataText] = rawBio.split('--').map(part => part.trim());
 
     // Helper to extract value from metadata text
