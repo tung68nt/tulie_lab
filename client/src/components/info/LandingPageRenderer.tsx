@@ -116,7 +116,12 @@ export async function LandingPageRenderer({ slug, fallbackSections, forceFallbac
 
     // Parse if string
     if (typeof sections === 'string') {
-        sections = JSON.parse(sections);
+        try {
+            sections = JSON.parse(sections);
+        } catch (e) {
+            console.error('[LandingPageRenderer] Failed to parse sections JSON:', e);
+            sections = [];
+        }
     }
 
     // If forceFallback is true, OR if sections is null/undefined or empty, use fallback

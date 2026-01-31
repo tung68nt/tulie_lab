@@ -107,7 +107,15 @@ export default async function DynamicLandingPage({ params }: { params: Promise<{
     }
 
     // Parse sections if it's a string (API might return object or string depending on implementation)
-    const sections = typeof page.sections === 'string' ? JSON.parse(page.sections) : page.sections;
+    let sections = page.sections;
+    if (typeof sections === 'string') {
+        try {
+            sections = JSON.parse(sections);
+        } catch (e) {
+            console.error('[DynamicLandingPage] Failed to parse sections JSON:', e);
+            sections = [];
+        }
+    }
 
     if (!sections || !Array.isArray(sections)) {
         return <div className="py-20 text-center">Trang chưa có nội dung.</div>;

@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { Section } from '@/types/sections';
 import { cn } from '@/lib/utils';

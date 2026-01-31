@@ -38,7 +38,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     const shouldAnimate = isFree || animate;
 
     const variantClasses = {
-        default: "border-zinc-200 bg-white text-zinc-900 shadow-sm hover:bg-zinc-50", // Solid White
+        default: "border-zinc-200 bg-white text-zinc-900 shadow-sm", // Solid White, no hover
         light: "border-zinc-200 bg-white text-zinc-900 shadow-sm",
         dark: "border-zinc-800 bg-zinc-900 text-white shadow-md",
         'black-pill': "border-zinc-900 bg-zinc-900 text-white shadow-md",
@@ -50,7 +50,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
 
     return (
         <div className={cn(
-            "inline-flex items-center gap-1.5 rounded-full border px-4 select-none transition-all duration-300 whitespace-nowrap justify-center overflow-hidden",
+            "inline-flex items-center gap-1.5 rounded-full border px-4 select-none whitespace-nowrap justify-center overflow-hidden",
             size === 'sm' ? "h-[22px] text-[10px] px-2" : size === 'lg' ? "h-8 text-[14px] px-4" : "h-7 text-[12px] px-3",
             bold ? "font-bold" : "font-medium",
             variantClasses,
