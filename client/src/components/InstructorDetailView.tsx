@@ -57,9 +57,9 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
         <div className="min-h-screen bg-background pb-20">
             <div className="container relative z-10 mx-auto max-w-7xl pt-16 md:pt-24 px-4">
                 {/* Section Header */}
-                <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-                    <div className="inline-flex items-center px-3 py-1 mb-6 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-[10px] uppercase font-bold tracking-widest">
-                        Instructor
+                <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24 relative z-10">
+                    <div className="mb-6 flex justify-center">
+                        <SectionTag variant="black-pill" showDot={true}>Instructor</SectionTag>
                     </div>
                     <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
                         Giảng viên
@@ -113,7 +113,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
 
                         {/* Info Box */}
                         <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 border border-zinc-100 dark:border-zinc-800 shadow-sm">
-                            <div className="flex items-center gap-2 mb-6 text-xs font-bold uppercase tracking-widest text-zinc-400">
+                            <div className="flex items-center gap-2 mb-6 text-xs font-bold text-zinc-400">
                                 <Info size={14} />
                                 <span>Thông tin</span>
                             </div>
