@@ -4,16 +4,16 @@ import { cn } from "@/lib/utils"
 import { StatusDot } from "./StatusDot"
 
 const badgeVariants = cva(
-    "inline-flex items-center rounded-full border px-2.5 py-0.5 transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1",
+    "inline-flex items-center rounded-full border px-2.5 py-0.5 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1",
     {
         variants: {
             variant: {
                 default:
-                    "border-transparent bg-primary text-primary-foreground hover:bg-primary/95",
+                    "border-transparent bg-primary text-primary-foreground",
                 secondary:
-                    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/95",
+                    "border-transparent bg-secondary text-secondary-foreground",
                 destructive:
-                    "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/95",
+                    "border-transparent bg-destructive text-destructive-foreground",
                 outline: "text-foreground border-zinc-300 dark:border-zinc-700 bg-background",
                 yellow: "bg-yellow-500 text-white border-yellow-600 shadow-sm",
             },
