@@ -163,9 +163,11 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
 
                         {/* Info Box */}
                         <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 border border-zinc-100 dark:border-zinc-800 shadow-sm">
-                            <div className="flex items-center gap-2 mb-6 text-xs font-bold text-zinc-400">
-                                <Info size={14} />
-                                <span>Thông tin</span>
+                            <div className="flex items-center gap-3 mb-6 pb-6 border-b border-dashed border-zinc-200 dark:border-zinc-800">
+                                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                                    <Info size={20} />
+                                </div>
+                                <span className="text-xl font-bold text-foreground">Thông tin</span>
                             </div>
                             <div className="space-y-5">
                                 {stats.map((item, idx) => (
