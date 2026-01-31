@@ -22,56 +22,36 @@ import {
 import { Button } from '@/components/Button';
 import { BottomCTA } from '@/components/BottomCTA';
 
-import { SectionTag } from '@/components/SectionTag';
-import { SectionBackground } from '@/components/info/SectionBackground';
+import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
+import { Section } from '@/types/sections';
 
-interface InstructorDetailViewProps {
-    instructor: Instructor;
-    courses: Course[];
-}
+// ... (other imports)
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
-    // Mock/Derived data for the "Information" box
-    const stats = [
-        {
-            icon: <Briefcase size={16} />,
-            label: "Kinh nghiệm",
-            value: "10+ năm"
-        },
-        {
-            icon: <GraduationCap size={16} />,
-            label: "Học viên",
-            value: instructor.studentCount ? `${instructor.studentCount}+` : "5,000+"
-        },
-        {
-            icon: <FolderGit2 size={16} />,
-            label: "Dự án",
-            value: instructor.courseCount ? `${instructor.courseCount}+` : "120+"
-        },
-        {
-            icon: <Languages size={16} />,
-            label: "Ngôn ngữ",
-            value: "Việt, Anh"
-        }
-    ];
+    // ... (stats)
 
     const avatarUrl = instructor.avatar || instructor.image;
+
+    // Construct mock section data for StandardSectionHeader
+    const sectionData: Partial<Section> = {
+        title: "Giảng viên",
+        subtitle: "Đội ngũ chuyên gia giàu kinh nghiệm thực chiến trong lĩnh vực AI & Automation.",
+        tag: "Instructor",
+        backgroundTheme: 'light' // Ensure light theme styles
+    };
 
     return (
         <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
             <SectionBackground showDotPattern={true} backgroundTheme="light" />
             <div className="container relative z-10 mx-auto max-w-7xl pt-16 md:pt-24 px-4">
-                {/* Section Header */}
-                <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24 relative z-10">
-                    <div className="mb-6 flex justify-center">
-                        <SectionTag variant="black-pill" showDot={true}>Instructor</SectionTag>
-                    </div>
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
-                        Giảng viên
-                    </h2>
-                    <p className="text-lg text-muted-foreground leading-relaxed">
-                        Đội ngũ chuyên gia giàu kinh nghiệm thực chiến trong lĩnh vực AI & Automation.
-                    </p>
+                <div className="max-w-3xl mx-auto mb-16 md:mb-24 relative z-10">
+                    <StandardSectionHeader
+                        section={sectionData}
+                        align="center"
+                        titleOverride="Giảng viên"
+                        subtitleOverride="Đội ngũ chuyên gia giàu kinh nghiệm thực chiến trong lĩnh vực AI & Automation."
+                        tagOverride="Instructor"
+                    />
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
