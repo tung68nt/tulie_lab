@@ -129,6 +129,7 @@ export default async function DynamicSystemPage({ params }: { params: Promise<{ 
     if (typeof sections === 'string') {
         try {
             sections = JSON.parse(sections);
+            console.log(`[DynamicSystemPage] Parsed ${sections.length} sections for ${slug}`);
         } catch (e) {
             console.error('[DynamicSystemPage] Failed to parse sections JSON:', e);
             sections = [];
@@ -136,8 +137,11 @@ export default async function DynamicSystemPage({ params }: { params: Promise<{ 
     }
 
     if (!sections || !Array.isArray(sections)) {
+        console.warn(`[DynamicSystemPage] No valid sections found for ${slug}`);
         return <div className="py-20 text-center">Trang chưa có nội dung.</div>;
     }
+
+    console.log('[DynamicSystemPage] Valid sections:', sections.map((s: any) => s.type));
 
     return (
         <main className="min-h-screen bg-background text-foreground">

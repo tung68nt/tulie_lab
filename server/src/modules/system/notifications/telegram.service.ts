@@ -104,6 +104,7 @@ export class TelegramService {
     }
 
     async sendDailyReport(data: {
+        title?: string;
         todayOrders: number;
         todayPaidOrders: number;
         todayRevenue: number;
@@ -113,10 +114,11 @@ export class TelegramService {
         securityRisks: number;
         systemStatus?: string;
     }) {
+        const title = data.title || 'hôm nay';
         const message = `
 <b>📊 BÁO CÁO KINH DOANH & HỆ THỐNG</b>
 ━━━━━━━━━━━━━━━━━━
-💰 <b>Kết quả hôm nay:</b>
+💰 <b>Kết quả ${title}:</b>
 - Doanh thu: <b>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.todayRevenue)}</b>
 - Đơn hàng: <b>${data.todayPaidOrders}</b>/${data.todayOrders} (Thành công/Tổng)
 - Thành viên mới: <b>${data.todayNewUsers}</b>

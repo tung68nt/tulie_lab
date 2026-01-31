@@ -14,24 +14,32 @@ export const telegramWebhook = async (req: Request, res: Response) => {
         }
 
         const text = update.message.text.trim();
+        const lowerText = text.toLowerCase();
         const chatId = update.message.chat.id;
         const fromUser = update.message.from?.username || update.message.from?.first_name || 'Unknown';
 
         console.log(`[TelegramWebhook] Received message from ${fromUser} (${chatId}): ${text}`);
 
         // Command processing
-        if (text === '/report' || text === '/baocao') {
-            console.log('[TelegramWebhook] Processing /report command...');
+        if (lowerText.startsWith('/report') || lowerText.startsWith('/baocao')) {
+            console.log(`[TelegramWebhook] Processing report command: ${text}`);
+
+            let period: 'day' | 'week' | 'month' = 'day';
+
+            if (lowerText.includes('month') || lowerText.includes('thang')) {
+                period = 'month';
+            } else if (lowerText.includes('week') || lowerText.includes('tuan')) {
+                period = 'week';
+            }
 
             // Get report data
-            const reportData = await crmService.getFullSystemReport();
+            const reportData = await crmService.getSystemReport(period);
 
             // Send report (using the configured service method which sends to default channel)
-            // Ideally we might want to reply to 'chatId' but for now sending to main channel is safer/expected behavior
             await telegramService.sendDailyReport(reportData);
 
             console.log('[TelegramWebhook] Report command executed successfully');
-        } else if (text === '/ping') {
+        } else if (lowerText === '/ping') {
             await telegramService.sendMessage(`Pong! Service is alive. IP: ${req.ip}`);
         }
 

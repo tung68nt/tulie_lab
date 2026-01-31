@@ -574,7 +574,7 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
                                         variant="outline"
                                         onClick={async () => {
                                             if (await confirm({
-                                                title: 'Thêm Section Mẫu (Style Cũ)',
+                                                title: 'Thêm Section Mẫu',
                                                 message: 'Thêm tất cả section mẫu với giao diện tiêu chuẩn?',
                                                 confirmText: 'Thêm Ngay',
                                                 cancelText: 'Hủy',
