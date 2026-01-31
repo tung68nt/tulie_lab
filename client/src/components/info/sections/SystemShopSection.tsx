@@ -289,19 +289,23 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                                     />
                                                     <div className="absolute top-4 right-4 flex gap-2">
-                                                        <Badge
+                                                        <SectionTag
                                                             variant="default"
                                                             showDot={false}
+                                                            size="sm"
+                                                            animate={false}
                                                             className={cn(
-                                                                "border text-xs flex items-center gap-1.5 transition-all shadow-sm",
+                                                                "border flex items-center gap-1.5 transition-all shadow-sm pointer-events-none",
                                                                 section.backgroundTheme === 'dark'
                                                                     ? "bg-black border-white/20 text-white"
                                                                     : "bg-white border-black/10 text-black"
                                                             )}
                                                         >
-                                                            {getTypeIcon(product.type)}
-                                                            <span className="capitalize">{product.type.toLowerCase()}</span>
-                                                        </Badge>
+                                                            <div className="flex items-center gap-1.5">
+                                                                {getTypeIcon(product.type)}
+                                                                <span className="capitalize">{product.type.toLowerCase()}</span>
+                                                            </div>
+                                                        </SectionTag>
                                                     </div>
                                                 </div>
                                             )}
