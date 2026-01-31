@@ -19,7 +19,7 @@ export function BottomCTA({
 }: BottomCTAProps) {
     return (
         <section className="py-12 md:py-16 bg-foreground text-background relative overflow-hidden">
-            <DotPatternBackground />
+            <DotPatternBackground className="text-background/20" />
 
             <div className="container text-center max-w-3xl mx-auto relative z-10">
                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
