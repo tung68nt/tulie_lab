@@ -31,7 +31,8 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     const isFree = typeof children === 'string' && children.toLowerCase().includes('miễn phí');
 
     // Auto-detect dot color for "Miễn phí"
-    const resolvedDotColor = isFree ? 'green' : (customDotColor || 'black');
+    const isDarkVariant = ['dark', 'black-pill', 'primary', 'red'].includes(variant);
+    const resolvedDotColor = isFree ? 'green' : (customDotColor || (isDarkVariant ? 'white' : 'black'));
 
     // Only animate if it's the "Free" tag or explicitly requested
     const shouldAnimate = isFree || animate;

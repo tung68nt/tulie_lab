@@ -56,7 +56,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <FadeIn direction="up" delay={0.1} duration={0.5}>
-                        <SectionTag variant={isDarkBg ? 'light' : 'default'}>
+                        <SectionTag variant={isDarkBg ? 'black-pill' : 'default'}>
                             {tag}
                         </SectionTag>
                     </FadeIn>
