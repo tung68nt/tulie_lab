@@ -32,15 +32,17 @@ export class InstructorService {
             socialLinks,
             studentCount: studentCount !== undefined ? Number(studentCount) : 0,
             courseCount: courseCount !== undefined ? Number(courseCount) : 0,
-            experiences: experiences ? {
-                create: experiences.map((exp: any) => ({
-                    company: exp.company,
-                    position: exp.position,
-                    period: exp.period,
-                    description: exp.description,
-                    icon: exp.icon
-                }))
-            } : undefined
+            ...(experiences && {
+                experiences: {
+                    create: experiences.map((exp: any) => ({
+                        company: exp.company,
+                        position: exp.position,
+                        period: exp.period,
+                        description: exp.description,
+                        icon: exp.icon
+                    }))
+                }
+            })
         };
 
         return this.instructorRepository.create(payload);
@@ -56,7 +58,6 @@ export class InstructorService {
             bio,
             avatar,
             socialLinks,
-            expenses: undefined, // Fix typings if needed, but Prisma generated types should allow experiences
         };
 
         // Explicitly handle fields
