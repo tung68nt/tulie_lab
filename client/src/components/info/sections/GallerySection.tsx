@@ -63,7 +63,7 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                             <img
                                 src={getMediaUrl(item.image)}
                                 alt={item.title}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110"
                             />
 
                             {/* Overlay */}

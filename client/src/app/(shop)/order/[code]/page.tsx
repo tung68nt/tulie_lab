@@ -165,7 +165,7 @@ export default function OrderPage({ params }: { params: any }) {
         );
     }
 
-    // Pending State Redesign
+    // Pending State Redesign - Clean, Modern, Minimalist
     const bankName = settings.bank_name || 'MB Bank';
     const accountNo = settings.bank_account_no || '0999999999';
     const accountName = settings.bank_account_name || 'NGUYEN VAN A';
@@ -174,105 +174,92 @@ export default function OrderPage({ params }: { params: any }) {
     const qrUrl = `https://qr.sepay.vn/img?acc=${accountNo}&bank=${bankName}&amount=${order.amount}&des=${transferContent}`;
 
     return (
-        <div className="min-h-screen relative flex flex-col items-center pt-16 pb-24 px-4 overflow-hidden bg-white">
+        <div className="min-h-screen relative flex flex-col items-center pt-12 pb-20 px-4 overflow-hidden bg-white">
             <SectionBackground backgroundTheme="light" showDotPattern={true} />
 
-            <div className="max-w-4xl w-full relative z-10 flex flex-col items-center">
+            <div className="max-w-3xl w-full relative z-10 flex flex-col items-center">
                 <FadeIn direction="up">
-                    <div className="text-center space-y-6 mb-12">
+                    <div className="text-center space-y-4 mb-8">
                         <SectionTag variant="default" size="lg" showDot={true} animate={true}>
                             Chờ thanh toán
                         </SectionTag>
-                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
+                        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900">
                             Thanh toán đơn hàng
                         </h1>
-                        <p className="text-zinc-500 text-xl max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-zinc-500 text-base max-w-lg mx-auto">
                             Hoàn tất thanh toán để truy cập ngay các nội dung học tập và sản phẩm của bạn.
                         </p>
                     </div>
                 </FadeIn>
 
-                <div className="max-w-[800px] w-full">
+                <div className="max-w-[680px] w-full">
                     <FadeIn direction="up" delay={0.2}>
-                        <div className="bg-white rounded-[2.5rem] border border-zinc-200 shadow-2xl shadow-zinc-100 overflow-hidden">
-                            <div className="grid grid-cols-1 md:grid-cols-[320px_1fr]">
+                        <div className="bg-white rounded-3xl border border-zinc-200 shadow-xl overflow-hidden">
+                            <div className="grid grid-cols-1 md:grid-cols-[280px_1fr]">
                                 {/* Left Side: QR Code */}
-                                <div className="p-10 flex flex-col items-center justify-center bg-zinc-50/30 border-b md:border-b-0 md:border-r border-zinc-100">
-                                    <div className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">
-                                        Quét mã QR
-                                    </div>
-                                    <div className="bg-white p-3 rounded-2xl border border-zinc-200 shadow-sm w-full max-w-[220px]">
+                                <div className="p-6 flex flex-col items-center justify-center bg-zinc-50/50 border-b md:border-b-0 md:border-r border-zinc-100">
+                                    <p className="text-xs text-zinc-400 font-medium mb-4">Quét mã QR</p>
+                                    <div className="bg-white p-2 rounded-xl border border-zinc-100 w-full max-w-[180px]">
                                         <img src={qrUrl} alt="QR Code" className="w-full h-auto object-contain" />
                                     </div>
-                                    <p className="text-[11px] text-zinc-400 mt-6 text-center leading-relaxed font-medium">
+                                    <p className="text-[11px] text-zinc-400 mt-4 text-center leading-relaxed">
                                         Mở ứng dụng ngân hàng và quét mã để thanh toán tự động
                                     </p>
                                 </div>
 
                                 {/* Right Side: Manual Info */}
-                                <div className="p-8 md:p-10 space-y-8">
-                                    <div className="space-y-6">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center shadow-lg">
-                                                <CreditCard className="w-4 h-4 text-white" />
-                                            </div>
-                                            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-900">
-                                                Chuyển khoản thủ công
-                                            </h3>
+                                <div className="p-6 space-y-5">
+                                    {/* Bank Info - Compact Single Block */}
+                                    <div className="space-y-3">
+                                        <div className="flex items-center gap-2">
+                                            <CreditCard className="w-4 h-4 text-zinc-400" />
+                                            <span className="text-xs font-medium text-zinc-400">Chuyển khoản thủ công</span>
                                         </div>
-
-                                        <div className="space-y-4">
-                                            {[
-                                                { label: 'Ngân hàng', value: bankName },
-                                                { label: 'Số tài khoản', value: accountNo, bold: true },
-                                                { label: 'Chủ tài khoản', value: accountName, bold: true }
-                                            ].map((item, idx) => (
-                                                <div key={idx} className="flex justify-between items-center py-1">
-                                                    <span className="text-sm text-zinc-400 font-medium">{item.label}</span>
-                                                    <span className={cn(
-                                                        "text-base text-zinc-950",
-                                                        item.bold ? "font-bold tracking-tight" : "font-medium"
-                                                    )}>{item.value}</span>
-                                                </div>
-                                            ))}
+                                        <div className="bg-zinc-50 rounded-xl p-4 space-y-2">
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-sm text-zinc-500">Ngân hàng</span>
+                                                <span className="text-sm font-medium text-zinc-900">{bankName}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-sm text-zinc-500">Số tài khoản</span>
+                                                <span className="text-sm font-semibold text-zinc-900 font-mono">{accountNo}</span>
+                                            </div>
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-sm text-zinc-500">Chủ tài khoản</span>
+                                                <span className="text-sm font-medium text-zinc-900">{accountName}</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="h-px bg-zinc-100" />
-
                                     {/* Transfer Content */}
-                                    <div className="space-y-4">
-                                        <label className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">
-                                            Nội dung chuyển khoản
-                                        </label>
+                                    <div className="space-y-2">
+                                        <span className="text-xs font-medium text-zinc-400">Nội dung chuyển khoản</span>
                                         <div
                                             onClick={() => copyToClipboard(transferContent, 'content')}
-                                            className="bg-zinc-50 border border-zinc-300 p-4 rounded-2xl text-center relative cursor-pointer hover:border-zinc-900 transition-all group/content active:scale-[0.98]"
+                                            className="bg-zinc-50 border border-zinc-200 p-3 rounded-xl text-center relative cursor-pointer hover:border-zinc-400 transition-all group/content active:scale-[0.99]"
                                         >
-                                            <p className="text-xl font-mono font-black text-zinc-900 tracking-wider">
+                                            <p className="text-base font-mono font-semibold text-zinc-900 tracking-wide">
                                                 {transferContent}
                                             </p>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
                                                 {copiedField === 'content'
-                                                    ? <Check className="w-5 h-5 text-green-500" />
-                                                    : <Copy className="w-4 h-4 text-zinc-300 group-hover/content:text-zinc-600 transition-colors" />
+                                                    ? <Check className="w-4 h-4 text-green-500" />
+                                                    : <Copy className="w-3.5 h-3.5 text-zinc-300 group-hover/content:text-zinc-500 transition-colors" />
                                                 }
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Amount */}
-                                    <div className="pt-2 flex flex-col items-center justify-center bg-zinc-950 text-white rounded-2xl p-6 shadow-xl space-y-1">
-                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Số tiền cần thanh toán</span>
-                                        <div className="flex items-baseline gap-1">
-                                            <span className="text-4xl font-black">
+                                    {/* Amount - Redesigned Clean Box */}
+                                    <div className="bg-gradient-to-br from-zinc-900 to-zinc-800 text-white rounded-xl p-4 text-center">
+                                        <p className="text-xs text-zinc-400 mb-1">Số tiền thanh toán</p>
+                                        <div className="flex items-baseline justify-center gap-1">
+                                            <span className="text-3xl font-semibold tracking-tight">
                                                 {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}
                                             </span>
-                                            <span className="text-xl font-bold opacity-50">₫</span>
+                                            <span className="text-lg text-zinc-400">₫</span>
                                         </div>
-                                        <p className="text-[10px] text-zinc-500 font-medium pt-1 uppercase tracking-widest">
-                                            Hệ thống tự động xác nhận
-                                        </p>
+                                        <p className="text-[10px] text-zinc-500 mt-1">Hệ thống tự động xác nhận</p>
                                     </div>
                                 </div>
                             </div>
@@ -281,29 +268,29 @@ export default function OrderPage({ params }: { params: any }) {
 
                     {/* Status Indicator */}
                     <FadeIn direction="up" delay={0.4}>
-                        <div className="mt-8 flex items-center justify-center">
-                            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 shadow-sm transition-all duration-500">
-                                <div className="relative flex h-2 w-2 shrink-0">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-900 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-900"></span>
+                        <div className="mt-6 flex items-center justify-center">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-50 border border-zinc-100">
+                                <div className="relative flex h-1.5 w-1.5">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-600 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-zinc-600"></span>
                                 </div>
-                                <p className="font-bold text-zinc-900 text-[11px] uppercase tracking-widest">
-                                    {isChecking ? 'Hệ thống đang kiểm tra...' : 'Đang chờ xác nhận...'}
+                                <p className="text-xs text-zinc-600 font-medium">
+                                    {isChecking ? 'Đang kiểm tra...' : 'Đang chờ xác nhận'}
                                 </p>
-                                <div className="w-px h-3 bg-zinc-200 mx-1" />
-                                <p className="text-[10px] text-zinc-400 font-medium">Sẽ tự động chuyển trang sau khi nhận</p>
+                                <span className="text-zinc-300">·</span>
+                                <p className="text-xs text-zinc-400">Tự động chuyển trang sau khi nhận</p>
                             </div>
                         </div>
                     </FadeIn>
 
                     <FadeIn direction="up" delay={0.6}>
-                        <div className="mt-12 text-center">
+                        <div className="mt-8 text-center">
                             <button
                                 onClick={() => router.push('/contact')}
-                                className="text-xs text-zinc-400 hover:text-zinc-950 font-bold flex items-center gap-2 mx-auto transition-colors"
+                                className="text-xs text-zinc-400 hover:text-zinc-600 font-medium inline-flex items-center gap-1.5 transition-colors"
                             >
                                 <Info className="w-3.5 h-3.5" />
-                                Cần hỗ trợ kỹ thuật? Liên hệ 24/7
+                                Cần hỗ trợ? Liên hệ 24/7
                             </button>
                         </div>
                     </FadeIn>
