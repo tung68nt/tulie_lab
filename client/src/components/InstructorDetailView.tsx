@@ -195,10 +195,9 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                             </div>
                         </div>
 
-                        {/* Experience */}
                         <div className="space-y-8">
                             <h3 className="text-2xl font-bold text-foreground">Kinh nghiệm làm việc</h3>
-                            {instructor.experiences?.length > 0 ? (
+                            {(instructor.experiences?.length ?? 0) > 0 ? (
                                 <div className="space-y-6">
                                     {instructor.experiences.map((exp: any, idx: number) => (
                                         <div key={idx} className="flex gap-4 p-6 rounded-3xl hover:bg-white dark:hover:bg-zinc-900 border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800 transition-all group">

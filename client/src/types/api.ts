@@ -31,6 +31,7 @@ export interface Instructor {
         position: string;
         period?: string;
         icon?: string;
+        description?: string;
     }>;
     [key: string]: unknown;
 }
