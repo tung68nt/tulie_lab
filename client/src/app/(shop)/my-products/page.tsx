@@ -23,6 +23,15 @@ export default function MyProductsPage() {
                 if (profile && profile.orders) {
                     profile.orders.forEach((order: any) => {
                         if (order.status === 'PAID' || order.status === 'COMPLETED') {
+                            const orderItems = order.items || [];
+                            orderItems.forEach((item: any) => {
+                                if (item.product) {
+                                    if (!purchasedProducts.find(existing => existing.id === item.product.id)) {
+                                        purchasedProducts.push(item.product);
+                                    }
+                                }
+                            });
+
                             if (order.products) {
                                 order.products.forEach((p: any) => {
                                     // Check uniqueness if needed, or just push
