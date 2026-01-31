@@ -23,19 +23,29 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     bold = false,
     size = 'lg'
 }) => {
+    // Filter out "Khóa học" tag completely
+    if (typeof children === 'string' && children.toLowerCase().includes('khóa học')) {
+        return null;
+    }
+
+    const isFree = typeof children === 'string' && children.toLowerCase().includes('miễn phí');
+
+    // Auto-detect dot color for "Miễn phí"
+    const resolvedDotColor = isFree ? 'green' : (customDotColor || 'black');
+
+    // Only animate if it's the "Free" tag or explicitly requested
+    const shouldAnimate = isFree || animate;
+
     const variantClasses = {
-        default: "border-zinc-800 bg-zinc-950 text-white shadow-md",
-        light: "border-zinc-300 bg-zinc-100 text-zinc-900 shadow-sm",
-        dark: "border-zinc-700 bg-zinc-900 text-white shadow-md",
-        'black-pill': "border-white/20 bg-black text-white shadow-lg",
+        default: "border-zinc-200 bg-white text-zinc-900 shadow-sm hover:bg-zinc-50", // Solid White
+        light: "border-zinc-200 bg-white text-zinc-900 shadow-sm",
+        dark: "border-zinc-800 bg-zinc-900 text-white shadow-md",
+        'black-pill': "border-zinc-900 bg-zinc-900 text-white shadow-md",
         yellow: "border-yellow-600 bg-yellow-500 text-white shadow-sm",
         red: "border-red-600 bg-red-600 text-white shadow-sm shadow-red-500/20",
         primary: "border-primary/40 bg-primary text-primary-foreground shadow-sm",
-        outline: "border-zinc-300 dark:border-zinc-700 bg-background text-foreground"
+        outline: "border-zinc-200 bg-white text-zinc-900" // Changed outline to solid white as well per request "no transparent"
     }[variant];
-
-    const defaultDotColor = (variant === 'light' || variant === 'outline') ? 'auto' : 'white';
-    const finalDotColor = customDotColor || defaultDotColor;
 
     return (
         <div className={cn(
@@ -45,7 +55,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
             variantClasses,
             className
         )}>
-            {showDot && <StatusDot color={finalDotColor as any} animate={animate} />}
+            {showDot && <StatusDot color={resolvedDotColor as any} animate={shouldAnimate} />}
             <span className={cn(
                 "relative top-[0.5px] first-letter:uppercase leading-none",
             )}>
