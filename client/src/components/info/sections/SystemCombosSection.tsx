@@ -191,12 +191,12 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     {combo.originalPrice?.toLocaleString('vi-VN')}₫
                                                 </span>
                                                 <div className="flex items-center justify-end gap-4">
-                                                    <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-                                                        {combo.salePrice?.toLocaleString('vi-VN')}₫
-                                                    </span>
                                                     <div className="bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 text-[11px] font-bold py-1 px-3 rounded-full border border-red-500/20">
                                                         -{Math.round((1 - (combo.salePrice || 0) / (combo.originalPrice || 1)) * 100)}% Tiết kiệm
                                                     </div>
+                                                    <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+                                                        {combo.salePrice?.toLocaleString('vi-VN')}₫
+                                                    </span>
                                                 </div>
                                             </div>
 
