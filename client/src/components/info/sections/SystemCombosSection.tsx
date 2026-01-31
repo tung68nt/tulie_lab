@@ -135,15 +135,15 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             {combo.courses && combo.courses.length > 0 && (
                                                 <div className="py-4 border-y border-border/40">
                                                     <span className={cn(
-                                                        "text-base font-medium mb-4 block opacity-60",
+                                                        "text-base font-bold mb-4 block",
                                                         section.backgroundTheme === 'dark' || section.backgroundTheme === 'light'
-                                                            ? "text-current opacity-80" // Inherit from parent
-                                                            : "text-muted-foreground"
+                                                            ? "text-black dark:text-white"
+                                                            : "text-foreground"
                                                     )}>Lộ trình bao gồm {combo.courses.length} chặng học:</span>
                                                     <div className="flex flex-col gap-4">
                                                         {combo.courses.map((item, i) => (
-                                                            <div key={i} className="flex items-center gap-3 text-base font-medium group/item">
-                                                                <div className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover/item:bg-primary transition-colors shrink-0" />
+                                                            <div key={i} className="flex items-start gap-3 text-base font-medium group/item">
+                                                                <span className="text-zinc-400 font-bold opacity-50 select-none mt-0.5">{i + 1}.</span>
                                                                 <span className={cn(
                                                                     "truncate",
                                                                     section.backgroundTheme === 'dark'
@@ -186,11 +186,11 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
 
                                         {/* Price & Action Row - Re-stacked for better flow */}
                                         <div className="flex flex-col gap-6 pt-8 mt-6">
-                                            <div className="flex flex-col gap-1">
+                                            <div className="flex flex-col gap-1 items-end">
                                                 <span className="text-sm text-zinc-500 dark:text-zinc-400 line-through opacity-50 font-medium">
                                                     {combo.originalPrice?.toLocaleString('vi-VN')}₫
                                                 </span>
-                                                <div className="flex items-center gap-4">
+                                                <div className="flex items-center justify-end gap-4">
                                                     <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
                                                         {combo.salePrice?.toLocaleString('vi-VN')}₫
                                                     </span>
