@@ -230,60 +230,60 @@ export function RealtimeHealthChart() {
                     </ResponsiveContainer>
                 </div>
 
-                <div className="mt-6 pt-6 border-t border-zinc-100 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="mt-6 pt-6 border-t border-zinc-100 dark:border-zinc-800 grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="space-y-3">
                         <div>
-                            <div className="font-bold text-sm text-zinc-900 flex items-center gap-2">
+                            <div className="font-bold text-sm text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                                 <Activity size={14} /> Memory Usage
                             </div>
-                            <p className="text-xs text-zinc-500 mt-1">RAM đang sử dụng.</p>
+                            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">RAM đang sử dụng.</p>
                         </div>
                         <div className="space-y-2 text-xs">
-                            <div className="flex justify-between items-center py-1 border-b border-zinc-50">
-                                <span className="text-zinc-500 font-medium">Ổn định</span>
-                                <span className="font-mono font-bold text-zinc-900">&lt;512MB</span>
+                            <div className="flex justify-between items-center py-1 border-b border-zinc-50 dark:border-zinc-800/50">
+                                <span className="text-zinc-500 dark:text-zinc-400 font-medium">Ổn định</span>
+                                <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">&lt;512MB</span>
                             </div>
                             <div className="flex justify-between items-center py-1">
-                                <span className="text-zinc-500 font-medium">Cảnh báo</span>
-                                <span className="font-mono font-bold text-zinc-900">&gt;512MB</span>
+                                <span className="text-zinc-500 dark:text-zinc-400 font-medium">Cảnh báo</span>
+                                <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">&gt;512MB</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="space-y-3">
                         <div>
-                            <div className="font-bold text-sm text-zinc-900 flex items-center gap-2">
+                            <div className="font-bold text-sm text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                                 <Cpu size={14} /> CPU Load
                             </div>
-                            <p className="text-xs text-zinc-500 mt-1">Tải trung bình (1m).</p>
+                            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Tải trung bình (1m).</p>
                         </div>
                         <div className="space-y-2 text-xs">
-                            <div className="flex justify-between items-center py-1 border-b border-zinc-50">
-                                <span className="text-zinc-500 font-medium">Ổn định</span>
-                                <span className="font-mono font-bold text-zinc-900">&lt;1.5</span>
+                            <div className="flex justify-between items-center py-1 border-b border-zinc-50 dark:border-zinc-800/50">
+                                <span className="text-zinc-500 dark:text-zinc-400 font-medium">Ổn định</span>
+                                <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">&lt;1.5</span>
                             </div>
                             <div className="flex justify-between items-center py-1">
-                                <span className="text-zinc-500 font-medium">Quá tải</span>
-                                <span className="font-mono font-bold text-zinc-900">&gt;1.5</span>
+                                <span className="text-zinc-500 dark:text-zinc-400 font-medium">Quá tải</span>
+                                <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">&gt;1.5</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="space-y-3">
                         <div>
-                            <div className="font-bold text-sm text-zinc-900 flex items-center gap-2">
+                            <div className="font-bold text-sm text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
                                 <Server size={14} /> Traffic (RPM)
                             </div>
-                            <p className="text-xs text-zinc-500 mt-1">Số request/phút.</p>
+                            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Số request/phút.</p>
                         </div>
                         <div className="space-y-2 text-xs">
-                            <div className="flex justify-between items-center py-1 border-b border-zinc-50">
-                                <span className="text-zinc-500 font-medium">Tiết kiệm</span>
-                                <span className="font-mono font-bold text-zinc-900">&lt;600</span>
+                            <div className="flex justify-between items-center py-1 border-b border-zinc-50 dark:border-zinc-800/50">
+                                <span className="text-zinc-500 dark:text-zinc-400 font-medium">Tiết kiệm</span>
+                                <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">&lt;600</span>
                             </div>
                             <div className="flex justify-between items-center py-1">
-                                <span className="text-zinc-500 font-medium">Scale Up</span>
-                                <span className="font-mono font-bold text-zinc-900">&gt;600</span>
+                                <span className="text-zinc-500 dark:text-zinc-400 font-medium">Scale Up</span>
+                                <span className="font-mono font-bold text-zinc-900 dark:text-zinc-100">&gt;600</span>
                             </div>
                         </div>
                     </div>
