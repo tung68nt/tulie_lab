@@ -32,27 +32,51 @@ interface InstructorDetailViewProps {
 }
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
+    // Parse bio and metadata
+    const rawBio = instructor.bio || instructor.description || "";
+    const [bioText, metadataText] = rawBio.split('--').map(part => part.trim());
+
+    // Helper to extract value from metadata text
+    const getMetadataValue = (key: string) => {
+        if (!metadataText) return null;
+        const match = metadataText.match(new RegExp(`${key}:\\s*(.+)`, 'i'));
+        return match ? match[1].trim() : null;
+    };
+
+    const experience = getMetadataValue('Kinh nghiệm');
+    const students = getMetadataValue('Học viên');
+    const projects = getMetadataValue('Dự án');
+    const languages = getMetadataValue('Ngôn ngữ');
+
+    // Social links
+    const webLink = getMetadataValue('Web');
+    const emailLink = getMetadataValue('Email');
+    const linkedinLink = getMetadataValue('Linkedin'); // Corrected key to match user input "Linkedin"
+    const githubLink = getMetadataValue('Github'); // Added just in case
+    const twitterLink = getMetadataValue('Twitter'); // Added just in case
+    const facebookLink = getMetadataValue('Facebook'); // Added just in case
+
     // Mock/Derived data for the "Information" box
     const stats = [
         {
             icon: <Briefcase size={16} />,
             label: "Kinh nghiệm",
-            value: "10+ năm"
+            value: experience || "10+ năm"
         },
         {
             icon: <GraduationCap size={16} />,
             label: "Học viên",
-            value: instructor.studentCount ? `${instructor.studentCount}+` : "5,000+"
+            value: students || (instructor.studentCount ? `${instructor.studentCount}+` : "5,000+")
         },
         {
             icon: <FolderGit2 size={16} />,
             label: "Dự án",
-            value: instructor.courseCount ? `${instructor.courseCount}+` : "120+"
+            value: projects || (instructor.courseCount ? `${instructor.courseCount}+` : "120+")
         },
         {
             icon: <Languages size={16} />,
             label: "Ngôn ngữ",
-            value: "Việt, Anh"
+            value: languages || "Việt, Anh"
         }
     ];
 
@@ -110,15 +134,30 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                             </p>
 
                             <div className="flex items-center justify-center gap-3">
-                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
-                                    <Globe size={18} />
-                                </Button>
-                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
-                                    <Mail size={18} />
-                                </Button>
-                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
-                                    <Share2 size={18} />
-                                </Button>
+                                {webLink && (
+                                    <Link href={webLink} target="_blank" rel="noopener noreferrer">
+                                        <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                            <Globe size={18} />
+                                        </Button>
+                                    </Link>
+                                )}
+                                {emailLink && (
+                                    <Link href={`mailto:${emailLink}`}>
+                                        <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                            <Mail size={18} />
+                                        </Button>
+                                    </Link>
+                                )}
+                                {linkedinLink && (
+                                    <Link href={linkedinLink} target="_blank" rel="noopener noreferrer">
+                                        <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                            <Share2 size={18} />
+                                        </Button>
+                                    </Link>
+                                )}
+                                {!webLink && !emailLink && !linkedinLink && (
+                                    <div className="h-10"></div> // Placeholder height if no links
+                                )}
                             </div>
                         </div>
 
@@ -149,7 +188,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                         <div className="space-y-6">
                             <h3 className="text-2xl font-bold text-foreground">Giới thiệu</h3>
                             <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-line">
-                                <p>{String(instructor.bio || instructor.description || "Chưa có thông tin giới thiệu.")}</p>
+                                <p>{bioText || "Chưa có thông tin giới thiệu."}</p>
                             </div>
                         </div>
 
