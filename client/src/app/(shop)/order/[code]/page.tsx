@@ -135,11 +135,13 @@ export default function OrderPage({ params }: { params: any }) {
             buttonLink = '/my-products';
         }
 
+        const transaction = order.transactions?.[0];
+
         return (
-            <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden bg-white">
+            <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden bg-white py-12">
                 <SectionBackground backgroundTheme="light" showDotPattern={true} />
-                <FadeIn direction="up">
-                    <div className="max-w-md w-full relative z-10 text-center">
+                <FadeIn direction="up" className="relative z-10 max-w-xl w-full">
+                    <div className="text-center mb-8">
                         <div className="mb-8 flex justify-center">
                             <div className="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center shadow-xl">
                                 <CheckCircle2 className="w-10 h-10 text-white" />
@@ -148,9 +150,44 @@ export default function OrderPage({ params }: { params: any }) {
                         <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900">
                             Thanh toán thành công
                         </h1>
-                        <p className="text-zinc-500 text-lg mb-10 leading-relaxed text-balance">
+                        <p className="text-zinc-500 text-lg mb-8 leading-relaxed text-balance">
                             {description} Cảm ơn bạn đã tin tưởng và đồng hành cùng Tulie Lab.
                         </p>
+                    </div>
+
+                    {/* Transaction Detail Card */}
+                    {transaction && (
+                        <div className="bg-zinc-50 border border-zinc-100 rounded-2xl p-6 mb-8 space-y-4">
+                            <h3 className="font-semibold text-zinc-900 border-b border-zinc-200 pb-3 mb-3">Thông tin thanh toán</h3>
+
+                            <div className="flex justify-between items-start">
+                                <span className="text-sm text-zinc-500">Mã giao dịch</span>
+                                <span className="text-sm font-semibold text-zinc-900 break-all">{transaction.referenceCode || transaction.code || 'N/A'}</span>
+                            </div>
+                            <div className="flex justify-between items-start">
+                                <span className="text-sm text-zinc-500">Thời gian</span>
+                                <span className="text-sm font-medium text-zinc-900 text-right">
+                                    {new Date(transaction.createdAt).toLocaleString('vi-VN')}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-start">
+                                <span className="text-sm text-zinc-500">Ngân hàng</span>
+                                <span className="text-sm font-medium text-zinc-900 text-right uppercase">{transaction.bankName}</span>
+                            </div>
+                            <div className="flex justify-between items-start">
+                                <span className="text-sm text-zinc-500">Số tiền</span>
+                                <span className="text-sm font-bold text-green-600 text-right">
+                                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(transaction.amount)}
+                                </span>
+                            </div>
+                            <div className="flex justify-between items-start">
+                                <span className="text-sm text-zinc-500">Nội dung</span>
+                                <span className="text-sm font-medium text-zinc-900 text-right break-all max-w-[60%]">{transaction.content}</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="text-center">
                         <Button
                             size="lg"
                             className="w-full h-14 rounded-2xl text-base font-bold shadow-xl shadow-zinc-200"
