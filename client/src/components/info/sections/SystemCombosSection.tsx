@@ -44,7 +44,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
 
     return (
         <section className={cn(
-            "py-12 md:py-24 relative",
+            "pb-12 md:pb-24 pt-0 relative",
             section.backgroundTheme === 'dark'
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
@@ -56,7 +56,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />
-            <div className="px-4 md:px-10 lg:px-16 w-full max-w-[1240px] mx-auto relative z-10">
+            <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
                 {/* Combos List (1 Column) */}
                 {combos.length === 0 ? (
                     <div className={cn(
@@ -143,7 +143,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     <div className="flex flex-col gap-4">
                                                         {combo.courses.map((item, i) => (
                                                             <div key={i} className="flex items-start gap-3 text-base font-medium group/item">
-                                                                <span className="text-zinc-400 font-bold opacity-50 select-none mt-0.5">{i + 1}.</span>
+                                                                <span className="text-zinc-900 dark:text-zinc-100 font-bold select-none mt-0.5">{i + 1}.</span>
                                                                 <span className={cn(
                                                                     "truncate",
                                                                     section.backgroundTheme === 'dark'
@@ -194,7 +194,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                     <div className="bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 text-[11px] font-bold py-1 px-3 rounded-full border border-red-500/20">
                                                         -{Math.round((1 - (combo.salePrice || 0) / (combo.originalPrice || 1)) * 100)}% Tiết kiệm
                                                     </div>
-                                                    <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+                                                    <span className="text-3xl font-bold text-zinc-900 dark:text-white">
                                                         {combo.salePrice?.toLocaleString('vi-VN')}₫
                                                     </span>
                                                 </div>

@@ -80,7 +80,10 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                         {!isLastItem && <div className="lg:hidden absolute top-20 left-1/2 w-0.5 h-16 bg-border/50 -z-10" />}
                                         {/* Circle */}
                                         <div className="w-20 h-20 rounded-full bg-background border-4 border-muted group-hover:border-primary transition-all duration-300 flex items-center justify-center mb-8 relative z-10 shadow-sm group-hover:shadow-lg scale-100 group-hover:scale-110 shrink-0">
-                                            <span className="text-3xl font-bold text-muted-foreground group-hover:text-primary transition-colors">
+                                            <span className={cn(
+                                                "text-3xl font-bold transition-colors",
+                                                section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
+                                            )}>
                                                 {String(idx + 1).padStart(2, '0')}
                                             </span>
                                         </div>

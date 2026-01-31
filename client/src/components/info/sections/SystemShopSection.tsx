@@ -337,7 +337,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                         <div className="flex items-end gap-2">
                                                             {!isOwned ? (
                                                                 <>
-                                                                    <span className="text-xl font-semibold text-foreground leading-none">
+                                                                    <span className="text-xl font-semibold text-zinc-950 dark:text-white leading-none">
                                                                         {Number(product.price) === 0
                                                                             ? 'Miễn phí'
                                                                             : `${new Intl.NumberFormat('vi-VN').format(Number(product.price))} ₫`}

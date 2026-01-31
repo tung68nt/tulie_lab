@@ -60,7 +60,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                                         {item.title}
                                     </h3>
                                     <div className="flex items-baseline gap-1 mb-3">
-                                        <span className="text-4xl font-semibold">{item.price}</span>
+                                        <span className="text-4xl font-semibold text-zinc-950 dark:text-white">{item.price}</span>
                                         {item.originalPrice && (
                                             <span className="text-lg text-neutral-400 line-through font-medium ml-2">
                                                 {item.originalPrice}

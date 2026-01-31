@@ -525,21 +525,12 @@ export class PaymentService {
                         };
 
                         // Extract order code from content if it matches pattern
-                        // Priority 1: Check for SEVQR prefix which is standard for SePay
-                        // Regex to capture everything after SEVQR (e.g. SEVQRDH123 -> DH123, SEVQR555 -> 555)
-                        const sevqrPattern = /SEVQR([A-Z0-9]+)/i;
-                        const sevqrMatch = webhookData.content.match(sevqrPattern);
-
-                        if (sevqrMatch && sevqrMatch[1]) {
-                            webhookData.code = sevqrMatch[1].toUpperCase();
-                        } else {
-                            // Priority 2: Fallback to DH pattern if SEVQR not found
-                            // Relaxed regex to catch various DH lengths (min DH + 6 chars)
-                            const orderCodePattern = /DH[A-Z0-9]{6,12}/i;
-                            const match = webhookData.content.match(orderCodePattern);
-                            if (match) {
-                                webhookData.code = match[0].toUpperCase();
-                            }
+                        // Look for DH[A-Z0-9] pattern anywhere in the content. 
+                        // If multiple DH prefixes exist (like SEVQRDHDH...), it will find the first DH and take the code.
+                        const orderCodePattern = /DH[A-Z0-9]{6,12}/i;
+                        const match = webhookData.content.match(orderCodePattern);
+                        if (match) {
+                            webhookData.code = match[0].toUpperCase();
                         }
 
                         if (tx.bank_brand_name || tx.gateway) webhookData.gateway = tx.bank_brand_name || tx.gateway;

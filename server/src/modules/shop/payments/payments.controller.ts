@@ -136,8 +136,8 @@ export const webhook = async (req: Request, res: Response) => {
 
         // Try to get order code
         let orderCode: string | null = null;
-        // Improved regex to prioritize DH prefix and handle exactly 12 characters
-        const orderCodePattern = /DH[A-Z0-9]{10}/i;
+        // Improved regex to prioritize DH prefix anywhere in the text
+        const orderCodePattern = /DH[A-Z0-9]{6,12}/i;
 
         // 1. Try payment code field first, but still validate/clean with regex
         const rawPaymentCode = paymentCode || referenceCode || '';

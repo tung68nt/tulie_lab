@@ -32,7 +32,10 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
             />
             <div className="container px-4 mx-auto relative z-10">
                 <div className="text-center mb-12 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-500 to-zinc-900 dark:from-white dark:via-neutral-400 dark:to-white py-2">{section.title}</h2>
+                    <h2 className={cn(
+                        "text-3xl font-bold tracking-tight mb-4 py-2",
+                        section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
+                    )}>{section.title}</h2>
                     <p className={cn(
                         "text-lg leading-relaxed",
                         section.backgroundTheme === 'dark' ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
@@ -92,7 +95,10 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                                     <h3 className="text-xl font-semibold text-foreground dark:text-white mb-2">{item.title}</h3>
 
                                     <div className="flex items-baseline gap-2 mb-3">
-                                        <span className="text-2xl font-semibold text-foreground dark:text-white">{item.price}</span>
+                                        <span className={cn(
+                                            "text-2xl font-semibold",
+                                            section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
+                                        )}>{item.price}</span>
                                         {item.originalPrice && (
                                             <span className="text-sm text-muted-foreground line-through font-normal">{item.originalPrice}</span>
                                         )}

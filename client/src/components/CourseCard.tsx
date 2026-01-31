@@ -99,7 +99,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                                 <>
                                     <span className="text-[10px] text-zinc-400 mb-1">Học phí ưu đãi</span>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-xl font-semibold text-foreground flex items-baseline gap-1">
+                                        <span className="text-xl font-semibold text-zinc-950 dark:text-white flex items-baseline gap-1">
                                             {new Intl.NumberFormat('vi-VN', { style: 'decimal' }).format(price)}
                                             <span className="text-xs font-semibold text-zinc-400">₫</span>
                                         </span>
