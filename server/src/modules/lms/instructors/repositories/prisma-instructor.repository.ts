@@ -13,8 +13,7 @@ export class PrismaInstructorRepository implements IInstructorRepository {
                 where,
                 skip,
                 take,
-                orderBy: { name: 'asc' },
-                include: { experiences: true }
+                orderBy: { name: 'asc' }
             }),
             prisma.instructor.count({ where })
         ]);
@@ -23,32 +22,19 @@ export class PrismaInstructorRepository implements IInstructorRepository {
     }
 
     async findById(id: string): Promise<Instructor | null> {
-        return prisma.instructor.findUnique({
-            where: { id },
-            include: { experiences: true }
-        });
+        return prisma.instructor.findUnique({ where: { id } });
     }
 
     async findBySlug(slug: string): Promise<Instructor | null> {
-        return prisma.instructor.findUnique({
-            where: { slug },
-            include: { experiences: true }
-        });
+        return prisma.instructor.findUnique({ where: { slug } });
     }
 
     async create(data: Prisma.InstructorCreateInput): Promise<Instructor> {
-        return prisma.instructor.create({
-            data,
-            include: { experiences: true }
-        });
+        return prisma.instructor.create({ data });
     }
 
     async update(id: string, data: Prisma.InstructorUpdateInput): Promise<Instructor> {
-        return prisma.instructor.update({
-            where: { id },
-            data,
-            include: { experiences: true }
-        });
+        return prisma.instructor.update({ where: { id }, data });
     }
 
     async delete(id: string): Promise<Instructor> {
