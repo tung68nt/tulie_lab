@@ -22,6 +22,9 @@ import {
 import { Button } from '@/components/Button';
 import { BottomCTA } from '@/components/BottomCTA';
 
+import { SectionTag } from '@/components/SectionTag';
+import { SectionBackground } from '@/components/info/SectionBackground';
+
 interface InstructorDetailViewProps {
     instructor: Instructor;
     courses: Course[];
@@ -55,7 +58,8 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
     const avatarUrl = instructor.avatar || instructor.image;
 
     return (
-        <div className="min-h-screen bg-background pb-20">
+        <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+            <SectionBackground showDotPattern={true} backgroundTheme="light" />
             <div className="container relative z-10 mx-auto max-w-7xl pt-16 md:pt-24 px-4">
                 {/* Section Header */}
                 <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24 relative z-10">
@@ -254,14 +258,14 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
                             </div>
                         )}
                     </div>
-                </div >
-            </div >
+                </div>
+            </div>
             <BottomCTA
                 title="Học hỏi từ chuyên gia hàng đầu"
                 subtitle="Đăng ký ngay để được trực tiếp dẫn dắt bởi những giảng viên giàu kinh nghiệm."
                 buttonText="Xem tất cả khóa học"
                 buttonHref="/courses"
             />
-        </div >
+        </div>
     );
 }
