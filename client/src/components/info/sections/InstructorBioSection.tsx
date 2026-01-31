@@ -7,7 +7,7 @@ import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Course } from '@/types/api';
-import { Card } from '@/components/Card';
+
 import Link from 'next/link';
 
 export function InstructorBioSection({ section }: { section: Section }) {
@@ -53,15 +53,15 @@ export function InstructorBioSection({ section }: { section: Section }) {
                     <div className="lg:col-span-4 w-full md:w-2/3 lg:w-full mx-auto">
                         <div className="relative aspect-[2/3] w-full overflow-hidden rounded-3xl shadow-2xl shadow-zinc-200/50 dark:shadow-none border border-zinc-100 dark:border-zinc-800">
                             <Image
-                                src={instructor.image || '/placeholder-avatar.jpg'}
-                                alt={instructor.title || 'Instructor'}
+                                src={String(instructor.image || '/placeholder-avatar.jpg')}
+                                alt={String(instructor.title || 'Instructor')}
                                 fill
                                 className="object-cover"
                             />
                             {/* Name Badge */}
                             <div className="absolute bottom-4 left-4 right-4 bg-background/95 backdrop-blur-md px-5 py-4 rounded-2xl border shadow-sm">
-                                <h3 className="text-lg font-semibold text-foreground">{instructor.title}</h3>
-                                {instructor.subtitle && <p className="text-sm text-muted-foreground">{instructor.subtitle}</p>}
+                                <h3 className="text-lg font-semibold text-foreground">{String(instructor.title || '')}</h3>
+                                {Boolean(instructor.subtitle) && <p className="text-sm text-muted-foreground">{String(instructor.subtitle)}</p>}
                             </div>
                         </div>
                     </div>
@@ -70,32 +70,30 @@ export function InstructorBioSection({ section }: { section: Section }) {
                     <div className="lg:col-span-8 flex flex-col justify-center space-y-10">
                         {/* Header Info */}
                         <div className="space-y-6">
+                            {/* Instructor Identity (Name & Role) */}
                             <div className="space-y-2">
-                                <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold tracking-wide uppercase">
-                                    Giới thiệu giảng viên
-                                </span>
-                                <h2 className="text-3xl md:text-4xl font-normal text-foreground tracking-tight">
-                                    {instructor.title}
-                                </h2>
+                                {Boolean(instructor.subtitle) && (
+                                    <h3 className="text-lg text-primary font-medium">{String(instructor.subtitle)}</h3>
+                                )}
+                                <h2 className="text-2xl md:text-3xl font-normal text-foreground tracking-tight">{String(instructor.title || '')}</h2>
                             </div>
 
-                            <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground font-light leading-relaxed">
+                            <div className="prose dark:prose-invert max-w-none text-muted-foreground font-light leading-relaxed">
                                 <p>{String(instructor.description || '')}</p>
                             </div>
                         </div>
 
                         {/* Experience / Features */}
-                        {instructor.features && Array.isArray(instructor.features) && instructor.features.length > 0 && (
-                            <div className="space-y-4">
-                                <h3 className="text-xl font-normal text-foreground border-b pb-2 inline-block">Kinh nghiệm & Chức vụ</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {instructor.features.map((exp: string, i: number) => (
-                                        <div key={i} className="flex items-start gap-3">
-                                            <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                                            <span className="text-base text-muted-foreground">{exp}</span>
+                        {Array.isArray(instructor.features) && instructor.features.length > 0 && (
+                            <div className="grid gap-4">
+                                {instructor.features.map((exp: unknown, i: number) => (
+                                    <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-background border shadow-sm hover:shadow-md transition-all duration-300">
+                                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+                                            <DynamicIcon name={['Briefcase', 'Award', 'Star', 'TrendingUp'][i % 4]} className="h-6 w-6" />
                                         </div>
-                                    ))}
-                                </div>
+                                        <span className="font-medium text-base">{String(exp)}</span>
+                                    </div>
+                                ))}
                             </div>
                         )}
 
@@ -116,7 +114,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
                                                 </div>
                                                 <div>
                                                     <h4 className="font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2 text-sm">{course.title}</h4>
-                                                    <p className="text-xs text-muted-foreground mt-1">{course.level || 'All Levels'}</p>
+                                                    <p className="text-xs text-muted-foreground mt-1">{String(course.level || 'All Levels')}</p>
                                                 </div>
                                             </div>
                                         </Link>

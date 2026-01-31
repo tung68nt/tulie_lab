@@ -22,6 +22,7 @@ interface InstructorExperience {
 interface Instructor {
     id: string;
     name: string;
+    slug?: string;
     title: string;
     bio: string;
     avatar: string;
@@ -33,6 +34,7 @@ interface Instructor {
 const emptyInstructor: Instructor = {
     id: '',
     name: '',
+    slug: '',
     title: '',
     bio: '',
     avatar: '',
@@ -40,6 +42,19 @@ const emptyInstructor: Instructor = {
     courseCount: 0,
     experiences: []
 };
+
+function slugify(text: string) {
+    return text
+        .toString()
+        .toLowerCase()
+        .normalize('NFD') // Normalize special characters
+        .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(/[^\w-]+/g, '') // Remove all non-word chars
+        .replace(/--+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start
+        .replace(/-+$/, ''); // Trim - from end
+}
 
 export default function AdminInstructorsPage() {
     const { addToast } = useToast();
@@ -69,11 +84,17 @@ export default function AdminInstructorsPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            // Auto-generate slug if empty
+            const submitData = { ...formData };
+            if (!submitData.slug && submitData.name) {
+                submitData.slug = slugify(submitData.name);
+            }
+
             if (isEditing) {
-                await api.admin.instructors.update(formData.id, formData);
+                await api.admin.instructors.update(formData.id, submitData);
                 addToast('Cập nhật giảng viên thành công', 'success');
             } else {
-                await api.admin.instructors.create(formData);
+                await api.admin.instructors.create(submitData);
                 addToast('Thêm giảng viên thành công', 'success');
             }
             setIsEditing(false);
@@ -87,6 +108,7 @@ export default function AdminInstructorsPage() {
     const handleEdit = (inst: Instructor) => {
         setFormData({
             ...inst,
+            slug: inst.slug || '',
             studentCount: inst.studentCount || 0,
             courseCount: inst.courseCount || 0,
             experiences: inst.experiences || []
@@ -141,6 +163,23 @@ export default function AdminInstructorsPage() {
         setFormData(prev => ({ ...prev, experiences: newExps }));
     };
 
+    const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.value;
+        setFormData(prev => {
+            // Only auto-update slug if we are creating a NEW instructor and slug hasn't been manually edited
+            // Or simpler: just auto-update if strictly creating new. 
+            // Better UX: Update slug if it matches the slug version of the old name (meaning it was auto-generated)
+            // For now, let's keep it simple: Auto-generate if slug is empty or we are in "create" mode and it was auto-generated.
+
+            // Simplest: only auto-update if creating
+            let newSlug = prev.slug;
+            if (!isEditing && (!prev.slug || prev.slug === slugify(prev.name))) {
+                newSlug = slugify(name);
+            }
+            return { ...prev, name, slug: newSlug };
+        });
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-start">
@@ -160,17 +199,30 @@ export default function AdminInstructorsPage() {
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-1 gap-4">
-                            <div className="space-y-2">
-                                <label htmlFor="instructor-name" className="text-sm font-medium">
-                                    Tên giảng viên <span className="text-foreground">*</span>
-                                </label>
-                                <Input
-                                    id="instructor-name"
-                                    placeholder="Nhập tên giảng viên"
-                                    value={formData.name}
-                                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                    required
-                                />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label htmlFor="instructor-name" className="text-sm font-medium">
+                                        Tên giảng viên <span className="text-foreground">*</span>
+                                    </label>
+                                    <Input
+                                        id="instructor-name"
+                                        placeholder="Nhập tên giảng viên"
+                                        value={formData.name}
+                                        onChange={handleNameChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label htmlFor="instructor-slug" className="text-sm font-medium">
+                                        Slug (URL)
+                                    </label>
+                                    <Input
+                                        id="instructor-slug"
+                                        placeholder="ten-giang-vien"
+                                        value={formData.slug || ''}
+                                        onChange={e => setFormData({ ...formData, slug: e.target.value })}
+                                    />
+                                </div>
                             </div>
 
                             <div className="space-y-2">
@@ -332,7 +384,7 @@ export default function AdminInstructorsPage() {
                                     </div>
                                     <div className="flex gap-2">
                                         <TableActions
-                                            viewUrl={`/instructors/${inst.id}`}
+                                            viewUrl={inst.slug ? `/instructors/${inst.slug}` : `/instructors/${inst.id}`}
                                             onEdit={() => handleEdit(inst)}
                                             onDelete={() => handleDelete(inst.id)}
                                         />
