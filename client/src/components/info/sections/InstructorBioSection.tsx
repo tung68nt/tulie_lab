@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
-import { Course } from '@/types/api';
+import { Course, Instructor } from '@/types/api';
 import Link from 'next/link';
 import {
     Globe,
@@ -22,7 +22,8 @@ import { Button } from '@/components/Button';
 
 export function InstructorBioSection({ section }: { section: Section }) {
     // Expecting items[0] to be the main instructor data
-    const instructor = section.items?.[0];
+    // Cast to unknown first then Instructor to avoid intersection issues if types don't overlap perfectly
+    const instructor = section.items?.[0] as unknown as Instructor;
     const [courses, setCourses] = useState<Course[]>([]);
 
     useEffect(() => {
