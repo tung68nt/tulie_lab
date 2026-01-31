@@ -53,14 +53,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
 
                     {/* Tags on Thumbnail */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2 z-10 transition-transform duration-500">
-                        {category && (
-                            <Badge
-                                variant="secondary"
-                                className="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border-white/20 shadow-xl"
-                            >
-                                {category}
-                            </Badge>
-                        )}
+
                         {price === 0 && deploymentStatus === 'RELEASED' && (
                             <Badge
                                 variant="secondary"
