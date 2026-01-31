@@ -321,11 +321,25 @@ export class PaymentService {
             return {} as Order; // Return empty or handle gracefully
         }
 
+        console.log(`[Webhook] 🔍 Searching for order with code: "${data.code}" (length: ${data.code.length})`);
+
         const order = await this.orderRepository.findByCode(data.code);
+
         if (!order) {
-            console.log(`[Webhook] Order ${data.code} not found for transaction ${data.transactionId}. Transaction recorded but no order updated.`);
+            // Try to find similar orders for debugging
+            const allPendingOrders = await prisma.order.findMany({
+                where: { status: OrderStatus.PENDING },
+                select: { code: true, amount: true },
+                take: 10,
+                orderBy: { createdAt: 'desc' }
+            });
+            console.log(`[Webhook] ❌ Order "${data.code}" not found. Recent pending orders:`,
+                allPendingOrders.map(o => `${o.code} (${o.amount})`).join(', '));
+            console.log(`[Webhook] Transaction ${data.transactionId} recorded but no order updated.`);
             return {} as Order;
         }
+
+        console.log(`[Webhook] ✅ Found order: ${order.code}, status: ${order.status}, amount: ${order.amount}`);
 
         // Check amount (allow for small differences if needed, but strictly for now)
         if (Number(data.amount) < Number(order.amount)) {

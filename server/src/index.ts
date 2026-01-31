@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 
+// Set timezone to Vietnam (UTC+7) for consistent date/time display
+process.env.TZ = 'Asia/Ho_Chi_Minh';
+
 dotenv.config({ path: path.join(__dirname, '../.env') }); // Load .env from server root
 
 const app = express();
