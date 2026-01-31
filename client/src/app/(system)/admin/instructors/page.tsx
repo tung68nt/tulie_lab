@@ -263,6 +263,25 @@ export default function AdminInstructorsPage() {
                                 value={formData.avatar || ''}
                                 onChange={e => setFormData({ ...formData, avatar: e.target.value })}
                             />
+                            {/* Avatar Preview */}
+                            {formData.avatar && (
+                                <div className="mt-3 flex items-center gap-4">
+                                    <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800">
+                                        <img
+                                            src={formData.avatar}
+                                            alt="Avatar preview"
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                (e.target as HTMLImageElement).style.display = 'none';
+                                            }}
+                                            onLoad={(e) => {
+                                                (e.target as HTMLImageElement).style.display = 'block';
+                                            }}
+                                        />
+                                    </div>
+                                    <span className="text-xs text-muted-foreground">Xem trước ảnh đại diện</span>
+                                </div>
+                            )}
                         </div>
 
                         <div className="grid grid-cols-1 gap-4">
