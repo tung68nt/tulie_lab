@@ -15,4 +15,8 @@ router.get('/all', authenticate, authorize([Role.ADMIN]), NotificationController
 router.put('/:id', authenticate, authorize([Role.ADMIN]), NotificationController.update);
 router.delete('/:id', authenticate, authorize([Role.ADMIN]), NotificationController.remove);
 
+// Telegram Webhook
+import * as TelegramController from './telegram.controller';
+router.post('/telegram-webhook', TelegramController.telegramWebhook);
+
 export default router;

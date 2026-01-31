@@ -149,4 +149,31 @@ export class CrmService {
             activeSubscriptions
         };
     }
+    async getFullSystemReport() {
+        const stats = await this.getDailyReportStats();
+
+        // Count pending orders
+        const pendingOrders = await prisma.order.count({
+            where: { status: 'PENDING' }
+        });
+
+        // Count inactive users (> 14 days)
+        const fourteenDaysAgo = new Date();
+        fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
+        const inactiveUsers = await prisma.user.count({
+            where: {
+                role: 'USER',
+                isActive: true,
+                updatedAt: { lt: fourteenDaysAgo },
+            }
+        });
+
+        return {
+            ...stats,
+            pendingOrders,
+            inactiveUsers,
+            systemStatus: 'Hoạt động ổn định'
+        };
+    }
 }
