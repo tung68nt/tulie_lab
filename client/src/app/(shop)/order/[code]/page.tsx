@@ -143,8 +143,8 @@ export default function OrderPage({ params }: { params: any }) {
                 <FadeIn direction="up" className="relative z-10 max-w-xl w-full">
                     <div className="text-center mb-8">
                         <div className="mb-8 flex justify-center">
-                            <div className="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center shadow-xl">
-                                <CheckCircle2 className="w-10 h-10 text-white" />
+                            <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center shadow-xl">
+                                <CheckCircle2 className="w-10 h-10 text-green-600" />
                             </div>
                         </div>
                         <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900">

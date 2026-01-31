@@ -349,7 +349,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> {footerData?.email || 'support@tulielab.vn'}</div>
                                     <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> Hotline: {settings.contact_hotline || footerData?.phone || '098.898.4554'}</div>
                                 </div>
-                                <div className="space-y-2 md:text-right print:text-right flex flex-col items-start md:items-end">
+                                <div className="space-y-2 md:text-right print:text-right flex flex-col items-start md:items-end print:items-end">
                                     <div className="text-sm">
                                         <span className="text-zinc-600">Ngày tạo:</span>
                                         <span className="font-medium ml-2">{formatDate(order.createdAt)}</span>
@@ -366,7 +366,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         </div>
 
                         {/* Customer & Info Grid */}
-                        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 print:grid-cols-2 gap-12">
                             <div className="space-y-4">
                                 <h3 className="text-[16px] font-semibold tracking-tight text-zinc-900 mb-6 border-b border-zinc-100 pb-2">Thông tin khách hàng</h3>
                                 <div className="space-y-4 text-[13px]">
@@ -394,10 +394,10 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="space-y-4 md:text-right">
-                                <h3 className="text-[16px] font-semibold tracking-tight text-zinc-900 mb-6 border-b border-zinc-100 pb-2 md:text-right">Thông tin thanh toán</h3>
-                                <div className="space-y-4 text-[13px] md:text-right">
-                                    <div className="flex justify-start md:justify-end items-center gap-2">
+                            <div className="space-y-4 md:text-right print:text-right">
+                                <h3 className="text-[16px] font-semibold tracking-tight text-zinc-900 mb-6 border-b border-zinc-100 pb-2 md:text-right print:text-right">Thông tin thanh toán</h3>
+                                <div className="space-y-4 text-[13px] md:text-right print:text-right">
+                                    <div className="flex justify-start md:justify-end print:justify-end items-center gap-2">
                                         <span className="text-zinc-500">Hình thức:</span>
                                         <span className="font-bold text-zinc-900">Chuyển khoản ngân hàng</span>
                                     </div>

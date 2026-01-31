@@ -8,7 +8,24 @@ export class UserService {
         return this.userRepository.findById(id, {
             profile: true,
             subscriptions: { include: { product: true } },
-            enrollments: { include: { course: true } }
+            enrollments: { include: { course: true } },
+            orders: {
+                include: {
+                    items: {
+                        include: {
+                            product: {
+                                include: {
+                                    versions: {
+                                        orderBy: { createdAt: 'desc' },
+                                        take: 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                orderBy: { createdAt: 'desc' }
+            }
         });
     }
 

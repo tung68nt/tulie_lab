@@ -69,14 +69,11 @@ export const CalendarSection = ({ section }: { section: Section }) => {
             />
             <div className="container relative z-10 mx-auto px-4">
                 <StandardSectionHeader
-                    section={{
-                        ...section,
-                        tag: section.tag || "Lịch khai giảng",
-                        title: section.title || "Lịch Khai Giảng & Lộ Trình",
-                        subtitle: section.subtitle || "Cập nhật lộ trình học tập và thời gian khai giảng các khóa học mới nhất.",
-                        backgroundTheme: section.backgroundTheme // Ensure it's passed
-                    }}
+                    section={section}
+                    tagOverride={section.tag || "Lịch khai giảng"}
                     align="left"
+                    subtitleOverride={section.subtitle || "Cập nhật lộ trình học tập và thời gian khai giảng các khóa học mới nhất."}
+                    titleOverride={section.title || "Lịch Khai Giảng & Lộ Trình"}
                 />
 
                 <div className="flex justify-end mb-8 -mt-20 relative z-20">
