@@ -11,6 +11,7 @@ interface SectionBackgroundProps {
     overlayOpacity?: number;
     hideGradients?: boolean;
     glowVariant?: number;
+    dotPatternFade?: boolean;
 }
 
 export const SectionBackground: React.FC<SectionBackgroundProps> = ({
@@ -21,7 +22,8 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     backgroundTheme = 'auto',
     overlayOpacity,
     hideGradients = false,
-    glowVariant
+    glowVariant,
+    dotPatternFade = true,
 }) => {
     // ... rest of the component
     const isLightTheme = backgroundTheme === 'light';
@@ -89,6 +91,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                                     : "text-zinc-500/[0.18] dark:text-zinc-400/[0.30]"
                         )}
                         withVignette={false}
+                        withFade={dotPatternFade}
                     />
                 </div>
             )}

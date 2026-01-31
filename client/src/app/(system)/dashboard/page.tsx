@@ -70,12 +70,12 @@ export default function DashboardPage() {
 
     return (
         <div className="container pt-24 pb-32 relative min-h-screen overflow-hidden">
-            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" />
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={false} />
 
             {/* Header */}
             <div className="mb-8 relative z-10">
                 <h1 className="text-3xl font-bold">Khóa học của tôi</h1>
-                <p className="text-muted-foreground mt-2">Tiếp tục hành trình học tập của bạn, {user?.name || 'bạn'}!</p>
+                <p className="text-muted-foreground mt-2">Tiếp tục hành trình học tập, {user?.name || 'bạn'}!</p>
             </div>
 
 
