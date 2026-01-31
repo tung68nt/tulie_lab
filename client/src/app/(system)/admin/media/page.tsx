@@ -448,8 +448,8 @@ export default function MediaManagerPage() {
                         {/* Info Area */}
                         <div className="w-full md:w-[26rem] p-10 flex flex-col justify-between bg-white overflow-y-auto">
                             <div className="space-y-8">
-                                <div className="space-y-4">
-                                    <h2 className="text-base font-semibold text-zinc-900 leading-tight">
+                                <div className="space-y-4 pt-8 md:pt-0">
+                                    <h2 className="text-base font-semibold text-zinc-900 leading-tight break-words pr-8">
                                         {selectedFile.name || selectedFile.key.split('/').pop()}
                                     </h2>
                                     <div className="flex gap-2">

@@ -45,6 +45,8 @@ export interface Course {
     compareAtPrice?: number;
     lessons?: Lesson[];
     instructor?: Instructor;
+    lessonsCount?: number;
+    level?: string;
     [key: string]: unknown;
 }
 

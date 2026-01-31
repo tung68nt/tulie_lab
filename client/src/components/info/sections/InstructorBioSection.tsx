@@ -1,9 +1,6 @@
 import { Section } from '@/types/sections';
 import Image from 'next/image';
-import { DynamicIcon } from '@/components/DynamicIcon';
-import { SectionBackground } from '../SectionBackground';
 import { cn } from '@/lib/utils';
-import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Course } from '@/types/api';
