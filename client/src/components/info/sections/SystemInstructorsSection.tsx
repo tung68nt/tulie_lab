@@ -89,7 +89,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                 <div className="flex-1 flex flex-col text-center">
                                     <div className="relative z-10">
                                         <Link href={`/instructors/${instructor.slug || instructor.id}`} className="group/name">
-                                            <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300 hover:underline decoration-2 underline-offset-4">{String(instructor.name || '')}</h3>
+                                            <h3 className="text-2xl md:text-3xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300">{String(instructor.name || '')}</h3>
                                         </Link>
                                     </div>
                                     <p className="text-primary/60 text-xs font-bold mb-6">{String(instructor.role || 'Expert Instructor')}</p>
