@@ -2,7 +2,7 @@ import { Section } from '@/types/sections';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { api } from '@/lib/api';
+import { api, getMediaUrl } from '@/lib/api';
 import { Course, Instructor } from '@/types/api';
 import Link from 'next/link';
 import {
@@ -101,7 +101,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
                             <div className="relative w-40 h-40 mx-auto mb-6 rounded-[2.5rem] overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-inner rotate-3 group-hover:rotate-0 transition-transform duration-500">
                                 {instructor.image ? (
                                     <Image
-                                        src={String(instructor.image)}
+                                        src={getMediaUrl(String(instructor.image))}
                                         alt={String(instructor.title || 'Instructor')}
                                         fill
                                         className="object-cover"
