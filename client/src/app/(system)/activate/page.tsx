@@ -72,7 +72,7 @@ export default function ActivatePage() {
     }
 
     return (
-        <div className="min-h-screen relative flex flex-col items-center justify-center py-20 px-4 overflow-hidden bg-white">
+        <div className="min-h-screen relative flex flex-col items-center pt-16 pb-24 px-4 overflow-hidden bg-white">
             <SectionBackground backgroundTheme="light" showDotPattern={true} />
 
             <div className="max-w-3xl w-full relative z-10 flex flex-col items-center">
@@ -81,7 +81,7 @@ export default function ActivatePage() {
                         <SectionTag variant="default" size="lg" showDot={true} animate={true}>
                             Mở khoá nội dung
                         </SectionTag>
-                        <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-zinc-900">
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
                             Kích hoạt tài khoản
                         </h1>
                         <p className="text-zinc-500 text-xl max-w-2xl mx-auto leading-relaxed">
@@ -100,7 +100,7 @@ export default function ActivatePage() {
                                     </label>
                                     <Input
                                         placeholder="ABCD 1234"
-                                        className="text-2xl font-mono uppercase text-center tracking-[0.2em] h-16 rounded-2xl border-zinc-200 focus:border-zinc-900 focus:ring-0 transition-all bg-zinc-50/50"
+                                        className="text-2xl font-mono uppercase text-center tracking-[0.2em] h-16 rounded-2xl border-zinc-300 focus:border-zinc-900 focus:ring-4 focus:ring-zinc-100 transition-all bg-white shadow-inner"
                                         value={code}
                                         onChange={(e) => setCode(e.target.value)}
                                         autoFocus
@@ -110,7 +110,7 @@ export default function ActivatePage() {
                                 <Button
                                     type="submit"
                                     size="lg"
-                                    className="w-full h-16 rounded-2xl font-bold text-base shadow-xl shadow-zinc-200 transition-transform active:scale-[0.98]"
+                                    className="w-full h-14 rounded-2xl font-bold text-base shadow-xl shadow-zinc-200 transition-transform active:scale-[0.98]"
                                     disabled={loading}
                                 >
                                     {loading ? 'Đang xác thực...' : 'Xác nhận kích hoạt'}
@@ -118,12 +118,11 @@ export default function ActivatePage() {
                             </form>
 
                             <div className="mt-12 pt-8 border-t border-zinc-100">
-                                <div className="space-y-4">
-                                    <h3 className="text-sm font-bold text-zinc-900 flex items-center gap-2">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-900" />
+                                <div className="space-y-6">
+                                    <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">
                                         Hướng dẫn
                                     </h3>
-                                    <ul className="text-xs text-zinc-500 space-y-3 pl-3.5 leading-relaxed">
+                                    <ul className="text-xs text-zinc-500 space-y-4 pl-4 leading-relaxed list-disc">
                                         <li>Mã kích hoạt có giá trị sử dụng một lần cho một tài khoản.</li>
                                         <li>Nội dung sẽ được mở khoá vĩnh viễn sau khi kích hoạt thành công.</li>
                                         <li>Kiểm tra email hoặc thẻ quà tặng để lấy mã 8 ký tự.</li>

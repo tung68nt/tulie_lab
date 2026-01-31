@@ -1,12 +1,18 @@
 'use client';
 
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
-import { Info, CircleCheck, Copy, Check, Sparkles, CreditCard, Wallet, MoveRight } from 'lucide-react';
+import { Info, CheckCircle2, Copy, Check, CreditCard, ArrowRight, Loader2 } from 'lucide-react';
+import { SectionBackground } from '@/components/info/SectionBackground';
+import { SectionTag } from '@/components/SectionTag';
+import { FadeIn } from '@/components/animations/FadeIn';
+import { cn } from '@/lib/utils';
 
 export default function OrderPage({ params }: { params: any }) {
+    const router = useRouter();
     const [code, setCode] = useState<string>('');
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -24,7 +30,6 @@ export default function OrderPage({ params }: { params: any }) {
         }
     };
 
-    // Handle params promise safely
     useEffect(() => {
         if (params instanceof Promise) {
             params.then((p: any) => {
@@ -36,12 +41,10 @@ export default function OrderPage({ params }: { params: any }) {
     }, [params]);
 
     useEffect(() => {
-        // Only fetch if code is available
         if (!code) return;
 
         const fetchData = async () => {
             try {
-                // Parallel fetch
                 const [orderData, settingsData] = await Promise.all([
                     api.payments.getOrder(code).catch((e: any) => {
                         console.warn("Failed to fetch order", e);
@@ -60,7 +63,6 @@ export default function OrderPage({ params }: { params: any }) {
         };
         fetchData();
 
-        // Auto-refresh order status every 5 seconds if order is pending
         const interval = setInterval(async () => {
             try {
                 setIsChecking(true);
@@ -76,53 +78,54 @@ export default function OrderPage({ params }: { params: any }) {
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [code]);
+    }, [code, order?.status]);
 
-    if (loading) return <div className="min-h-screen pt-12 text-center">Đang tải thông tin đơn hàng...</div>;
-
-    if (!order) return (
-        <div className="min-h-screen pt-12 container text-center">
-            <div className="mx-auto max-w-md py-12">
-                <h1 className="text-2xl font-bold mb-4">Đơn hàng không tồn tại</h1>
-                <Link href="/courses">
-                    <Button as="div">Quay lại danh sách khóa học</Button>
-                </Link>
-            </div>
-        </div>
-    );
-
-    // Redirect if this is a free course (shouldn't be here)
-    if (order && order.amount === 0) {
+    if (loading) {
         return (
-            <div className="min-h-screen pt-24 container">
-                <div className="mx-auto max-w-md rounded-xl border bg-card p-8 shadow-lg text-center">
-                    <div className="flex justify-center mb-6">
-                        <Info className="h-16 w-16 text-blue-500" />
-                    </div>
-                    <h1 className="text-2xl font-bold mb-2">Khóa học miễn phí</h1>
-                    <p className="text-muted-foreground mb-6">Khóa học này hoàn toàn miễn phí. Bạn không cần thanh toán.</p>
-                    <Link href="/my-learning">
-                        <Button as="div" className="w-full">Vào học ngay</Button>
-                    </Link>
+            <div className="min-h-screen relative flex items-center justify-center bg-white">
+                <SectionBackground backgroundTheme="light" showDotPattern={true} />
+                <div className="relative z-10 flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 rounded-full border-4 border-zinc-100 border-t-zinc-900 animate-spin" />
+                    <p className="text-zinc-400 font-medium">Đang tải thông tin đơn hàng...</p>
                 </div>
             </div>
         );
     }
 
+    if (!order) {
+        return (
+            <div className="min-h-screen relative flex items-center justify-center px-4 bg-white text-center">
+                <SectionBackground backgroundTheme="light" showDotPattern={true} />
+                <FadeIn direction="up" className="relative z-10 max-w-md w-full">
+                    <div className="w-20 h-20 rounded-full bg-zinc-50 flex items-center justify-center mx-auto mb-8">
+                        <Info className="w-10 h-10 text-zinc-300" />
+                    </div>
+                    <h1 className="text-3xl font-bold mb-4 text-zinc-900">Đơn hàng không tồn tại</h1>
+                    <p className="text-zinc-500 mb-8 leading-relaxed text-lg">
+                        Chúng tôi không tìm thấy thông tin cho mã đơn hàng này. Vui lòng kiểm tra lại.
+                    </p>
+                    <Link href="/courses">
+                        <Button className="w-full h-14 rounded-2xl font-bold text-base shadow-xl shadow-zinc-100">
+                            Quay lại danh sách khóa học
+                        </Button>
+                    </Link>
+                </FadeIn>
+            </div>
+        );
+    }
+
+    // Success State
     if (order.status === 'PAID') {
-        // Check if order contains courses or products
         const hasCourses = order.items?.some((item: any) => item.course) || false;
         const hasProducts = order.items?.some((item: any) => item.product) || false;
 
-        // Determine message and button based on items
-        let message = 'Thanh toán thành công!';
-        let description = '';
-        let buttonText = '';
-        let buttonLink = '/dashboard';
+        let description = 'Đơn hàng của bạn đã được xử lý thành công.';
+        let buttonText = 'Vào học ngay';
+        let buttonLink = '/my-learning';
 
         if (hasCourses && hasProducts) {
             description = 'Bạn đã mua thành công khóa học và sản phẩm.';
-            buttonText = 'Xem ngay';
+            buttonText = 'Bắt đầu ngay';
         } else if (hasCourses) {
             description = 'Bạn đã đăng ký thành công khóa học.';
             buttonText = 'Vào học ngay';
@@ -130,159 +133,180 @@ export default function OrderPage({ params }: { params: any }) {
             description = 'Bạn đã mua thành công sản phẩm.';
             buttonText = 'Xem sản phẩm';
             buttonLink = '/my-products';
-        } else {
-            description = 'Đơn hàng của bạn đã được xử lý thành công.';
-            buttonText = 'Xem chi tiết';
         }
 
         return (
-            <div className="min-h-screen pt-12 pb-20 bg-background relative overflow-hidden">
-                <div className="container flex flex-col items-center justify-center relative z-10">
-                    {/* Header */}
-                    <div className="mb-12 text-center">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100/50 dark:bg-zinc-800/50 px-4 py-1.5 text-sm font-medium text-zinc-900 dark:text-zinc-100 mb-4 shadow-sm">
-                            <CircleCheck className="w-4 h-4 text-green-500" />
-                            Thanh toán bảo mật
-                        </div>
-                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3">Hoàn tất đơn hàng</h1>
-                        <p className="text-muted-foreground text-lg">{description}</p>
-                    </div>
-
-                    <div className="mx-auto max-w-md w-full rounded-2xl border border-zinc-200 bg-card p-8 shadow-xl text-center">
-                        <div className="flex justify-center mb-6">
-                            <div className="w-20 h-20 bg-green-50 dark:bg-green-500/10 rounded-full flex items-center justify-center">
-                                <CircleCheck className="h-10 w-10 text-green-500" />
+            <div className="min-h-screen relative flex items-center justify-center px-4 overflow-hidden bg-white">
+                <SectionBackground backgroundTheme="light" showDotPattern={true} />
+                <FadeIn direction="up">
+                    <div className="max-w-md w-full relative z-10 text-center">
+                        <div className="mb-8 flex justify-center">
+                            <div className="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center shadow-xl">
+                                <CheckCircle2 className="w-10 h-10 text-white" />
                             </div>
                         </div>
-                        <h2 className="text-2xl font-bold mb-2">{message}</h2>
-                        <p className="text-muted-foreground mb-8">Hệ thống đã ghi nhận thanh toán của bạn.</p>
-                        <Link href={buttonLink}>
-                            <Button as="div" size="lg" className="w-full font-bold h-12 rounded-xl">
-                                {buttonText}
-                                <MoveRight className="ml-2 h-4 w-4" />
-                            </Button>
-                        </Link>
+                        <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900">
+                            Thanh toán thành công
+                        </h1>
+                        <p className="text-zinc-500 text-lg mb-10 leading-relaxed text-balance">
+                            {description} Cảm ơn bạn đã tin tưởng và đồng hành cùng Tulie Lab.
+                        </p>
+                        <Button
+                            size="lg"
+                            className="w-full h-14 rounded-2xl text-base font-bold shadow-xl shadow-zinc-200"
+                            onClick={() => router.push(buttonLink)}
+                        >
+                            {buttonText}
+                            <ArrowRight className="ml-2 w-5 h-5" />
+                        </Button>
                     </div>
-                </div>
+                </FadeIn>
             </div>
         );
     }
 
-    // Dynamic Bank Info
+    // Pending State Redesign
     const bankName = settings.bank_name || 'MB Bank';
     const accountNo = settings.bank_account_no || '0999999999';
     const accountName = settings.bank_account_name || 'NGUYEN VAN A';
-
-    // Dynamic Transfer Content
     const syntax = settings.payment_transfer_syntax || '{{code}}';
     const transferContent = syntax.replace('{{code}}', order.code);
-
     const qrUrl = `https://qr.sepay.vn/img?acc=${accountNo}&bank=${bankName}&amount=${order.amount}&des=${transferContent}`;
 
     return (
-        <div className="min-h-screen bg-background pt-4 pb-12">
-            <div className="container max-w-4xl px-4">
-                {/* Header Section - Ultra-Compact */}
-                <div className="text-center mb-6">
-                    <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-500 text-[10px] font-medium border border-zinc-200 dark:border-zinc-700 mb-2">
-                        <div className="w-1 h-1 rounded-full bg-zinc-400 animate-pulse" />
-                        Chờ thanh toán
+        <div className="min-h-screen relative flex flex-col items-center pt-16 pb-24 px-4 overflow-hidden bg-white">
+            <SectionBackground backgroundTheme="light" showDotPattern={true} />
+
+            <div className="max-w-4xl w-full relative z-10 flex flex-col items-center">
+                <FadeIn direction="up">
+                    <div className="text-center space-y-6 mb-12">
+                        <SectionTag variant="default" size="lg" showDot={true} animate={true}>
+                            Chờ thanh toán
+                        </SectionTag>
+                        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900">
+                            Thanh toán đơn hàng
+                        </h1>
+                        <p className="text-zinc-500 text-xl max-w-2xl mx-auto leading-relaxed">
+                            Hoàn tất thanh toán để truy cập ngay các nội dung học tập và sản phẩm của bạn.
+                        </p>
                     </div>
-                    <h1 className="text-2xl font-semibold tracking-tight text-foreground">Thanh toán đơn hàng</h1>
-                </div>
+                </FadeIn>
 
-                <div className="max-w-[720px] mx-auto">
-                    {/* Unified Payment Card - Side by Side */}
-                    <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-lg overflow-hidden">
-                        <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
-                            {/* Left Side: QR Code */}
-                            <div className="p-6 flex flex-col items-center justify-center bg-zinc-50/30 dark:bg-zinc-900/10 border-b md:border-b-0 md:border-r border-zinc-100 dark:border-zinc-800">
-                                <p className="text-[10px] font-medium text-zinc-400 mb-4">Quét mã QR để thanh toán</p>
-                                <div className="bg-white p-2 rounded-xl border border-zinc-100 shadow-sm w-[180px]">
-                                    <img src={qrUrl} alt="QR Code" className="w-full h-auto object-contain" />
-                                </div>
-                                <p className="text-[10px] text-zinc-400 mt-4 text-center px-4 leading-relaxed">
-                                    Mở ứng dụng ngân hàng và quét mã để thanh toán tự động
-                                </p>
-                            </div>
-
-                            {/* Right Side: Manual Info */}
-                            <div className="p-6 space-y-5">
-                                <div className="flex items-center gap-2 pb-2 border-b border-zinc-50 dark:border-zinc-900">
-                                    <CreditCard className="w-4 h-4 text-zinc-400" />
-                                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm">Thông tin chuyển khoản</h3>
-                                </div>
-
-                                <div className="space-y-3.5">
-                                    <div className="flex justify-between items-center group">
-                                        <span className="text-xs text-zinc-500">Ngân hàng</span>
-                                        <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{bankName}</span>
+                <div className="max-w-[800px] w-full">
+                    <FadeIn direction="up" delay={0.2}>
+                        <div className="bg-white rounded-[2.5rem] border border-zinc-200 shadow-2xl shadow-zinc-100 overflow-hidden">
+                            <div className="grid grid-cols-1 md:grid-cols-[320px_1fr]">
+                                {/* Left Side: QR Code */}
+                                <div className="p-10 flex flex-col items-center justify-center bg-zinc-50/30 border-b md:border-b-0 md:border-r border-zinc-100">
+                                    <div className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">
+                                        Quét mã QR
                                     </div>
+                                    <div className="bg-white p-3 rounded-2xl border border-zinc-200 shadow-sm w-full max-w-[220px]">
+                                        <img src={qrUrl} alt="QR Code" className="w-full h-auto object-contain" />
+                                    </div>
+                                    <p className="text-[11px] text-zinc-400 mt-6 text-center leading-relaxed font-medium">
+                                        Mở ứng dụng ngân hàng và quét mã để thanh toán tự động
+                                    </p>
+                                </div>
 
-                                    <div className="flex justify-between items-center group">
-                                        <span className="text-xs text-zinc-500">Số tài khoản</span>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">{accountNo}</span>
+                                {/* Right Side: Manual Info */}
+                                <div className="p-8 md:p-10 space-y-8">
+                                    <div className="space-y-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center shadow-lg">
+                                                <CreditCard className="w-4 h-4 text-white" />
+                                            </div>
+                                            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-900">
+                                                Chuyển khoản thủ công
+                                            </h3>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            {[
+                                                { label: 'Ngân hàng', value: bankName },
+                                                { label: 'Số tài khoản', value: accountNo, bold: true },
+                                                { label: 'Chủ tài khoản', value: accountName, bold: true }
+                                            ].map((item, idx) => (
+                                                <div key={idx} className="flex justify-between items-center py-1">
+                                                    <span className="text-sm text-zinc-400 font-medium">{item.label}</span>
+                                                    <span className={cn(
+                                                        "text-base text-zinc-950",
+                                                        item.bold ? "font-bold tracking-tight" : "font-medium"
+                                                    )}>{item.value}</span>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-between items-center group">
-                                        <span className="text-xs text-zinc-500">Chủ tài khoản</span>
-                                        <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{accountName}</span>
-                                    </div>
-
-                                    <div className="h-px bg-zinc-50 dark:bg-zinc-900" />
+                                    <div className="h-px bg-zinc-100" />
 
                                     {/* Transfer Content */}
-                                    <div className="space-y-1.5 pt-1">
-                                        <div className="flex justify-between items-center">
-                                            <label className="text-[10px] font-medium text-zinc-400">Nội dung chuyển khoản</label>
-                                        </div>
+                                    <div className="space-y-4">
+                                        <label className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">
+                                            Nội dung chuyển khoản
+                                        </label>
                                         <div
                                             onClick={() => copyToClipboard(transferContent, 'content')}
-                                            className="bg-zinc-50 dark:bg-zinc-900 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 text-center relative cursor-pointer hover:border-zinc-300 dark:hover:border-zinc-700 transition-all group/content"
+                                            className="bg-zinc-50 border border-zinc-300 p-4 rounded-2xl text-center relative cursor-pointer hover:border-zinc-900 transition-all group/content active:scale-[0.98]"
                                         >
-                                            <p className="text-lg font-semibold text-zinc-900 dark:text-white tracking-tight">{transferContent}</p>
-                                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                                                {copiedField === 'content' ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4 text-zinc-300 group-hover/content:text-zinc-500" />}
+                                            <p className="text-xl font-mono font-black text-zinc-900 tracking-wider">
+                                                {transferContent}
+                                            </p>
+                                            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                                                {copiedField === 'content'
+                                                    ? <Check className="w-5 h-5 text-green-500" />
+                                                    : <Copy className="w-4 h-4 text-zinc-300 group-hover/content:text-zinc-600 transition-colors" />
+                                                }
                                             </div>
                                         </div>
                                     </div>
 
                                     {/* Amount */}
-                                    <div className="pt-1 flex flex-col items-center gap-0.5">
-                                        <span className="text-[10px] text-zinc-400">Số tiền cần thanh toán</span>
-                                        <p className="text-2xl font-semibold text-zinc-900 dark:text-white">
-                                            {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}₫
+                                    <div className="pt-2 flex flex-col items-center justify-center bg-zinc-950 text-white rounded-2xl p-6 shadow-xl space-y-1">
+                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Số tiền cần thanh toán</span>
+                                        <div className="flex items-baseline gap-1">
+                                            <span className="text-4xl font-black">
+                                                {new Intl.NumberFormat('vi-VN').format(Number(order.amount))}
+                                            </span>
+                                            <span className="text-xl font-bold opacity-50">₫</span>
+                                        </div>
+                                        <p className="text-[10px] text-zinc-500 font-medium pt-1 uppercase tracking-widest">
+                                            Hệ thống tự động xác nhận
                                         </p>
-                                        <p className="text-[9px] text-zinc-400 mt-1 opacity-60">Đơn hàng: {order.code}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </FadeIn>
 
-                    {/* Status Indicator - Tighter */}
-                    <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-xl bg-zinc-50/50 dark:bg-zinc-900/20 border border-zinc-100 dark:border-zinc-800/50">
-                        <div className="relative flex h-1.5 w-1.5 shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-zinc-400"></span>
+                    {/* Status Indicator */}
+                    <FadeIn direction="up" delay={0.4}>
+                        <div className="mt-8 flex items-center justify-center">
+                            <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-zinc-50 border border-zinc-200 shadow-sm transition-all duration-500">
+                                <div className="relative flex h-2 w-2 shrink-0">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-900 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-900"></span>
+                                </div>
+                                <p className="font-bold text-zinc-900 text-[11px] uppercase tracking-widest">
+                                    {isChecking ? 'Hệ thống đang kiểm tra...' : 'Đang chờ xác nhận...'}
+                                </p>
+                                <div className="w-px h-3 bg-zinc-200 mx-1" />
+                                <p className="text-[10px] text-zinc-400 font-medium">Sẽ tự động chuyển trang sau khi nhận</p>
+                            </div>
                         </div>
-                        <div className="flex-1 flex justify-between items-center">
-                            <p className="font-medium text-zinc-600 dark:text-zinc-400 text-[11px]">
-                                Đang chờ hệ thống xác nhận...
-                            </p>
-                            <p className="text-[10px] text-zinc-400">Tự động sau vài giây</p>
-                        </div>
-                    </div>
+                    </FadeIn>
 
-                    {/* Minimal Footer */}
-                    <div className="mt-8 text-center text-[10px] text-zinc-400">
-                        <Link href="/contact" className="hover:text-zinc-600 transition-colors inline-flex items-center gap-1.5">
-                            <Info className="w-3 h-3" />
-                            Cần hỗ trợ? Liên hệ kỹ thuật 24/7
-                        </Link>
-                    </div>
+                    <FadeIn direction="up" delay={0.6}>
+                        <div className="mt-12 text-center">
+                            <button
+                                onClick={() => router.push('/contact')}
+                                className="text-xs text-zinc-400 hover:text-zinc-950 font-bold flex items-center gap-2 mx-auto transition-colors"
+                            >
+                                <Info className="w-3.5 h-3.5" />
+                                Cần hỗ trợ kỹ thuật? Liên hệ 24/7
+                            </button>
+                        </div>
+                    </FadeIn>
                 </div>
             </div>
         </div>
