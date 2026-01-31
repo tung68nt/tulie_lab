@@ -8,6 +8,7 @@ import { Input } from '@/components/Input';
 import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
+import { SectionBackground } from '@/components/info/SectionBackground';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -67,75 +68,86 @@ export default function DashboardPage() {
 
     if (loading) return <div className="p-10 text-center">Đang tải dữ liệu...</div>;
 
-    return (
-        <div className="container pt-24 pb-32">
-            {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold">Khóa học của tôi</h1>
-                <p className="text-muted-foreground mt-2">Tiếp tục hành trình học tập của bạn, {user?.name}!</p>
-            </div>
+    import { SectionBackground } from '@/components/info/SectionBackground';
 
+    export default function DashboardPage() {
+        // ... (keep existing code)
+        // We need to keep the imports and component definition as they are, just adding SectionBackground import
+        // But since I can't "insert" imports easily without matching context, I'll rely on the context matching.
+        // Wait, replacing a huge block just for import is risky.
+        // I will do 2 separate edits or use multi_replace.
+        // Let's use multi_replace.
+        return (
+            <div className="container pt-24 pb-32 relative min-h-screen overflow-hidden">
+                <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" />
 
-
-            {enrollments.length === 0 ? (
-                <div className="text-center py-20 border rounded-xl bg-card">
-                    <h2 className="text-xl font-semibold">Bạn chưa đăng ký khóa học nào</h2>
-                    <p className="text-muted-foreground mt-2 mb-6">Khám phá danh mục khóa học để bắt đầu ngay hôm nay.</p>
-                    <Link href="/courses">
-                        <Button>Xem danh sách khóa học</Button>
-                    </Link>
+                {/* Header */}
+                <div className="mb-8 relative z-10">
+                    <h1 className="text-3xl font-bold">Khóa học của tôi</h1>
+                    <p className="text-muted-foreground mt-2">Tiếp tục hành trình học tập của bạn, {user?.name || 'bạn'}!</p>
                 </div>
-            ) : (
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {enrollments.map((enr: any) => {
-                        const course = enr.course;
-                        // Mock progress if not available
-                        const progress = enr.progress || 0;
 
-                        return (
-                            <Card key={course?.id || enr.id} className="flex h-full flex-col overflow-hidden group hover:shadow-lg transition-shadow">
-                                <Link href={`/learn/${course?.slug}/${course?.lessons?.[0]?.slug || ''}`} className="cursor-pointer">
-                                    <div className="aspect-video w-full bg-muted relative overflow-hidden">
-                                        {course?.thumbnail ? (
-                                            <img
-                                                src={course.thumbnail}
-                                                alt={course.title}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
-                                        ) : (
-                                            <div className="w-full h-full flex items-center justify-center bg-secondary text-secondary-foreground">
-                                                No Image
-                                            </div>
-                                        )}
-                                    </div>
-                                </Link>
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="line-clamp-2 text-lg hover:underline">
-                                        <Link href={`/learn/${course?.slug}/${course?.lessons?.[0]?.slug || ''}`}>
-                                            {course?.title || 'Khóa học'}
-                                        </Link>
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="flex-1 pb-4">
-                                    <div className="flex justify-between text-xs text-muted-foreground mb-2">
-                                        <span>Tiến độ</span>
-                                        <span>{progress}%</span>
-                                    </div>
-                                    <div className="h-1.5 w-full rounded-full bg-secondary">
-                                        <div className="h-full rounded-full bg-primary" style={{ width: `${progress}%` }}></div>
-                                    </div>
-                                </CardContent>
-                                <CardFooter>
-                                    <Link href={`/learn/${course?.slug}/${course?.lessons?.[0]?.slug || ''}`} className="w-full">
-                                        <Button className="w-full" variant="outline">Tiếp tục học</Button>
+
+
+                {enrollments.length === 0 ? (
+                    <div className="text-center py-20 border rounded-xl bg-card">
+                        <h2 className="text-xl font-semibold">Bạn chưa đăng ký khóa học nào</h2>
+                        <p className="text-muted-foreground mt-2 mb-6">Khám phá danh mục khóa học để bắt đầu ngay hôm nay.</p>
+                        <Link href="/courses">
+                            <Button>Xem danh sách khóa học</Button>
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {enrollments.map((enr: any) => {
+                            const course = enr.course;
+                            // Mock progress if not available
+                            const progress = enr.progress || 0;
+
+                            return (
+                                <Card key={course?.id || enr.id} className="flex h-full flex-col overflow-hidden group hover:shadow-lg transition-shadow">
+                                    <Link href={`/learn/${course?.slug}/${course?.lessons?.[0]?.slug || ''}`} className="cursor-pointer">
+                                        <div className="aspect-video w-full bg-muted relative overflow-hidden">
+                                            {course?.thumbnail ? (
+                                                <img
+                                                    src={course.thumbnail}
+                                                    alt={course.title}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center bg-secondary text-secondary-foreground">
+                                                    No Image
+                                                </div>
+                                            )}
+                                        </div>
                                     </Link>
-                                </CardFooter>
-                            </Card>
-                        );
-                    })}
-                </div>
-            )}
-        </div>
-    );
-}
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="line-clamp-2 text-lg hover:underline">
+                                            <Link href={`/learn/${course?.slug}/${course?.lessons?.[0]?.slug || ''}`}>
+                                                {course?.title || 'Khóa học'}
+                                            </Link>
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="flex-1 pb-4">
+                                        <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                                            <span>Tiến độ</span>
+                                            <span>{progress}%</span>
+                                        </div>
+                                        <div className="h-1.5 w-full rounded-full bg-secondary">
+                                            <div className="h-full rounded-full bg-primary" style={{ width: `${progress}%` }}></div>
+                                        </div>
+                                    </CardContent>
+                                    <CardFooter>
+                                        <Link href={`/learn/${course?.slug}/${course?.lessons?.[0]?.slug || ''}`} className="w-full">
+                                            <Button className="w-full" variant="outline">Tiếp tục học</Button>
+                                        </Link>
+                                    </CardFooter>
+                                </Card>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        );
+    }
 

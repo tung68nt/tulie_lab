@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
+import { SectionBackground } from '@/components/info/SectionBackground';
 
 export default function MyProductsPage() {
     const [user, setUser] = useState<any>(null);
@@ -68,69 +69,72 @@ export default function MyProductsPage() {
         );
     }
 
-    return (
-        <div className="min-h-screen bg-background pt-24 pb-20">
-            <div className="container">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold">Sản phẩm số của tôi</h1>
-                    <p className="text-muted-foreground mt-2">Quản lý và tải xuống các tài nguyên bạn đã sở hữu</p>
-                </div>
+}
 
-                {/* Subscription Status */}
-                <div className="mb-10 p-6 bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div className="flex items-center gap-4">
-                        <div className={`p-4 rounded-full ${user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) ? 'bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg shadow-orange-500/20' : 'bg-muted'}`}>
-                            {user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) ? (
-                                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            ) : (
-                                <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" /></svg>
-                            )}
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-bold">
-                                {user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) ? 'Thành viên Premium' : 'Tài khoản thường'}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                                {user?.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date())
-                                    ? `Hạn sử dụng: ${new Date(user.subscriptions.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()).endDate).toLocaleDateString('vi-VN', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit'
-                                    })}`
-                                    : 'Nâng cấp để tải không giới hạn tài nguyên.'}
-                            </p>
-                        </div>
-                    </div>
-                    {(!user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date())) && (
-                        <Link href="/pricing">
-                            <Button as="div" variant="default" className="shadow-lg shadow-primary/25">Nâng cấp ngay</Button>
-                        </Link>
-                    )}
-                </div>
+return (
+    <div className="min-h-screen bg-background pt-24 pb-20 relative overflow-hidden">
+        <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" />
+        <div className="container relative z-10">
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold">Sản phẩm số của tôi</h1>
+                <p className="text-muted-foreground mt-2">Quản lý và tải xuống các tài nguyên bạn đã sở hữu</p>
+            </div>
 
-                {products.length === 0 ? (
-                    <div className="text-center py-20 border border-dashed border-border rounded-3xl bg-card/50">
-                        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
-                            <svg className="w-10 h-10 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                        </div>
-                        <h3 className="text-xl font-bold mb-2">Chưa có sản phẩm nào</h3>
-                        <p className="text-muted-foreground mb-8 mx-auto">Bạn chưa mua sản phẩm số nào. Hãy khám phá kho tài nguyên chất lượng cao của chúng tôi.</p>
-                        <Link href="/shop">
-                            <Button as="div" size="lg" className="rounded-xl font-bold shadow-lg shadow-primary/25">Khám phá Cửa hàng</Button>
-                        </Link>
+            {/* Subscription Status */}
+            <div className="mb-10 p-6 bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                    <div className={`p-4 rounded-full ${user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) ? 'bg-gradient-to-br from-yellow-400 to-orange-500 shadow-lg shadow-orange-500/20' : 'bg-muted'}`}>
+                        {user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) ? (
+                            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        ) : (
+                            <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" /></svg>
+                        )}
                     </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
+                    <div>
+                        <h3 className="text-lg font-bold">
+                            {user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()) ? 'Thành viên Premium' : 'Tài khoản thường'}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                            {user?.subscriptions?.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date())
+                                ? `Hạn sử dụng: ${new Date(user.subscriptions.find((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date()).endDate).toLocaleDateString('vi-VN', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}`
+                                : 'Nâng cấp để tải không giới hạn tài nguyên.'}
+                        </p>
                     </div>
+                </div>
+                {(!user?.subscriptions?.some((s: any) => s.status === 'ACTIVE' && new Date(s.endDate) > new Date())) && (
+                    <Link href="/pricing">
+                        <Button as="div" variant="default" className="shadow-lg shadow-primary/25">Nâng cấp ngay</Button>
+                    </Link>
                 )}
             </div>
+
+            {products.length === 0 ? (
+                <div className="text-center py-20 border border-dashed border-border rounded-3xl bg-card/50">
+                    <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
+                        <svg className="w-10 h-10 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">Chưa có sản phẩm nào</h3>
+                    <p className="text-muted-foreground mb-8 mx-auto">Bạn chưa mua sản phẩm số nào. Hãy khám phá kho tài nguyên chất lượng cao của chúng tôi.</p>
+                    <Link href="/shop">
+                        <Button as="div" size="lg" className="rounded-xl font-bold shadow-lg shadow-primary/25">Khám phá Cửa hàng</Button>
+                    </Link>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {products.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </div>
+            )}
         </div>
-    );
+    </div>
+);
 }
 
 function ProductCard({ product }: { product: any }) {

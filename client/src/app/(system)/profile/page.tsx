@@ -7,6 +7,7 @@ import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
+import { SectionBackground } from '@/components/info/SectionBackground';
 
 export default function ProfilePage() {
     const [user, setUser] = useState<any>(null);
@@ -125,8 +126,9 @@ export default function ProfilePage() {
     if (!user) return <div className="container py-10">Vui lòng đăng nhập</div>;
 
     return (
-        <div className="container pt-24 pb-32">
-            <div className="max-w-2xl mx-auto">
+        <div className="container pt-24 pb-32 relative min-h-screen overflow-hidden">
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" />
+            <div className="max-w-2xl mx-auto relative z-10">
                 <h1 className="text-3xl font-bold mb-8">Hồ sơ cá nhân</h1>
 
                 <div className="grid gap-6">

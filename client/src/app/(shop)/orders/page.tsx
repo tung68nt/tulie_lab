@@ -6,6 +6,7 @@ import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { Trash2 } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
+import { SectionBackground } from '@/components/info/SectionBackground';
 
 export default function OrdersPage() {
     const [orders, setOrders] = useState<any[]>([]);
@@ -77,8 +78,9 @@ export default function OrdersPage() {
     }
 
     return (
-        <div className="min-h-screen bg-background pt-24 pb-20">
-            <div className="container">
+        <div className="min-h-screen bg-background pt-24 pb-20 relative overflow-hidden">
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" />
+            <div className="container relative z-10">
                 {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold">Lịch sử đơn hàng</h1>
