@@ -58,10 +58,10 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                 <StandardSectionHeader section={section} align={section.align || "center"} />
 
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12 mt-16">
+                    <div className="flex flex-wrap justify-center gap-10 md:gap-12 mt-16">
                         {instructors.map((instructor, index) => (
                             <div key={instructor.id || index} className={cn(
-                                "group flex flex-col items-center h-full backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2",
+                                "group flex flex-col items-center h-full backdrop-blur-sm border border-border/50 rounded-[2.5rem] p-8 md:p-10 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2 w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)] max-w-[400px]",
                                 isDark ? "bg-white/5" : "bg-card/50"
                             )}>
                                 {/* Avatar Section */}
