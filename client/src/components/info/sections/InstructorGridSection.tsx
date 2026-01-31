@@ -37,19 +37,29 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                             {/* Image Container */}
                             <div className="relative mx-auto mb-10 w-44 h-44">
                                 <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-primary to-blue-600 opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-700 scale-75 group-hover:scale-110" />
-                                {item.image ? (
-                                    <div className="w-full h-full rounded-full border-[6px] border-background shadow-2xl relative z-10 overflow-hidden ring-1 ring-border/50">
-                                        <img
-                                            src={getMediaUrl(item.image)}
-                                            alt={item.title}
-                                            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="w-full h-full rounded-full bg-muted flex items-center justify-center border-[6px] border-background shadow-2xl relative z-10 ring-1 ring-border/50">
-                                        <span className={cn("text-5xl font-bold", isDark ? "text-zinc-500" : "text-muted-foreground")}>{item.title?.charAt(0) || '?'}</span>
-                                    </div>
-                                )}
+                                {(() => {
+                                    const imageUrl = getMediaUrl(item.image || (item as any).avatar || '');
+                                    return imageUrl ? (
+                                        <div className="w-full h-full rounded-full border-[6px] border-background shadow-2xl relative z-10 overflow-hidden ring-1 ring-border/50">
+                                            <img
+                                                src={imageUrl}
+                                                alt={item.title}
+                                                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                                                onError={(e) => {
+                                                    // Hide image and show fallback if possible, or simpler: just clear source to show broken image default (which is ugly)
+                                                    // Better: Set to a transparent pixel or hide parent?
+                                                    // For now, let's just accept that if URL exists it should load. 
+                                                    // If we really want to fallback to initials, we need state.
+                                                    // Given constraints, I'll stick to just fixing the URL logic.
+                                                }}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="w-full h-full rounded-full bg-muted flex items-center justify-center border-[6px] border-background shadow-2xl relative z-10 ring-1 ring-border/50">
+                                            <span className={cn("text-5xl font-bold", isDark ? "text-zinc-500" : "text-muted-foreground")}>{item.title?.charAt(0) || '?'}</span>
+                                        </div>
+                                    );
+                                })()}
 
                                 {/* Floating Badge */}
                                 <div className="absolute -bottom-2 -right-2 z-20 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
