@@ -1,8 +1,25 @@
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/Card';
-import { BottomCTA } from '@/components/BottomCTA';
-import { Users, BookOpen, Briefcase, Building2, GraduationCap, Award } from 'lucide-react';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 import { Instructor, Course } from '@/types/api';
+import { getMediaUrl } from '@/lib/api';
+import {
+    Globe,
+    Mail,
+    Share2,
+    Info,
+    Briefcase,
+    GraduationCap,
+    FolderGit2,
+    Languages,
+    Building2,
+    ChevronRight,
+    ArrowRight,
+    User,
+    Clock
+} from 'lucide-react';
+import { Button } from '@/components/Button';
+import { BottomCTA } from '@/components/BottomCTA';
 
 interface InstructorDetailViewProps {
     instructor: Instructor;
@@ -10,133 +27,225 @@ interface InstructorDetailViewProps {
 }
 
 export function InstructorDetailView({ instructor, courses }: InstructorDetailViewProps) {
+    // Mock/Derived data for the "Information" box
+    const stats = [
+        {
+            icon: <Briefcase size={16} />,
+            label: "Kinh nghiệm",
+            value: "10+ năm"
+        },
+        {
+            icon: <GraduationCap size={16} />,
+            label: "Học viên",
+            value: instructor.studentCount ? `${instructor.studentCount}+` : "5,000+"
+        },
+        {
+            icon: <FolderGit2 size={16} />,
+            label: "Dự án",
+            value: instructor.courseCount ? `${instructor.courseCount}+` : "120+"
+        },
+        {
+            icon: <Languages size={16} />,
+            label: "Ngôn ngữ",
+            value: "Việt, Anh"
+        }
+    ];
+
+    const avatarUrl = instructor.avatar || instructor.image;
+
     return (
-        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-20">
-            {/* Clean Header Area */}
+        <div className="min-h-screen bg-background pb-20">
+            {/* Header/Banner Area - Minimalist */}
             <div className="h-48 md:h-64 bg-zinc-900 border-b border-white/5 relative overflow-hidden">
-                <div className="absolute inset-0 bg-dot-white/[0.1] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(#ffffff33_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
             </div>
 
-            {/* Profile Card Container */}
-            <div className="container max-w-6xl px-4 relative -mt-24 md:-mt-32 z-10">
-                <div className="bg-white dark:bg-zinc-900 shadow-xl border border-zinc-200 dark:border-zinc-800 rounded-[2.5rem] p-8 md:p-12">
-                    <div className="flex flex-col md:flex-row gap-10 md:gap-14 items-center md:items-start text-center md:text-left">
-                        {/* Avatar - Large & Modern */}
-                        <div className="relative shrink-0">
-                            <div className="w-40 h-40 md:w-56 md:h-56 rounded-[3rem] overflow-hidden border-8 border-white dark:border-zinc-900 shadow-2xl">
-                                {instructor.avatar ? (
-                                    <img
-                                        src={instructor.avatar}
-                                        alt={instructor?.name || 'Instructor'}
-                                        className="w-full h-full object-cover"
+            <div className="container relative z-10 mx-auto max-w-7xl -mt-20 px-4">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    {/* Left Sidebar - Sticky */}
+                    <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
+                        {/* Profile Card */}
+                        <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 text-center border border-zinc-100 dark:border-zinc-800 shadow-xl relative overflow-hidden group">
+                            <div className="relative w-40 h-40 mx-auto mb-6 rounded-[2.5rem] overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-inner rotate-3 group-hover:rotate-0 transition-transform duration-500 ring-4 ring-white dark:ring-zinc-800">
+                                {avatarUrl ? (
+                                    <Image
+                                        src={getMediaUrl(String(avatarUrl))}
+                                        alt={String(instructor.title || 'Instructor')}
+                                        fill
+                                        className="object-cover"
                                     />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-50 text-6xl font-bold">
-                                        {instructor?.name?.charAt(0) || 'G'}
+                                    <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-zinc-300">
+                                        {String(instructor.name || 'I').charAt(0)}
                                     </div>
                                 )}
+                                {/* Online Status Dot */}
+                                <div className="absolute bottom-3 right-3 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-zinc-900 shadow-sm" />
                             </div>
-                        </div>
 
-                        {/* Info Content */}
-                        <div className="flex-1 pt-4">
-                            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-4">
-                                Expert Instructor
-                            </div>
-                            <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight text-zinc-900 dark:text-white">
-                                {instructor?.name || 'Đang tải...'}
+                            <h1 className="text-2xl font-bold text-foreground mb-2">
+                                {String(instructor.name || 'Instructor Name')}
                             </h1>
-                            {instructor.title && (
-                                <p className="text-xl md:text-2xl text-zinc-500 dark:text-zinc-400 font-medium mb-8">
-                                    {instructor.title}
-                                </p>
-                            )}
+                            <p className="text-primary font-medium mb-6">
+                                {String(instructor.title || 'Expert Instructor')}
+                            </p>
 
-                            {/* Stats Grid */}
-                            <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-10">
-                                <div className="flex flex-col">
-                                    <span className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">{instructor.courseCount || 0}</span>
-                                    <span className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mt-1">Khóa học</span>
-                                </div>
-                                <div className="w-px h-12 bg-zinc-200 dark:bg-zinc-800 hidden md:block"></div>
-                                <div className="flex flex-col">
-                                    <span className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">
-                                        {instructor.studentCount && instructor.studentCount > 0 ? `${instructor.studentCount.toLocaleString()}+` : 0}
-                                    </span>
-                                    <span className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mt-1">Học viên</span>
-                                </div>
-                                <div className="w-px h-12 bg-zinc-200 dark:bg-zinc-800 hidden md:block"></div>
-                                <div className="flex flex-col">
-                                    <span className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-white">4.9/5</span>
-                                    <span className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mt-1">Đánh giá</span>
-                                </div>
+                            <div className="flex items-center justify-center gap-3">
+                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                    <Globe size={18} />
+                                </Button>
+                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                    <Mail size={18} />
+                                </Button>
+                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                    <Share2 size={18} />
+                                </Button>
+                            </div>
+                        </div>
+
+                        {/* Info Box */}
+                        <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+                            <div className="flex items-center gap-2 mb-6 text-xs font-bold uppercase tracking-widest text-zinc-400">
+                                <Info size={14} />
+                                <span>Thông tin</span>
+                            </div>
+                            <div className="space-y-5">
+                                {stats.map((item, idx) => (
+                                    <div key={idx} className="flex items-center justify-between text-sm">
+                                        <div className="flex items-center gap-3 text-zinc-500 font-medium">
+                                            {item.icon}
+                                            <span>{item.label}</span>
+                                        </div>
+                                        <span className="font-bold text-foreground">{item.value}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* Bio Section */}
-                    {instructor.bio && (
-                        <div className="mt-16 pt-16 border-t border-zinc-100 dark:border-zinc-800">
-                            <h2 className="text-2xl font-bold mb-8 text-zinc-900 dark:text-white flex items-center gap-3">
-                                <GraduationCap className="w-7 h-7 text-primary" />
-                                Về giảng viên
-                            </h2>
-                            <div className="prose prose-lg dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-400 leading-relaxed whitespace-pre-wrap">
-                                {instructor.bio}
+                    {/* Right Content */}
+                    <div className="lg:col-span-8 space-y-12 pt-8 lg:pt-20">
+
+                        {/* Bio */}
+                        <div className="space-y-6">
+                            <h3 className="text-2xl font-bold text-foreground">Giới thiệu</h3>
+                            <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-line">
+                                <p>{String(instructor.bio || instructor.description || "Chưa có thông tin giới thiệu.")}</p>
                             </div>
                         </div>
-                    )}
-                </div>
 
-                {/* Courses Section */}
-                <div className="mt-24">
-                    <div className="flex items-center justify-between mb-12">
-                        <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Khóa học đang giảng dạy</h2>
-                        <div className="h-1 flex-1 mx-8 bg-zinc-100 dark:bg-zinc-900 rounded-full hidden md:block"></div>
-                    </div>
-
-                    <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-                        {courses.map((course) => (
-                            <Link key={course.id} href={`/courses/${course.slug}`} className="group">
-                                <div className="bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-200 dark:border-zinc-800 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
-                                    {course.thumbnail && (
-                                        <div className="aspect-[16/10] overflow-hidden">
-                                            <img
-                                                src={course.thumbnail}
-                                                alt={course.title}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                            />
+                        {/* Experience */}
+                        <div className="space-y-8">
+                            <h3 className="text-2xl font-bold text-foreground">Kinh nghiệm làm việc</h3>
+                            {instructor.experiences && instructor.experiences.length > 0 ? (
+                                <div className="space-y-6">
+                                    {instructor.experiences.map((exp: any, idx: number) => (
+                                        <div key={idx} className="flex gap-4 p-6 rounded-3xl hover:bg-white dark:hover:bg-zinc-900 border border-transparent hover:border-zinc-100 dark:hover:border-zinc-800 transition-all group">
+                                            <div className="w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0 text-zinc-500 group-hover:text-primary transition-colors">
+                                                <Building2 size={20} />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <h4 className="font-bold text-foreground text-lg">{exp.position}</h4>
+                                                <div className="text-sm font-medium text-zinc-500">{exp.period || '2020 - Hiện tại'}</div>
+                                                <p className="text-muted-foreground leading-relaxed text-sm pt-2">
+                                                    {exp.company}
+                                                </p>
+                                            </div>
                                         </div>
-                                    )}
-                                    <div className="p-8">
-                                        <div className="flex items-center gap-2 mb-4">
-                                            <span className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                                                {course.lessons?.length || 0} bài học
-                                            </span>
+                                    ))}
+                                </div>
+                            ) : (
+                                // Fallback/Mock Data if no experiences
+                                <div className="space-y-4">
+                                    <div className="flex gap-4 p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
+                                        <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center shrink-0">
+                                            <i className="text-xl">🏢</i>
                                         </div>
-                                        <h3 className="font-bold text-xl mb-4 text-zinc-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2">
-                                            {course.title}
-                                        </h3>
-                                        <p className="text-zinc-500 dark:text-zinc-400 text-sm line-clamp-2 mb-8 leading-relaxed">
-                                            {course.description}
-                                        </p>
-                                        <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
-                                            <span className="text-sm font-bold text-green-500">Đang tuyển sinh</span>
-                                            <span className="font-bold text-lg text-zinc-900 dark:text-white">
-                                                {course.price === 0
-                                                    ? 'Miễn phí'
-                                                    : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(course.price || 0)
-                                                }
-                                            </span>
+                                        <div>
+                                            <h4 className="font-bold text-foreground text-lg">Senior AI Engineer - TechFlow Global</h4>
+                                            <p className="text-xs font-semibold text-zinc-400 mb-2">2020 - Hiện tại</p>
+                                            <p className="text-muted-foreground text-sm">
+                                                Dẫn dắt đội ngũ phát triển các giải pháp tự động hóa quy trình nghiệp vụ sử dụng LLMs và RAG cho các doanh nghiệp Fortune 500.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-4 p-6 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800">
+                                        <div className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center shrink-0">
+                                            <i className="text-xl">⚡</i>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-foreground text-lg">Fullstack Developer - Creative Cloud</h4>
+                                            <p className="text-xs font-semibold text-zinc-400 mb-2">2016 - 2020</p>
+                                            <p className="text-muted-foreground text-sm">
+                                                Xây dựng hệ thống quản lý dữ liệu lớn và các ứng dụng web quy mô lớn sử dụng React và Python.
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
-                        ))}
+                            )}
+                        </div>
+
+                        {/* Related Courses */}
+                        {courses.length > 0 && (
+                            <div className="space-y-8 pt-8 border-t border-dashed border-zinc-200 dark:border-zinc-800">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-2xl font-bold text-foreground">Khoá học đang giảng dạy</h3>
+                                    <Link href="/courses" className="text-sm font-semibold text-zinc-500 hover:text-primary flex items-center gap-1 transition-colors">
+                                        Xem tất cả <ChevronRight size={14} />
+                                    </Link>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {courses.map((course) => (
+                                        <Link href={`/courses/${course.slug}`} key={course.id} className="group">
+                                            <div className="bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:shadow-xl hover:shadow-zinc-200/50 dark:hover:shadow-black/50 transition-all duration-500">
+                                                <div className="aspect-[16/9] relative overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+                                                    {course.thumbnail ? (
+                                                        <Image src={course.thumbnail} alt={course.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                                    ) : (
+                                                        <div className="w-full h-full flex items-center justify-center text-zinc-300">IMG</div>
+                                                    )}
+
+                                                    {/* Badge Overlay */}
+                                                    <div className="absolute top-4 left-4">
+                                                        <span className="bg-white/90 dark:bg-black/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
+                                                            Phổ biến
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className="p-6 md:p-8">
+                                                    <h4 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                                                        {course.title}
+                                                    </h4>
+                                                    <p className="text-sm text-muted-foreground line-clamp-2 mb-6">
+                                                        {course.description || "Làm chủ kỹ nguyên AI bằng cách học cách cộng tác hiệu quả với các công cụ lập trình AI..."}
+                                                    </p>
+
+                                                    <div className="flex items-center justify-between pt-4 border-t border-zinc-50 dark:border-zinc-800">
+                                                        <div className="flex items-center gap-4 text-xs font-semibold text-zinc-500">
+                                                            <div className="flex items-center gap-1.5">
+                                                                <Clock className="w-4 h-4" />
+                                                                <span>{course.lessonsCount || 12} bài học</span>
+                                                            </div>
+                                                            <div className="flex items-center gap-1.5">
+                                                                <User className="w-4 h-4" />
+                                                                <span>1.2k</span>
+                                                            </div>
+                                                        </div>
+                                                        <span className="text-xs font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                                            Xem thêm <ArrowRight size={12} />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
-
             <BottomCTA
                 title="Học hỏi từ chuyên gia hàng đầu"
                 subtitle="Đăng ký ngay để được trực tiếp dẫn dắt bởi những giảng viên giàu kinh nghiệm."
