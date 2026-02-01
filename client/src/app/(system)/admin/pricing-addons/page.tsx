@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
-import { Plus, GripVertical, Pencil, Trash2, Check, X } from 'lucide-react';
+import { Plus, GripVertical, Pencil, Trash2, Check, X, Eye, EyeOff } from 'lucide-react';
 
 interface PricingAddOn {
     id: string;
@@ -216,15 +216,21 @@ export default function PricingAddOnsPage() {
                                     className="w-full mt-1 px-3 py-2 border rounded-lg bg-background"
                                 />
                             </div>
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id="isActive"
-                                    checked={formData.isActive}
-                                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                                    className="w-4 h-4"
-                                />
-                                <label htmlFor="isActive" className="text-sm">Hiển thị trên trang khóa học</label>
+
+                            {/* Toggle Switch */}
+                            <div className="flex items-center gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
+                                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${formData.isActive ? 'bg-foreground' : 'bg-muted'
+                                        }`}
+                                >
+                                    <span
+                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-background shadow ring-0 transition duration-200 ease-in-out ${formData.isActive ? 'translate-x-5' : 'translate-x-0'
+                                            }`}
+                                    />
+                                </button>
+                                <label className="text-sm">Hiển thị trên trang khóa học</label>
                             </div>
                         </div>
                         <div className="flex gap-2 mt-6">
@@ -242,18 +248,16 @@ export default function PricingAddOnsPage() {
             )}
 
             {/* List */}
-            <div className="space-y-3">
-                {addOns.length === 0 ? (
-                    <Card>
-                        <CardContent className="min-h-[200px] flex items-center justify-center text-muted-foreground">
+            <Card>
+                <CardContent className="p-0">
+                    {addOns.length === 0 ? (
+                        <div className="min-h-[200px] flex items-center justify-center text-muted-foreground">
                             Chưa có gói giá nào. Hãy tạo gói đầu tiên!
-                        </CardContent>
-                    </Card>
-                ) : (
-                    addOns.map((addOn) => (
-                        <Card key={addOn.id} className={`${!addOn.isActive ? 'opacity-50' : ''}`}>
-                            <CardContent className="p-4">
-                                <div className="flex items-start gap-4">
+                        </div>
+                    ) : (
+                        <div className="divide-y">
+                            {addOns.map((addOn) => (
+                                <div key={addOn.id} className={`flex items-center gap-4 p-4 ${!addOn.isActive ? 'opacity-50' : ''}`}>
                                     <div className="text-muted-foreground cursor-move">
                                         <GripVertical className="w-5 h-5" />
                                     </div>
@@ -265,14 +269,7 @@ export default function PricingAddOnsPage() {
                                             )}
                                         </div>
                                         {addOn.description && (
-                                            <p className="text-sm text-muted-foreground mt-1">{addOn.description}</p>
-                                        )}
-                                        {addOn.features?.length > 0 && (
-                                            <ul className="mt-2 space-y-1">
-                                                {addOn.features.map((f, i) => (
-                                                    <li key={i} className="text-xs text-muted-foreground">• {f}</li>
-                                                ))}
-                                            </ul>
+                                            <p className="text-sm text-muted-foreground mt-0.5">{addOn.description}</p>
                                         )}
                                     </div>
                                     <div className="text-right shrink-0">
@@ -285,35 +282,39 @@ export default function PricingAddOnsPage() {
                                             </div>
                                         )}
                                     </div>
-                                    <div className="flex items-center gap-1">
+                                    <div className="flex items-center gap-1 shrink-0">
                                         <Button
-                                            variant="ghost"
+                                            variant="outline"
                                             size="sm"
+                                            className="h-8 w-8 p-0"
                                             onClick={() => handleEdit(addOn)}
                                         >
                                             <Pencil className="w-4 h-4" />
                                         </Button>
                                         <Button
-                                            variant="ghost"
+                                            variant="outline"
                                             size="sm"
+                                            className="h-8 px-2"
                                             onClick={() => handleToggleActive(addOn)}
                                         >
+                                            {addOn.isActive ? <EyeOff className="w-4 h-4 mr-1" /> : <Eye className="w-4 h-4 mr-1" />}
                                             {addOn.isActive ? 'Ẩn' : 'Hiện'}
                                         </Button>
                                         <Button
                                             variant="ghost"
                                             size="sm"
+                                            className="h-8 w-8 p-0 text-foreground hover:text-muted-foreground hover:bg-muted"
                                             onClick={() => handleDelete(addOn.id, addOn.name)}
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
                                     </div>
                                 </div>
-                            </CardContent>
-                        </Card>
-                    ))
-                )}
-            </div>
+                            ))}
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
         </div>
     );
 }
