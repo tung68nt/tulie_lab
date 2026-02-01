@@ -10,12 +10,48 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Switch } from '@/components/Switch';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
-import { Plus, Edit2, Trash2 } from 'lucide-react';
+import { DynamicIcon } from '@/components/DynamicIcon';
+import { Plus, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers, FileText, Image, Video, Music, Globe, Smartphone, Database, Settings, Star, Heart, ShoppingCart, Tag, Bookmark, Award, Gift, Target, Lightbulb, Rocket } from 'lucide-react';
+
+// Available icons for selection
+const AVAILABLE_ICONS = [
+    { name: 'Calculator', icon: Calculator, label: 'Calculator' },
+    { name: 'Users', icon: Users, label: 'Users' },
+    { name: 'TrendingUp', icon: TrendingUp, label: 'Trending Up' },
+    { name: 'Briefcase', icon: Briefcase, label: 'Briefcase' },
+    { name: 'Palette', icon: Palette, label: 'Palette' },
+    { name: 'Folder', icon: Folder, label: 'Folder' },
+    { name: 'Layout', icon: Layout, label: 'Layout' },
+    { name: 'Code', icon: Code, label: 'Code' },
+    { name: 'Key', icon: Key, label: 'Key' },
+    { name: 'Zap', icon: Zap, label: 'Zap' },
+    { name: 'Package', icon: Package, label: 'Package' },
+    { name: 'Layers', icon: Layers, label: 'Layers' },
+    { name: 'FileText', icon: FileText, label: 'File Text' },
+    { name: 'Image', icon: Image, label: 'Image' },
+    { name: 'Video', icon: Video, label: 'Video' },
+    { name: 'Music', icon: Music, label: 'Music' },
+    { name: 'Globe', icon: Globe, label: 'Globe' },
+    { name: 'Smartphone', icon: Smartphone, label: 'Smartphone' },
+    { name: 'Database', icon: Database, label: 'Database' },
+    { name: 'Settings', icon: Settings, label: 'Settings' },
+    { name: 'Star', icon: Star, label: 'Star' },
+    { name: 'Heart', icon: Heart, label: 'Heart' },
+    { name: 'ShoppingCart', icon: ShoppingCart, label: 'Shopping Cart' },
+    { name: 'Tag', icon: Tag, label: 'Tag' },
+    { name: 'Bookmark', icon: Bookmark, label: 'Bookmark' },
+    { name: 'Award', icon: Award, label: 'Award' },
+    { name: 'Gift', icon: Gift, label: 'Gift' },
+    { name: 'Target', icon: Target, label: 'Target' },
+    { name: 'Lightbulb', icon: Lightbulb, label: 'Lightbulb' },
+    { name: 'Rocket', icon: Rocket, label: 'Rocket' },
+];
 
 interface Classification {
     id: string;
     name: string;
     type: 'PRODUCT_TYPE' | 'PRODUCT_FIELD';
+    icon?: string;
     isActive: boolean;
 }
 
@@ -74,7 +110,7 @@ export default function AdminProductClassificationsPage() {
     };
 
     const handleCreate = (type: 'PRODUCT_TYPE' | 'PRODUCT_FIELD') => {
-        setCurrentClassification({ type, isActive: true });
+        setCurrentClassification({ type, isActive: true, icon: 'Folder' });
         setIsEditing(true);
     };
 
@@ -95,6 +131,15 @@ export default function AdminProductClassificationsPage() {
         } catch (error) {
             addToast('Lỗi lưu phân loại', 'error');
         }
+    };
+
+    const getIconComponent = (iconName: string | undefined) => {
+        const found = AVAILABLE_ICONS.find(i => i.name === iconName);
+        if (found) {
+            const IconComp = found.icon;
+            return <IconComp className="w-4 h-4" />;
+        }
+        return <Folder className="w-4 h-4" />;
     };
 
     const types = classifications.filter(c => c.type === 'PRODUCT_TYPE');
@@ -122,6 +167,9 @@ export default function AdminProductClassificationsPage() {
                         {list.map((item) => (
                             <div key={item.id} className="group flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors">
                                 <div className="flex items-center gap-3">
+                                    <div className="w-7 h-7 rounded-lg border border-neutral-200 flex items-center justify-center text-neutral-600">
+                                        {getIconComponent(item.icon)}
+                                    </div>
                                     <span className="text-sm font-medium text-neutral-900">{item.name}</span>
                                     {!item.isActive && (
                                         <span className="text-[10px] bg-neutral-100 text-neutral-500 px-1.5 py-0.5 rounded border border-neutral-200 font-medium">Ẩn</span>
@@ -182,6 +230,32 @@ export default function AdminProductClassificationsPage() {
                                             autoFocus
                                         />
                                     </div>
+
+                                    {/* Icon Picker */}
+                                    <div>
+                                        <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Biểu tượng</label>
+                                        <div className="grid grid-cols-6 gap-2 p-3 border border-neutral-200 rounded-lg max-h-40 overflow-y-auto">
+                                            {AVAILABLE_ICONS.map((iconItem) => {
+                                                const IconComp = iconItem.icon;
+                                                const isSelected = currentClassification.icon === iconItem.name;
+                                                return (
+                                                    <button
+                                                        key={iconItem.name}
+                                                        type="button"
+                                                        onClick={() => setCurrentClassification({ ...currentClassification, icon: iconItem.name })}
+                                                        className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${isSelected
+                                                                ? 'bg-neutral-900 text-white'
+                                                                : 'bg-neutral-50 text-neutral-600 hover:bg-neutral-100'
+                                                            }`}
+                                                        title={iconItem.label}
+                                                    >
+                                                        <IconComp className="w-4 h-4" />
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
                                     <div className="flex items-center justify-between py-2">
                                         <span className="text-sm font-medium text-neutral-700">Trạng thái hoạt động</span>
                                         <Switch

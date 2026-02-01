@@ -730,6 +730,7 @@ model ProductClassification {
   id        String             @id @default(uuid())
   name      String
   type      ClassificationType
+  icon      String?            // Lucide icon name, e.g. "Calculator", "Users"
   isActive  Boolean            @default(true)
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
