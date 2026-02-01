@@ -928,5 +928,24 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             backgroundTheme: 'light',
             glowVariant: 2
         }
+    },
+    {
+        id: 'course-content-full',
+        name: 'Full Course Curriculum',
+        category: 'Content',
+        description: 'Detail course content with chapters and lessons (Requires Course ID).',
+        previewImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'course-content-1',
+            type: 'course-content',
+            name: 'Nội dung khóa học',
+            title: 'Nội dung khóa học',
+            subtitle: 'Lộ trình học tập chi tiết từ cơ bản đến nâng cao.',
+            tag: 'CHƯƠNG TRÌNH HỌC',
+            showDotPattern: true,
+            backgroundTheme: 'light',
+            glowVariant: 3,
+            courseId: '' // User needs to input this
+        }
     }
 ];
