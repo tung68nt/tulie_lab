@@ -338,8 +338,8 @@ export default function CoursePage({ params }: { params: any }) {
                                                 {/* Base option - no add-on */}
                                                 <label
                                                     className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${!selectedAddOnId
-                                                            ? 'bg-white/10 border-white/30'
-                                                            : 'border-zinc-700 hover:border-zinc-600'
+                                                        ? 'bg-white/10 border-white/30'
+                                                        : 'border-zinc-700 hover:border-zinc-600'
                                                         }`}
                                                 >
                                                     <input
@@ -360,8 +360,8 @@ export default function CoursePage({ params }: { params: any }) {
                                                     <label
                                                         key={addOn.id}
                                                         className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedAddOnId === addOn.id
-                                                                ? 'bg-white/10 border-white/30'
-                                                                : 'border-zinc-700 hover:border-zinc-600'
+                                                            ? 'bg-white/10 border-white/30'
+                                                            : 'border-zinc-700 hover:border-zinc-600'
                                                             }`}
                                                     >
                                                         <input
@@ -615,24 +615,57 @@ export default function CoursePage({ params }: { params: any }) {
                         {/* Instructor Section */}
                         <section>
                             <h2 className="mb-6 text-2xl font-bold">Giảng viên</h2>
-                            <div className="flex items-start gap-4 rounded-xl border p-6">
-                                {course.instructor?.avatar ? (
-                                    <img
-                                        src={course.instructor.avatar}
-                                        alt={course.instructor.name}
-                                        className="h-16 w-16 rounded-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="h-16 w-16 flex items-center justify-center rounded-full bg-primary/10 text-primary text-2xl font-bold">
-                                        {(course.instructor?.name || 'A').charAt(0)}
+                            <div className="rounded-xl border bg-card overflow-hidden">
+                                <div className="p-6">
+                                    <div className="flex items-start gap-5">
+                                        {/* Avatar - guaranteed circle */}
+                                        <div className="shrink-0">
+                                            {course.instructor?.avatar ? (
+                                                <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-border">
+                                                    <img
+                                                        src={course.instructor.avatar}
+                                                        alt={course.instructor.name}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="w-20 h-20 flex items-center justify-center rounded-full bg-primary/10 text-primary text-3xl font-bold ring-2 ring-border">
+                                                    {(course.instructor?.name || 'A').charAt(0)}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Info */}
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="font-semibold text-lg">{course.instructor?.name || 'Tulie Academy Team'}</h3>
+                                            <p className="text-sm text-muted-foreground mb-3">{course.instructor?.title || 'Đội ngũ giảng viên chuyên nghiệp'}</p>
+
+                                            {/* Social links */}
+                                            {(course.instructor?.email || course.instructor?.linkedin) && (
+                                                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                                                    {course.instructor?.email && (
+                                                        <a href={`mailto:${course.instructor.email}`} className="hover:text-foreground transition-colors">
+                                                            {course.instructor.email}
+                                                        </a>
+                                                    )}
+                                                    {course.instructor?.linkedin && (
+                                                        <a href={course.instructor.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                                                            LinkedIn
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                )}
-                                <div>
-                                    <h3 className="font-bold text-lg">{course.instructor?.name || 'Tulie Academy Team'}</h3>
-                                    <p className="text-sm text-zinc-500 mb-2">{course.instructor?.title || 'Đội ngũ giảng viên chuyên nghiệp'}</p>
-                                    <p className="text-sm text-muted-foreground whitespace-pre-line">
-                                        {course.instructor?.bio || 'Chúng tôi là đội ngũ đam mê công nghệ, cam kết mang lại nền tảng học tập tốt nhất cho bạn.'}
-                                    </p>
+
+                                    {/* Bio */}
+                                    {course.instructor?.bio && (
+                                        <div className="mt-5 pt-5 border-t">
+                                            <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                                                {course.instructor.bio}
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </section>
