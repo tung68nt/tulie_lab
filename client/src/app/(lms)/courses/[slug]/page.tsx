@@ -615,13 +615,16 @@ export default function CoursePage({ params }: { params: any }) {
                         {/* Instructor Section */}
                         <section>
                             <h2 className="mb-6 text-2xl font-bold">Giảng viên</h2>
-                            <div className="rounded-xl border bg-card overflow-hidden">
+                            <Link
+                                href={course.instructor?.slug ? `/instructors/${course.instructor.slug}` : '/instructors'}
+                                className="block rounded-xl border bg-card overflow-hidden hover:border-foreground/20 transition-colors"
+                            >
                                 <div className="p-6">
-                                    <div className="flex items-start gap-5">
-                                        {/* Avatar - guaranteed circle */}
+                                    <div className="flex items-center gap-4">
+                                        {/* Avatar */}
                                         <div className="shrink-0">
                                             {course.instructor?.avatar ? (
-                                                <div className="w-20 h-20 rounded-full overflow-hidden ring-2 ring-border">
+                                                <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-border">
                                                     <img
                                                         src={course.instructor.avatar}
                                                         alt={course.instructor.name}
@@ -629,45 +632,20 @@ export default function CoursePage({ params }: { params: any }) {
                                                     />
                                                 </div>
                                             ) : (
-                                                <div className="w-20 h-20 flex items-center justify-center rounded-full bg-primary/10 text-primary text-3xl font-bold ring-2 ring-border">
-                                                    {(course.instructor?.name || 'A').charAt(0)}
+                                                <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 text-primary text-xl font-bold ring-2 ring-border">
+                                                    {(course.instructor?.name || 'T').charAt(0)}
                                                 </div>
                                             )}
                                         </div>
 
-                                        {/* Info */}
+                                        {/* Name & Title only */}
                                         <div className="flex-1 min-w-0">
-                                            <h3 className="font-semibold text-lg">{course.instructor?.name || 'Tulie Academy Team'}</h3>
-                                            <p className="text-sm text-muted-foreground mb-3">{course.instructor?.title || 'Đội ngũ giảng viên chuyên nghiệp'}</p>
-
-                                            {/* Social links */}
-                                            {(course.instructor?.email || course.instructor?.linkedin) && (
-                                                <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                                                    {course.instructor?.email && (
-                                                        <a href={`mailto:${course.instructor.email}`} className="hover:text-foreground transition-colors">
-                                                            {course.instructor.email}
-                                                        </a>
-                                                    )}
-                                                    {course.instructor?.linkedin && (
-                                                        <a href={course.instructor.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
-                                                            LinkedIn
-                                                        </a>
-                                                    )}
-                                                </div>
-                                            )}
+                                            <h3 className="font-semibold text-base">{course.instructor?.name || 'Tulie Academy Team'}</h3>
+                                            <p className="text-sm text-muted-foreground">{course.instructor?.title || ''}</p>
                                         </div>
                                     </div>
-
-                                    {/* Bio */}
-                                    {course.instructor?.bio && (
-                                        <div className="mt-5 pt-5 border-t">
-                                            <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
-                                                {course.instructor.bio}
-                                            </p>
-                                        </div>
-                                    )}
                                 </div>
-                            </div>
+                            </Link>
                         </section>
                     </div>
 
