@@ -34,6 +34,7 @@ import { SystemCombosSection } from '@/components/info/sections/SystemCombosSect
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 import { SectionErrorBoundary } from '@/components/info/SectionErrorBoundary';
 import { CalendarSection } from '@/components/info/sections/CalendarSection';
+import { CourseContentSection } from '@/components/info/sections/CourseContentSection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, React.ElementType> = {
@@ -73,6 +74,7 @@ const SECTION_COMPONENTS: Record<string, React.ElementType> = {
     'system-blog': SystemBlogSection,
     'system-combos': SystemCombosSection,
     'system-instructors': SystemInstructorsSection,
+    'course-content': CourseContentSection,
 };
 
 async function getLandingPage(slug: string) {

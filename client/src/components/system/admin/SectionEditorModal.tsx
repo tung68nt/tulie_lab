@@ -233,6 +233,24 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                 </div>
                             )}
 
+                            {/* Course Content Selector */}
+                            {editedSection.type === 'course-content' && (
+                                <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">
+                                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Course Selection</h3>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Course ID</label>
+                                        <input
+                                            type="text"
+                                            value={editedSection.courseId || ''}
+                                            onChange={e => handleChange('courseId', e.target.value)}
+                                            className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-mono"
+                                            placeholder="Enter Course ID (UUID)"
+                                        />
+                                        <p className="text-xs text-neutral-500">Enter the Course ID to display its content. Find this in Admin → Courses.</p>
+                                    </div>
+                                </div>
+                            )}
+
                             {/* Advanced Items (JSON Editor) */}
                             {editedSection.items && (
                                 <div className="space-y-2 border-t border-neutral-200 dark:border-neutral-800 pt-4">
