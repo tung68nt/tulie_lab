@@ -4,31 +4,27 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { Badge } from '@/components/Badge';
 import { cn } from '@/lib/utils';
-import { Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers } from 'lucide-react';
+import { Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers, FileText, Image, Video, Music, Globe, Smartphone, Database, Settings, Star, Heart, ShoppingCart, Tag, Bookmark, Award, Gift, Target, Lightbulb, Rocket } from 'lucide-react';
 import { Section } from '@/types/sections';
 import { SectionTag } from '@/components/SectionTag';
 import { SectionBackground } from '../SectionBackground';
 import { Product, Order, User, ApiResponse } from '@/types/api';
 
-const CATEGORIES = [
-    { id: 'all', label: 'Tất cả lĩnh vực' },
-    { id: 'ACCOUNTING', label: 'Kế toán (Accounting)' },
-    { id: 'HR', label: 'Nhân sự (HR)' },
-    { id: 'MARKETING', label: 'Marketing' },
-    { id: 'BUSINESS', label: 'Kinh doanh (Business)' },
-    { id: 'CREATIVE', label: 'Sáng tạo (Creative)' },
-    { id: 'OTHER', label: 'Khác' },
-];
+// Icon mapping from icon name to component
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+    Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers,
+    FileText, Image, Video, Music, Globe, Smartphone, Database, Settings, Star, Heart, ShoppingCart,
+    Tag, Bookmark, Award, Gift, Target, Lightbulb, Rocket
+};
 
-const PRODUCT_TYPES = [
-    { id: 'all', label: 'Tất cả loại hình', icon: <Layers className="w-4 h-4" /> },
-    { id: 'TEMPLATE', label: 'Template', icon: <Layout className="w-4 h-4" /> },
-    { id: 'APP', label: 'Apps Script', icon: <Code className="w-4 h-4" /> },
-    { id: 'LICENSE', label: 'License Key', icon: <Key className="w-4 h-4" /> },
-    { id: 'SUBSCRIPTION', label: 'Subscription', icon: <Zap className="w-4 h-4" /> },
-];
+interface Classification {
+    id: string;
+    name: string;
+    type: 'PRODUCT_TYPE' | 'PRODUCT_FIELD';
+    icon?: string;
+    isActive: boolean;
+}
 
 export const SystemShopSection = ({ section }: { section: Section }) => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -39,11 +35,25 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
     const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [ownedProductIds, setOwnedProductIds] = useState<Set<string>>(new Set());
 
+    // Dynamic classifications from database
+    const [productTypes, setProductTypes] = useState<Classification[]>([]);
+    const [productFields, setProductFields] = useState<Classification[]>([]);
+
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchData = async () => {
             try {
-                const res = await api.products.list({ isPublished: true }) as ApiResponse<Product[]>;
-                setProducts(res.data || []);
+                // Fetch products and classifications in parallel
+                const [productsRes, classificationsRes]: any = await Promise.all([
+                    api.products.list({ isPublished: true }),
+                    api.products.listClassifications()
+                ]);
+
+                setProducts(productsRes?.data || []);
+
+                // Separate classifications by type
+                const classifications = classificationsRes || [];
+                setProductTypes(classifications.filter((c: Classification) => c.type === 'PRODUCT_TYPE' && c.isActive));
+                setProductFields(classifications.filter((c: Classification) => c.type === 'PRODUCT_FIELD' && c.isActive));
 
                 try {
                     const profile = await api.users.getProfile() as User;
@@ -74,7 +84,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
             }
         };
 
-        fetchProducts();
+        fetchData();
     }, []);
 
     const filteredProducts = useMemo(() => {
@@ -88,25 +98,10 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
         });
     }, [products, selectedCategories, selectedTypes, searchQuery]);
 
-    const getFieldIcon = (id: string | null) => {
-        switch (id) {
-            case 'ACCOUNTING': return <Calculator className="w-4 h-4" />;
-            case 'HR': return <Users className="w-4 h-4" />;
-            case 'MARKETING': return <TrendingUp className="w-4 h-4" />;
-            case 'BUSINESS': return <Briefcase className="w-4 h-4" />;
-            case 'CREATIVE': return <Palette className="w-4 h-4" />;
-            default: return <Folder className="w-4 h-4" />;
-        }
-    };
-
-    const getTypeIcon = (type: string | null) => {
-        switch (type) {
-            case 'TEMPLATE': return <Layout className="w-4 h-4" />;
-            case 'APP': return <Code className="w-4 h-4" />;
-            case 'LICENSE': return <Key className="w-4 h-4" />;
-            case 'SUBSCRIPTION': return <Zap className="w-4 h-4" />;
-            default: return <Package className="w-4 h-4" />;
-        }
+    // Get icon component from icon name
+    const getIconComponent = (iconName: string | undefined | null) => {
+        const IconComp = iconName && ICON_MAP[iconName] ? ICON_MAP[iconName] : Folder;
+        return <IconComp className="w-4 h-4" />;
     };
 
     if (loading) {
@@ -147,27 +142,40 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                             </div>
                         </div>
 
-                        {/* Categories List */}
+                        {/* Categories List - Dynamic from DB */}
                         <div className="space-y-2">
                             <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Lĩnh vực</h3>
                             <nav className="flex flex-col gap-0.5">
-                                {CATEGORIES.map((cat) => {
-                                    const isAll = cat.id === 'all';
-                                    const isActive = isAll ? selectedCategories.length === 0 : selectedCategories.includes(cat.id);
+                                {/* All option */}
+                                <button
+                                    onClick={() => setSelectedCategories([])}
+                                    className={cn(
+                                        "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
+                                        selectedCategories.length === 0
+                                            ? "bg-zinc-200/80 dark:bg-zinc-800 text-foreground font-semibold shadow-sm"
+                                            : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
+                                    )}
+                                >
+                                    <div className={cn(
+                                        "w-7 h-7 rounded-lg border flex items-center justify-center transition-all shrink-0",
+                                        selectedCategories.length === 0 ? "bg-black border-black text-white" : "border-muted-foreground/30 text-muted-foreground/60 group-hover:text-foreground"
+                                    )}>
+                                        <Layers className="w-4 h-4" />
+                                    </div>
+                                    <span className="truncate">Tất cả lĩnh vực</span>
+                                </button>
 
+                                {productFields.map((field) => {
+                                    const isActive = selectedCategories.includes(field.name);
                                     return (
                                         <button
-                                            key={cat.id}
+                                            key={field.id}
                                             onClick={() => {
-                                                if (isAll) {
-                                                    setSelectedCategories([]);
-                                                } else {
-                                                    setSelectedCategories(prev =>
-                                                        prev.includes(cat.id)
-                                                            ? prev.filter(id => id !== cat.id)
-                                                            : [...prev, cat.id]
-                                                    );
-                                                }
+                                                setSelectedCategories(prev =>
+                                                    prev.includes(field.name)
+                                                        ? prev.filter(id => id !== field.name)
+                                                        : [...prev, field.name]
+                                                );
                                             }}
                                             className={cn(
                                                 "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
@@ -180,35 +188,49 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                 "w-7 h-7 rounded-lg border flex items-center justify-center transition-all shrink-0",
                                                 isActive ? "bg-black border-black text-white" : "border-muted-foreground/30 text-muted-foreground/60 group-hover:text-foreground"
                                             )}>
-                                                {getFieldIcon(cat.id)}
+                                                {getIconComponent(field.icon)}
                                             </div>
-                                            <span className="truncate">{cat.label}</span>
+                                            <span className="truncate">{field.name}</span>
                                         </button>
                                     );
                                 })}
                             </nav>
                         </div>
 
-                        {/* Product Types */}
+                        {/* Product Types - Dynamic from DB */}
                         <div className="space-y-2">
                             <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Loại hình</h3>
                             <nav className="flex flex-col gap-0.5">
-                                {PRODUCT_TYPES.map((type) => {
-                                    const isAll = type.id === 'all';
-                                    const isActive = isAll ? selectedTypes.length === 0 : selectedTypes.includes(type.id);
+                                {/* All option */}
+                                <button
+                                    onClick={() => setSelectedTypes([])}
+                                    className={cn(
+                                        "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
+                                        selectedTypes.length === 0
+                                            ? "bg-zinc-200/80 dark:bg-zinc-800 text-foreground font-semibold shadow-sm"
+                                            : "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
+                                    )}
+                                >
+                                    <div className={cn(
+                                        "w-7 h-7 rounded-lg border flex items-center justify-center transition-all shrink-0",
+                                        selectedTypes.length === 0 ? "bg-black border-black text-white" : "border-muted-foreground/30 text-muted-foreground/60 group-hover:text-foreground"
+                                    )}>
+                                        <Layers className="w-4 h-4" />
+                                    </div>
+                                    <span className="truncate">Tất cả loại hình</span>
+                                </button>
+
+                                {productTypes.map((type) => {
+                                    const isActive = selectedTypes.includes(type.name);
                                     return (
                                         <button
                                             key={type.id}
                                             onClick={() => {
-                                                if (isAll) {
-                                                    setSelectedTypes([]);
-                                                } else {
-                                                    setSelectedTypes(prev =>
-                                                        prev.includes(type.id)
-                                                            ? prev.filter(id => id !== type.id)
-                                                            : [...prev, type.id]
-                                                    );
-                                                }
+                                                setSelectedTypes(prev =>
+                                                    prev.includes(type.name)
+                                                        ? prev.filter(id => id !== type.name)
+                                                        : [...prev, type.name]
+                                                );
                                             }}
                                             className={cn(
                                                 "group flex items-center gap-3 px-3 py-1.5 rounded-xl text-sm transition-all",
@@ -221,9 +243,9 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                 "w-7 h-7 rounded-lg border flex items-center justify-center transition-all shrink-0",
                                                 isActive ? "bg-black border-black text-white" : "border-muted-foreground/30 text-muted-foreground/60 group-hover:text-foreground"
                                             )}>
-                                                {type.icon}
+                                                {getIconComponent(type.icon)}
                                             </div>
-                                            <span className="truncate">{type.label}</span>
+                                            <span className="truncate">{type.name}</span>
                                         </button>
                                     );
                                 })}
@@ -276,6 +298,10 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {filteredProducts.map((product) => {
                                     const isOwned = ownedProductIds.has(product.id);
+                                    // Find matching type/field from classifications
+                                    const productType = productTypes.find(t => t.name === product.type);
+                                    const productField = productFields.find(f => f.name === product.field);
+
                                     return (
                                         <div
                                             key={product.id}
@@ -302,8 +328,8 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             )}
                                                         >
                                                             <div className="flex items-center gap-1.5">
-                                                                {getTypeIcon(product.type)}
-                                                                <span className="capitalize">{product.type.toLowerCase()}</span>
+                                                                {getIconComponent(productType?.icon)}
+                                                                <span className="capitalize">{product.type?.toLowerCase() || 'unknown'}</span>
                                                             </div>
                                                         </SectionTag>
                                                     </div>
@@ -319,8 +345,8 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             showDot={false}
                                                         >
                                                             <div className="flex items-center gap-2">
-                                                                {getFieldIcon(product.field)}
-                                                                <span className="capitalize">{product.field.toLowerCase()}</span>
+                                                                {getIconComponent(productField?.icon)}
+                                                                <span className="capitalize">{product.field?.toLowerCase() || 'other'}</span>
                                                             </div>
                                                         </SectionTag>
                                                     </div>
