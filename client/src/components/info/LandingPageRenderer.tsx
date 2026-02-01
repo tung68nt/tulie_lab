@@ -33,10 +33,12 @@ import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection'
 import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 import { SectionErrorBoundary } from '@/components/info/SectionErrorBoundary';
+import { CalendarSection } from '@/components/info/sections/CalendarSection';
 
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, React.ElementType> = {
     hero: HeroSection,
+    calendar: CalendarSection,
     stats: StatsSection,
     features: BenefitsSection,
     benefits: BenefitsSection,

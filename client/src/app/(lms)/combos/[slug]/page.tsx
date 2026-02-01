@@ -168,7 +168,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
                                             <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary text-xs font-bold">
                                                 {idx + 1}
                                             </span>
-                                            <span className="text-[10px] font-bold py-1 px-3 bg-muted text-muted-foreground rounded-full">
+                                            <span className="text-sm font-bold py-1 px-3 bg-muted text-muted-foreground rounded-full">
                                                 Phần {idx + 1}
                                             </span>
                                         </div>

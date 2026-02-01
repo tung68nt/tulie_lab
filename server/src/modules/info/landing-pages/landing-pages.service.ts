@@ -79,7 +79,7 @@ export class LandingPageService {
         }
 
         let page;
-        if (normalizedSlug === 'home') {
+        if (normalizedSlug === 'home' || normalizedSlug === 'homepage') {
             // Find the page marked as homepage
             page = await this.landingPageRepository.findFirst({ where: { isHomepage: true } });
         } else {

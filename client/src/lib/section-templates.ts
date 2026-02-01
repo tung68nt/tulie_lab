@@ -726,7 +726,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
                 {
                     id: 'plan-vip',
                     title: 'Gói Premium 1 năm',
-                    price: '7.990k',
+                    price: '4.990k',
                     originalPrice: '15.000k',
                     description: 'Giải pháp toàn diện & Support 1:1 trực tiếp.',
                     tag: 'Best Value',

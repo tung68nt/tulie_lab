@@ -8,6 +8,7 @@ import { Input } from '@/components/Input';
 import { Card, CardContent, CardFooter } from '@/components/Card';
 import { api } from '@/lib/api';
 import { Logo } from '@/components/Logo';
+import { SectionBackground } from '@/components/info/SectionBackground';
 import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -87,8 +88,9 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex items-center justify-center bg-background p-6 pt-12 pb-24">
-            <div className="w-full max-w-md">
+        <div className="relative flex items-center justify-center min-h-screen bg-background overflow-hidden p-6 pt-12 pb-24">
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={false} />
+            <div className="w-full max-w-md relative z-10">
                 {/* Header */}
                 <div className="text-center mb-6">
                     <h1 className="text-2xl font-bold mb-1">Chào mừng trở lại!</h1>
