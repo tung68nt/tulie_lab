@@ -1,120 +1,146 @@
-{
-    "name": "Giảng viên",
-    "slug": "instructors",
-    "isHomepage": false,
-    "isPublished": true,
-    "sections": [
-        {
-            "id": "instructors-hero",
-            "type": "hero",
-            "tag": "Người đồng hành",
-            "title": "Gặp gỡ người sẽ đồng hành cùng bạn",
-            "subtitle": "Tại Tulie TSS, bạn được học và hỗ trợ 1:1 bởi chính founder - người có kinh nghiệm thực chiến trong ngành công nghệ.",
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6,
-            "glowVariant": 1,
-            "isVisible": true,
-            "order": 1
-        },
-        {
-            "id": "instructor-bio-main",
-            "type": "instructor-bio",
-            "tag": "Founder & Lead Instructor",
-            "title": "Nguyễn Thanh Tùng",
-            "subtitle": "Tiên phong Vibe Coding tại Việt Nam",
-            "content": "Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ.\n\n**10+ năm kinh nghiệm** trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp.\n\n**500+ học viên** đã được hướng dẫn từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.\n\n**Tiên phong** đưa phương pháp Vibe Coding vào Việt Nam từ 2024 - giúp những người không có background IT vẫn có thể xây dựng app chuyên nghiệp.\n\n*\"Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.\"*",
-            "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6,
-            "isVisible": true,
-            "order": 2
-        },
-        {
-            "id": "instructor-stats",
-            "type": "stats",
-            "tag": "Thành tựu",
-            "title": "Con số nói lên tất cả",
-            "subtitle": "Kết quả thực tế từ hành trình 10 năm",
-            "items": [
-                {
-                    "title": "Năm kinh nghiệm",
-                    "value": "10+",
-                    "icon": "Clock",
-                    "description": "Trong ngành công nghệ"
-                },
-                {
-                    "title": "Học viên",
-                    "value": "500+",
-                    "icon": "Users",
-                    "description": "Đã hướng dẫn thành công"
-                },
-                {
-                    "title": "Dự án",
-                    "value": "100+",
-                    "icon": "Briefcase",
-                    "description": "Đã triển khai cho doanh nghiệp"
-                },
-                {
-                    "title": "Cam kết",
-                    "value": "1:1",
-                    "icon": "Headphones",
-                    "description": "Hỗ trợ cá nhân cho mỗi học viên"
-                }
-            ],
-            "backgroundImage": "",
-            "backgroundTheme": "dark",
-            "overlayOpacity": 0.8,
-            "isVisible": true,
-            "order": 3
-        },
-        {
-            "id": "instructor-methodology",
-            "type": "process",
-            "tag": "Phương pháp",
-            "title": "Cách tôi hướng dẫn bạn",
-            "subtitle": "Không lý thuyết suông - Học bằng cách làm thực tế",
-            "items": [
-                {
-                    "title": "Tìm hiểu mục tiêu",
-                    "description": "Gọi video 30 phút để hiểu background, mục tiêu của bạn và thiết kế lộ trình phù hợp.",
-                    "icon": "Target"
-                },
-                {
-                    "title": "Học qua video HD",
-                    "description": "Xem video bài giảng chất lượng cao, thực hành theo từng bước. Xem lại không giới hạn.",
-                    "icon": "PlayCircle"
-                },
-                {
-                    "title": "Hỗ trợ 24/7",
-                    "description": "Mọi thắc mắc được giải đáp qua Zalo/Telegram trong vòng 24h. Không bao giờ học một mình.",
-                    "icon": "MessageCircle"
-                },
-                {
-                    "title": "Review code hàng tuần",
-                    "description": "Code của bạn được review để đảm bảo đi đúng hướng. Học được cách làm chuẩn ngay từ đầu.",
-                    "icon": "Code"
-                }
-            ],
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6,
-            "isVisible": true,
-            "order": 4
-        },
-        {
-            "id": "cta-instructors",
-            "type": "cta",
-            "title": "Sẵn sàng bắt đầu hành trình?",
-            "subtitle": "Tham gia ngay khoá học Vibe Coding và được hướng dẫn 1:1 bởi Nguyễn Thanh Tùng.",
-            "ctaText": "Đăng ký khoá học",
-            "ctaLink": "/courses",
-            "backgroundImage": "",
-            "backgroundTheme": "dark",
-            "overlayOpacity": 0.8,
-            "isVisible": true,
-            "order": 5
-        }
-    ]
-}
+[
+    {
+        "id": "hero-instructors-2026020101",
+        "type": "hero",
+        "name": "Standard Hero",
+        "tag": "Người đồng hành",
+        "title": "Gặp gỡ người sẽ đồng hành cùng bạn",
+        "subtitle": "Tại Tulie TSS, bạn được học và hỗ trợ 1:1 bởi chính founder - người có kinh nghiệm thực chiến trong ngành công nghệ.",
+        "showDotPattern": true,
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 1,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "instructor-bio-2026020101",
+        "type": "instructor-bio",
+        "name": "Instructor Bio",
+        "tag": "Founder & Lead Instructor",
+        "title": "Nguyễn Thanh Tùng",
+        "subtitle": "Tiên phong Vibe Coding tại Việt Nam",
+        "content": "Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ.\n\n**10+ năm kinh nghiệm** trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp.\n\n**500+ học viên** đã được hướng dẫn từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.\n\n**Tiên phong** đưa phương pháp Vibe Coding vào Việt Nam từ 2024 - giúp những người không có background IT vẫn có thể xây dựng app chuyên nghiệp.\n\n*\"Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.\"*",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Nguyễn Thanh Tùng",
+                "subtitle": "Founder & Lead Instructor",
+                "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+                "description": "'Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.'",
+                "features": [
+                    "10+ năm kinh nghiệm công nghệ",
+                    "Founder Tulie TSS",
+                    "500+ học viên đã hướng dẫn",
+                    "Tiên phong Vibe Coding tại Việt Nam"
+                ]
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 9,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "stats-instructor-2026020101",
+        "type": "stats",
+        "name": "Modern Stats Grid",
+        "tag": "Thành tựu",
+        "title": "Con số nói lên tất cả",
+        "subtitle": "Kết quả thực tế từ hành trình 10 năm",
+        "showDotPattern": true,
+        "items": [
+            {
+                "value": "10+",
+                "label": "Năm kinh nghiệm",
+                "icon": "Clock",
+                "description": "Trong ngành công nghệ"
+            },
+            {
+                "value": "500+",
+                "label": "Học viên",
+                "icon": "Users",
+                "description": "Đã hướng dẫn thành công"
+            },
+            {
+                "value": "100+",
+                "label": "Dự án",
+                "icon": "Briefcase",
+                "description": "Đã triển khai cho doanh nghiệp"
+            },
+            {
+                "value": "1:1",
+                "label": "Cam kết",
+                "icon": "Headphones",
+                "description": "Hỗ trợ cá nhân cho mỗi học viên"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "dark",
+        "overlayOpacity": 0.8,
+        "glowVariant": 2,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "process-instructor-2026020101",
+        "type": "process",
+        "name": "Process Roadmap",
+        "tag": "Phương pháp",
+        "title": "Cách tôi hướng dẫn bạn",
+        "subtitle": "Không lý thuyết suông - Học bằng cách làm thực tế",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Tìm hiểu mục tiêu",
+                "description": "Gọi video 30 phút để hiểu background, mục tiêu của bạn và thiết kế lộ trình phù hợp.",
+                "icon": "Target"
+            },
+            {
+                "title": "Học qua video HD",
+                "description": "Xem video bài giảng chất lượng cao, thực hành theo từng bước. Xem lại không giới hạn.",
+                "icon": "PlayCircle"
+            },
+            {
+                "title": "Hỗ trợ 24/7",
+                "description": "Mọi thắc mắc được giải đáp qua Zalo/Telegram trong vòng 24h. Không bao giờ học một mình.",
+                "icon": "MessageCircle"
+            },
+            {
+                "title": "Review code hàng tuần",
+                "description": "Code của bạn được review để đảm bảo đi đúng hướng. Học được cách làm chuẩn ngay từ đầu.",
+                "icon": "Code"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 4,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "cta-instructor-2026020101",
+        "type": "cta",
+        "name": "Standard CTA",
+        "title": "Sẵn sàng bắt đầu hành trình?",
+        "subtitle": "Tham gia ngay khoá học Vibe Coding và được hướng dẫn 1:1 bởi Nguyễn Thanh Tùng.",
+        "ctaText": "Đăng ký khoá học",
+        "ctaLink": "/courses",
+        "showDotPattern": true,
+        "backgroundImage": "",
+        "backgroundTheme": "dark",
+        "overlayOpacity": 0.8,
+        "glowVariant": 15,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    }
+]

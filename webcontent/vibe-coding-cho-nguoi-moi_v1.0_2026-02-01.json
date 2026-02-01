@@ -1,487 +1,545 @@
-{
-    "name": "Khoá Vibe Coding cho người mới",
-    "slug": "vibe-coding-cho-nguoi-moi",
-    "isHomepage": false,
-    "isPublished": true,
-    "sections": [
-        {
-            "id": "vibe-beginner-hero",
-            "type": "hero",
-            "tag": "Xu hướng 2026 🔥",
-            "title": "Lập trình bằng AI: Kỹ năng PHẢI HỌC trong năm 2026",
-            "subtitle": "Khoá học Vibe Coding toàn diện dành cho người mới bắt đầu. Từ 0 kinh nghiệm đến tự xây dựng ứng dụng kiếm tiền hoặc triển khai cho business của bạn. Cam kết đồng hành 1:1 trọn khoá.",
-            "content": "✅ Không cần background IT - Chỉ cần biết tiếng Việt và tư duy logic\n✅ Lộ trình từ người mới đến có nghề (có thể kiếm tiền ngay)\n✅ Hỗ trợ 1:1 với giảng viên xuyên suốt quá trình học\n✅ Cập nhật công nghệ mới nhất 2026: Cursor, Claude, v0, Bolt...",
-            "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
-            "ctaText": "Đăng ký ngay - 2.790.000đ",
-            "ctaLink": "#pricing",
-            "isVisible": true,
-            "order": 1,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6,
-            "glowVariant": 1
-        },
-        {
-            "id": "vibe-beginner-stats",
-            "type": "stats",
-            "tag": "Khoá học",
-            "title": "Con số nói lên tất cả",
-            "subtitle": "Đầu tư 1 lần, kỹ năng cả đời",
-            "items": [
-                {
-                    "title": "Giờ học",
-                    "value": "40+",
-                    "icon": "Clock",
-                    "description": "Video HD + thực hành"
-                },
-                {
-                    "title": "Dự án thực tế",
-                    "value": "10+",
-                    "icon": "Briefcase",
-                    "description": "Từ đơn giản đến phức tạp"
-                },
-                {
-                    "title": "Công cụ AI",
-                    "value": "8+",
-                    "icon": "Bot",
-                    "description": "Cursor, Claude, v0, Bolt..."
-                },
-                {
-                    "title": "Hỗ trợ",
-                    "value": "1:1",
-                    "icon": "Headphones",
-                    "description": "Trực tiếp với giảng viên"
-                }
-            ],
-            "isVisible": true,
-            "order": 2,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-pain",
-            "type": "content-block",
-            "tag": "⚠️ Cảnh báo",
-            "title": "2026: Bạn đang ở đâu trong cuộc cách mạng AI?",
-            "subtitle": "Những người không thích nghi sẽ bị bỏ lại phía sau",
-            "items": [
-                {
-                    "title": "Người khác đang kiếm tiền từ AI",
-                    "description": "Freelancers đang nhận $50-200/giờ để xây app bằng Vibe Coding. Họ không giỏi code - họ chỉ biết cách 'ra lệnh' cho AI làm việc.",
-                    "image": "https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=2070&auto=format&fit=crop"
-                },
-                {
-                    "title": "Doanh nghiệp đang cắt giảm chi phí IT",
-                    "description": "Thay vì thuê team dev 50 triệu/tháng, họ thuê 1 người biết Vibe Coding với giá 15 triệu. Bạn có thể là người đó.",
-                    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop"
-                },
-                {
-                    "title": "Ý tưởng của bạn đang chờ được hiện thực",
-                    "description": "Bạn có 10 ý tưởng app nhưng không có tiền thuê dev? Với Vibe Coding, bạn tự làm được - không phụ thuộc ai.",
-                    "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2070&auto=format&fit=crop"
-                }
-            ],
-            "isVisible": true,
-            "order": 3,
-            "backgroundImage": "",
-            "backgroundTheme": "dark",
-            "overlayOpacity": 0.8
-        },
-        {
-            "id": "vibe-beginner-comparison",
-            "type": "comparison",
-            "tag": "So sánh",
-            "title": "Vibe Coding vs Lập trình truyền thống",
-            "subtitle": "Tại sao 2026 là thời điểm vàng để học Vibe Coding?",
-            "items": [
-                {
-                    "title": "Thời gian học",
-                    "before": "2-4 năm đại học",
-                    "after": "4-8 tuần tập trung"
-                },
-                {
-                    "title": "Yêu cầu đầu vào",
-                    "before": "Toán cao cấp, thuật toán",
-                    "after": "Chỉ cần tư duy logic"
-                },
-                {
-                    "title": "Tốc độ xây app",
-                    "before": "3-6 tháng cho 1 MVP",
-                    "after": "1-2 tuần cho 1 MVP"
-                },
-                {
-                    "title": "Chi phí đầu tư",
-                    "before": "> 100 triệu (học phí + thời gian)",
-                    "after": "2.79 triệu + Internet"
-                },
-                {
-                    "title": "Khả năng cập nhật",
-                    "before": "Công nghệ cũ sau 2-3 năm",
-                    "after": "AI tự động cập nhật syntax mới"
-                },
-                {
-                    "title": "Độ linh hoạt",
-                    "before": "Chuyên 1-2 ngôn ngữ",
-                    "after": "Làm được mọi ngôn ngữ nhờ AI"
-                }
-            ],
-            "isVisible": true,
-            "order": 4,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-curriculum",
-            "type": "curriculum",
-            "tag": "Lộ trình",
-            "title": "Từ người mới đến có nghề trong 8 tuần",
-            "subtitle": "Học theo lộ trình đã được kiểm chứng, không lan man",
-            "items": [
-                {
-                    "title": "Tuần 1-2: Nền tảng & Mindset",
-                    "description": "Hiểu cách AI hoạt động, setup môi trường, làm quen Cursor + Claude. Hoàn thành 2 mini projects đầu tiên.",
-                    "lessons": [
-                        "Vibe Coding là gì? Tại sao là xu hướng 2026?",
-                        "Setup Cursor, Claude, tài khoản AI",
-                        "Cấu trúc một web app cơ bản",
-                        "Prompt Engineering 101: Cách 'ra lệnh' cho AI",
-                        "Project 1: Landing Page cá nhân",
-                        "Project 2: Calculator app hoàn chỉnh"
-                    ]
-                },
-                {
-                    "title": "Tuần 3-4: Frontend Mastery",
-                    "description": "Xây dựng giao diện đẹp, responsive. Học React/Next.js thông qua thực hành với AI.",
-                    "lessons": [
-                        "HTML/CSS cơ bản (AI giải thích)",
-                        "React components và state",
-                        "Tailwind CSS cho styling nhanh",
-                        "Project 3: Portfolio website chuyên nghiệp",
-                        "Project 4: Todo App với localStorage",
-                        "Responsive design cho mobile"
-                    ]
-                },
-                {
-                    "title": "Tuần 5-6: Backend & Database",
-                    "description": "Kết nối database, xử lý logic phức tạp, authentication. Đây là bước nhảy vọt quan trọng.",
-                    "lessons": [
-                        "Supabase/Firebase setup",
-                        "CRUD operations với AI",
-                        "Authentication & User management",
-                        "Project 5: Blog với admin panel",
-                        "Project 6: E-commerce mini shop",
-                        "API integration với bên thứ 3"
-                    ]
-                },
-                {
-                    "title": "Tuần 7-8: Deploy & Monetize",
-                    "description": "Đưa app lên production, tối ưu SEO, và bắt đầu kiếm tiền từ kỹ năng mới.",
-                    "lessons": [
-                        "Deploy lên Vercel/Netlify",
-                        "Tên miền và SSL",
-                        "SEO cơ bản cho web app",
-                        "Project 7-10: Capstone projects",
-                        "Cách tìm khách hàng Freelance",
-                        "Xây portfolio để nhận việc"
-                    ]
-                }
-            ],
-            "isVisible": true,
-            "order": 5,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-benefits",
-            "type": "benefits",
-            "tag": "Lợi ích",
-            "title": "Sau khoá học, bạn sẽ có thể...",
-            "subtitle": "Kỹ năng thực tế, áp dụng được ngay",
-            "items": [
-                {
-                    "title": "Xây app cho business",
-                    "description": "Tạo CRM, quản lý kho, booking system... cho công ty của bạn mà không cần thuê dev.",
-                    "icon": "Building"
-                },
-                {
-                    "title": "Freelance kiếm tiền",
-                    "description": "Nhận dự án $500-2000 từ Upwork, Fiverr. Nhiều học viên đã hoàn vốn khoá học sau 1-2 dự án.",
-                    "icon": "DollarSign"
-                },
-                {
-                    "title": "Startup ý tưởng riêng",
-                    "description": "Có MVP trong 2 tuần thay vì 6 tháng. Tiết kiệm hàng trăm triệu chi phí ban đầu.",
-                    "icon": "Rocket"
-                },
-                {
-                    "title": "Tự động hoá công việc",
-                    "description": "Viết tool tự động báo cáo, gửi email, crawl data... Tiết kiệm 10+ giờ mỗi tuần.",
-                    "icon": "Zap"
-                },
-                {
-                    "title": "Nâng giá trị bản thân",
-                    "description": "Thêm 'AI Developer' vào CV. Lương tăng 30-50% khi biết Vibe Coding.",
-                    "icon": "TrendingUp"
-                },
-                {
-                    "title": "Học nhanh công nghệ mới",
-                    "description": "Một khi biết cách dùng AI, bạn có thể học bất kỳ framework/ngôn ngữ nào trong 1-2 ngày.",
-                    "icon": "BookOpen"
-                }
-            ],
-            "isVisible": true,
-            "order": 6,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-process",
-            "type": "process",
-            "tag": "Phương pháp",
-            "title": "Cam kết đồng hành 1:1 suốt khoá học",
-            "subtitle": "Không bỏ rơi - Học đến khi làm được mới thôi",
-            "items": [
-                {
-                    "title": "1. Onboarding cá nhân",
-                    "description": "Gọi video 30 phút với giảng viên để hiểu background, mục tiêu và thiết kế lộ trình riêng phù hợp với bạn.",
-                    "icon": "UserPlus"
-                },
-                {
-                    "title": "2. Học video + Thực hành",
-                    "description": "Xem video bài giảng HD, làm theo và apply vào project thực tế. Mọi thắc mắc được giải đáp trong 24h.",
-                    "icon": "PlayCircle"
-                },
-                {
-                    "title": "3. Review code hàng tuần",
-                    "description": "Giảng viên review code của bạn, chỉ ra lỗi và cách cải thiện. Đảm bảo bạn học đúng cách từ đầu.",
-                    "icon": "Code"
-                },
-                {
-                    "title": "4. Capstone & Chứng chỉ",
-                    "description": "Hoàn thành 10 projects, nhận chứng chỉ và guidance để bắt đầu kiếm tiền hoặc apply việc.",
-                    "icon": "Award"
-                }
-            ],
-            "isVisible": true,
-            "order": 7,
-            "backgroundImage": "",
-            "backgroundTheme": "dark",
-            "overlayOpacity": 0.8
-        },
-        {
-            "id": "vibe-beginner-instructor",
-            "type": "instructor-bio",
-            "tag": "Giảng viên",
-            "title": "Người hướng dẫn của bạn",
-            "subtitle": "Không phải lý thuyết - Đây là người đang làm thực tế",
-            "content": "Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ. 10+ năm kinh nghiệm trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp. Tiên phong đưa phương pháp Vibe Coding vào Việt Nam từ 2024, đã hướng dẫn 500+ học viên từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.",
-            "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
-            "items": [
-                {
-                    "title": "Nguyễn Thanh Tùng",
-                    "subtitle": "Founder & Lead Instructor",
-                    "description": "'Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.'",
-                    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop"
-                }
-            ],
-            "isVisible": true,
-            "order": 8,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-testimonials",
-            "type": "testimonials",
-            "tag": "Học viên nói gì",
-            "title": "Họ đã làm được - Bạn cũng vậy",
-            "subtitle": "Những câu chuyện thành công từ người mới bắt đầu",
-            "items": [
-                {
-                    "name": "Minh Anh",
-                    "role": "Nhân viên Marketing → Freelance Developer",
-                    "content": "Trước khoá học, mình không biết gì về code. Sau 2 tháng, mình đã nhận được dự án đầu tiên $800 từ Upwork. Không thể tin được!",
-                    "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
-                    "rating": 5
-                },
-                {
-                    "name": "Hoàng Nam",
-                    "role": "Chủ shop online",
-                    "content": "Mình tự xây được website bán hàng + hệ thống quản lý đơn hàng. Trước đây phải thuê dev 30 triệu, giờ tự làm và còn custom được theo ý.",
-                    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
-                    "rating": 5
-                },
-                {
-                    "name": "Thu Hà",
-                    "role": "Kế toán → AI Developer",
-                    "content": "Điều mình thích nhất là hỗ trợ 1:1. Mỗi khi stuck, anh Tùng đều giải đáp rất chi tiết. Không bao giờ cảm thấy học một mình.",
-                    "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop",
-                    "rating": 5
-                }
-            ],
-            "isVisible": true,
-            "order": 9,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-bonus",
-            "type": "bonus",
-            "tag": "🎁 Bonus",
-            "title": "Quà tặng độc quyền (Trị giá 5.000.000đ)",
-            "subtitle": "Chỉ dành cho học viên đăng ký trong tháng này",
-            "items": [
-                {
-                    "title": "Thư viện 100+ Prompts",
-                    "description": "Copy-paste để AI viết code chính xác ngay lần đầu. Tiết kiệm hàng giờ debug.",
-                    "value": "Trị giá 1.500.000đ",
-                    "icon": "FileText"
-                },
-                {
-                    "title": "10+ Project Templates",
-                    "description": "Clone và customize để hoàn thành dự án nhanh gấp 5 lần.",
-                    "value": "Trị giá 2.000.000đ",
-                    "icon": "Folder"
-                },
-                {
-                    "title": "Private Community",
-                    "description": "Nhóm kín với 500+ thành viên, chia sẻ kinh nghiệm, cơ hội việc làm.",
-                    "value": "Trị giá 500.000đ",
-                    "icon": "Users"
-                },
-                {
-                    "title": "Lifetime Updates",
-                    "description": "Cập nhật nội dung mới khi công nghệ thay đổi, không mất thêm phí.",
-                    "value": "Vô giá",
-                    "icon": "RefreshCw"
-                },
-                {
-                    "title": "Certificate of Completion",
-                    "description": "Chứng chỉ hoàn thành để thêm vào CV/LinkedIn.",
-                    "value": "Uy tín",
-                    "icon": "Award"
-                }
-            ],
-            "isVisible": true,
-            "order": 10,
-            "backgroundImage": "",
-            "backgroundTheme": "dark",
-            "overlayOpacity": 0.8
-        },
-        {
-            "id": "vibe-beginner-pricing",
-            "type": "pricing",
-            "tag": "Đầu tư",
-            "title": "Đầu tư một lần - Kỹ năng cả đời",
-            "subtitle": "So với 100 triệu học đại học IT 4 năm, đây là món hời lớn nhất 2026",
-            "items": [
-                {
-                    "id": "vibe-beginner-full",
-                    "title": "Khoá Vibe Coding Toàn Diện",
-                    "price": "2.790.000đ",
-                    "originalPrice": "4.500.000đ",
-                    "description": "Trọn bộ lộ trình 8 tuần từ 0 đến có nghề",
-                    "tag": "BEST VALUE",
-                    "features": [
-                        "40+ giờ video HD chất lượng cao",
-                        "10+ dự án thực tế từ đơn giản đến phức tạp",
-                        "Hỗ trợ 1:1 với giảng viên (không giới hạn)",
-                        "Review code hàng tuần",
-                        "100+ prompt templates",
-                        "10+ project templates",
-                        "Private community access",
-                        "Lifetime access & updates",
-                        "Chứng chỉ hoàn thành",
-                        "Guidance tìm việc/khách hàng"
-                    ],
-                    "link": "/checkout?course=vibe-coding-beginner",
-                    "icon": "Rocket",
-                    "ctaText": "Đăng ký ngay"
-                }
-            ],
-            "isVisible": true,
-            "order": 11,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-faq",
-            "type": "faq",
-            "tag": "FAQ",
-            "title": "Câu hỏi thường gặp",
-            "subtitle": "Giải đáp mọi thắc mắc của bạn",
-            "items": [
-                {
-                    "question": "Tôi hoàn toàn không biết gì về lập trình, có học được không?",
-                    "answer": "Hoàn toàn được! Khoá học được thiết kế cho người mới bắt đầu từ con số 0. Bạn chỉ cần biết sử dụng máy tính cơ bản và có tư duy logic. 90% học viên của chúng tôi không có background IT."
-                },
-                {
-                    "question": "Hỗ trợ 1:1 nghĩa là gì? Có thực sự được hỗ trợ không?",
-                    "answer": "Có! Bạn sẽ được giảng viên Nguyễn Thanh Tùng hỗ trợ trực tiếp qua Zalo/Telegram. Mọi câu hỏi được trả lời trong 24h. Ngoài ra còn có review code hàng tuần để đảm bảo bạn đi đúng hướng."
-                },
-                {
-                    "question": "Học xong có thể kiếm tiền ngay không?",
-                    "answer": "Có! Nhiều học viên đã nhận được dự án freelance ngay khi đang học (tuần 5-6). Sau khoá học, bạn hoàn toàn có thể nhận dự án $500-2000 từ các nền tảng như Upwork, Fiverr hoặc khách hàng Việt Nam."
-                },
-                {
-                    "question": "Máy tính cấu hình yếu có học được không?",
-                    "answer": "Được! Các công cụ AI đều chạy trên cloud (web), máy tính văn phòng bình thường là đủ. Chỉ cần có Internet ổn định."
-                },
-                {
-                    "question": "Khoá học có thời hạn không?",
-                    "answer": "Không! Bạn được lifetime access - học mãi mãi, không giới hạn thời gian. Nội dung khoá học cũng được cập nhật miễn phí khi công nghệ thay đổi."
-                },
-                {
-                    "question": "Có hoàn tiền nếu không hài lòng không?",
-                    "answer": "Có! Chúng tôi cam kết hoàn tiền 100% trong 7 ngày đầu nếu bạn cảm thấy khoá học không phù hợp. Không hỏi lý do."
-                },
-                {
-                    "question": "Vibe Coding khác gì so với học code truyền thống?",
-                    "answer": "Vibe Coding tập trung vào việc 'ra lệnh' cho AI viết code thay vì tự viết từng dòng. Bạn học tư duy và cách giao tiếp với AI, không cần nhớ syntax. Tốc độ nhanh hơn 10 lần và ai cũng có thể làm được."
-                },
-                {
-                    "question": "Tại sao nên học năm 2026?",
-                    "answer": "Năm 2026 là thời điểm vàng! AI đã đủ mạnh để làm được 90% công việc coding, nhưng chưa nhiều người biết cách sử dụng. Học ngay sẽ giúp bạn đi trước đám đông 2-3 năm. Đợi thêm sẽ mất lợi thế cạnh tranh."
-                }
-            ],
-            "isVisible": true,
-            "order": 12,
-            "backgroundImage": "",
-            "backgroundTheme": "light",
-            "overlayOpacity": 0.6
-        },
-        {
-            "id": "vibe-beginner-cta-urgency",
-            "type": "cta",
-            "tag": "⏰ Ưu đãi có hạn",
-            "title": "Giá ưu đãi 2.790.000đ chỉ còn trong tháng này",
-            "subtitle": "Từ tháng sau, giá khoá học sẽ tăng lên 4.500.000đ. Đăng ký ngay để tiết kiệm 1.710.000đ và bắt đầu hành trình Vibe Coding của bạn.",
-            "ctaText": "Đăng ký ngay - 2.790.000đ",
-            "ctaLink": "/checkout?course=vibe-coding-beginner",
-            "isVisible": true,
-            "order": 13,
-            "backgroundImage": "",
-            "backgroundTheme": "dark",
-            "overlayOpacity": 0.8
-        },
-        {
-            "id": "vibe-beginner-cta-final",
-            "type": "cta",
-            "title": "Năm 2026: Bạn sẽ là người tạo ra app hay người dùng app của người khác?",
-            "subtitle": "Quyết định hôm nay sẽ thay đổi 10 năm tiếp theo của bạn. Hãy là người đi đầu xu hướng.",
-            "ctaText": "Bắt đầu hành trình Vibe Coding",
-            "ctaLink": "/checkout?course=vibe-coding-beginner",
-            "isVisible": true,
-            "order": 14,
-            "backgroundImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
-            "backgroundTheme": "dark",
-            "overlayOpacity": 0.7
-        }
-    ]
-}
+[
+    {
+        "id": "hero-vibe-2026020101",
+        "type": "hero",
+        "name": "Standard Hero",
+        "tag": "Xu hướng 2026 🔥",
+        "title": "Lập trình bằng AI: Kỹ năng PHẢI HỌC trong năm 2026",
+        "subtitle": "Khoá học Vibe Coding toàn diện dành cho người mới bắt đầu. Từ 0 kinh nghiệm đến tự xây dựng ứng dụng kiếm tiền hoặc triển khai cho business của bạn. Cam kết đồng hành 1:1 trọn khoá.",
+        "content": "✅ Không cần background IT - Chỉ cần biết tiếng Việt và tư duy logic\n✅ Lộ trình từ người mới đến có nghề (có thể kiếm tiền ngay)\n✅ Hỗ trợ 1:1 với giảng viên xuyên suốt quá trình học\n✅ Cập nhật công nghệ mới nhất 2026: Cursor, Claude, v0, Bolt...",
+        "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
+        "ctaText": "Đăng ký ngay - 2.790.000đ",
+        "ctaLink": "#pricing",
+        "showDotPattern": true,
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 1,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "stats-vibe-2026020101",
+        "type": "stats",
+        "name": "Modern Stats Grid",
+        "tag": "Khoá học",
+        "title": "Con số nói lên tất cả",
+        "subtitle": "Đầu tư 1 lần, kỹ năng cả đời",
+        "showDotPattern": true,
+        "items": [
+            {
+                "value": "40+",
+                "label": "Giờ học",
+                "icon": "Clock",
+                "description": "Video HD + thực hành"
+            },
+            {
+                "value": "10+",
+                "label": "Dự án thực tế",
+                "icon": "Briefcase",
+                "description": "Từ đơn giản đến phức tạp"
+            },
+            {
+                "value": "8+",
+                "label": "Công cụ AI",
+                "icon": "Bot",
+                "description": "Cursor, Claude, v0, Bolt..."
+            },
+            {
+                "value": "1:1",
+                "label": "Hỗ trợ",
+                "icon": "Headphones",
+                "description": "Trực tiếp với giảng viên"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 2,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "content-block-pain-2026020101",
+        "type": "content-block",
+        "name": "Content Block (Alternating)",
+        "tag": "⚠️ Cảnh báo",
+        "title": "2026: Bạn đang ở đâu trong cuộc cách mạng AI?",
+        "subtitle": "Những người không thích nghi sẽ bị bỏ lại phía sau",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Người khác đang kiếm tiền từ AI",
+                "description": "Freelancers đang nhận $50-200/giờ để xây app bằng Vibe Coding. Họ không giỏi code - họ chỉ biết cách 'ra lệnh' cho AI làm việc.",
+                "image": "https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=2070&auto=format&fit=crop"
+            },
+            {
+                "title": "Doanh nghiệp đang cắt giảm chi phí IT",
+                "description": "Thay vì thuê team dev 50 triệu/tháng, họ thuê 1 người biết Vibe Coding với giá 15 triệu. Bạn có thể là người đó.",
+                "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2070&auto=format&fit=crop"
+            },
+            {
+                "title": "Ý tưởng của bạn đang chờ được hiện thực",
+                "description": "Bạn có 10 ý tưởng app nhưng không có tiền thuê dev? Với Vibe Coding, bạn tự làm được - không phụ thuộc ai.",
+                "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2070&auto=format&fit=crop"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "dark",
+        "overlayOpacity": 0.8,
+        "glowVariant": 3,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "comparison-vibe-2026020101",
+        "type": "comparison",
+        "name": "Comparison Table",
+        "tag": "So sánh",
+        "title": "Vibe Coding vs Lập trình truyền thống",
+        "subtitle": "Tại sao 2026 là thời điểm vàng để học Vibe Coding?",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Thời gian học",
+                "price": "4-8 tuần",
+                "description": "Vibe Coding",
+                "features": [
+                    "Tập trung thực hành",
+                    "Học theo dự án",
+                    "Kết quả nhanh"
+                ]
+            },
+            {
+                "title": "Thời gian học",
+                "price": "2-4 năm",
+                "description": "Code Truyền Thống",
+                "features": [
+                    "Lý thuyết nhiều",
+                    "Học thuật toán",
+                    "Chậm thấy kết quả"
+                ]
+            },
+            {
+                "title": "Yêu cầu đầu vào",
+                "price": "Tư duy logic",
+                "description": "Vibe Coding",
+                "features": [
+                    "Không cần toán cao cấp",
+                    "Không cần background IT",
+                    "Ai cũng học được"
+                ]
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 4,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "curriculum-vibe-2026020101",
+        "type": "curriculum",
+        "name": "Lesson Curriculum",
+        "tag": "Lộ trình",
+        "title": "Từ người mới đến có nghề trong 8 tuần",
+        "subtitle": "Học theo lộ trình đã được kiểm chứng, không lan man",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Tuần 1-2: Nền tảng & Mindset",
+                "description": "Hiểu cách AI hoạt động, setup môi trường, làm quen Cursor + Claude. Hoàn thành 2 mini projects đầu tiên.",
+                "duration": "6 bài học",
+                "lessons": [
+                    "Vibe Coding là gì? Tại sao là xu hướng 2026?",
+                    "Setup Cursor, Claude, tài khoản AI",
+                    "Cấu trúc một web app cơ bản",
+                    "Prompt Engineering 101: Cách 'ra lệnh' cho AI",
+                    "Project 1: Landing Page cá nhân",
+                    "Project 2: Calculator app hoàn chỉnh"
+                ]
+            },
+            {
+                "title": "Tuần 3-4: Frontend Mastery",
+                "description": "Xây dựng giao diện đẹp, responsive. Học React/Next.js thông qua thực hành với AI.",
+                "duration": "6 bài học",
+                "lessons": [
+                    "HTML/CSS cơ bản (AI giải thích)",
+                    "React components và state",
+                    "Tailwind CSS cho styling nhanh",
+                    "Project 3: Portfolio website chuyên nghiệp",
+                    "Project 4: Todo App với localStorage",
+                    "Responsive design cho mobile"
+                ]
+            },
+            {
+                "title": "Tuần 5-6: Backend & Database",
+                "description": "Kết nối database, xử lý logic phức tạp, authentication. Đây là bước nhảy vọt quan trọng.",
+                "duration": "6 bài học",
+                "lessons": [
+                    "Supabase/Firebase setup",
+                    "CRUD operations với AI",
+                    "Authentication & User management",
+                    "Project 5: Blog với admin panel",
+                    "Project 6: E-commerce mini shop",
+                    "API integration với bên thứ 3"
+                ]
+            },
+            {
+                "title": "Tuần 7-8: Deploy & Monetize",
+                "description": "Đưa app lên production, tối ưu SEO, và bắt đầu kiếm tiền từ kỹ năng mới.",
+                "duration": "6 bài học",
+                "lessons": [
+                    "Deploy lên Vercel/Netlify",
+                    "Tên miền và SSL",
+                    "SEO cơ bản cho web app",
+                    "Project 7-10: Capstone projects",
+                    "Cách tìm khách hàng Freelance",
+                    "Xây portfolio để nhận việc"
+                ]
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 5,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "features-vibe-2026020101",
+        "type": "features",
+        "name": "Features Grid",
+        "tag": "Lợi ích",
+        "title": "Sau khoá học, bạn sẽ có thể...",
+        "subtitle": "Kỹ năng thực tế, áp dụng được ngay",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Xây app cho business",
+                "description": "Tạo CRM, quản lý kho, booking system... cho công ty của bạn mà không cần thuê dev.",
+                "icon": "Building"
+            },
+            {
+                "title": "Freelance kiếm tiền",
+                "description": "Nhận dự án $500-2000 từ Upwork, Fiverr. Nhiều học viên đã hoàn vốn khoá học sau 1-2 dự án.",
+                "icon": "DollarSign"
+            },
+            {
+                "title": "Startup ý tưởng riêng",
+                "description": "Có MVP trong 2 tuần thay vì 6 tháng. Tiết kiệm hàng trăm triệu chi phí ban đầu.",
+                "icon": "Rocket"
+            },
+            {
+                "title": "Tự động hoá công việc",
+                "description": "Viết tool tự động báo cáo, gửi email, crawl data... Tiết kiệm 10+ giờ mỗi tuần.",
+                "icon": "Zap"
+            },
+            {
+                "title": "Nâng giá trị bản thân",
+                "description": "Thêm 'AI Developer' vào CV. Lương tăng 30-50% khi biết Vibe Coding.",
+                "icon": "TrendingUp"
+            },
+            {
+                "title": "Học nhanh công nghệ mới",
+                "description": "Một khi biết cách dùng AI, bạn có thể học bất kỳ framework/ngôn ngữ nào trong 1-2 ngày.",
+                "icon": "BookOpen"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 6,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "process-vibe-2026020101",
+        "type": "process",
+        "name": "Process Roadmap",
+        "tag": "Phương pháp",
+        "title": "Cam kết đồng hành 1:1 suốt khoá học",
+        "subtitle": "Không bỏ rơi - Học đến khi làm được mới thôi",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "1. Onboarding cá nhân",
+                "description": "Gọi video 30 phút với giảng viên để hiểu background, mục tiêu và thiết kế lộ trình riêng phù hợp với bạn.",
+                "icon": "UserPlus"
+            },
+            {
+                "title": "2. Học video + Thực hành",
+                "description": "Xem video bài giảng HD, làm theo và apply vào project thực tế. Mọi thắc mắc được giải đáp trong 24h.",
+                "icon": "PlayCircle"
+            },
+            {
+                "title": "3. Review code hàng tuần",
+                "description": "Giảng viên review code của bạn, chỉ ra lỗi và cách cải thiện. Đảm bảo bạn học đúng cách từ đầu.",
+                "icon": "Code"
+            },
+            {
+                "title": "4. Capstone & Chứng chỉ",
+                "description": "Hoàn thành 10 projects, nhận chứng chỉ và guidance để bắt đầu kiếm tiền hoặc apply việc.",
+                "icon": "Award"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "dark",
+        "overlayOpacity": 0.8,
+        "glowVariant": 7,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "instructor-bio-vibe-2026020101",
+        "type": "instructor-bio",
+        "name": "Instructor Bio",
+        "tag": "Giảng viên",
+        "title": "Người hướng dẫn của bạn",
+        "subtitle": "Không phải lý thuyết - Đây là người đang làm thực tế",
+        "content": "Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ. 10+ năm kinh nghiệm trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp. Tiên phong đưa phương pháp Vibe Coding vào Việt Nam từ 2024, đã hướng dẫn 500+ học viên từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Nguyễn Thanh Tùng",
+                "subtitle": "Founder & Lead Instructor",
+                "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
+                "description": "'Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.'",
+                "features": [
+                    "10+ năm kinh nghiệm công nghệ",
+                    "Founder Tulie TSS",
+                    "500+ học viên đã hướng dẫn",
+                    "Tiên phong Vibe Coding tại Việt Nam"
+                ]
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 8,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "testimonials-vibe-2026020101",
+        "type": "testimonials",
+        "name": "Testimonials Carousel",
+        "tag": "Học viên nói gì",
+        "title": "Họ đã làm được - Bạn cũng vậy",
+        "subtitle": "Những câu chuyện thành công từ người mới bắt đầu",
+        "showDotPattern": true,
+        "items": [
+            {
+                "name": "Minh Anh",
+                "role": "Nhân viên Marketing → Freelance Developer",
+                "content": "Trước khoá học, mình không biết gì về code. Sau 2 tháng, mình đã nhận được dự án đầu tiên $800 từ Upwork. Không thể tin được!",
+                "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
+            },
+            {
+                "name": "Hoàng Nam",
+                "role": "Chủ shop online",
+                "content": "Mình tự xây được website bán hàng + hệ thống quản lý đơn hàng. Trước đây phải thuê dev 30 triệu, giờ tự làm và còn custom được theo ý.",
+                "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop"
+            },
+            {
+                "name": "Thu Hà",
+                "role": "Kế toán → AI Developer",
+                "content": "Điều mình thích nhất là hỗ trợ 1:1. Mỗi khi stuck, anh Tùng đều giải đáp rất chi tiết. Không bao giờ cảm thấy học một mình.",
+                "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 9,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "bonus-vibe-2026020101",
+        "type": "bonus",
+        "name": "Bonus Section",
+        "tag": "🎁 Bonus",
+        "title": "Quà tặng độc quyền (Trị giá 5.000.000đ)",
+        "subtitle": "Chỉ dành cho học viên đăng ký trong tháng này",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Thư viện 100+ Prompts",
+                "price": "Trị giá 1.500.000đ",
+                "description": "Copy-paste để AI viết code chính xác ngay lần đầu. Tiết kiệm hàng giờ debug.",
+                "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1000",
+                "features": [
+                    "Prompt templates",
+                    "Best practices",
+                    "Examples"
+                ]
+            },
+            {
+                "title": "10+ Project Templates",
+                "price": "Trị giá 2.000.000đ",
+                "description": "Clone và customize để hoàn thành dự án nhanh gấp 5 lần.",
+                "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1000",
+                "features": [
+                    "Starter templates",
+                    "Full source code",
+                    "Documentation"
+                ]
+            },
+            {
+                "title": "Private Community",
+                "price": "Trị giá 500.000đ",
+                "description": "Nhóm kín với 500+ thành viên, chia sẻ kinh nghiệm, cơ hội việc làm.",
+                "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000",
+                "features": [
+                    "Network",
+                    "Job opportunities",
+                    "Support"
+                ]
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "dark",
+        "overlayOpacity": 0.8,
+        "glowVariant": 10,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "pricing-vibe-2026020101",
+        "type": "pricing",
+        "name": "Pricing System",
+        "tag": "Đầu tư",
+        "title": "Đầu tư một lần - Kỹ năng cả đời",
+        "subtitle": "So với 100 triệu học đại học IT 4 năm, đây là món hời lớn nhất 2026",
+        "showDotPattern": true,
+        "items": [
+            {
+                "id": "vibe-beginner-full",
+                "title": "Khoá Vibe Coding Toàn Diện",
+                "price": "2.790.000đ",
+                "originalPrice": "4.500.000đ",
+                "description": "Trọn bộ lộ trình 8 tuần từ 0 đến có nghề",
+                "tag": "BEST VALUE",
+                "features": [
+                    "40+ giờ video HD chất lượng cao",
+                    "10+ dự án thực tế từ đơn giản đến phức tạp",
+                    "Hỗ trợ 1:1 với giảng viên (không giới hạn)",
+                    "Review code hàng tuần",
+                    "100+ prompt templates",
+                    "10+ project templates",
+                    "Private community access",
+                    "Lifetime access & updates",
+                    "Chứng chỉ hoàn thành",
+                    "Guidance tìm việc/khách hàng"
+                ],
+                "link": "/checkout?course=vibe-coding-beginner",
+                "icon": "Rocket",
+                "ctaText": "Đăng ký ngay"
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 11,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "faq-vibe-2026020101",
+        "type": "faq",
+        "name": "FAQ Section",
+        "tag": "FAQ",
+        "title": "Câu hỏi thường gặp",
+        "subtitle": "Giải đáp mọi thắc mắc của bạn",
+        "showDotPattern": true,
+        "items": [
+            {
+                "title": "Tôi hoàn toàn không biết gì về lập trình, có học được không?",
+                "content": "Hoàn toàn được! Khoá học được thiết kế cho người mới bắt đầu từ con số 0. Bạn chỉ cần biết sử dụng máy tính cơ bản và có tư duy logic. 90% học viên của chúng tôi không có background IT."
+            },
+            {
+                "title": "Hỗ trợ 1:1 nghĩa là gì? Có thực sự được hỗ trợ không?",
+                "content": "Có! Bạn sẽ được giảng viên Nguyễn Thanh Tùng hỗ trợ trực tiếp qua Zalo/Telegram. Mọi câu hỏi được trả lời trong 24h. Ngoài ra còn có review code hàng tuần để đảm bảo bạn đi đúng hướng."
+            },
+            {
+                "title": "Học xong có thể kiếm tiền ngay không?",
+                "content": "Có! Nhiều học viên đã nhận được dự án freelance ngay khi đang học (tuần 5-6). Sau khoá học, bạn hoàn toàn có thể nhận dự án $500-2000 từ các nền tảng như Upwork, Fiverr hoặc khách hàng Việt Nam."
+            },
+            {
+                "title": "Máy tính cấu hình yếu có học được không?",
+                "content": "Được! Các công cụ AI đều chạy trên cloud (web), máy tính văn phòng bình thường là đủ. Chỉ cần có Internet ổn định."
+            },
+            {
+                "title": "Khoá học có thời hạn không?",
+                "content": "Không! Bạn được lifetime access - học mãi mãi, không giới hạn thời gian. Nội dung khoá học cũng được cập nhật miễn phí khi công nghệ thay đổi."
+            },
+            {
+                "title": "Có hoàn tiền nếu không hài lòng không?",
+                "content": "Có! Chúng tôi cam kết hoàn tiền 100% trong 7 ngày đầu nếu bạn cảm thấy khoá học không phù hợp. Không hỏi lý do."
+            },
+            {
+                "title": "Vibe Coding khác gì so với học code truyền thống?",
+                "content": "Vibe Coding tập trung vào việc 'ra lệnh' cho AI viết code thay vì tự viết từng dòng. Bạn học tư duy và cách giao tiếp với AI, không cần nhớ syntax. Tốc độ nhanh hơn 10 lần và ai cũng có thể làm được."
+            },
+            {
+                "title": "Tại sao nên học năm 2026?",
+                "content": "Năm 2026 là thời điểm vàng! AI đã đủ mạnh để làm được 90% công việc coding, nhưng chưa nhiều người biết cách sử dụng. Học ngay sẽ giúp bạn đi trước đám đông 2-3 năm. Đợi thêm sẽ mất lợi thế cạnh tranh."
+            }
+        ],
+        "backgroundImage": "",
+        "backgroundTheme": "light",
+        "overlayOpacity": 0.6,
+        "glowVariant": 12,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "cta-urgency-vibe-2026020101",
+        "type": "cta",
+        "name": "Standard CTA",
+        "tag": "⏰ Ưu đãi có hạn",
+        "title": "Giá ưu đãi 2.790.000đ chỉ còn trong tháng này",
+        "subtitle": "Từ tháng sau, giá khoá học sẽ tăng lên 4.500.000đ. Đăng ký ngay để tiết kiệm 1.710.000đ và bắt đầu hành trình Vibe Coding của bạn.",
+        "ctaText": "Đăng ký ngay - 2.790.000đ",
+        "ctaLink": "/checkout?course=vibe-coding-beginner",
+        "showDotPattern": true,
+        "backgroundImage": "",
+        "backgroundTheme": "dark",
+        "overlayOpacity": 0.8,
+        "glowVariant": 13,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    },
+    {
+        "id": "cta-final-vibe-2026020101",
+        "type": "cta",
+        "name": "Standard CTA",
+        "title": "Năm 2026: Bạn sẽ là người tạo ra app hay người dùng app của người khác?",
+        "subtitle": "Quyết định hôm nay sẽ thay đổi 10 năm tiếp theo của bạn. Hãy là người đi đầu xu hướng.",
+        "ctaText": "Bắt đầu hành trình Vibe Coding",
+        "ctaLink": "/checkout?course=vibe-coding-beginner",
+        "showDotPattern": true,
+        "backgroundImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+        "backgroundTheme": "dark",
+        "overlayOpacity": 0.7,
+        "glowVariant": 14,
+        "isVisible": true,
+        "appearance": "standard",
+        "animation": "none"
+    }
+]
