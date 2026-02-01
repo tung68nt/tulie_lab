@@ -197,6 +197,7 @@ model Course {
   categoryId        String?
   introVideoUrl     String?
   deploymentStatus  CourseDeploymentStatus @default(RELEASED)
+  isHidden          Boolean                @default(false)
   tag               CourseTag              @default(NONE)
   learningOutcomes  String?
   structure         String?

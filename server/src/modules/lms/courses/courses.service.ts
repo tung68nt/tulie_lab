@@ -39,7 +39,7 @@ export class CourseService {
     async getAllCourses(options: any = {}) {
         const { publishedOnly = true, categoryId, level, isFree, search } = options;
 
-        const where: any = {};
+        const where: any = { isHidden: false };
         if (publishedOnly) where.isPublished = true;
         if (categoryId) where.categoryId = categoryId;
         if (level && level !== 'ALL') where.level = level;
@@ -78,7 +78,7 @@ export class CourseService {
 
         const { publishedOnly = true, categoryId, level, isFree, search } = options;
 
-        const where: any = {};
+        const where: any = { isHidden: false };
         if (publishedOnly) where.isPublished = true;
         if (categoryId) where.categoryId = categoryId;
         if (level && level !== 'ALL') where.level = level;
@@ -203,7 +203,32 @@ export class CourseService {
     }
 
     async deleteCourse(id: string) {
+        // Check if course has enrollments
+        const enrollmentCount = await prisma.enrollment.count({ where: { courseId: id } });
+
+        if (enrollmentCount > 0) {
+            // Soft delete: hide the course instead of deleting
+            return this.courseRepository.update(id, { isHidden: true });
+        }
+
+        // No enrollments, safe to delete
         return this.courseRepository.delete(id);
+    }
+
+    async toggleCourseVisibility(id: string, isHidden: boolean) {
+        return this.courseRepository.update(id, { isHidden });
+    }
+
+    async getHiddenCourses() {
+        return this.courseRepository.findMany({
+            where: { isHidden: true },
+            include: {
+                category: true,
+                instructor: true,
+                _count: { select: { enrollments: true } }
+            },
+            orderBy: { updatedAt: 'desc' }
+        });
     }
 
     // Lesson Methods

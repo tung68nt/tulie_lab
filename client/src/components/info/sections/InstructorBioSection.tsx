@@ -97,40 +97,48 @@ export function InstructorBioSection({ section }: { section: Section }) {
 
                     {/* Left Sidebar - Sticky */}
                     <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
-                        {/* Profile Card */}
-                        <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 text-center border border-zinc-100 dark:border-zinc-800 shadow-sm relative overflow-hidden group">
-                            <div className="relative w-40 h-40 mx-auto mb-6 rounded-[2.5rem] overflow-hidden bg-zinc-100 dark:bg-zinc-800 shadow-inner rotate-3 group-hover:rotate-0 transition-transform duration-500">
-                                {instructor.image ? (
-                                    <Image
-                                        src={getMediaUrl(String(instructor.image))}
-                                        alt={String(instructor.title || 'Instructor')}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-zinc-300">
-                                        {String(instructor.name || 'I').charAt(0)}
-                                    </div>
-                                )}
+                        {/* Profile Card - Magazine Style */}
+                        <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 md:p-10 border border-zinc-100 dark:border-zinc-800 shadow-sm relative overflow-hidden group">
+                            {/* Large Circular Avatar */}
+                            <div className="relative w-48 h-48 mx-auto mb-8">
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                                <div className="relative w-full h-full rounded-full overflow-hidden ring-4 ring-zinc-100 dark:ring-zinc-800 shadow-2xl">
+                                    {instructor.image ? (
+                                        <Image
+                                            src={getMediaUrl(String(instructor.image))}
+                                            alt={String(instructor.title || 'Instructor')}
+                                            fill
+                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-700 text-5xl font-bold text-zinc-400">
+                                            {String(instructor.name || 'I').charAt(0)}
+                                        </div>
+                                    )}
+                                </div>
                                 {/* Online Status Dot */}
-                                <div className="absolute bottom-3 right-3 w-4 h-4 bg-green-500 rounded-full border-2 border-white dark:border-zinc-900 shadow-sm" />
+                                <div className="absolute bottom-2 right-2 w-5 h-5 bg-green-500 rounded-full border-4 border-white dark:border-zinc-900 shadow-md" />
                             </div>
 
-                            <h3 className="text-2xl font-bold text-foreground mb-2">
-                                {String(instructor.name || 'Instructor Name')}
-                            </h3>
-                            <p className="text-primary font-medium mb-6">
-                                {String(instructor.title || 'Expert Instructor')}
-                            </p>
+                            {/* Name & Title */}
+                            <div className="text-center mb-8">
+                                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2 tracking-tight">
+                                    {String(instructor.name || 'Instructor Name')}
+                                </h3>
+                                <p className="text-primary font-semibold text-sm uppercase tracking-widest">
+                                    {String(instructor.title || 'Expert Instructor')}
+                                </p>
+                            </div>
 
-                            <div className="flex items-center justify-center gap-3">
-                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                            {/* Social Links */}
+                            <div className="flex items-center justify-center gap-3 pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                                <Button size="icon" variant="ghost" className="rounded-full w-11 h-11 bg-zinc-50 dark:bg-zinc-800 hover:bg-primary hover:text-white transition-all">
                                     <Globe size={18} />
                                 </Button>
-                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                <Button size="icon" variant="ghost" className="rounded-full w-11 h-11 bg-zinc-50 dark:bg-zinc-800 hover:bg-primary hover:text-white transition-all">
                                     <Mail size={18} />
                                 </Button>
-                                <Button size="icon" variant="ghost" className="rounded-full bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
+                                <Button size="icon" variant="ghost" className="rounded-full w-11 h-11 bg-zinc-50 dark:bg-zinc-800 hover:bg-primary hover:text-white transition-all">
                                     <Share2 size={18} />
                                 </Button>
                             </div>
