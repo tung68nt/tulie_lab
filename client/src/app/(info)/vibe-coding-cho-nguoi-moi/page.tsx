@@ -1,13 +1,13 @@
 
 import { LandingPageRenderer } from '@/components/info/LandingPageRenderer';
-import { DEFAULT_VIBE_CODING_COURSE_SECTIONS } from '@/lib/defaultContent';
+import { DEFAULT_VIBE_CODING_BEGINNER_COURSE } from '@/lib/defaultContent';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Vibe Coding cho người mới - Tự xây dựng 10 Mini Apps | The Tulie Lab',
-    description: 'Khoá học thực chiến giúp bạn làm chủ tư duy Vibe Coding, tự tay xây dựng 10 ứng dụng thực tế giải quyết công việc chỉ trong 30 phút.',
+    title: 'Lập trình bằng AI - Khoá Vibe Coding cho người mới | 2.790.000đ | Tulie TSS',
+    description: 'Khoá học Vibe Coding toàn diện dành cho người mới. Từ 0 đến tự xây dựng ứng dụng kiếm tiền trong 8 tuần. Cam kết hỗ trợ 1:1 với giảng viên. Xu hướng bắt buộc năm 2026.',
 };
 
 export default function VibeCodingCoursePage() {
-    return <LandingPageRenderer slug="vibe-coding-cho-nguoi-moi" fallbackSections={DEFAULT_VIBE_CODING_COURSE_SECTIONS} forceFallback={true} />;
+    return <LandingPageRenderer slug="vibe-coding-cho-nguoi-moi" fallbackSections={DEFAULT_VIBE_CODING_BEGINNER_COURSE} forceFallback={true} />;
 }
