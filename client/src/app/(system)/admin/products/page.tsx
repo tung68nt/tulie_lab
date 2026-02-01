@@ -143,7 +143,9 @@ export default function AdminProductsPage() {
                                             </div>
                                         </td>
                                         <td className="p-4 align-middle">
-                                            <Badge variant="secondary">{product.type}</Badge>
+                                            <span className="text-xs border border-neutral-200 text-neutral-600 px-2 py-0.5 rounded whitespace-nowrap">
+                                                {product.type?.toLowerCase() || 'unknown'}
+                                            </span>
                                         </td>
                                         <td className="p-4 align-middle">
                                             <div className="font-medium">
