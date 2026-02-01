@@ -58,7 +58,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                 className="opacity-100"
             />
 
-            <div className="container relative z-10">
+            <div className="container relative z-10 px-4 md:px-6 overflow-hidden">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
                     <FadeIn direction="up" duration={0.8} className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1">
