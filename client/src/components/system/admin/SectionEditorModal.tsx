@@ -6,6 +6,7 @@ import { Button } from '@/components/Button';
 import { Switch } from '@/components/Switch';
 import { SectionRenderer } from '@/components/SectionRenderer';
 import { Section } from '@/types/sections';
+import { api } from '@/lib/api';
 
 interface SectionEditorModalProps {
     section: Section | null;
@@ -24,12 +25,21 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
     // Viewport State
     const [viewportWidth, setViewportWidth] = useState<string>('100%');
 
+    const [availableCourses, setAvailableCourses] = useState<any[]>([]);
+
     useEffect(() => {
         if (section) {
             setEditedSection(JSON.parse(JSON.stringify(section))); // Deep copy
             setJsonError(null);
             setViewportWidth('100%'); // Reset viewport on open
             setZoomLevel(1); // Reset zoom on open
+
+            // Fetch courses if type is course-content
+            if (section.type === 'course-content' && availableCourses.length === 0) {
+                api.courses.list().then((res: any) => {
+                    setAvailableCourses(res.data || res || []);
+                }).catch((err: any) => console.error("Failed to load courses for selector", err));
+            }
         }
     }, [section, isOpen]);
 
@@ -238,15 +248,22 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                                 <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">
                                     <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Course Selection</h3>
                                     <div className="space-y-2">
-                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Course ID</label>
-                                        <input
-                                            type="text"
+                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Select Course</label>
+                                        <select
                                             value={editedSection.courseId || ''}
                                             onChange={e => handleChange('courseId', e.target.value)}
-                                            className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-mono"
-                                            placeholder="Enter Course ID (UUID)"
-                                        />
-                                        <p className="text-xs text-neutral-500">Enter the Course ID to display its content. Find this in Admin → Courses.</p>
+                                            className="w-full p-2 rounded-md border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 text-sm font-sans"
+                                        >
+                                            <option value="">-- Choose a course --</option>
+                                            {availableCourses.map(c => (
+                                                <option key={c.id} value={c.id}>
+                                                    {c.title} - {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(c.salePrice || c.price || 0)}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <div className="text-xs text-neutral-500 font-mono mt-1">
+                                            ID: {editedSection.courseId || '(None)'}
+                                        </div>
                                     </div>
                                 </div>
                             )}

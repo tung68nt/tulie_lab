@@ -36,6 +36,7 @@ const CodingMethodsSection = dynamic(() => import('@/components/info/sections/Co
 const CalendarSection = dynamic(() => import('@/components/info/sections/CalendarSection').then((mod: any) => mod.CalendarSection));
 const VideoSection = dynamic(() => import('@/components/info/sections/VideoSection').then((mod: any) => mod.VideoSection));
 const VideoTextSection = dynamic(() => import('@/components/info/sections/VideoTextSection').then((mod: any) => mod.VideoTextSection));
+const CourseContentSection = dynamic(() => import('@/components/info/sections/CourseContentSection').then((mod: any) => mod.CourseContentSection));
 
 // Map section types to components
 export const SECTION_COMPONENTS: Record<string, any> = {
@@ -77,6 +78,7 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'system-blog': SystemBlogSection,
     'system-combos': SystemCombosSection,
     'system-instructors': SystemInstructorsSection,
+    'course-content': CourseContentSection,
 };
 
 // Context for checking if section is in preview mode (e.g. editor)

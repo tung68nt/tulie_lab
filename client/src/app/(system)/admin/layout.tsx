@@ -56,7 +56,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             icon: ScrollText,
             items: [
                 { href: '/admin/landing-pages', label: 'Landing Pages' },
-                { href: '/admin/sections', label: 'Kho section' },
+                { href: '/admin/sections', label: 'Thư viện Section' },
                 { href: '/admin/policies', label: 'Chính sách' },
                 { href: '/admin/instructors', label: 'Giảng viên' },
                 { href: '/admin/system-pages', label: 'Trang thông tin' },

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { SECTION_TEMPLATES, SectionTemplate } from '@/lib/section-templates';
 import { Button } from '@/components/Button';
-import { Plus, X, Layout, Users, Zap, Star, Monitor, Settings } from 'lucide-react';
+import { Plus, X, Layout, Users, Zap, Star, Monitor, Settings, Library } from 'lucide-react';
 import { DynamicIcon } from '@/components/DynamicIcon';
 import { SectionRenderer } from '@/components/SectionRenderer';
 
@@ -44,7 +44,10 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 md:p-6 border-b border-neutral-200 dark:border-neutral-800">
                     <div>
-                        <h2 className="text-xl md:text-2xl font-bold">Thư viện Section</h2>
+                        <h2 className="text-xl md:text-2xl font-bold flex items-center gap-2">
+                            <Library className="w-6 h-6 md:w-8 md:h-8" />
+                            Thư viện Section
+                        </h2>
                         <p className="text-neutral-500 dark:text-neutral-400 text-sm mt-1">Chọn mẫu có sẵn để thêm vào Landing Page của bạn</p>
                     </div>
                     <button onClick={onClose} className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-full transition-colors">

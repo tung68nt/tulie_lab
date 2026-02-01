@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { SECTION_TEMPLATES, SectionTemplate } from '@/lib/section-templates';
 import { Card } from '@/components/Card';
 import { Badge } from '@/components/Badge';
-import { Search, Grid, Layout, Copy, Eye, Users, Zap, Star, Monitor, Settings, Plus, Compass, FileText, MessageSquare, TrendingUp, Sparkles, Layers, Folder, X } from 'lucide-react';
+import { Search, Grid, Layout, Copy, Eye, Users, Zap, Star, Monitor, Settings, Plus, Compass, FileText, MessageSquare, TrendingUp, Sparkles, Layers, Folder, X, Library } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { useToast } from '@/contexts/ToastContext';
 import { SectionRenderer } from '@/components/SectionRenderer';
@@ -50,7 +50,10 @@ export default function SectionGalleryPage() {
             {/* Header Area */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 shrink-0">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Kho Section</h1>
+                    <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+                        <Library className="w-8 h-8" />
+                        Thư viện Section
+                    </h1>
                     <p className="text-muted-foreground mt-1">
                         Thư viện các mẫu section có sẵn để sử dụng cho Landing Pages.
                     </p>
