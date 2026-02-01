@@ -49,33 +49,24 @@ export function StatsSection({ section }: { section: Section }) {
                                     <DynamicIcon name={item.icon || 'Star'} className="h-32 w-32" />
                                 </div>
 
-                                <div className="relative z-10">
-                                    <div className="mb-8 inline-flex p-4 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                                <div className="relative z-10 flex flex-col h-full">
+                                    <div className="mb-8 inline-flex p-4 rounded-2xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300 self-start">
                                         <DynamicIcon name={item.icon || 'Star'} className="h-8 w-8" strokeWidth={2} />
                                     </div>
 
-                                    <h3 className={cn(
-                                        "text-2xl font-bold mb-4",
-                                        "text-2xl font-bold mb-4",
-                                        section.backgroundTheme === 'dark'
-                                            ? "text-white"
-                                            : section.backgroundTheme === 'light'
-                                                ? "text-zinc-950 dark:text-white"
-                                                : "text-zinc-950 dark:text-white"
-                                    )}>
-                                        {String(item.title || '')}
-                                    </h3>
-                                    <p className={cn(
-                                        "text-lg leading-relaxed",
-                                        "text-lg leading-relaxed",
-                                        section.backgroundTheme === 'dark'
-                                            ? "text-zinc-300"
-                                            : section.backgroundTheme === 'light'
-                                                ? "text-zinc-500 dark:text-zinc-400"
-                                                : "text-zinc-500 dark:text-zinc-300"
-                                    )}>
-                                        {String(item.description || item.label || '')}
-                                    </p>
+                                    <div className="flex-grow">
+                                        <p className={cn(
+                                            "text-lg leading-relaxed",
+                                            section.backgroundTheme === 'dark'
+                                                ? "text-zinc-300"
+                                                : section.backgroundTheme === 'light'
+                                                    ? "text-zinc-500 dark:text-zinc-400"
+                                                    : "text-zinc-500 dark:text-zinc-300"
+                                        )}>
+                                            {String(item.description || item.label || '')}
+                                        </p>
+                                    </div>
+
                                     {Boolean(item.value) && (
                                         <p className="text-4xl font-bold text-primary mt-6">{String(item.value)}</p>
                                     )}
