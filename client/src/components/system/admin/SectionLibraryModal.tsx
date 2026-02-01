@@ -87,7 +87,7 @@ export function SectionLibraryModal({ isOpen, onClose, onSelect }: SectionLibrar
 
                                         {/* Tag Overlay */}
                                         <div className="absolute top-3 right-3 z-10">
-                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded-md shadow-sm leading-none">
+                                            <span className="inline-flex items-center gap-1.5 text-[10px] font-medium px-2.5 py-1 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 rounded-md shadow-sm leading-none">
                                                 {getCategoryIcon(template.category)}
                                                 <span className="text-neutral-600 dark:text-neutral-300">{template.category}</span>
                                             </span>

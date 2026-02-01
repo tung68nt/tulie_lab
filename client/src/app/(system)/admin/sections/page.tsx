@@ -100,12 +100,10 @@ export default function SectionGalleryPage() {
 
                                     {/* Tag Overlay */}
                                     <div className="absolute top-3 right-3 z-10">
-                                        <Badge variant="outline" className="text-[10px] font-bold px-2.5 py-1 bg-background/90 backdrop-blur-sm border-border shadow-sm inline-flex items-center gap-1.5 capitalize leading-none">
-                                            <span className="flex items-center gap-1">
-                                                {getCategoryIcon(template.category)}
-                                                <span>{template.data.type}</span>
-                                            </span>
-                                        </Badge>
+                                        <span className="inline-flex items-center gap-1.5 text-[10px] font-medium px-2.5 py-1 bg-background/90 backdrop-blur-sm border border-border rounded-md shadow-sm leading-none">
+                                            {getCategoryIcon(template.category)}
+                                            <span className="text-foreground/80">{template.category}</span>
+                                        </span>
                                     </div>
 
                                     {/* ID Overlay on Hover - Simplified */}
