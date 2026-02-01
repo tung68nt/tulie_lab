@@ -163,15 +163,15 @@ export default function ActivationCodesPage() {
                                     {code.course?.title || code.product?.title || 'Unknown'}
                                 </td>
                                 <td className="px-4 py-4">
-                                    <span className={cn(
-                                        "px-2 py-0.5 rounded-md text-[10px] font-bold",
-                                        code.courseId ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
-                                    )}>
+                                    <span className="text-[10px] border border-neutral-200 text-neutral-600 px-1.5 py-0.5 rounded">
                                         {code.courseId ? 'Course' : 'Product'}
                                     </span>
                                 </td>
-                                <td className="px-4 py-4 text-muted-foreground whitespace-nowrap text-xs">
-                                    {new Date(code.createdAt).toLocaleString('vi-VN')}
+                                <td className="px-4 py-4">
+                                    <div className="flex flex-col text-xs">
+                                        <span className="text-neutral-900">{new Date(code.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</span>
+                                        <span className="text-neutral-400">{new Date(code.createdAt).toLocaleDateString('vi-VN')}</span>
+                                    </div>
                                 </td>
                                 <td className="px-4 py-4">
                                     {code.buyer ? (
@@ -185,10 +185,10 @@ export default function ActivationCodesPage() {
                                 </td>
                                 <td className="px-4 py-4">
                                     <span className={cn(
-                                        "px-2 py-0.5 rounded-full text-[10px] font-bold",
-                                        code.status === 'ACTIVE' ? "bg-green-100 text-green-700" : "bg-zinc-100 text-zinc-500"
+                                        "text-[10px] px-1.5 py-0.5 rounded border",
+                                        code.status === 'ACTIVE' ? "border-neutral-300 text-neutral-700" : "border-neutral-200 text-neutral-400"
                                     )}>
-                                        {code.status === 'ACTIVE' ? 'Còn hạn' : 'Đã dùng'}
+                                        {code.status === 'ACTIVE' ? 'Active' : 'Used'}
                                     </span>
                                 </td>
                                 <td className="px-4 py-4">

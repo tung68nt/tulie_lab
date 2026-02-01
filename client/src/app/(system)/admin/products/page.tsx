@@ -157,9 +157,9 @@ export default function AdminProductsPage() {
                                         </td>
                                         <td className="p-4 align-middle">
                                             {product.isPublished ? (
-                                                <Badge className="bg-green-500 hover:bg-green-600 whitespace-nowrap">Đang bán</Badge>
+                                                <span className="text-xs border border-neutral-300 text-neutral-700 px-2 py-0.5 rounded whitespace-nowrap">Published</span>
                                             ) : (
-                                                <Badge variant="outline" className="whitespace-nowrap">Nháp</Badge>
+                                                <span className="text-xs border border-neutral-200 text-neutral-400 px-2 py-0.5 rounded whitespace-nowrap">Draft</span>
                                             )}
                                         </td>
                                         <td className="p-4 align-middle text-right">
