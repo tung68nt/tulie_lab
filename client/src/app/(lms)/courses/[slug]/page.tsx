@@ -536,27 +536,35 @@ export default function CoursePage({ params }: { params: any }) {
                             </div>
                         </section>
 
-                        {/* Instructor Section */}
+                        {/* Instructor Section - Magazine Style */}
                         <section>
                             <h2 className="mb-6 text-2xl font-bold">Giảng viên</h2>
-                            <div className="flex items-start gap-4 rounded-xl border p-6">
-                                {course.instructor?.avatar ? (
-                                    <img
-                                        src={course.instructor.avatar}
-                                        alt={course.instructor.name}
-                                        className="h-16 w-16 rounded-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="h-16 w-16 flex items-center justify-center rounded-full bg-primary/10 text-primary text-2xl font-bold">
-                                        {(course.instructor?.name || 'A').charAt(0)}
+                            <div className="rounded-2xl border bg-card p-8 md:p-10 shadow-sm group hover:shadow-lg hover:border-primary/20 transition-all duration-500">
+                                <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+                                    {/* Large Circular Avatar */}
+                                    <div className="relative shrink-0">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-primary/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 scale-110" />
+                                        {course.instructor?.avatar ? (
+                                            <img
+                                                src={course.instructor.avatar}
+                                                alt={course.instructor.name}
+                                                className="relative z-10 w-32 h-32 rounded-full object-cover ring-4 ring-zinc-100 dark:ring-zinc-800 shadow-xl group-hover:scale-105 transition-transform duration-500"
+                                            />
+                                        ) : (
+                                            <div className="relative z-10 w-32 h-32 flex items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/5 text-primary text-4xl font-bold ring-4 ring-zinc-100 dark:ring-zinc-800 shadow-xl">
+                                                {(course.instructor?.name || 'A').charAt(0)}
+                                            </div>
+                                        )}
                                     </div>
-                                )}
-                                <div>
-                                    <h3 className="font-bold text-lg">{course.instructor?.name || 'Tulie Academy Team'}</h3>
-                                    <p className="text-sm text-zinc-500 mb-2">{course.instructor?.title || 'Đội ngũ giảng viên chuyên nghiệp'}</p>
-                                    <p className="text-sm text-muted-foreground whitespace-pre-line">
-                                        {course.instructor?.bio || 'Chúng tôi là đội ngũ đam mê công nghệ, cam kết mang lại nền tảng học tập tốt nhất cho bạn.'}
-                                    </p>
+
+                                    {/* Content */}
+                                    <div className="flex-1 text-center md:text-left">
+                                        <h3 className="font-bold text-2xl md:text-3xl mb-2 tracking-tight">{course.instructor?.name || 'Tulie Academy Team'}</h3>
+                                        <p className="text-primary font-semibold text-sm uppercase tracking-widest mb-4">{course.instructor?.title || 'Đội ngũ giảng viên chuyên nghiệp'}</p>
+                                        <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                                            {course.instructor?.bio || 'Chúng tôi là đội ngũ đam mê công nghệ, cam kết mang lại nền tảng học tập tốt nhất cho bạn.'}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </section>
