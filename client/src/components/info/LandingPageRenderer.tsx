@@ -150,7 +150,7 @@ export async function LandingPageRenderer({ slug, fallbackSections, forceFallbac
                 }
                 return (
                     <SectionErrorBoundary key={section.id || index} sectionName={section.type}>
-                        <Component section={section} mainCourse={page?.course} upsellCourse={page?.upsellCourse} upsellPrice={page?.upsellPrice} allSections={sections} />
+                        <Component section={section} mainCourse={page?.course} upsellCourse={page?.upsellCourse} mainProduct={page?.product} upsellProduct={page?.upsellProduct} upsellPrice={page?.upsellPrice} allSections={sections} />
                     </SectionErrorBoundary>
                 );
             })}

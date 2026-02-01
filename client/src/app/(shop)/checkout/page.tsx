@@ -26,6 +26,7 @@ function CheckoutContent() {
     const courseId = searchParams.get('courseId') || searchParams.get('courseid');
     const productId = searchParams.get('productId') || searchParams.get('productid');
     const bundleId = searchParams.get('bundleId') || searchParams.get('bundleid');
+    const addOnId = searchParams.get('addOnId') || searchParams.get('addonId') || searchParams.get('addonid');
     const activationType = searchParams.get('activationType') || searchParams.get('activationtype');
     const { addToast } = useToast();
 
@@ -107,20 +108,45 @@ function CheckoutContent() {
                     return;
                 }
 
-                // Fetch related products for upsell (only for products, limit 3)
-                if (productId) {
-                    try {
-                        const res: any = await api.products.list({ isPublished: true });
-                        const allProducts = res.data || [];
-                        // Filter out current product and get up to 3 related products
-                        const related = allProducts
-                            .filter((p: any) => p.id !== productId)
-                            .slice(0, 3);
-                        setUpsellProducts(related);
-                    } catch (err) {
-                        console.error('Failed to fetch upsell products', err);
+                // Fetch related products for upsell (including the specific addOnId if provided)
+                try {
+                    const res: any = await api.products.list({ isPublished: true });
+                    const allProducts = res.data || [];
+
+                    let related = [];
+                    // 1. If addOnId is provided, find and prioritize it
+                    const forcedAddOn = addOnId ? allProducts.find((p: any) => p.id === addOnId) : null;
+                    if (forcedAddOn) {
+                        // Add forced add-on to selection if not already added
+                        if (!selectedUpsells.includes(forcedAddOn.id)) {
+                            setSelectedUpsells(prev => [...prev, forcedAddOn.id]);
+                        }
                     }
+
+                    // 2. Filter list for display
+                    if (productId) {
+                        // For products: filter out current product
+                        related = allProducts.filter((p: any) => p.id !== productId);
+                    } else {
+                        // For courses/bundles: show all products (or filter if needed)
+                        related = allProducts;
+                    }
+
+                    // 3. Ensure forced add-on is at the top of the list if it exists
+                    if (forcedAddOn) {
+                        // Remove forced add-on from related first to avoid duplicates
+                        related = related.filter((p: any) => p.id !== addOnId);
+                        // Prepend it
+                        related = [forcedAddOn, ...related];
+                    }
+
+                    // Limit to 3 items
+                    setUpsellProducts(related.slice(0, 3));
+
+                } catch (err) {
+                    console.error('Failed to fetch upsell products', err);
                 }
+
                 // Fetch invoice profiles
                 try {
                     const profiles: any = await api.admin.invoices.listProfiles(profile.id);
@@ -138,7 +164,7 @@ function CheckoutContent() {
             }
         };
         fetchData();
-    }, [courseId, productId, bundleId, router]);
+    }, [courseId, productId, bundleId, router, addOnId]);
 
     const handleValidatePromo = async () => {
         if (!promoCode.trim()) {
