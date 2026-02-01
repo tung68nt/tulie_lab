@@ -100,9 +100,11 @@ export default function SectionGalleryPage() {
 
                                     {/* Tag Overlay */}
                                     <div className="absolute top-3 right-3 z-10">
-                                        <Badge variant="outline" className="text-[10px] font-bold px-2 py-1 bg-background/90 backdrop-blur-sm border-border shadow-sm flex items-center gap-1.5 capitalize">
-                                            {getCategoryIcon(template.category)}
-                                            {template.data.type}
+                                        <Badge variant="outline" className="text-[10px] font-bold px-2.5 py-1 bg-background/90 backdrop-blur-sm border-border shadow-sm inline-flex items-center gap-1.5 capitalize leading-none">
+                                            <span className="flex items-center gap-1">
+                                                {getCategoryIcon(template.category)}
+                                                <span>{template.data.type}</span>
+                                            </span>
                                         </Badge>
                                     </div>
 
