@@ -44,6 +44,8 @@ export default function CoursePage({ params }: { params: any }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [expandedLessonId, setExpandedLessonId] = useState<string | null>(null);
     const [activationType, setActivationType] = useState<'EMAIL' | 'CODE'>('EMAIL');
+    const [pricingAddOns, setPricingAddOns] = useState<any[]>([]);
+    const [selectedAddOnId, setSelectedAddOnId] = useState<string | null>(null);
 
     // Handle params promise safely
     useEffect(() => {
@@ -72,13 +74,15 @@ export default function CoursePage({ params }: { params: any }) {
         const fetchData = async () => {
             setLoading(true);
             try {
-                // Fetch course and user profile in PARALLEL for faster loading
-                const [courseData, userProfile]: [any, any] = await Promise.all([
+                // Fetch course, user profile, and pricing add-ons in PARALLEL
+                const [courseData, userProfile, addOns]: [any, any, any] = await Promise.all([
                     api.courses.get(slug),
-                    api.users.getProfile().catch(() => null) // Don't fail if not logged in
+                    api.users.getProfile().catch(() => null), // Don't fail if not logged in
+                    api.pricingAddOns.list().catch(() => []) // Don't fail if no add-ons
                 ]);
 
                 setCourse(courseData);
+                setPricingAddOns(Array.isArray(addOns) ? addOns : []);
 
                 // Track ViewContent event
                 sendGTMEvent('view_item', {
@@ -174,8 +178,9 @@ export default function CoursePage({ params }: { params: any }) {
                 return;
             }
 
-            // Redirect to checkout page
-            router.push(`/checkout?courseId=${course.id}&activationType=${activationType}`);
+            // Redirect to checkout page with addOnId if selected
+            const addOnParam = selectedAddOnId ? `&addOnId=${selectedAddOnId}` : '';
+            router.push(`/checkout?courseId=${course.id}&activationType=${activationType}${addOnParam}`);
         } catch (e: any) {
             if (process.env.NODE_ENV !== 'production') {
                 console.error("Enrollment/Checkout failed:", e);
@@ -304,7 +309,16 @@ export default function CoursePage({ params }: { params: any }) {
                                         <div>
                                             <p className="text-xs text-zinc-400 mb-1">Học phí</p>
                                             <div className="text-2xl font-bold text-white">
-                                                {(course.price == null || Number(course.price) === 0) ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.price))}
+                                                {(() => {
+                                                    const basePrice = Number(course.price) || 0;
+                                                    const addOnPrice = selectedAddOnId
+                                                        ? Number(pricingAddOns.find(a => a.id === selectedAddOnId)?.priceAddon || 0)
+                                                        : 0;
+                                                    const total = basePrice + addOnPrice;
+                                                    return total === 0
+                                                        ? 'Miễn phí'
+                                                        : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
+                                                })()}
                                             </div>
                                         </div>
                                         <div className="text-right">
@@ -315,6 +329,68 @@ export default function CoursePage({ params }: { params: any }) {
                                             )}
                                         </div>
                                     </div>
+
+                                    {/* Pricing Add-ons Selection */}
+                                    {pricingAddOns.length > 0 && (
+                                        <div className="mt-4 space-y-2">
+                                            <p className="text-xs text-zinc-400">Chọn gói học:</p>
+                                            <div className="space-y-2">
+                                                {/* Base option - no add-on */}
+                                                <label
+                                                    className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${!selectedAddOnId
+                                                            ? 'bg-white/10 border-white/30'
+                                                            : 'border-zinc-700 hover:border-zinc-600'
+                                                        }`}
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        name="addOn"
+                                                        checked={!selectedAddOnId}
+                                                        onChange={() => setSelectedAddOnId(null)}
+                                                        className="w-4 h-4 accent-white"
+                                                    />
+                                                    <div className="flex-1">
+                                                        <span className="text-sm text-white">Chỉ E-learning</span>
+                                                    </div>
+                                                    <span className="text-sm text-zinc-400">+0đ</span>
+                                                </label>
+
+                                                {/* Add-on options */}
+                                                {pricingAddOns.map((addOn) => (
+                                                    <label
+                                                        key={addOn.id}
+                                                        className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedAddOnId === addOn.id
+                                                                ? 'bg-white/10 border-white/30'
+                                                                : 'border-zinc-700 hover:border-zinc-600'
+                                                            }`}
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            name="addOn"
+                                                            checked={selectedAddOnId === addOn.id}
+                                                            onChange={() => setSelectedAddOnId(addOn.id)}
+                                                            className="w-4 h-4 accent-white mt-0.5"
+                                                        />
+                                                        <div className="flex-1">
+                                                            <span className="text-sm text-white">{addOn.name}</span>
+                                                            {addOn.features?.length > 0 && (
+                                                                <ul className="mt-1 space-y-0.5">
+                                                                    {addOn.features.slice(0, 2).map((f: string, i: number) => (
+                                                                        <li key={i} className="text-xs text-zinc-500">• {f}</li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </div>
+                                                        <span className="text-sm text-zinc-400 shrink-0">
+                                                            {Number(addOn.priceAddon) > 0
+                                                                ? `+${new Intl.NumberFormat('vi-VN').format(Number(addOn.priceAddon))}đ`
+                                                                : 'Miễn phí'}
+                                                        </span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {(!course.deploymentStatus || course.deploymentStatus === 'RELEASED') ? (
                                         !isEnrolled ? (

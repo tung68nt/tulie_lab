@@ -359,6 +359,17 @@ export const api: any = {
         delete: (id: string) => request<void>(`/coupons/${id}`, { method: 'DELETE' }),
         validate: (code: string, amount: number) => request<{ valid: boolean, discount?: number }>('/coupons/validate', { method: 'POST', body: JSON.stringify({ code, amount }) }),
     },
+    pricingAddOns: {
+        list: (includeInactive?: boolean) => {
+            const query = includeInactive ? '?includeInactive=true' : '';
+            return request<unknown[]>(`/pricing-addons${query}`);
+        },
+        get: (id: string) => request<unknown>(`/pricing-addons/${id}`),
+        create: (data: unknown) => request<unknown>('/pricing-addons', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: unknown) => request<unknown>(`/pricing-addons/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/pricing-addons/${id}`, { method: 'DELETE' }),
+        reorder: (ids: string[]) => request<void>('/pricing-addons/reorder', { method: 'POST', body: JSON.stringify({ ids }) }),
+    },
     uploads: {
         single: async (file: File): Promise<{ success: boolean, data: { url: string, originalName: string } }> => {
             const formData = new FormData();
