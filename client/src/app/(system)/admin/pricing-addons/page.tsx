@@ -147,8 +147,8 @@ export default function PricingAddOnsPage() {
             <div className="relative">
                 <Card className="border border-border shadow-none bg-card">
                     <CardHeader className="border-b border-border bg-muted/20 py-4 px-6 flex flex-row items-center justify-between">
-                        <CardTitle className="text-lg font-bold text-foreground opacity-0 hidden">
-                            Danh sách gói
+                        <CardTitle className="text-lg font-bold text-foreground">
+                            Danh sách gói Add-on
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-0">
