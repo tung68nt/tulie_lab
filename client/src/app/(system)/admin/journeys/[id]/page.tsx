@@ -65,8 +65,8 @@ export default function JourneyEditorPage() {
 
     const loadCourses = async () => {
         try {
-            const data = await api.admin.courses.list();
-            setCourses(data.map((c: any) => ({ id: c.id, title: c.title })));
+            const response = await api.admin.courses.list();
+            setCourses(response.data.map((c: any) => ({ id: c.id, title: c.title })));
         } catch (error) {
             console.error('Failed to load courses:', error);
         }
