@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { Section } from '@/types/sections';
-import { BookOpen, FileText, PlayCircle, Star, Zap, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
+import { BookOpen, FileText, PlayCircle, Star, Zap, ChevronDown, ChevronUp, ArrowRight, Gift } from 'lucide-react';
 import Image from 'next/image';
 import { SectionBackground } from '../SectionBackground';
 import { SectionTag } from '@/components/SectionTag';
@@ -76,22 +76,54 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                             {/* Clean Lesson List */}
                                             {module.lessons && module.lessons.length > 0 && (
                                                 <div className="flex flex-col gap-0.5 pt-2">
-                                                    {module.lessons.map((lesson: string, i: number) => (
-                                                        <div key={i} className="flex items-start gap-3 group/lesson py-1.5 px-2 -ml-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                                                            <div className="mt-1 shrink-0">
-                                                                <PlayCircle className={cn(
-                                                                    "w-5 h-5 transition-colors",
-                                                                    isDark ? "text-zinc-600 group-hover/lesson:text-primary" : "text-zinc-400 group-hover/lesson:text-primary"
-                                                                )} />
+                                                    {module.lessons.map((lesson: string, i: number) => {
+                                                        // Parse title and description
+                                                        // Format: "Title/Prefix - Description"
+                                                        // Example: "Bài 1: Tư Duy Ánh Sáng - Tại sao ánh sáng là VUA..."
+                                                        const parts = lesson.split(' - ');
+                                                        const title = parts[0];
+                                                        const description = parts.length > 1 ? parts.slice(1).join(' - ') : '';
+
+                                                        // Determine Icon based on keywords
+                                                        const lowerTitle = title.toLowerCase();
+                                                        let Icon = PlayCircle;
+                                                        let iconColorClass = isDark ? "text-zinc-600 group-hover/lesson:text-primary" : "text-zinc-400 group-hover/lesson:text-primary";
+
+                                                        if (lowerTitle.includes('tặng') || lowerTitle.includes('bonus') || lowerTitle.includes('gift')) {
+                                                            Icon = Gift;
+                                                            iconColorClass = "text-orange-500";
+                                                        } else if (lowerTitle.includes('tài liệu') || lowerTitle.includes('pdf') || lowerTitle.includes('checklist')) {
+                                                            Icon = FileText;
+                                                            iconColorClass = "text-blue-500";
+                                                        }
+
+                                                        return (
+                                                            <div key={i} className="flex items-start gap-3 group/lesson py-2 px-3 -ml-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
+                                                                <div className="mt-1 shrink-0">
+                                                                    <Icon className={cn(
+                                                                        "w-5 h-5 transition-colors",
+                                                                        iconColorClass
+                                                                    )} />
+                                                                </div>
+                                                                <div className="flex flex-col">
+                                                                    <span className={cn(
+                                                                        "text-[16px] font-bold transition-colors leading-snug",
+                                                                        isDark ? "text-zinc-200 group-hover/lesson:text-white" : "text-zinc-700 group-hover/lesson:text-zinc-900"
+                                                                    )}>
+                                                                        {title}
+                                                                    </span>
+                                                                    {description && (
+                                                                        <span className={cn(
+                                                                            "text-sm mt-1 leading-relaxed",
+                                                                            isDark ? "text-zinc-400" : "text-muted-foreground"
+                                                                        )}>
+                                                                            {description}
+                                                                        </span>
+                                                                    )}
+                                                                </div>
                                                             </div>
-                                                            <span className={cn(
-                                                                "text-[16px] font-medium transition-colors leading-relaxed",
-                                                                isDark ? "text-zinc-400 group-hover/lesson:text-zinc-200" : "text-zinc-600 group-hover/lesson:text-zinc-900"
-                                                            )}>
-                                                                {lesson}
-                                                            </span>
-                                                        </div>
-                                                    ))}
+                                                        );
+                                                    })}
                                                 </div>
                                             )}
                                         </div>

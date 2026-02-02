@@ -76,20 +76,20 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                     </div>
 
                                     <h3 className={cn(
-                                        "text-xl font-bold mb-3 transition-colors group-hover:text-primary",
+                                        "text-xl font-bold mb-3 transition-colors group-hover:text-primary min-h-[56px] line-clamp-2",
                                         isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-50")
                                     )}>
                                         {item.title || item.label}
                                     </h3>
 
                                     <p className={cn(
-                                        "leading-relaxed text-sm flex-1",
+                                        "leading-relaxed text-sm flex-1 mb-4",
                                         isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
                                     )}>
                                         {item.description || item.content || 'Nội dung chi tiết đang được cập nhật.'}
                                     </p>
 
-                                    <div className="mt-6 pt-6 border-t border-border/50 flex items-center text-primary text-sm font-bold group-hover:translate-x-1 transition-transform duration-300">
+                                    <div className="mt-auto pt-6 border-t border-border/50 flex items-center text-primary text-sm font-bold group-hover:translate-x-1 transition-transform duration-300">
                                         Chi tiết <span className="ml-1">→</span>
                                     </div>
                                 </Link>

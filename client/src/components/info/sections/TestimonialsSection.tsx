@@ -121,40 +121,41 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                         </div>
                                     </div>
 
-                                    {/* Quote Area */}
-                                    <div className="mb-4 h-14 flex items-center">
+                                    {/* Quote Area - Flexible height to push content down */}
+                                    <div className="mb-6 flex-grow">
                                         {testimonial.content ? (
-                                            <p className="text-base text-foreground/80 dark:text-zinc-300 font-medium line-clamp-2">
+                                            <p className="text-base text-foreground/80 dark:text-zinc-300 font-medium">
                                                 "{testimonial.content}"
                                             </p>
                                         ) : null}
                                     </div>
 
-                                    <div className="space-y-4 flex-grow flex flex-col">
+                                    {/* Comparison Grid - 2 Cols for perfect alignment */}
+                                    <div className="pt-6 border-t border-border/50 grid grid-cols-2 gap-4 md:gap-6 mt-auto">
                                         {/* Before Column */}
-                                        <div className="flex-none min-h-[10rem]">
-                                            <h4 className="text-xs font-bold text-red-500 mb-2">Trước khi học</h4>
-                                            <div className="">
+                                        <div>
+                                            <h4 className="text-xs font-bold text-red-500 mb-3 uppercase tracking-wider">Trước khi học</h4>
+                                            <div className="space-y-2">
                                                 {testimonial.before && testimonial.before.map((point: string, i: number) => (
-                                                    <div key={i} className="flex gap-2 text-sm text-zinc-500 dark:text-zinc-300 mb-2">
-                                                        <XCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                                                        <span className="line-clamp-2 opacity-80">{point}</span>
+                                                    <div key={i} className="flex gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                                                        <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                                                        <span className="opacity-90 leading-snug">{point}</span>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
 
-                                        <div className="h-px bg-border/50 border-t border-dashed border-border shrink-0"></div>
-
                                         {/* After Column */}
-                                        <div className="flex-1">
-                                            <h4 className="text-xs font-bold text-green-500 mb-2">Kết quả đạt được</h4>
-                                            {testimonial.after && testimonial.after.map((point: string, i: number) => (
-                                                <div key={i} className="flex gap-2 text-sm font-medium text-foreground dark:text-white mb-2">
-                                                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                                                    <span className="line-clamp-2">{point}</span>
-                                                </div>
-                                            ))}
+                                        <div>
+                                            <h4 className="text-xs font-bold text-green-500 mb-3 uppercase tracking-wider">Kết quả đạt được</h4>
+                                            <div className="space-y-2">
+                                                {testimonial.after && testimonial.after.map((point: string, i: number) => (
+                                                    <div key={i} className="flex gap-2 text-sm font-medium text-foreground dark:text-zinc-200">
+                                                        <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                                                        <span className="leading-snug">{point}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

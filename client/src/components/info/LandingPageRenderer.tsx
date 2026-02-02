@@ -19,6 +19,7 @@ import { StudentShowcaseSection } from '@/components/info/sections/StudentShowca
 import { BonusSection } from '@/components/info/sections/BonusSection';
 import { InstructorGridSection } from '@/components/info/sections/InstructorGridSection';
 import { ContentBlockSection } from '@/components/info/sections/ContentBlockSection';
+import { SimpleTestimonialsSection } from '@/components/info/sections/SimpleTestimonialsSection';
 import { PricingSection } from '@/components/info/sections/PricingSection';
 import { FAQSection } from '@/components/info/sections/FAQSection';
 import { CodingMethodsSection } from '@/components/info/sections/CodingMethodsSection';
@@ -58,6 +59,7 @@ const SECTION_COMPONENTS: Record<string, React.ElementType> = {
     'custom-html': CustomHtmlSection,
     'instructor-bio': ExpertSection,
     expert: ExpertSection,
+    'simple-testimonials': SimpleTestimonialsSection,
     'student-showcase': StudentShowcaseSection,
     bonus: BonusSection,
     'instructor-grid': InstructorGridSection,
