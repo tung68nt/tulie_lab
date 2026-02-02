@@ -152,10 +152,10 @@ export default function AdminProductClassificationsPage() {
                 <Button
                     onClick={() => handleCreate(type)}
                     size="sm"
-                    className="h-8 w-8 p-0 rounded-full"
+                    className="h-10 w-10 p-0 rounded-full"
                     title="Thêm mới"
                 >
-                    <Plus size={18} />
+                    <Plus size={24} />
                 </Button>
             </CardHeader>
             <CardContent className="p-0">
