@@ -217,7 +217,7 @@ export default function JourneyEditorPage() {
     }
 
     return (
-        <div className="p-6">
+        <div className="space-y-6">
             {/* Header */}
             <AdminPageHeader
                 title={isNew ? 'Tạo Lộ Trình Mới' : 'Chỉnh Sửa Lộ Trình'}

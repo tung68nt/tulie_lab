@@ -15,7 +15,7 @@ interface AdminPageHeaderProps {
 
 export function AdminPageHeader({ title, subtitle, backUrl, children, className, icon }: AdminPageHeaderProps) {
     return (
-        <div className={cn("mb-8", className)}>
+        <div className={cn("mb-8 pt-2", className)}>
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
                     {backUrl && (
