@@ -116,8 +116,8 @@ export default function MentoringSchedulePage() {
                         <Button variant="ghost" size="icon" onClick={handlePrevWeek} className="h-9 w-9">
                             <ChevronLeft className="h-4 w-4" />
                         </Button>
-                        <div className="w-32 text-center text-sm font-medium">
-                            {format(startDate, 'dd/MM')} - {format(endDate, 'dd/MM, yyyy')}
+                        <div className="w-auto px-4 text-center text-sm font-medium whitespace-nowrap">
+                            {format(startDate, 'dd/MM/yy')} - {format(endDate, 'dd/MM/yy')}
                         </div>
                         <Button variant="ghost" size="icon" onClick={handleNextWeek} className="h-9 w-9">
                             <ChevronRight className="h-4 w-4" />
