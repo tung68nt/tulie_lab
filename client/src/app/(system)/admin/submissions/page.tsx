@@ -106,9 +106,9 @@ export default function SubmissionsPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full items-start">
                 {/* Submission List */}
-                <div>
+                <div className="lg:col-span-1 flex flex-col gap-4">
                     <h2 className="text-lg font-semibold mb-4">Bài nộp chờ duyệt ({submissions.length})</h2>
 
                     {loading ? (
@@ -176,7 +176,7 @@ export default function SubmissionsPage() {
                 </div>
 
                 {/* Review Panel */}
-                <div>
+                <div className="lg:col-span-2 h-full">
                     {selectedSubmission ? (
                         <Card className="p-6 sticky top-6">
                             <h2 className="text-lg font-semibold mb-4">Chi Tiết Bài Nộp</h2>
