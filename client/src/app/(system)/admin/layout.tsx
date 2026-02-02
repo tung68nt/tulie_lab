@@ -34,6 +34,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/bundles', label: 'Combo / Bundle' },
                 { href: '/admin/categories', label: 'Chuyên mục' },
                 { href: '/admin/events', label: 'Sự kiện' },
+                { href: '/admin/journeys', label: 'Lộ trình học' },
+                { href: '/admin/submissions', label: 'Duyệt bài nộp' },
             ]
         },
         {

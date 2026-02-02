@@ -10,27 +10,28 @@ datasource db {
 }
 
 model User {
-  id              String               @id @default(uuid())
-  email           String               @unique
-  password        String
-  role            Role                 @default(USER)
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-  isActive        Boolean              @default(true)
-  boughtCodes     ActivationCode[]     @relation("BoughtCodes")
-  redeemedCodes   ActivationCode[]     @relation("RedeemedCodes")
-  activityLogs    ActivityLog[]
-  enrollments     Enrollment[]
-  progress        LessonProgress[]
-  marketingLead   MarketingLead[]
-  orders          Order[]
-  securityLogs    SecurityLog[]
-  subscriptions   Subscription[]
-  invoiceProfiles UserInvoiceProfile[]
-  notes           UserNote[]
-  notifications   UserNotification[]
-  profile         UserProfile?
-  sessions        UserSession[]
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  password            String
+  role                Role                 @default(USER)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  isActive            Boolean              @default(true)
+  boughtCodes         ActivationCode[]     @relation("BoughtCodes")
+  redeemedCodes       ActivationCode[]     @relation("RedeemedCodes")
+  activityLogs        ActivityLog[]
+  enrollments         Enrollment[]
+  progress            LessonProgress[]
+  marketingLead       MarketingLead[]
+  orders              Order[]
+  securityLogs        SecurityLog[]
+  subscriptions       Subscription[]
+  invoiceProfiles     UserInvoiceProfile[]
+  notes               UserNote[]
+  notifications       UserNotification[]
+  profile             UserProfile?
+  sessions            UserSession[]
+  journeyEnrollments  JourneyEnrollment[]
 
   @@index([role])
   @@index([email])
@@ -220,6 +221,7 @@ model Course {
   lessons           Lesson[]
   orderItems        OrderItem[]
   upsellFromProduct ProductCourseUpsell[]  @relation("ProductUpsellCourse")
+  journeys          LearningJourney[]
 
   @@index([isPublished])
   @@index([price])
@@ -848,4 +850,113 @@ model PricingAddOn {
 
   @@index([isActive])
   @@index([position])
+}
+
+// =============================================================================
+// LEARNING JOURNEY SYSTEM
+// =============================================================================
+
+// Learning Journey - Lộ trình học thực hành
+model LearningJourney {
+  id           String              @id @default(uuid())
+  title        String              // "Từ Ý Tưởng Đến Sản Phẩm"
+  slug         String              @unique
+  description  String?
+  thumbnail    String?
+  courseId     String?             // Optional: Liên kết với Course
+  isPublished  Boolean             @default(false)
+  isAddOn      Boolean             @default(false) // Bán như Add-on
+  price        Decimal             @default(0) @db.Decimal(12, 0)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  course       Course?             @relation(fields: [courseId], references: [id])
+  steps        JourneyStep[]
+  enrollments  JourneyEnrollment[]
+
+  @@index([isPublished])
+  @@index([courseId])
+}
+
+// Các bước trong Journey
+model JourneyStep {
+  id             String              @id @default(uuid())
+  journeyId      String
+  title          String              // "Step 1: Brainstorm ý tưởng"
+  description    String?             // Hướng dẫn chi tiết
+  position       Int                 @default(0)
+  submissionType SubmissionType      @default(ANY) // IMAGE, FILE, URL, TEXT, ANY
+  isRequired     Boolean             @default(true)
+  deadlineDays   Int?                // Optional: số ngày deadline từ khi enroll
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  journey        LearningJourney     @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  submissions    JourneySubmission[]
+
+  @@index([journeyId])
+  @@index([position])
+}
+
+// Học viên đăng ký Journey
+model JourneyEnrollment {
+  id          String              @id @default(uuid())
+  userId      String
+  journeyId   String
+  currentStep Int                 @default(0) // Bước hiện tại (0 = chưa bắt đầu)
+  status      JourneyStatus       @default(IN_PROGRESS)
+  startedAt   DateTime            @default(now())
+  completedAt DateTime?
+
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  journey     LearningJourney     @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  submissions JourneySubmission[]
+
+  @@unique([userId, journeyId])
+  @@index([userId])
+  @@index([journeyId])
+  @@index([status])
+}
+
+// Bài nộp của học viên
+model JourneySubmission {
+  id             String            @id @default(uuid())
+  enrollmentId   String
+  stepId         String
+  submissionType SubmissionType    // IMAGE, FILE, URL, TEXT
+  content        String            // URL file/image hoặc text content
+  fileName       String?           // Tên file gốc nếu upload
+  status         SubmissionStatus  @default(PENDING)
+  feedback       String?           // Phản hồi từ reviewer
+  reviewedBy     String?           // Admin/Mentor ID
+  reviewedAt     DateTime?
+  submittedAt    DateTime          @default(now())
+
+  enrollment     JourneyEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  step           JourneyStep       @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  @@index([enrollmentId])
+  @@index([stepId])
+  @@index([status])
+}
+
+enum SubmissionType {
+  IMAGE
+  FILE
+  URL
+  TEXT
+  ANY
+}
+
+enum SubmissionStatus {
+  PENDING   // Chờ duyệt
+  APPROVED  // Đã duyệt
+  REJECTED  // Từ chối, cần làm lại
+  REVISION  // Cần chỉnh sửa
+}
+
+enum JourneyStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
 }
