@@ -73,13 +73,15 @@ export default function JourneyListPage() {
     return (
         <div className="p-6">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                    <Route className="w-8 h-8" />
-                    <div>
-                        <h1 className="text-2xl font-bold">Lộ Trình Học</h1>
-                        <p className="text-muted-foreground">Quản lý các lộ trình học thực hành</p>
-                    </div>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 shrink-0">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+                        <Route className="w-8 h-8" />
+                        Lộ Trình Học
+                    </h1>
+                    <p className="text-muted-foreground mt-1">
+                        Quản lý các lộ trình học thực hành
+                    </p>
                 </div>
                 <Link href="/admin/journeys/new">
                     <Button>
@@ -93,7 +95,7 @@ export default function JourneyListPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <Card className="p-4">
                     <div className="flex items-center gap-3">
-                        <Route className="w-8 h-8 text-primary" />
+                        <Route className="w-8 h-8" />
                         <div>
                             <p className="text-2xl font-bold">{journeys.length}</p>
                             <p className="text-sm text-muted-foreground">Tổng số lộ trình</p>
@@ -102,7 +104,7 @@ export default function JourneyListPage() {
                 </Card>
                 <Card className="p-4">
                     <div className="flex items-center gap-3">
-                        <Eye className="w-8 h-8 text-green-500" />
+                        <Eye className="w-8 h-8" />
                         <div>
                             <p className="text-2xl font-bold">{journeys.filter(j => j.isPublished).length}</p>
                             <p className="text-sm text-muted-foreground">Đã xuất bản</p>
@@ -111,9 +113,11 @@ export default function JourneyListPage() {
                 </Card>
                 <Card className="p-4">
                     <div className="flex items-center gap-3">
-                        <Users className="w-8 h-8 text-blue-500" />
+                        <Users className="w-8 h-8" />
                         <div>
-                            <p className="text-2xl font-bold">{journeys.reduce((sum, j) => sum + j._count.enrollments, 0)}</p>
+                            <p className="text-2xl font-bold">
+                                {journeys.reduce((acc, curr) => acc + (curr._count?.enrollments || 0), 0)}
+                            </p>
                             <p className="text-sm text-muted-foreground">Tổng học viên</p>
                         </div>
                     </div>

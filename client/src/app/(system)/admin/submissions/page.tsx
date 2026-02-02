@@ -98,11 +98,15 @@ export default function SubmissionsPage() {
     return (
         <div className="p-6">
             {/* Header */}
-            <div className="flex items-center gap-3 mb-6">
-                <Clock className="w-8 h-8" />
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 shrink-0">
                 <div>
-                    <h1 className="text-2xl font-bold">Duyệt Bài Nộp</h1>
-                    <p className="text-muted-foreground">Xem xét và đánh giá bài nộp từ học viên</p>
+                    <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+                        <Clock className="w-8 h-8" />
+                        Duyệt Bài Nộp
+                    </h1>
+                    <p className="text-muted-foreground mt-1">
+                        Xem xét và đánh giá bài nộp từ học viên
+                    </p>
                 </div>
             </div>
 
@@ -117,11 +121,11 @@ export default function SubmissionsPage() {
                             <p className="text-muted-foreground">Đang tải...</p>
                         </div>
                     ) : submissions.length === 0 ? (
-                        <Card className="p-12 text-center">
-                            <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-500" />
-                            <h3 className="text-lg font-semibold mb-2">Không có bài nộp chờ duyệt</h3>
-                            <p className="text-muted-foreground">Tất cả bài nộp đã được xử lý.</p>
-                        </Card>
+                        <div className="flex flex-col items-center justify-center h-40 text-muted-foreground border rounded-lg p-6 text-center">
+                            <CheckCircle className="w-12 h-12 mb-3" />
+                            <p className="font-medium">Không có bài nộp chờ duyệt</p>
+                            <p className="text-sm">Tất cả bài nộp đã được xử lý.</p>
+                        </div>
                     ) : (
                         <div className="space-y-3">
                             {submissions.map((submission) => (
@@ -266,7 +270,7 @@ export default function SubmissionsPage() {
                                     disabled={reviewing}
                                 >
                                     <CheckCircle className="w-4 h-4 mr-2" />
-                                    Duyệt
+                                    Duyệt bài
                                 </Button>
                             </div>
                         </Card>
