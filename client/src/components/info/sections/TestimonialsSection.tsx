@@ -105,19 +105,19 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                     section.backgroundTheme === 'dark' ? "bg-black" : (section.backgroundTheme === 'light' ? "bg-zinc-50 dark:bg-black" : "bg-background")
                                 )}>
                                     {/* Header: Profile */}
-                                    <div className="flex items-start gap-4 mb-5">
+                                    <div className="flex items-start gap-4 mb-5 min-h-[72px]">
                                         <div className="relative w-14 h-14 shrink-0">
                                             <div className="absolute inset-0 bg-primary/10 rounded-full blur-sm"></div>
                                             <Image
                                                 src={testimonial.avatar || `https://i.pravatar.cc/150?u=${index}`}
-                                                alt={testimonial.name}
+                                                alt={testimonial.name || ''}
                                                 fill
                                                 className="object-cover rounded-full border-2 border-white dark:border-neutral-800 shadow-md relative z-10"
                                             />
                                         </div>
-                                        <div>
-                                            <h3 className="text-xl font-bold text-foreground dark:text-white">{testimonial.name}</h3>
-                                            <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400">{testimonial.role}</p>
+                                        <div className="flex-1">
+                                            <h3 className="text-xl font-bold text-foreground dark:text-white line-clamp-1">{testimonial.name}</h3>
+                                            <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400 line-clamp-2">{testimonial.role}</p>
                                         </div>
                                     </div>
 
@@ -130,34 +130,6 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                         ) : null}
                                     </div>
 
-                                    {/* Comparison Grid - Top aligned to ensure headers match */}
-                                    <div className="pt-6 border-t border-border/50 grid grid-cols-2 gap-4 md:gap-6">
-                                        {/* Before Column */}
-                                        <div>
-                                            <h4 className="text-xs font-bold text-red-500 mb-3 uppercase tracking-wider">Trước khi học</h4>
-                                            <div className="space-y-2">
-                                                {testimonial.before && testimonial.before.map((point: string, i: number) => (
-                                                    <div key={i} className="flex gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                                                        <XCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                                                        <span className="opacity-90 leading-snug">{point}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* After Column */}
-                                        <div>
-                                            <h4 className="text-xs font-bold text-green-500 mb-3 uppercase tracking-wider">Kết quả đạt được</h4>
-                                            <div className="space-y-2">
-                                                {testimonial.after && testimonial.after.map((point: string, i: number) => (
-                                                    <div key={i} className="flex gap-2 text-sm font-medium text-foreground dark:text-zinc-200">
-                                                        <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                                                        <span className="leading-snug">{point}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </FadeIn>

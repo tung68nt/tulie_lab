@@ -183,6 +183,9 @@ export const api: any = {
             deleteLesson: (lessonId: string) => request<void>(`/courses/lessons/${lessonId}`, { method: 'DELETE' }),
             addAttachment: (lessonId: string, data: unknown) => request<unknown>(`/courses/lessons/${lessonId}/attachments`, { method: 'POST', body: JSON.stringify(data) }),
         },
+        lms: {
+            getAnalytics: () => request<any>('/admin/lms/analytics'),
+        },
         users: {
             list: () => request<{ data: User[], pagination: any, stats: any }>('/users'),
             get: (id: string) => request<User>(`/users/${id}`),

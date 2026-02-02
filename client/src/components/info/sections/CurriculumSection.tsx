@@ -77,25 +77,40 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                             {module.lessons && module.lessons.length > 0 && (
                                                 <div className="flex flex-col gap-0.5 pt-2">
                                                     {module.lessons.map((lesson: string, i: number) => {
+                                                        // Parse icon prefix if exists: e.g. "[quiz] Bài tập cuối khóa"
+                                                        let iconType = '';
+                                                        let cleanLesson = lesson;
+                                                        const prefixMatch = lesson.match(/^\[(video|gift|doc|quiz|bonus)\]\s*/i);
+                                                        if (prefixMatch) {
+                                                            iconType = prefixMatch[1].toLowerCase();
+                                                            cleanLesson = lesson.replace(prefixMatch[0], '');
+                                                        }
+
                                                         // Parse title and description
-                                                        // Format: "Title/Prefix - Description"
-                                                        // Example: "Bài 1: Tư Duy Ánh Sáng - Tại sao ánh sáng là VUA..."
-                                                        const parts = lesson.split(' - ');
+                                                        // Format: "Title - Description"
+                                                        const parts = cleanLesson.split(' - ');
                                                         const title = parts[0];
                                                         const description = parts.length > 1 ? parts.slice(1).join(' - ') : '';
 
-                                                        // Determine Icon based on keywords
+                                                        // Determine Icon
                                                         const lowerTitle = title.toLowerCase();
                                                         let Icon = PlayCircle;
-                                                        let iconColorClass = isDark ? "text-zinc-600 group-hover/lesson:text-primary" : "text-zinc-400 group-hover/lesson:text-primary";
 
-                                                        if (lowerTitle.includes('tặng') || lowerTitle.includes('bonus') || lowerTitle.includes('gift')) {
+                                                        // Priority 1: Explicit prefix
+                                                        if (iconType === 'quiz') Icon = Zap;
+                                                        else if (iconType === 'doc') Icon = FileText;
+                                                        else if (iconType === 'gift' || iconType === 'bonus') Icon = Gift;
+                                                        else if (iconType === 'video') Icon = PlayCircle;
+                                                        // Priority 2: Keyword fallback
+                                                        else if (lowerTitle.includes('tặng') || lowerTitle.includes('bonus') || lowerTitle.includes('gift')) {
                                                             Icon = Gift;
-                                                            // Keep consistent gray color
-                                                        } else if (lowerTitle.includes('tài liệu') || lowerTitle.includes('pdf') || lowerTitle.includes('checklist')) {
+                                                        } else if (lowerTitle.includes('tài liệu') || lowerTitle.includes('pdf') || lowerTitle.includes('checklist') || lowerTitle.includes('source code')) {
                                                             Icon = FileText;
-                                                            // Keep consistent gray color
+                                                        } else if (lowerTitle.includes('bài tập') || lowerTitle.includes('quiz') || lowerTitle.includes('test')) {
+                                                            Icon = Zap;
                                                         }
+
+                                                        let iconColorClass = isDark ? "text-zinc-600 group-hover/lesson:text-primary" : "text-zinc-400 group-hover/lesson:text-primary";
 
                                                         return (
                                                             <div key={i} className="flex items-start gap-3 group/lesson py-2 px-3 -ml-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">

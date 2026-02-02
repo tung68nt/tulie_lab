@@ -74,19 +74,19 @@ export const SimpleTestimonialsSection = ({ section }: { section: Section }) => 
                                     section.backgroundTheme === 'dark' ? "bg-black" : (section.backgroundTheme === 'light' ? "bg-zinc-50 dark:bg-black" : "bg-background")
                                 )}>
                                     {/* Header: Profile */}
-                                    <div className="flex items-center gap-4 mb-6">
+                                    <div className="flex items-center gap-4 mb-6 min-h-[72px]">
                                         <div className="relative w-14 h-14 shrink-0">
                                             <div className="absolute inset-0 bg-primary/10 rounded-full blur-sm"></div>
                                             <Image
                                                 src={testimonial.avatar || `https://i.pravatar.cc/150?u=${index}`}
-                                                alt={testimonial.name}
+                                                alt={testimonial.name || ''}
                                                 fill
                                                 className="object-cover rounded-full border-2 border-white dark:border-neutral-800 shadow-md relative z-10"
                                             />
                                         </div>
                                         <div>
-                                            <h3 className="text-xl font-bold text-foreground dark:text-white">{testimonial.name}</h3>
-                                            <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400">{testimonial.role}</p>
+                                            <h3 className="text-xl font-bold text-foreground dark:text-white line-clamp-1">{testimonial.name}</h3>
+                                            <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400 line-clamp-2">{testimonial.role}</p>
                                         </div>
                                     </div>
 
