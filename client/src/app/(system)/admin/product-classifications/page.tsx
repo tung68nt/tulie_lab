@@ -146,43 +146,64 @@ export default function AdminProductClassificationsPage() {
     const fields = classifications.filter(c => c.type === 'PRODUCT_FIELD');
 
     const renderList = (title: string, list: Classification[], type: 'PRODUCT_TYPE' | 'PRODUCT_FIELD') => (
-        <Card className="h-full border-neutral-200 shadow-none">
-            <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-neutral-100 px-6 pt-6">
-                <CardTitle className="text-lg font-semibold text-neutral-900">{title}</CardTitle>
+        <Card className="h-full border border-border shadow-none bg-card">
+            <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-border bg-muted/20 py-4 px-6">
+                <CardTitle className="text-base font-bold text-foreground">{title}</CardTitle>
                 <Button
                     onClick={() => handleCreate(type)}
-                    variant="ghost"
                     size="sm"
-                    className="h-8 w-8 p-0 rounded-full hover:bg-neutral-100"
+                    className="h-8 w-8 p-0 rounded-full"
                     title="Thêm mới"
                 >
-                    <Plus size={18} className="text-neutral-900" />
+                    <Plus size={18} />
                 </Button>
             </CardHeader>
             <CardContent className="p-0">
                 {list.length === 0 && !loading ? (
-                    <div className="p-8 text-center text-neutral-400 text-sm">Chưa có dữ liệu</div>
+                    <div className="p-8 text-center text-muted-foreground text-sm">Chưa có dữ liệu</div>
                 ) : (
-                    <div className="divide-y divide-neutral-100">
-                        {list.map((item) => (
-                            <div key={item.id} className="group flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-7 h-7 rounded-lg border border-neutral-200 flex items-center justify-center text-neutral-600">
-                                        {getIconComponent(item.icon)}
-                                    </div>
-                                    <span className="text-sm font-medium text-neutral-900">{item.name}</span>
-                                    {!item.isActive && (
-                                        <span className="text-[10px] bg-neutral-100 text-neutral-500 px-1.5 py-0.5 rounded border border-neutral-200 font-medium">Ẩn</span>
-                                    )}
-                                </div>
-                                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <TableActions
-                                        onEdit={() => handleEdit(item)}
-                                        onDelete={() => handleDelete(item.id)}
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-[13px] border-collapse">
+                            <thead>
+                                <tr className="bg-muted/50 border-b border-border">
+                                    <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-6">Tên phân loại</th>
+                                    <th className="text-center font-bold text-muted-foreground py-3 px-4 w-[100px]">Trạng thái</th>
+                                    <th className="text-right font-bold text-muted-foreground py-3 px-6 w-[100px]"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {list.map((item) => (
+                                    <tr
+                                        key={item.id}
+                                        className="group border-b border-border hover:bg-muted/50 transition-colors"
+                                    >
+                                        <td className="py-3 px-6">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-lg border border-border bg-muted/50 flex items-center justify-center text-muted-foreground">
+                                                    {getIconComponent(item.icon)}
+                                                </div>
+                                                <span className="font-medium text-foreground">{item.name}</span>
+                                            </div>
+                                        </td>
+                                        <td className="py-3 px-4 text-center">
+                                            {!item.isActive ? (
+                                                <span className="text-[10px] bg-muted text-muted-foreground px-2 py-0.5 rounded border border-border font-bold">Ẩn</span>
+                                            ) : (
+                                                <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-200 font-bold">Hiện</span>
+                                            )}
+                                        </td>
+                                        <td className="py-3 px-6 text-right">
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end">
+                                                <TableActions
+                                                    onEdit={() => handleEdit(item)}
+                                                    onDelete={() => handleDelete(item.id)}
+                                                />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 )}
             </CardContent>

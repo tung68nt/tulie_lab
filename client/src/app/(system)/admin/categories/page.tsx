@@ -115,31 +115,54 @@ export default function AdminCategoriesPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* List Column */}
                 <div className={`col-span-1 ${isEditing ? 'md:col-span-2' : 'md:col-span-3'}`}>
-                    <Card>
+                    <Card className="h-full border border-border shadow-none bg-card">
                         <CardContent className="p-0">
                             {loading ? (
                                 <div className="p-8 w-full flex items-center justify-center text-muted-foreground">Đang tải...</div>
                             ) : categories.length === 0 ? (
                                 <div className="p-8 w-full flex flex-col items-center justify-center text-muted-foreground min-h-[200px] h-full text-center">Chưa có danh mục nào</div>
                             ) : (
-                                <div className="divide-y">
-                                    {categories.map((cat) => (
-                                        <div key={cat.id} className="p-4 flex justify-between items-center hover:bg-muted/50 transition-colors">
-                                            <div>
-                                                <div className="font-semibold flex items-center gap-2">
-                                                    {cat.name}
-                                                    {!cat.isActive && <span className="text-xs bg-gray-200 text-gray-600 px-1 rounded">Hidden</span>}
-                                                </div>
-                                                <div className="text-sm text-muted-foreground">/{cat.slug} &middot; {cat._count?.courses || 0} khóa học</div>
-                                            </div>
-                                            <div className="flex gap-2">
-                                                <TableActions
-                                                    onEdit={() => handleEdit(cat)}
-                                                    onDelete={() => handleDelete(cat.id, cat._count?.courses || 0)}
-                                                />
-                                            </div>
-                                        </div>
-                                    ))}
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-[13px] border-collapse">
+                                        <thead>
+                                            <tr className="bg-muted/50 border-b border-border">
+                                                <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-6 w-[250px]">Tên danh mục</th>
+                                                <th className="text-left font-bold text-muted-foreground py-3 px-4">Slug / Khóa học</th>
+                                                <th className="text-center font-bold text-muted-foreground py-3 px-4 w-[120px]">Trạng thái</th>
+                                                <th className="text-right font-bold text-muted-foreground py-3 px-6 w-[100px]"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {categories.map((cat) => (
+                                                <tr key={cat.id} className="group border-b border-border hover:bg-muted/50 transition-colors">
+                                                    <td className="py-4 px-6">
+                                                        <span className="font-semibold text-foreground">{cat.name}</span>
+                                                    </td>
+                                                    <td className="py-4 px-4 align-top">
+                                                        <div className="flex flex-col gap-0.5">
+                                                            <span className="text-muted-foreground">/{cat.slug}</span>
+                                                            <span className="text-[11px] text-muted-foreground font-medium">{cat._count?.courses || 0} khóa học</span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="py-4 px-4 text-center">
+                                                        {!cat.isActive ? (
+                                                            <span className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded border border-red-100 font-bold">Ẩn</span>
+                                                        ) : (
+                                                            <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-200 font-bold">Hiện</span>
+                                                        )}
+                                                    </td>
+                                                    <td className="py-4 px-6 text-right">
+                                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end">
+                                                            <TableActions
+                                                                onEdit={() => handleEdit(cat)}
+                                                                onDelete={() => handleDelete(cat.id, cat._count?.courses || 0)}
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 </div>
                             )}
                         </CardContent>

@@ -145,49 +145,72 @@ export default function PricingAddOnsPage() {
             </AdminPageHeader>
 
             <div className="relative">
-                <Card className={`border-neutral-200 shadow-sm ${isEditing ? 'opacity-50 pointer-events-none' : ''}`}>
+                <Card className="border border-border shadow-none bg-card">
+                    <CardHeader className="border-b border-border bg-muted/20 py-4 px-6 flex flex-row items-center justify-between">
+                        <CardTitle className="text-lg font-bold text-foreground opacity-0 hidden">
+                            Danh sách gói
+                        </CardTitle>
+                    </CardHeader>
                     <CardContent className="p-0">
                         {addOns.length === 0 && !loading ? (
-                            <div className="p-12 text-center flex flex-col items-center justify-center text-neutral-500">
-                                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mb-4">
-                                    <Tags className="w-8 h-8 text-neutral-400" />
+                            <div className="p-12 text-center flex flex-col items-center justify-center text-muted-foreground">
+                                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                                    <Tags className="w-8 h-8 text-muted-foreground/50" />
                                 </div>
-                                <p className="text-sm font-medium text-neutral-900">Chưa có gói giá nào</p>
-                                <p className="text-xs text-neutral-500 mt-1 max-w-xs mx-auto">Tạo gói giá mới để cung cấp thêm dịch vụ cho học viên</p>
+                                <p className="text-sm font-medium text-foreground">Chưa có gói giá nào</p>
+                                <p className="text-xs text-muted-foreground mt-1 max-w-xs mx-auto">Tạo gói giá mới để cung cấp thêm dịch vụ cho học viên</p>
                             </div>
                         ) : (
-                            <div className="divide-y divide-neutral-100">
-                                {addOns.map((addOn) => (
-                                    <div key={addOn.id} className="group flex items-center justify-between p-5 hover:bg-neutral-50/80 transition-all">
-                                        <div className="flex-1 min-w-0 pr-8">
-                                            <div className="flex items-center gap-3 mb-1">
-                                                <span className="text-base font-semibold text-neutral-900">{addOn.name}</span>
-                                                <span className="text-[10px] uppercase bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full border border-neutral-200 font-bold tracking-wider">
-                                                    {addOn.type || 'OTHER'}
-                                                </span>
-                                                {!addOn.isActive && (
-                                                    <span className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded-full border border-red-100 font-bold">Ẩn</span>
-                                                )}
-                                            </div>
-                                            {addOn.description && (
-                                                <p className="text-sm text-neutral-500 line-clamp-1">{addOn.description}</p>
-                                            )}
-                                        </div>
-                                        <div className="flex items-center gap-6">
-                                            <div className="text-right">
-                                                <div className="text-base font-bold text-neutral-900 tracking-tight">
-                                                    +{Number(addOn.priceAddon).toLocaleString('vi-VN')}đ
-                                                </div>
-                                            </div>
-                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity translate-x-2 group-hover:translate-x-0 duration-200">
-                                                <TableActions
-                                                    onEdit={() => handleEdit(addOn)}
-                                                    onDelete={() => handleDelete(addOn.id)}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-[13px] border-collapse">
+                                    <thead>
+                                        <tr className="bg-muted/50 border-b border-border">
+                                            <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-6 w-[400px]">Tên gói</th>
+                                            <th className="text-right font-bold text-muted-foreground py-3 px-4">Giá</th>
+                                            <th className="text-center font-bold text-muted-foreground py-3 px-4 w-[120px]">Trạng thái</th>
+                                            <th className="text-right font-bold text-muted-foreground py-3 px-6 w-[100px]"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {addOns.map((addOn) => (
+                                            <tr key={addOn.id} className="group border-b border-border hover:bg-muted/50 transition-colors">
+                                                <td className="py-4 px-6">
+                                                    <div className="flex flex-col gap-1">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-base font-semibold text-foreground">{addOn.name}</span>
+                                                            <span className="text-[10px] uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded border border-border font-bold tracking-wider">
+                                                                {addOn.type || 'OTHER'}
+                                                            </span>
+                                                        </div>
+                                                        {addOn.description && (
+                                                            <p className="text-sm text-muted-foreground line-clamp-1">{addOn.description}</p>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 px-4 text-right">
+                                                    <div className="text-base font-bold text-foreground tracking-tight">
+                                                        +{Number(addOn.priceAddon).toLocaleString('vi-VN')}đ
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 px-4 text-center">
+                                                    {!addOn.isActive ? (
+                                                        <span className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded border border-red-100 font-bold">Ẩn</span>
+                                                    ) : (
+                                                        <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-200 font-bold">Hiện</span>
+                                                    )}
+                                                </td>
+                                                <td className="py-4 px-6 text-right">
+                                                    <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end">
+                                                        <TableActions
+                                                            onEdit={() => handleEdit(addOn)}
+                                                            onDelete={() => handleDelete(addOn.id)}
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                         )}
                     </CardContent>
