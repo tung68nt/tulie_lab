@@ -7,10 +7,13 @@ export async function listJourneys(req: Request, res: Response) {
     try {
         const isPublished = req.query.isPublished as string | undefined;
         const courseId = req.query.courseId as string | undefined;
-        const journeys = await journeyService.listJourneys({
-            isPublished: isPublished === 'true' ? true : isPublished === 'false' ? false : undefined,
-            courseId,
-        });
+
+        const filters: { isPublished?: boolean; courseId?: string } = {};
+        if (isPublished === 'true') filters.isPublished = true;
+        if (isPublished === 'false') filters.isPublished = false;
+        if (courseId) filters.courseId = courseId;
+
+        const journeys = await journeyService.listJourneys(filters);
         res.json(journeys);
     } catch (error: any) {
         console.error('List journeys error:', error);
