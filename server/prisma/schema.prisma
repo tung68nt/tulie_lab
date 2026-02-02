@@ -224,6 +224,7 @@ model Course {
   upsellFromProduct ProductCourseUpsell[]  @relation("ProductUpsellCourse")
   journeys          LearningJourney[]
   mentoringSessions MentoringSession[]
+  addOns            PricingAddOn[]
 
   @@index([isPublished])
   @@index([price])
@@ -872,6 +873,7 @@ model PricingAddOn {
 
   orderItems      OrderItem[]
   mentoringSessions MentoringSession[]
+  courses         Course[]
 
   @@index([isActive])
   @@index([position])

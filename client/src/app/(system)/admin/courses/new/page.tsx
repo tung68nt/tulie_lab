@@ -10,12 +10,15 @@ import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
 import { Select } from '@/components/Select';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { PriceInput } from '@/components/PriceInput';
+import { MultiSelect } from '@/components/MultiSelect';
 export default function CreateCoursePage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const { addToast } = useToast();
     const [instructors, setInstructors] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
+    const [allAddOns, setAllAddOns] = useState<any[]>([]);
     const [slugError, setSlugError] = useState<string | null>(null);
     const [checkingSlug, setCheckingSlug] = useState(false);
 
@@ -32,18 +35,21 @@ export default function CreateCoursePage() {
         deploymentStatus: 'RELEASED',
         tag: 'NONE',
         categoryId: '',
-        level: 'ALL'
+        level: 'ALL',
+        addOnIds: [] as string[]
     });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [instructorsList, categoriesList] = await Promise.all([
+                const [instructorsList, categoriesList, addOnsList] = await Promise.all([
                     api.instructors.list().catch(() => []),
-                    api.categories.list().catch(() => [])
+                    api.categories.list().catch(() => []),
+                    api.pricingAddOns.list().catch(() => [])
                 ]);
                 setInstructors(Array.isArray(instructorsList) ? instructorsList : []);
                 setCategories(Array.isArray(categoriesList) ? categoriesList : []);
+                setAllAddOns(Array.isArray(addOnsList) ? addOnsList : []);
             } catch (e) {
                 console.error(e);
             }
@@ -173,22 +179,12 @@ export default function CreateCoursePage() {
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">Học phí (VNĐ)</label>
-                                    <Input
-                                        type="number"
-                                        min="0"
-                                        placeholder="0"
-                                        value={formData.price}
-                                        onChange={e => {
-                                            const val = parseFloat(e.target.value);
-                                            setFormData({ ...formData, price: isNaN(val) ? 0 : val });
-                                        }}
-                                    />
-                                    <p className="text-xs text-muted-foreground">
-                                        {formData.price === 0 ? 'Miễn phí' : `${formData.price.toLocaleString('vi-VN')}đ`}
-                                    </p>
-                                </div>
+                                <PriceInput
+                                    label="Học phí (VNĐ)"
+                                    value={formData.price}
+                                    onChange={val => setFormData({ ...formData, price: val })}
+                                    placeholder="0"
+                                />
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Trạng thái</label>
                                     <div className="flex items-center h-10">
@@ -274,6 +270,17 @@ export default function CreateCoursePage() {
                                         ...instructors.map((i: any) => ({ value: i.id, label: i.name }))
                                     ]}
                                 />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Gói Add-on bổ sung (Upsell)</label>
+                                <MultiSelect
+                                    options={allAddOns.map(a => ({ value: a.id, label: `${a.name} (${Number(a.priceAddon).toLocaleString('vi-VN')}đ)` }))}
+                                    selected={formData.addOnIds}
+                                    onChange={(vals) => setFormData({ ...formData, addOnIds: vals })}
+                                    placeholder="Chọn các gói add-on..."
+                                />
+                                <p className="text-xs text-muted-foreground">Các gói này sẽ hiển thị như tùy chọn mua thêm khi thanh toán khóa học này.</p>
                             </div>
 
                             <div className="pt-4 flex justify-end gap-4">

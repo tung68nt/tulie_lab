@@ -82,8 +82,8 @@ export default function AdminCoursesPage() {
                         <table className="w-full caption-bottom text-sm text-left">
                             <thead className="[&_tr]:border-b">
                                 <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Tên khóa học</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[200px]">Combo / Lộ trình</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-1/4">Tên khóa học</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[120px]">Combo / Lộ trình</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Đường dẫn (Slug)</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Giá</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Status</th>
@@ -123,6 +123,7 @@ export default function AdminCoursesPage() {
                                                 viewUrl={`/courses/${course.slug}`}
                                                 editUrl={`/admin/courses/${course.id}`}
                                                 onDelete={() => handleDelete(course.id)}
+                                                vertical
                                             />
                                         </td>
                                     </tr>

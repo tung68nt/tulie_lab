@@ -12,6 +12,7 @@ import { Plus, Trash2, GripVertical, Save, ArrowLeft, Route } from 'lucide-react
 import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { PriceInput } from '@/components/PriceInput';
 
 interface JourneyStep {
     id?: string;
@@ -379,11 +380,10 @@ export default function JourneyEditorPage() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">Giá (VNĐ)</label>
-                                    <Input
-                                        type="number"
+                                    <PriceInput
+                                        label="Giá (VNĐ)"
                                         value={form.price}
-                                        onChange={(e) => setForm(prev => ({ ...prev, price: parseInt(e.target.value) || 0 }))}
+                                        onChange={val => setForm({ ...form, price: val })}
                                     />
                                 </div>
                                 <div className="flex items-center justify-between py-2 border-t mt-2">

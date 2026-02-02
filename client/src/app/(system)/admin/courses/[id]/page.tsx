@@ -12,6 +12,8 @@ import { ChevronDown, ChevronUp, Paperclip, Eye, CheckCircle, Lock, Trash2 } fro
 import { Switch } from '@/components/Switch';
 import { Select } from '@/components/Select';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { PriceInput } from '@/components/PriceInput';
+import { MultiSelect } from '@/components/MultiSelect';
 
 export default function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
@@ -23,6 +25,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     const [lessons, setLessons] = useState<any[]>([]);
     const [instructors, setInstructors] = useState<any[]>([]);
     const [categories, setCategories] = useState<any[]>([]);
+    const [allAddOns, setAllAddOns] = useState<any[]>([]);
 
     // Form states
     const [courseForm, setCourseForm] = useState({
@@ -40,6 +43,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         deploymentStatus: 'RELEASED',
         tag: 'NONE',
         compareAtPrice: 0,
+        addOnIds: [] as string[],
         structure: [] as { title: string, sections: string[] }[]
     });
 
@@ -60,9 +64,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         const fetchCourse = async () => {
             try {
                 // Execute requests in parallel to reduce load time
-                const [instructorsList, categoriesList, fullDetails]: [any, any, any] = await Promise.all([
+                const [instructorsList, categoriesList, addOnsList, fullDetails]: [any, any, any, any] = await Promise.all([
                     api.instructors.list().catch(() => []),
                     api.categories.list().catch(() => []),
+                    api.pricingAddOns.list().catch(() => []),
                     api.admin.courses.get(id).catch((e: any) => {
                         console.error('Fetch course error for ID:', id, e);
                         // Log specifically if it's a 404 or 500
@@ -75,6 +80,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
 
                 setInstructors(Array.isArray(instructorsList) ? instructorsList : []);
                 setCategories(Array.isArray(categoriesList) ? categoriesList : []);
+                setAllAddOns(Array.isArray(addOnsList) ? addOnsList : []);
 
                 if (fullDetails) {
                     setCourse(fullDetails);
@@ -96,6 +102,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                         deploymentStatus: fullDetails.deploymentStatus || 'RELEASED',
                         tag: fullDetails.tag || 'NONE',
                         compareAtPrice: fullDetails.compareAtPrice || 0,
+                        addOnIds: (fullDetails.addOns || []).map((a: any) => a.id),
                         structure: fullDetails.structure || []
                     });
                     // Set next position
@@ -286,29 +293,17 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
 
 
                             <div className="grid grid-cols-3 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">Học phí (VNĐ)</label>
-                                    <Input
-                                        type="number"
-                                        value={courseForm.price}
-                                        onChange={e => {
-                                            const val = parseFloat(e.target.value);
-                                            setCourseForm({ ...courseForm, price: isNaN(val) ? 0 : val });
-                                        }}
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">Giá gốc (VNĐ) - Gạch ngang</label>
-                                    <Input
-                                        type="number"
-                                        value={courseForm.compareAtPrice}
-                                        onChange={e => {
-                                            const val = parseFloat(e.target.value);
-                                            setCourseForm({ ...courseForm, compareAtPrice: isNaN(val) ? 0 : val });
-                                        }}
-                                        placeholder="Để trống nếu không giảm giá"
-                                    />
-                                </div>
+                                <PriceInput
+                                    label="Học phí (VNĐ)"
+                                    value={courseForm.price}
+                                    onChange={val => setCourseForm({ ...courseForm, price: val })}
+                                />
+                                <PriceInput
+                                    label="Giá gốc (VNĐ) - Gạch ngang"
+                                    value={courseForm.compareAtPrice}
+                                    onChange={val => setCourseForm({ ...courseForm, compareAtPrice: val })}
+                                    placeholder="Để trống nếu không giảm giá"
+                                />
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Trạng thái</label>
                                     <div className="flex items-center h-10">
@@ -398,6 +393,17 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                         ]}
                                     />
                                 </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Gói Add-on bổ sung (Upsell)</label>
+                                <MultiSelect
+                                    options={allAddOns.map(a => ({ value: a.id, label: `${a.name} (${Number(a.priceAddon).toLocaleString('vi-VN')}đ)` }))}
+                                    selected={courseForm.addOnIds}
+                                    onChange={(vals) => setCourseForm({ ...courseForm, addOnIds: vals })}
+                                    placeholder="Chọn các gói add-on..."
+                                />
+                                <p className="text-xs text-muted-foreground">Các gói này sẽ hiển thị như tùy chọn mua thêm khi thanh toán khóa học này.</p>
                             </div>
 
                             <div className="flex justify-end gap-4">

@@ -146,9 +146,9 @@ export default function AdminCategoriesPage() {
                                                     </td>
                                                     <td className="py-4 px-4 text-center">
                                                         {!cat.isActive ? (
-                                                            <span className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded border border-red-100 font-bold">Ẩn</span>
+                                                            <span className="text-[10px] bg-neutral-50 text-neutral-400 px-2 py-0.5 rounded border border-neutral-100 font-bold">Ẩn</span>
                                                         ) : (
-                                                            <span className="text-[10px] bg-green-50 text-green-700 px-2 py-0.5 rounded border border-green-200 font-bold">Hiện</span>
+                                                            <span className="text-[10px] bg-neutral-900 text-white px-2 py-0.5 rounded border border-neutral-900 font-bold">Hiện</span>
                                                         )}
                                                     </td>
                                                     <td className="py-4 px-6 text-right">

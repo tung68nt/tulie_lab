@@ -61,7 +61,8 @@ export class CourseService {
                     select: { id: true, title: true, slug: true, isFree: true, position: true, thumbnail: true, chapter: true, section: true, duration: true }
                 },
                 category: true,
-                instructor: true
+                instructor: true,
+                addOns: { select: { id: true, name: true, priceAddon: true } }
             },
             orderBy: { createdAt: 'desc' }
         });
@@ -142,6 +143,7 @@ export class CourseService {
     async getCourseById(id: string) {
         const course = await this.courseRepository.findById(id, {
             instructor: true,
+            addOns: { select: { id: true, name: true, priceAddon: true } },
             lessons: {
                 orderBy: { position: 'asc' },
                 include: {
@@ -153,7 +155,7 @@ export class CourseService {
     }
 
     async createCourse(data: any) {
-        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure'];
+        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure', 'addOnIds'];
         const createData: any = {};
 
         for (const key of Object.keys(data)) {
@@ -175,12 +177,19 @@ export class CourseService {
         if (createData.instructorId === '') delete createData.instructorId;
         if (createData.categoryId === '') delete createData.categoryId;
 
+        if (createData.addOnIds) {
+            createData.addOns = {
+                connect: createData.addOnIds.map((id: string) => ({ id }))
+            };
+            delete createData.addOnIds;
+        }
+
         const createdKey = await this.courseRepository.create(createData);
         return this.parseCourse(createdKey);
     }
 
     async updateCourse(id: string, data: any) {
-        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure'];
+        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure', 'addOnIds'];
         const filteredData: any = {};
 
         for (const key of Object.keys(data)) {
@@ -196,6 +205,13 @@ export class CourseService {
 
         if (filteredData.structure && typeof filteredData.structure === 'object') {
             filteredData.structure = JSON.stringify(filteredData.structure);
+        }
+
+        if (filteredData.addOnIds) {
+            filteredData.addOns = {
+                set: filteredData.addOnIds.map((id: string) => ({ id }))
+            };
+            delete filteredData.addOnIds;
         }
 
         const updatedCourse = await this.courseRepository.update(id, filteredData);

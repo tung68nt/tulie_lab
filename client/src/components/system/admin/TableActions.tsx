@@ -20,6 +20,7 @@ interface TableActionsProps {
     viewUrl?: string;
     customActions?: ActionButtonProps[];
     className?: string;
+    vertical?: boolean;
 }
 
 export function TableActions({
@@ -29,12 +30,13 @@ export function TableActions({
     onView,
     viewUrl,
     customActions = [],
-    className
+    className,
+    vertical = false
 }: TableActionsProps) {
     const buttonClass = "h-8 w-8 p-0 rounded-lg bg-transparent hover:bg-accent hover:text-accent-foreground transition-colors";
 
     return (
-        <div className={cn("flex items-center gap-2", className)}>
+        <div className={cn("flex items-center gap-2", vertical ? "flex-col" : "flex-row", className)}>
             {/* View Action */}
             {(onView || viewUrl) && (
                 viewUrl ? (
