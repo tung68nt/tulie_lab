@@ -137,51 +137,49 @@ export default function PricingAddOnsPage() {
                 title="Gói Add-on"
                 subtitle="Quản lý các gói bổ trợ và dịch vụ đi kèm"
                 icon={<Tags className="w-8 h-8" />}
-            />
+            >
+                <Button onClick={handleCreate} className="gap-2">
+                    <Plus size={18} />
+                    Thêm gói mới
+                </Button>
+            </AdminPageHeader>
 
             <div className="relative">
-                <Card className={`border-neutral-200 shadow-none ${isEditing ? 'opacity-50 pointer-events-none' : ''}`}>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-neutral-100 px-6 pt-6">
-                        <CardTitle className="text-lg font-semibold text-neutral-900">Danh sách gói Add-on</CardTitle>
-                        <Button
-                            onClick={handleCreate}
-                            variant="ghost"
-                            size="sm"
-                            className="h-8 w-8 p-0 rounded-full hover:bg-neutral-100"
-                            title="Thêm mới"
-                        >
-                            <Plus size={18} className="text-neutral-900" />
-                        </Button>
-                    </CardHeader>
+                <Card className={`border-neutral-200 shadow-sm ${isEditing ? 'opacity-50 pointer-events-none' : ''}`}>
                     <CardContent className="p-0">
                         {addOns.length === 0 && !loading ? (
-                            <div className="p-8 text-center text-neutral-400 text-sm">Chưa có gói giá nào</div>
+                            <div className="p-12 text-center flex flex-col items-center justify-center text-neutral-500">
+                                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center mb-4">
+                                    <Tags className="w-8 h-8 text-neutral-400" />
+                                </div>
+                                <p className="text-sm font-medium text-neutral-900">Chưa có gói giá nào</p>
+                                <p className="text-xs text-neutral-500 mt-1 max-w-xs mx-auto">Tạo gói giá mới để cung cấp thêm dịch vụ cho học viên</p>
+                            </div>
                         ) : (
                             <div className="divide-y divide-neutral-100">
-                                {/* List rendering remains same */}
                                 {addOns.map((addOn) => (
-                                    <div key={addOn.id} className="group flex items-center justify-between p-4 hover:bg-neutral-50 transition-colors">
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-3">
-                                                <span className="text-sm font-medium text-neutral-900">{addOn.name}</span>
-                                                <span className="text-[10px] uppercase bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded border border-neutral-200 font-medium">
+                                    <div key={addOn.id} className="group flex items-center justify-between p-5 hover:bg-neutral-50/80 transition-all">
+                                        <div className="flex-1 min-w-0 pr-8">
+                                            <div className="flex items-center gap-3 mb-1">
+                                                <span className="text-base font-semibold text-neutral-900">{addOn.name}</span>
+                                                <span className="text-[10px] uppercase bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full border border-neutral-200 font-bold tracking-wider">
                                                     {addOn.type || 'OTHER'}
                                                 </span>
                                                 {!addOn.isActive && (
-                                                    <span className="text-[10px] bg-red-50 text-red-500 px-1.5 py-0.5 rounded border border-red-100 font-medium">Ẩn</span>
+                                                    <span className="text-[10px] bg-red-50 text-red-600 px-2 py-0.5 rounded-full border border-red-100 font-bold">Ẩn</span>
                                                 )}
                                             </div>
                                             {addOn.description && (
-                                                <p className="text-xs text-neutral-500 mt-0.5">{addOn.description}</p>
+                                                <p className="text-sm text-neutral-500 line-clamp-1">{addOn.description}</p>
                                             )}
                                         </div>
-                                        <div className="flex items-center gap-4">
+                                        <div className="flex items-center gap-6">
                                             <div className="text-right">
-                                                <div className="text-sm font-bold text-neutral-900">
-                                                    +{Number(addOn.priceAddon).toLocaleString()}đ
+                                                <div className="text-base font-bold text-neutral-900 tracking-tight">
+                                                    +{Number(addOn.priceAddon).toLocaleString('vi-VN')}đ
                                                 </div>
                                             </div>
-                                            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity translate-x-2 group-hover:translate-x-0 duration-200">
                                                 <TableActions
                                                     onEdit={() => handleEdit(addOn)}
                                                     onDelete={() => handleDelete(addOn.id)}
