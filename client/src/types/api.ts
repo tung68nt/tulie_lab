@@ -117,6 +117,19 @@ export interface Blog {
     [key: string]: unknown;
 }
 
+export interface Event {
+    id: string;
+    title: string;
+    description?: string;
+    date: string;
+    time?: string;
+    type?: string;
+    link?: string;
+    isActive?: boolean;
+    createdAt?: string;
+    [key: string]: unknown;
+}
+
 export interface SearchParams {
     page?: number;
     limit?: number;
