@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
-import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, RefreshCw, UserX, Loader2, CircleDollarSign, ShoppingBag, Hourglass, UsersRound } from 'lucide-react';
+import { CheckCircle2, Clock, Users, BookOpen, DollarSign, ShoppingCart, TrendingUp, Download, RefreshCcw, RefreshCw, UserX, Loader2, CircleDollarSign, ShoppingBag, Hourglass, UsersRound, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import { RealtimeHealthChart } from '@/components/system/analytics/RealtimeHealthChart';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
