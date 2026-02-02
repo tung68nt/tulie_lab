@@ -20,6 +20,7 @@ import { SystemShopSection } from '@/components/info/sections/SystemShopSection'
 import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection';
 import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
+import { SimpleTestimonialsSection } from '@/components/info/sections/SimpleTestimonialsSection';
 import dynamic from 'next/dynamic';
 import { FadeIn } from '@/components/animations/FadeIn';
 
@@ -78,6 +79,7 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'system-blog': SystemBlogSection,
     'system-combos': SystemCombosSection,
     'system-instructors': SystemInstructorsSection,
+    'simple-testimonials': SimpleTestimonialsSection,
     'course-content': CourseContentSection,
 };
 

@@ -54,44 +54,52 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                 </div>
 
                                 <div className="p-6 flex flex-col flex-1 h-full select-none">
-                                    <div className="flex flex-col mb-4">
-                                        <h3 className="font-bold text-xl text-foreground mb-1">{String(item.title || '')}</h3>
-                                        {Boolean(item.subtitle) && (
-                                            <p className="text-[11px] text-muted-foreground mb-2 font-medium">{String(item.subtitle)}</p>
-                                        )}
+                                    <div className="flex flex-col mb-4 flex-1">
+                                        <div className="min-h-[160px]">
+                                            <h3 className="font-bold text-xl text-foreground mb-1">{String(item.title || '')}</h3>
+                                            {Boolean(item.subtitle) && (
+                                                <p className="text-[11px] text-muted-foreground mb-2 font-medium">{String(item.subtitle)}</p>
+                                            )}
 
-                                        {Boolean(item.description || item.quote) && (
-                                            <div className="text-neutral-600 text-[13px] leading-relaxed min-h-[80px]">
-                                                {String(item.quote ? `"${item.quote}"` : item.description)}
-                                            </div>
-                                        )}
+                                            {Boolean(item.description || item.quote) && (
+                                                <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-medium">
+                                                    {String(item.quote ? `"${item.quote}"` : item.description)}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* Before/After stats if available */}
                                     {(Boolean(item.before) && Boolean(item.after)) && (
-                                        <div className="pt-6 border-t border-border grid grid-cols-2 gap-6">
+                                        <div className="pt-6 border-t border-border space-y-8 bg-zinc-50/50 dark:bg-white/5 mx-[-1.5rem] px-6 mt-auto">
                                             <div className="flex flex-col">
-                                                <p className="text-[13px] text-red-500 font-bold mb-3 h-5 flex items-center">Trước khi học</p>
-                                                <ul className="text-[12px] text-neutral-500 space-y-2.5">
-                                                    {Array.isArray(item.before) && item.before.map((p: string, i: number) => (
+                                                <p className="text-[13px] text-red-500 font-bold mb-4 h-6 flex items-center gap-1.5 grayscale-[0.2]">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                                                    Trước khi học
+                                                </p>
+                                                <ul className="text-[12px] text-zinc-500 dark:text-zinc-400 space-y-3">
+                                                    {(Array.isArray(item.before) ? item.before : []).map((p: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
-                                                            <span className="shrink-0 mt-0.5 text-red-500">
-                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                                            <span className="shrink-0 mt-1 text-red-500/70">
+                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                                                             </span>
-                                                            <span className="leading-normal">{p}</span>
+                                                            <span className="leading-tight">{p}</span>
                                                         </li>
                                                     ))}
                                                 </ul>
                                             </div>
-                                            <div className="flex flex-col">
-                                                <p className="text-[13px] text-green-600 font-bold mb-3 h-5 flex items-center">Kết quả đạt được</p>
-                                                <ul className="text-[12px] text-neutral-600 font-medium space-y-2.5">
-                                                    {Array.isArray(item.after) && item.after.map((p: string, i: number) => (
+                                            <div className="flex flex-col pb-6">
+                                                <p className="text-[13px] text-green-600 font-bold mb-4 h-6 flex items-center gap-1.5 grayscale-[0.2]">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                                                    Kết quả đạt được
+                                                </p>
+                                                <ul className="text-[12px] text-zinc-700 dark:text-zinc-200 font-medium space-y-3">
+                                                    {(Array.isArray(item.after) ? item.after : []).map((p: string, i: number) => (
                                                         <li key={i} className="flex items-start gap-2">
-                                                            <span className="shrink-0 mt-0.5 text-green-600">
-                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+                                                            <span className="shrink-0 mt-1 text-green-600">
+                                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
                                                             </span>
-                                                            <span className="leading-normal">{p}</span>
+                                                            <span className="leading-tight">{p}</span>
                                                         </li>
                                                     ))}
                                                 </ul>

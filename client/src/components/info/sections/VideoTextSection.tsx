@@ -103,7 +103,7 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
                         )}
 
                         {section.items && section.items.length > 0 && (
-                            <ul className="space-y-4">
+                            <ul className="space-y-8">
                                 {section.items.map((item, idx) => (
                                     <motion.li
                                         key={idx}
