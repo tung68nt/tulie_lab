@@ -8,6 +8,7 @@ import { Badge } from '@/components/Badge';
 import { Plus, Edit2, Trash2, Users, BookOpen, Eye, EyeOff, Route } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
+import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface Journey {
     id: string;
@@ -71,25 +72,19 @@ export default function JourneyListPage() {
     };
 
     return (
-        <div className="p-6">
-            {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 shrink-0">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-                        <Route className="w-8 h-8" />
-                        Lộ Trình Học
-                    </h1>
-                    <p className="text-muted-foreground mt-1">
-                        Quản lý các lộ trình học thực hành
-                    </p>
-                </div>
+        <div className="space-y-6">
+            <AdminPageHeader
+                title="Lộ Trình Học"
+                subtitle="Quản lý các lộ trình học thực hành"
+                icon={<Route className="w-8 h-8" />}
+            >
                 <Link href="/admin/journeys/new">
                     <Button>
                         <Plus className="w-4 h-4 mr-2" />
                         Tạo Lộ Trình
                     </Button>
                 </Link>
-            </div>
+            </AdminPageHeader>
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
