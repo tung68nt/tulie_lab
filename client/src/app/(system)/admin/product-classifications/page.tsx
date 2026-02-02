@@ -137,9 +137,9 @@ export default function AdminProductClassificationsPage() {
         const found = AVAILABLE_ICONS.find(i => i.name === iconName);
         if (found) {
             const IconComp = found.icon;
-            return <IconComp className="w-4 h-4" />;
+            return <IconComp className="w-5 h-5" />;
         }
-        return <Folder className="w-4 h-4" />;
+        return <Folder className="w-5 h-5" />;
     };
 
     const types = classifications.filter(c => c.type === 'PRODUCT_TYPE');
@@ -166,7 +166,7 @@ export default function AdminProductClassificationsPage() {
                         <table className="w-full text-[13px] border-collapse">
                             <thead>
                                 <tr className="bg-muted/50 border-b border-border">
-                                    <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-[68px]">Tên phân loại</th>
+                                    <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-6">Tên phân loại</th>
                                     <th className="text-center font-bold text-muted-foreground py-3 px-4 w-[100px]">Trạng thái</th>
                                     <th className="text-right font-bold text-muted-foreground py-3 px-6 w-[100px]"></th>
                                 </tr>
@@ -179,7 +179,7 @@ export default function AdminProductClassificationsPage() {
                                     >
                                         <td className="py-3 px-6">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 shrink-0 rounded-lg border border-border bg-muted/50 flex items-center justify-center text-muted-foreground">
+                                                <div className="w-10 h-10 shrink-0 rounded-lg border border-border bg-muted/50 flex items-center justify-center text-muted-foreground">
                                                     {getIconComponent(item.icon)}
                                                 </div>
                                                 <span className="font-medium text-foreground">{item.name}</span>
