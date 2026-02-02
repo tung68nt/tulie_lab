@@ -56,11 +56,8 @@ export default function MentoringSchedulePage() {
             const startStr = startDate.toISOString();
             const endStr = endDate.toISOString();
 
-            // Call API (using generic request as explicit method might not exist in client lib yet)
-            // Assuming api.mentoring.schedule exists or using raw request
-            // For now, let's assume we need to add strict typing later or extend api client
-            // We'll use a direct fetch pattern if needed, but sticking to api pattern:
-            const data: any = await api.request(`/mentoring/schedule?start=${startStr}&end=${endStr}`);
+            // Call API
+            const data = await api.mentoring.getSchedule(startStr, endStr);
             setSessions(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error(error);
