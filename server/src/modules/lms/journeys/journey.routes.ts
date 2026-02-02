@@ -32,8 +32,10 @@ router.post('/journeys/:id/enroll', authenticate, studentController.enrollInJour
 // Get my progress in a journey
 router.get('/journeys/:id/progress', authenticate, studentController.getMyProgress);
 
+import { upload } from '../../../middleware/upload.middleware';
+
 // Submit step work
-router.post('/journeys/:id/steps/:stepId/submit', authenticate, studentController.submitStep);
+router.post('/journeys/:id/steps/:stepId/submit', authenticate, upload.single('file'), studentController.submitStep);
 
 // =============================================================================
 // ADMIN ROUTES - Journey CRUD

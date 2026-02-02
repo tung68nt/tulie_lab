@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
 import * as studentService from './journey-student.service';
+import { storageService } from '../../../services/storage.service';
+import fs from 'fs';
 
 // ============== PUBLIC JOURNEY ROUTES ==============
 
@@ -87,7 +89,32 @@ export async function submitStep(req: Request, res: Response) {
         const userId = (req as any).user.id as string;
         const journeyId = req.params.id as string;
         const stepId = req.params.stepId as string;
-        const { submissionType, content, fileName } = req.body;
+
+        // Handle file upload
+        let { submissionType, content } = req.body;
+        let fileName = req.body.fileName;
+
+        if (req.file) {
+            try {
+                // Upload to R2
+                const localFilePath = req.file.path;
+                const r2Key = `submissions/${journeyId}/${userId}/${stepId}/${req.file.filename}`;
+                const fileUrl = await storageService.uploadFile(localFilePath, r2Key, req.file.mimetype);
+
+                // Clean up local file
+                if (fs.existsSync(localFilePath)) {
+                    fs.unlinkSync(localFilePath);
+                }
+
+                // Update submission data
+                content = fileUrl;
+                submissionType = 'FILE';
+                fileName = req.file.originalname;
+            } catch (uploadError) {
+                console.error('File upload failed:', uploadError);
+                return res.status(500).json({ error: 'Failed to upload submission file' });
+            }
+        }
 
         if (!submissionType || !content) {
             return res.status(400).json({ error: 'submissionType and content are required' });
@@ -102,6 +129,12 @@ export async function submitStep(req: Request, res: Response) {
         res.status(201).json(submission);
     } catch (error: any) {
         console.error('Submit step error:', error);
+
+        // Clean up file if error occurred after upload but before service call (edge case)
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+
         if (error.message.includes('Not enrolled') || error.message.includes('not found') || error.message.includes('locked')) {
             return res.status(400).json({ error: error.message });
         }
