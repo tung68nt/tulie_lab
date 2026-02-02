@@ -2,10 +2,11 @@
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { api } from '@/lib/api';
+import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, RefreshCw, ArrowLeft, History, Search, FileText, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { Loader2, RefreshCw, ArrowLeft, History, Search, FileText, ChevronLeft, ChevronRight, ExternalLink, CreditCard } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import Link from 'next/link';
 
@@ -108,7 +109,8 @@ export default function AdminPaymentsPage() {
         <div className="admin-container space-y-6">
             <AdminPageHeader
                 title="Lịch sử giao dịch"
-                subtitle="Theo dõi các giao dịch ngân hàng được đồng bộ tự động"
+                subtitle="Xem và đối soát tất cả giao dịch thanh toán từ cổng SePay"
+                icon={<CreditCard className="w-8 h-8" />}
             >
                 <div className="flex gap-2">
                     <div className="flex items-center gap-1 border rounded-lg bg-white overflow-hidden shadow-sm">

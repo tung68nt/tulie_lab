@@ -11,7 +11,7 @@ import { useToast } from '@/contexts/ToastContext';
 import {
     ChevronRight, User, Shield, Clock, Crown, Calendar,
     Search, RotateCcw, Loader2, Mail, Eye, LogIn,
-    Users, CreditCard, Library, ShieldCheck, AlertCircle, UserX
+    Users, CreditCard, Library, ShieldCheck, AlertCircle, UserX, MoreHorizontal, UserCheck
 } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
@@ -128,8 +128,9 @@ export default function AdminUsersPage() {
     return (
         <div className="admin-container space-y-6">
             <AdminPageHeader
-                title="Quản lý thành viên"
-                subtitle="Danh sách và phân loại người dùng hệ thống"
+                title="Thành viên"
+                subtitle="Quản lý tài khoản người dùng và phân quyền"
+                icon={<Users className="w-8 h-8" />}
             />
 
             {/* Stats Grid */}

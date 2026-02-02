@@ -5,6 +5,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
+import { FileText } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface Policy {
@@ -77,8 +78,9 @@ export default function AdminPoliciesPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Chính sách"
-                subtitle="Chỉnh sửa nội dung các trang pháp lý và hướng dẫn."
+                title="Chính sách & Điều khoản"
+                subtitle="Quản lý các trang chính sách (Privacy, Terms, Refund...)"
+                icon={<FileText className="w-8 h-8" />}
             >
                 <Button onClick={handleSave} disabled={saving} className="bg-zinc-950 text-white hover:bg-zinc-800">
                     {saving ? 'Đang lưu...' : 'Lưu thay đổi'}

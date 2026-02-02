@@ -6,6 +6,7 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
+import { Plus, Trash2, ChevronDown, ChevronRight, PanelBottom } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface FooterLink {
@@ -221,7 +222,8 @@ export default function AdminFooterPage() {
         <div className="space-y-6">
             <AdminPageHeader
                 title="Quản lý Footer"
-                subtitle="Thay đổi thông tin hiển thị ở cuối trang."
+                subtitle="Cấu hình nội dung và liên kết chân trang"
+                icon={<PanelBottom className="w-8 h-8" />}
             >
                 <Button onClick={handleSave} disabled={saving}>
                     {saving ? 'Đang lưu...' : 'Lưu thay đổi'}

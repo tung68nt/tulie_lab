@@ -11,6 +11,8 @@ import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
 
+import { BookOpen } from 'lucide-react';
+
 export default function AdminCoursesPage() {
     const { addToast } = useToast();
     const confirm = useConfirm();
@@ -64,6 +66,7 @@ export default function AdminCoursesPage() {
             <AdminPageHeader
                 title="Quản lý khóa học"
                 subtitle="Quản lý danh sách khóa học và nội dung đào tạo"
+                icon={<BookOpen className="w-8 h-8" />}
             >
                 <Link href="/admin/courses/new">
                     <Button as="div">Tạo khóa học</Button>

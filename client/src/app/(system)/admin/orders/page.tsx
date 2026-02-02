@@ -8,7 +8,7 @@ import { Input } from '@/components/Input';
 import { Pagination } from '@/components/Pagination';
 import { useToast } from '@/contexts/ToastContext';
 import Link from 'next/link';
-import { CheckCircle2, Clock, XCircle, Search, Download, RotateCcw, Loader2, Mail, Eye } from 'lucide-react';
+import { CheckCircle2, Clock, XCircle, Search, Download, RotateCcw, Loader2, Mail, Eye, ShoppingCart } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface Order {
@@ -244,8 +244,9 @@ export default function AdminOrdersPage() {
     return (
         <div className="admin-container space-y-6">
             <AdminPageHeader
-                title="Quản lý đơn hàng"
-                subtitle="Quản lý tất cả giao dịch của hệ thống"
+                title="Đơn hàng"
+                subtitle="Quản lý đơn hàng và trạng thái thanh toán"
+                icon={<ShoppingCart className="w-8 h-8" />}
             >
                 <Button variant="outline" size="sm" onClick={exportToCSV} className="gap-2">
                     <Download size={14} />

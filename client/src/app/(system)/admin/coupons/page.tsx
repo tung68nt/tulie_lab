@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Plus, Search, Edit, Trash, Copy, Ticket } from 'lucide-react';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
@@ -55,8 +56,9 @@ export default function CouponsPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Mã giảm giá"
-                subtitle="Quản lý mã giảm giá và chương trình khuyến mãi cho học viên."
+                title="Mã Giảm Giá"
+                subtitle="Quản lý các chương trình khuyến mãi và mã giảm giá"
+                icon={<Ticket className="w-8 h-8" />}
             >
                 <Link href="/admin/coupons/new">
                     <Button as="div">+ Tạo Mã mới</Button>

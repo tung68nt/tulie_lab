@@ -96,8 +96,10 @@ export const webhook = async (req: Request, res: Response) => {
                 receivedKey = match?.[1] ?? authHeader;
             }
 
-            const cleanReceivedKey = receivedKey.trim();
-            const cleanStoredKey = storedApiKey.trim();
+            // Robust cleaning: remove quotes and whitespace
+            const cleanReceivedKey = receivedKey.trim().replace(/^["']|["']$/g, '');
+            // Also clean stored key: remove quotes, whitespace, and potential 'Bearer ' prefix if user pasted it
+            const cleanStoredKey = storedApiKey.trim().replace(/^["']|["']$/g, '').replace(/^Bearer\s+/i, '');
 
             if (!authHeader || cleanReceivedKey !== cleanStoredKey) {
                 console.warn('=== WEBHOOK AUTH FAILED ===');

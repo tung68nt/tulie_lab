@@ -8,9 +8,9 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
-import { BookOpen } from 'lucide-react';
+import { Layers, Plus, BookOpen, List } from 'lucide-react';
 
-export default function BundlesPage() {
+export default function AdminBundlesPage() {
     const { addToast } = useToast();
     const confirm = useConfirm();
     const [bundles, setBundles] = useState<any[]>([]);
@@ -56,8 +56,9 @@ export default function BundlesPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Combo Khóa học"
-                subtitle="Tạo và quản lý các gói combo khóa học ưu đãi."
+                title="Combo / Bundle"
+                subtitle="Quản lý các gói combo và nội dung bán kèm"
+                icon={<Layers className="w-8 h-8" />}
             >
                 <Link href="/admin/bundles/new">
                     <Button as="div">+ Tạo Combo mới</Button>

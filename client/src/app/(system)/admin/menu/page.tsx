@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
-import { ArrowUp, ArrowDown, Trash2, Plus, Save, ExternalLink, ChevronRight, GripVertical, Edit, Check, X } from 'lucide-react';
+import { ArrowUp, ArrowDown, Trash2, Plus, Save, ExternalLink, ChevronRight, GripVertical, Edit, Check, X, Menu } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
 import { Switch } from '@/components/Switch';
 import { useConfirm } from '@/components/ConfirmDialog';
@@ -248,8 +248,9 @@ export default function MenuManagementPage() {
     return (
         <div className="space-y-6 max-w-4xl relative">
             <AdminPageHeader
-                title="Quản lý Menu Navbar"
-                subtitle="Thêm, xóa, sắp xếp các mục menu trên thanh điều hướng"
+                title="Quản lý Menu"
+                subtitle="Cấu hình menu điều hướng trên website"
+                icon={<Menu className="w-8 h-8" />}
                 backUrl="/admin"
             >
                 <Button onClick={handleSave} disabled={saving} className="gap-2">

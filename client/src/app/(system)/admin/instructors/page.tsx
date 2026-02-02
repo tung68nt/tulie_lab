@@ -9,6 +9,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
+import { UserCheck } from 'lucide-react';
 
 // Define Instructor interface for type safety
 interface InstructorExperience {
@@ -185,8 +186,9 @@ export default function AdminInstructorsPage() {
         <div className="space-y-6">
             <div className="flex justify-between items-start">
                 <AdminPageHeader
-                    title="Quản lý Consultant"
-                    subtitle="Quản lý danh sách giảng viên và chuyên gia tư vấn."
+                    title="Quản lý Giảng viên"
+                    subtitle="Danh sách giảng viên và thông tin chi tiết"
+                    icon={<UserCheck className="w-8 h-8" />}
                 />
                 <Button variant="outline" onClick={() => window.open('/instructors', '_blank')}>
                     Xem trang public

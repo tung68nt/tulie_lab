@@ -11,7 +11,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
-import { Upload, X, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Upload, X, Loader2, Image as ImageIcon, PenTool, Plus } from 'lucide-react';
 
 interface BlogPost {
     id: string;
@@ -235,8 +235,9 @@ export default function AdminBlogPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý bài viết"
-                subtitle="Tạo và quản lý các bài viết tin tức."
+                title="Blog / Bài viết"
+                subtitle="Quản lý bài viết và tin tức trên website"
+                icon={<PenTool className="w-8 h-8" />}
             >
                 <Button variant="inverted" onClick={() => setShowForm(!showForm)}>
                     {showForm ? 'Hủy' : 'Thêm bài viết'}

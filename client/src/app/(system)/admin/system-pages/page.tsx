@@ -9,6 +9,7 @@ import { Plus, ExternalLink, Edit, Trash2, Copy } from 'lucide-react';
 
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
+import { File } from 'lucide-react';
 
 import { useConfirm } from '@/components/ConfirmDialog';
 import { Users } from 'lucide-react';
@@ -77,8 +78,9 @@ export default function SystemPagesAdmin() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Trang thông tin"
-                subtitle="Quản lý các trang thông tin hệ thống (Trang chủ, Giới thiệu...)."
+                title="Trang thông tin"
+                subtitle="Quản lý các trang tĩnh và thông tin hệ thống"
+                icon={<File className="w-8 h-8" />}
             >
                 <Link href="/admin/landing-pages/new?type=SYSTEM">
                     <Button className="flex items-center gap-2">

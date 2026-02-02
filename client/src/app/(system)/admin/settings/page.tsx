@@ -6,7 +6,7 @@ import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { api, getMediaUrl } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check } from 'lucide-react';
+import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings } from 'lucide-react';
 import { Switch } from '@/components/Switch';
 import { useSettings } from '@/contexts/SettingsContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -169,7 +169,8 @@ export default function AdminSettingsPage() {
         <div className="space-y-6">
             <AdminPageHeader
                 title="Cài đặt hệ thống"
-                subtitle="Quản lý các thông số hệ thống và thông tin liên hệ."
+                subtitle="Cấu hình thông tin chung, SEO, và các tích hợp"
+                icon={<Settings className="w-8 h-8" />}
             />
 
             <form onSubmit={handleSave}>

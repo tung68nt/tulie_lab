@@ -10,7 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
-import { Plus } from 'lucide-react';
+import { Plus, Search, Edit, Trash, Tags } from 'lucide-react';
 
 interface PricingAddOn {
     id: string;
@@ -124,8 +124,9 @@ export default function PricingAddOnsPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Gói giá Add-on"
-                subtitle="Quản lý các gói quyền lợi bổ sung cho khóa học (1:1 support, video call, ...)"
+                title="Gói Add-on"
+                subtitle="Quản lý các gói bổ trợ và dịch vụ đi kèm"
+                icon={<Tags className="w-8 h-8" />}
             />
 
             <div className="relative">

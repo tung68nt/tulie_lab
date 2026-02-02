@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Calendar, Plus, Edit, Trash, MapPin, Clock, Users } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
 import { useToast } from '@/contexts/ToastContext';
@@ -30,7 +30,7 @@ const EVENT_TYPES = [
     { value: 'OTHER', label: 'Khác' },
 ];
 
-export default function EventsAdmin() {
+export default function AdminEventsPage() {
     const { addToast } = useToast();
     const confirm = useConfirm();
     const [events, setEvents] = useState<Event[]>([]);
@@ -140,8 +140,9 @@ export default function EventsAdmin() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Sự kiện"
-                subtitle="Tạo và chỉnh sửa các sự kiện trong lịch hoạt động"
+                title="Sự kiện"
+                subtitle="Quản lý sự kiện, hội thảo và lịch đào tạo"
+                icon={<Calendar className="w-8 h-8" />}
             >
                 <Button onClick={() => setShowForm(!showForm)} className="flex items-center gap-2">
                     <Plus size={16} /> {showForm ? 'Hủy' : 'Tạo sự kiện mới'}

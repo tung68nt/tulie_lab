@@ -256,8 +256,9 @@ export default function AdminEmailsPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Email"
-                subtitle="Chỉnh sửa templates email và cấu hình SMTP."
+                title="Email Logs"
+                subtitle="Lịch sử gửi email và trạng thái gửi"
+                icon={<Mail className="w-8 h-8" />}
             />
 
             {/* Tabs */}

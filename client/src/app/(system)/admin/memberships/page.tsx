@@ -6,7 +6,7 @@ import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Plus, Trash2, LayoutGrid, Sparkles } from 'lucide-react';
+import { Loader2, Plus, Trash2, LayoutGrid, Sparkles, CreditCard } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useSettings } from '@/contexts/SettingsContext';
 
@@ -143,8 +143,9 @@ export default function AdminMembershipsPage() {
     return (
         <div className="space-y-8 pb-20">
             <AdminPageHeader
-                title="Quản lý Gói cước (Pricing)"
-                subtitle="Cấu hình giá bán, mô tả và quyền lợi cho các gói thành viên và mua lẻ."
+                title="Gói Cước (Membership)"
+                subtitle="Quản lý các gói thành viên và quyền lợi"
+                icon={<CreditCard className="w-8 h-8" />}
             />
 
             {/* Membership Section */}

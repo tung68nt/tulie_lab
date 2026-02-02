@@ -10,9 +10,10 @@ interface AdminPageHeaderProps {
     backUrl?: string;
     children?: React.ReactNode;
     className?: string;
+    icon?: React.ReactNode;
 }
 
-export function AdminPageHeader({ title, subtitle, backUrl, children, className }: AdminPageHeaderProps) {
+export function AdminPageHeader({ title, subtitle, backUrl, children, className, icon }: AdminPageHeaderProps) {
     return (
         <div className={cn("space-y-6 mb-8", className)}>
             {/* Back Button Row */}
@@ -27,9 +28,12 @@ export function AdminPageHeader({ title, subtitle, backUrl, children, className 
             )}
 
             {/* Header Content */}
-            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div className="space-y-1.5">
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                        {icon}
+                        {title}
+                    </h1>
                     {subtitle && (
                         <p className="text-muted-foreground text-base leading-relaxed max-w-2xl">
                             {subtitle}

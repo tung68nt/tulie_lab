@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
-import { Plus, ExternalLink, Edit, Trash2, Copy } from 'lucide-react';
+import { Plus, ExternalLink, Edit, Trash2, Copy, Layout } from 'lucide-react';
 
 import { useConfirm } from '@/components/ConfirmDialog';
 import { useToast } from '@/contexts/ToastContext';
@@ -77,8 +77,9 @@ export default function LandingPagesAdmin() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Landing Pages"
-                subtitle="Tạo và chỉnh sửa các trang bán hàng động."
+                title="Landing Pages"
+                subtitle="Quản lý các trang Landing Page giới thiệu sản phẩm/khóa học"
+                icon={<Layout className="w-8 h-8" />}
             >
                 <Link href="/admin/landing-pages/new">
                     <Button as="div" className="flex items-center gap-2">

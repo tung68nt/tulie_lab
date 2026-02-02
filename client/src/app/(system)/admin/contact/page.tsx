@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Search, Trash2, Mail, Eye, RefreshCcw, RotateCcw, Download } from 'lucide-react';
+
+import { Loader2, Search, Trash2, Mail, Eye, RefreshCcw, RotateCcw, Download, MessageSquare, Phone, MapPin, User, Clock } from 'lucide-react';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
@@ -105,8 +106,9 @@ export default function AdminContactPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Liên hệ từ khách hàng"
-                subtitle="Quản lý các tin nhắn gửi từ form liên hệ."
+                title="Liên hệ & Phản hồi"
+                subtitle="Quản lý tin nhắn liên hệ từ khách hàng"
+                icon={<MessageSquare className="w-8 h-8" />}
             >
                 <div className="flex gap-2">
                     <Button variant="outline" size="sm" onClick={loadSubmissions} disabled={loading}>

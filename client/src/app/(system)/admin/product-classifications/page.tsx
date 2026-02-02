@@ -193,7 +193,8 @@ export default function AdminProductClassificationsPage() {
         <div className="space-y-6">
             <AdminPageHeader
                 title="Phân loại Sản phẩm"
-                subtitle="Quản lý các danh mục và thuộc tính phân loại."
+                subtitle="Quản lý các nhóm phân loại sản phẩm (VD: Template, Ebook...)"
+                icon={<Tag className="w-8 h-8" />}
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
@@ -244,8 +245,8 @@ export default function AdminProductClassificationsPage() {
                                                         type="button"
                                                         onClick={() => setCurrentClassification({ ...currentClassification, icon: iconItem.name })}
                                                         className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${isSelected
-                                                                ? 'bg-neutral-900 text-white'
-                                                                : 'bg-neutral-50 text-neutral-600 hover:bg-neutral-100'
+                                                            ? 'bg-neutral-900 text-white'
+                                                            : 'bg-neutral-50 text-neutral-600 hover:bg-neutral-100'
                                                             }`}
                                                         title={iconItem.label}
                                                     >

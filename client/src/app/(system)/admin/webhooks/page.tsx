@@ -5,9 +5,10 @@ import { api } from '@/lib/api';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
 import { Input } from '@/components/Input';
 import { useConfirm } from '@/components/ConfirmDialog';
-import { Clock, CircleAlert, Search, RefreshCcw, Copy, Save, Loader2 } from 'lucide-react';
+import { Clock, CircleAlert, Search, RefreshCcw, Copy, Save, Loader2, RefreshCw, Trash2, Webhook } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 export default function AdminWebhooksPage() {
@@ -136,8 +137,9 @@ export default function AdminWebhooksPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Cấu hình Thanh toán & Webhooks"
-                subtitle="Quản lý thông tin tài khoản ngân hàng, webhook và công cụ hỗ trợ thanh toán."
+                title="Webhooks Logs"
+                subtitle="Lịch sử nhận webhook từ SePay và các hệ thống khác"
+                icon={<Webhook className="w-8 h-8" />}
             />
 
             {/* Bank Configuration */}

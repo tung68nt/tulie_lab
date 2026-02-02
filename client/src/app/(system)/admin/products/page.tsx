@@ -6,7 +6,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
-import { Plus, Search, Edit, Trash, ExternalLink } from 'lucide-react';
+import { Plus, Search, Edit, Trash, ExternalLink, ShoppingBag } from 'lucide-react';
 import { Input } from '@/components/Input';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -76,7 +76,8 @@ export default function AdminProductsPage() {
         <div className="space-y-6">
             <AdminPageHeader
                 title="Sản phẩm số"
-                subtitle="Quản lý các sản phẩm kỹ thuật số (Template, App, License)"
+                subtitle="Quản lý các sản phẩm số (Ebook, Template, Resource...)"
+                icon={<ShoppingBag className="w-8 h-8" />}
             >
                 <Link href="/admin/products/new">
                     <Button as="div" className="gap-2">

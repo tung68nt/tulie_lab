@@ -507,7 +507,8 @@ export class PaymentService {
         url += `?${queryParams.toString()}`;
 
         try {
-            const cleanApiKey = apiKey.trim().replace(/^["'`]|["'`]$/g, '');
+            // Robust cleaning: remove quotes and 'Bearer ' prefix if user pasted it
+            const cleanApiKey = apiKey.trim().replace(/^["'`]|["'`]$/g, '').replace(/^Bearer\s+/i, '');
             console.log(`[SePay Sync] Using API Key: ${cleanApiKey.charAt(0)}...${cleanApiKey.slice(-4)} (Length: ${cleanApiKey.length})`);
 
             const response = await axios.get(url, {

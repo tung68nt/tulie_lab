@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Plus, Search, Edit, Trash, Copy, Upload, Key } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { useToast } from '@/contexts/ToastContext';
@@ -82,8 +83,9 @@ export default function ActivationCodesPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Mã kích hoạt"
-                subtitle="Tạo và quản lý mã kích hoạt khóa học & sản phẩm thủ công."
+                title="Mã Kích Hoạt"
+                subtitle="Quản lý mã kích hoạt khóa học và sản phẩm"
+                icon={<Key className="w-8 h-8" />}
             />
 
             <div className="bg-muted/30 p-6 rounded-xl border">

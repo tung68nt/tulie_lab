@@ -21,7 +21,8 @@ import {
     Link,
     X,
     LayoutGrid,
-    List as ListIcon
+    List as ListIcon,
+    Image
 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
 import { cn } from '@/lib/utils';
@@ -172,8 +173,9 @@ export default function MediaManagerPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Media"
-                subtitle="Xem và quản lý tất cả các tệp tin đã tải lên hệ thống."
+                title="Kho Media - R2 Cloudflare"
+                subtitle="Quản lý tập tin, hình ảnh và video lưu trữ trên R2"
+                icon={<Image className="w-8 h-8" />}
             >
                 <div className="flex gap-3">
                     <Button

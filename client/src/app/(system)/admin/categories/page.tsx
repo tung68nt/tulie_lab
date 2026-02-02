@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Switch } from '@/components/Switch';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
+import { List } from 'lucide-react';
 
 interface Category {
     id: string;
@@ -104,8 +105,9 @@ export default function AdminCategoriesPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Quản lý Danh mục"
-                subtitle="Quản lý các danh mục khóa học để phân loại nội dung."
+                title="Danh Mục / Chuyên Mục"
+                subtitle="Quản lý phân loại khóa học và sản phẩm"
+                icon={<List className="w-8 h-8" />}
             >
                 <Button onClick={handleCreate} disabled={isEditing}>Thêm danh mục</Button>
             </AdminPageHeader>

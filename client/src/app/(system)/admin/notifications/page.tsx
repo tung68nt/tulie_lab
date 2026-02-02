@@ -6,7 +6,7 @@ import { Button } from '@/components/Button';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { Switch } from '@/components/Switch';
-import { Pencil, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Pencil, Trash2, ChevronLeft, ChevronRight, Bell } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
 
@@ -145,6 +145,7 @@ export default function NotificationsPage() {
             <AdminPageHeader
                 title="Quản lý Thông báo"
                 subtitle="Quản lý thông báo hệ thống và tin nhắn người dùng"
+                icon={<Bell className="w-8 h-8" />}
             >
                 <Button onClick={() => { resetForm(); setShowModal(true); }}>+ Tạo thông báo mới</Button>
             </AdminPageHeader>

@@ -1,9 +1,9 @@
 -- =====================================================
 -- LEARNING JOURNEY SYSTEM - Database Migration SQL
--- Run this on your production database
+-- Run this on your production database (Supabase SQL Editor)
 -- =====================================================
 
--- Step 1: Create new enums (if not exist)
+-- Step 1: Create new enums (safely)
 DO $$ BEGIN
     CREATE TYPE "SubmissionType" AS ENUM ('IMAGE', 'FILE', 'URL', 'TEXT', 'ANY');
 EXCEPTION
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS "JourneyEnrollment" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "journeyId" TEXT NOT NULL,
-    "currentStep" INTEGER NOT NULL DEFAULT 1,
+    "currentStep" INTEGER NOT NULL DEFAULT 0,
     "status" "JourneyStatus" NOT NULL DEFAULT 'IN_PROGRESS',
     "startedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "completedAt" TIMESTAMP(3),
@@ -85,40 +85,73 @@ CREATE TABLE IF NOT EXISTS "JourneySubmission" (
     CONSTRAINT "JourneySubmission_pkey" PRIMARY KEY ("id")
 );
 
--- Step 6: Create unique constraints
+-- Step 6: Create unique constraints (safely)
 CREATE UNIQUE INDEX IF NOT EXISTS "LearningJourney_slug_key" ON "LearningJourney"("slug");
 CREATE UNIQUE INDEX IF NOT EXISTS "JourneyEnrollment_userId_journeyId_key" ON "JourneyEnrollment"("userId", "journeyId");
 
+CREATE INDEX IF NOT EXISTS "JourneyEnrollment_userId_idx" ON "JourneyEnrollment"("userId");
+CREATE INDEX IF NOT EXISTS "JourneyEnrollment_journeyId_idx" ON "JourneyEnrollment"("journeyId");
+CREATE INDEX IF NOT EXISTS "JourneyEnrollment_status_idx" ON "JourneyEnrollment"("status");
+
+CREATE INDEX IF NOT EXISTS "JourneySubmission_enrollmentId_idx" ON "JourneySubmission"("enrollmentId");
+CREATE INDEX IF NOT EXISTS "JourneySubmission_stepId_idx" ON "JourneySubmission"("stepId");
+CREATE INDEX IF NOT EXISTS "JourneySubmission_status_idx" ON "JourneySubmission"("status");
+
 -- Step 7: Create foreign key constraints
-ALTER TABLE "LearningJourney" 
-    ADD CONSTRAINT "LearningJourney_courseId_fkey" 
-    FOREIGN KEY ("courseId") REFERENCES "Course"("id") 
-    ON DELETE SET NULL ON UPDATE CASCADE;
+-- We use DO blocks to avoid errors if constraints already exist
+DO $$ BEGIN
+    ALTER TABLE "LearningJourney" 
+        ADD CONSTRAINT "LearningJourney_courseId_fkey" 
+        FOREIGN KEY ("courseId") REFERENCES "Course"("id") 
+        ON DELETE SET NULL ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-ALTER TABLE "JourneyStep" 
-    ADD CONSTRAINT "JourneyStep_journeyId_fkey" 
-    FOREIGN KEY ("journeyId") REFERENCES "LearningJourney"("id") 
-    ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "JourneyStep" 
+        ADD CONSTRAINT "JourneyStep_journeyId_fkey" 
+        FOREIGN KEY ("journeyId") REFERENCES "LearningJourney"("id") 
+        ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-ALTER TABLE "JourneyEnrollment" 
-    ADD CONSTRAINT "JourneyEnrollment_userId_fkey" 
-    FOREIGN KEY ("userId") REFERENCES "User"("id") 
-    ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "JourneyEnrollment" 
+        ADD CONSTRAINT "JourneyEnrollment_userId_fkey" 
+        FOREIGN KEY ("userId") REFERENCES "User"("id") 
+        ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-ALTER TABLE "JourneyEnrollment" 
-    ADD CONSTRAINT "JourneyEnrollment_journeyId_fkey" 
-    FOREIGN KEY ("journeyId") REFERENCES "LearningJourney"("id") 
-    ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "JourneyEnrollment" 
+        ADD CONSTRAINT "JourneyEnrollment_journeyId_fkey" 
+        FOREIGN KEY ("journeyId") REFERENCES "LearningJourney"("id") 
+        ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-ALTER TABLE "JourneySubmission" 
-    ADD CONSTRAINT "JourneySubmission_enrollmentId_fkey" 
-    FOREIGN KEY ("enrollmentId") REFERENCES "JourneyEnrollment"("id") 
-    ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "JourneySubmission" 
+        ADD CONSTRAINT "JourneySubmission_enrollmentId_fkey" 
+        FOREIGN KEY ("enrollmentId") REFERENCES "JourneyEnrollment"("id") 
+        ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
-ALTER TABLE "JourneySubmission" 
-    ADD CONSTRAINT "JourneySubmission_stepId_fkey" 
-    FOREIGN KEY ("stepId") REFERENCES "JourneyStep"("id") 
-    ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$ BEGIN
+    ALTER TABLE "JourneySubmission" 
+        ADD CONSTRAINT "JourneySubmission_stepId_fkey" 
+        FOREIGN KEY ("stepId") REFERENCES "JourneyStep"("id") 
+        ON DELETE CASCADE ON UPDATE CASCADE;
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Done!
 SELECT 'Learning Journey tables created successfully!' as result;
