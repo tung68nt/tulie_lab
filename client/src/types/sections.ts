@@ -1,4 +1,4 @@
-export type SectionType = 'hero' | 'stats' | 'process' | 'comparison' | 'projects' | 'testimonials' | 'cta' | 'features' | 'content' | 'instructor-grid' | 'benefits' | 'coding-methods' | 'sales-countdown' | 'upsell' | 'payment' | 'custom-html' | 'student-showcase' | 'content-block' | 'instructor-bio' | 'bonus' | 'faq' | 'history' | 'curriculum' | 'pricing' | 'calendar' | 'video' | 'video-text' | 'gallery' | 'system-courses' | 'system-shop' | 'system-blog' | 'system-combos' | 'system-instructors' | 'heading' | 'cta-box' | 'course-content';
+export type SectionType = 'hero' | 'stats' | 'process' | 'comparison' | 'projects' | 'testimonials' | 'cta' | 'features' | 'content' | 'instructor-grid' | 'benefits' | 'coding-methods' | 'sales-countdown' | 'upsell' | 'payment' | 'custom-html' | 'student-showcase' | 'content-block' | 'instructor-bio' | 'bonus' | 'faq' | 'history' | 'curriculum' | 'pricing' | 'calendar' | 'video' | 'video-text' | 'gallery' | 'system-courses' | 'system-shop' | 'system-blog' | 'system-combos' | 'system-instructors' | 'heading' | 'cta-box' | 'course-content' | 'simple-testimonials';
 
 export interface SectionButton {
     text: string;
