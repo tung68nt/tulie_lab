@@ -19,7 +19,7 @@ export function AdminPageHeader({ title, subtitle, backUrl, children, className,
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div className="flex items-start gap-3">
                     {backUrl && (
-                        <Link href={backUrl} className="mt-1">
+                        <Link href={backUrl}>
                             <Button as="div" variant="ghost" size="icon" className="shrink-0 h-8 w-8">
                                 <ArrowLeft className="w-5 h-5" />
                             </Button>

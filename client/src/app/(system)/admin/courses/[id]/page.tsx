@@ -220,6 +220,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         <div className="space-y-8">
             <AdminPageHeader
                 title={`Chỉnh sửa: ${course.title}`}
+                subtitle="Quản lý thông tin và nội dung khóa học"
                 backUrl="/admin/courses"
             >
                 <Button variant="outline" onClick={() => window.open(`/courses/${courseForm.slug}`, '_blank')} className="gap-2">
