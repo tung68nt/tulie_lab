@@ -7,6 +7,7 @@ import { Watermark } from '@/components/system/security/Watermark';
 import { api } from '@/lib/api';
 import Link from 'next/link';
 import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown } from 'lucide-react';
+import { MentoringSidebar } from './MentoringSidebar';
 
 // Helper function to parse duration string
 function parseDurationToSeconds(duration: string): number {
@@ -41,6 +42,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
     const [user, setUser] = useState<any>(null);
     const [completedLessons, setCompletedLessons] = useState<string[]>([]);
     const [loadingSecure, setLoadingSecure] = useState(true);
+    const [sidebarTab, setSidebarTab] = useState<'content' | 'mentoring'>('content');
 
     // Collapsed state: chapters and sections
     const [collapsedItems, setCollapsedItems] = useState<Set<string>>(() => {
@@ -223,289 +225,274 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
             <aside className="w-full md:w-80 border-r-0 border-t md:border-t-0 md:border-r border-border bg-background flex-shrink-0 h-auto md:h-[calc(100vh-56px)] relative md:sticky top-0 md:top-[56px] flex flex-col overflow-visible">
                 <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border hidden md:block"></div>
 
-                import {MentoringSidebar} from './MentoringSidebar';
+                {/* Course Header & Tabs */}
+                <div className="border-b bg-background">
+                    {/* Back Link */}
+                    <div className="px-4 pt-4 pb-2">
+                        <Link href={`/courses/${courseSlug}`} className="text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 mb-2 group">
+                            <span className="transition-transform group-hover:-translate-x-0.5">←</span> Quay lại
+                        </Link>
+                        <h2 className="font-bold text-sm text-foreground line-clamp-1">{course.title}</h2>
+                    </div>
 
-                // ... (existing imports)
+                    {/* Tabs */}
+                    <div className="flex px-4 gap-4 mt-2">
+                        <button
+                            onClick={() => setSidebarTab('content')}
+                            className={`pb-2 text-sm font-medium transition-colors border-b-2 ${sidebarTab === 'content' ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
+                        >
+                            Bài học
+                        </button>
+                        <button
+                            onClick={() => setSidebarTab('mentoring')}
+                            className={`pb-2 text-sm font-medium transition-colors border-b-2 ${sidebarTab === 'mentoring' ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
+                        >
+                            Mentoring 1:1
+                        </button>
+                    </div>
+                </div>
 
-                export function LearnClient({course, lessonSlug, courseSlug}: LearnClientProps) {
-    // ... (existing state)
-    const [sidebarTab, setSidebarTab] = useState<'content' | 'mentoring'>('content');
-
-                // ... (existing logic)
-
-                return (
-                <div className="flex flex-col-reverse md:flex-row min-h-screen">
-                    {/* Sidebar */}
-                    <aside className="w-full md:w-80 border-r-0 border-t md:border-t-0 md:border-r border-border bg-background flex-shrink-0 h-auto md:h-[calc(100vh-56px)] relative md:sticky top-0 md:top-[56px] flex flex-col overflow-visible">
-                        <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border hidden md:block"></div>
-
-                        {/* Course Header & Tabs */}
-                        <div className="border-b bg-background">
-                            {/* Back Link */}
-                            <div className="px-4 pt-4 pb-2">
-                                <Link href={`/courses/${courseSlug}`} className="text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1.5 mb-2 group">
-                                    <span className="transition-transform group-hover:-translate-x-0.5">←</span> Quay lại
-                                </Link>
-                                <h2 className="font-bold text-sm text-foreground line-clamp-1">{course.title}</h2>
+                {sidebarTab === 'mentoring' ? (
+                    <div className="flex-1 overflow-y-auto pb-20">
+                        <MentoringSidebar userId={user?.id} />
+                    </div>
+                ) : (
+                    <>
+                        {/* Progress Bar */}
+                        <div className="px-4 py-3 border-b bg-muted/10">
+                            <div className="flex justify-between text-[11px] mb-1.5">
+                                <span className="text-muted-foreground">Tiến độ <span className="font-bold text-foreground">{progress}%</span></span>
+                                <span className="text-muted-foreground">{formatDuration(completedSeconds)} / {formatDuration(totalSeconds)}</span>
                             </div>
-
-                            {/* Tabs */}
-                            <div className="flex px-4 gap-4 mt-2">
-                                <button
-                                    onClick={() => setSidebarTab('content')}
-                                    className={`pb-2 text-sm font-medium transition-colors border-b-2 ${sidebarTab === 'content' ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
-                                >
-                                    Bài học
-                                </button>
-                                <button
-                                    onClick={() => setSidebarTab('mentoring')}
-                                    className={`pb-2 text-sm font-medium transition-colors border-b-2 ${sidebarTab === 'mentoring' ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
-                                >
-                                    Mentoring 1:1
-                                </button>
+                            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                                <div className="h-full bg-foreground rounded-full transition-all" style={{ width: `${progress}%` }} />
                             </div>
                         </div>
 
-                        {sidebarTab === 'mentoring' ? (
-                            <div className="flex-1 overflow-y-auto pb-20">
-                                <MentoringSidebar userId={user?.id} />
+                        {/* Expand/Collapse All */}
+                        {hierarchy.length > 1 && (
+                            <div className="px-4 py-2 border-b bg-muted/30 flex items-center justify-between">
+                                <span className="text-[11px] text-muted-foreground">{hierarchy.length} chương</span>
+                                <button
+                                    onClick={collapsedItems.size > 0 ? expandAll : collapseAll}
+                                    className="text-[11px] text-primary hover:underline flex items-center gap-1"
+                                >
+                                    <ChevronsUpDown className="w-3 h-3" />
+                                    {collapsedItems.size > 0 ? 'Mở tất cả' : 'Thu gọn'}
+                                </button>
                             </div>
-                        ) : (
-                            <>
-                                {/* Progress Bar */}
-                                <div className="px-4 py-3 border-b bg-muted/10">
-                                    <div className="flex justify-between text-[11px] mb-1.5">
-                                        <span className="text-muted-foreground">Tiến độ <span className="font-bold text-foreground">{progress}%</span></span>
-                                        <span className="text-muted-foreground">{formatDuration(completedSeconds)} / {formatDuration(totalSeconds)}</span>
-                                    </div>
-                                    <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                                        <div className="h-full bg-foreground rounded-full transition-all" style={{ width: `${progress}%` }} />
-                                    </div>
-                                </div>
+                        )}
 
-                                {/* Expand/Collapse All */}
-                                {hierarchy.length > 1 && (
-                                    <div className="px-4 py-2 border-b bg-muted/30 flex items-center justify-between">
-                                        <span className="text-[11px] text-muted-foreground">{hierarchy.length} chương</span>
+                        {/* Content Tree */}
+                        <div className="flex-1 overflow-y-auto pb-20">
+                            {hierarchy.map((chapter, chapterIdx) => {
+                                const chapterKey = `ch:${chapter.chapter}`;
+                                const isChapterCollapsed = collapsedItems.has(chapterKey);
+                                const chapterLessons = chapter.sections.flatMap(s => s.lessons);
+                                const completedInChapter = chapterLessons.filter(l => completedLessons.includes(l.id)).length;
+                                const isChapterComplete = completedInChapter === chapterLessons.length && chapterLessons.length > 0;
+                                const chapterHasActive = chapterLessons.some(l => l.slug === lessonSlug);
+
+                                return (
+                                    <div key={chapterKey} className={chapterIdx > 0 ? 'border-t border-border' : ''}>
                                         <button
-                                            onClick={collapsedItems.size > 0 ? expandAll : collapseAll}
-                                            className="text-[11px] text-primary hover:underline flex items-center gap-1"
-                                        >
-                                            <ChevronsUpDown className="w-3 h-3" />
-                                            {collapsedItems.size > 0 ? 'Mở tất cả' : 'Thu gọn'}
-                                        </button>
-                                    </div>
-                                )}
-
-                                {/* Content Tree */}
-                                <div className="flex-1 overflow-y-auto pb-20">
-                                    {hierarchy.map((chapter, chapterIdx) => {
-                                        const chapterKey = `ch:${chapter.chapter}`;
-                                        const isChapterCollapsed = collapsedItems.has(chapterKey);
-                                        const chapterLessons = chapter.sections.flatMap(s => s.lessons);
-                                        const completedInChapter = chapterLessons.filter(l => completedLessons.includes(l.id)).length;
-                                        const isChapterComplete = completedInChapter === chapterLessons.length && chapterLessons.length > 0;
-                                        const chapterHasActive = chapterLessons.some(l => l.slug === lessonSlug);
-
-                                        return (
-                                            <div key={chapterKey} className={chapterIdx > 0 ? 'border-t border-border' : ''}>
-                                                <button
-                                                    onClick={() => toggleItem(chapterKey)}
-                                                    className={`w-full px-4 py-3 flex items-center gap-3 text-left transition-colors
+                                            onClick={() => toggleItem(chapterKey)}
+                                            className={`w-full px-4 py-3 flex items-center gap-3 text-left transition-colors
                                                 ${chapterHasActive ? 'bg-muted/50' : 'hover:bg-muted/30'}
                                             `}
-                                                >
-                                                    <ChevronRight className={`w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform ${!isChapterCollapsed ? 'rotate-90' : ''}`} />
-                                                    <div className="flex-1 min-w-0">
-                                                        <h3 className="text-sm font-semibold text-foreground truncate">{chapter.chapter}</h3>
-                                                        <p className="text-[11px] text-muted-foreground">
-                                                            {isChapterComplete ? (
-                                                                <span className="text-green-600 flex items-center gap-1"><Check className="w-3 h-3" /> Hoàn thành</span>
-                                                            ) : (
-                                                                `${completedInChapter}/${chapterLessons.length} bài`
+                                        >
+                                            <ChevronRight className={`w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform ${!isChapterCollapsed ? 'rotate-90' : ''}`} />
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className="text-sm font-semibold text-foreground truncate">{chapter.chapter}</h3>
+                                                <p className="text-[11px] text-muted-foreground">
+                                                    {isChapterComplete ? (
+                                                        <span className="text-green-600 flex items-center gap-1"><Check className="w-3 h-3" /> Hoàn thành</span>
+                                                    ) : (
+                                                        `${completedInChapter}/${chapterLessons.length} bài`
+                                                    )}
+                                                </p>
+                                            </div>
+                                        </button>
+
+                                        {/* Chapter Content */}
+                                        {!isChapterCollapsed && (
+                                            <div className="bg-muted/10">
+                                                {chapter.sections.map((section, secIdx) => {
+                                                    const sectionKey = `sec:${chapter.chapter}:${section.section}`;
+                                                    const hasSection = !!section.section;
+                                                    const isSectionCollapsed = hasSection && collapsedItems.has(sectionKey);
+                                                    const sectionHasActive = section.lessons.some(l => l.slug === lessonSlug);
+
+                                                    return (
+                                                        <div key={sectionKey}>
+                                                            {/* Section Header (if has section name) */}
+                                                            {hasSection && (
+                                                                <button
+                                                                    onClick={() => toggleItem(sectionKey)}
+                                                                    className={`w-full pl-8 pr-4 py-2 flex items-center gap-2 text-left transition-colors
+                                                                        ${sectionHasActive ? 'bg-muted/50' : 'hover:bg-muted/20'}
+                                                                    `}
+                                                                >
+                                                                    <ChevronRight className={`w-3 h-3 text-muted-foreground flex-shrink-0 transition-transform ${!isSectionCollapsed ? 'rotate-90' : ''}`} />
+                                                                    <span className="text-[12px] font-medium text-foreground/80 truncate">{section.section}</span>
+                                                                    <span className="text-[10px] text-muted-foreground ml-auto">{section.lessons.length}</span>
+                                                                </button>
                                                             )}
-                                                        </p>
-                                                    </div>
-                                                </button>
 
+                                                            {/* Lessons */}
+                                                            {(!hasSection || !isSectionCollapsed) && (
+                                                                <div>
+                                                                    {section.lessons.map((lesson: any) => {
+                                                                        const isActive = lesson.slug === lessonSlug;
+                                                                        const isCompleted = completedLessons.includes(lesson.id);
+                                                                        const hasVideo = lesson.duration && lesson.duration !== '0:00' && lesson.type !== 'QUIZ';
 
-                                                {/* Chapter Content */}
-                                                {!isChapterCollapsed && (
-                                                    <div className="bg-muted/10">
-                                                        {chapter.sections.map((section, secIdx) => {
-                                                            const sectionKey = `sec:${chapter.chapter}:${section.section}`;
-                                                            const hasSection = !!section.section;
-                                                            const isSectionCollapsed = hasSection && collapsedItems.has(sectionKey);
-                                                            const sectionHasActive = section.lessons.some(l => l.slug === lessonSlug);
+                                                                        return (
+                                                                            <Link
+                                                                                key={lesson.id}
+                                                                                href={`/learn/${courseSlug}/${lesson.slug}`}
+                                                                                className={`flex items-start gap-3 py-2.5 pr-4 transition-all group
+                                                                                    ${hasSection ? 'pl-12' : 'pl-8'}
+                                                                                    ${isActive ? 'bg-primary/10' : 'hover:bg-muted/30'}
+                                                                                `}
+                                                                            >
+                                                                                {/* Completion indicator */}
+                                                                                <div
+                                                                                    onClick={(e) => handleToggleComplete(lesson.id, e)}
+                                                                                    className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer transition-all
+                                                                                        ${isCompleted
+                                                                                            ? 'bg-green-500 text-white'
+                                                                                            : 'border border-muted-foreground/50 hover:border-muted-foreground'}
+                                                                                    `}
+                                                                                >
+                                                                                    {isCompleted && <Check className="w-2.5 h-2.5" strokeWidth={3} />}
+                                                                                </div>
 
-                                                            return (
-                                                                <div key={sectionKey}>
-                                                                    {/* Section Header (if has section name) */}
-                                                                    {hasSection && (
-                                                                        <button
-                                                                            onClick={() => toggleItem(sectionKey)}
-                                                                            className={`w-full pl-8 pr-4 py-2 flex items-center gap-2 text-left transition-colors
-                                                                ${sectionHasActive ? 'bg-muted/50' : 'hover:bg-muted/20'}
-                                                            `}
-                                                                        >
-                                                                            <ChevronRight className={`w-3 h-3 text-muted-foreground flex-shrink-0 transition-transform ${!isSectionCollapsed ? 'rotate-90' : ''}`} />
-                                                                            <span className="text-[12px] font-medium text-foreground/80 truncate">{section.section}</span>
-                                                                            <span className="text-[10px] text-muted-foreground ml-auto">{section.lessons.length}</span>
-                                                                        </button>
-                                                                    )}
-
-                                                                    {/* Lessons */}
-                                                                    {(!hasSection || !isSectionCollapsed) && (
-                                                                        <div>
-                                                                            {section.lessons.map((lesson: any) => {
-                                                                                const isActive = lesson.slug === lessonSlug;
-                                                                                const isCompleted = completedLessons.includes(lesson.id);
-                                                                                const hasVideo = lesson.duration && lesson.duration !== '0:00' && lesson.type !== 'QUIZ';
-
-                                                                                return (
-                                                                                    <Link
-                                                                                        key={lesson.id}
-                                                                                        href={`/learn/${courseSlug}/${lesson.slug}`}
-                                                                                        className={`flex items-start gap-3 py-2.5 pr-4 transition-all group
-                                                                            ${hasSection ? 'pl-12' : 'pl-8'}
-                                                                            ${isActive ? 'bg-primary/10' : 'hover:bg-muted/30'}
-                                                                        `}
-                                                                                    >
-                                                                                        {/* Completion indicator */}
-                                                                                        <div
-                                                                                            onClick={(e) => handleToggleComplete(lesson.id, e)}
-                                                                                            className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 cursor-pointer transition-all
-                                                                                ${isCompleted
-                                                                                                    ? 'bg-green-500 text-white'
-                                                                                                    : 'border border-muted-foreground/50 hover:border-muted-foreground'}
-                                                                            `}
-                                                                                        >
-                                                                                            {isCompleted && <Check className="w-2.5 h-2.5" strokeWidth={3} />}
-                                                                                        </div>
-
-                                                                                        {/* Thumbnail (only for video lessons) */}
-                                                                                        {hasVideo && (
-                                                                                            <div className="flex-shrink-0 w-16 h-10 bg-muted rounded overflow-hidden relative">
-                                                                                                {lesson.thumbnail ? (
-                                                                                                    <img src={lesson.thumbnail} alt="" className="w-full h-full object-cover" />
-                                                                                                ) : (
-                                                                                                    <div className="w-full h-full flex items-center justify-center">
-                                                                                                        <Play className="w-4 h-4 text-muted-foreground" />
-                                                                                                    </div>
-                                                                                                )}
+                                                                                {/* Thumbnail (only for video lessons) */}
+                                                                                {hasVideo && (
+                                                                                    <div className="flex-shrink-0 w-16 h-10 bg-muted rounded overflow-hidden relative">
+                                                                                        {lesson.thumbnail ? (
+                                                                                            <img src={lesson.thumbnail} alt="" className="w-full h-full object-cover" />
+                                                                                        ) : (
+                                                                                            <div className="w-full h-full flex items-center justify-center">
+                                                                                                <Play className="w-4 h-4 text-muted-foreground" />
                                                                                             </div>
                                                                                         )}
+                                                                                    </div>
+                                                                                )}
 
-                                                                                        {/* Lesson Info */}
-                                                                                        <div className="flex-1 min-w-0">
-                                                                                            <span className={`block text-[13px] leading-tight line-clamp-2 ${isActive ? 'font-semibold text-foreground' : 'text-foreground/80'}`}>
-                                                                                                {lesson.title}
-                                                                                            </span>
-                                                                                            {lesson.duration && (
-                                                                                                <span className="text-[11px] text-muted-foreground">{lesson.duration}</span>
-                                                                                            )}
-                                                                                        </div>
-                                                                                    </Link>
-                                                                                );
-                                                                            })}
-                                                                        </div>
-                                                                    )}
+                                                                                {/* Lesson Info */}
+                                                                                <div className="flex-1 min-w-0">
+                                                                                    <span className={`block text-[13px] leading-tight line-clamp-2 ${isActive ? 'font-semibold text-foreground' : 'text-foreground/80'}`}>
+                                                                                        {lesson.title}
+                                                                                    </span>
+                                                                                    {lesson.duration && (
+                                                                                        <span className="text-[11px] text-muted-foreground">{lesson.duration}</span>
+                                                                                    )}
+                                                                                </div>
+                                                                            </Link>
+                                                                        );
+                                                                    })}
                                                                 </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                )}
+                                                            )}
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
-                                        );
-                                    })}
-                                </div>
-                            </aside>
-
-                        {/* Main Content */}
-                        <main className="flex-1 min-w-0">
-                            <div className="max-w-4xl mx-auto p-4 md:p-6">
-                                {currentLesson.videoUrl && (
-                                    <div className="bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800 w-full aspect-video md:aspect-auto md:h-[50vh] md:max-h-[500px] relative">
-                                        <VideoPlayer
-                                            url={currentLesson.videoUrl}
-                                            type={currentLesson.videoType}
-                                            title={currentLesson.title}
-                                            thumbnail={currentLesson.thumbnail}
-                                            className="w-full h-full"
-                                        />
-                                        {user && (user.email || user.name) && (
-                                            <Watermark text={user.email || user.name} mode="absolute" />
                                         )}
                                     </div>
-                                )}
+                                );
+                            })}
+                        </div>
+                    </>
+                )}
+            </aside>
 
-                                <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                    <h1 className="text-2xl font-bold text-foreground">{currentLesson.title}</h1>
-                                    <Button
-                                        onClick={() => handleToggleComplete(currentLesson.id)}
-                                        variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
-                                        className="gap-2 shrink-0"
-                                    >
-                                        {completedLessons.includes(currentLesson.id) ? (
-                                            <><Check className="w-4 h-4" /> Đã hoàn thành</>
-                                        ) : (
-                                            "Đánh dấu hoàn thành"
-                                        )}
-                                    </Button>
-                                </div>
+            {/* Main Content */}
+            <main className="flex-1 min-w-0">
+                <div className="max-w-4xl mx-auto p-4 md:p-6">
+                    {currentLesson.videoUrl && (
+                        <div className="bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800 w-full aspect-video md:aspect-auto md:h-[50vh] md:max-h-[500px] relative">
+                            <VideoPlayer
+                                url={currentLesson.videoUrl}
+                                type={currentLesson.videoType}
+                                title={currentLesson.title}
+                                thumbnail={currentLesson.thumbnail}
+                                className="w-full h-full"
+                            />
+                            {user && (user.email || user.name) && (
+                                <Watermark text={user.email || user.name} mode="absolute" />
+                            )}
+                        </div>
+                    )}
 
-                                {currentLesson.attachments && currentLesson.attachments.length > 0 && (
-                                    <div className="bg-muted/10 rounded-xl border p-5 mb-6">
-                                        <h3 className="text-sm font-semibold text-foreground mb-3">Tài nguyên</h3>
-                                        <div className="space-y-2">
-                                            {currentLesson.attachments.map((att: any) => (
-                                                <a key={att.id} href={att.url} target="_blank" rel="noopener noreferrer"
-                                                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-background border hover:border-muted-foreground transition-all group">
-                                                    <span className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
-                                                        <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                        </svg>
-                                                    </span>
-                                                    <span className="font-medium text-foreground group-hover:text-primary flex-1">{att.title || att.name}</span>
-                                                </a>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
+                    <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <h1 className="text-2xl font-bold text-foreground">{currentLesson.title}</h1>
+                        <Button
+                            onClick={() => handleToggleComplete(currentLesson.id)}
+                            variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
+                            className="gap-2 shrink-0"
+                        >
+                            {completedLessons.includes(currentLesson.id) ? (
+                                <><Check className="w-4 h-4" /> Đã hoàn thành</>
+                            ) : (
+                                "Đánh dấu hoàn thành"
+                            )}
+                        </Button>
+                    </div>
 
-                                <div className="flex items-center justify-between pt-4 border-t">
-                                    {prevLesson ? (
-                                        <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}>
-                                            <Button as="div" variant="outline" size="sm" className="gap-2">
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                                </svg>
-                                                Bài trước
-                                            </Button>
-                                        </Link>
-                                    ) : <div />}
-                                    {!isLastLesson && nextLesson ? (
-                                        <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}>
-                                            <Button as="div" size="sm" className="gap-2">
-                                                Bài tiếp theo
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                </svg>
-                                            </Button>
-                                        </Link>
-                                    ) : isLastLesson ? (
-                                        <Link href={`/courses/${courseSlug}`}>
-                                            <Button as="div" size="sm" className="gap-2">
-                                                Hoàn thành khóa học
-                                                <Check className="w-4 h-4" />
-                                            </Button>
-                                        </Link>
-                                    ) : (
-                                        <div />
-                                    )}
-                                </div>
+                    {currentLesson.attachments && currentLesson.attachments.length > 0 && (
+                        <div className="bg-muted/10 rounded-xl border p-5 mb-6">
+                            <h3 className="text-sm font-semibold text-foreground mb-3">Tài nguyên</h3>
+                            <div className="space-y-2">
+                                {currentLesson.attachments.map((att: any) => (
+                                    <a key={att.id} href={att.url} target="_blank" rel="noopener noreferrer"
+                                        className="flex items-center gap-3 px-4 py-3 rounded-lg bg-background border hover:border-muted-foreground transition-all group">
+                                        <span className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
+                                            <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                            </svg>
+                                        </span>
+                                        <span className="font-medium text-foreground group-hover:text-primary flex-1">{att.title || att.name}</span>
+                                    </a>
+                                ))}
                             </div>
-                        </main>
+                        </div>
+                    )}
+
+                    <div className="flex items-center justify-between pt-4 border-t">
+                        {prevLesson ? (
+                            <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}>
+                                <Button as="div" variant="outline" size="sm" className="gap-2">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                    Bài trước
+                                </Button>
+                            </Link>
+                        ) : <div />}
+                        {!isLastLesson && nextLesson ? (
+                            <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}>
+                                <Button as="div" size="sm" className="gap-2">
+                                    Bài tiếp theo
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </Button>
+                            </Link>
+                        ) : isLastLesson ? (
+                            <Link href={`/courses/${courseSlug}`}>
+                                <Button as="div" size="sm" className="gap-2">
+                                    Hoàn thành khóa học
+                                    <Check className="w-4 h-4" />
+                                </Button>
+                            </Link>
+                        ) : (
+                            <div />
+                        )}
+                    </div>
                 </div>
-                );
+            </main>
+        </div>
+    );
 }
