@@ -464,6 +464,7 @@ export default function AdminDashboardPage() {
             <AdminPageHeader
                 title="Tổng quan"
                 subtitle="Theo dõi hiệu suất kinh doanh"
+                icon={<LayoutDashboard className="w-8 h-8" />}
             >
                 <div className="flex flex-wrap items-center gap-2">
                     {/* Time Period Filter */}
