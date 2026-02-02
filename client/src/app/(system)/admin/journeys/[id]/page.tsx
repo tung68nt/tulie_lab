@@ -7,9 +7,11 @@ import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Textarea } from '@/components/Textarea';
+import { Checkbox } from '@/components/Checkbox';
 import { Plus, Trash2, GripVertical, Save, ArrowLeft, Route } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
+import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface JourneyStep {
     id?: string;
@@ -180,6 +182,7 @@ export default function JourneyEditorPage() {
             position: prev.length,
             submissionType: 'ANY',
             isRequired: true,
+            deadlineDays: undefined,
         }]);
     };
 
@@ -216,20 +219,12 @@ export default function JourneyEditorPage() {
     return (
         <div className="p-6">
             {/* Header */}
-            <div className="flex items-center gap-4 mb-6">
-                <Link href="/admin/journeys">
-                    <Button variant="ghost" size="sm">
-                        <ArrowLeft className="w-4 h-4" />
-                    </Button>
-                </Link>
-                <div className="flex items-center gap-3">
-                    <Route className="w-8 h-8" />
-                    <div>
-                        <h1 className="text-2xl font-bold">{isNew ? 'Tạo Lộ Trình Mới' : 'Chỉnh Sửa Lộ Trình'}</h1>
-                        <p className="text-muted-foreground">{isNew ? 'Thiết lập lộ trình học mới' : form.title}</p>
-                    </div>
-                </div>
-            </div>
+            <AdminPageHeader
+                title={isNew ? 'Tạo Lộ Trình Mới' : 'Chỉnh Sửa Lộ Trình'}
+                subtitle={isNew ? 'Thiết lập lộ trình học mới' : form.title}
+                backUrl="/admin/journeys"
+                icon={<Route className="w-8 h-8" />}
+            />
 
             <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -335,15 +330,15 @@ export default function JourneyEditorPage() {
                                                                 onChange={(e) => updateStep(index, { deadlineDays: parseInt(e.target.value) || undefined })}
                                                                 placeholder="Không giới hạn"
                                                             />
+                                                            <p className="text-[10px] text-zinc-500 mt-1">Để trống nếu không có hạn</p>
                                                         </div>
-                                                        <div className="flex items-end">
-                                                            <label className="flex items-center gap-2 text-sm">
-                                                                <input
-                                                                    type="checkbox"
+                                                        <div className="flex items-end pb-2">
+                                                            <label className="flex items-center gap-2 text-sm font-medium cursor-pointer">
+                                                                <Checkbox
                                                                     checked={step.isRequired}
-                                                                    onChange={(e) => updateStep(index, { isRequired: e.target.checked })}
+                                                                    onCheckedChange={(checked) => updateStep(index, { isRequired: checked })}
                                                                 />
-                                                                Bắt buộc
+                                                                <span>Bắt buộc</span>
                                                             </label>
                                                         </div>
                                                     </div>
@@ -353,7 +348,7 @@ export default function JourneyEditorPage() {
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={() => removeStep(index)}
-                                                    className="text-destructive"
+                                                    className="text-destructive hover:bg-red-50"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
@@ -391,29 +386,33 @@ export default function JourneyEditorPage() {
                                         onChange={(e) => setForm(prev => ({ ...prev, price: parseInt(e.target.value) || 0 }))}
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <label className="text-sm font-medium">Là Add-on</label>
-                                    <input
-                                        type="checkbox"
+                                <div className="flex items-center justify-between py-2 border-t mt-2">
+                                    <label className="text-sm font-medium cursor-pointer" onClick={() => setForm(prev => ({ ...prev, isAddOn: !prev.isAddOn }))}>
+                                        Là Add-on
+                                    </label>
+                                    <Checkbox
                                         checked={form.isAddOn}
-                                        onChange={(e) => setForm(prev => ({ ...prev, isAddOn: e.target.checked }))}
+                                        onCheckedChange={(checked) => setForm(prev => ({ ...prev, isAddOn: checked }))}
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <label className="text-sm font-medium">Xuất bản</label>
-                                    <input
-                                        type="checkbox"
+                                <div className="flex items-center justify-between py-2 border-t">
+                                    <label className="text-sm font-medium cursor-pointer" onClick={() => setForm(prev => ({ ...prev, isPublished: !prev.isPublished }))}>
+                                        Xuất bản
+                                    </label>
+                                    <Checkbox
                                         checked={form.isPublished}
-                                        onChange={(e) => setForm(prev => ({ ...prev, isPublished: e.target.checked }))}
+                                        onCheckedChange={(checked) => setForm(prev => ({ ...prev, isPublished: checked }))}
                                     />
                                 </div>
                             </div>
                         </Card>
 
-                        <Button type="submit" className="w-full" disabled={saving}>
-                            <Save className="w-4 h-4 mr-2" />
-                            {saving ? 'Đang lưu...' : 'Lưu Lộ Trình'}
-                        </Button>
+                        <div className="sticky top-6 space-y-4">
+                            <Button type="submit" className="w-full bg-zinc-900 text-white hover:bg-zinc-800" disabled={saving}>
+                                <Save className="w-4 h-4 mr-2" />
+                                {saving ? 'Đang lưu...' : 'Lưu Lộ Trình'}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </form>

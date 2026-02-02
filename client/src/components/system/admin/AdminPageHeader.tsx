@@ -15,34 +15,34 @@ interface AdminPageHeaderProps {
 
 export function AdminPageHeader({ title, subtitle, backUrl, children, className, icon }: AdminPageHeaderProps) {
     return (
-        <div className={cn("space-y-6 mb-8", className)}>
-            {/* Back Button Row */}
-            {backUrl && (
-                <div>
-                    <Link href={backUrl}>
-                        <Button as="div" variant="outline" size="sm" className="gap-2">
-                            <ArrowLeft size={16} /> Quay lại
-                        </Button>
-                    </Link>
-                </div>
-            )}
-
-            {/* Header Content */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div className="space-y-1.5">
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
-                        {icon}
-                        {title}
-                    </h1>
-                    {subtitle && (
-                        <p className="text-muted-foreground text-base leading-relaxed max-w-2xl">
-                            {subtitle}
-                        </p>
+        <div className={cn("mb-8", className)}>
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                <div className="flex items-start gap-3">
+                    {backUrl && (
+                        <Link href={backUrl} className="mt-1">
+                            <Button as="div" variant="ghost" size="icon" className="shrink-0 h-8 w-8">
+                                <ArrowLeft className="w-5 h-5" />
+                            </Button>
+                        </Link>
                     )}
+
+                    <div className="flex items-center gap-3">
+                        {icon && <div className="shrink-0">{icon}</div>}
+                        <div className="space-y-1">
+                            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                                {title}
+                            </h1>
+                            {subtitle && (
+                                <p className="text-muted-foreground text-base">
+                                    {subtitle}
+                                </p>
+                            )}
+                        </div>
+                    </div>
                 </div>
 
                 {children && (
-                    <div className="flex items-center gap-3 shrink-0">
+                    <div className="flex items-center gap-3 shrink-0 md:mt-1">
                         {children}
                     </div>
                 )}
