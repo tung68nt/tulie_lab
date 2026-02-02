@@ -121,8 +121,8 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                         </div>
                                     </div>
 
-                                    {/* Quote Area - Flexible height to push content down */}
-                                    <div className="mb-6 flex-grow">
+                                    {/* Quote Area - Fixed min-height for alignment */}
+                                    <div className="mb-6 min-h-[120px]">
                                         {testimonial.content ? (
                                             <p className="text-base text-foreground/80 dark:text-zinc-300 font-medium">
                                                 "{testimonial.content}"
@@ -130,8 +130,8 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                         ) : null}
                                     </div>
 
-                                    {/* Comparison Grid - 2 Cols for perfect alignment */}
-                                    <div className="pt-6 border-t border-border/50 grid grid-cols-2 gap-4 md:gap-6 mt-auto">
+                                    {/* Comparison Grid - Top aligned to ensure headers match */}
+                                    <div className="pt-6 border-t border-border/50 grid grid-cols-2 gap-4 md:gap-6">
                                         {/* Before Column */}
                                         <div>
                                             <h4 className="text-xs font-bold text-red-500 mb-3 uppercase tracking-wider">Trước khi học</h4>

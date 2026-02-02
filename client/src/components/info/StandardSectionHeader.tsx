@@ -11,6 +11,7 @@ interface StandardSectionHeaderProps {
     titleOverride?: string;
     subtitleOverride?: string;
     tagOverride?: React.ReactNode;
+    tagProps?: Partial<React.ComponentProps<typeof SectionTag>>;
     children?: React.ReactNode; // Allow extra content if needed
     align?: 'center' | 'left' | 'right';
 }
@@ -21,6 +22,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
     titleOverride,
     subtitleOverride,
     tagOverride,
+    tagProps,
     children,
     align = 'center'
 }) => {
@@ -56,7 +58,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <FadeIn direction="up" delay={0.1} duration={0.5}>
-                        <SectionTag variant={isDarkBg ? 'black-pill' : 'default'}>
+                        <SectionTag variant={isDarkBg ? 'black-pill' : 'default'} {...tagProps}>
                             {tag}
                         </SectionTag>
                     </FadeIn>

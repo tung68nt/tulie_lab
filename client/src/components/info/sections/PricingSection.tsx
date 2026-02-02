@@ -61,12 +61,12 @@ export const PricingSection = ({ section }: { section: Section }) => {
                                         {item.icon && getIcon(item.icon)}
                                         {item.title}
                                     </h3>
-                                    <div className="flex items-baseline gap-1 mb-3">
-                                        <span className="text-4xl font-semibold text-zinc-950 dark:text-white flex items-baseline gap-0.5">
+                                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3">
+                                        <span className="text-3xl md:text-4xl font-semibold text-zinc-950 dark:text-white flex items-baseline gap-0.5">
                                             {item.price}<sup className="text-lg">đ</sup>
                                         </span>
                                         {Boolean(item.originalPrice) && (
-                                            <span className="text-lg text-neutral-400 line-through font-medium ml-2 flex items-baseline gap-0.5">
+                                            <span className="text-lg text-neutral-400 line-through font-medium flex items-baseline gap-0.5">
                                                 {item.originalPrice}<sup className="text-xs">đ</sup>
                                             </span>
                                         )}

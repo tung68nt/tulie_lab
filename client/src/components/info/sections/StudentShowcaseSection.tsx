@@ -28,6 +28,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                     section={section}
                     tagOverride={section.subtitle || "KẾT QUẢ THỰC TẾ"}
                     subtitleOverride="Những câu chuyện thành công từ học viên đã áp dụng kiến thức vào thực tế."
+                    tagProps={{ dotColor: 'green', animate: true }}
                 />
 
                 <FadeIn direction="up" delay={0.4}>
@@ -60,7 +61,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                         )}
 
                                         {Boolean(item.description || item.quote) && (
-                                            <div className="text-neutral-600 text-[13px] leading-relaxed">
+                                            <div className="text-neutral-600 text-[13px] leading-relaxed min-h-[80px]">
                                                 {String(item.quote ? `"${item.quote}"` : item.description)}
                                             </div>
                                         )}
@@ -68,7 +69,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
 
                                     {/* Before/After stats if available */}
                                     {(Boolean(item.before) && Boolean(item.after)) && (
-                                        <div className="pt-6 border-t border-border grid grid-cols-2 gap-6 mt-auto">
+                                        <div className="pt-6 border-t border-border grid grid-cols-2 gap-6">
                                             <div className="flex flex-col">
                                                 <p className="text-[13px] text-red-500 font-bold mb-3 h-5 flex items-center">Trước khi học</p>
                                                 <ul className="text-[12px] text-neutral-500 space-y-2.5">

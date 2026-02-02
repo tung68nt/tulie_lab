@@ -462,6 +462,47 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
         }
     },
     {
+        id: 'simple-testimonials',
+        name: 'Simple Testimonials',
+        category: 'Social Proof',
+        description: 'Clean testimonials with quotes only (No comparison).',
+        previewImage: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'simple-test',
+            type: 'simple-testimonials',
+            name: 'Simple Testimonials',
+            title: 'Học viên nói về khóa học',
+            tag: 'Cảm nhận học viên',
+            subtitle: 'Những chia sẻ chân thực nhất từ cộng đồng học viên.',
+            align: 'center',
+            showDotPattern: true,
+            items: [
+                {
+                    name: "Nguyễn Văn A",
+                    role: "Học viên",
+                    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+                    content: "Khoá học rất bổ ích, giúp tôi thay đổi hoàn toàn tư duy.",
+                },
+                {
+                    name: "Trần Thị B",
+                    role: "Freelancer",
+                    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+                    content: "Nội dung thực tế, dễ hiểu và áp dụng được ngay.",
+                },
+                {
+                    name: "Lê Văn C",
+                    role: "Chủ doanh nghiệp",
+                    avatar: "https://randomuser.me/api/portraits/men/68.jpg",
+                    content: "Rất đáng tiền, hỗ trợ nhiệt tình từ giảng viên.",
+                }
+            ],
+            backgroundImage: '',
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 8
+        }
+    },
+    {
         id: 'sales-countdown',
         name: 'Sales Countdown',
         category: 'Conversion',

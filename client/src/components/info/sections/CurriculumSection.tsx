@@ -91,10 +91,10 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
 
                                                         if (lowerTitle.includes('tặng') || lowerTitle.includes('bonus') || lowerTitle.includes('gift')) {
                                                             Icon = Gift;
-                                                            iconColorClass = "text-orange-500";
+                                                            // Keep consistent gray color
                                                         } else if (lowerTitle.includes('tài liệu') || lowerTitle.includes('pdf') || lowerTitle.includes('checklist')) {
                                                             Icon = FileText;
-                                                            iconColorClass = "text-blue-500";
+                                                            // Keep consistent gray color
                                                         }
 
                                                         return (
