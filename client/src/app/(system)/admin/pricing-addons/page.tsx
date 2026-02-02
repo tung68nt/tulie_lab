@@ -252,23 +252,35 @@ export default function PricingAddOnsPage() {
                                         </div>
                                         <div>
                                             <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Giá cộng thêm (VND)</label>
-                                            <Input
-                                                type="number"
-                                                value={currentAddOn.priceAddon || ''}
-                                                onChange={e => setCurrentAddOn({ ...currentAddOn, priceAddon: Number(e.target.value) })}
-                                                placeholder="500000"
-                                                className="h-10"
-                                            />
+                                            <div className="relative">
+                                                <Input
+                                                    type="text"
+                                                    value={currentAddOn.priceAddon ? Number(currentAddOn.priceAddon).toLocaleString('vi-VN') : ''}
+                                                    onChange={e => {
+                                                        const val = e.target.value.replace(/\D/g, '');
+                                                        setCurrentAddOn({ ...currentAddOn, priceAddon: val ? Number(val) : 0 });
+                                                    }}
+                                                    placeholder="500.000"
+                                                    className="h-10 pr-8"
+                                                />
+                                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 text-sm font-medium">đ</span>
+                                            </div>
                                         </div>
                                         <div>
                                             <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Giá gốc để gạch</label>
-                                            <Input
-                                                type="number"
-                                                value={currentAddOn.compareAtAddon || ''}
-                                                onChange={e => setCurrentAddOn({ ...currentAddOn, compareAtAddon: Number(e.target.value) })}
-                                                placeholder="800000"
-                                                className="h-10"
-                                            />
+                                            <div className="relative">
+                                                <Input
+                                                    type="text"
+                                                    value={currentAddOn.compareAtAddon ? Number(currentAddOn.compareAtAddon).toLocaleString('vi-VN') : ''}
+                                                    onChange={e => {
+                                                        const val = e.target.value.replace(/\D/g, '');
+                                                        setCurrentAddOn({ ...currentAddOn, compareAtAddon: val ? Number(val) : 0 });
+                                                    }}
+                                                    placeholder="800.000"
+                                                    className="h-10 pr-8"
+                                                />
+                                                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 text-sm font-medium">đ</span>
+                                            </div>
                                         </div>
                                     </div>
 
