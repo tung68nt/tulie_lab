@@ -138,9 +138,9 @@ export default function PricingAddOnsPage() {
                 subtitle="Quản lý các gói bổ trợ và dịch vụ đi kèm"
                 icon={<Tags className="w-8 h-8" />}
             >
-                <Button onClick={handleCreate} className="gap-2">
-                    <Plus size={18} />
-                    Thêm gói mới
+                <Button onClick={handleCreate} variant="outline" className="gap-2 h-10 border-neutral-200">
+                    <Plus size={22} className="text-neutral-600" />
+                    <span className="text-neutral-600 font-medium">Thêm gói mới</span>
                 </Button>
             </AdminPageHeader>
 
