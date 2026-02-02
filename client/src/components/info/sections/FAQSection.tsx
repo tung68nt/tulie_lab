@@ -51,7 +51,7 @@ export function FAQSection({ section }: { section: Section }) {
                     <StandardSectionHeader section={section} align="center" />
 
                     <FadeIn direction="up" delay={0.4} duration={0.6}>
-                        <div className="space-y-4">
+                        <div className="space-y-2">
                             {items.map((item, index) => (
                                 <div
                                     key={index}
