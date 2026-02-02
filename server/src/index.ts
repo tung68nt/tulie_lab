@@ -186,7 +186,8 @@ async function initializeApp() {
         { path: '/api/pricing-addons', module: './modules/shop/pricing-addons/pricing-addons.routes' },
         { path: '/api/events', module: './modules/lms/events/events.routes' },
         { path: '/api/crm', module: './modules/system/crm/crm.routes' },
-        { path: '/api', module: './modules/lms/journeys/journey.routes' }
+        { path: '/api', module: './modules/lms/journeys/journey.routes' },
+        { path: '/api/mentoring', module: './modules/lms/mentoring/mentoring.routes' }
       ];
 
       for (const route of routes) {

@@ -21,6 +21,10 @@ export const createPricingAddOn = async (data: {
     features?: string[];
     position?: number;
     isActive?: boolean;
+    type?: 'VIDEO' | 'CHAT' | 'REVIEW' | 'OTHER';
+    sessionCount?: number;
+    sessionDuration?: number;
+    curriculum?: any;
 }) => {
     return prisma.pricingAddOn.create({
         data: {
@@ -31,6 +35,10 @@ export const createPricingAddOn = async (data: {
             features: data.features || [],
             position: data.position ?? 0,
             isActive: data.isActive ?? true,
+            type: data.type || 'OTHER',
+            sessionCount: data.sessionCount || 0,
+            sessionDuration: data.sessionDuration || 60,
+            curriculum: data.curriculum || [],
         },
     });
 };
@@ -43,6 +51,10 @@ export const updatePricingAddOn = async (id: string, data: {
     features?: string[];
     position?: number;
     isActive?: boolean;
+    type?: 'VIDEO' | 'CHAT' | 'REVIEW' | 'OTHER';
+    sessionCount?: number;
+    sessionDuration?: number;
+    curriculum?: any;
 }) => {
     return prisma.pricingAddOn.update({
         where: { id },
