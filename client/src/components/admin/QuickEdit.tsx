@@ -24,7 +24,7 @@ export function QuickEdit({ editUrl }: QuickEditProps) {
     if (!shouldShow) return null;
 
     return (
-        <div className="fixed top-24 right-40 z-50 animate-in fade-in slide-in-from-right-4 duration-500 group">
+        <div className="fixed top-24 right-32 z-50 animate-in fade-in slide-in-from-right-4 duration-500 group">
             <Link href={editUrl}>
                 <Button
                     size="sm"
