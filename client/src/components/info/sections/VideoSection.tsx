@@ -62,11 +62,24 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                     className={cn(
-                        "relative mx-auto max-w-5xl rounded-2xl overflow-hidden shadow-2xl",
-                        section.appearance === 'glass' ? "p-1 bg-white/20 border border-white/30" : "bg-black"
+                        "relative mx-auto max-w-5xl rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800",
+                        section.appearance === 'glass' ? "bg-white/20 border border-white/30 backdrop-blur-md" : ""
                     )}
                 >
-                    <div className={cn("w-full h-full", aspectRatioClass)}>
+                    {/* macOS Window Header */}
+                    <div className="h-10 bg-zinc-100 dark:bg-zinc-800/80 border-b border-zinc-200 dark:border-zinc-700 flex items-center px-4 justify-between">
+                        <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]"></div>
+                            <div className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]"></div>
+                            <div className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]"></div>
+                        </div>
+                        <div className="text-xs font-medium text-zinc-500 dark:text-zinc-400 absolute left-1/2 -translate-x-1/2">
+                            {section.subtitle || "Video Preview"}
+                        </div>
+                        <div className="w-14"></div> {/* Spacer for balance */}
+                    </div>
+
+                    <div className={cn("w-full relative", aspectRatioClass)}>
                         {(isYoutube || isVimeo) ? (
                             <iframe
                                 src={getEmbedUrl(section.videoUrl)}

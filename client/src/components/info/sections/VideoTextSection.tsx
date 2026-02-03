@@ -69,12 +69,23 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                         className={cn(
-                            "relative rounded-2xl overflow-hidden shadow-xl order-first",
+                            "relative rounded-xl overflow-hidden shadow-xl order-first bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800",
                             section.imagePosition === 'right' ? 'lg:order-last' : '',
-                            section.appearance === 'glass' ? "p-1 bg-white/20 border border-white/30" : "bg-black"
+                            section.appearance === 'glass' ? "bg-white/20 border border-white/30 backdrop-blur-md" : ""
                         )}
                     >
-                        <div className={cn("w-full h-full", aspectRatioClass)}>
+                        {/* macOS Window Header */}
+                        <div className="h-9 bg-zinc-100 dark:bg-zinc-800/80 border-b border-zinc-200 dark:border-zinc-700 flex items-center px-4 justify-between">
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] border border-[#E0443E]"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] border border-[#DEA123]"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F] border border-[#1AAB29]"></div>
+                            </div>
+                            {/* Optional: Add a subtle title if needed, else keep simple */}
+                            <div className="w-14"></div>
+                        </div>
+
+                        <div className={cn("w-full relative", aspectRatioClass)}>
                             {(isYoutube || isVimeo) ? (
                                 <iframe
                                     src={getEmbedUrl(section.videoUrl)}
