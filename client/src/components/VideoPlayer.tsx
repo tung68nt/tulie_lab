@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import dynamic from 'next/dynamic';
 
 type VideoType = 'YOUTUBE' | 'VIMEO' | 'CLOUDFLARE_STREAM' | 'SELF_HOSTED' | 'EXTERNAL';
 
@@ -15,12 +17,7 @@ interface VideoPlayerProps {
 /**
  * Multi-source Video Player
  * Supports: YouTube, Vimeo, Cloudflare Stream (HLS), Self-hosted
- */
-import { useAuth } from '@/contexts/AuthContext';
-
-/**
- * Multi-source Video Player
- * Supports: YouTube, Vimeo, Cloudflare Stream (HLS), Self-hosted
+ * Wrapped in a premium macOS-style window frame.
  */
 export function VideoPlayer({ url, type, title, thumbnail, className = '' }: VideoPlayerProps) {
     const [error, setError] = useState(false);
@@ -28,120 +25,73 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
 
     // Auto-detect type if not provided
     const videoType = type || detectVideoType(url);
-    const PROXY_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
-    if (error) {
-        return (
-            <div className={`flex items-center justify-center bg-zinc-900 text-zinc-400 ${className}`}>
-                <div className="text-center p-8">
-                    <svg className="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    <p>Không thể tải video</p>
-                </div>
-            </div>
-        );
-    }
-
-    const Watermark = () => {
-        if (!user) return null;
-
-        // Random position logic could be added here, 
-        // for now simple absolute positioning with some animation
-        return (
-            <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden select-none">
-                <div className="animate-float opacity-20 text-white text-sm font-bold absolute top-4 left-4 whitespace-nowrap">
-                    {user.email} - {user.id.slice(0, 8)}
-                </div>
-                <div className="animate-float-delayed opacity-20 text-white text-sm font-bold absolute bottom-8 right-8 whitespace-nowrap">
-                    {user.email}
-                </div>
-                {/* Center random floating element */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-10 text-white text-xs font-semibold pointer-events-none">
-                    {user.id}
-                </div>
-            </div>
-        );
-    };
-
-    // YouTube embed
-    if (videoType === 'YOUTUBE') {
-        const embedUrl = getYouTubeEmbedUrl(url);
-        return (
-            <div className={`relative ${className}`}>
-                <iframe
-                    src={embedUrl}
-                    className="w-full h-full"
-                    allowFullScreen
-                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    title={title || 'Video'}
-                    onError={() => setError(true)}
-                />
-                {/* Note: YouTube iframes capture clicks so overlay might not be fully effective or visible if z-index isn't handled by parent, 
-                     but standard iframe prevents overlays from intercepting interactions easily. 
-                     For strictly secure watermark on YouTube, it's hard. But we add it anyway. */}
-                <Watermark />
-            </div>
-        );
-    }
-
-    // Vimeo embed
-    if (videoType === 'VIMEO') {
-        const embedUrl = getVimeoEmbedUrl(url);
-        return (
-            <div className={`relative ${className}`}>
-                <iframe
-                    src={embedUrl}
-                    className="w-full h-full"
-                    allowFullScreen
-                    allow="fullscreen; picture-in-picture"
-                    title={title || 'Video'}
-                    onError={() => setError(true)}
-                />
-                <Watermark />
-            </div>
-        );
-    }
-
-    // Cloudflare Stream or HLS content
-    if (videoType === 'CLOUDFLARE_STREAM' || url.includes('.m3u8')) {
-        return (
-            <div className={`relative ${className}`}>
-                <HLSPlayer src={url} title={title} thumbnail={thumbnail} onError={() => setError(true)} />
-                <Watermark />
-            </div>
-        );
-    }
-
-    // Direct video (self-hosted or external) - with custom fullscreen
-    const videoSource = url;
-
-    return (
-        <div className={`overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 bg-background shadow-2xl transition-all duration-300 ${className}`}>
-            {/* macOS Title Bar */}
-            <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-100/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50">
-                <div className="flex gap-2">
-                    <div className="w-3 h-3 rounded-full bg-[#FF5F57] shadow-inner" />
-                    <div className="w-3 h-3 rounded-full bg-[#FFBD2E] shadow-inner" />
-                    <div className="w-3 h-3 rounded-full bg-[#28C840] shadow-inner" />
-                </div>
-                {title && (
-                    <div className="absolute left-1/2 -translate-x-1/2 max-w-[60%] truncate">
-                        <span className="text-[11px] md:text-sm font-medium text-muted-foreground font-sans tracking-wide">
-                            {title}
-                        </span>
+    const renderContent = () => {
+        if (error) {
+            return (
+                <div className="flex items-center justify-center bg-zinc-900 text-zinc-400 absolute inset-0">
+                    <div className="text-center p-8">
+                        <svg className="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <p>Không thể tải video</p>
                     </div>
-                )}
-                <div className="w-12" /> {/* Spacer */}
-            </div>
+                </div>
+            );
+        }
 
-            <div className="relative aspect-video w-full bg-black group/video">
+        if (videoType === 'YOUTUBE') {
+            const embedUrl = getYouTubeEmbedUrl(url);
+            return (
+                <div className="relative w-full h-full">
+                    <iframe
+                        src={embedUrl}
+                        className="w-full h-full"
+                        allowFullScreen
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        title={title || 'Video'}
+                        onError={() => setError(true)}
+                    />
+                    <Watermark user={user} />
+                </div>
+            );
+        }
+
+        if (videoType === 'VIMEO') {
+            const embedUrl = getVimeoEmbedUrl(url);
+            return (
+                <div className="relative w-full h-full">
+                    <iframe
+                        src={embedUrl}
+                        className="w-full h-full"
+                        allowFullScreen
+                        allow="fullscreen; picture-in-picture"
+                        title={title || 'Video'}
+                        onError={() => setError(true)}
+                    />
+                    <Watermark user={user} />
+                </div>
+            );
+        }
+
+        if (videoType === 'CLOUDFLARE_STREAM' || url.includes('.m3u8')) {
+            return (
+                <div className="relative w-full h-full">
+                    <HLSPlayer src={url} title={title} thumbnail={thumbnail} onError={() => setError(true)} />
+                    <Watermark user={user} />
+                </div>
+            );
+        }
+
+        // Direct video (self-hosted or external)
+        return (
+            <div className="relative w-full h-full group/video">
                 <FullscreenVideoWrapper className="w-full h-full" user={user}>
                     {(containerRef, isFullscreen, toggleFullscreen) => (
                         <>
                             <video
-                                src={videoSource}
-                                className="w-full h-full"
+                                src={url}
+                                className="w-full h-full object-contain bg-black"
                                 controls
                                 controlsList="nodownload nofullscreen"
                                 onContextMenu={(e) => e.preventDefault()}
@@ -155,6 +105,56 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
                         </>
                     )}
                 </FullscreenVideoWrapper>
+            </div>
+        );
+    };
+
+    return (
+        <div className={`overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 bg-background shadow-2xl transition-all duration-300 ${className}`}>
+            {/* macOS Title Bar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-100/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50 h-10 relative z-20">
+                <div className="flex gap-1.5 md:gap-2 shrink-0">
+                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#FF5F57] shadow-inner" />
+                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#FFBD2E] shadow-inner" />
+                    <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#28C840] shadow-inner" />
+                </div>
+                {title && (
+                    <div className="absolute left-1/2 -translate-x-1/2 max-w-[60%] truncate pointer-events-none">
+                        <span className="text-[10px] md:text-xs font-medium text-muted-foreground font-sans tracking-wide uppercase">
+                            {title}
+                        </span>
+                    </div>
+                )}
+                <div className="w-12 h-4 bg-white/10 dark:bg-black/10 rounded-md md:rounded-lg backdrop-blur-sm px-2 flex items-center justify-center">
+                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-zinc-400 animate-pulse" />
+                </div>
+            </div>
+
+            {/* Video Content Area */}
+            <div className="relative aspect-video w-full bg-black">
+                {renderContent()}
+            </div>
+        </div>
+    );
+}
+
+/**
+ * Watermark component for embedded players
+ */
+function Watermark({ user }: { user: any }) {
+    if (!user) return null;
+    return (
+        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden select-none opacity-20 flex flex-col justify-between p-4">
+            <div className="flex justify-between">
+                <div className="text-white text-[10px] md:text-sm font-bold rotate-[-15deg]">{user.email}</div>
+                <div className="text-white text-[10px] md:text-sm font-bold rotate-[15deg]">{user.id.slice(0, 8)}</div>
+            </div>
+            <div className="self-center">
+                <div className="text-white text-[10px] md:text-sm font-bold opacity-10">{user.email} - {user.id}</div>
+            </div>
+            <div className="flex justify-between">
+                <div className="text-white text-[10px] md:text-sm font-bold rotate-[15deg]">{user.id.slice(0, 8)}</div>
+                <div className="text-white text-[10px] md:text-sm font-bold rotate-[-15deg]">{user.email}</div>
             </div>
         </div>
     );
@@ -200,7 +200,6 @@ function FullscreenVideoWrapper({
     }, []);
 
     const WrapperWatermark = () => {
-        // Get user from props or try localStorage fallback
         let displayUser = user;
         if (!displayUser) {
             try {
@@ -208,9 +207,7 @@ function FullscreenVideoWrapper({
                 if (storedUser) {
                     displayUser = JSON.parse(storedUser);
                 }
-            } catch (e) {
-                // Ignore parse errors
-            }
+            } catch (e) { }
         }
 
         if (!displayUser || (!displayUser.email && !displayUser.id)) return null;
@@ -218,27 +215,15 @@ function FullscreenVideoWrapper({
         const watermarkText = `${displayUser.email || 'user'} - ${displayUser.id || ''}`;
         return (
             <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden select-none">
-                {/* Top left */}
                 <div className={`animate-float opacity-30 text-white font-bold absolute top-4 left-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
                     {watermarkText}
                 </div>
-                {/* Top right */}
                 <div className={`animate-float-delayed opacity-25 text-white font-bold absolute top-4 right-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
                     {displayUser.email}
                 </div>
-                {/* Center */}
                 <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-semibold ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
                     {watermarkText}
                 </div>
-                {/* Bottom left */}
-                <div className={`animate-float opacity-25 text-white font-bold absolute bottom-16 left-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {displayUser.id}
-                </div>
-                {/* Bottom right */}
-                <div className={`animate-float-delayed opacity-30 text-white font-bold absolute bottom-16 right-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {watermarkText}
-                </div>
-                {/* Additional scattered watermarks for fullscreen */}
                 {isFullscreen && (
                     <>
                         <div className="opacity-20 text-white text-base font-bold absolute top-1/4 left-1/4 whitespace-nowrap">
@@ -247,9 +232,6 @@ function FullscreenVideoWrapper({
                         <div className="opacity-20 text-white text-base font-bold absolute top-3/4 right-1/4 whitespace-nowrap">
                             {displayUser.id}
                         </div>
-                        <div className="opacity-15 text-white text-base font-semibold absolute top-1/3 right-1/3 whitespace-nowrap">
-                            {watermarkText}
-                        </div>
                     </>
                 )}
             </div>
@@ -257,7 +239,7 @@ function FullscreenVideoWrapper({
     };
 
     return (
-        <div ref={containerRef} className={`relative bg-black ${className} ${isFullscreen ? 'w-screen h-screen' : ''}`}>
+        <div ref={containerRef} className={`relative bg-black ${className} ${isFullscreen ? 'w-screen h-screen flex items-center justify-center' : ''}`}>
             {children(containerRef, isFullscreen, toggleFullscreen)}
             <WrapperWatermark />
         </div>
@@ -309,7 +291,6 @@ function HLSPlayer({
     const [isFullscreen, setIsFullscreen] = useState(false);
     const { user } = useAuth();
 
-    // Handle custom fullscreen toggle
     const toggleFullscreen = () => {
         if (!containerRef.current) return;
 
@@ -326,7 +307,6 @@ function HLSPlayer({
         }
     };
 
-    // Listen for fullscreen changes
     useEffect(() => {
         const handleFullscreenChange = () => {
             setIsFullscreen(!!document.fullscreenElement);
@@ -342,14 +322,12 @@ function HLSPlayer({
         let hls: any = null;
 
         const initPlayer = async () => {
-            // Check for native HLS support (Safari, iOS)
             if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = src;
                 video.addEventListener('loadedmetadata', () => setIsLoading(false));
                 return;
             }
 
-            // Use hls.js for other browsers
             try {
                 const Hls = (await import('hls.js')).default;
 
@@ -373,12 +351,9 @@ function HLSPlayer({
                         }
                     });
                 } else {
-                    console.error('HLS is not supported in this browser');
                     onError?.();
                 }
             } catch (err) {
-                console.error('Failed to load hls.js:', err);
-                // Fallback: try direct playback
                 video.src = src;
             }
         };
@@ -386,72 +361,12 @@ function HLSPlayer({
         initPlayer();
 
         return () => {
-            if (hls) {
-                hls.destroy();
-            }
+            if (hls) hls.destroy();
         };
     }, [src, onError]);
 
-    // Watermark component for HLS Player
-    const HLSWatermark = () => {
-        // Get user from props or try localStorage fallback
-        let displayUser = user;
-        if (!displayUser) {
-            try {
-                const storedUser = typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-                if (storedUser) {
-                    displayUser = JSON.parse(storedUser);
-                }
-            } catch (e) {
-                // Ignore parse errors
-            }
-        }
-
-        if (!displayUser || (!displayUser.email && !displayUser.id)) return null;
-
-        const watermarkText = `${displayUser.email || 'user'} - ${displayUser.id || ''}`;
-        return (
-            <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden select-none">
-                {/* Top left */}
-                <div className={`animate-float opacity-30 text-white font-bold absolute top-4 left-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {watermarkText}
-                </div>
-                {/* Top right */}
-                <div className={`animate-float-delayed opacity-25 text-white font-bold absolute top-4 right-4 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {displayUser.email}
-                </div>
-                {/* Center */}
-                <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-15 text-white font-semibold ${isFullscreen ? 'text-xl' : 'text-sm'}`}>
-                    {watermarkText}
-                </div>
-                {/* Bottom left */}
-                <div className={`animate-float opacity-25 text-white font-bold absolute bottom-16 left-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {displayUser.id}
-                </div>
-                {/* Bottom right */}
-                <div className={`animate-float-delayed opacity-30 text-white font-bold absolute bottom-16 right-8 whitespace-nowrap ${isFullscreen ? 'text-lg' : 'text-sm'}`}>
-                    {watermarkText}
-                </div>
-                {/* Additional scattered watermarks for fullscreen */}
-                {isFullscreen && (
-                    <>
-                        <div className="opacity-20 text-white text-base font-bold absolute top-1/4 left-1/4 whitespace-nowrap">
-                            {displayUser.email}
-                        </div>
-                        <div className="opacity-20 text-white text-base font-bold absolute top-3/4 right-1/4 whitespace-nowrap">
-                            {displayUser.id}
-                        </div>
-                        <div className="opacity-15 text-white text-base font-semibold absolute top-1/3 right-1/3 whitespace-nowrap">
-                            {watermarkText}
-                        </div>
-                    </>
-                )}
-            </div>
-        );
-    };
-
     return (
-        <div ref={containerRef} className={`relative bg-black ${className} ${isFullscreen ? 'w-screen h-screen' : ''}`}>
+        <div ref={containerRef} className={`relative bg-black w-full h-full ${isFullscreen ? 'w-screen h-screen flex items-center justify-center' : ''}`}>
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 z-30">
                     <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -459,16 +374,13 @@ function HLSPlayer({
             )}
             <video
                 ref={videoRef}
-                className="w-full h-full"
+                className="w-full h-full object-contain"
                 controls
                 controlsList="nodownload nofullscreen"
                 onContextMenu={(e) => e.preventDefault()}
                 title={title}
                 poster={thumbnail}
             />
-            {/* Watermark overlay - visible in both normal and fullscreen */}
-            <HLSWatermark />
-            {/* Custom fullscreen button */}
             <button
                 onClick={toggleFullscreen}
                 className="absolute top-4 right-4 z-20 p-2 bg-black/70 hover:bg-black/90 rounded transition-colors"
@@ -494,7 +406,6 @@ function HLSPlayer({
 function detectVideoType(url: string): VideoType {
     if (!url) return 'EXTERNAL';
 
-    // YouTube - various formats
     if (url.includes('youtube.com/watch') ||
         url.includes('youtube.com/embed') ||
         url.includes('youtu.be') ||
@@ -519,11 +430,8 @@ function detectVideoType(url: string): VideoType {
  */
 function getYouTubeEmbedUrl(url: string): string {
     let videoId = '';
-
     try {
         const urlObj = new URL(url);
-
-        // youtube.com variants
         if (urlObj.hostname.includes('youtube.com')) {
             if (urlObj.searchParams.get('v')) {
                 videoId = urlObj.searchParams.get('v') || '';
@@ -531,25 +439,16 @@ function getYouTubeEmbedUrl(url: string): string {
                 videoId = urlObj.pathname.split('/embed/')[1];
             } else if (urlObj.pathname.startsWith('/shorts/')) {
                 videoId = urlObj.pathname.split('/shorts/')[1];
-            } else if (urlObj.pathname.startsWith('/v/')) {
-                videoId = urlObj.pathname.split('/v/')[1];
             }
-        }
-        // youtu.be variants
-        else if (urlObj.hostname.includes('youtu.be')) {
+        } else if (urlObj.hostname.includes('youtu.be')) {
             videoId = urlObj.pathname.slice(1);
         }
-    } catch (e) {
-        // Fallback for partial URLs if any
-        console.warn('Invalid URL:', url);
-    }
+    } catch (e) { }
 
     if (videoId) {
-        // Clean videoId (remove query params if any stuck)
         videoId = videoId.split('?')[0].split('&')[0];
         return `https://www.youtube.com/embed/${videoId}`;
     }
-
     return url;
 }
 
@@ -557,15 +456,9 @@ function getYouTubeEmbedUrl(url: string): string {
  * Convert Vimeo URL to embed URL
  */
 function getVimeoEmbedUrl(url: string): string {
-    // Already embed format
     if (url.includes('player.vimeo.com')) return url;
-
-    // vimeo.com/VIDEO_ID or vimeo.com/channels/staffpicks/VIDEO_ID
     const match = url.match(/vimeo\.com\/(?:channels\/[\w]+\/)?(\d+)/);
-    if (match) {
-        return `https://player.vimeo.com/video/${match[1]}`;
-    }
-    return url;
+    return match ? `https://player.vimeo.com/video/${match[1]}` : url;
 }
 
 /**
@@ -573,12 +466,21 @@ function getVimeoEmbedUrl(url: string): string {
  */
 export function VideoPlayerEmpty({ className = '' }: { className?: string }) {
     return (
-        <div className={`flex items-center justify-center bg-zinc-900 text-zinc-500 ${className}`}>
-            <div className="text-center">
-                <svg className="w-16 h-16 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                <p className="text-zinc-400">Chưa có video cho bài học này</p>
+        <div className={`overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 bg-background shadow-2xl transition-all duration-300 ${className}`}>
+            <div className="flex items-center justify-between px-4 py-2 bg-zinc-100/80 dark:bg-zinc-900/80 border-b border-zinc-200/50 dark:border-zinc-800/50 h-10">
+                <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                    <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                    <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+                </div>
+            </div>
+            <div className="aspect-video flex items-center justify-center bg-zinc-900 text-zinc-500">
+                <div className="text-center">
+                    <svg className="w-16 h-16 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <p className="text-zinc-400">Chưa có video cho bài học này</p>
+                </div>
             </div>
         </div>
     );
