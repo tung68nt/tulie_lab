@@ -29,7 +29,7 @@ export function AdminPageHeader({ title, subtitle, backUrl, children, className,
                     <div className="flex items-start gap-4">
                         {icon && <div className="shrink-0 mt-1">{icon}</div>}
                         <div className="flex flex-col gap-1">
-                            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                            <h1 className="text-xl font-semibold tracking-tight text-foreground">
                                 {title}
                             </h1>
                             {subtitle && (

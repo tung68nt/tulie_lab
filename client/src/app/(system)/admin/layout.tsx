@@ -167,8 +167,8 @@ function CollapsibleGroup({
                     <Link
                         key={link.href}
                         href={link.href}
-                        className={`flex items-center gap-2 px-2 py-2 rounded-lg text-sm transition-all duration-500 w-full ${isActive(link.href, link.exact)
-                            ? 'bg-foreground text-background font-bold'
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-300 w-full ${isActive(link.href, link.exact)
+                            ? 'bg-foreground text-background font-medium shadow-sm'
                             : 'text-muted-foreground hover:bg-muted hover:text-foreground font-medium'
                             }`}
                     >
@@ -188,7 +188,7 @@ function CollapsibleGroup({
         <div className="space-y-1">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`w-full flex items-center justify-between px-2 py-2 text-sm font-semibold rounded-md transition-colors ${hasActiveChild ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
+                className={`w-full flex items-center justify-between px-3 py-2 text-sm font-semibold rounded-md transition-colors ${hasActiveChild ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'
                     }`}
             >
                 <div className="flex items-center gap-2">
