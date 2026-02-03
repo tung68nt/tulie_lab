@@ -186,9 +186,9 @@ async function initializeApp() {
         { path: '/api/pricing-addons', module: './modules/shop/pricing-addons/pricing-addons.routes' },
         { path: '/api/events', module: './modules/lms/events/events.routes' },
         { path: '/api/crm', module: './modules/system/crm/crm.routes' },
-        { path: '/api', module: './modules/lms/journeys/journey.routes' },
         { path: '/api/admin/lms/analytics', module: './modules/lms/analytics/analytics.routes' },
-        { path: '/api/mentoring', module: './modules/lms/mentoring/mentoring.routes' }
+        { path: '/api/mentoring', module: './modules/lms/mentoring/mentoring.routes' },
+        { path: '/api', module: './modules/lms/journeys/journey.routes' }
       ];
 
       for (const route of routes) {
