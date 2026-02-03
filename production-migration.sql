@@ -155,10 +155,51 @@ WHERE table_name = 'Event'
 ORDER BY ordinal_position;
 
 -- ============================================
+-- STEP 6: Create _CourseToPricingAddOn table
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS "_CourseToPricingAddOn" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL
+);
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_indexes 
+        WHERE tablename = '_CourseToPricingAddOn' AND indexname = '_CourseToPricingAddOn_AB_unique'
+    ) THEN
+        CREATE UNIQUE INDEX "_CourseToPricingAddOn_AB_unique" ON "_CourseToPricingAddOn"("A", "B");
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_indexes 
+        WHERE tablename = '_CourseToPricingAddOn' AND indexname = '_CourseToPricingAddOn_B_index'
+    ) THEN
+        CREATE INDEX "_CourseToPricingAddOn_B_index" ON "_CourseToPricingAddOn"("B");
+    END IF;
+
+    -- Add foreign key constraints if they don't exist
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints 
+        WHERE constraint_name = '_CourseToPricingAddOn_A_fkey'
+    ) THEN
+        ALTER TABLE "_CourseToPricingAddOn" ADD CONSTRAINT "_CourseToPricingAddOn_A_fkey" FOREIGN KEY ("A") REFERENCES "Course"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.table_constraints 
+        WHERE constraint_name = '_CourseToPricingAddOn_B_fkey'
+    ) THEN
+        ALTER TABLE "_CourseToPricingAddOn" ADD CONSTRAINT "_CourseToPricingAddOn_B_fkey" FOREIGN KEY ("B") REFERENCES "PricingAddOn"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
+END $$;
+
+-- ============================================
 -- SUMMARY
 -- ============================================
 
-SELECT
+SELECT 
     '🎉 MIGRATION COMPLETE!' as message,
     'All database schema changes have been applied.' as details,
     'Next: Rebuild application and restart server' as next_step;
