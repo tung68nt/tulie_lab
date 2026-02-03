@@ -106,6 +106,24 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
         }
     }, [isNew]);
 
+    // Handle deep linking to section editor
+    useEffect(() => {
+        const sectionId = searchParams.get('sectionId');
+        if (sectionId && formData.sectionsJSON) {
+            try {
+                const sections = JSON.parse(formData.sectionsJSON);
+                const index = sections.findIndex((s: any) => s.id === sectionId);
+                if (index !== -1) {
+                    setEditingSectionIndex(index);
+                    // Remove param to avoid reopening on refresh (optional, but good UX)
+                    // router.replace(pathname + '?' + createQueryString('sectionId', null));
+                }
+            } catch (e) {
+                // ignore
+            }
+        }
+    }, [searchParams, formData.sectionsJSON]);
+
     const loadPage = async () => {
         try {
             setFetching(true);
