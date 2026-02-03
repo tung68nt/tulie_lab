@@ -62,24 +62,26 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: "easeOut" }}
                     className={cn(
-                        "relative mx-auto max-w-5xl rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800",
+                        "relative mx-auto max-w-5xl rounded-xl overflow-hidden shadow-2xl bg-card border border-border",
                         section.appearance === 'glass' ? "bg-white/20 border border-white/30 backdrop-blur-md" : ""
                     )}
                 >
-                    {/* macOS Window Header */}
-                    <div className="h-10 bg-zinc-100 dark:bg-zinc-800/80 border-b border-zinc-200 dark:border-zinc-700 flex items-center px-4 justify-between">
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]"></div>
-                            <div className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]"></div>
-                            <div className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]"></div>
+                    {/* macOS Window Header - Exact match from cli.knowns.dev */}
+                    <div className="flex items-center gap-2 border-b border-border bg-muted/50 px-4 py-3">
+                        <div className="flex items-center gap-1.5">
+                            <div className="h-3 w-3 rounded-full bg-red-500 transition-transform hover:scale-110"></div>
+                            <div className="h-3 w-3 rounded-full bg-yellow-500 transition-transform hover:scale-110"></div>
+                            <div className="h-3 w-3 rounded-full bg-green-500 transition-transform hover:scale-110"></div>
                         </div>
-                        <div className="text-xs font-medium text-zinc-500 dark:text-zinc-400 absolute left-1/2 -translate-x-1/2">
-                            {section.subtitle || "Video Preview"}
+                        <div className="ml-4 flex flex-1 items-center gap-2 rounded-md bg-background/80 px-3 py-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lock h-3.5 w-3.5 text-muted-foreground" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <span className="text-xs text-muted-foreground font-medium truncate">
+                                {section.subtitle || "Video Preview"}
+                            </span>
                         </div>
-                        <div className="w-14"></div> {/* Spacer for balance */}
                     </div>
 
-                    <div className={cn("w-full relative", aspectRatioClass)}>
+                    <div className={cn("w-full relative bg-black/95", aspectRatioClass)}>
                         {(isYoutube || isVimeo) ? (
                             <iframe
                                 src={getEmbedUrl(section.videoUrl)}
