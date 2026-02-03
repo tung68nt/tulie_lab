@@ -148,7 +148,7 @@ export default function AdminCategoriesPage() {
                                                         {!cat.isActive ? (
                                                             <span className="text-[10px] bg-neutral-50 text-neutral-400 px-2 py-0.5 rounded border border-neutral-100 font-bold">Ẩn</span>
                                                         ) : (
-                                                            <span className="text-[10px] bg-neutral-900 text-white px-2 py-0.5 rounded border border-neutral-900 font-bold">Hiện</span>
+                                                            <span className="text-[10px] bg-neutral-100 text-neutral-900 px-2 py-0.5 rounded border border-neutral-200 font-bold">Hiện</span>
                                                         )}
                                                     </td>
                                                     <td className="py-4 px-6 text-right">
