@@ -28,7 +28,7 @@ export function QuickEdit({ editUrl }: QuickEditProps) {
             <Link href={editUrl}>
                 <Button
                     size="lg"
-                    className="h-10 px-4 rounded-full shadow-2xl bg-black/80 hover:bg-black text-white border border-white/20 backdrop-blur-md transition-all hover:scale-105 flex items-center gap-2"
+                    className="h-10 px-4 rounded-full shadow-2xl bg-indigo-600 hover:bg-indigo-700 text-white border border-indigo-500/50 backdrop-blur-md transition-all hover:scale-105 flex items-center gap-2"
                     title="Chỉnh sửa toàn bộ trang này"
                 >
                     <Pencil className="h-4 w-4" />

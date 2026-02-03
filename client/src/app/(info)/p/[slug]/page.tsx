@@ -27,6 +27,9 @@ import { VideoTextSection } from '@/components/info/sections/VideoTextSection';
 import { GallerySection } from '@/components/info/sections/GallerySection';
 import { CalendarSection } from '@/components/info/sections/CalendarSection';
 
+import { QuickEdit } from '@/components/admin/QuickEdit';
+import { SectionQuickEdit } from '@/components/admin/SectionQuickEdit';
+
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, any> = {
     hero: HeroSection,
@@ -129,8 +132,14 @@ export default async function DynamicLandingPage({ params }: { params: Promise<{
                     console.warn(`Unknown section type: ${section.type}`);
                     return null;
                 }
-                return <Component key={section.id || index} section={section} mainCourse={page.course} upsellCourse={page.upsellCourse} mainProduct={page.product} upsellProduct={page.upsellProduct} upsellPrice={page.upsellPrice} allSections={sections} />;
+                return (
+                    <div key={section.id || index} className="relative group">
+                        <Component section={section} mainCourse={page.course} upsellCourse={page.upsellCourse} mainProduct={page.product} upsellProduct={page.upsellProduct} upsellPrice={page.upsellPrice} allSections={sections} />
+                        <SectionQuickEdit pageId={page.id} sectionId={section.id} />
+                    </div>
+                );
             })}
+            <QuickEdit editUrl={`/admin/landing-pages/${page.id}`} />
         </main>
     );
 }
