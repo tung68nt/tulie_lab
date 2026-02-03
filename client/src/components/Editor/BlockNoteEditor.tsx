@@ -50,7 +50,26 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
 
     return (
         <MantineProvider theme={mantineTheme} forceColorScheme={resolvedTheme === "dark" ? "dark" : "light"}>
-            <div className="border rounded-md min-h-[250px] bg-background">
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                .bn-editor {
+                    padding-top: 2rem !important;
+                }
+                .bn-block[data-type="heading"][data-level="1"] .bn-inline-content {
+                    font-size: 1.875rem !important;
+                    font-weight: 600 !important;
+                    line-height: 1.3 !important;
+                }
+                .bn-block[data-type="heading"][data-level="2"] .bn-inline-content {
+                    font-size: 1.5rem !important;
+                    font-weight: 600 !important;
+                }
+                .bn-block[data-type="heading"][data-level="3"] .bn-inline-content {
+                    font-size: 1.25rem !important;
+                    font-weight: 600 !important;
+                }
+            `}} />
+            <div className="border rounded-md min-h-[500px] bg-background">
                 <BlockNoteView
                     editor={editor}
                     theme={resolvedTheme === "dark" ? "dark" : "light"}

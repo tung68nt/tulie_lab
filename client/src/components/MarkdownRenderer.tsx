@@ -19,9 +19,9 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 remarkPlugins={[remarkGfm]}
                 components={{
                     // Custom heading tags to support TOC anchors
-                    h1: ({ node, ...props }) => <h1 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} />,
-                    h2: ({ node, ...props }) => <h2 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight first:mt-0" />,
-                    h3: ({ node, ...props }) => <h3 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 text-xl font-semibold tracking-tight" />,
+                    h1: ({ node, ...props }) => <h1 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 text-3xl md:text-4xl font-semibold tracking-tight my-6" />,
+                    h2: ({ node, ...props }) => <h2 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight my-4" />,
+                    h3: ({ node, ...props }) => <h3 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 text-xl font-semibold tracking-tight my-3" />,
 
                     // Custom Code Block with Copy Button
                     code({ node, inline, className, children, ...props }: any) {

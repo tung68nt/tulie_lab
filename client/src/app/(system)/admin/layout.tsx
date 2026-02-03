@@ -66,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/system-pages', label: 'Trang thông tin' },
                 { href: '/admin/blog', label: 'Bài viết / Blog' },
                 { href: '/admin/contact', label: 'Liên hệ / Leads' },
-                { href: '/admin/docs', label: 'Hệ thống Docs (Mới)' },
+                { href: '/admin/docs', label: 'Hệ thống Docs' },
                 { href: '/admin/footer', label: 'Footer' },
             ]
         },
