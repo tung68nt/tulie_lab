@@ -83,8 +83,8 @@ export default function AdminCoursesPage() {
                             <thead className="[&_tr]:border-b">
                                 <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-1/4">Tên khóa học</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[100px]">Combo / Lộ trình</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Đường dẫn (Slug)</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[180px]">Combo / Lộ trình</th>
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[150px]">Đường dẫn (Slug)</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Giá</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Status</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Thao tác</th>
@@ -94,7 +94,7 @@ export default function AdminCoursesPage() {
                                 {paginatedCourses.map((course) => (
                                     <tr key={course.id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                                         <td className="p-4 align-middle font-medium">{course.title}</td>
-                                        <td className="p-4 align-middle max-w-[100px]">
+                                        <td className="p-4 align-middle max-w-[180px]">
                                             <div className="flex flex-wrap gap-1">
                                                 {course.bundles?.length > 0 ? (
                                                     course.bundles.map((bc: any) => (
@@ -109,7 +109,7 @@ export default function AdminCoursesPage() {
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="p-4 align-middle">{course.slug}</td>
+                                        <td className="p-4 align-middle max-w-[150px] truncate" title={course.slug}>{course.slug}</td>
                                         <td className="p-4 align-middle font-medium text-right">
                                             {course.price === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
                                         </td>
@@ -123,8 +123,7 @@ export default function AdminCoursesPage() {
                                                 viewUrl={`/courses/${course.slug}`}
                                                 editUrl={`/admin/courses/${course.id}`}
                                                 onDelete={() => handleDelete(course.id)}
-                                                vertical
-                                                className="items-end"
+                                                className="justify-end"
                                             />
                                         </td>
                                     </tr>
