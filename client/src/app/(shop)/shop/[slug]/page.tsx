@@ -13,6 +13,7 @@ import { MEMBERSHIP_PRICING } from '@/constants/pricing';
 import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Download } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { QuickEdit } from '@/components/admin/QuickEdit';
 
 const safeParse = (val: unknown, fallback: string[]) => {
     if (!val) return fallback;
@@ -532,6 +533,7 @@ export default function ProductDetailPage() {
                     </div>
                 )}
             </div>
+            {product && <QuickEdit editUrl={`/admin/products/${product.id}`} />}
         </div>
     );
 }

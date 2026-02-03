@@ -10,6 +10,7 @@ import { BottomCTA } from '@/components/BottomCTA';
 import { Card, CardContent } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { Clock, User, Calendar, ChevronRight, List, Loader2 } from 'lucide-react';
+import { QuickEdit } from '@/components/admin/QuickEdit';
 
 interface BlogPost {
     id: string;
@@ -371,6 +372,7 @@ export default function BlogPostPage() {
                 buttonText="Tìm hiểu khóa học"
                 buttonHref="/courses"
             />
+            {post && <QuickEdit editUrl={`/admin/blog/${post.id}`} />}
         </div>
     );
 }

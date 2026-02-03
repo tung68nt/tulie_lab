@@ -31,8 +31,7 @@ import { SystemShopSection } from '@/components/info/sections/SystemShopSection'
 import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection';
 import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
-import { QuickEdit } from '@/components/admin/QuickEdit';
-import { SectionQuickEdit } from '@/components/admin/SectionQuickEdit';
+import { LandingPageRenderer } from '@/components/info/LandingPageRenderer';
 
 // Map section types to components - includes system sections
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -146,21 +145,6 @@ export default async function DynamicSystemPage({ params }: { params: Promise<{ 
     console.log('[DynamicSystemPage] Valid sections:', sections.map((s: any) => s.type));
 
     return (
-        <main className="min-h-screen bg-background text-foreground">
-            {sections.filter((s: any) => s.isVisible !== false).map((section: any, index: number) => {
-                const Component = SECTION_COMPONENTS[section.type];
-                if (!Component) {
-                    console.warn(`Unknown section type: ${section.type}`);
-                    return null;
-                }
-                return (
-                    <div key={section.id || index} className="relative group">
-                        <Component section={section} mainCourse={page.course} upsellCourse={page.upsellCourse} mainProduct={page.product} upsellProduct={page.upsellProduct} upsellPrice={page.upsellPrice} allSections={sections} />
-                        <SectionQuickEdit pageId={page.id} sectionId={section.id} />
-                    </div>
-                );
-            })}
-            <QuickEdit editUrl={`/admin/landing-pages/${page.id}`} />
-        </main>
+        <LandingPageRenderer slug={slug} />
     );
 }
