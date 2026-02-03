@@ -75,19 +75,23 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                         </div>
                                     </div>
 
-                                    <h3 className={cn(
-                                        "text-xl font-bold mb-3 transition-colors group-hover:text-primary",
-                                        isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-50")
-                                    )}>
-                                        {item.title || item.label}
-                                    </h3>
+                                    <div className="h-[60px] mb-3 flex items-start overflow-hidden">
+                                        <h3 className={cn(
+                                            "text-xl font-bold transition-colors group-hover:text-primary leading-tight",
+                                            isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-50")
+                                        )}>
+                                            {item.title || item.label}
+                                        </h3>
+                                    </div>
 
-                                    <p className={cn(
-                                        "leading-relaxed text-sm mb-4",
-                                        isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
-                                    )}>
-                                        {item.description || item.content || 'Nội dung chi tiết đang được cập nhật.'}
-                                    </p>
+                                    <div className="h-[140px] mb-4 overflow-hidden">
+                                        <p className={cn(
+                                            "leading-relaxed text-sm",
+                                            isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
+                                        )}>
+                                            {item.description || item.content || 'Nội dung chi tiết đang được cập nhật.'}
+                                        </p>
+                                    </div>
 
                                     <div className="mt-auto pt-6 border-t border-border/50 flex items-center text-primary text-sm font-bold group-hover:translate-x-1 transition-transform duration-300">
                                         Chi tiết <span className="ml-1">→</span>
