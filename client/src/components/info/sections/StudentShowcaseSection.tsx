@@ -28,7 +28,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                     section={section}
                     tagOverride={section.subtitle || "KẾT QUẢ THỰC TẾ"}
                     subtitleOverride="Những câu chuyện thành công từ học viên đã áp dụng kiến thức vào thực tế."
-                    tagProps={{ dotColor: 'green', animate: true }}
+                    tagProps={{ dotColor: 'black', animate: true }}
                 />
 
                 <FadeIn direction="up" delay={0.4}>
@@ -56,26 +56,26 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                 <div className="p-6 flex flex-col flex-1 h-full select-none">
                                     <div className="flex flex-col mb-4 flex-1">
                                         <div className="flex flex-col gap-5">
-                                            {/* Title area */}
-                                            <div className="min-h-[80px]">
-                                                <h3 className="font-bold text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
+                                            {/* Title area - Fixed height for alignment */}
+                                            <div className="h-[64px] flex items-start">
+                                                <h3 className="font-bold text-xl text-foreground leading-tight line-clamp-2">{String(item.title || '')}</h3>
                                             </div>
 
                                             {/* Divider */}
                                             <div className="border-t border-dashed border-border/60" />
 
-                                            {/* Student Details area */}
-                                            <div className="min-h-[24px]">
+                                            {/* Student Details area - Fixed height for alignment */}
+                                            <div className="h-[40px] flex items-center">
                                                 {Boolean(item.subtitle) && (
-                                                    <p className="text-[12px] text-muted-foreground font-medium">{String(item.subtitle)}</p>
+                                                    <p className="text-[12px] text-muted-foreground font-medium line-clamp-2">{String(item.subtitle)}</p>
                                                 )}
                                             </div>
 
                                             {/* Divider */}
                                             <div className="border-t border-dashed border-border/60" />
 
-                                            {/* Story area */}
-                                            <div className="min-h-[160px]">
+                                            {/* Story area - Fixed height for alignment */}
+                                            <div className="h-[150px] overflow-hidden">
                                                 {Boolean(item.description || item.quote) && (
                                                     <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-medium line-clamp-[6]">
                                                         {String(item.quote ? `"${item.quote}"` : item.description)}
