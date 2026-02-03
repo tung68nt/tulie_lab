@@ -78,7 +78,9 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                     })
                 ]);
 
-                setInstructors(Array.isArray(instructorsList) ? instructorsList : []);
+                // Fix: Extract data from response object if needed
+                const instructorData = instructorsList.data || (Array.isArray(instructorsList) ? instructorsList : []);
+                setInstructors(Array.isArray(instructorData) ? instructorData : []);
                 setCategories(Array.isArray(categoriesList) ? categoriesList : []);
                 setAllAddOns(Array.isArray(addOnsList) ? addOnsList : []);
 

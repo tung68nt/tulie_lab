@@ -15,6 +15,7 @@ import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { Sparkles, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
 import { SectionTag } from '@/components/SectionTag';
+import { QuickEdit } from '@/components/admin/QuickEdit';
 
 // Helper function to parse duration string to seconds
 function parseDurationToSeconds(duration: string): number {
@@ -683,6 +684,8 @@ export default function CoursePage({ params }: { params: any }) {
                     </div>
                 </div>
             </div>
+            {/* Quick Edit for Admins */}
+            {course && <QuickEdit editUrl={`/admin/courses/${course.id}`} />}
         </div>
     );
 }

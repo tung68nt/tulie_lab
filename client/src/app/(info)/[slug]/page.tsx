@@ -31,6 +31,7 @@ import { SystemShopSection } from '@/components/info/sections/SystemShopSection'
 import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection';
 import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
+import { QuickEdit } from '@/components/admin/QuickEdit';
 
 // Map section types to components - includes system sections
 const SECTION_COMPONENTS: Record<string, any> = {
@@ -153,6 +154,7 @@ export default async function DynamicSystemPage({ params }: { params: Promise<{ 
                 }
                 return <Component key={section.id || index} section={section} mainCourse={page.course} upsellCourse={page.upsellCourse} mainProduct={page.product} upsellProduct={page.upsellProduct} upsellPrice={page.upsellPrice} allSections={sections} />;
             })}
+            <QuickEdit editUrl={`/admin/landing-pages/${page.id}`} />
         </main>
     );
 }
