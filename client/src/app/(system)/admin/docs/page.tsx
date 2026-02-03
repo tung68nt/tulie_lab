@@ -8,8 +8,9 @@ import { Input } from '@/components/Input';
 import { useToast } from '@/contexts/ToastContext';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { api } from '@/lib/api';
-import { Loader2, FileText } from 'lucide-react';
+import { Loader2, FileText, ExternalLink } from 'lucide-react';
 
 const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEditor'), {
     ssr: false,
@@ -65,16 +66,24 @@ export default function DocsPage() {
                 subtitle="Tạo và quản lý hướng dẫn, tài liệu chuyên nghiệp cho website"
                 icon={<FileText className="w-8 h-8" />}
             >
-                <Button onClick={handleSave} disabled={isSaving}>
-                    {isSaving ? (
-                        <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Đang lưu...
-                        </>
-                    ) : (
-                        'Lưu tài liệu'
-                    )}
-                </Button>
+                <div className="flex items-center gap-3">
+                    <Link href="/docs" target="_blank">
+                        <Button variant="outline" className="gap-2">
+                            <ExternalLink className="w-4 h-4" />
+                            Xem trang
+                        </Button>
+                    </Link>
+                    <Button onClick={handleSave} disabled={isSaving}>
+                        {isSaving ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Đang lưu...
+                            </>
+                        ) : (
+                            'Lưu tài liệu'
+                        )}
+                    </Button>
+                </div>
             </AdminPageHeader>
 
             {isLoading ? (
