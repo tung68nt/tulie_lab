@@ -109,7 +109,7 @@ export default function AdminCoursesPage() {
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="py-4 px-4 align-middle max-w-[150px] truncate" title={course.slug}>{course.slug}</td>
+                                        <td className="py-4 px-4 align-middle max-w-[150px] break-words" title={course.slug}>{course.slug}</td>
                                         <td className="py-4 px-4 align-middle font-medium text-right">
                                             {course.price === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
                                         </td>
@@ -144,7 +144,7 @@ export default function AdminCoursesPage() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="p-4 border-t border-border">
+                    <div className="p-4">
                         <Pagination
                             currentPage={page}
                             totalPages={totalPages}
