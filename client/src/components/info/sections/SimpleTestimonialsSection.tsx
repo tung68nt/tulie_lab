@@ -84,9 +84,9 @@ export const SimpleTestimonialsSection = ({ section }: { section: Section }) => 
                                                 className="object-cover rounded-full border-2 border-white dark:border-neutral-800 shadow-md relative z-10"
                                             />
                                         </div>
-                                        <div>
-                                            <h3 className="text-xl font-bold text-foreground dark:text-white line-clamp-1">{testimonial.name}</h3>
-                                            <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400 line-clamp-2">{testimonial.role}</p>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="text-xl font-bold text-foreground dark:text-white">{testimonial.name}</h3>
+                                            <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400">{testimonial.role}</p>
                                         </div>
                                     </div>
 

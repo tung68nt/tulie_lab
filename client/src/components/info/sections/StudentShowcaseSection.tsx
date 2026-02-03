@@ -56,16 +56,16 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                 <div className="p-6 flex flex-col flex-1 h-full select-none">
                                     <div className="flex flex-col mb-4 flex-1">
                                         <div className="flex flex-col gap-3">
-                                            {/* Title area - Fixed height for alignment (approx 3 lines) */}
-                                            <div className="h-[72px] flex items-start">
+                                            {/* Title area - Min height for alignment */}
+                                            <div className="min-h-[72px] flex items-start">
                                                 <h3 className="font-bold text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
                                             </div>
 
                                             {/* Divider */}
                                             <div className="border-t border-dashed border-border/60" />
 
-                                            {/* Student Details area - Fixed height for alignment (approx 2 lines) */}
-                                            <div className="h-[40px] flex items-center">
+                                            {/* Student Details area - Min height for alignment */}
+                                            <div className="min-h-[40px] flex items-center">
                                                 {Boolean(item.subtitle) && (
                                                     <p className="text-[12px] text-muted-foreground font-medium text-left">{String(item.subtitle)}</p>
                                                 )}
@@ -74,8 +74,8 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             {/* Divider */}
                                             <div className="border-t border-dashed border-border/60" />
 
-                                            {/* Story area - Fixed height for alignment (approx 12 lines) */}
-                                            <div className="h-[280px] overflow-hidden relative">
+                                            {/* Story area - Flexible height with min-height */}
+                                            <div className="flex-1 min-h-[200px]">
                                                 {Boolean(item.description || item.quote) && (
                                                     <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-medium">
                                                         {String(item.quote ? `"${item.quote}"` : item.description)}
