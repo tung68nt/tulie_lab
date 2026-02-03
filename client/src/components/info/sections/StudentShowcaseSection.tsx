@@ -57,7 +57,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     <div className="flex flex-col mb-4 flex-1">
                                         <div className="flex flex-col gap-3">
                                             {/* Title area - Min height for alignment */}
-                                            <div className="min-h-[72px] flex items-start">
+                                            <div className="min-h-[96px] flex items-start">
                                                 <h3 className="font-bold text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
                                             </div>
 
@@ -65,7 +65,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             <div className="border-t border-dashed border-border/60" />
 
                                             {/* Student Details area - Min height for alignment */}
-                                            <div className="min-h-[40px] flex items-center">
+                                            <div className="min-h-[56px] flex items-center">
                                                 {Boolean(item.subtitle) && (
                                                     <p className="text-[12px] text-muted-foreground font-medium text-left">{String(item.subtitle)}</p>
                                                 )}
