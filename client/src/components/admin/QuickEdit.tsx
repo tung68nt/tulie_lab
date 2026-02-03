@@ -24,15 +24,15 @@ export function QuickEdit({ editUrl }: QuickEditProps) {
     if (!shouldShow) return null;
 
     return (
-        <div className="fixed top-24 right-24 z-50 animate-in fade-in slide-in-from-right-4 duration-500 group">
+        <div className="fixed top-24 right-40 z-50 animate-in fade-in slide-in-from-right-4 duration-500 group">
             <Link href={editUrl}>
                 <Button
-                    size="lg"
-                    className="h-10 px-4 rounded-full shadow-2xl bg-indigo-600 dark:bg-white hover:bg-indigo-700 dark:hover:bg-zinc-200 text-white dark:text-black border border-indigo-500/50 dark:border-zinc-300 backdrop-blur-md transition-all hover:scale-105 flex items-center gap-2"
+                    size="sm"
+                    className="h-8 px-3 rounded-full shadow-xl bg-indigo-600 dark:bg-white hover:bg-indigo-700 dark:hover:bg-zinc-200 text-white dark:text-black border border-indigo-500/50 dark:border-zinc-300 backdrop-blur-md transition-all hover:scale-105 flex items-center gap-1.5"
                     title="Chỉnh sửa toàn bộ trang này"
                 >
-                    <Pencil className="h-4 w-4" />
-                    <span className="text-xs font-semibold">Sửa Trang</span>
+                    <Pencil className="h-3 w-3" />
+                    <span className="text-[10px] font-bold tracking-tight">Sửa Trang</span>
                 </Button>
             </Link>
         </div>
