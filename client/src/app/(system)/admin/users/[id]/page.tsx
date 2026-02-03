@@ -460,7 +460,7 @@ export default function AdminUserDetailPage() {
                                                             <Link href={`/admin/courses/${enroll.courseId}`} className="text-xs font-bold text-zinc-900 hover:underline">Quản lý nội dung</Link>
                                                             <div className="w-px h-3 bg-zinc-200" />
                                                             <button
-                                                                className="text-xs font-bold text-red-500 hover:underline hover:text-red-600"
+                                                                className="text-xs font-bold text-zinc-500 hover:underline hover:text-zinc-900"
                                                                 onClick={() => handleAction(() => api.admin.unenrollUser(id as string, enroll.courseId), 'Đã gỡ quyền truy cập khóa học', 'Gỡ quyền truy cập khóa học này?')}
                                                             >
                                                                 Gỡ quyền

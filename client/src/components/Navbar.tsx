@@ -169,6 +169,7 @@ export function Navbar() {
             ],
         },
         { label: 'Bài viết', href: '/blog' },
+        { label: 'Tài liệu', href: '/docs' },
         { label: 'Liên hệ', href: '/contact' },
     ];
 

@@ -61,7 +61,8 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         chapter: '',
         section: '',
         position: 0,
-        isFree: false
+        isFree: false,
+        guide: ''
     });
     const [pendingAttachments, setPendingAttachments] = useState<{ name: string, url: string }[]>([]);
     const [newAttachment, setNewAttachment] = useState({ name: '', url: '' });
@@ -159,7 +160,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 }
             }
             setLessons([...lessons, added]);
-            setNewLesson({ title: '', slug: '', videoUrl: '', duration: '', chapter: '', section: '', position: lessons.length + 2, isFree: false });
+            setNewLesson({ title: '', slug: '', videoUrl: '', duration: '', chapter: '', section: '', position: lessons.length + 2, isFree: false, guide: '' });
             setPendingAttachments([]);
             setNewAttachment({ name: '', url: '' });
             addToast('Đã thêm bài học', 'success');
@@ -452,7 +453,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                                 const newStructure = [...courseForm.structure];
                                                 newStructure.splice(cIndex, 1);
                                                 setCourseForm({ ...courseForm, structure: newStructure });
-                                            }} className="text-red-500 hover:text-red-700">Xóa</Button>
+                                            }} className="text-muted-foreground hover:text-foreground">Xóa</Button>
                                         </div>
                                         <div className="pl-24 space-y-2">
                                             {chapter.sections.map((section, sIndex) => (
@@ -775,6 +776,8 @@ function LessonItem({
     const [isEditingSection, setIsEditingSection] = useState(false);
     const [isEditingThumbnail, setIsEditingThumbnail] = useState(false);
     const [isEditingContent, setIsEditingContent] = useState(false);
+    const [guide, setGuide] = useState(lesson.guide || '');
+    const [isEditingGuide, setIsEditingGuide] = useState(false);
 
     // ... (keep handleSave functions)
     const handleSaveTitle = () => { if (onUpdateLesson) { onUpdateLesson(lesson.id, { title }); } setIsEditingTitle(false); };
@@ -804,6 +807,13 @@ function LessonItem({
             onUpdateLesson(lesson.id, { content });
         }
         setIsEditingContent(false);
+    };
+
+    const handleSaveGuide = () => {
+        if (onUpdateLesson) {
+            onUpdateLesson(lesson.id, { guide });
+        }
+        setIsEditingGuide(false);
     };
 
     return (
@@ -1108,6 +1118,32 @@ function LessonItem({
                                 initialContent={content}
                                 onChange={(val) => setContent(val)}
                                 editable={isEditingContent}
+                            />
+                        </div>
+
+                        {/* Lesson Guide / Prompt Section */}
+                        <div className="md:col-span-2 space-y-2 pt-4 border-t border-dashed">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <label className="text-xs font-semibold text-muted-foreground">Hướng dẫn / Prompt thực hành</label>
+                                    <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Mở rộng dưới Video</span>
+                                </div>
+                                {isEditingGuide ? (
+                                    <div className="flex gap-2">
+                                        <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveGuide}>Lưu hướng dẫn</Button>
+                                        <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
+                                            setGuide(lesson.guide || '');
+                                            setIsEditingGuide(false);
+                                        }}>Hủy</Button>
+                                    </div>
+                                ) : (
+                                    <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={() => setIsEditingGuide(true)}>Chỉnh sửa hướng dẫn</Button>
+                                )}
+                            </div>
+                            <BlockNoteEditor
+                                initialContent={guide}
+                                onChange={(val) => setGuide(val)}
+                                editable={isEditingGuide}
                             />
                         </div>
 

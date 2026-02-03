@@ -58,7 +58,7 @@ export class CourseService {
             where,
             include: {
                 lessons: {
-                    select: { id: true, title: true, slug: true, isFree: true, position: true, thumbnail: true, chapter: true, section: true, duration: true }
+                    select: { id: true, title: true, slug: true, isFree: true, position: true, thumbnail: true, chapter: true, section: true, duration: true, guide: true }
                 },
                 category: true,
                 instructor: true,
@@ -134,6 +134,7 @@ export class CourseService {
                     thumbnail: true,
                     chapter: true,
                     section: true,
+                    guide: true,
                 }
             }
         });
@@ -256,7 +257,7 @@ export class CourseService {
     }
 
     async updateLesson(id: string, data: any) {
-        const validFields = ['title', 'slug', 'description', 'thumbnail', 'videoUrl', 'duration', 'chapter', 'section', 'content', 'isFree', 'position'];
+        const validFields = ['title', 'slug', 'description', 'thumbnail', 'videoUrl', 'duration', 'chapter', 'section', 'content', 'guide', 'isFree', 'position'];
         const filteredData: any = {};
 
         for (const key of Object.keys(data)) {

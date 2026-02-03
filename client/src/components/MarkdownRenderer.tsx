@@ -135,7 +135,9 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                         );
                     }
                 }}
+            >
+                {content}
             </ReactMarkdown>
-        </div >
+        </div>
     );
 }

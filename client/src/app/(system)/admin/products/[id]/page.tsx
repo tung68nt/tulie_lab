@@ -474,7 +474,7 @@ export default function ProductEditorPage() {
                                                     <button
                                                         type="button"
                                                         onClick={() => setGallery(gallery.filter((_, i) => i !== index))}
-                                                        className="p-2 rounded-full bg-red-500/80 hover:bg-red-500 text-white backdrop-blur-md transition-colors"
+                                                        className="p-2 rounded-full bg-zinc-800/80 hover:bg-zinc-900 text-white backdrop-blur-md transition-colors"
                                                         title="Xóa"
                                                     >
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -647,7 +647,7 @@ export default function ProductEditorPage() {
                                                                 size="sm"
                                                                 type="button"
                                                                 onClick={() => handleDeleteVersion(ver.id)}
-                                                                className="h-8 w-8 p-0 text-zinc-400 hover:text-red-600 hover:bg-red-50"
+                                                                className="h-8 w-8 p-0 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100"
                                                             >
                                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

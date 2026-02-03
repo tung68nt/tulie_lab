@@ -112,7 +112,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
                                 variant="outline"
                                 onClick={() => updateStatus('CANCELLED')}
                                 disabled={updating}
-                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                className="text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
                             >
                                 Hủy đơn
                             </Button>

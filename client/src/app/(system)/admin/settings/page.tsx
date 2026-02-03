@@ -318,7 +318,7 @@ export default function AdminSettingsPage() {
                                                 type="button"
                                                 size="sm"
                                                 variant="ghost"
-                                                className="absolute top-2 right-2 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                className="absolute top-2 right-2 text-muted-foreground hover:text-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                                                 onClick={() => setDomainBranding(domainBranding.filter((_, i) => i !== idx))}
                                             >
                                                 Xóa

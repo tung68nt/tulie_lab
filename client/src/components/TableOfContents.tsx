@@ -12,9 +12,10 @@ interface TOCItem {
 interface TableOfContentsProps {
     content: string;
     className?: string;
+    onItemClick?: () => void;
 }
 
-export function TableOfContents({ content, className }: TableOfContentsProps) {
+export function TableOfContents({ content, className, onItemClick }: TableOfContentsProps) {
     const [headings, setHeadings] = useState<TOCItem[]>([]);
     const [activeId, setActiveId] = useState<string>('');
 
@@ -71,6 +72,7 @@ export function TableOfContents({ content, className }: TableOfContentsProps) {
                             document.getElementById(heading.id)?.scrollIntoView({
                                 behavior: 'smooth'
                             });
+                            if (onItemClick) onItemClick();
                         }}
                         className={cn(
                             "block py-1 text-sm transition-colors hover:text-foreground",

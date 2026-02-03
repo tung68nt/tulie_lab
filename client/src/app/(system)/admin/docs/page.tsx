@@ -9,7 +9,7 @@ import { useToast } from '@/contexts/ToastContext';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 import { api } from '@/lib/api';
-import { Loader2 } from 'lucide-react';
+import { Loader2, FileText } from 'lucide-react';
 
 const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEditor'), {
     ssr: false,
@@ -63,6 +63,7 @@ export default function DocsPage() {
             <AdminPageHeader
                 title="Hệ thống Documentation"
                 subtitle="Tạo và quản lý hướng dẫn, tài liệu chuyên nghiệp cho website"
+                icon={<FileText className="w-8 h-8" />}
             >
                 <Button onClick={handleSave} disabled={isSaving}>
                     {isSaving ? (
@@ -108,7 +109,8 @@ export default function DocsPage() {
                             </div>
                         </CardContent>
                     </Card>
-            )}
                 </div>
-            );
+            )}
+        </div>
+    );
 }

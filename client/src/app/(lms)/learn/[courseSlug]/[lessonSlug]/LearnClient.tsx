@@ -6,7 +6,7 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Watermark } from '@/components/system/security/Watermark';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip } from 'lucide-react';
+import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Lightbulb } from 'lucide-react';
 import { MentoringSidebar } from './MentoringSidebar';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
@@ -428,6 +428,32 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
+                    {/* Lesson Guide (Prompts/Instructions) - Expandable */}
+                    {currentLesson.guide && (
+                        <div className="mt-4 animate-in slide-in-from-top-4 duration-500">
+                            <details className="group rounded-2xl border border-primary/20 bg-primary/5 overflow-hidden transition-all shadow-sm">
+                                <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-primary/10 transition-colors list-none">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary shadow-sm hover:scale-110 transition-transform">
+                                            <Lightbulb className="w-5 h-5 fill-primary/20" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-sm font-bold uppercase tracking-widest text-primary/80">Hướng dẫn thực hành / Prompts</h3>
+                                            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-tight">Mở rộng để làm theo bài học</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] font-bold text-primary/40 uppercase group-open:hidden">Xem hướng dẫn</span>
+                                        <ChevronRight className="w-4 h-4 text-primary/50 transition-transform group-open:rotate-90" />
+                                    </div>
+                                </summary>
+                                <div className="p-6 pt-4 border-t border-primary/10 bg-card/40 backdrop-blur-sm">
+                                    <MarkdownRenderer content={currentLesson.guide} />
+                                </div>
+                            </details>
+                        </div>
+                    )}
+
                     <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <h1 className="text-2xl font-bold text-foreground">{currentLesson.title}</h1>
                         <Button
@@ -476,8 +502,27 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             </div>
 
                             <div className="lg:col-span-4">
-                                <aside className="sticky top-[100px] hidden lg:block">
-                                    <div className="p-6 rounded-2xl bg-muted/30 border border-border/50 backdrop-blur-sm">
+                                <aside className="sticky top-[100px]">
+                                    {/* Mobile TOC (Accordion style) */}
+                                    <div className="lg:hidden mb-6">
+                                        <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
+                                            <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/30 transition-colors list-none">
+                                                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary/80">
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                                    </svg>
+                                                    Mục lục bài học
+                                                </div>
+                                                <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />
+                                            </summary>
+                                            <div className="p-6 border-t border-border/30 bg-card">
+                                                <TableOfContents content={currentLesson.content} />
+                                            </div>
+                                        </details>
+                                    </div>
+
+                                    {/* Desktop TOC */}
+                                    <div className="hidden lg:block p-6 rounded-2xl bg-muted/30 border border-border/50 backdrop-blur-sm">
                                         <TableOfContents content={currentLesson.content} />
                                     </div>
 
