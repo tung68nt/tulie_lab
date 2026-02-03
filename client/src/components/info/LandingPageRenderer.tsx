@@ -37,6 +37,9 @@ import { SectionErrorBoundary } from '@/components/info/SectionErrorBoundary';
 import { CalendarSection } from '@/components/info/sections/CalendarSection';
 import { CourseContentSection } from '@/components/info/sections/CourseContentSection';
 
+import { QuickEdit } from '@/components/admin/QuickEdit';
+import { SectionQuickEdit } from '@/components/admin/SectionQuickEdit';
+
 // Map section types to components
 const SECTION_COMPONENTS: Record<string, React.ElementType> = {
     hero: HeroSection,
@@ -151,11 +154,15 @@ export async function LandingPageRenderer({ slug, fallbackSections, forceFallbac
                     return null;
                 }
                 return (
-                    <SectionErrorBoundary key={section.id || index} sectionName={section.type}>
-                        <Component section={section} mainCourse={page?.course} upsellCourse={page?.upsellCourse} mainProduct={page?.product} upsellProduct={page?.upsellProduct} upsellPrice={page?.upsellPrice} allSections={sections} />
-                    </SectionErrorBoundary>
+                    <div key={section.id || index} className="relative group">
+                        <SectionErrorBoundary sectionName={section.type}>
+                            <Component section={section} mainCourse={page?.course} upsellCourse={page?.upsellCourse} mainProduct={page?.product} upsellProduct={page?.upsellProduct} upsellPrice={page?.upsellPrice} allSections={sections} />
+                        </SectionErrorBoundary>
+                        {page?.id && <SectionQuickEdit pageId={page.id} sectionId={section.id} />}
+                    </div>
                 );
             })}
+            {page?.id && <QuickEdit editUrl={`/admin/landing-pages/${page.id}`} />}
         </main>
     );
 }

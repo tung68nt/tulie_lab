@@ -29,11 +29,12 @@ export function SectionQuickEdit({ pageId, sectionId, className }: SectionQuickE
             <Link href={`/admin/landing-pages/${pageId}?sectionId=${sectionId}`}>
                 <Button
                     size="sm"
-                    className="h-8 rounded-full shadow-lg bg-indigo-600/90 hover:bg-indigo-700 text-white text-xs px-3 border border-white/20 backdrop-blur-sm"
+                    className="h-9 rounded-full shadow-lg bg-indigo-600 hover:bg-indigo-700 text-white border border-indigo-500/50 backdrop-blur-md transition-all hover:scale-105 flex items-center gap-2 px-4"
                     title="Chỉnh sửa phần này"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <Pencil className="h-3 w-3 mr-1" /> Sửa
+                    <Pencil className="h-3.5 w-3.5" />
+                    <span className="text-xs font-bold uppercase tracking-wider">Sửa Section</span>
                 </Button>
             </Link>
         </div>
