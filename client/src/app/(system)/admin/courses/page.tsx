@@ -73,28 +73,28 @@ export default function AdminCoursesPage() {
                 </Link>
             </AdminPageHeader>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Danh sách khóa học ({courses.length})</CardTitle>
+            <Card className="border border-border shadow-none bg-card">
+                <CardHeader className="border-b border-border bg-muted/20 py-4 px-6 flex flex-row items-center justify-between">
+                    <CardTitle className="text-lg font-bold text-foreground">Danh sách khóa học ({courses.length})</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-0">
                     <div className="relative w-full overflow-auto">
-                        <table className="w-full caption-bottom text-sm text-left">
-                            <thead className="[&_tr]:border-b">
-                                <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-1/4">Tên khóa học</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[180px]">Combo / Lộ trình</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground w-[150px]">Đường dẫn (Slug)</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Giá</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Status</th>
-                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Thao tác</th>
+                        <table className="w-full text-[13px] border-collapse">
+                            <thead>
+                                <tr className="bg-muted/50 border-b border-border">
+                                    <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-6">Tên khóa học</th>
+                                    <th className="text-left font-bold text-muted-foreground py-3 px-4 w-[180px]">Combo / Lộ trình</th>
+                                    <th className="text-left font-bold text-muted-foreground py-3 px-4 w-[150px]">Đường dẫn (Slug)</th>
+                                    <th className="text-right font-bold text-muted-foreground py-3 px-4">Giá</th>
+                                    <th className="text-center font-bold text-muted-foreground py-3 px-4">Status</th>
+                                    <th className="text-right font-bold text-muted-foreground py-3 px-6">Thao tác</th>
                                 </tr>
                             </thead>
-                            <tbody className="[&_tr:last-child]:border-0">
+                            <tbody>
                                 {paginatedCourses.map((course) => (
-                                    <tr key={course.id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                                        <td className="p-4 align-middle font-medium">{course.title}</td>
-                                        <td className="p-4 align-middle max-w-[180px]">
+                                    <tr key={course.id} className="group border-b border-border hover:bg-muted/50 transition-colors">
+                                        <td className="py-4 px-6 font-medium align-middle">{course.title}</td>
+                                        <td className="py-4 px-4 align-middle max-w-[180px]">
                                             <div className="flex flex-wrap gap-1">
                                                 {course.bundles?.length > 0 ? (
                                                     course.bundles.map((bc: any) => (
@@ -109,40 +109,49 @@ export default function AdminCoursesPage() {
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="p-4 align-middle max-w-[150px] truncate" title={course.slug}>{course.slug}</td>
-                                        <td className="p-4 align-middle font-medium text-right">
+                                        <td className="py-4 px-4 align-middle max-w-[150px] truncate" title={course.slug}>{course.slug}</td>
+                                        <td className="py-4 px-4 align-middle font-medium text-right">
                                             {course.price === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
                                         </td>
-                                        <td className="p-4 align-middle">
+                                        <td className="py-4 px-4 align-middle text-center">
                                             <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${course.isPublished ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>
                                                 {course.isPublished ? 'Live' : 'Draft'}
                                             </span>
                                         </td>
-                                        <td className="p-4 align-middle text-right">
-                                            <TableActions
-                                                viewUrl={`/courses/${course.slug}`}
-                                                editUrl={`/admin/courses/${course.id}`}
-                                                onDelete={() => handleDelete(course.id)}
-                                                className="justify-end"
-                                            />
+                                        <td className="py-4 px-6 align-middle text-right">
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end">
+                                                <TableActions
+                                                    viewUrl={`/courses/${course.slug}`}
+                                                    editUrl={`/admin/courses/${course.id}`}
+                                                    onDelete={() => handleDelete(course.id)}
+                                                    className="justify-end"
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         {courses.length === 0 && !loading && (
-                            <div className="p-4 text-center text-muted-foreground">Chưa có khóa học nào. Hãy tạo mới ngay!</div>
+                            <div className="p-12 text-center flex flex-col items-center justify-center text-muted-foreground">
+                                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4">
+                                    <BookOpen className="w-8 h-8 text-muted-foreground/50" />
+                                </div>
+                                <p className="text-sm font-medium text-foreground">Chưa có khóa học nào</p>
+                                <p className="text-xs text-muted-foreground mt-1 max-w-xs mx-auto">Tạo khóa học mới để bắt đầu giảng dạy</p>
+                            </div>
                         )}
                     </div>
 
                     {/* Pagination */}
-                    <Pagination
-                        currentPage={page}
-                        totalPages={totalPages}
-                        totalItems={courses.length}
-                        onPageChange={setPage}
-                        className="mt-6"
-                    />
+                    <div className="p-4 border-t border-border">
+                        <Pagination
+                            currentPage={page}
+                            totalPages={totalPages}
+                            totalItems={courses.length}
+                            onPageChange={setPage}
+                        />
+                    </div>
                 </CardContent>
             </Card>
         </div>
