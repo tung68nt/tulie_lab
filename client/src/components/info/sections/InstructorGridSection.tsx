@@ -29,7 +29,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
 
                 <div className="flex flex-wrap justify-center gap-10 md:gap-12">
                     {section.items.map((item, index) => (
-                        <div key={index} className="group relative w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)] max-w-md bg-card border border-border/40 p-8 md:p-10 rounded-3xl transition-all duration-500 hover:border-primary/30 shadow-sm hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]">
+                        <div key={index} className="group relative w-full md:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)] max-w-md bg-card border border-border/40 p-8 md:p-10 rounded-3xl transition-all duration-500 hover:border-primary/30 shadow-sm hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] flex flex-col">
                             {/* Card Glow Effect */}
                             <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
 
@@ -69,7 +69,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                             </div>
 
                             {/* Content */}
-                            <div className="relative z-10">
+                            <div className="relative z-10 flex flex-col flex-1">
                                 <Link href={`/instructors/${(item as any).slug || (item as any).id || '#'}`} className="group/name hover:no-underline">
                                     <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300">{String(item.title || '')}</h3>
                                 </Link>
@@ -89,7 +89,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                 </p>
 
                                 {/* Social Links */}
-                                <div className="flex justify-center gap-5 pt-4 border-t border-border/40">
+                                <div className="flex justify-center gap-5 pt-4 border-t border-border/40 mt-auto">
                                     {[
                                         { icon: Twitter, label: 'Twitter' },
                                         { icon: Linkedin, label: 'LinkedIn' },
