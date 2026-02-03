@@ -34,7 +34,7 @@ export function SectionQuickEdit({ pageId, sectionId, className }: SectionQuickE
                     onClick={(e) => e.stopPropagation()}
                 >
                     <Pencil className="h-3 w-3" />
-                    <span className="text-[10px] font-bold tracking-tight">Sửa section</span>
+                    <span className="text-[12px] font-medium tracking-tight">Sửa section</span>
                 </Button>
             </Link>
         </div>

@@ -14,6 +14,12 @@ import { Select } from '@/components/Select';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { PriceInput } from '@/components/PriceInput';
 import { MultiSelect } from '@/components/MultiSelect';
+import dynamic from 'next/dynamic';
+
+const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEditor'), {
+    ssr: false,
+    loading: () => <div className="h-[250px] w-full bg-muted animate-pulse rounded-md" />
+});
 
 export default function EditCoursePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
@@ -1098,12 +1104,10 @@ function LessonItem({
                                     <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={() => setIsEditingContent(true)}>Chỉnh sửa nội dung</Button>
                                 )}
                             </div>
-                            <textarea
-                                className="flex min-h-[120px] w-full rounded-md border border-input bg-background/50 px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:opacity-50 resize-y"
-                                value={content}
-                                onChange={e => setContent(e.target.value)}
-                                disabled={!isEditingContent}
-                                placeholder="Nhập mô tả chi tiết hoặc nội dung bài học..."
+                            <BlockNoteEditor
+                                initialContent={content}
+                                onChange={(val) => setContent(val)}
+                                editable={isEditingContent}
                             />
                         </div>
 

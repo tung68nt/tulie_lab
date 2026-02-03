@@ -32,7 +32,7 @@ export function QuickEdit({ editUrl }: QuickEditProps) {
                     title="Chỉnh sửa toàn bộ trang này"
                 >
                     <Pencil className="h-3 w-3" />
-                    <span className="text-[10px] font-bold tracking-tight">Sửa Trang</span>
+                    <span className="text-[12px] font-medium tracking-tight">Sửa Trang</span>
                 </Button>
             </Link>
         </div>
