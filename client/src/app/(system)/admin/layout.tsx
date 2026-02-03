@@ -94,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Background layer - allow overflow for border extensions */}
             <div className="w-full bg-muted/20 min-h-[calc(100vh-64px)] overflow-visible">
                 {/* Container matching navbar */}
-                <div className="max-w-6xl mx-auto px-4 overflow-visible">
+                <div className="max-w-[1400px] mx-auto px-4 overflow-visible">
                     {/* Admin box with borders - use relative for pseudo-element */}
                     <div className="relative bg-background border-l border-r border-border min-h-[calc(100vh-64px)] overflow-visible">
                         {/* Extend borders up to navbar using absolute positioned elements */}
@@ -137,7 +137,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                             {/* Main content */}
                             <main className="flex-1 p-6 md:p-8 bg-background overflow-y-auto">
-                                <div className="mx-auto max-w-6xl">
+                                <div className="mx-auto max-w-[1400px]">
                                     {children}
                                 </div>
                             </main>
