@@ -6,8 +6,10 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Watermark } from '@/components/system/security/Watermark';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown } from 'lucide-react';
+import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip } from 'lucide-react';
 import { MentoringSidebar } from './MentoringSidebar';
+import { MarkdownRenderer } from '@/components/MarkdownRenderer';
+import { TableOfContents } from '@/components/TableOfContents';
 
 // Helper function to parse duration string
 function parseDurationToSeconds(duration: string): number {
@@ -410,15 +412,15 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
             {/* Main Content */}
             <main className="flex-1 min-w-0">
-                <div className="max-w-4xl mx-auto p-4 md:p-6">
+                <div className="max-w-5xl mx-auto p-4 md:p-6">
                     {currentLesson.videoUrl && (
-                        <div className="bg-black rounded-xl overflow-hidden shadow-2xl border border-zinc-800 w-full aspect-video md:aspect-auto md:h-[50vh] md:max-h-[500px] relative">
+                        <div className="w-full relative">
                             <VideoPlayer
                                 url={currentLesson.videoUrl}
                                 type={currentLesson.videoType}
                                 title={currentLesson.title}
                                 thumbnail={currentLesson.thumbnail}
-                                className="w-full h-full"
+                                className="w-full"
                             />
                             {user && (user.email || user.name) && (
                                 <Watermark text={user.email || user.name} mode="absolute" />
@@ -443,19 +445,49 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {currentLesson.attachments && currentLesson.attachments.length > 0 && (
                         <div className="bg-muted/10 rounded-xl border p-5 mb-6">
-                            <h3 className="text-sm font-semibold text-foreground mb-3">Tài nguyên</h3>
+                            <h3 className="text-sm font-semibold text-foreground mb-3 font-mono uppercase tracking-wider">Tài nguyên</h3>
                             <div className="space-y-2">
                                 {currentLesson.attachments.map((att: any) => (
                                     <a key={att.id} href={att.url} target="_blank" rel="noopener noreferrer"
                                         className="flex items-center gap-3 px-4 py-3 rounded-lg bg-background border hover:border-muted-foreground transition-all group">
                                         <span className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
-                                            <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                            </svg>
+                                            <Paperclip className="w-4 h-4 text-muted-foreground" />
                                         </span>
                                         <span className="font-medium text-foreground group-hover:text-primary flex-1">{att.title || att.name}</span>
                                     </a>
                                 ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Documentation Content */}
+                    {currentLesson.content && (
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 border-t pt-8 mt-4">
+                            <div className="lg:col-span-8">
+                                <div className="flex items-center gap-2 mb-6 text-primary">
+                                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <h2 className="text-lg font-bold uppercase tracking-widest font-mono">Hướng dẫn học tập</h2>
+                                </div>
+                                <MarkdownRenderer content={currentLesson.content} />
+                            </div>
+
+                            <div className="lg:col-span-4">
+                                <aside className="sticky top-[100px] hidden lg:block">
+                                    <div className="p-6 rounded-2xl bg-muted/30 border border-border/50 backdrop-blur-sm">
+                                        <TableOfContents content={currentLesson.content} />
+                                    </div>
+
+                                    <div className="mt-6 p-6 rounded-2xl bg-primary/5 border border-primary/10">
+                                        <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-3 font-mono">Tips & Tricks</h4>
+                                        <p className="text-[12px] text-muted-foreground leading-relaxed">
+                                            Bạn có thể nhấn <strong>Space</strong> để tạm dừng video, hoặc sử dụng các phím mũi tên để tua nhanh/chậm.
+                                        </p>
+                                    </div>
+                                </aside>
                             </div>
                         </div>
                     )}

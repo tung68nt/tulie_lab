@@ -137,18 +137,20 @@
 
 /* Premium Border & Shadow tokens */
 .border-premium {
-  @apply border border-primary/10 bg-background/50 backdrop-blur-xl shadow-sm;
+  @apply border border-primary/5 bg-background/40 backdrop-blur-2xl shadow-sm ring-1 ring-white/10 dark:ring-white/5;
 }
 
 /* Utilities (Preserved & Merged) */
 .glass {
-  background: hsl(var(--background) / 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: hsl(var(--background) / 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid hsl(var(--border) / 0.4);
 }
 
 .dark .glass {
-  background: hsl(var(--background) / 0.7);
+  background: hsl(var(--background) / 0.65);
+  border: 1px solid hsl(var(--border) / 0.2);
 }
 
 .gradient-text {
@@ -159,12 +161,13 @@
 }
 
 .card-hover {
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  @apply border-primary/20 bg-background/80;
 }
 
 .section {

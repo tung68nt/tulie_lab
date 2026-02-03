@@ -7,6 +7,9 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useToast } from '@/contexts/ToastContext';
 import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
+import { api } from '@/lib/api';
+import { Loader2 } from 'lucide-react';
 
 const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEditor'), {
     ssr: false,
@@ -15,13 +18,44 @@ const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEdito
 
 export default function DocsPage() {
     const { addToast } = useToast();
-    const [title, setTitle] = useState('Hướng dẫn sử dụng hệ thống');
-    const [content, setContent] = useState('# Chào mừng bạn đến với hệ thống Docs chuyên nghiệp\n\nĐây là trình soạn thảo **BlockNote** mới được tích hợp. Bạn có thể:\n\n- Soạn thảo kiểu Notion với dấu `/` (Slash commands)\n- Hỗ trợ định dạng văn bản chuyên nghiệp\n- Kéo thả các khối nội dung\n- Hỗ trợ Markdown và HTML');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
 
-    const handleSave = () => {
-        // Here you would call your API to save the doc
-        console.log('Saving Doc:', { title, content });
-        addToast('Đã lưu tài liệu thành công!', 'success');
+    useEffect(() => {
+        const loadDocs = async () => {
+            try {
+                const settings = await api.admin.settings.get();
+                if (settings) {
+                    setTitle(settings.SYSTEM_DOC_TITLE || 'Hướng dẫn sử dụng hệ thống');
+                    setContent(settings.SYSTEM_DOC_CONTENT || '# Chào mừng bạn đến với hệ thống Docs chuyên nghiệp\n\n...');
+                }
+            } catch (error) {
+                console.error('Failed to load docs:', error);
+                addToast('Không thể tải tài liệu', 'error');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadDocs();
+    }, [addToast]);
+
+    const handleSave = async () => {
+        setIsSaving(true);
+        try {
+            await api.admin.settings.update({
+                SYSTEM_DOC_TITLE: title,
+                SYSTEM_DOC_CONTENT: content
+            });
+            addToast('Đã lưu tài liệu thành công!', 'success');
+        } catch (error) {
+            console.error('Failed to save docs:', error);
+            addToast('Lỗi khi lưu tài liệu', 'error');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     return (
@@ -30,36 +64,51 @@ export default function DocsPage() {
                 title="Hệ thống Documentation"
                 subtitle="Tạo và quản lý hướng dẫn, tài liệu chuyên nghiệp cho website"
             >
-                <Button onClick={handleSave}>Lưu tài liệu</Button>
+                <Button onClick={handleSave} disabled={isSaving}>
+                    {isSaving ? (
+                        <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Đang lưu...
+                        </>
+                    ) : (
+                        'Lưu tài liệu'
+                    )}
+                </Button>
             </AdminPageHeader>
 
-            <div className="grid gap-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Biên tập tài liệu</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Tiêu đề tài liệu</label>
-                            <Input
-                                value={title}
-                                onChange={e => setTitle(e.target.value)}
-                                placeholder="Nhập tiêu đề hướng dẫn..."
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Nội dung chi tiết</label>
-                            <div className="min-h-[500px]">
-                                <BlockNoteEditor
-                                    initialContent={content}
-                                    onChange={setContent}
+            {isLoading ? (
+                <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    <p className="text-muted-foreground animate-pulse">Đang tải tài liệu...</p>
+                </div>
+            ) : (
+                <div className="grid gap-6 animate-in fade-in duration-500">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Biên tập tài liệu</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Tiêu đề tài liệu</label>
+                                <Input
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)}
+                                    placeholder="Nhập tiêu đề hướng dẫn..."
                                 />
                             </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-        </div>
-    );
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Nội dung chi tiết</label>
+                                <div className="min-h-[500px]">
+                                    <BlockNoteEditor
+                                        initialContent={content}
+                                        onChange={setContent}
+                                    />
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+            )}
+                </div>
+            );
 }

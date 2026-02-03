@@ -1,0 +1,390 @@
+{
+  "taskId": "cixy55",
+  "currentVersion": 10,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "cixy55",
+      "version": 1,
+      "timestamp": "2026-02-03T11:38:42.877Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": "Setup project",
+          "newValue": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho"
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho",
+        "description": "Initial setup",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Dependencies installed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "cixy55",
+      "version": 2,
+      "timestamp": "2026-02-03T11:40:33.315Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho",
+          "newValue": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS"
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "Initial setup",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Dependencies installed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "cixy55",
+      "version": 3,
+      "timestamp": "2026-02-03T11:40:38.934Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Initial setup",
+          "newValue": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\\\n\\\nDựa trên mẫu [cli.knowns.dev/docs](https://cli.knowns.dev/docs), dưới đây là danh sách các task cần thực hiện để triển khai một hệ thống tài liệu hiện đại, dễ quản lý và có trải nghiệm người dùng tốt.\\\n\\\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n- [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n- [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n- [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n\\\n## 2. Giao diện & Thành phần (UI & Components)\\\n- [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n- [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n- [ ] **Thành phần Markdown tùy chỉnh**:\\\n- [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n- [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n- [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n- [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n\\\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n- [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n- [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n- [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n- [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n\\\n## 4. Nội dung & SEO (Content & SEO)\\\n- [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n- [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n- [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n\\\n## 5. Triển khai & Kiểm thử (Verification)\\\n- [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n- [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.\n"
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\\\n\\\nDựa trên mẫu [cli.knowns.dev/docs](https://cli.knowns.dev/docs), dưới đây là danh sách các task cần thực hiện để triển khai một hệ thống tài liệu hiện đại, dễ quản lý và có trải nghiệm người dùng tốt.\\\n\\\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n- [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n- [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n- [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n\\\n## 2. Giao diện & Thành phần (UI & Components)\\\n- [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n- [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n- [ ] **Thành phần Markdown tùy chỉnh**:\\\n- [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n- [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n- [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n- [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n\\\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n- [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n- [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n- [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n- [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n\\\n## 4. Nội dung & SEO (Content & SEO)\\\n- [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n- [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n- [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n\\\n## 5. Triển khai & Kiểm thử (Verification)\\\n- [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n- [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.\n",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Dependencies installed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "cixy55",
+      "version": 4,
+      "timestamp": "2026-02-03T11:40:51.975Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\\\n\\\nDựa trên mẫu [cli.knowns.dev/docs](https://cli.knowns.dev/docs), dưới đây là danh sách các task cần thực hiện để triển khai một hệ thống tài liệu hiện đại, dễ quản lý và có trải nghiệm người dùng tốt.\\\n\\\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n- [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n- [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n- [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n\\\n## 2. Giao diện & Thành phần (UI & Components)\\\n- [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n- [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n- [ ] **Thành phần Markdown tùy chỉnh**:\\\n- [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n- [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n- [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n- [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n\\\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n- [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n- [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n- [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n- [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n\\\n## 4. Nội dung & SEO (Content & SEO)\\\n- [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n- [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n- [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n\\\n## 5. Triển khai & Kiểm thử (Verification)\\\n- [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n- [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.",
+          "newValue": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n  \\\n\n## 2. Giao diện & Thành phần (UI & Components)\\\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n* [ ] **Thành phần Markdown tùy chỉnh**:\\\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n  \\\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n  \\\n\n## 4. Nội dung & SEO (Content & SEO)\\\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n  \\\n\n## 5. Triển khai & Kiểm thử (Verification)\\\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.\n"
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n  \\\n\n## 2. Giao diện & Thành phần (UI & Components)\\\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n* [ ] **Thành phần Markdown tùy chỉnh**:\\\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n  \\\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n  \\\n\n## 4. Nội dung & SEO (Content & SEO)\\\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n  \\\n\n## 5. Triển khai & Kiểm thử (Verification)\\\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.\n",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Dependencies installed"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "cixy55",
+      "version": 5,
+      "timestamp": "2026-02-03T11:41:42.688Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Dependencies installed"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n  \\\n\n## 2. Giao diện & Thành phần (UI & Components)\\\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n* [ ] **Thành phần Markdown tùy chỉnh**:\\\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n  \\\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n  \\\n\n## 4. Nội dung & SEO (Content & SEO)\\\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n  \\\n\n## 5. Triển khai & Kiểm thử (Verification)\\\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "cixy55",
+      "version": 6,
+      "timestamp": "2026-02-03T11:41:54.962Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+            },
+            {
+              "text": "Giao diện hiện đại, đồng bộ style với hệ thống",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n  \\\n\n## 2. Giao diện & Thành phần (UI & Components)\\\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n* [ ] **Thành phần Markdown tùy chỉnh**:\\\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n  \\\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n  \\\n\n## 4. Nội dung & SEO (Content & SEO)\\\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n  \\\n\n## 5. Triển khai & Kiểm thử (Verification)\\\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+          },
+          {
+            "text": "Giao diện hiện đại, đồng bộ style với hệ thống",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "cixy55",
+      "version": 7,
+      "timestamp": "2026-02-03T11:42:34.155Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+            },
+            {
+              "completed": false,
+              "text": "Giao diện hiện đại, đồng bộ style với hệ thống"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+            },
+            {
+              "text": "Giao diện hiện đại, đồng bộ style với hệ thống",
+              "completed": false
+            },
+            {
+              "text": "Hiển thị rõ ràng trong tài liệu từng bài học để học viên có thể vừa xem video vừa thực hành",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n  \\\n\n## 2. Giao diện & Thành phần (UI & Components)\\\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n* [ ] **Thành phần Markdown tùy chỉnh**:\\\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n  \\\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n  \\\n\n## 4. Nội dung & SEO (Content & SEO)\\\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n  \\\n\n## 5. Triển khai & Kiểm thử (Verification)\\\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+          },
+          {
+            "text": "Giao diện hiện đại, đồng bộ style với hệ thống",
+            "completed": false
+          },
+          {
+            "text": "Hiển thị rõ ràng trong tài liệu từng bài học để học viên có thể vừa xem video vừa thực hành",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "cixy55",
+      "version": 8,
+      "timestamp": "2026-02-03T11:43:11.720Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "# Kế hoạch xây dựng hệ thống Documentation (Docs)\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\\\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\\\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\\\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\\\n  \\\n\n## 2. Giao diện & Thành phần (UI & Components)\\\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\\\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\\\n* [ ] **Thành phần Markdown tùy chỉnh**:\\\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\\\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\\\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\\\n  \\\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\\\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\\\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\\\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\\\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\\\n  \\\n\n## 4. Nội dung & SEO (Content & SEO)\\\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\\\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\\\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\\\n  \\\n\n## 5. Triển khai & Kiểm thử (Verification)\\\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\\\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.",
+          "newValue": "# Kế hoạch xây dựng hệ thống Documentation (Docs) và nhúng hệ thống Docs vào từng bài học để học viên có thể view code, view hướng dẫn cho từng phần, từng bài học để thực hành theo\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\n\n## 2. Giao diện & Thành phần (UI & Components)\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\n* [ ] **Thành phần Markdown tùy chỉnh**:\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\n\n## 4. Nội dung & SEO (Content & SEO)\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\n\n## 5. Triển khai & Kiểm thử (Verification)\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.\n"
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs) và nhúng hệ thống Docs vào từng bài học để học viên có thể view code, view hướng dẫn cho từng phần, từng bài học để thực hành theo\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\n\n## 2. Giao diện & Thành phần (UI & Components)\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\n* [ ] **Thành phần Markdown tùy chỉnh**:\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\n\n## 4. Nội dung & SEO (Content & SEO)\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\n\n## 5. Triển khai & Kiểm thử (Verification)\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.\n",
+        "status": "todo",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+          },
+          {
+            "completed": false,
+            "text": "Giao diện hiện đại, đồng bộ style với hệ thống"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị rõ ràng trong tài liệu từng bài học để học viên có thể vừa xem video vừa thực hành"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v9",
+      "taskId": "cixy55",
+      "version": 9,
+      "timestamp": "2026-02-03T11:43:40.884Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs) và nhúng hệ thống Docs vào từng bài học để học viên có thể view code, view hướng dẫn cho từng phần, từng bài học để thực hành theo\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\n\n## 2. Giao diện & Thành phần (UI & Components)\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\n* [ ] **Thành phần Markdown tùy chỉnh**:\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\n\n## 4. Nội dung & SEO (Content & SEO)\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\n\n## 5. Triển khai & Kiểm thử (Verification)\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.",
+        "status": "in-progress",
+        "priority": "medium",
+        "assignee": "@me",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+          },
+          {
+            "completed": false,
+            "text": "Giao diện hiện đại, đồng bộ style với hệ thống"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị rõ ràng trong tài liệu từng bài học để học viên có thể vừa xem video vừa thực hành"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v10",
+      "taskId": "cixy55",
+      "version": 10,
+      "timestamp": "2026-02-03T14:39:23.594Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+            },
+            {
+              "completed": false,
+              "text": "Giao diện hiện đại, đồng bộ style với hệ thống"
+            },
+            {
+              "completed": false,
+              "text": "Hiển thị rõ ràng trong tài liệu từng bài học để học viên có thể vừa xem video vừa thực hành"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+            },
+            {
+              "completed": true,
+              "text": "Giao diện hiện đại, đồng bộ style với hệ thống"
+            },
+            {
+              "completed": true,
+              "text": "Hiển thị rõ ràng trong tài liệu từng bài học để học viên có thể vừa xem video vừa thực hành"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "## Summary of Implementation\nCompleted building the documentation system for the LMS:\n- **MarkdownRenderer**: Custom component supporting GFM, code syntax highlighting with copy buttons, and callouts (Note, Warning, Tip).\n- **TableOfContents**: Extracts headings and provides smooth scroll navigation.\n- **LearnClient Integration**: Embedded documentation section below the video player with a sticky TOC on desktop.\n- **Admin Docs**: Connected the administrative documentation management to the Settings API for persistence.\n\nAll acceptance criteria have been met."
+        }
+      ],
+      "snapshot": {
+        "title": "Xây dựng hệ thống Docs hướng dẫn sử dụng cho LMS",
+        "description": "# Kế hoạch xây dựng hệ thống Documentation (Docs) và nhúng hệ thống Docs vào từng bài học để học viên có thể view code, view hướng dẫn cho từng phần, từng bài học để thực hành theo\n\n## 1. Kiến trúc & Khởi tạo (Architecture & Setup)\n\n* [ ] **Lựa chọn Framework**: Quyết định sử dụng bộ thư viện hỗ trợ (như `Fumadocs`, `Nextra`) hoặc tự xây dựng dựa trên `Next.js + MDX`.\n* [ ] **Cấu hình MDX**: Thiết lập Content Layer hoặc giải pháp xử lý file `.mdx` để biến các file markdown thành các trang web động.\n* [ ] **Thiết lập thư mục nội dung**: Tạo cấu trúc thư mục `/docs` rõ ràng (Beginner, Guides, API Reference, v.v.)\n\n## 2. Giao diện & Thành phần (UI & Components)\n\n* [ ] **Main Layout**: Xây dựng Layout tổng thể bao gồm Header (Logo, Search, Links) và Sidebar.\n* [ ] **Sidebar Điều hướng**: Tự động tạo cây thư mục dựa trên cấu trúc file hoặc file cấu hình `meta.json`.\n* [ ] **Thành phần Markdown tùy chỉnh**:\n* [ ] **Callouts/Alerts**: Các ô ghi chú (Note, Warning, Tip) như mẫu.\n* [ ] **Code Blocks**: Hỗ trợ syntax highlighting, nút \"Copy\", và hiển thị tên file.\n* [ ] **Tabs/Accordions**: Các thành phần tương tác trong tài liệu.\\\n* [ ] **Table of Contents (TOC)**: Sidebar bên phải hiển thị các tiêu đề (Heading) của trang hiện tại.\n\n## 3. Chức năng Tìm kiếm & Điều hướng (Search & DX)\n\n* [ ] **Tích hợp Tìm kiếm**: Sử dụng local search (FlexSearch) hoặc Algolia để tìm kiếm nhanh trong tài liệu.\n* [ ] **Next/Previous Navigation**: Tự động hiển thị link chuyển trang ở cuối mỗi bài viết.\n* [ ] **Breadcrumbs**: Đường dẫn phân cấp trang.\n* [ ] **Light/Dark Mode**: Đồng bộ với giao diện chính của dự án.\n\n## 4. Nội dung & SEO (Content & SEO)\n\n* [ ] **Viết tài liệu mẫu**: Tạo các trang \"Giới thiệu\", \"Bắt đầu nhanh\" để kiểm tra giao diện.\n* [ ] **Tối ưu SEO**: Tự động sinh Meta tags (Title, Description) cho từng trang dựa trên content.\n* [ ] **Image Optimization**: Xử lý ảnh trong markdown để load nhanh và responsive.\n\n## 5. Triển khai & Kiểm thử (Verification)\n\n* [ ] **Kiểm tra responsive**: Đảm bảo sidebar và content hiển thị tốt trên Mobile.\n* [ ] **Verify Link**: Kiểm tra các link nội bộ không bị broken.",
+        "status": "done",
+        "priority": "medium",
+        "assignee": "@me",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Hệ thống Docs hoạt động mượt mà, ổn định"
+          },
+          {
+            "completed": true,
+            "text": "Giao diện hiện đại, đồng bộ style với hệ thống"
+          },
+          {
+            "completed": true,
+            "text": "Hiển thị rõ ràng trong tài liệu từng bài học để học viên có thể vừa xem video vừa thực hành"
+          }
+        ],
+        "implementationNotes": "## Summary of Implementation\nCompleted building the documentation system for the LMS:\n- **MarkdownRenderer**: Custom component supporting GFM, code syntax highlighting with copy buttons, and callouts (Note, Warning, Tip).\n- **TableOfContents**: Extracts headings and provides smooth scroll navigation.\n- **LearnClient Integration**: Embedded documentation section below the video player with a sticky TOC on desktop.\n- **Admin Docs**: Connected the administrative documentation management to the Settings API for persistence.\n\nAll acceptance criteria have been met."
+      }
+    }
+  ]
+}

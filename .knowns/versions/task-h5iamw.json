@@ -1,0 +1,199 @@
+{
+  "taskId": "h5iamw",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "h5iamw",
+      "version": 1,
+      "timestamp": "2026-02-03T14:41:32.515Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Video trong trang Learn hiển thị bên trong một frame có bo góc và đổ bóng (Shadow).",
+              "completed": false
+            },
+            {
+              "text": "Thanh tiêu đề (Title Bar) hiển thị phía trên video với 3 nút màu (Đỏ, Vàng, Xanh) ở góc trái.",
+              "completed": false
+            },
+            {
+              "text": "Tên bài học hoặc tiêu đề video hiện ở giữa thanh tiêu đề.",
+              "completed": false
+            },
+            {
+              "text": "Đảm bảo giao diện responsive (ẩn title bar trên mobile nếu cần thiết).",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Nâng cấp giao diện Video Player với macOS Frame chuyên nghiệp",
+        "description": "Nâng cấp giao diện Video Player trong trang học tập (LMS) bằng cách thêm khung (frame) phong cách macOS. Thanh tiêu đề sẽ bao gồm 3 nút điều khiển (đỏ, vàng, xanh) và hiển thị tên bài học hiện tại, tạo cảm giác chuyên nghiệp và đồng bộ với hệ thống Docs vừa xây dựng.",
+        "status": "todo",
+        "priority": "low",
+        "labels": [
+          "ui/ux",
+          "lms",
+          "enhancement"
+        ],
+        "acceptanceCriteria": [
+          {
+            "text": "Video trong trang Learn hiển thị bên trong một frame có bo góc và đổ bóng (Shadow).",
+            "completed": false
+          },
+          {
+            "text": "Thanh tiêu đề (Title Bar) hiển thị phía trên video với 3 nút màu (Đỏ, Vàng, Xanh) ở góc trái.",
+            "completed": false
+          },
+          {
+            "text": "Tên bài học hoặc tiêu đề video hiện ở giữa thanh tiêu đề.",
+            "completed": false
+          },
+          {
+            "text": "Đảm bảo giao diện responsive (ẩn title bar trên mobile nếu cần thiết).",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "h5iamw",
+      "version": 2,
+      "timestamp": "2026-02-03T15:39:22.947Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "newValue": "1. Add macOS frame wrapper to VideoPlayer component.\n2. Update LearnClient layout to support the new frame.\n3. Verify responsiveness."
+        }
+      ],
+      "snapshot": {
+        "title": "Nâng cấp giao diện Video Player với macOS Frame chuyên nghiệp",
+        "description": "Nâng cấp giao diện Video Player trong trang học tập (LMS) bằng cách thêm khung (frame) phong cách macOS. Thanh tiêu đề sẽ bao gồm 3 nút điều khiển (đỏ, vàng, xanh) và hiển thị tên bài học hiện tại, tạo cảm giác chuyên nghiệp và đồng bộ với hệ thống Docs vừa xây dựng.",
+        "status": "in-progress",
+        "priority": "low",
+        "labels": [
+          "ui/ux",
+          "lms",
+          "enhancement"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Video trong trang Learn hiển thị bên trong một frame có bo góc và đổ bóng (Shadow)."
+          },
+          {
+            "completed": false,
+            "text": "Thanh tiêu đề (Title Bar) hiển thị phía trên video với 3 nút màu (Đỏ, Vàng, Xanh) ở góc trái."
+          },
+          {
+            "completed": false,
+            "text": "Tên bài học hoặc tiêu đề video hiện ở giữa thanh tiêu đề."
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo giao diện responsive (ẩn title bar trên mobile nếu cần thiết)."
+          }
+        ],
+        "implementationPlan": "1. Add macOS frame wrapper to VideoPlayer component.\n2. Update LearnClient layout to support the new frame.\n3. Verify responsiveness."
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "h5iamw",
+      "version": 3,
+      "timestamp": "2026-02-03T15:39:37.559Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Video trong trang Learn hiển thị bên trong một frame có bo góc và đổ bóng (Shadow)."
+            },
+            {
+              "completed": false,
+              "text": "Thanh tiêu đề (Title Bar) hiển thị phía trên video với 3 nút màu (Đỏ, Vàng, Xanh) ở góc trái."
+            },
+            {
+              "completed": false,
+              "text": "Tên bài học hoặc tiêu đề video hiện ở giữa thanh tiêu đề."
+            },
+            {
+              "completed": false,
+              "text": "Đảm bảo giao diện responsive (ẩn title bar trên mobile nếu cần thiết)."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Video trong trang Learn hiển thị bên trong một frame có bo góc và đổ bóng (Shadow)."
+            },
+            {
+              "completed": true,
+              "text": "Thanh tiêu đề (Title Bar) hiển thị phía trên video với 3 nút màu (Đỏ, Vàng, Xanh) ở góc trái."
+            },
+            {
+              "completed": true,
+              "text": "Tên bài học hoặc tiêu đề video hiện ở giữa thanh tiêu đề."
+            },
+            {
+              "completed": true,
+              "text": "Đảm bảo giao diện responsive (ẩn title bar trên mobile nếu cần thiết)."
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Implemented macOS-style frame for VideoPlayer with:\n- Red, Yellow, Green control buttons.\n- Centered lesson title in the title bar.\n- Rounded corners (rounded-2xl) and shadow (shadow-2xl).\n- Responsive layout in LearnClient.tsx."
+        }
+      ],
+      "snapshot": {
+        "title": "Nâng cấp giao diện Video Player với macOS Frame chuyên nghiệp",
+        "description": "Nâng cấp giao diện Video Player trong trang học tập (LMS) bằng cách thêm khung (frame) phong cách macOS. Thanh tiêu đề sẽ bao gồm 3 nút điều khiển (đỏ, vàng, xanh) và hiển thị tên bài học hiện tại, tạo cảm giác chuyên nghiệp và đồng bộ với hệ thống Docs vừa xây dựng.",
+        "status": "done",
+        "priority": "low",
+        "labels": [
+          "ui/ux",
+          "lms",
+          "enhancement"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Video trong trang Learn hiển thị bên trong một frame có bo góc và đổ bóng (Shadow)."
+          },
+          {
+            "completed": true,
+            "text": "Thanh tiêu đề (Title Bar) hiển thị phía trên video với 3 nút màu (Đỏ, Vàng, Xanh) ở góc trái."
+          },
+          {
+            "completed": true,
+            "text": "Tên bài học hoặc tiêu đề video hiện ở giữa thanh tiêu đề."
+          },
+          {
+            "completed": true,
+            "text": "Đảm bảo giao diện responsive (ẩn title bar trên mobile nếu cần thiết)."
+          }
+        ],
+        "implementationPlan": "1. Add macOS frame wrapper to VideoPlayer component.\n2. Update LearnClient layout to support the new frame.\n3. Verify responsiveness.",
+        "implementationNotes": "Implemented macOS-style frame for VideoPlayer with:\n- Red, Yellow, Green control buttons.\n- Centered lesson title in the title bar.\n- Rounded corners (rounded-2xl) and shadow (shadow-2xl).\n- Responsive layout in LearnClient.tsx."
+      }
+    }
+  ]
+}

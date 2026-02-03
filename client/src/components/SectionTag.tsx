@@ -38,14 +38,14 @@ export const SectionTag: React.FC<SectionTagProps> = ({
     const shouldAnimate = isFree || animate;
 
     const variantClasses = {
-        default: "border-zinc-200 bg-white text-zinc-900 shadow-sm", // Solid White, no hover
-        light: "border-zinc-200 bg-white text-zinc-900 shadow-sm",
-        dark: "border-zinc-800 bg-zinc-900 text-white shadow-md",
+        default: "border-zinc-200/60 bg-white/90 text-zinc-900 shadow-sm backdrop-blur-sm",
+        light: "border-zinc-200/60 bg-white/90 text-zinc-900 shadow-sm backdrop-blur-sm",
+        dark: "border-zinc-800/60 bg-zinc-950 text-white shadow-md backdrop-blur-sm",
         'black-pill': "border-zinc-900 bg-zinc-900 text-white shadow-md",
-        yellow: "border-yellow-600 bg-yellow-500 text-white shadow-sm",
-        red: "border-red-600 bg-red-600 text-white shadow-sm shadow-red-500/20",
-        primary: "border-primary/40 bg-primary text-primary-foreground shadow-sm",
-        outline: "border-zinc-200 bg-white text-zinc-900" // Changed outline to solid white as well per request "no transparent"
+        yellow: "border-yellow-600/40 bg-yellow-500 text-white shadow-sm ring-1 ring-yellow-400/20",
+        red: "border-red-600/40 bg-red-600 text-white shadow-sm shadow-red-500/10 ring-1 ring-red-400/20",
+        primary: "border-primary/20 bg-primary text-primary-foreground shadow-sm ring-1 ring-white/10",
+        outline: "border-zinc-200 bg-white text-zinc-900"
     }[variant];
 
     return (

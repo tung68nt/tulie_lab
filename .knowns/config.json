@@ -1,0 +1,37 @@
+{
+  "name": "academy_tulie",
+  "id": "academy_tulie",
+  "createdAt": "2026-02-03T11:35:04.430Z",
+  "settings": {
+    "defaultPriority": "medium",
+    "statuses": [
+      "todo",
+      "in-progress",
+      "in-review",
+      "done",
+      "blocked",
+      "on-hold",
+      "urgent"
+    ],
+    "statusColors": {
+      "todo": "gray",
+      "in-progress": "blue",
+      "in-review": "purple",
+      "done": "green",
+      "blocked": "red",
+      "on-hold": "yellow",
+      "urgent": "orange"
+    },
+    "visibleColumns": [
+      "todo",
+      "in-progress",
+      "blocked",
+      "done",
+      "in-review"
+    ],
+    "defaultLabels": [],
+    "timeFormat": "24h",
+    "gitTrackingMode": "git-tracked",
+    "serverPort": 6420
+  }
+}

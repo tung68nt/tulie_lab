@@ -117,25 +117,46 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
     const videoSource = url;
 
     return (
-        <FullscreenVideoWrapper className={className} user={user}>
-            {(containerRef, isFullscreen, toggleFullscreen) => (
-                <>
-                    <video
-                        src={videoSource}
-                        className="w-full h-full"
-                        controls
-                        controlsList="nodownload nofullscreen"
-                        onContextMenu={(e) => e.preventDefault()}
-                        onError={() => setError(true)}
-                        title={title}
-                        poster={thumbnail}
-                    >
-                        Your browser does not support video playback.
-                    </video>
-                    <FullscreenButton isFullscreen={isFullscreen} onClick={toggleFullscreen} />
-                </>
-            )}
-        </FullscreenVideoWrapper>
+        <div className={`overflow-hidden rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 bg-background shadow-2xl transition-all duration-300 ${className}`}>
+            {/* macOS Title Bar */}
+            <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-100/80 dark:bg-zinc-900/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50">
+                <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#FF5F57] shadow-inner" />
+                    <div className="w-3 h-3 rounded-full bg-[#FFBD2E] shadow-inner" />
+                    <div className="w-3 h-3 rounded-full bg-[#28C840] shadow-inner" />
+                </div>
+                {title && (
+                    <div className="absolute left-1/2 -translate-x-1/2 max-w-[60%] truncate">
+                        <span className="text-[11px] md:text-sm font-medium text-muted-foreground font-sans tracking-wide">
+                            {title}
+                        </span>
+                    </div>
+                )}
+                <div className="w-12" /> {/* Spacer */}
+            </div>
+
+            <div className="relative aspect-video w-full bg-black group/video">
+                <FullscreenVideoWrapper className="w-full h-full" user={user}>
+                    {(containerRef, isFullscreen, toggleFullscreen) => (
+                        <>
+                            <video
+                                src={videoSource}
+                                className="w-full h-full"
+                                controls
+                                controlsList="nodownload nofullscreen"
+                                onContextMenu={(e) => e.preventDefault()}
+                                onError={() => setError(true)}
+                                title={title}
+                                poster={thumbnail}
+                            >
+                                Your browser does not support video playback.
+                            </video>
+                            <FullscreenButton isFullscreen={isFullscreen} onClick={toggleFullscreen} />
+                        </>
+                    )}
+                </FullscreenVideoWrapper>
+            </div>
+        </div>
     );
 }
 
