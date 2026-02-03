@@ -26,18 +26,18 @@ export function AdminPageHeader({ title, subtitle, backUrl, children, className,
                         </Link>
                     )}
 
-                    <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-3">
-                            {icon && <div className="shrink-0">{icon}</div>}
+                    <div className="flex items-start gap-4">
+                        {icon && <div className="shrink-0 mt-1">{icon}</div>}
+                        <div className="flex flex-col gap-1">
                             <h1 className="text-2xl font-bold tracking-tight text-foreground">
                                 {title}
                             </h1>
+                            {subtitle && (
+                                <p className="text-muted-foreground text-base">
+                                    {subtitle}
+                                </p>
+                            )}
                         </div>
-                        {subtitle && (
-                            <p className="text-muted-foreground text-base">
-                                {subtitle}
-                            </p>
-                        )}
                     </div>
                 </div>
 
