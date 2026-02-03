@@ -60,16 +60,10 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                     );
                                 })()}
 
-                                {/* Floating Badge */}
-                                <div className="absolute -bottom-2 -right-2 z-20 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                    <Badge size="sm" variant="default" showDot={false} className="shadow-lg border-2 border-background">
-                                        Expert
-                                    </Badge>
-                                </div>
                             </div>
 
                             {/* Content */}
-                            <div className="relative z-10 flex flex-col flex-1">
+                            <div className="relative z-10 flex flex-col flex-1 items-center text-center">
                                 <Link href={`/instructors/${(item as any).slug || (item as any).id || '#'}`} className="group/name hover:no-underline">
                                     <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover/name:text-primary transition-colors duration-300">{String(item.title || '')}</h3>
                                 </Link>
@@ -89,7 +83,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                 </p>
 
                                 {/* Social Links */}
-                                <div className="flex justify-center gap-5 pt-4 border-t border-border/40 mt-auto">
+                                <div className="flex justify-center gap-5 pt-4 border-t border-border/40 mt-auto w-full">
                                     {[
                                         { icon: Twitter, label: 'Twitter' },
                                         { icon: Linkedin, label: 'LinkedIn' },
