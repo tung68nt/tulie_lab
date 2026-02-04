@@ -65,7 +65,14 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             language={match ? match[1] : 'text'}
                                             PreTag="div"
                                             showLineNumbers={true}
-                                            lineNumberStyle={{ minWidth: '3em', paddingRight: '1em', color: '#a1a1aa', textAlign: 'right', userSelect: 'none' }}
+                                            lineNumberStyle={{
+                                                minWidth: '3em',
+                                                paddingRight: '1em',
+                                                color: '#a1a1aa',
+                                                textAlign: 'right',
+                                                userSelect: 'none',
+                                                fontStyle: 'normal'
+                                            }}
                                             customStyle={{
                                                 margin: 0,
                                                 padding: '1.5rem 1rem',
@@ -74,7 +81,10 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                                 backgroundColor: 'transparent',
                                             }}
                                             codeTagProps={{
-                                                className: "font-mono"
+                                                className: "font-mono",
+                                                style: {
+                                                    backgroundColor: 'transparent',
+                                                }
                                             }}
                                         >
                                             {String(children).replace(/\n$/, '')}

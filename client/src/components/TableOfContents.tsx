@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { cn, slugify } from '@/lib/utils';
+import { List } from 'lucide-react';
 
 interface TOCItem {
     id: string;
@@ -74,7 +75,10 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     return (
         <div className={cn("space-y-4", className)}>
-            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground/60 px-1">Mục lục bài học</p>
+            <p className="text-sm font-bold text-foreground px-1 flex items-center gap-2">
+                <List className="w-4 h-4" />
+                Mục lục bài học
+            </p>
             <nav className="relative flex flex-col">
                 {headings.map((heading) => (
                     <a
@@ -96,10 +100,10 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-2 px-1.5 text-[13px] leading-tight border-l-2 transition-all duration-200 font-medium",
+                            "group block py-2 px-1.5 text-[13px] leading-tight border-l-2 transition-all duration-200 font-normal",
                             heading.level === 3 ? "pl-5" : "",
                             activeId === heading.id
-                                ? "text-primary border-primary bg-primary/5"
+                                ? "text-primary border-primary bg-primary/5 font-medium"
                                 : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"
                         )}
                     >
