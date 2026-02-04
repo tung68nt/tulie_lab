@@ -64,26 +64,26 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                 )}>
                                     {/* Decorative Glow - Removed or toned down */}
 
-                                    <div className="mb-6 relative">
-                                        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm">
+                                    <div className="mb-4 relative">
+                                        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm">
                                             {item.icon ? (
-                                                <DynamicIcon name={item.icon} size={28} strokeWidth={2} className="shrink-0" />
+                                                <DynamicIcon name={item.icon} size={24} strokeWidth={2} className="shrink-0" />
                                             ) : (
-                                                <div className="w-7 h-7 bg-current rounded-md opacity-20" />
+                                                <div className="w-6 h-6 bg-current rounded-md opacity-20" />
                                             )}
                                         </div>
                                     </div>
 
-                                    <div className="min-h-[90px] mb-3 flex items-start">
+                                    <div className="min-h-[72px] mb-2">
                                         <h3 className={cn(
-                                            "text-xl font-bold transition-colors group-hover:text-primary leading-tight",
+                                            "text-lg font-bold transition-colors group-hover:text-primary leading-tight",
                                             isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-50")
                                         )}>
                                             {item.title || item.label}
                                         </h3>
                                     </div>
 
-                                    <div className="flex-1 min-h-[140px] mb-4">
+                                    <div className="flex-1 min-h-[100px]">
                                         <p className={cn(
                                             "leading-relaxed text-sm",
                                             isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")

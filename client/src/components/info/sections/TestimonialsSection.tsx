@@ -104,7 +104,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                     section.backgroundTheme === 'dark' ? "bg-black" : (section.backgroundTheme === 'light' ? "bg-zinc-50 dark:bg-black" : "bg-background")
                                 )}>
                                     {/* Header: Profile */}
-                                    <div className="flex items-start gap-4 mb-5 min-h-[72px]">
+                                    <div className="flex items-center gap-3 mb-4">
                                         <div className="relative w-14 h-14 shrink-0">
                                             <div className="absolute inset-0 bg-primary/10 rounded-full blur-sm"></div>
                                             <Image
@@ -114,14 +114,14 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                                 className="object-cover rounded-full border-2 border-white dark:border-neutral-800 shadow-md relative z-10"
                                             />
                                         </div>
-                                        <div className="flex-1 min-w-0 pt-0.5">
+                                        <div className="flex-1 min-w-0">
                                             <h3 className="text-xl font-bold text-foreground dark:text-white leading-[1.2] mb-1">{testimonial.name}</h3>
                                             <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400 leading-snug">{testimonial.role}</p>
                                         </div>
                                     </div>
 
-                                    {/* Quote Area - Fixed min-height for alignment */}
-                                    <div className="mb-6 min-h-[120px]">
+                                    {/* Quote Area */}
+                                    <div className="flex-1">
                                         {testimonial.content ? (
                                             <p className="text-base text-foreground/80 dark:text-zinc-300 font-medium">
                                                 "{testimonial.content}"

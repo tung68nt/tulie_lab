@@ -129,7 +129,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                                                     </span>
                                                                     {description && (
                                                                         <span className={cn(
-                                                                            "text-sm mt-1 leading-relaxed",
+                                                                            "text-sm mt-1 leading-relaxed whitespace-pre-line",
                                                                             isDark ? "text-zinc-400" : "text-muted-foreground"
                                                                         )}>
                                                                             {description}

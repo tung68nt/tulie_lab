@@ -53,29 +53,29 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     )}
                                 </div>
 
-                                <div className="p-6 flex flex-col flex-1 h-full select-none">
-                                    <div className="flex flex-col mb-4 flex-1">
-                                        <div className="flex flex-col gap-3">
+                                <div className="p-5 md:p-6 flex flex-col flex-1 h-full select-none">
+                                    <div className="flex flex-col flex-1">
+                                        <div className="flex flex-col gap-2">
                                             {/* Title area - Min height for alignment */}
-                                            <div className="min-h-[96px] flex items-start">
-                                                <h3 className="font-bold text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
+                                            <div className="min-h-[60px] md:min-h-[72px] flex items-start">
+                                                <h3 className="font-bold text-lg md:text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
                                             </div>
 
                                             {/* Divider */}
                                             <div className="border-t border-dashed border-border/60" />
 
                                             {/* Student Details area - Min height for alignment */}
-                                            <div className="min-h-[56px] flex items-center">
+                                            <div className="min-h-[40px] flex items-center">
                                                 {Boolean(item.subtitle) && (
-                                                    <p className="text-[12px] text-muted-foreground font-medium text-left">{String(item.subtitle)}</p>
+                                                    <p className="text-[12px] text-muted-foreground font-medium text-left leading-relaxed">{String(item.subtitle)}</p>
                                                 )}
                                             </div>
 
                                             {/* Divider */}
                                             <div className="border-t border-dashed border-border/60" />
 
-                                            {/* Story area - Flexible height with min-height */}
-                                            <div className="flex-1 min-h-[200px]">
+                                            {/* Story area - Flexible height */}
+                                            <div className="flex-1 mt-1">
                                                 {Boolean(item.description || item.quote) && (
                                                     <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-medium">
                                                         {String(item.quote ? `"${item.quote}"` : item.description)}
