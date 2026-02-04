@@ -239,6 +239,7 @@ model Lesson {
   chapter     String?
   section     String?
   content     String?
+  guide       String?
   isFree      Boolean          @default(false)
   position    Int              @default(0)
   courseId    String

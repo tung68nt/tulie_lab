@@ -596,6 +596,15 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                     <p className="text-xs text-muted-foreground">URL ảnh thumbnail cho bài học (Tùy chọn)</p>
                                 </div>
 
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Nội dung bài học (Rich Text)</label>
+                                    <div className="border rounded-md min-h-[300px]">
+                                        <BlockNoteEditor
+                                            onChange={(content) => setNewLesson({ ...newLesson, content } as any)}
+                                        />
+                                    </div>
+                                </div>
+
                                 {/* Attachments Section */}
                                 <div className="space-y-3 border-t pt-4">
                                     <label className="text-sm font-medium">Tài liệu đính kèm</label>
@@ -663,20 +672,20 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                     {/* Add new attachment manually */}
                                     <div className="flex gap-2">
                                         <Input
-                                            placeholder="Tên (vd: Slide bài giảng)"
                                             value={newAttachment.name}
                                             onChange={e => setNewAttachment(prev => ({ ...prev, name: e.target.value }))}
-                                            className="flex-1"
+                                            className="flex-1 h-10"
                                         />
                                         <Input
                                             placeholder="URL (vd: Link Google Drive)"
                                             value={newAttachment.url}
                                             onChange={e => setNewAttachment(prev => ({ ...prev, url: e.target.value }))}
-                                            className="flex-1"
+                                            className="flex-1 h-10"
                                         />
                                         <Button
                                             type="button"
                                             variant="outline"
+                                            className="h-10"
                                             onClick={() => {
                                                 if (newAttachment.name && newAttachment.url) {
                                                     setPendingAttachments(prev => [...prev, newAttachment]);

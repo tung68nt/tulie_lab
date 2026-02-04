@@ -28,8 +28,24 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
             const match = line.match(/^(#{2,3})\s+(.+)$/);
             if (match) {
                 const level = match[1].length;
-                const text = match[2].replace(/\[!.*?\]/g, '').trim();
-                const id = text.toLowerCase().replace(/\s+/g, '-');
+                let rawText = match[2];
+
+                // Clean Markdown and HTML
+                rawText = rawText
+                    .replace(/\[!.*?\]/g, '') // Remove Alerts
+                    .replace(/(\*\*|__)(.*?)\1/g, '$2') // Remove Bold/Italic
+                    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove Links, keep text
+                    .replace(/`([^`]+)`/g, '$1') // Remove Inline Code
+                    .replace(/<[^>]*>/g, ''); // Remove HTML tags
+
+                const text = rawText.trim();
+
+                // Generate ID similar to rehype-slug (naive approximation)
+                const id = text
+                    .toLowerCase()
+                    .replace(/[^a-z0-9\u00C0-\u1EF9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+
                 extractedHeadings.push({ id, text, level });
             }
         });
