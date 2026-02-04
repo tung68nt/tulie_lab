@@ -57,22 +57,22 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     <div className="flex-1">
                                         <div className="flex flex-col gap-0">
                                             {/* Title area - Min height for alignment */}
-                                            <div className="min-h-[80px] md:min-h-[96px] flex items-start mb-4">
-                                                <h3 className="font-bold text-lg md:text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
+                                            <div className="min-h-[84px] md:min-h-[104px] flex items-start mb-2">
+                                                <h3 className="font-bold text-lg md:text-xl text-foreground leading-snug">{String(item.title || '')}</h3>
                                             </div>
 
                                             {/* Divider */}
-                                            <div className="border-t border-dashed border-border/60" />
+                                            <div className="border-t border-dashed border-border/60 mt-4" />
 
                                             {/* Student Details area - Min height for alignment */}
-                                            <div className="min-h-[64px] flex items-center py-4">
+                                            <div className="min-h-[72px] flex items-center py-5">
                                                 {Boolean(item.subtitle) && (
                                                     <p className="text-[12px] text-muted-foreground font-medium text-left leading-relaxed">{String(item.subtitle)}</p>
                                                 )}
                                             </div>
 
                                             {/* Divider */}
-                                            <div className="border-t border-dashed border-border/60" />
+                                            <div className="border-t border-dashed border-border/60 mt-2" />
 
                                             {/* Story area - Flexible height */}
                                             <div className="flex-1 py-6">
