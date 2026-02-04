@@ -1173,7 +1173,7 @@ function LessonItem({
                         <div className="md:col-span-2 space-y-2 pt-4 border-t border-dashed">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                    <label className="text-xs font-semibold text-muted-foreground">Hướng dẫn / Prompt thực hành</label>
+                                    <label className="text-xs font-semibold text-muted-foreground">Hướng dẫn & Lưu ý học tập (Prompts)</label>
                                     <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Mở rộng dưới Video</span>
                                 </div>
                                 {isEditingGuide ? (
