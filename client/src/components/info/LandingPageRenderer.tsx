@@ -154,7 +154,7 @@ export async function LandingPageRenderer({ slug, fallbackSections, forceFallbac
                     return null;
                 }
                 return (
-                    <div key={section.id || index} className="relative group">
+                    <div key={section.id || index} className="relative group/section">
                         <SectionErrorBoundary sectionName={section.type}>
                             <Component section={section} mainCourse={page?.course} upsellCourse={page?.upsellCourse} mainProduct={page?.product} upsellProduct={page?.upsellProduct} upsellPrice={page?.upsellPrice} allSections={sections} />
                         </SectionErrorBoundary>

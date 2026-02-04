@@ -25,7 +25,7 @@ export function SectionQuickEdit({ pageId, sectionId, className }: SectionQuickE
     if (!shouldShow) return null;
 
     return (
-        <div className={`absolute top-4 right-4 z-40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ${className || ''}`}>
+        <div className={`absolute top-4 right-4 z-40 opacity-0 group-hover/section:opacity-100 transition-opacity duration-200 ${className || ''}`}>
             <Link href={`/admin/landing-pages/${pageId}?sectionId=${sectionId}`}>
                 <Button
                     size="sm"
