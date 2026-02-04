@@ -26,7 +26,8 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
         const extractedHeadings: TOCItem[] = [];
 
         lines.forEach(line => {
-            const match = line.match(/^(#{2,3})\s+(.+)$/);
+            // Capture H1, H2, H3
+            const match = line.match(/^(#{1,3})\s+(.+)$/);
             if (match) {
                 const level = match[1].length;
                 let rawText = match[2];
@@ -74,8 +75,8 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     if (headings.length === 0) return null;
 
     return (
-        <div className={cn("space-y-4", className)}>
-            <p className="text-sm font-bold text-foreground px-1 flex items-center gap-2">
+        <div className={cn("space-y-4 pt-2", className)}>
+            <p className="text-sm font-bold text-foreground flex items-center gap-2">
                 <List className="w-4 h-4" />
                 Mục lục bài học
             </p>
@@ -100,8 +101,9 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-2 px-1.5 text-[13px] leading-tight border-l-2 transition-all duration-200 font-normal",
-                            heading.level === 3 ? "pl-5" : "",
+                            "group block py-2 px-1 text-[13px] leading-tight border-l-2 transition-all duration-200 font-normal",
+                            heading.level === 3 ? "pl-4" : "",
+                            heading.level === 1 ? "font-semibold text-foreground/90" : "",
                             activeId === heading.id
                                 ? "text-primary border-primary bg-primary/5 font-medium"
                                 : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"
