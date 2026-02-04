@@ -73,29 +73,42 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     if (headings.length === 0) return null;
 
     return (
-        <div className={cn("space-y-4", className)}>
-            <p className="text-sm font-bold uppercase tracking-wider text-muted-foreground/70">Mục lục</p>
-            <nav className="space-y-1">
+        <div className={cn("space-y-6", className)}>
+            <p className="text-sm font-bold text-muted-foreground/80 pl-1">Mục lục bài học</p>
+            <nav className="relative flex flex-col">
                 {headings.map((heading) => (
                     <a
                         key={heading.id}
                         href={`#${heading.id}`}
                         onClick={(e) => {
                             e.preventDefault();
-                            document.getElementById(heading.id)?.scrollIntoView({
-                                behavior: 'smooth'
-                            });
+                            const element = document.getElementById(heading.id);
+                            if (element) {
+                                const offset = 100; // Account for sticky header
+                                const elementPosition = element.getBoundingClientRect().top;
+                                const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                                window.scrollTo({
+                                    top: offsetPosition,
+                                    behavior: 'smooth'
+                                });
+                            }
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "block py-1 text-sm transition-colors hover:text-foreground",
-                            heading.level === 3 ? "pl-4" : "",
+                            "group block py-2.5 px-4 text-[14px] leading-snug border-l-2 transition-all duration-200",
+                            heading.level === 3 ? "pl-8" : "font-medium",
                             activeId === heading.id
-                                ? "text-foreground font-medium border-l-2 border-primary pl-2 -ml-[2px]"
-                                : "text-muted-foreground"
+                                ? "text-primary border-primary bg-primary/5"
+                                : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"
                         )}
                     >
-                        {heading.text}
+                        <span className={cn(
+                            "transition-transform inline-block",
+                            activeId === heading.id ? "translate-x-0.5" : "group-hover:translate-x-0.5"
+                        )}>
+                            {heading.text}
+                        </span>
                     </a>
                 ))}
             </nav>

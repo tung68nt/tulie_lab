@@ -428,26 +428,28 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
-                    {/* Lesson Guide (Prompts/Instructions) - Expandable */}
+                    {/* Lesson Guide (Prompts/Instructions) - Modern Redesign */}
                     {currentLesson.guide && (
-                        <div className="mt-4 animate-in slide-in-from-top-4 duration-500">
-                            <details className="group rounded-2xl border border-primary/20 bg-primary/5 overflow-hidden transition-all shadow-sm">
-                                <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-primary/10 transition-colors list-none">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary shadow-sm hover:scale-110 transition-transform">
+                        <div className="mt-6 animate-in slide-in-from-top-4 duration-500">
+                            <details className="group rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/[0.03] to-transparent overflow-hidden transition-all shadow-sm">
+                                <summary className="flex items-center justify-between p-5 cursor-pointer hover:bg-primary/[0.06] transition-colors list-none">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform">
                                             <Lightbulb className="w-5 h-5 fill-primary/20" />
                                         </div>
                                         <div>
-                                            <h3 className="text-sm font-bold uppercase tracking-widest text-primary/80">Hướng dẫn thực hành / Prompts</h3>
-                                            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-tight">Mở rộng để làm theo bài học</p>
+                                            <h3 className="text-[15px] font-bold text-primary/90">Hướng dẫn thực hành / Prompts</h3>
+                                            <p className="text-[12px] text-muted-foreground font-medium">Mở rộng để làm theo bài học</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[10px] font-bold text-primary/40 uppercase group-open:hidden">Xem hướng dẫn</span>
-                                        <ChevronRight className="w-4 h-4 text-primary/50 transition-transform group-open:rotate-90" />
+                                        <span className="text-[11px] font-semibold text-primary/60 group-open:hidden">Xem hướng dẫn</span>
+                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/5 text-primary/50 transition-transform group-open:rotate-90">
+                                            <ChevronRight className="w-4 h-4" />
+                                        </div>
                                     </div>
                                 </summary>
-                                <div className="p-6 pt-4 border-t border-primary/10 bg-card/40 backdrop-blur-sm">
+                                <div className="p-7 pt-2 border-t border-primary/5 bg-card/30 backdrop-blur-[2px]">
                                     <MarkdownRenderer content={currentLesson.guide} />
                                 </div>
                             </details>
@@ -471,7 +473,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {currentLesson.attachments && currentLesson.attachments.length > 0 && (
                         <div className="bg-muted/10 rounded-xl border p-5 mb-6">
-                            <h3 className="text-sm font-semibold text-foreground mb-3 font-mono uppercase tracking-wider">Tài nguyên</h3>
+                            <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider">Tài nguyên bài học</h3>
                             <div className="space-y-2">
                                 {currentLesson.attachments.map((att: any) => (
                                     <a key={att.id} href={att.url} target="_blank" rel="noopener noreferrer"
@@ -499,7 +501,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                     <div className="lg:hidden mb-6">
                                         <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
                                             <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/30 transition-colors list-none">
-                                                <div className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary/80">
+                                                <div className="flex items-center gap-2 text-sm font-bold tracking-widest text-primary/80">
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                                     </svg>
