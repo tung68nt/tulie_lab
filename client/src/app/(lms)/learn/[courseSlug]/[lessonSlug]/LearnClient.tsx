@@ -10,6 +10,7 @@ import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Ligh
 import { MentoringSidebar } from './MentoringSidebar';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
+import { BackToTop } from '@/components/BackToTop';
 
 // Helper function to parse duration string
 function parseDurationToSeconds(duration: string): number {
@@ -558,6 +559,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     </div>
                 </div>
             </main>
+            <BackToTop />
         </div>
     );
 }

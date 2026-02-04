@@ -21,14 +21,15 @@ const extractText = (children: any): string => {
 
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
     return (
-        <div className={cn("prose prose-zinc dark:prose-invert max-w-none", className)}>
+        <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:tracking-tight", className)}>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                     // Custom heading tags to support TOC anchors
-                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-3xl font-semibold tracking-tight my-6 leading-tight" />,
-                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight my-5 mt-8 leading-snug" />,
-                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-xl font-semibold tracking-tight my-3 mt-6 leading-snug" />,
+                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-4xl font-bold tracking-tight mb-8" />,
+                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight mt-12 mb-4" />,
+                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4" />,
+                    p: ({ node, ...props }) => <p {...props} className="leading-7 [&:not(:first-child)]:mt-6" />,
 
                     // Custom Code Block with Copy Button
                     code({ node, inline, className, children, ...props }: any) {
@@ -43,18 +44,18 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
 
                         if (!inline) {
                             return (
-                                <div className="relative group my-4">
-                                    <div className="absolute right-3 top-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div className="relative group my-6">
+                                    <div className="absolute right-4 top-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={handleCopy}
                                             className="p-1.5 rounded-md bg-zinc-800/80 backdrop-blur-sm border border-zinc-700 text-zinc-400 hover:text-white transition-colors"
                                             title="Copy code"
                                         >
-                                            {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+                                            {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <pre className="!mb-0 !mt-0 rounded-xl bg-zinc-950 p-4 overflow-x-auto border border-white/5 shadow-2xl">
-                                        <code className={cn(className, "text-zinc-300")} {...props}>
+                                    <pre className="!mb-0 !mt-0 rounded-xl bg-[#0d1117] dark:bg-zinc-900/50 p-6 overflow-x-auto border border-border shadow-md">
+                                        <code className={cn(className, "text-sm font-mono leading-relaxed")} {...props}>
                                             {children}
                                         </code>
                                     </pre>

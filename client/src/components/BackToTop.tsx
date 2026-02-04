@@ -31,14 +31,13 @@ export function BackToTop() {
         <button
             onClick={scrollToTop}
             className={cn(
-                "fixed bottom-8 right-8 z-[100] p-2.5 rounded-full shadow-lg transition-all duration-300 transform group",
-                "bg-white dark:bg-zinc-800 border border-border text-muted-foreground hover:bg-muted",
-                "hover:-translate-y-1 active:scale-95",
-                isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0 pointer-events-none"
+                "fixed bottom-4 right-4 z-[100] w-9 h-9 flex items-center justify-center rounded-full shadow-sm transition-all duration-300 group",
+                "bg-background border border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0 pointer-events-none"
             )}
             aria-label="Back to top"
         >
-            <ArrowUp size={20} className="stroke-[2.5]" />
+            <ArrowUp size={18} className="transition-transform group-hover:-translate-y-0.5" />
         </button>
     );
 }

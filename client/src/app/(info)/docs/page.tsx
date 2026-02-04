@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
+import { BackToTop } from '@/components/BackToTop';
 import { Loader2, BookOpen, ChevronRight, Menu } from 'lucide-react';
 import Link from 'next/link';
 
@@ -257,6 +258,7 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
                     </div>
                 </div>
             </div>
+            <BackToTop />
         </div>
     );
 }
