@@ -184,32 +184,35 @@ export function Footer() {
                         )} */}
                     </div>
 
-                    {/* Middle - Quick Links */}
-                    <div className="space-y-4">
-                        <p className="text-sm font-bold tracking-wide">Liên kết</p>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            {footerData.quickLinks.map((link, index) => (
-                                <li key={index}>
-                                    <Link href={link.href} className="hover:text-foreground transition-colors">
-                                        {link.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {/* Links and Policies Grouped for mobile alignment */}
+                    <div className="col-span-2 grid grid-cols-2 gap-8 md:col-span-2 md:contents">
+                        {/* Middle - Quick Links */}
+                        <div className="space-y-4">
+                            <p className="text-sm font-bold tracking-wide">Liên kết</p>
+                            <ul className="space-y-2 text-sm text-muted-foreground">
+                                {footerData.quickLinks.map((link, index) => (
+                                    <li key={index}>
+                                        <Link href={link.href} className="hover:text-foreground transition-colors">
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
 
-                    {/* Right - Policies */}
-                    <div className="space-y-4">
-                        <p className="text-sm font-bold tracking-wide">Chính sách</p>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            {footerData.policyLinks.map((link, index) => (
-                                <li key={index}>
-                                    <Link href={link.href} className="hover:text-foreground transition-colors">
-                                        {link.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                        {/* Right - Policies */}
+                        <div className="space-y-4">
+                            <p className="text-sm font-bold tracking-wide">Chính sách</p>
+                            <ul className="space-y-2 text-sm text-muted-foreground">
+                                {footerData.policyLinks.map((link, index) => (
+                                    <li key={index}>
+                                        <Link href={link.href} className="hover:text-foreground transition-colors">
+                                            {link.label}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
 
                     {/* Social Links */}
