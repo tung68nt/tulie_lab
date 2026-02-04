@@ -438,9 +438,9 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform">
                                             <Lightbulb className="w-5 h-5 fill-primary/20" />
                                         </div>
-                                        <div className="flex flex-col min-w-0">
+                                        <div className="flex flex-col gap-1 min-w-0">
                                             <h3 className="text-sm font-bold text-primary/90 leading-tight">Hướng dẫn & Lưu ý học tập</h3>
-                                            <p className="text-[11px] text-muted-foreground font-medium leading-tight mt-1 focus:outline-none">Mở rộng để xem thông tin bài học</p>
+                                            <p className="text-[11px] text-muted-foreground font-medium leading-tight focus:outline-none">Mở rộng để xem thông tin bài học</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
