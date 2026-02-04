@@ -31,7 +31,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
     return (
         <section className={cn(
-            "relative w-full py-16 md:py-24 transition-all duration-500",
+            "relative w-full py-16 md:py-24 transition-all duration-500 overflow-hidden",
             section.backgroundTheme === 'dark'
                 ? "bg-black text-white"
                 : section.backgroundTheme === 'light'
@@ -41,12 +41,12 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
             {/* Ambient Background Effects */}
             {(section.backgroundTheme === 'dark' || section.backgroundTheme === 'light') && (
                 <div className={cn(
-                    "absolute inset-0 pointer-events-none",
+                    "absolute inset-0 pointer-events-none overflow-hidden",
                     section.backgroundTheme === 'light' ? "dark:block hidden" : "block"
                 )}>
-                    <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-primary/20 rounded-full blur-[160px] opacity-60 animate-pulse" />
-                    <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] opacity-40" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-zinc-900/40 rounded-full blur-[200px] -z-10" />
+                    <div className="absolute top-[-10%] right-[-5%] w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-primary/20 rounded-full blur-[160px] opacity-60 animate-pulse" />
+                    <div className="absolute bottom-[-10%] left-[-5%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-blue-500/10 rounded-full blur-[140px] opacity-40" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[1000px] h-[500px] md:h-[1000px] bg-zinc-900/40 rounded-full blur-[200px] -z-10" />
                 </div>
             )}
 
@@ -162,7 +162,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] opacity-50 pointer-events-none" />
                                     <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] opacity-30 pointer-events-none" />
                                     {/* Thumbnail */}
-                                    <div className="relative w-full md:w-[45%] aspect-[16/10] md:aspect-[4/5] min-h-[300px] overflow-hidden rounded-t-[2.5rem] md:rounded-l-[2.5rem] md:rounded-tr-none">
+                                    <div className="relative w-full md:w-[45%] aspect-[16/10] md:aspect-[4/5] min-h-[200px] md:min-h-[300px] overflow-hidden rounded-t-[2.5rem] md:rounded-l-[2.5rem] md:rounded-tr-none">
                                         <Image
                                             src={mainCourse.thumbnail || section.image || "/hero_vibe_coding.png"}
                                             alt={courseTitle}
