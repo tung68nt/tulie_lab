@@ -53,11 +53,11 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     )}
                                 </div>
 
-                                <div className="p-5 md:p-6 flex flex-col flex-1 h-full select-none">
-                                    <div className="flex flex-col flex-1">
-                                        <div className="flex flex-col gap-2">
+                                <div className="p-5 md:p-6 lg:p-8 flex flex-col flex-1 h-full select-none">
+                                    <div className="flex-1">
+                                        <div className="flex flex-col gap-0">
                                             {/* Title area - Min height for alignment */}
-                                            <div className="min-h-[60px] md:min-h-[72px] flex items-start">
+                                            <div className="min-h-[80px] md:min-h-[96px] flex items-start mb-4">
                                                 <h3 className="font-bold text-lg md:text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
                                             </div>
 
@@ -65,7 +65,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             <div className="border-t border-dashed border-border/60" />
 
                                             {/* Student Details area - Min height for alignment */}
-                                            <div className="min-h-[40px] flex items-center">
+                                            <div className="min-h-[64px] flex items-center py-4">
                                                 {Boolean(item.subtitle) && (
                                                     <p className="text-[12px] text-muted-foreground font-medium text-left leading-relaxed">{String(item.subtitle)}</p>
                                                 )}
@@ -75,7 +75,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             <div className="border-t border-dashed border-border/60" />
 
                                             {/* Story area - Flexible height */}
-                                            <div className="flex-1 mt-1">
+                                            <div className="flex-1 py-6">
                                                 {Boolean(item.description || item.quote) && (
                                                     <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-medium">
                                                         {String(item.quote ? `"${item.quote}"` : item.description)}
