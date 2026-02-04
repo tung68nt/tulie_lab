@@ -105,7 +105,7 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             heading.level === 3 ? "pl-4" : "",
                             heading.level === 1 ? "font-semibold text-foreground/90" : "",
                             activeId === heading.id
-                                ? "text-primary border-primary bg-primary/5 font-medium"
+                                ? "text-primary border-primary bg-primary/5 font-bold"
                                 : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"
                         )}
                     >
