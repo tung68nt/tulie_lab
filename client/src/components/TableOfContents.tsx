@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { cn, slugify } from '@/lib/utils';
 
 interface TOCItem {
     id: string;
@@ -41,10 +41,7 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                 const text = rawText.trim();
 
                 // Generate ID similar to rehype-slug (naive approximation)
-                const id = text
-                    .toLowerCase()
-                    .replace(/[^a-z0-9\u00C0-\u1EF9]+/g, '-')
-                    .replace(/^-+|-+$/g, '');
+                const id = slugify(text);
 
                 extractedHeadings.push({ id, text, level });
             }

@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { cn } from '@/lib/utils';
+import { cn, slugify } from '@/lib/utils';
 import { Check, Copy, Info, AlertTriangle, Lightbulb } from 'lucide-react';
 import { useState } from 'react';
 
@@ -12,6 +12,13 @@ interface MarkdownRendererProps {
     className?: string;
 }
 
+const extractText = (children: any): string => {
+    if (typeof children === 'string' || typeof children === 'number') return children.toString();
+    if (Array.isArray(children)) return children.map(extractText).join('');
+    if (React.isValidElement(children)) return extractText((children.props as any).children);
+    return '';
+};
+
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
     return (
         <div className={cn("prose prose-zinc dark:prose-invert max-w-none", className)}>
@@ -19,9 +26,9 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 remarkPlugins={[remarkGfm]}
                 components={{
                     // Custom heading tags to support TOC anchors
-                    h1: ({ node, ...props }) => <h1 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 text-3xl font-semibold tracking-tight my-6 leading-tight" />,
-                    h2: ({ node, ...props }) => <h2 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight my-5 mt-8 leading-snug" />,
-                    h3: ({ node, ...props }) => <h3 id={props.children?.toString().toLowerCase().replace(/\s+/g, '-')} {...props} className="scroll-m-20 text-xl font-semibold tracking-tight my-3 mt-6 leading-snug" />,
+                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-3xl font-semibold tracking-tight my-6 leading-tight" />,
+                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-2xl font-semibold tracking-tight my-5 mt-8 leading-snug" />,
+                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-xl font-semibold tracking-tight my-3 mt-6 leading-snug" />,
 
                     // Custom Code Block with Copy Button
                     code({ node, inline, className, children, ...props }: any) {
