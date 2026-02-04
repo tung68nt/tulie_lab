@@ -98,7 +98,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                                         </h5>
                                                         <ul className="space-y-2">
                                                             {(Array.isArray(item.before) ? item.before : [item.before]).map((text: any, i: number) => (
-                                                                <li key={i} className="flex items-start gap-1.5 text-[12px] text-muted-foreground leading-tight">
+                                                                <li key={i} className="flex items-start gap-1.5 text-[13px] text-muted-foreground leading-tight">
                                                                     <XCircle className="w-3.5 h-3.5 text-red-500/70 shrink-0 mt-0.5" />
                                                                     <span>{String(text)}</span>
                                                                 </li>
@@ -116,7 +116,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                                         </h5>
                                                         <ul className="space-y-2">
                                                             {(Array.isArray(item.after) ? item.after : [item.after]).map((text: any, i: number) => (
-                                                                <li key={i} className="flex items-start gap-1.5 text-[12px] text-foreground dark:text-zinc-200 leading-tight">
+                                                                <li key={i} className="flex items-start gap-1.5 text-[13px] text-foreground dark:text-zinc-200 leading-tight">
                                                                     <CheckCircle2 className="w-3.5 h-3.5 text-green-600/80 shrink-0 mt-0.5" />
                                                                     <span className="font-medium">{String(text)}</span>
                                                                 </li>
