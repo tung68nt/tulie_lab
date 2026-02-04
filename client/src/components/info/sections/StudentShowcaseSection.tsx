@@ -78,14 +78,14 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             {/* Story area - Flexible height */}
                                             <div className="flex-1 py-4">
                                                 {/* Before content */}
-                                                {item.before && item.before.length > 0 && (
+                                                {(item as any).before && Array.isArray((item as any).before) && (item as any).before.length > 0 && (
                                                     <div className="mb-6">
                                                         <h5 className="text-[11px] font-bold text-red-500 uppercase tracking-wider mb-3 flex items-center gap-1.5 grayscale opacity-70">
                                                             <div className="w-1 h-3 bg-red-500 rounded-full" />
                                                             Trước khi học
                                                         </h5>
                                                         <ul className="space-y-2">
-                                                            {item.before.map((text: string, i: number) => (
+                                                            {((item as any).before as string[]).map((text: string, i: number) => (
                                                                 <li key={i} className="flex items-start gap-2 text-[13px] text-muted-foreground leading-snug">
                                                                     <XCircle className="w-4 h-4 text-red-500/50 shrink-0 mt-0.5" />
                                                                     <span>{text}</span>
@@ -103,14 +103,14 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                                 )}
 
                                                 {/* After content */}
-                                                {item.after && item.after.length > 0 && (
+                                                {(item as any).after && Array.isArray((item as any).after) && (item as any).after.length > 0 && (
                                                     <div>
                                                         <h5 className="text-[11px] font-bold text-green-600 uppercase tracking-wider mb-3 flex items-center gap-1.5 grayscale opacity-70">
                                                             <div className="w-1 h-3 bg-green-600 rounded-full" />
                                                             Sau khi học
                                                         </h5>
                                                         <ul className="space-y-2">
-                                                            {item.after.map((text: string, i: number) => (
+                                                            {((item as any).after as string[]).map((text: string, i: number) => (
                                                                 <li key={i} className="flex items-start gap-2 text-[13px] text-muted-foreground leading-snug">
                                                                     <CheckCircle2 className="w-4 h-4 text-green-600/60 shrink-0 mt-0.5" />
                                                                     <span className="text-foreground dark:text-zinc-200 font-medium">{text}</span>
