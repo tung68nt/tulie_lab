@@ -64,7 +64,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                 )}>
                                     {/* Decorative Glow - Removed or toned down */}
 
-                                    <div className="mb-4 relative">
+                                    <div className="mb-1 relative">
                                         <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 shadow-sm">
                                             {item.icon ? (
                                                 <DynamicIcon name={item.icon} size={24} strokeWidth={2} className="shrink-0" />
@@ -74,7 +74,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                         </div>
                                     </div>
 
-                                    <div className="min-h-[56px] mb-1">
+                                    <div className="min-h-[56px] mb-4">
                                         <h3 className={cn(
                                             "text-lg font-bold transition-colors group-hover:text-primary leading-tight",
                                             isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-50")
