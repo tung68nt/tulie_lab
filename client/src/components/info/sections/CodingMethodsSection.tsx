@@ -111,8 +111,7 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
     return (
         <section className={cn(
-            "py-24 relative",
-            "py-24 relative",
+            "py-12 md:py-16 relative",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'

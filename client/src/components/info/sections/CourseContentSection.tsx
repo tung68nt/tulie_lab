@@ -117,7 +117,7 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
     ) || 0;
 
     return (
-        <section className="py-20 md:py-28 relative bg-background">
+        <section className="py-12 md:py-16 relative bg-background">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}

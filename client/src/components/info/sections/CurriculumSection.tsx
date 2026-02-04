@@ -15,7 +15,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
     const isDark = section.backgroundTheme === 'dark';
 
     return (
-        <section className="py-24 md:py-32 relative bg-background">
+        <section className="py-12 md:py-16 relative bg-background">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
@@ -59,7 +59,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
                                         <div className="flex-1 w-full space-y-6">
                                             <div>
                                                 <h3 className={cn(
-                                                    "text-2xl md:text-3xl font-bold leading-tight mb-4 group-hover:text-primary transition-colors",
+                                                    "text-2xl md:text-3xl font-bold leading-[1.2] mb-4 group-hover:text-primary transition-colors",
                                                     section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
                                                 )}>
                                                     {String(module.title || '')}

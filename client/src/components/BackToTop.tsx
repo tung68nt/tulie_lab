@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ChevronUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function BackToTop() {
@@ -31,17 +31,14 @@ export function BackToTop() {
         <button
             onClick={scrollToTop}
             className={cn(
-                "fixed bottom-8 right-8 z-[100] p-3 rounded-full shadow-2xl transition-all duration-500 transform group",
-                "bg-white/80 backdrop-blur-xl border border-zinc-200 text-zinc-900",
-                "hover:bg-zinc-950 hover:text-white hover:border-transparent hover:scale-110",
+                "fixed bottom-8 right-8 z-[100] p-2.5 rounded-full shadow-lg transition-all duration-300 transform group",
+                "bg-white dark:bg-zinc-800 border border-border text-foreground hover:border-primary hover:text-primary",
+                "hover:-translate-y-1 active:scale-95",
                 isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0 pointer-events-none"
             )}
             aria-label="Back to top"
         >
-            <ChevronUp size={24} strokeWidth={2.5} />
-
-            {/* Optional: Subtle Glow Effect */}
-            <div className="absolute inset-0 rounded-full bg-primary/20 blur-md -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <ArrowUp size={20} className="stroke-[2.5]" />
         </button>
     );
 }

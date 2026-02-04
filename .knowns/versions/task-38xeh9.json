@@ -1,0 +1,222 @@
+{
+  "taskId": "38xeh9",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "38xeh9",
+      "version": 1,
+      "timestamp": "2026-02-04T02:49:42.384Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "title": "Adjust section spacing and card alignment",
+        "description": "Reduce vertical spacing between sections and align titles/descriptions across cards in sections like Benefits and Process Sections.\n    \n    Related: @doc/guides/docs-system-roadmap (maybe)\n    \n    1. Reduce section padding (py-16/py-24 -> py-12/py-16).\n    2. Fix min-heights for card titles and descriptions to ensure horizontal alignment across rows.\n    3. Tweak StandardSectionHeader padding.",
+        "status": "in-progress",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": []
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "38xeh9",
+      "version": 2,
+      "timestamp": "2026-02-04T02:49:46.595Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Reduce vertical padding in sections (Process, Benefits, etc) to decrease overall page length.",
+              "completed": false
+            },
+            {
+              "text": "Align titles horizontally across cards in Process section using min-height.",
+              "completed": false
+            },
+            {
+              "text": "Align descriptions horizontally across cards in Process section using min-height.",
+              "completed": false
+            },
+            {
+              "text": "Refine min-heights in Benefits section to ensure titles and descriptions align even with longer content.",
+              "completed": false
+            },
+            {
+              "text": "Reduce top padding in StandardSectionHeader.",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Adjust section spacing and card alignment",
+        "description": "Reduce vertical spacing between sections and align titles/descriptions across cards in sections like Benefits and Process Sections.\n    \n    Related: @doc/guides/docs-system-roadmap (maybe)\n    \n    1. Reduce section padding (py-16/py-24 -> py-12/py-16).\n    2. Fix min-heights for card titles and descriptions to ensure horizontal alignment across rows.\n    3. Tweak StandardSectionHeader padding.",
+        "status": "in-progress",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "text": "Reduce vertical padding in sections (Process, Benefits, etc) to decrease overall page length.",
+            "completed": false
+          },
+          {
+            "text": "Align titles horizontally across cards in Process section using min-height.",
+            "completed": false
+          },
+          {
+            "text": "Align descriptions horizontally across cards in Process section using min-height.",
+            "completed": false
+          },
+          {
+            "text": "Refine min-heights in Benefits section to ensure titles and descriptions align even with longer content.",
+            "completed": false
+          },
+          {
+            "text": "Reduce top padding in StandardSectionHeader.",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "38xeh9",
+      "version": 3,
+      "timestamp": "2026-02-04T02:52:27.211Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "## Summary\n- Reduced vertical spacing across all major landing page sections.\n- Aligned card titles and descriptions horizontally using min-height.\n- Top-aligned curriculum titles with thumbnails.\n- Shows full instructor bios and removed social buttons.\n"
+        }
+      ],
+      "snapshot": {
+        "title": "Adjust section spacing and card alignment",
+        "description": "Reduce vertical spacing between sections and align titles/descriptions across cards in sections like Benefits and Process Sections.\n    \n    Related: @doc/guides/docs-system-roadmap (maybe)\n    \n    1. Reduce section padding (py-16/py-24 -> py-12/py-16).\n    2. Fix min-heights for card titles and descriptions to ensure horizontal alignment across rows.\n    3. Tweak StandardSectionHeader padding.",
+        "status": "done",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Reduce vertical padding in sections (Process, Benefits, etc) to decrease overall page length."
+          },
+          {
+            "completed": false,
+            "text": "Align titles horizontally across cards in Process section using min-height."
+          },
+          {
+            "completed": false,
+            "text": "Align descriptions horizontally across cards in Process section using min-height."
+          },
+          {
+            "completed": false,
+            "text": "Refine min-heights in Benefits section to ensure titles and descriptions align even with longer content."
+          },
+          {
+            "completed": false,
+            "text": "Reduce top padding in StandardSectionHeader."
+          }
+        ],
+        "implementationNotes": "## Summary\n- Reduced vertical spacing across all major landing page sections.\n- Aligned card titles and descriptions horizontally using min-height.\n- Top-aligned curriculum titles with thumbnails.\n- Shows full instructor bios and removed social buttons.\n"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "38xeh9",
+      "version": 4,
+      "timestamp": "2026-02-04T02:52:31.264Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Reduce vertical padding in sections (Process, Benefits, etc) to decrease overall page length."
+            },
+            {
+              "completed": false,
+              "text": "Align titles horizontally across cards in Process section using min-height."
+            },
+            {
+              "completed": false,
+              "text": "Align descriptions horizontally across cards in Process section using min-height."
+            },
+            {
+              "completed": false,
+              "text": "Refine min-heights in Benefits section to ensure titles and descriptions align even with longer content."
+            },
+            {
+              "completed": false,
+              "text": "Reduce top padding in StandardSectionHeader."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Reduce vertical padding in sections (Process, Benefits, etc) to decrease overall page length."
+            },
+            {
+              "completed": true,
+              "text": "Align titles horizontally across cards in Process section using min-height."
+            },
+            {
+              "completed": true,
+              "text": "Align descriptions horizontally across cards in Process section using min-height."
+            },
+            {
+              "completed": true,
+              "text": "Refine min-heights in Benefits section to ensure titles and descriptions align even with longer content."
+            },
+            {
+              "completed": true,
+              "text": "Reduce top padding in StandardSectionHeader."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Adjust section spacing and card alignment",
+        "description": "Reduce vertical spacing between sections and align titles/descriptions across cards in sections like Benefits and Process Sections.\n    \n    Related: @doc/guides/docs-system-roadmap (maybe)\n    \n    1. Reduce section padding (py-16/py-24 -> py-12/py-16).\n    2. Fix min-heights for card titles and descriptions to ensure horizontal alignment across rows.\n    3. Tweak StandardSectionHeader padding.",
+        "status": "done",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Reduce vertical padding in sections (Process, Benefits, etc) to decrease overall page length."
+          },
+          {
+            "completed": true,
+            "text": "Align titles horizontally across cards in Process section using min-height."
+          },
+          {
+            "completed": true,
+            "text": "Align descriptions horizontally across cards in Process section using min-height."
+          },
+          {
+            "completed": true,
+            "text": "Refine min-heights in Benefits section to ensure titles and descriptions align even with longer content."
+          },
+          {
+            "completed": true,
+            "text": "Reduce top padding in StandardSectionHeader."
+          }
+        ],
+        "implementationNotes": "## Summary\n- Reduced vertical spacing across all major landing page sections.\n- Aligned card titles and descriptions horizontally using min-height.\n- Top-aligned curriculum titles with thumbnails.\n- Shows full instructor bios and removed social buttons."
+      }
+    }
+  ]
+}

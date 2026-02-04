@@ -15,7 +15,7 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
 
     return (
         <section className={cn(
-            "py-24 relative overflow-hidden",
+            "py-12 md:py-16 relative overflow-hidden",
             isDark ? "bg-[#050505] text-white" : "bg-background"
         )}>
             <SectionBackground
@@ -76,37 +76,11 @@ export const InstructorGridSection = ({ section }: { section: Section }) => {
                                     </Badge>
                                 </div>
                                 <p className={cn(
-                                    "leading-relaxed mb-8 text-sm md:text-base line-clamp-4 group-hover:line-clamp-none transition-all duration-500",
+                                    "leading-relaxed mb-4 text-sm md:text-base",
                                     isDark ? "text-zinc-400" : "text-muted-foreground"
                                 )}>
                                     {String(item.description || '')}
                                 </p>
-
-                                {/* Social Links */}
-                                <div className="flex justify-center gap-5 pt-4 border-t border-border/40 mt-auto w-full">
-                                    {[
-                                        { icon: Twitter, label: 'Twitter' },
-                                        { icon: Linkedin, label: 'LinkedIn' },
-                                        { icon: Github, label: 'GitHub' }
-                                    ].map((social, i) => (
-                                        <button
-                                            key={i}
-                                            className={cn(
-                                                "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
-                                                isDark ? "bg-white/10 text-zinc-400 hover:bg-white/20 hover:text-white" : "bg-muted/30 text-muted-foreground hover:text-primary hover:bg-primary/10"
-                                            )}
-                                            title={social.label}
-                                        >
-                                            <social.icon className="w-4 h-4" />
-                                        </button>
-                                    ))}
-                                    <button className={cn(
-                                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
-                                        isDark ? "bg-white/10 text-zinc-400 hover:bg-white/20 hover:text-white" : "bg-muted/30 text-muted-foreground hover:text-primary hover:bg-primary/10"
-                                    )} title="Portfolio">
-                                        <ExternalLink className="w-4 h-4" />
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     ))}

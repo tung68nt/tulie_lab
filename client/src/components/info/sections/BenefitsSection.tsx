@@ -25,8 +25,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
     return (
         <section className={cn(
-            "py-16 md:py-20 relative",
-            "py-16 md:py-20 relative",
+            "py-12 md:py-16 relative",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'

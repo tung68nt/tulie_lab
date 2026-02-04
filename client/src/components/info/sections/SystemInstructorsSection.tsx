@@ -44,7 +44,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
 
     return (
         <section className={cn(
-            "py-24 relative overflow-hidden",
+            "py-12 md:py-16 relative overflow-hidden",
             isDark ? "bg-[#050505] text-white" : "bg-background"
         )}>
             <SectionBackground
@@ -95,26 +95,11 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                                     <p className="text-primary/60 text-xs font-bold mb-6">{String(instructor.role || 'Expert Instructor')}</p>
 
                                     <p className={cn(
-                                        "text-[15px] leading-relaxed mb-10 line-clamp-3 transition-all duration-500",
+                                        "text-[15px] leading-relaxed mb-4",
                                         isDark ? "text-zinc-400" : "text-muted-foreground"
                                     )}>
-                                        {(instructor.bio || '').split('\n')[0]}
+                                        {instructor.bio}
                                     </p>
-
-                                    <div className="mt-auto pt-8 border-t border-border/50 flex items-center justify-center gap-5 text-muted-foreground">
-                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
-                                            <Mail className="w-4 h-4" />
-                                        </button>
-                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-[#0077b5] hover:text-white transition-all">
-                                            <Linkedin className="w-4 h-4" />
-                                        </button>
-                                        <button className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center hover:bg-[#333] hover:text-white transition-all">
-                                            <Github className="w-4 h-4" />
-                                        </button>
-                                        <button className={cn("w-10 h-10 rounded-full flex items-center justify-center transition-all", isDark ? "bg-white/10 hover:bg-white hover:text-black" : "bg-muted/30 hover:bg-primary hover:text-white")}>
-                                            <ExternalLink className="w-4 h-4" />
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         ))}

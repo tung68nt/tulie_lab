@@ -26,7 +26,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
 
     return (
         <section className={cn(
-            "py-24 relative",
+            "py-12 md:py-16 relative",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
@@ -151,8 +151,8 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary font-bold text-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors z-10">
                                         {idx + 1}
                                     </div>
-                                    <h3 className="text-lg font-bold mb-3 z-10 text-foreground dark:text-white">{item.title}</h3>
-                                    <div className="text-zinc-500 dark:text-zinc-300 text-sm whitespace-pre-line leading-relaxed z-10">{item.description}</div>
+                                    <h3 className="text-lg font-bold mb-3 z-10 text-foreground dark:text-white min-h-[3rem] line-clamp-2">{item.title}</h3>
+                                    <div className="text-zinc-500 dark:text-zinc-300 text-sm whitespace-pre-line leading-relaxed z-10 min-h-[5rem]">{item.description}</div>
                                 </div>
                             </FadeIn>
                         ))}

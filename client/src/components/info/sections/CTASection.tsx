@@ -11,7 +11,7 @@ export const CTASection = ({ section }: { section: Section }) => {
     const isDark = section.backgroundTheme === 'dark' || !section.backgroundTheme; // Default to dark for CTA
     return (
         <section className={cn(
-            "py-20 md:py-32 relative overflow-hidden flex items-center justify-center transition-colors duration-300",
+            "py-16 md:py-20 relative overflow-hidden flex items-center justify-center transition-colors duration-300",
             (section.backgroundTheme === 'dark' || !section.backgroundTheme) ? "bg-[#050505] text-white" : "bg-background text-foreground"
         )}>
             <SectionBackground

@@ -70,21 +70,8 @@ export default function PublicDocsPage() {
             {/* Main Content */}
             <div className="container py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    {/* Documentation Content */}
-                    <div className="lg:col-span-8">
-                        <div className="prose-premium bg-card rounded-3xl border border-border/50 p-6 md:p-10 shadow-sm">
-                            {content ? (
-                                <MarkdownRenderer content={content} />
-                            ) : (
-                                <div className="text-center py-20">
-                                    <p className="text-muted-foreground italic">Nội dung đang được cập nhật...</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Sidebar / TOC */}
-                    <div className="lg:col-span-4">
+                    {/* Sidebar / TOC - Moved to Left */}
+                    <div className="lg:col-span-3">
                         <aside className="sticky top-24 space-y-6">
                             {/* Mobile TOC Toggle */}
                             {content && (
@@ -113,7 +100,7 @@ export default function PublicDocsPage() {
 
                             {content && (
                                 <div className="hidden lg:block p-6 rounded-3xl bg-muted/30 border border-border/50 backdrop-blur-sm">
-                                    <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/70 mb-4 font-mono">
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/70 mb-4">
                                         Mục lục
                                     </h3>
                                     <TableOfContents content={content} />
@@ -122,7 +109,7 @@ export default function PublicDocsPage() {
 
                             <div className="p-8 rounded-3xl bg-primary/5 border border-primary/10 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
-                                <h4 className="text-sm font-bold uppercase tracking-widest text-primary mb-3 font-mono">Hỗ trợ nhanh</h4>
+                                <h4 className="text-sm font-bold uppercase tracking-widest text-primary mb-3">Hỗ trợ nhanh</h4>
                                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                                     Nếu bạn gặp khó khăn trong quá trình sử dụng, đừng ngần ngại liên hệ với đội ngũ hỗ trợ.
                                 </p>
@@ -133,6 +120,19 @@ export default function PublicDocsPage() {
                                 </Link>
                             </div>
                         </aside>
+                    </div>
+
+                    {/* Documentation Content - Moved to Right */}
+                    <div className="lg:col-span-9">
+                        <div className="prose-premium bg-card rounded-3xl border border-border/50 p-6 md:p-10 shadow-sm min-h-[500px]">
+                            {content ? (
+                                <MarkdownRenderer content={content} />
+                            ) : (
+                                <div className="text-center py-20">
+                                    <p className="text-muted-foreground italic">Nội dung đang được cập nhật...</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
