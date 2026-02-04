@@ -13,7 +13,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
 
     return (
         <section className={cn(
-            "py-24 flex items-center justify-center relative overflow-hidden transition-colors duration-300",
+            "py-10 md:py-16 flex items-center justify-center relative overflow-hidden transition-colors duration-300",
             section.backgroundTheme === 'dark'
                 ? "bg-black text-white"
                 : section.backgroundTheme === 'light'
@@ -34,7 +34,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-16">
                         {section.items?.map((item, idx) => (
-                            <div key={idx} className="flex-1 min-w-[280px] max-w-[350px] bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 p-8 rounded-2xl text-center hover:border-neutral-700 transition-colors group/card">
+                            <div key={idx} className="flex flex-col flex-1 min-w-[280px] max-w-[350px] bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 p-8 rounded-2xl text-center hover:border-neutral-700 transition-colors group/card">
                                 {item.icon && (
                                     <div className="mb-6 flex justify-center overflow-visible">
                                         <DynamicIcon
@@ -47,14 +47,18 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                                         />
                                     </div>
                                 )}
-                                <h3 className={cn(
-                                    "text-2xl font-bold mb-2",
-                                    section.backgroundTheme === 'light' ? "text-zinc-950 dark:text-white" : "text-white"
-                                )}>{String(item.title || '')}</h3>
-                                <p className={cn(
-                                    "text-sm mb-1",
-                                    section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-300" : "text-zinc-300"
-                                )}>{String(item.subtitle || '')}</p>
+                                <div className="min-h-[56px] flex items-center justify-center mb-2">
+                                    <h3 className={cn(
+                                        "text-2xl font-bold leading-tight",
+                                        section.backgroundTheme === 'light' ? "text-zinc-950 dark:text-white" : "text-white"
+                                    )}>{String(item.title || '')}</h3>
+                                </div>
+                                <div className="min-h-[40px] flex items-center justify-center mb-1">
+                                    <p className={cn(
+                                        "text-sm",
+                                        section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-300" : "text-zinc-300"
+                                    )}>{String(item.subtitle || '')}</p>
+                                </div>
                                 <p className={cn(
                                     "text-xs",
                                     section.backgroundTheme === 'light' ? "text-zinc-400 dark:text-zinc-400" : "text-zinc-400"

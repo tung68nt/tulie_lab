@@ -46,7 +46,7 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
     const isDark = section.backgroundTheme === 'dark';
 
     return (
-        <section className={cn("py-12 md:py-20 relative overflow-hidden", section.className)}>
+        <section className={cn("py-10 md:py-16 relative overflow-hidden", section.className)}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
@@ -54,7 +54,7 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
                 className={section.appearance === 'glass' ? "bg-black/80" : undefined}
             />
 
-            <div className="max-w-7xl mx-auto relative z-10">
+            <div className="max-w-7xl mx-auto relative z-10 px-4 md:px-6">
                 <StandardSectionHeader section={section} />
 
                 <motion.div

@@ -129,18 +129,18 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
                 {/* RESPONSIVE TABLE VIEW: Scrollable on mobile, Grid on desktop */}
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
-                    <div className="overflow-x-auto pb-4 -mx-4 px-4">
+                    <div className="overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide select-none">
                         <div className={cn(
                             "w-full border border-border rounded-[32px] overflow-hidden shadow-sm relative",
                             section.backgroundTheme === 'dark' ? "bg-zinc-900/50" : (section.backgroundTheme === 'light' ? "bg-white dark:bg-zinc-900/50" : "bg-card/50")
                         )}>
                             {/* Table Header */}
                             <div
-                                className="grid divide-x divide-border border-b border-border bg-muted/30 [--first-col:100px] md:[--first-col:120px]"
+                                className="grid divide-x divide-border border-b border-border bg-muted/30 [--first-col:90px] md:[--first-col:120px]"
                                 style={{ gridTemplateColumns: `var(--first-col) repeat(${safeMethods.length}, 1fr)` } as React.CSSProperties}
                             >
                                 <div className={cn(
-                                    "p-4 md:p-6 flex items-center justify-center font-medium text-foreground/80 sticky left-0 backdrop-blur-sm z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]",
+                                    "p-4 md:p-6 flex items-center justify-center font-bold text-foreground/90 sticky left-0 backdrop-blur-md z-20 shadow-[1px_0_0_0_rgba(0,0,0,0.1)] dark:shadow-[1px_0_0_0_rgba(255,255,255,0.1)]",
                                     section.backgroundTheme === 'dark' ? "bg-[#050505]/95" : (section.backgroundTheme === 'light' ? "bg-white/95 dark:bg-[#050505]/95" : "bg-background/95")
                                 )}>
                                     Tiêu chí

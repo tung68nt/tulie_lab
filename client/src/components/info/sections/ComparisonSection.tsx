@@ -14,7 +14,7 @@ export function ComparisonSection({ section }: { section: Section }) {
 
     return (
         <section className={cn(
-            "w-full py-24 md:py-32 relative",
+            "w-full py-14 md:py-24 relative",
             isDark ? "bg-[#050505] text-white" : "bg-background"
         )}>
             <SectionBackground

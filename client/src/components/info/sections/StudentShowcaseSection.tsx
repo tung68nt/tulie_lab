@@ -17,7 +17,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
     const items = section.items || [];
 
     return (
-        <section className="py-12 md:py-20 relative overflow-hidden transition-colors duration-300">
+        <section className="py-10 md:py-16 relative overflow-hidden transition-colors duration-300">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}
@@ -58,7 +58,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     <div className="flex-1">
                                         <div className="flex flex-col gap-0">
                                             {/* Title area - Min height for alignment */}
-                                            <div className="min-h-[64px] md:min-h-[80px] flex items-start mb-1">
+                                            <div className="min-h-[48px] md:min-h-[56px] flex items-start mb-1">
                                                 <h3 className="font-bold text-lg md:text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
                                             </div>
 
@@ -66,7 +66,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             <div className="border-t border-dashed border-border/60 mt-1" />
 
                                             {/* Student Details area - Min height for alignment */}
-                                            <div className="min-h-[56px] flex items-center py-3">
+                                            <div className="min-h-[40px] flex items-center py-2">
                                                 {Boolean(item.subtitle) && (
                                                     <p className="text-[12px] text-muted-foreground font-medium text-left leading-relaxed">{String(item.subtitle)}</p>
                                                 )}

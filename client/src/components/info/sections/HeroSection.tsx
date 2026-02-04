@@ -31,7 +31,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
     return (
         <section className={cn(
-            "relative w-full py-16 md:py-24 transition-all duration-500 overflow-hidden",
+            "relative w-full py-10 md:py-16 transition-all duration-500 overflow-hidden",
             section.backgroundTheme === 'dark'
                 ? "bg-black text-white"
                 : section.backgroundTheme === 'light'
@@ -132,14 +132,14 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex flex-col items-center gap-3 pt-6 text-sm font-medium w-full",
+                            "flex flex-wrap items-center sm:items-start gap-2 md:gap-3 pt-6 text-sm font-medium w-full sm:justify-start justify-center",
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div
                                     key={index}
                                     className={cn(
-                                        "flex items-center gap-2.5 px-5 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900 min-w-[160px] justify-center"
+                                        "flex items-center gap-2.5 px-4 md:px-5 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900 justify-center w-auto shrink-0"
                                     )}
                                 >
                                     <StatusDot color="white" className="w-1.5 h-1.5" />

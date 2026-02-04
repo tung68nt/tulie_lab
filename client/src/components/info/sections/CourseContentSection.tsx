@@ -261,7 +261,7 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
 
                                                             {/* Lesson Icon */}
                                                             <div className={cn(
-                                                                "shrink-0",
+                                                                "shrink-0 relative -top-[0.5px]",
                                                                 lesson.isFree ? "text-primary" : "text-muted-foreground"
                                                             )}>
                                                                 {getLessonIcon(lesson.type)}
@@ -277,12 +277,14 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
 
                                                             {/* Free Badge or Lock */}
                                                             {lesson.isFree ? (
-                                                                <SectionTag size="sm" variant="primary" showDot={false}>
-                                                                    <Eye className="w-3 h-3 mr-1" />
-                                                                    Học thử miễn phí
+                                                                <SectionTag size="sm" variant="primary" showDot={false} className="shrink-0">
+                                                                    <div className="flex items-center gap-1">
+                                                                        <Eye className="w-3 h-3" />
+                                                                        <span className="whitespace-nowrap">Học thử</span>
+                                                                    </div>
                                                                 </SectionTag>
                                                             ) : (
-                                                                <Lock className="w-4 h-4 text-muted-foreground/50 shrink-0" />
+                                                                <Lock className="w-3.5 h-3.5 text-muted-foreground/40 shrink-0" />
                                                             )}
 
                                                             {/* Duration */}

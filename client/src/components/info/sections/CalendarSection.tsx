@@ -61,22 +61,25 @@ export const CalendarSection = ({ section }: { section: Section }) => {
     const calendarEvents = events.map(formatEventForCalendar);
 
     return (
-        <section className="py-12 md:py-20 relative overflow-hidden transition-colors duration-300" id={section.id}>
+        <section className="py-10 md:py-16 relative overflow-hidden transition-colors duration-300" id={section.id}>
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
             />
             <div className="container relative z-10 mx-auto px-4">
-                <StandardSectionHeader
-                    section={section}
-                    tagOverride={section.tag || "Lịch khai giảng"}
-                    align="left"
-                    subtitleOverride={section.subtitle || "Cập nhật lộ trình học tập và thời gian khai giảng các khóa học mới nhất."}
-                    titleOverride={section.title || "Lịch Khai Giảng & Lộ Trình"}
-                />
+                <div className="relative">
+                    <StandardSectionHeader
+                        section={section}
+                        tagOverride={section.tag || "Lịch khai giảng"}
+                        align="center"
+                        className="mb-4 md:mb-8"
+                        subtitleOverride={section.subtitle || "Cập nhật lộ trình học tập và thời gian khai giảng các khóa học mới nhất."}
+                        titleOverride={section.title || "Lịch Khai Giảng & Lộ Trình"}
+                    />
+                </div>
 
-                <div className="flex justify-end mb-8 -mt-20 relative z-20">
+                <div className="flex justify-center md:justify-end mb-8 relative z-20">
                     <div className="flex bg-muted p-1 rounded-xl border shadow-inner">
                         <button
                             onClick={() => setViewMode('month')}

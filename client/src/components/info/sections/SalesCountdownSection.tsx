@@ -171,7 +171,7 @@ export function SalesCountdownSection({ section }: { section: Section }) {
                                     });
                                 }
                             }}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold h-9 px-6 rounded-lg shadow-lg hover:scale-105 transition-all text-xs"
+                            className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold h-10 md:h-12 px-6 md:px-8 rounded-xl shadow-[0_0_20px_rgba(234,179,8,0.3)] hover:scale-105 transition-all text-xs md:text-sm whitespace-nowrap"
                         >
                             {(ctaText.includes('50%') || ctaText.includes('tư vấn') || ctaText === 'Đăng ký ngay') ? 'Đăng ký ngay' : ctaText}
                         </Button>

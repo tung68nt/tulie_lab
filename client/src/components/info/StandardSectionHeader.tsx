@@ -54,7 +54,7 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
         : "text-zinc-600 dark:text-zinc-400";
 
     return (
-        <div className={cn("mb-6 md:mb-10 relative pt-8 pb-2 flex flex-col z-20", alignClass, className)}>
+        <div className={cn("mb-4 md:mb-6 relative pt-4 md:pt-4 pb-2 flex flex-col z-20", alignClass, className)}>
             {tag && (
                 <div className={cn("flex w-full mb-3", tagAlignClass)}>
                     <FadeIn direction="up" delay={0.1} duration={0.5}>
