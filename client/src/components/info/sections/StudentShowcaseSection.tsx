@@ -95,10 +95,10 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                                                     Trước
                                                                 </h5>
                                                                 <ul className="space-y-2">
-                                                                    {item.before.map((text: string, i: number) => (
+                                                                    {(Array.isArray(item.before) ? item.before : [item.before]).map((text: any, i: number) => (
                                                                         <li key={i} className="flex items-start gap-1.5 text-[12px] text-muted-foreground leading-tight">
                                                                             <XCircle className="w-3.5 h-3.5 text-red-500/70 shrink-0 mt-0.5" />
-                                                                            <span>{text}</span>
+                                                                            <span>{String(text)}</span>
                                                                         </li>
                                                                     ))}
                                                                 </ul>
@@ -113,10 +113,10 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                                                     Sau
                                                                 </h5>
                                                                 <ul className="space-y-2">
-                                                                    {item.after.map((text: string, i: number) => (
+                                                                    {(Array.isArray(item.after) ? item.after : [item.after]).map((text: any, i: number) => (
                                                                         <li key={i} className="flex items-start gap-1.5 text-[12px] text-foreground dark:text-zinc-200 leading-tight">
                                                                             <CheckCircle2 className="w-3.5 h-3.5 text-green-600/80 shrink-0 mt-0.5" />
-                                                                            <span className="font-medium">{text}</span>
+                                                                            <span className="font-medium">{String(text)}</span>
                                                                         </li>
                                                                     ))}
                                                                 </ul>

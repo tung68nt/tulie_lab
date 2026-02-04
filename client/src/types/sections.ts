@@ -19,8 +19,8 @@ export interface SectionItem {
     salePrice?: string | number; // For upsells
     productId?: string; // ID for backend order
     features?: string[] | string;
-    before?: string[];
-    after?: string[];
+    before?: string[] | string;
+    after?: string[] | string;
     quote?: string;
     [key: string]: unknown;
 }
