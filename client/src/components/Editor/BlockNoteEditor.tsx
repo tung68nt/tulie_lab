@@ -53,7 +53,7 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
             <style dangerouslySetInnerHTML={{
                 __html: `
                 .bn-editor {
-                    padding-top: 4rem !important;
+                    padding-top: 1.5rem !important;
                 }
                 .bn-block[data-type="heading"][data-level="1"] .bn-inline-content {
                     font-size: 1.875rem !important;
@@ -69,7 +69,7 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                     font-weight: 600 !important;
                 }
             `}} />
-            <div className="border rounded-md min-h-[500px] bg-background p-6">
+            <div className="border rounded-md min-h-[500px] bg-background p-4">
                 <BlockNoteView
                     editor={editor}
                     theme={resolvedTheme === "dark" ? "dark" : "light"}
