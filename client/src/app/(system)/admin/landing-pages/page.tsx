@@ -91,7 +91,7 @@ export default function LandingPagesAdmin() {
             <div className="grid gap-4">
                 {pages.map((page) => (
                     <Card key={page.id}>
-                        <CardContent className="p-6 pt-6 flex items-center justify-between">
+                        <CardContent className="px-6 pb-6 pt-4 flex items-center justify-between">
                             <div>
                                 <h3 className="font-bold text-lg">{page.title}</h3>
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
