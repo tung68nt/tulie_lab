@@ -34,7 +34,7 @@ export const SimpleTestimonialsSection = ({ section }: { section: Section }) => 
 
     return (
         <section className={cn(
-            "py-12 md:py-20 relative transition-colors duration-300",
+            "py-6 md:py-10 relative transition-colors duration-300",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
@@ -84,8 +84,8 @@ export const SimpleTestimonialsSection = ({ section }: { section: Section }) => 
                                                 className="object-cover rounded-full border-2 border-white dark:border-neutral-800 shadow-md relative z-10"
                                             />
                                         </div>
-                                        <div className="flex-1 min-w-0 pt-1">
-                                            <h3 className="text-xl font-bold text-foreground dark:text-white leading-tight mb-1">{testimonial.name}</h3>
+                                        <div className="flex-1 min-w-0">
+                                            <h3 className="text-xl font-bold text-foreground dark:text-white leading-tight mt-0 mb-1">{testimonial.name}</h3>
                                             <p className="text-sm font-medium text-muted-foreground dark:text-zinc-400 leading-snug">{testimonial.role}</p>
                                         </div>
                                     </div>

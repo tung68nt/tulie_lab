@@ -25,7 +25,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
 
     return (
         <section className={cn(
-            "py-10 md:py-14 relative",
+            "py-6 md:py-10 relative",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
@@ -55,7 +55,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                 className="group relative w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] min-w-[280px] flex flex-col"
                             >
                                 <Link href={item.href || item.link || `/blog/${item.slug || 'all'}`} className={cn(
-                                    "h-full border border-border/50 hover:border-primary/30 p-8 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative block text-left",
+                                    "h-full border border-border/50 hover:border-primary/30 p-6 rounded-3xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl shadow-sm flex flex-col relative block text-left",
                                     section.backgroundTheme === 'dark'
                                         ? "bg-zinc-900 border-zinc-800"
                                         : section.backgroundTheme === 'light'
@@ -83,7 +83,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                         </h3>
                                     </div>
 
-                                    <div className="flex-1 min-h-[180px] mb-4">
+                                    <div className="flex-1 min-h-[140px] mb-4">
                                         <p className={cn(
                                             "leading-relaxed text-sm",
                                             isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-900 dark:text-zinc-300")

@@ -31,7 +31,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
     return (
         <section className={cn(
-            "relative w-full py-10 md:py-16 transition-all duration-500 overflow-hidden",
+            "relative w-full py-8 md:py-12 transition-all duration-500 overflow-hidden",
             section.backgroundTheme === 'dark'
                 ? "bg-black text-white"
                 : section.backgroundTheme === 'light'

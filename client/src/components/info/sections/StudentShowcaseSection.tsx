@@ -17,7 +17,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
     const items = section.items || [];
 
     return (
-        <section className="py-10 md:py-16 relative overflow-hidden transition-colors duration-300">
+        <section className="py-6 md:py-10 relative overflow-hidden transition-colors duration-300">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}
@@ -54,7 +54,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     )}
                                 </div>
 
-                                <div className="p-5 md:p-6 lg:p-8 flex flex-col flex-1 h-full select-none">
+                                <div className="p-4 md:p-5 lg:p-6 flex flex-col flex-1 h-full select-none">
                                     <div className="flex-1">
                                         <div className="flex flex-col gap-0">
                                             {/* Title area - Min height for alignment */}
@@ -78,7 +78,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             {/* Story area - Flexible height */}
                                             <div className="flex-1 py-4">
                                                 {/* Quote/Description FIRST */}
-                                                <div className="min-h-[160px]">
+                                                <div className="min-h-[120px]">
                                                     {Boolean(item.description || item.quote) && (
                                                         <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-normal mb-8 italic border-l-2 border-primary/20 pl-4 py-1">
                                                             {String(item.quote ? `"${item.quote}"` : item.description)}
