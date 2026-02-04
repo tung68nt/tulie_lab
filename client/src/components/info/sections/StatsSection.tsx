@@ -45,7 +45,7 @@ export function StatsSection({ section }: { section: Section }) {
                             <div
                                 className="bg-card border border-border/50 hover:border-primary/50 p-8 rounded-2xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group relative overflow-hidden h-full"
                             >
-                                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-500">
+                                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 group-hover:scale-110 transition-all duration-500">
                                     <DynamicIcon name={item.icon || 'Star'} className="h-32 w-32" />
                                 </div>
 
