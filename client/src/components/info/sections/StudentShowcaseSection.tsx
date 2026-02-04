@@ -78,11 +78,13 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                             {/* Story area - Flexible height */}
                                             <div className="flex-1 py-4">
                                                 {/* Quote/Description FIRST */}
-                                                {Boolean(item.description || item.quote) && (
-                                                    <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-normal mb-8 italic border-l-2 border-primary/20 pl-4 py-1">
-                                                        {String(item.quote ? `"${item.quote}"` : item.description)}
-                                                    </div>
-                                                )}
+                                                <div className="min-h-[160px]">
+                                                    {Boolean(item.description || item.quote) && (
+                                                        <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-normal mb-8 italic border-l-2 border-primary/20 pl-4 py-1">
+                                                            {String(item.quote ? `"${item.quote}"` : item.description)}
+                                                        </div>
+                                                    )}
+                                                </div>
 
                                                 {/* Headers and Lists - Stacked or Grid? User said "thứ tự: câu chuyện - trước khi học - sau khi học" */}
                                                 {/* We will stack them as per the specific order requested */}
