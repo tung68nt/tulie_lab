@@ -54,7 +54,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     )}
                                 </div>
 
-                                <div className="p-4 md:p-5 lg:p-6 flex flex-col flex-1 h-full select-none">
+                                <div className="px-4 pb-4 md:px-5 md:pb-5 lg:px-6 lg:pb-6 pt-3 flex flex-col flex-1 h-full select-none">
                                     <div className="flex-1">
                                         <div className="flex flex-col gap-0">
                                             {/* Title area - Min height for alignment */}

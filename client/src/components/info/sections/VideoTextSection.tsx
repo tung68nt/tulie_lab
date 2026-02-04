@@ -47,7 +47,7 @@ export const VideoTextSection: React.FC<{ section: Section }> = ({ section }) =>
 
     return (
         <section className={cn(
-            "py-20 px-4 relative overflow-hidden",
+            "py-10 px-4 relative overflow-hidden",
             section.className
         )}>
             <SectionBackground

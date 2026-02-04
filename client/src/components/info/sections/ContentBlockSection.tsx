@@ -13,7 +13,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
 
     return (
         <section className={cn(
-            "py-16 overflow-hidden space-y-24 relative",
+            "py-10 overflow-hidden space-y-12 relative",
             isDark
                 ? "bg-[#050505] text-white"
                 : section.backgroundTheme === 'light'
@@ -26,7 +26,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                 overlayOpacity={section.overlayOpacity}
                 glowVariant={section.glowVariant}
             />
-            <div className="container px-4 mx-auto space-y-24 relative z-10">
+            <div className="container px-4 mx-auto space-y-12 relative z-10">
                 <StandardSectionHeader section={section} />
 
                 {(section.items || []).map((item, index) => {

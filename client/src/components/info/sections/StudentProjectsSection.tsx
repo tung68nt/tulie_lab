@@ -65,7 +65,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
 
                                 {/* Content */}
                                 <div className={cn(
-                                    "flex flex-col flex-1 p-6 md:p-8",
+                                    "flex flex-col flex-1 px-6 pb-6 pt-4 md:px-8 md:pb-8 md:pt-5",
                                     section.backgroundTheme === 'dark'
                                         ? "bg-gradient-to-b from-zinc-900 to-zinc-950"
                                         : section.backgroundTheme === 'light'
