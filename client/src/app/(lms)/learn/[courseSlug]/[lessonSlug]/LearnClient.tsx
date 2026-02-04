@@ -489,19 +489,11 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     {/* Documentation Content */}
                     {currentLesson.content && (
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 border-t pt-8 mt-4">
-                            <div className="lg:col-span-8">
-                                <div className="flex items-center gap-2 mb-6 text-primary">
-                                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                    </div>
-                                    <h2 className="text-lg font-bold uppercase tracking-widest font-mono">Hướng dẫn học tập</h2>
-                                </div>
+                            <div className="lg:col-span-9">
                                 <MarkdownRenderer content={currentLesson.content} />
                             </div>
 
-                            <div className="lg:col-span-4">
+                            <div className="lg:col-span-3">
                                 <aside className="sticky top-[100px]">
                                     {/* Mobile TOC (Accordion style) */}
                                     <div className="lg:hidden mb-6">
@@ -526,12 +518,6 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         <TableOfContents content={currentLesson.content} />
                                     </div>
 
-                                    <div className="mt-6 p-6 rounded-2xl bg-primary/5 border border-primary/10">
-                                        <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-3 font-mono">Tips & Tricks</h4>
-                                        <p className="text-[12px] text-muted-foreground leading-relaxed">
-                                            Bạn có thể nhấn <strong>Space</strong> để tạm dừng video, hoặc sử dụng các phím mũi tên để tua nhanh/chậm.
-                                        </p>
-                                    </div>
                                 </aside>
                             </div>
                         </div>

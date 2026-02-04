@@ -248,9 +248,9 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                                         <button
                                             onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                                             disabled={currentPage === 1}
-                                            className="h-12 w-12 flex items-center justify-center rounded-2xl border bg-card hover:bg-muted transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
+                                            className="h-12 w-12 flex items-center justify-center rounded-lg border bg-card hover:bg-muted transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
                                         >
-                                            <ChevronRight size={20} className="rotate-180" />
+                                            <ChevronRight size={20} strokeWidth={1.5} className="rotate-180" />
                                         </button>
                                         <div className="flex items-center gap-2">
                                             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -258,7 +258,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                                                     key={page}
                                                     onClick={() => setCurrentPage(page)}
                                                     className={cn(
-                                                        "w-12 h-12 rounded-2xl text-sm font-bold transition-all",
+                                                        "w-12 h-12 rounded-lg text-sm font-bold transition-all",
                                                         currentPage === page
                                                             ? "bg-primary text-primary-foreground shadow-xl shadow-primary/20"
                                                             : "border bg-card hover:bg-muted shadow-sm"
@@ -271,9 +271,9 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                                         <button
                                             onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                             disabled={currentPage === totalPages}
-                                            className="h-12 w-12 flex items-center justify-center rounded-2xl border bg-card hover:bg-muted transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
+                                            className="h-12 w-12 flex items-center justify-center rounded-lg border bg-card hover:bg-muted transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
                                         >
-                                            <ChevronRight size={20} />
+                                            <ChevronRight size={20} strokeWidth={1.5} />
                                         </button>
                                     </div>
                                 )}

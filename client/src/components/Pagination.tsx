@@ -24,10 +24,10 @@ export function Pagination({ currentPage, totalPages, totalItems, onPageChange, 
                     size="sm"
                     onClick={() => onPageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="h-12 w-12 p-0 rounded-xl border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
+                    className="h-12 w-12 p-0 rounded-lg border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
                     title="Trang trước"
                 >
-                    <ChevronLeft size={24} strokeWidth={2.5} />
+                    <ChevronLeft size={24} strokeWidth={1.5} />
                 </Button>
 
                 <Button
@@ -35,10 +35,10 @@ export function Pagination({ currentPage, totalPages, totalItems, onPageChange, 
                     size="sm"
                     onClick={() => onPageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="h-12 w-12 p-0 rounded-xl border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
+                    className="h-12 w-12 p-0 rounded-lg border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
                     title="Trang sau"
                 >
-                    <ChevronRight size={24} strokeWidth={2.5} />
+                    <ChevronRight size={24} strokeWidth={1.5} />
                 </Button>
             </div>
         </div>
