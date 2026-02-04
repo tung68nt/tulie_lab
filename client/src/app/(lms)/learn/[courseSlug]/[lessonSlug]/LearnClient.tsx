@@ -432,13 +432,13 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     {currentLesson.guide && (
                         <div className="mt-6 animate-in slide-in-from-top-4 duration-500">
                             <details className="group rounded-2xl border border-primary/10 bg-gradient-to-br from-primary/[0.03] to-transparent overflow-hidden transition-all shadow-sm">
-                                <summary className="flex items-center justify-between p-5 cursor-pointer hover:bg-primary/[0.06] transition-colors list-none">
+                                <summary className="flex items-center justify-between py-2.5 px-4 cursor-pointer hover:bg-primary/[0.06] transition-colors list-none">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform">
+                                        <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform">
                                             <Lightbulb className="w-5 h-5 fill-primary/20" />
                                         </div>
                                         <div>
-                                            <h3 className="text-[15px] font-bold text-primary/90">Hướng dẫn thực hành / Prompts</h3>
+                                            <h3 className="text-sm font-bold text-primary/90">Hướng dẫn thực hành / Prompts</h3>
                                             <p className="text-[12px] text-muted-foreground font-medium">Mở rộng để làm theo bài học</p>
                                         </div>
                                     </div>
@@ -449,7 +449,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         </div>
                                     </div>
                                 </summary>
-                                <div className="p-7 pt-2 border-t border-primary/5 bg-card/30 backdrop-blur-[2px]">
+                                <div className="p-4 pt-1 border-t border-primary/5 bg-card/30 backdrop-blur-[2px]">
                                     <MarkdownRenderer content={currentLesson.guide} />
                                 </div>
                             </details>
