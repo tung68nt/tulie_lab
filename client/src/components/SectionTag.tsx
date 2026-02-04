@@ -50,7 +50,8 @@ export const SectionTag: React.FC<SectionTagProps> = ({
 
     return (
         <div className={cn(
-            "inline-flex items-center gap-1.5 rounded-full border px-4 select-none whitespace-nowrap justify-center overflow-hidden",
+            "inline-flex items-center gap-1.5 rounded-full border px-4 select-none justify-center overflow-hidden",
+            "whitespace-normal sm:whitespace-nowrap text-center",
             size === 'sm' ? "h-[22px] text-[10px] px-2" : size === 'lg' ? "h-8 text-[14px] px-4" : "h-7 text-[12px] px-3",
             bold ? "font-bold" : "font-medium",
             variantClasses,
@@ -58,7 +59,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
         )}>
             {showDot && <StatusDot color={resolvedDotColor as any} animate={shouldAnimate} />}
             <span className={cn(
-                "relative top-[0.5px] first-letter:uppercase leading-none",
+                "relative top-[0.5px] first-letter:uppercase leading-snug py-1",
             )}>
                 {children}
             </span>

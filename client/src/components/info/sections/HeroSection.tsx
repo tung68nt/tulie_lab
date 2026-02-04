@@ -61,16 +61,16 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
             <div className="container relative z-10 px-4 md:px-6">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
-                    <FadeIn direction="up" duration={0.8} fullWidth={true} className="flex flex-col justify-center space-y-4 md:space-y-6 text-center lg:text-left order-2 lg:order-1 w-full overflow-hidden">
-                        <div className="flex justify-center lg:justify-start">
-                            <SectionTag>
+                    <FadeIn direction="up" duration={0.8} fullWidth={true} className="flex flex-col items-center lg:items-start space-y-4 md:space-y-6 text-center lg:text-left order-2 lg:order-1 w-full overflow-hidden">
+                        <div className="flex justify-center lg:justify-start w-full">
+                            <SectionTag className="max-w-[calc(100vw-32px)] sm:max-w-none">
                                 {section.tag || "🚀 Học để làm được"}
                             </SectionTag>
                         </div>
 
                         {/* Title with proper line height for Vietnamese */}
                         <h1 className={cn(
-                            "text-2xl font-semibold sm:text-4xl md:text-5xl lg:text-7xl leading-[1.2] md:leading-tight py-2 break-all sm:break-words hyphens-auto",
+                            "text-xl sm:text-2xl md:text-5xl lg:text-7xl font-semibold leading-[1.3] md:leading-tight py-2 break-words text-center lg:text-left w-full",
                             section.backgroundTheme === 'dark'
                                 ? "text-white"
                                 : section.backgroundTheme === 'light'
@@ -132,25 +132,25 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex flex-col sm:flex-row flex-wrap items-center gap-2 md:gap-6 justify-center lg:justify-start pt-4 text-sm font-medium w-full",
+                            "flex flex-col items-center gap-3 pt-6 text-sm font-medium w-full",
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div
                                     key={index}
                                     className={cn(
-                                        "flex items-center gap-1.5 md:gap-3 px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900 w-fit"
+                                        "flex items-center gap-2.5 px-5 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900 min-w-[160px] justify-center"
                                     )}
                                 >
-                                    <StatusDot color="white" className="w-1 md:w-1.5 h-1 md:h-1.5" />
-                                    <span className="not-italic">{indicator}</span>
+                                    <StatusDot color="white" className="w-1.5 h-1.5" />
+                                    <span className="not-italic whitespace-nowrap">{indicator}</span>
                                 </div>
                             ))}
                         </div>
                     </FadeIn>
 
                     {/* Image / Product Card */}
-                    <FadeIn direction="up" delay={0.2} className="relative mx-auto lg:mr-0 w-full max-w-[400px] md:max-w-[650px] order-1 lg:order-2 p-0">
+                    <FadeIn direction="up" delay={0.2} className="relative mx-auto lg:mr-0 w-full max-w-[320px] sm:max-w-[400px] md:max-w-[650px] order-1 lg:order-2 p-0">
                         {mainCourse ? (
                             /* Unified Product Card for Courses/Combos */
                             <div className="relative group">
