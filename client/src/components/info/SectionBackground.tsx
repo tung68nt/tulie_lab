@@ -44,7 +44,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     const overlayBase = isLightTheme ? 'bg-background/60 dark:bg-black/80' : isDarkTheme ? 'bg-black/90' : 'bg-background/60';
 
     return (
-        <div className={cn("absolute inset-0 z-0 overflow-visible rounded-[inherit] pointer-events-none", className)}>
+        <div className={cn("absolute inset-0 z-0 overflow-hidden rounded-[inherit] pointer-events-none", className)}>
             {/* Background Image Layer */}
             {backgroundImage && (
                 <div
