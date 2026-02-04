@@ -1,6 +1,6 @@
 {
   "taskId": "sv1dey",
-  "currentVersion": 4,
+  "currentVersion": 5,
   "versions": [
     {
       "id": "v1",
@@ -231,6 +231,48 @@
           }
         ],
         "implementationNotes": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.\n\nFinal UI polish: renamed guide section and matched vertical alignment perfectly."
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "sv1dey",
+      "version": 5,
+      "timestamp": "2026-02-04T19:36:52.689Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.\n\nFinal UI polish: renamed guide section and matched vertical alignment perfectly.",
+          "newValue": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.\n\nFinal UI polish: renamed guide section and matched vertical alignment perfectly.\n\nAchieved perfect vertical alignment for lesson guide header using leading-none and balanced spacing."
+        }
+      ],
+      "snapshot": {
+        "title": "Refine Sidebar UI: Font weight and margins",
+        "description": "Set sidebar text font-weight to 500 and reduce menu margins for better text space.",
+        "status": "done",
+        "priority": "medium",
+        "assignee": "@me",
+        "labels": [
+          "ui"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Sidebar text font-weight is 500"
+          },
+          {
+            "completed": true,
+            "text": "Lesson menu margins are reduced"
+          },
+          {
+            "completed": true,
+            "text": "Mini Guide: compactly aligned icon/title"
+          },
+          {
+            "completed": true,
+            "text": "Mini Guide: reduced overall padding"
+          }
+        ],
+        "implementationNotes": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.\n\nFinal UI polish: renamed guide section and matched vertical alignment perfectly.\n\nAchieved perfect vertical alignment for lesson guide header using leading-none and balanced spacing."
       }
     }
   ]

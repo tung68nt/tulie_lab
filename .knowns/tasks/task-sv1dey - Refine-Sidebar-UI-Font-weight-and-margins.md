@@ -6,7 +6,7 @@ priority: medium
 labels:
   - ui
 createdAt: '2026-02-04T19:15:22.579Z'
-updatedAt: '2026-02-04T19:27:41.264Z'
+updatedAt: '2026-02-04T19:36:52.688Z'
 timeSpent: 309
 assignee: '@me'
 ---
@@ -32,5 +32,7 @@ Set sidebar text font-weight to 500 and reduce menu margins for better text spac
 Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.
 
 Final UI polish: renamed guide section and matched vertical alignment perfectly.
+
+Achieved perfect vertical alignment for lesson guide header using leading-none and balanced spacing.
 <!-- SECTION:NOTES:END -->
 

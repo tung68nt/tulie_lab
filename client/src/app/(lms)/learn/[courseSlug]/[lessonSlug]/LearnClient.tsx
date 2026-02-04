@@ -331,7 +331,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                             {hasSection && (
                                                                 <button
                                                                     onClick={() => toggleItem(sectionKey)}
-                                                                    className={`w-full pl-8 pr-4 py-2 flex items-center gap-2 text-left transition-colors
+                                                                    className={`w-full pl-6 pr-3 py-2 flex items-center gap-2 text-left transition-colors
                                                                         ${sectionHasActive ? 'bg-muted/50' : 'hover:bg-muted/20'}
                                                                     `}
                                                                 >
@@ -353,8 +353,8 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                                             <Link
                                                                                 key={lesson.id}
                                                                                 href={`/learn/${courseSlug}/${lesson.slug}`}
-                                                                                className={`flex items-start gap-3 py-2.5 pr-4 transition-all group
-                                                                                    ${hasSection ? 'pl-10' : 'pl-6'}
+                                                                                className={`flex items-start gap-3 py-2.5 pr-2 transition-all group
+                                                                                    ${hasSection ? 'pl-8' : 'pl-4'}
                                                                                     ${isActive ? 'bg-primary/10' : 'hover:bg-muted/30'}
                                                                                 `}
                                                                             >
@@ -437,9 +437,9 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform">
                                             <Lightbulb className="w-5 h-5 fill-primary/20" />
                                         </div>
-                                        <div className="flex flex-col justify-center">
-                                            <h3 className="text-sm font-bold text-primary/90 leading-tight">Hướng dẫn & Lưu ý học tập</h3>
-                                            <p className="text-[12px] text-muted-foreground font-medium leading-tight mt-0.5">Mở rộng để xem thông tin bài học</p>
+                                        <div className="flex flex-col justify-center py-0.5">
+                                            <h3 className="text-sm font-bold text-primary/90 leading-none">Hướng dẫn & Lưu ý học tập</h3>
+                                            <p className="text-[11px] text-muted-foreground font-medium leading-none mt-1.5 focus:outline-none">Mở rộng để xem thông tin bài học</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
