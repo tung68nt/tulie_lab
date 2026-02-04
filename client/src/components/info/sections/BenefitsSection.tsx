@@ -83,10 +83,10 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                         </h3>
                                     </div>
 
-                                    <div className="flex-1 min-h-[160px] mb-6">
+                                    <div className="flex-1 min-h-[140px] mb-4">
                                         <p className={cn(
                                             "leading-relaxed text-sm",
-                                            isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-500 dark:text-zinc-300")
+                                            isDark ? "text-zinc-300" : (section.backgroundTheme === 'light' ? "text-zinc-500 dark:text-zinc-400" : "text-zinc-900 dark:text-zinc-300")
                                         )}>
                                             {item.description || item.content || 'Nội dung chi tiết đang được cập nhật.'}
                                         </p>

@@ -77,46 +77,51 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
 
                                             {/* Story area - Flexible height */}
                                             <div className="flex-1 py-4">
-                                                {/* Before content */}
-                                                {(item as any).before && Array.isArray((item as any).before) && (item as any).before.length > 0 && (
-                                                    <div className="mb-6">
-                                                        <h5 className="text-[11px] font-bold text-red-500 uppercase tracking-wider mb-3 flex items-center gap-1.5 grayscale opacity-70">
-                                                            <div className="w-1 h-3 bg-red-500 rounded-full" />
-                                                            Trước khi học
-                                                        </h5>
-                                                        <ul className="space-y-2">
-                                                            {((item as any).before as string[]).map((text: string, i: number) => (
-                                                                <li key={i} className="flex items-start gap-2 text-[13px] text-muted-foreground leading-snug">
-                                                                    <XCircle className="w-4 h-4 text-red-500/50 shrink-0 mt-0.5" />
-                                                                    <span>{text}</span>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-                                                )}
-
                                                 {/* Quote/Description in middle if exists */}
                                                 {Boolean(item.description || item.quote) && (
-                                                    <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-medium mb-6 italic border-l-2 border-primary/20 pl-4 py-1">
+                                                    <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-normal mb-8 italic border-l-2 border-primary/20 pl-4 py-1">
                                                         {String(item.quote ? `"${item.quote}"` : item.description)}
                                                     </div>
                                                 )}
 
-                                                {/* After content */}
-                                                {(item as any).after && Array.isArray((item as any).after) && (item as any).after.length > 0 && (
-                                                    <div>
-                                                        <h5 className="text-[11px] font-bold text-green-600 uppercase tracking-wider mb-3 flex items-center gap-1.5 grayscale opacity-70">
-                                                            <div className="w-1 h-3 bg-green-600 rounded-full" />
-                                                            Sau khi học
-                                                        </h5>
-                                                        <ul className="space-y-2">
-                                                            {((item as any).after as string[]).map((text: string, i: number) => (
-                                                                <li key={i} className="flex items-start gap-2 text-[13px] text-muted-foreground leading-snug">
-                                                                    <CheckCircle2 className="w-4 h-4 text-green-600/60 shrink-0 mt-0.5" />
-                                                                    <span className="text-foreground dark:text-zinc-200 font-medium">{text}</span>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
+                                                {/* Comparison Grid - 2 columns */}
+                                                {(item.before || item.after) && (
+                                                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border/40">
+                                                        {/* Before content */}
+                                                        {item.before && item.before.length > 0 && (
+                                                            <div>
+                                                                <h5 className="text-[10px] font-bold text-red-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                                                    <div className="w-1 h-3 bg-red-500 rounded-full" />
+                                                                    Trước
+                                                                </h5>
+                                                                <ul className="space-y-2">
+                                                                    {item.before.map((text: string, i: number) => (
+                                                                        <li key={i} className="flex items-start gap-1.5 text-[12px] text-muted-foreground leading-tight">
+                                                                            <XCircle className="w-3.5 h-3.5 text-red-500/70 shrink-0 mt-0.5" />
+                                                                            <span>{text}</span>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        )}
+
+                                                        {/* After content */}
+                                                        {item.after && item.after.length > 0 && (
+                                                            <div>
+                                                                <h5 className="text-[10px] font-bold text-green-600 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                                                    <div className="w-1 h-3 bg-green-600 rounded-full" />
+                                                                    Sau
+                                                                </h5>
+                                                                <ul className="space-y-2">
+                                                                    {item.after.map((text: string, i: number) => (
+                                                                        <li key={i} className="flex items-start gap-1.5 text-[12px] text-foreground dark:text-zinc-200 leading-tight">
+                                                                            <CheckCircle2 className="w-3.5 h-3.5 text-green-600/80 shrink-0 mt-0.5" />
+                                                                            <span className="font-medium">{text}</span>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 )}
                                             </div>
