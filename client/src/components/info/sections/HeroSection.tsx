@@ -44,9 +44,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                     "absolute inset-0 pointer-events-none overflow-hidden",
                     section.backgroundTheme === 'light' ? "dark:block hidden" : "block"
                 )}>
-                    <div className="absolute top-[-10%] right-[-5%] w-[200px] md:w-[800px] h-[200px] md:h-[800px] bg-primary/20 rounded-full blur-[80px] md:blur-[160px] opacity-60 animate-pulse" />
-                    <div className="absolute bottom-[-10%] left-[-5%] w-[150px] md:w-[600px] h-[150px] md:h-[600px] bg-blue-500/10 rounded-full blur-[70px] md:blur-[140px] opacity-40" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] md:w-[1000px] h-[250px] md:h-[1000px] bg-zinc-900/40 rounded-full blur-[100px] md:blur-[200px] -z-10" />
+                    <div className="absolute top-[-5%] right-[-5%] w-[180px] md:w-[800px] h-[180px] md:h-[800px] bg-primary/10 md:bg-primary/20 rounded-full blur-[60px] md:blur-[160px] opacity-40 md:opacity-60 animate-pulse" />
+                    <div className="absolute bottom-[-5%] left-[-5%] w-[120px] md:w-[600px] h-[120px] md:h-[600px] bg-blue-500/5 md:bg-blue-500/10 rounded-full blur-[50px] md:blur-[140px] opacity-30 md:opacity-40" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] md:w-[1000px] h-[200px] md:h-[1000px] bg-zinc-900/40 rounded-full blur-[80px] md:blur-[200px] -z-10" />
                 </div>
             )}
 
@@ -61,7 +61,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
             <div className="container relative z-10 px-4 md:px-6">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
-                    <FadeIn direction="up" duration={0.8} fullWidth={true} className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1 w-full overflow-visible">
+                    <FadeIn direction="up" duration={0.8} fullWidth={true} className="flex flex-col justify-center space-y-4 md:space-y-6 text-center lg:text-left order-2 lg:order-1 w-full overflow-hidden">
                         <div className="flex justify-center lg:justify-start">
                             <SectionTag>
                                 {section.tag || "🚀 Học để làm được"}
@@ -70,7 +70,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Title with proper line height for Vietnamese */}
                         <h1 className={cn(
-                            "text-2xl font-semibold sm:text-4xl md:text-5xl lg:text-7xl leading-tight md:leading-tight py-4 break-all sm:break-words hyphens-auto",
+                            "text-2xl font-semibold sm:text-4xl md:text-5xl lg:text-7xl leading-[1.2] md:leading-tight py-2 break-all sm:break-words hyphens-auto",
                             section.backgroundTheme === 'dark'
                                 ? "text-white"
                                 : section.backgroundTheme === 'light'
@@ -132,14 +132,14 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex flex-wrap items-center gap-3 md:gap-6 justify-center lg:justify-start pt-6 text-sm font-medium",
+                            "flex flex-col sm:flex-row flex-wrap items-center gap-2 md:gap-6 justify-center lg:justify-start pt-4 text-sm font-medium w-full",
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div
                                     key={index}
                                     className={cn(
-                                        "flex items-center gap-1.5 md:gap-3 px-2.5 py-1 md:px-4 md:py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900"
+                                        "flex items-center gap-1.5 md:gap-3 px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900 w-fit"
                                     )}
                                 >
                                     <StatusDot color="white" className="w-1 md:w-1.5 h-1 md:h-1.5" />
@@ -150,7 +150,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                     </FadeIn>
 
                     {/* Image / Product Card */}
-                    <FadeIn direction="up" delay={0.2} className="relative mx-auto lg:mr-0 w-full max-w-[650px] order-1 lg:order-2 p-0">
+                    <FadeIn direction="up" delay={0.2} className="relative mx-auto lg:mr-0 w-full max-w-[400px] md:max-w-[650px] order-1 lg:order-2 p-0">
                         {mainCourse ? (
                             /* Unified Product Card for Courses/Combos */
                             <div className="relative group">
@@ -162,7 +162,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/10 rounded-full blur-[80px] opacity-50 pointer-events-none" />
                                     <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] opacity-30 pointer-events-none" />
                                     {/* Thumbnail */}
-                                    <div className="relative w-full md:w-[45%] aspect-[16/10] md:aspect-[4/5] min-h-[180px] md:min-h-[300px] overflow-hidden rounded-t-[2.5rem] md:rounded-l-[2.5rem] md:rounded-tr-none">
+                                    <div className="relative w-full md:w-[45%] aspect-[16/10] md:aspect-[4/5] min-h-[160px] md:min-h-[300px] overflow-hidden rounded-t-[2.5rem] md:rounded-l-[2.5rem] md:rounded-tr-none">
                                         <Image
                                             src={mainCourse.thumbnail || section.image || "/hero_vibe_coding.png"}
                                             alt={courseTitle}
@@ -289,7 +289,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             </div>
                         ) : (
                             /* Standard Hero Image */
-                            <div className="relative aspect-video lg:aspect-[4/3] w-full min-h-[280px] md:min-h-[400px] shadow-2xl rounded-2xl ring-1 ring-border overflow-hidden bg-muted">
+                            <div className="relative aspect-video lg:aspect-[4/3] w-full min-h-[200px] md:min-h-[400px] shadow-2xl rounded-2xl ring-1 ring-border overflow-hidden bg-muted mx-auto">
                                 {/* Explicitly fallback to placeholder if no section.image */}
                                 <Image
                                     src={section.image || "/hero_vibe_coding.png"}
