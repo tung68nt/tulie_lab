@@ -77,51 +77,49 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
 
                                             {/* Story area - Flexible height */}
                                             <div className="flex-1 py-4">
-                                                {/* Quote/Description in middle if exists */}
+                                                {/* Quote/Description FIRST */}
                                                 {Boolean(item.description || item.quote) && (
                                                     <div className="text-zinc-600 dark:text-zinc-300 text-[14px] leading-relaxed font-normal mb-8 italic border-l-2 border-primary/20 pl-4 py-1">
                                                         {String(item.quote ? `"${item.quote}"` : item.description)}
                                                     </div>
                                                 )}
 
-                                                {/* Comparison Grid - 2 columns */}
-                                                {(item.before || item.after) && (
-                                                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-border/40">
-                                                        {/* Before content */}
-                                                        {item.before && item.before.length > 0 && (
-                                                            <div>
-                                                                <h5 className="text-[10px] font-bold text-red-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                                                    <div className="w-1 h-3 bg-red-500 rounded-full" />
-                                                                    Trước
-                                                                </h5>
-                                                                <ul className="space-y-2">
-                                                                    {(Array.isArray(item.before) ? item.before : [item.before]).map((text: any, i: number) => (
-                                                                        <li key={i} className="flex items-start gap-1.5 text-[12px] text-muted-foreground leading-tight">
-                                                                            <XCircle className="w-3.5 h-3.5 text-red-500/70 shrink-0 mt-0.5" />
-                                                                            <span>{String(text)}</span>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        )}
+                                                {/* Headers and Lists - Stacked or Grid? User said "thứ tự: câu chuyện - trước khi học - sau khi học" */}
+                                                {/* We will stack them as per the specific order requested */}
 
-                                                        {/* After content */}
-                                                        {item.after && item.after.length > 0 && (
-                                                            <div>
-                                                                <h5 className="text-[10px] font-bold text-green-600 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                                                                    <div className="w-1 h-3 bg-green-600 rounded-full" />
-                                                                    Sau
-                                                                </h5>
-                                                                <ul className="space-y-2">
-                                                                    {(Array.isArray(item.after) ? item.after : [item.after]).map((text: any, i: number) => (
-                                                                        <li key={i} className="flex items-start gap-1.5 text-[12px] text-foreground dark:text-zinc-200 leading-tight">
-                                                                            <CheckCircle2 className="w-3.5 h-3.5 text-green-600/80 shrink-0 mt-0.5" />
-                                                                            <span className="font-medium">{String(text)}</span>
-                                                                        </li>
-                                                                    ))}
-                                                                </ul>
-                                                            </div>
-                                                        )}
+                                                {/* Before content */}
+                                                {item.before && (Array.isArray(item.before) ? item.before.length > 0 : true) && (
+                                                    <div className="mb-6">
+                                                        <h5 className="text-[13px] font-medium text-red-500 mb-3 flex items-center gap-1.5">
+                                                            <div className="w-1 h-3 bg-red-500 rounded-full" />
+                                                            Trước khi học
+                                                        </h5>
+                                                        <ul className="space-y-2">
+                                                            {(Array.isArray(item.before) ? item.before : [item.before]).map((text: any, i: number) => (
+                                                                <li key={i} className="flex items-start gap-1.5 text-[12px] text-muted-foreground leading-tight">
+                                                                    <XCircle className="w-3.5 h-3.5 text-red-500/70 shrink-0 mt-0.5" />
+                                                                    <span>{String(text)}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                )}
+
+                                                {/* After content */}
+                                                {item.after && (Array.isArray(item.after) ? item.after.length > 0 : true) && (
+                                                    <div className="pt-4 border-t border-border/40">
+                                                        <h5 className="text-[13px] font-medium text-green-600 mb-3 flex items-center gap-1.5">
+                                                            <div className="w-1 h-3 bg-green-600 rounded-full" />
+                                                            Sau khi học
+                                                        </h5>
+                                                        <ul className="space-y-2">
+                                                            {(Array.isArray(item.after) ? item.after : [item.after]).map((text: any, i: number) => (
+                                                                <li key={i} className="flex items-start gap-1.5 text-[12px] text-foreground dark:text-zinc-200 leading-tight">
+                                                                    <CheckCircle2 className="w-3.5 h-3.5 text-green-600/80 shrink-0 mt-0.5" />
+                                                                    <span className="font-medium">{String(text)}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
                                                     </div>
                                                 )}
                                             </div>
