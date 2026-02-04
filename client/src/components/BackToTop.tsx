@@ -32,7 +32,7 @@ export function BackToTop() {
             onClick={scrollToTop}
             className={cn(
                 "fixed bottom-8 right-8 z-[100] p-2.5 rounded-full shadow-lg transition-all duration-300 transform group",
-                "bg-white dark:bg-zinc-800 border border-border text-foreground hover:border-primary hover:text-primary",
+                "bg-white dark:bg-zinc-800 border border-border text-muted-foreground hover:bg-muted",
                 "hover:-translate-y-1 active:scale-95",
                 isVisible ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0 pointer-events-none"
             )}

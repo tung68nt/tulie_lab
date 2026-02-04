@@ -42,8 +42,8 @@ export default function PublicDocsPage() {
 
     return (
         <div className="min-h-screen bg-background">
-            {/* Header / Breadcrumbs */}
-            <div className="border-b bg-muted/30">
+            {/* Header */}
+            <div className="border-b bg-background">
                 <div className="container py-8 md:py-12">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                         <Link href="/" className="hover:text-primary transition-colors">Trang chủ</Link>
@@ -52,11 +52,11 @@ export default function PublicDocsPage() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm border border-primary/20">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                             <BookOpen className="w-6 h-6" />
                         </div>
                         <div>
-                            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+                            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
                                 {title}
                             </h1>
                             <p className="text-muted-foreground mt-2 text-lg">
@@ -68,17 +68,17 @@ export default function PublicDocsPage() {
             </div>
 
             {/* Main Content */}
-            <div className="container py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    {/* Sidebar / TOC - Moved to Left */}
-                    <div className="lg:col-span-3">
+            <div className="container py-8 md:py-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                    {/* Sidebar / TOC */}
+                    <div className="lg:col-span-3 lg:border-r border-border/60 lg:pr-8">
                         <aside className="sticky top-24 space-y-6">
                             {/* Mobile TOC Toggle */}
                             {content && (
                                 <div className="lg:hidden mb-6">
                                     <button
                                         onClick={() => setIsMobileTocOpen(!isMobileTocOpen)}
-                                        className="w-full flex items-center justify-between p-4 rounded-2xl bg-muted/50 border border-border/50 text-sm font-bold uppercase tracking-widest"
+                                        className="w-full flex items-center justify-between p-3 rounded-lg border border-border bg-background text-sm font-medium"
                                     >
                                         <div className="flex items-center gap-2">
                                             <Menu className="w-4 h-4" />
@@ -88,7 +88,7 @@ export default function PublicDocsPage() {
                                     </button>
 
                                     {isMobileTocOpen && (
-                                        <div className="mt-2 p-6 rounded-2xl bg-card border border-border shadow-lg animate-in slide-in-from-top-2">
+                                        <div className="mt-2 p-4 rounded-lg bg-background border border-border shadow-md animate-in slide-in-from-top-2">
                                             <TableOfContents
                                                 content={content}
                                                 onItemClick={() => setIsMobileTocOpen(false)}
@@ -99,32 +99,16 @@ export default function PublicDocsPage() {
                             )}
 
                             {content && (
-                                <div className="hidden lg:block p-6 rounded-3xl bg-muted/30 border border-border/50 backdrop-blur-sm">
-                                    <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/70 mb-4">
-                                        Mục lục
-                                    </h3>
+                                <div className="hidden lg:block">
                                     <TableOfContents content={content} />
                                 </div>
                             )}
-
-                            <div className="p-8 rounded-3xl bg-primary/5 border border-primary/10 relative overflow-hidden group">
-                                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-32 h-32 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-colors" />
-                                <h4 className="text-sm font-bold uppercase tracking-widest text-primary mb-3">Hỗ trợ nhanh</h4>
-                                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                                    Nếu bạn gặp khó khăn trong quá trình sử dụng, đừng ngần ngại liên hệ với đội ngũ hỗ trợ.
-                                </p>
-                                <Link href="/contact">
-                                    <span className="text-primary font-semibold hover:underline flex items-center gap-2">
-                                        Liên hệ hỗ trợ <ChevronRight className="w-4 h-4" />
-                                    </span>
-                                </Link>
-                            </div>
                         </aside>
                     </div>
 
-                    {/* Documentation Content - Moved to Right */}
+                    {/* Documentation Content */}
                     <div className="lg:col-span-9">
-                        <div className="prose-premium bg-card rounded-3xl border border-border/50 p-6 md:p-10 shadow-sm min-h-[500px]">
+                        <div className="prose-premium min-h-[500px]">
                             {content ? (
                                 <MarkdownRenderer content={content} />
                             ) : (

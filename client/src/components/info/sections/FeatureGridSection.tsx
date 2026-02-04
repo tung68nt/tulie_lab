@@ -34,7 +34,7 @@ export const FeatureGridSection = ({ section }: { section: Section }) => {
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
                     <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto mb-16">
                         {section.items?.map((item, idx) => (
-                            <div key={idx} className="flex-1 min-w-[280px] max-w-[350px] bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 p-8 rounded-2xl text-center hover:border-neutral-700 transition-colors">
+                            <div key={idx} className="flex-1 min-w-[280px] max-w-[350px] bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 p-8 rounded-2xl text-center hover:border-neutral-700 transition-colors group">
                                 {item.icon && (
                                     <div className="mb-6 flex justify-center overflow-visible">
                                         <DynamicIcon
