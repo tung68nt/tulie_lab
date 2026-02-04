@@ -44,9 +44,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                     "absolute inset-0 pointer-events-none overflow-hidden",
                     section.backgroundTheme === 'light' ? "dark:block hidden" : "block"
                 )}>
-                    <div className="absolute top-[-10%] right-[-5%] w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-primary/20 rounded-full blur-[160px] opacity-60 animate-pulse" />
-                    <div className="absolute bottom-[-10%] left-[-5%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-blue-500/10 rounded-full blur-[140px] opacity-40" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[1000px] h-[500px] md:h-[1000px] bg-zinc-900/40 rounded-full blur-[200px] -z-10" />
+                    <div className="absolute top-[-10%] right-[-5%] w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-primary/20 rounded-full blur-[100px] md:blur-[160px] opacity-60 animate-pulse" />
+                    <div className="absolute bottom-[-10%] left-[-5%] w-[250px] md:w-[600px] h-[250px] md:h-[600px] bg-blue-500/10 rounded-full blur-[90px] md:blur-[140px] opacity-40" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[1000px] h-[300px] md:h-[1000px] bg-zinc-900/40 rounded-full blur-[120px] md:blur-[200px] -z-10" />
                 </div>
             )}
 
@@ -61,7 +61,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
             <div className="container relative z-10 px-4 md:px-6">
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
                     {/* Text content */}
-                    <FadeIn direction="up" duration={0.8} className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1 w-full">
+                    <FadeIn direction="up" duration={0.8} fullWidth={true} className="flex flex-col justify-center space-y-6 text-center lg:text-left order-2 lg:order-1 w-full overflow-visible">
                         <div className="flex justify-center lg:justify-start">
                             <SectionTag>
                                 {section.tag || "🚀 Học để làm được"}
@@ -132,17 +132,17 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
 
                         {/* Trust indicators - removed uppercase */}
                         <div className={cn(
-                            "flex flex-wrap items-center gap-6 justify-center lg:justify-start pt-6 text-sm font-medium",
+                            "flex flex-wrap items-center gap-3 md:gap-6 justify-center lg:justify-start pt-6 text-sm font-medium",
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
                                 <div
                                     key={index}
                                     className={cn(
-                                        "flex items-center gap-3 px-4 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900"
+                                        "flex items-center gap-2 md:gap-3 px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900"
                                     )}
                                 >
-                                    <StatusDot color="white" className="w-1.5 h-1.5" />
+                                    <StatusDot color="white" className="w-1 md:w-1.5 h-1 md:h-1.5" />
                                     <span className="not-italic">{indicator}</span>
                                 </div>
                             ))}
@@ -234,9 +234,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                 </div>
                                             </div>
 
-                                            {/* Price Section - Simplified layout */}
+                                            {/* Price Section - Stacked on mobile to prevent cutoff */}
                                             <div className="pt-6 border-t border-border space-y-6">
-                                                <div className="flex flex-row items-center justify-between gap-4">
+                                                <div className="flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4">
                                                     <div className="space-y-0.5">
                                                         {Boolean(originalPrice > salePrice) && (
                                                             <span className="text-sm text-zinc-400 line-through font-medium flex items-baseline gap-0.5">
