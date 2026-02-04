@@ -58,22 +58,22 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                     <div className="flex-1">
                                         <div className="flex flex-col gap-0">
                                             {/* Title area - Min height for alignment */}
-                                            <div className="min-h-[84px] md:min-h-[104px] flex items-start mb-2">
-                                                <h3 className="font-bold text-lg md:text-xl text-foreground leading-snug">{String(item.title || '')}</h3>
+                                            <div className="min-h-[64px] md:min-h-[80px] flex items-start mb-1">
+                                                <h3 className="font-bold text-lg md:text-xl text-foreground leading-tight">{String(item.title || '')}</h3>
                                             </div>
 
                                             {/* Divider */}
-                                            <div className="border-t border-dashed border-border/60 mt-4" />
+                                            <div className="border-t border-dashed border-border/60 mt-1" />
 
                                             {/* Student Details area - Min height for alignment */}
-                                            <div className="min-h-[72px] flex items-center py-5">
+                                            <div className="min-h-[56px] flex items-center py-3">
                                                 {Boolean(item.subtitle) && (
                                                     <p className="text-[12px] text-muted-foreground font-medium text-left leading-relaxed">{String(item.subtitle)}</p>
                                                 )}
                                             </div>
 
                                             {/* Divider */}
-                                            <div className="border-t border-dashed border-border/60 mt-2" />
+                                            <div className="border-t border-dashed border-border/60 mt-0.5" />
 
                                             {/* Story area - Flexible height */}
                                             <div className="flex-1 py-4">
@@ -92,7 +92,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                                 {/* Before content */}
                                                 {item.before && (Array.isArray(item.before) ? item.before.length > 0 : true) && (
                                                     <div className="mb-6">
-                                                        <h5 className="text-[13px] font-medium text-red-500 mb-3 flex items-center gap-1.5">
+                                                        <h5 className="text-sm font-medium text-red-500 mb-3 flex items-center gap-1.5">
                                                             <div className="w-1 h-3 bg-red-500 rounded-full" />
                                                             Trước khi học
                                                         </h5>
@@ -110,7 +110,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                                                 {/* After content */}
                                                 {item.after && (Array.isArray(item.after) ? item.after.length > 0 : true) && (
                                                     <div className="pt-4 border-t border-border/40">
-                                                        <h5 className="text-[13px] font-medium text-green-600 mb-3 flex items-center gap-1.5">
+                                                        <h5 className="text-sm font-medium text-green-600 mb-3 flex items-center gap-1.5">
                                                             <div className="w-1 h-3 bg-green-600 rounded-full" />
                                                             Sau khi học
                                                         </h5>
