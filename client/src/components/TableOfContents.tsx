@@ -96,8 +96,8 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-2.5 px-4 text-[14px] leading-snug border-l-2 transition-all duration-200",
-                            heading.level === 3 ? "pl-8" : "font-medium",
+                            "group block py-2.5 px-3 text-[14px] leading-snug border-l-2 transition-all duration-200 font-medium",
+                            heading.level === 3 ? "pl-6" : "",
                             activeId === heading.id
                                 ? "text-primary border-primary bg-primary/5"
                                 : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"

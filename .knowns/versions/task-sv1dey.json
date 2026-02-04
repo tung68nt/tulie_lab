@@ -1,0 +1,43 @@
+{
+  "taskId": "sv1dey",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "sv1dey",
+      "version": 1,
+      "timestamp": "2026-02-04T19:15:28.059Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Refine Sidebar UI: Font weight and margins",
+        "description": "Set sidebar text font-weight to 500 and reduce menu margins for better text space.",
+        "status": "in-progress",
+        "priority": "medium",
+        "assignee": "@me",
+        "labels": [
+          "ui"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Sidebar text font-weight is 500"
+          },
+          {
+            "completed": false,
+            "text": "Lesson menu margins are reduced"
+          }
+        ]
+      }
+    }
+  ]
+}

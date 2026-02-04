@@ -305,7 +305,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         >
                                             <ChevronRight className={`w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform ${!isChapterCollapsed ? 'rotate-90' : ''}`} />
                                             <div className="flex-1 min-w-0">
-                                                <h3 className="text-sm font-semibold text-foreground truncate">{chapter.chapter}</h3>
+                                                <h3 className="text-sm font-medium text-foreground truncate">{chapter.chapter}</h3>
                                                 <p className="text-[11px] text-muted-foreground">
                                                     {isChapterComplete ? (
                                                         <span className="text-green-600 flex items-center gap-1"><Check className="w-3 h-3" /> Hoàn thành</span>
@@ -354,7 +354,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                                                 key={lesson.id}
                                                                                 href={`/learn/${courseSlug}/${lesson.slug}`}
                                                                                 className={`flex items-start gap-3 py-2.5 pr-4 transition-all group
-                                                                                    ${hasSection ? 'pl-12' : 'pl-8'}
+                                                                                    ${hasSection ? 'pl-10' : 'pl-6'}
                                                                                     ${isActive ? 'bg-primary/10' : 'hover:bg-muted/30'}
                                                                                 `}
                                                                             >
@@ -385,7 +385,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                                                                                 {/* Lesson Info */}
                                                                                 <div className="flex-1 min-w-0">
-                                                                                    <span className={`block text-[13px] leading-tight line-clamp-2 ${isActive ? 'font-semibold text-foreground' : 'text-foreground/80'}`}>
+                                                                                    <span className={`block text-[13px] leading-tight line-clamp-2 font-medium ${isActive ? 'text-foreground' : 'text-foreground/80'}`}>
                                                                                         {lesson.title}
                                                                                     </span>
                                                                                     {lesson.duration && (
