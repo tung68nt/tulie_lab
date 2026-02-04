@@ -437,13 +437,13 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-transform">
                                             <Lightbulb className="w-5 h-5 fill-primary/20" />
                                         </div>
-                                        <div>
-                                            <h3 className="text-sm font-bold text-primary/90">Hướng dẫn thực hành / Prompts</h3>
-                                            <p className="text-[12px] text-muted-foreground font-medium">Mở rộng để làm theo bài học</p>
+                                        <div className="flex flex-col justify-center">
+                                            <h3 className="text-sm font-bold text-primary/90 leading-tight">Hướng dẫn & Lưu ý học tập</h3>
+                                            <p className="text-[12px] text-muted-foreground font-medium leading-tight mt-0.5">Mở rộng để xem thông tin bài học</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[11px] font-semibold text-primary/60 group-open:hidden">Xem hướng dẫn</span>
+                                        <span className="text-[11px] font-semibold text-primary/60 group-open:hidden">Xem chi tiết</span>
                                         <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/5 text-primary/50 transition-transform group-open:rotate-90">
                                             <ChevronRight className="w-4 h-4" />
                                         </div>

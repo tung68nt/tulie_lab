@@ -1,6 +1,6 @@
 {
   "taskId": "sv1dey",
-  "currentVersion": 1,
+  "currentVersion": 4,
   "versions": [
     {
       "id": "v1",
@@ -37,6 +37,200 @@
             "text": "Lesson menu margins are reduced"
           }
         ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "sv1dey",
+      "version": 2,
+      "timestamp": "2026-02-04T19:20:37.739Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Sidebar text font-weight is 500"
+            },
+            {
+              "completed": false,
+              "text": "Lesson menu margins are reduced"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Sidebar text font-weight is 500"
+            },
+            {
+              "completed": true,
+              "text": "Lesson menu margins are reduced"
+            },
+            {
+              "text": "Mini Guide: compactly aligned icon/title",
+              "completed": false
+            },
+            {
+              "text": "Mini Guide: reduced overall padding",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Refine Sidebar UI: Font weight and margins",
+        "description": "Set sidebar text font-weight to 500 and reduce menu margins for better text space.",
+        "status": "in-progress",
+        "priority": "medium",
+        "assignee": "@me",
+        "labels": [
+          "ui"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Sidebar text font-weight is 500"
+          },
+          {
+            "completed": true,
+            "text": "Lesson menu margins are reduced"
+          },
+          {
+            "text": "Mini Guide: compactly aligned icon/title",
+            "completed": false
+          },
+          {
+            "text": "Mini Guide: reduced overall padding",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "sv1dey",
+      "version": 3,
+      "timestamp": "2026-02-04T19:20:38.049Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": true,
+              "text": "Sidebar text font-weight is 500"
+            },
+            {
+              "completed": true,
+              "text": "Lesson menu margins are reduced"
+            },
+            {
+              "completed": false,
+              "text": "Mini Guide: compactly aligned icon/title"
+            },
+            {
+              "completed": false,
+              "text": "Mini Guide: reduced overall padding"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Sidebar text font-weight is 500"
+            },
+            {
+              "completed": true,
+              "text": "Lesson menu margins are reduced"
+            },
+            {
+              "completed": true,
+              "text": "Mini Guide: compactly aligned icon/title"
+            },
+            {
+              "completed": true,
+              "text": "Mini Guide: reduced overall padding"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section."
+        }
+      ],
+      "snapshot": {
+        "title": "Refine Sidebar UI: Font weight and margins",
+        "description": "Set sidebar text font-weight to 500 and reduce menu margins for better text space.",
+        "status": "done",
+        "priority": "medium",
+        "assignee": "@me",
+        "labels": [
+          "ui"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Sidebar text font-weight is 500"
+          },
+          {
+            "completed": true,
+            "text": "Lesson menu margins are reduced"
+          },
+          {
+            "completed": true,
+            "text": "Mini Guide: compactly aligned icon/title"
+          },
+          {
+            "completed": true,
+            "text": "Mini Guide: reduced overall padding"
+          }
+        ],
+        "implementationNotes": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section."
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "sv1dey",
+      "version": 4,
+      "timestamp": "2026-02-04T19:27:41.264Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.",
+          "newValue": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.\n\nFinal UI polish: renamed guide section and matched vertical alignment perfectly."
+        }
+      ],
+      "snapshot": {
+        "title": "Refine Sidebar UI: Font weight and margins",
+        "description": "Set sidebar text font-weight to 500 and reduce menu margins for better text space.",
+        "status": "done",
+        "priority": "medium",
+        "assignee": "@me",
+        "labels": [
+          "ui"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Sidebar text font-weight is 500"
+          },
+          {
+            "completed": true,
+            "text": "Lesson menu margins are reduced"
+          },
+          {
+            "completed": true,
+            "text": "Mini Guide: compactly aligned icon/title"
+          },
+          {
+            "completed": true,
+            "text": "Mini Guide: reduced overall padding"
+          }
+        ],
+        "implementationNotes": "Final UI refinements: Sidebar font-weight 500, reduced margins, and compact Lesson Guide section.\n\nFinal UI polish: renamed guide section and matched vertical alignment perfectly."
       }
     }
   ]
