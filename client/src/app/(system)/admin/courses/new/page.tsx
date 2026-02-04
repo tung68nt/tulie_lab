@@ -43,13 +43,18 @@ export default function CreateCoursePage() {
         const fetchData = async () => {
             try {
                 const [instructorsList, categoriesList, addOnsList] = await Promise.all([
-                    api.instructors.list().catch(() => []),
-                    api.categories.list().catch(() => []),
+                    api.instructors.list().catch(() => ({ data: [] })),
+                    api.categories.list().catch(() => ({ data: [] })),
                     api.pricingAddOns.list().catch(() => [])
                 ]);
-                setInstructors(Array.isArray(instructorsList) ? instructorsList : []);
-                setCategories(Array.isArray(categoriesList) ? categoriesList : []);
-                setAllAddOns(Array.isArray(addOnsList) ? addOnsList : []);
+
+                const instructorData = instructorsList?.data || (Array.isArray(instructorsList) ? instructorsList : []);
+                const categoryData = categoriesList?.data || (Array.isArray(categoriesList) ? categoriesList : []);
+                const addOnsData = addOnsList?.data || (Array.isArray(addOnsList) ? addOnsList : []);
+
+                setInstructors(instructorData);
+                setCategories(categoryData);
+                setAllAddOns(addOnsData);
             } catch (e) {
                 console.error(e);
             }

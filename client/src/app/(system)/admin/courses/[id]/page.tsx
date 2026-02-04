@@ -86,10 +86,13 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 ]);
 
                 // Fix: Extract data from response object if needed
-                const instructorData = instructorsList.data || (Array.isArray(instructorsList) ? instructorsList : []);
+                const instructorData = instructorsList?.data || (Array.isArray(instructorsList) ? instructorsList : []);
+                const categoryData = categoriesList?.data || (Array.isArray(categoriesList) ? categoriesList : []);
+                const addOnsData = addOnsList?.data || (Array.isArray(addOnsList) ? addOnsList : []);
+
                 setInstructors(Array.isArray(instructorData) ? instructorData : []);
-                setCategories(Array.isArray(categoriesList) ? categoriesList : []);
-                setAllAddOns(Array.isArray(addOnsList) ? addOnsList : []);
+                setCategories(Array.isArray(categoryData) ? categoryData : []);
+                setAllAddOns(Array.isArray(addOnsData) ? addOnsData : []);
 
                 if (fullDetails) {
                     setCourse(fullDetails);
