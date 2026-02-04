@@ -74,7 +74,7 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                                         </div>
                                     </div>
 
-                                    <div className="min-h-[96px] mb-4">
+                                    <div className="min-h-[84px] mb-1">
                                         <h3 className={cn(
                                             "text-lg font-bold transition-colors group-hover:text-primary leading-tight",
                                             isDark ? "text-zinc-50" : (section.backgroundTheme === 'light' ? "text-zinc-900 dark:text-white" : "text-zinc-900 dark:text-zinc-50")
