@@ -1,0 +1,354 @@
+{
+  "taskId": "y11dhx",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "y11dhx",
+      "version": 1,
+      "timestamp": "2026-02-04T15:45:00.137Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Hero section hiển thị đúng trên màn hình mobile",
+              "completed": false
+            },
+            {
+              "text": "Nút phân trang <> có kích thước cân đối với các nút khác",
+              "completed": false
+            },
+            {
+              "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác",
+              "completed": false
+            },
+            {
+              "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp",
+              "completed": false
+            },
+            {
+              "text": "Có field edit thông tin course info trong trang sửa khóa học",
+              "completed": false
+            },
+            {
+              "text": "Nút sửa trang/section không có viền tím",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Fix UI/UX Issues - Responsive, Icons, Buttons",
+        "description": "Sửa các lỗi UI/UX được phát hiện trên hệ thống:\n\n1. **Hero Section Responsive (Mobile)**: Section hero bị lỗi responsive trên màn hình mobile\n2. **Pagination Buttons**: Nút mũi tên <> phân trang bị nhỏ quá, cần đồng bộ kích thước với các nút khác\n3. **Expand/Collapse Arrow**: Mũi tên mở rộng/thu gọn nội dung chi tiết khóa học đang dùng icon tam giác, cần đổi sang mũi tên chữ V hiện đại\n4. **Course Info Icons**: Các icon 'Giảng viên Chuyên nghiệp', 'Truy cập trọn đời', 'Bài học' bị bé và lỗi contrast - cần đổi sang màu trắng\n5. **Course Edit Missing Fields**: Chưa có field để edit các thông tin icon trên trong trang sửa khóa học\n6. **Edit Button Border**: Nút sửa trang/section có viền tím - cần bỏ viền\n\nXem ảnh đính kèm để tham khảo.",
+        "status": "todo",
+        "priority": "high",
+        "labels": [
+          "bug",
+          "ui",
+          "responsive"
+        ],
+        "acceptanceCriteria": [
+          {
+            "text": "Hero section hiển thị đúng trên màn hình mobile",
+            "completed": false
+          },
+          {
+            "text": "Nút phân trang <> có kích thước cân đối với các nút khác",
+            "completed": false
+          },
+          {
+            "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác",
+            "completed": false
+          },
+          {
+            "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp",
+            "completed": false
+          },
+          {
+            "text": "Có field edit thông tin course info trong trang sửa khóa học",
+            "completed": false
+          },
+          {
+            "text": "Nút sửa trang/section không có viền tím",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "y11dhx",
+      "version": 2,
+      "timestamp": "2026-02-04T15:48:15.576Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix UI/UX Issues - Responsive, Icons, Buttons",
+        "description": "Sửa các lỗi UI/UX được phát hiện trên hệ thống:\n\n1. **Hero Section Responsive (Mobile)**: Section hero bị lỗi responsive trên màn hình mobile\n2. **Pagination Buttons**: Nút mũi tên <> phân trang bị nhỏ quá, cần đồng bộ kích thước với các nút khác\n3. **Expand/Collapse Arrow**: Mũi tên mở rộng/thu gọn nội dung chi tiết khóa học đang dùng icon tam giác, cần đổi sang mũi tên chữ V hiện đại\n4. **Course Info Icons**: Các icon 'Giảng viên Chuyên nghiệp', 'Truy cập trọn đời', 'Bài học' bị bé và lỗi contrast - cần đổi sang màu trắng\n5. **Course Edit Missing Fields**: Chưa có field để edit các thông tin icon trên trong trang sửa khóa học\n6. **Edit Button Border**: Nút sửa trang/section có viền tím - cần bỏ viền\n\nXem ảnh đính kèm để tham khảo.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "bug",
+          "ui",
+          "responsive"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Hero section hiển thị đúng trên màn hình mobile"
+          },
+          {
+            "completed": false,
+            "text": "Nút phân trang <> có kích thước cân đối với các nút khác"
+          },
+          {
+            "completed": false,
+            "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác"
+          },
+          {
+            "completed": false,
+            "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp"
+          },
+          {
+            "completed": false,
+            "text": "Có field edit thông tin course info trong trang sửa khóa học"
+          },
+          {
+            "completed": false,
+            "text": "Nút sửa trang/section không có viền tím"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "y11dhx",
+      "version": 3,
+      "timestamp": "2026-02-04T15:55:06.727Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Hero section hiển thị đúng trên màn hình mobile"
+            },
+            {
+              "completed": false,
+              "text": "Nút phân trang <> có kích thước cân đối với các nút khác"
+            },
+            {
+              "completed": false,
+              "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác"
+            },
+            {
+              "completed": false,
+              "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp"
+            },
+            {
+              "completed": false,
+              "text": "Có field edit thông tin course info trong trang sửa khóa học"
+            },
+            {
+              "completed": false,
+              "text": "Nút sửa trang/section không có viền tím"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Hero section hiển thị đúng trên màn hình mobile"
+            },
+            {
+              "completed": true,
+              "text": "Nút phân trang <> có kích thước cân đối với các nút khác"
+            },
+            {
+              "completed": true,
+              "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác"
+            },
+            {
+              "completed": false,
+              "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp"
+            },
+            {
+              "completed": false,
+              "text": "Có field edit thông tin course info trong trang sửa khóa học"
+            },
+            {
+              "completed": true,
+              "text": "Nút sửa trang/section không có viền tím"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Fixed: Pagination buttons (h-10, size=22, stronger border), CourseChapter chevron icons (triangle→ChevronDown), QuickEdit border removed"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix UI/UX Issues - Responsive, Icons, Buttons",
+        "description": "Sửa các lỗi UI/UX được phát hiện trên hệ thống:\n\n1. **Hero Section Responsive (Mobile)**: Section hero bị lỗi responsive trên màn hình mobile\n2. **Pagination Buttons**: Nút mũi tên <> phân trang bị nhỏ quá, cần đồng bộ kích thước với các nút khác\n3. **Expand/Collapse Arrow**: Mũi tên mở rộng/thu gọn nội dung chi tiết khóa học đang dùng icon tam giác, cần đổi sang mũi tên chữ V hiện đại\n4. **Course Info Icons**: Các icon 'Giảng viên Chuyên nghiệp', 'Truy cập trọn đời', 'Bài học' bị bé và lỗi contrast - cần đổi sang màu trắng\n5. **Course Edit Missing Fields**: Chưa có field để edit các thông tin icon trên trong trang sửa khóa học\n6. **Edit Button Border**: Nút sửa trang/section có viền tím - cần bỏ viền\n\nXem ảnh đính kèm để tham khảo.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "bug",
+          "ui",
+          "responsive"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Hero section hiển thị đúng trên màn hình mobile"
+          },
+          {
+            "completed": true,
+            "text": "Nút phân trang <> có kích thước cân đối với các nút khác"
+          },
+          {
+            "completed": true,
+            "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác"
+          },
+          {
+            "completed": false,
+            "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp"
+          },
+          {
+            "completed": false,
+            "text": "Có field edit thông tin course info trong trang sửa khóa học"
+          },
+          {
+            "completed": true,
+            "text": "Nút sửa trang/section không có viền tím"
+          }
+        ],
+        "implementationNotes": "Fixed: Pagination buttons (h-10, size=22, stronger border), CourseChapter chevron icons (triangle→ChevronDown), QuickEdit border removed"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "y11dhx",
+      "version": 4,
+      "timestamp": "2026-02-04T15:59:15.300Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Hero section hiển thị đúng trên màn hình mobile"
+            },
+            {
+              "completed": true,
+              "text": "Nút phân trang <> có kích thước cân đối với các nút khác"
+            },
+            {
+              "completed": true,
+              "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác"
+            },
+            {
+              "completed": false,
+              "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp"
+            },
+            {
+              "completed": false,
+              "text": "Có field edit thông tin course info trong trang sửa khóa học"
+            },
+            {
+              "completed": true,
+              "text": "Nút sửa trang/section không có viền tím"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Hero section hiển thị đúng trên màn hình mobile"
+            },
+            {
+              "completed": true,
+              "text": "Nút phân trang <> có kích thước cân đối với các nút khác"
+            },
+            {
+              "completed": true,
+              "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác"
+            },
+            {
+              "completed": true,
+              "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp"
+            },
+            {
+              "completed": true,
+              "text": "Có field edit thông tin course info trong trang sửa khóa học"
+            },
+            {
+              "completed": true,
+              "text": "Nút sửa trang/section không có viền tím"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Fixed: Pagination buttons (h-10, size=22, stronger border), CourseChapter chevron icons (triangle→ChevronDown), QuickEdit border removed",
+          "newValue": "Fixed: Pagination buttons (h-10, size=22, stronger border), CourseChapter chevron icons (triangle→ChevronDown), QuickEdit border removed\n\nCompleted all UI/UX fixes including responsive hero, custom course info fields, and icon improvements."
+        }
+      ],
+      "snapshot": {
+        "title": "Fix UI/UX Issues - Responsive, Icons, Buttons",
+        "description": "Sửa các lỗi UI/UX được phát hiện trên hệ thống:\n\n1. **Hero Section Responsive (Mobile)**: Section hero bị lỗi responsive trên màn hình mobile\n2. **Pagination Buttons**: Nút mũi tên <> phân trang bị nhỏ quá, cần đồng bộ kích thước với các nút khác\n3. **Expand/Collapse Arrow**: Mũi tên mở rộng/thu gọn nội dung chi tiết khóa học đang dùng icon tam giác, cần đổi sang mũi tên chữ V hiện đại\n4. **Course Info Icons**: Các icon 'Giảng viên Chuyên nghiệp', 'Truy cập trọn đời', 'Bài học' bị bé và lỗi contrast - cần đổi sang màu trắng\n5. **Course Edit Missing Fields**: Chưa có field để edit các thông tin icon trên trong trang sửa khóa học\n6. **Edit Button Border**: Nút sửa trang/section có viền tím - cần bỏ viền\n\nXem ảnh đính kèm để tham khảo.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "bug",
+          "ui",
+          "responsive"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Hero section hiển thị đúng trên màn hình mobile"
+          },
+          {
+            "completed": true,
+            "text": "Nút phân trang <> có kích thước cân đối với các nút khác"
+          },
+          {
+            "completed": true,
+            "text": "Icon mở rộng/thu gọn dùng mũi tên chữ V thay vì tam giác"
+          },
+          {
+            "completed": true,
+            "text": "Icon course info (giảng viên, truy cập, bài học) có màu trắng, kích thước phù hợp"
+          },
+          {
+            "completed": true,
+            "text": "Có field edit thông tin course info trong trang sửa khóa học"
+          },
+          {
+            "completed": true,
+            "text": "Nút sửa trang/section không có viền tím"
+          }
+        ],
+        "implementationNotes": "Fixed: Pagination buttons (h-10, size=22, stronger border), CourseChapter chevron icons (triangle→ChevronDown), QuickEdit border removed\n\nCompleted all UI/UX fixes including responsive hero, custom course info fields, and icon improvements."
+      }
+    }
+  ]
+}

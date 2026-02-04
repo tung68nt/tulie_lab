@@ -24,10 +24,10 @@ export function Pagination({ currentPage, totalPages, totalItems, onPageChange, 
                     size="sm"
                     onClick={() => onPageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="h-9 w-9 p-0 rounded-xl"
+                    className="h-10 w-10 p-0 rounded-xl border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
                     title="Trang trước"
                 >
-                    <ChevronLeft size={20} />
+                    <ChevronLeft size={22} strokeWidth={2} />
                 </Button>
 
                 <Button
@@ -35,10 +35,10 @@ export function Pagination({ currentPage, totalPages, totalItems, onPageChange, 
                     size="sm"
                     onClick={() => onPageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="h-9 w-9 p-0 rounded-xl"
+                    className="h-10 w-10 p-0 rounded-xl border-zinc-300 dark:border-zinc-600 hover:border-zinc-400 dark:hover:border-zinc-500"
                     title="Trang sau"
                 >
-                    <ChevronRight size={20} />
+                    <ChevronRight size={22} strokeWidth={2} />
                 </Button>
             </div>
         </div>

@@ -1,3 +1,11 @@
 {
-  "active": []
+  "active": [
+    {
+      "taskId": "y11dhx",
+      "taskTitle": "Fix UI/UX Issues - Responsive, Icons, Buttons",
+      "startedAt": "2026-02-04T15:48:16.666Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
+    }
+  ]
 }

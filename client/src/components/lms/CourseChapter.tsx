@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 interface Lesson {
     id: string;
@@ -44,11 +45,9 @@ export function CourseChapter({
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
                 <h3 className="font-bold text-sm text-foreground flex items-center gap-2">
-                    {isChapterOpen ? (
-                        <span className="text-muted-foreground text-xs">▼</span>
-                    ) : (
-                        <span className="text-muted-foreground text-xs">▶</span>
-                    )}
+                    <span className="text-muted-foreground transition-transform duration-200" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
+                        <ChevronDown className="w-4 h-4" />
+                    </span>
                     {chapterName}
                     <span className="text-xs font-normal text-muted-foreground ml-2">
                         ({chapterLessons.length} bài học)
@@ -94,8 +93,8 @@ export function CourseChapter({
                                                 <h4 className={`text-sm font-medium leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
                                                     {lesson.title}
                                                 </h4>
-                                                <span className="text-[10px] text-muted-foreground">
-                                                    {isExpanded ? '▲' : '▼'}
+                                                <span className="text-muted-foreground transition-transform duration-200" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                                                    <ChevronDown className="w-3.5 h-3.5" />
                                                 </span>
                                             </div>
                                             {lesson.isFree && !isEnrolled && (

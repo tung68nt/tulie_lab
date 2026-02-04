@@ -50,7 +50,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         tag: 'NONE',
         compareAtPrice: 0,
         addOnIds: [] as string[],
-        structure: [] as { title: string, sections: string[] }[]
+        structure: [] as { title: string, sections: string[] }[],
+        infoInstructor: '',
+        infoDuration: '',
+        infoLessons: ''
     });
 
     const [newLesson, setNewLesson] = useState({
@@ -115,7 +118,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                         tag: fullDetails.tag || 'NONE',
                         compareAtPrice: fullDetails.compareAtPrice || 0,
                         addOnIds: (fullDetails.addOns || []).map((a: any) => a.id),
-                        structure: fullDetails.structure || []
+                        structure: fullDetails.structure || [],
+                        infoInstructor: fullDetails.infoInstructor || '',
+                        infoDuration: fullDetails.infoDuration || '',
+                        infoLessons: fullDetails.infoLessons || ''
                     });
                     // Set next position
                     setNewLesson(prev => ({ ...prev, position: (fullDetails.lessons?.length || 0) + 1 }));
@@ -403,6 +409,36 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                             { value: '', label: '-- Chọn giảng viên --' },
                                             ...instructors.map(i => ({ value: i.id, label: i.name }))
                                         ]}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-4 border-t pt-4">
+                                <div className="col-span-3">
+                                    <h3 className="text-sm font-medium mb-3">Tùy chỉnh thông tin Hero (Hero Icons)</h3>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Text Icon Giảng viên</label>
+                                    <Input
+                                        value={courseForm.infoInstructor}
+                                        onChange={e => setCourseForm({ ...courseForm, infoInstructor: e.target.value })}
+                                        placeholder="Mặc định: Giảng viên Chuyên nghiệp"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Text Icon Thời lượng</label>
+                                    <Input
+                                        value={courseForm.infoDuration}
+                                        onChange={e => setCourseForm({ ...courseForm, infoDuration: e.target.value })}
+                                        placeholder="Mặc định: Truy cập trọn đời"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Text Icon Số lượng</label>
+                                    <Input
+                                        value={courseForm.infoLessons}
+                                        onChange={e => setCourseForm({ ...courseForm, infoLessons: e.target.value })}
+                                        placeholder="Mặc định: X Bài học"
                                     />
                                 </div>
                             </div>
