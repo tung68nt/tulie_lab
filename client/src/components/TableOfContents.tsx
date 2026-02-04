@@ -73,8 +73,8 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     if (headings.length === 0) return null;
 
     return (
-        <div className={cn("space-y-6", className)}>
-            <p className="text-sm font-bold text-muted-foreground/80 pl-1">Mục lục bài học</p>
+        <div className={cn("space-y-4", className)}>
+            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground/60 px-1">Mục lục bài học</p>
             <nav className="relative flex flex-col">
                 {headings.map((heading) => (
                     <a
@@ -96,8 +96,8 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-2.5 px-3 text-[14px] leading-snug border-l-2 transition-all duration-200 font-medium",
-                            heading.level === 3 ? "pl-6" : "",
+                            "group block py-2 px-1.5 text-[13px] leading-tight border-l-2 transition-all duration-200 font-medium",
+                            heading.level === 3 ? "pl-5" : "",
                             activeId === heading.id
                                 ? "text-primary border-primary bg-primary/5"
                                 : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"

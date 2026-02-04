@@ -7,6 +7,9 @@ import { cn, slugify } from '@/lib/utils';
 import { Check, Copy, Info, AlertTriangle, Lightbulb } from 'lucide-react';
 import { useState } from 'react';
 
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
 interface MarkdownRendererProps {
     content: string;
     className?: string;
@@ -30,6 +33,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                     h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight mt-12 mb-4" />,
                     h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4" />,
                     p: ({ node, ...props }) => <p {...props} className="leading-7 [&:not(:first-child)]:mt-6" />,
+                    hr: () => <hr className="hidden" />,
 
                     // Custom Code Block with Copy Button
                     code({ node, inline, className, children, ...props }: any) {
@@ -45,20 +49,37 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                         if (!inline) {
                             return (
                                 <div className="relative group my-6">
-                                    <div className="absolute right-4 top-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="absolute right-4 top-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={handleCopy}
-                                            className="p-1.5 rounded-md bg-zinc-800/80 backdrop-blur-sm border border-zinc-700 text-zinc-400 hover:text-white transition-colors"
+                                            className="p-1.5 rounded-md bg-white/80 backdrop-blur-sm border border-zinc-200 text-zinc-500 hover:text-primary transition-colors shadow-sm"
                                             title="Copy code"
                                         >
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <pre className="!mb-0 !mt-0 rounded-xl bg-[#0d1117] dark:bg-zinc-900/50 p-6 overflow-x-auto border border-border shadow-md">
-                                        <code className={cn(className, "text-sm font-mono leading-relaxed")} {...props}>
-                                            {children}
-                                        </code>
-                                    </pre>
+                                    <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-sm">
+                                        <SyntaxHighlighter
+                                            {...props}
+                                            style={oneLight}
+                                            language={match ? match[1] : 'text'}
+                                            PreTag="div"
+                                            showLineNumbers={true}
+                                            lineNumberStyle={{ minWidth: '3em', paddingRight: '1em', color: '#a1a1aa', textAlign: 'right', userSelect: 'none' }}
+                                            customStyle={{
+                                                margin: 0,
+                                                padding: '1.5rem 1rem',
+                                                fontSize: '0.85rem',
+                                                lineHeight: '1.6',
+                                                backgroundColor: 'transparent',
+                                            }}
+                                            codeTagProps={{
+                                                className: "font-mono"
+                                            }}
+                                        >
+                                            {String(children).replace(/\n$/, '')}
+                                        </SyntaxHighlighter>
+                                    </div>
                                 </div>
                             );
                         }
