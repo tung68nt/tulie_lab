@@ -15,9 +15,16 @@ interface TableOfContentsProps {
     className?: string;
     onItemClick?: () => void;
     hideHeader?: boolean;
+    variant?: 'clean' | 'boxed';
 }
 
-export function TableOfContents({ content, className, onItemClick, hideHeader = false }: TableOfContentsProps) {
+export function TableOfContents({
+    content,
+    className,
+    onItemClick,
+    hideHeader = false,
+    variant = 'clean'
+}: TableOfContentsProps) {
     const [headings, setHeadings] = useState<TOCItem[]>([]);
     const [activeId, setActiveId] = useState<string>('');
 
@@ -125,14 +132,24 @@ export function TableOfContents({ content, className, onItemClick, hideHeader = 
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-1 text-[13px] leading-snug transition-all duration-200",
-                            heading.level === 3 ? "pl-4" : "pl-0",
-                            activeId === heading.id
-                                ? "text-foreground font-bold"
-                                : "text-muted-foreground/60 hover:text-foreground font-normal"
+                            "group block transition-all duration-200",
+                            variant === 'boxed'
+                                ? "py-2 px-3 text-[13px] leading-tight font-normal rounded-lg"
+                                : "py-1 text-[13px] leading-snug font-normal",
+                            heading.level === 3 ? "pl-4" : (variant === 'boxed' ? "pl-3" : "pl-0"),
+                            variant === 'boxed'
+                                ? (activeId === heading.id
+                                    ? "text-primary bg-primary/5 font-bold shadow-sm"
+                                    : "text-muted-foreground/70 hover:text-foreground hover:bg-muted/30")
+                                : (activeId === heading.id
+                                    ? "text-foreground font-bold"
+                                    : "text-muted-foreground/60 hover:text-foreground")
                         )}
                     >
-                        <span className="transition-transform inline-block">
+                        <span className={cn(
+                            "transition-transform inline-block",
+                            variant === 'boxed' && (activeId === heading.id ? "translate-x-0.5" : "group-hover:translate-x-0.5")
+                        )}>
                             {heading.text}
                         </span>
                     </a>

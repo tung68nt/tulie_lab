@@ -6,7 +6,7 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Watermark } from '@/components/system/security/Watermark';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Lightbulb, FileText } from 'lucide-react';
+import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Lightbulb } from 'lucide-react';
 import { MentoringSidebar } from './MentoringSidebar';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
@@ -414,7 +414,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
             {/* Main Content */}
             <main className="flex-1 min-w-0">
-                <div className="max-w-6xl mx-auto p-4 md:p-6">
+                <div className="max-w-5xl mx-auto p-4 md:p-6">
                     {currentLesson.videoUrl && (
                         <div className="w-full relative">
                             <VideoPlayer
@@ -451,7 +451,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         </div>
                                     </div>
                                 </summary>
-                                <div className="p-6 border-t border-zinc-200 bg-white">
+                                <div className="p-4 pt-1 border-t border-primary/5 bg-card/30 backdrop-blur-[2px]">
                                     <MarkdownRenderer content={currentLesson.guide} />
                                 </div>
                             </details>
@@ -470,11 +470,11 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     )}
 
                     <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <h2 className="text-2xl font-bold text-foreground">{currentLesson.title}</h2>
+                        <h1 className="text-2xl font-bold text-foreground">{currentLesson.title}</h1>
                         <Button
                             onClick={() => handleToggleComplete(currentLesson.id)}
                             variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
-                            className="gap-2 shrink-0 text-xs h-9"
+                            className="gap-2 shrink-0"
                         >
                             {completedLessons.includes(currentLesson.id) ? (
                                 <><Check className="w-4 h-4" /> Đã hoàn thành</>
@@ -501,20 +501,32 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
-                    {/* Content Section */}
-                    {hasAccess && (
+                    {/* Documentation Content */}
+                    {!loadingSecure && hasAccess && !currentLesson.content && (
+                        <div className="p-8 border-2 border-dashed border-muted rounded-2xl text-center my-8">
+                            <p className="text-muted-foreground mb-4">Không thể tải nội dung bài học. Vui lòng kiểm tra kết nối mạng hoặc đăng nhập lại.</p>
+                            <Button variant="outline" size="sm" onClick={() => window.location.reload()}>Tải lại trang</Button>
+
+                            {/* Hidden debug info for troubleshooting - User can screenshot if needed */}
+                            <div className="mt-4 text-[10px] text-muted-foreground opacity-50 font-mono">
+                                Debug: hasAccess=true, content=null, token={typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'Active' : 'Missing') : 'ssr'}, role={user?.role || 'none'}
+                            </div>
+                        </div>
+                    )}
+
+                    {hasAccess ? (
                         <div className={cn(
-                            "mb-16",
-                            !currentLesson.content && "hidden"
+                            "mb-12 border-t pt-8 mt-4 transition-all duration-300",
+                            !currentLesson.content && !loadingSecure && "min-h-[120px] flex items-center justify-center border-dashed border-2 bg-muted/5 rounded-2xl"
                         )}>
-                            {currentLesson.content && (
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-t pt-10 mt-8">
-                                    <div className="lg:col-span-8 lg:pr-10">
+                            {currentLesson.content ? (
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 border-t pt-8 mt-4">
+                                    <div className="lg:col-span-9">
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:col-span-4 lg:border-l border-zinc-200/50 lg:pl-10 relative h-full">
-                                        <aside className="sticky top-[100px] flex flex-col gap-6">
+                                    <div className="lg:col-span-3">
+                                        <aside className="sticky top-[100px]">
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">
                                                 <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
@@ -523,92 +535,70 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                                             </svg>
-                                                            Mục lục bài học
+                                                            Mục lục
                                                         </div>
                                                         <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />
                                                     </summary>
                                                     <div className="p-6 border-t border-border/30 bg-card">
-                                                        <TableOfContents content={currentLesson.content} />
+                                                        <TableOfContents content={currentLesson.content} variant="boxed" />
                                                     </div>
                                                 </details>
                                             </div>
 
                                             {/* Desktop TOC */}
-                                            <div className="hidden lg:block mt-0">
-                                                <div className="flex items-center gap-2 mb-6">
-                                                    <FileText className="w-5 h-5 text-foreground" />
-                                                    <span className="font-semibold text-foreground">Mục lục bài học</span>
-                                                </div>
-                                                <TableOfContents content={currentLesson.content} hideHeader className="border-none" />
+                                            <div className="hidden lg:block p-3 rounded-xl bg-muted/30 border border-border/50 backdrop-blur-sm">
+                                                <TableOfContents content={currentLesson.content} variant="boxed" />
                                             </div>
+
                                         </aside>
                                     </div>
                                 </div>
+                            ) : (
+                                !loadingSecure && (
+                                    <div className="text-center py-4 px-6">
+                                        <p className="text-muted-foreground text-sm font-medium">Nội dung bài học đang được cập nhật hoặc không thể tải.</p>
+                                        <p className="text-[10px] text-muted-foreground/40 mt-2 font-mono uppercase tracking-tighter">
+                                            Status: No Content | Auth: {typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'Active' : 'Missing') : 'SSR'} | User: {user?.role || 'Guest'}
+                                        </p>
+                                        <Button variant="ghost" size="sm" className="mt-2 text-xs" onClick={() => window.location.reload()}>
+                                            Thử tải lại
+                                        </Button>
+                                    </div>
+                                )
                             )}
                         </div>
-                    )}
+                    ) : null}
 
-                    {/* Floating Bottom Navigation (Restore version) */}
-                    <div className="fixed bottom-10 right-10 z-50 flex flex-col items-end gap-3 pointer-events-none">
-                        <Button
-                            onClick={() => {
-                                if (isLastLesson) {
-                                    window.location.href = `/courses/${courseSlug}`;
-                                } else {
-                                    handleToggleComplete(currentLesson.id);
-                                }
-                            }}
-                            className={cn(
-                                "h-14 px-8 rounded-full shadow-2xl pointer-events-auto flex items-center gap-3 transition-all scale-100 hover:scale-105 active:scale-95",
-                                "bg-zinc-900 text-white hover:bg-black border-none"
-                            )}
-                        >
-                            {isLastLesson ? (
-                                <>
-                                    <span className="font-bold">Hoàn thành khóa học</span>
-                                    <Check className="w-5 h-5" />
-                                </>
-                            ) : (
-                                <>
-                                    <span className="font-bold">
-                                        {completedLessons.includes(currentLesson.id) ? "Đã hoàn thành bài học" : "Hoàn thành bài học"}
-                                    </span>
-                                    <Check className="w-5 h-5" />
-                                </>
-                            )}
-                        </Button>
-                    </div>
-
-                    {/* Navigation Cards - Vercel Geist Style */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-12 border-t border-zinc-200 mt-12">
+                    <div className="flex items-center justify-between pt-4 border-t">
                         {prevLesson ? (
-                            <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}
-                                className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 hover:bg-zinc-50 transition-all text-left">
-                                <span className="text-[13px] font-normal text-zinc-500 mb-1 group-hover:text-zinc-900">Bài cũ hơn</span>
-                                <span className="text-sm font-bold text-zinc-800 line-clamp-1 group-hover:text-black">
-                                    {prevLesson.title}
-                                </span>
+                            <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}>
+                                <Button as="div" variant="outline" size="sm" className="gap-2">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                    </svg>
+                                    Bài trước
+                                </Button>
                             </Link>
                         ) : <div />}
-
-                        {nextLesson ? (
-                            <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}
-                                className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 hover:bg-zinc-50 transition-all text-right items-end">
-                                <span className="text-[13px] font-normal text-zinc-500 mb-1 group-hover:text-zinc-900">Tiếp theo</span>
-                                <span className="text-sm font-bold text-zinc-800 line-clamp-1 group-hover:text-black">
-                                    {nextLesson.title}
-                                </span>
+                        {!isLastLesson && nextLesson ? (
+                            <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}>
+                                <Button as="div" size="sm" className="gap-2">
+                                    Bài tiếp theo
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </Button>
                             </Link>
                         ) : isLastLesson ? (
-                            <Link href={`/courses/${courseSlug}`}
-                                className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 transition-all text-right items-end">
-                                <span className="text-[13px] font-normal text-zinc-500 mb-1 group-hover:text-zinc-900">Kết thúc khóa học</span>
-                                <div className="flex items-center gap-2 text-sm font-bold text-zinc-800 group-hover:text-black">
-                                    Quay lại danh sách bài học
+                            <Link href={`/courses/${courseSlug}`}>
+                                <Button as="div" size="sm" className="gap-2">
+                                    Hoàn thành khóa học
                                     <Check className="w-4 h-4" />
-                                </div>
+                                </Button>
                             </Link>
-                        ) : <div />}
+                        ) : (
+                            <div />
+                        )}
                     </div>
                 </div>
             </main>
