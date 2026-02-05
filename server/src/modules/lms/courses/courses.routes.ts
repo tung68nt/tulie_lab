@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { courseController } from './courses.controller';
-import { authenticate, authorize } from '../../../middleware/auth.middleware';
+import { authenticate, authenticateOptional, authorize } from '../../../middleware/auth.middleware';
 import { Role } from '@prisma/client';
 
 const router = Router();
@@ -15,7 +15,7 @@ router.get('/:id/full', authenticate, authorize([Role.ADMIN]), (req, res) => cou
 // ==========================================
 // LESSONS & ATTACHMENTS
 // ==========================================
-router.get('/lessons/:id/content', authenticate, (req, res) => courseController.getLessonContent(req, res));
+router.get('/lessons/:id/content', authenticateOptional, (req, res) => courseController.getLessonContent(req, res));
 router.post('/lessons/:id/complete', authenticate, (req, res) => courseController.markLessonComplete(req, res));
 router.post('/lessons/:id/uncomplete', authenticate, (req, res) => courseController.markLessonUncomplete(req, res));
 router.put('/lessons/:id', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.updateLesson(req, res));
