@@ -480,7 +480,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 {courseForm.structure.map((chapter, cIndex) => (
                                     <div key={cIndex} className="border p-4 rounded-lg bg-zinc-50/50">
                                         <div className="flex gap-2 items-center mb-3">
-                                            <div className="font-semibold text-sm w-20">Chương {cIndex + 1}:</div>
+                                            <div className="font-semibold text-sm w-20 flex items-center h-10">Chương {cIndex + 1}:</div>
                                             <Input
                                                 value={chapter.title}
                                                 onChange={(e) => {
@@ -500,7 +500,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                         <div className="pl-24 space-y-2">
                                             {chapter.sections.map((section, sIndex) => (
                                                 <div key={sIndex} className="flex gap-2 items-center">
-                                                    <div className="text-xs text-muted-foreground w-16">Phần {cIndex + 1}.{sIndex + 1}:</div>
+                                                    <div className="text-xs text-muted-foreground w-16 flex items-center h-8">Phần {cIndex + 1}.{sIndex + 1}:</div>
                                                     <Input
                                                         value={section}
                                                         className="h-8 text-sm flex-1"
@@ -610,7 +610,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Bạn sẽ học được gì (Learning Outcomes)</label>
                                     <textarea
-                                        className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y font-mono"
+                                        className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y font-sans"
                                         value={newLesson.learningOutcomes}
                                         onChange={e => setNewLesson({ ...newLesson, learningOutcomes: e.target.value })}
                                         placeholder="- Hiểu về...\n- Thực hành..."
@@ -1256,7 +1256,7 @@ function LessonItem({
                                 )}
                             </div>
                             <textarea
-                                className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y disabled:opacity-50 font-mono"
+                                className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y disabled:opacity-50 font-sans"
                                 value={learningOutcomes}
                                 onChange={e => setLearningOutcomes(e.target.value)}
                                 disabled={!isEditingOutcomes}

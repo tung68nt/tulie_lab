@@ -60,12 +60,12 @@ export function CourseChapter({
                 className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
-                <h3 className="font-bold text-[13px] text-foreground flex items-center gap-2">
-                    <span className="text-muted-foreground transition-transform duration-200 shrink-0" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
+                <h3 className="font-bold text-[13px] text-foreground flex items-center gap-2 h-full py-1">
+                    <span className="text-muted-foreground/60 transition-transform duration-200 shrink-0 flex items-center justify-center p-0.5" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
                         <ChevronDown className="w-3.5 h-3.5" />
                     </span>
-                    <span>{chapterName}</span>
-                    <span className="text-[11px] font-normal text-muted-foreground ml-2">
+                    <span className="flex items-center">{chapterName}</span>
+                    <span className="text-[11px] font-normal text-muted-foreground/60 ml-2 flex items-center">
                         ({chapterLessons.length} bài học)
                     </span>
                 </h3>

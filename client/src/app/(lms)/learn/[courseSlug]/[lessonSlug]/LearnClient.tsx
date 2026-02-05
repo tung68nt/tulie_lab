@@ -488,7 +488,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {/* Lesson Description Box */}
                     <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider uppercase">Mô tả chương trình</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans tracking-wider uppercase">Mô tả chương trình</h3>
                         <div className="text-[13px] text-muted-foreground leading-relaxed">
                             {currentLesson.description ? (
                                 <p>{currentLesson.description}</p>
@@ -505,17 +505,39 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             {(() => {
                                 let outcomes: string[] = [];
                                 try {
+                                    const raw = currentLesson.learningOutcomes;
+                                    if (typeof raw === 'string' && raw.trim()) {
+                                        if (raw.startsWith('[') || raw.startsWith('{')) {
+                                            try {
+                                                const parsed = JSON.parse(raw);
+                                                outcomes = Array.isArray(parsed) ? parsed : [parsed];
+                                            } catch {
+                                                outcomes = raw.split('\n');
+                                            }
+                                        } else {
+                                            outcomes = raw.split('\n');
+                                        }
+                                    } else if (Array.isArray(raw)) {
+                                        outcomes = raw.map(String);
+                                    }
+                                } catch (e) {
+                                    console.error('Error parsing outcomes:', e);
                                     if (typeof currentLesson.learningOutcomes === 'string') {
                                         outcomes = currentLesson.learningOutcomes.split('\n');
-                                    } else if (Array.isArray(currentLesson.learningOutcomes)) {
-                                        outcomes = currentLesson.learningOutcomes.map(String);
                                     }
-                                } catch (e) { console.error(e); }
+                                }
 
-                                return outcomes.length > 0 ? (
+                                const filteredOutcomes = outcomes
+                                    .map(o => o.trim())
+                                    .filter(o => o && o !== '-' && o !== '•');
+
+                                return filteredOutcomes.length > 0 ? (
                                     <ul className="space-y-2">
-                                        {outcomes.map((line: string, i: number) => line.trim() && (
-                                            <li key={i} className="flex gap-2">✓ {line.replace(/^- /, '')}</li>
+                                        {filteredOutcomes.map((line: string, i: number) => (
+                                            <li key={i} className="flex gap-2">
+                                                <span className="text-primary mt-1 shrink-0">✓</span>
+                                                <span>{line.replace(/^[-\u2022]\s*/, '')}</span>
+                                            </li>
                                         ))}
                                     </ul>
                                 ) : (
@@ -527,7 +549,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {/* Lesson Materials Box */}
                     <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider uppercase">Tài liệu bài học</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans tracking-wider uppercase">Tài liệu bài học</h3>
                         {currentLesson.attachments && currentLesson.attachments.length > 0 ? (
                             <div className="space-y-2">
                                 {currentLesson.attachments.map((att: any) => (
