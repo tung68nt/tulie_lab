@@ -58,7 +58,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-sm">
+                                    <div className="my-6 rounded-xl border bg-white overflow-hidden shadow-sm">
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
@@ -67,23 +67,27 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             showLineNumbers={true}
                                             lineNumberStyle={{
                                                 minWidth: '3em',
-                                                paddingRight: '1em',
+                                                paddingRight: '1.25em',
                                                 color: '#a1a1aa',
                                                 textAlign: 'right',
                                                 userSelect: 'none',
-                                                fontStyle: 'normal'
+                                                fontSize: '12px',
+                                                fontStyle: 'normal',
+                                                // Using a more specific way to ensure no italics if the font has it
+                                                opacity: 0.8
                                             }}
                                             customStyle={{
                                                 margin: 0,
-                                                padding: '1.5rem 1rem',
-                                                fontSize: '0.85rem',
+                                                padding: '1.5rem 1.25rem',
+                                                fontSize: '13px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
                                             }}
                                             codeTagProps={{
-                                                className: "font-mono",
+                                                className: "font-mono !italic-0", // Try to force no italic
                                                 style: {
                                                     backgroundColor: 'transparent',
+                                                    fontStyle: 'normal'
                                                 }
                                             }}
                                         >
