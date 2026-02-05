@@ -525,7 +525,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:col-span-3">
+                                    <div className="lg:col-span-3 relative h-full">
                                         <aside className="sticky top-[100px]">
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">

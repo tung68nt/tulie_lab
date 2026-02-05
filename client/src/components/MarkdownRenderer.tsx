@@ -25,6 +25,21 @@ const extractText = (children: any): string => {
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
     return (
         <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:tracking-tight", className)}>
+            <style jsx global>{`
+                .prose pre, .prose pre code {
+                    background-color: transparent !important;
+                    background: transparent !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+                .react-syntax-highlighter-line-number {
+                    font-style: normal !important;
+                    opacity: 0.6 !important;
+                }
+                code[class*="language-"], pre[class*="language-"] {
+                    background: transparent !important;
+                }
+            `}</style>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
@@ -62,29 +77,27 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
-                                            language={match ? match[1] : 'text'}
+                                            language={match ? match[1] : 'markdown'}
                                             PreTag="div"
                                             showLineNumbers={true}
                                             lineNumberStyle={{
-                                                minWidth: '3em',
-                                                paddingRight: '1.25em',
-                                                color: '#a1a1aa',
+                                                minWidth: '3.5em',
+                                                paddingRight: '1.5em',
+                                                color: '#71717a',
                                                 textAlign: 'right',
                                                 userSelect: 'none',
-                                                fontSize: '12px',
-                                                fontStyle: 'normal',
-                                                // Using a more specific way to ensure no italics if the font has it
-                                                opacity: 0.8
+                                                fontSize: '11px',
+                                                fontStyle: 'normal !important',
                                             }}
                                             customStyle={{
                                                 margin: 0,
                                                 padding: '1.5rem 1.25rem',
-                                                fontSize: '13px',
+                                                fontSize: '13.5px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
                                             }}
                                             codeTagProps={{
-                                                className: "font-mono !italic-0", // Try to force no italic
+                                                className: "font-mono",
                                                 style: {
                                                     backgroundColor: 'transparent',
                                                     fontStyle: 'normal'
