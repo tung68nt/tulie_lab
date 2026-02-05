@@ -156,7 +156,7 @@ export class CourseService {
     }
 
     async createCourse(data: any) {
-        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure', 'addOnIds', 'saleStartDate', 'saleEndDate'];
+        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure', 'addOnIds', 'saleStartDate', 'saleEndDate', 'releaseDate'];
         const createData: any = {};
 
         for (const key of Object.keys(data)) {
@@ -190,7 +190,7 @@ export class CourseService {
     }
 
     async updateCourse(id: string, data: any) {
-        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure', 'addOnIds', 'saleStartDate', 'saleEndDate'];
+        const validFields = ['title', 'slug', 'description', 'price', 'compareAtPrice', 'isPublished', 'instructorId', 'categoryId', 'thumbnail', 'introVideoUrl', 'learningOutcomes', 'deploymentStatus', 'tag', 'structure', 'addOnIds', 'saleStartDate', 'saleEndDate', 'releaseDate'];
         const filteredData: any = {};
 
         for (const key of Object.keys(data)) {

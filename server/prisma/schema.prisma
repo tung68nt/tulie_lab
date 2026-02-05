@@ -207,6 +207,7 @@ model Course {
   campaignId        String?
   saleStartDate     DateTime?
   saleEndDate       DateTime?
+  releaseDate       DateTime?
   activationCodes   ActivationCode[]
   bundles           BundleCourse[]
   campaign          Campaign?              @relation(fields: [campaignId], references: [id])

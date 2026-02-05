@@ -459,9 +459,26 @@ export default function CoursePage({ params }: { params: any }) {
                                             <h3 className="text-white font-bold mb-2">
                                                 {course.deploymentStatus === 'COMING_SOON' ? 'Sắp ra mắt' : 'Đang cập nhật'}
                                             </h3>
-                                            <p className="text-sm text-zinc-400 mb-4">
-                                                Để lại thông tin để nhận thông báo ưu đãi khi khóa học ra mắt.
-                                            </p>
+                                            {course.deploymentStatus === 'COMING_SOON' && course.releaseDate ? (
+                                                <div className="mb-4">
+                                                    <p className="text-xs text-zinc-500 mb-2">Dự kiến phát hành vào:</p>
+                                                    <div className="text-primary font-bold text-lg bg-primary/10 px-4 py-2 rounded-xl border border-primary/20 flex items-center gap-3">
+                                                        <Clock className="w-5 h-5" />
+                                                        {new Intl.DateTimeFormat('vi-VN', {
+                                                            weekday: 'long',
+                                                            day: '2-digit',
+                                                            month: '2-digit',
+                                                            year: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit'
+                                                        }).format(new Date(course.releaseDate))}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <p className="text-sm text-zinc-400 mb-4">
+                                                    Để lại thông tin để nhận thông báo ưu đãi khi khóa học ra mắt.
+                                                </p>
+                                            )}
                                             <form onSubmit={handleRegisterInterest} className="space-y-3">
                                                 <Input
                                                     placeholder="Họ và tên"

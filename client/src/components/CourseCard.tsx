@@ -19,9 +19,10 @@ interface CourseCardProps {
     tag?: 'NONE' | 'BEST_SELLER' | 'HOT' | 'NEW' | 'DISCOUNT';
     isBundle?: boolean;
     category?: string;
+    releaseDate?: string | Date;
 }
 
-export function CourseCard({ title, slug, description, price, originalPrice, thumbnail, deploymentStatus = 'RELEASED', tag = 'NONE', isBundle = false, category }: CourseCardProps) {
+export function CourseCard({ title, slug, description, price, originalPrice, thumbnail, deploymentStatus = 'RELEASED', tag = 'NONE', isBundle = false, category, releaseDate }: CourseCardProps) {
     const handleCardClick = () => {
         sendGTMEvent('view_item', {
             currency: 'VND',
@@ -74,10 +75,20 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                     </div>
 
                     {(deploymentStatus === 'COMING_SOON' || deploymentStatus === 'UPDATING') && (
-                        <div className="absolute inset-0 z-10 flex items-center justify-center bg-zinc-950/40 backdrop-blur-[2px]">
-                            <span className="inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-1.5 text-[10px] font-semibold text-white border border-white/10">
+                        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-zinc-950/40 backdrop-blur-[2px] transition-all duration-300">
+                            <span className="inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-1.5 text-[10px] font-semibold text-white border border-white/10 mb-2">
                                 {deploymentStatus === 'COMING_SOON' ? 'Sắp ra mắt' : 'Đang nâng cấp'}
                             </span>
+                            {deploymentStatus === 'COMING_SOON' && releaseDate && (
+                                <div className="text-white/90 text-[10px] font-medium px-3 py-1 bg-white/10 rounded-lg backdrop-blur-sm border border-white/5">
+                                    Sẵn sàng vào: {new Intl.DateTimeFormat('vi-VN', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        day: '2-digit',
+                                        month: '2-digit'
+                                    }).format(new Date(releaseDate))}
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
