@@ -27,7 +27,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ]
         },
         {
-            title: 'Whiteboard (Bảng trắng)',
+            title: 'Whiteboard',
             icon: Palette,
             items: [
                 { href: '/whiteboard', label: 'Bảng vẽ của tôi' },
