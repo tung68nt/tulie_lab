@@ -97,9 +97,9 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     return (
         <div className={cn("space-y-4", className)}>
-            <div className="flex items-center gap-2 px-3 py-1">
-                <List size={18} className="text-foreground" />
-                <h3 className="text-[15px] font-bold text-foreground">Mục lục bài học</h3>
+            <div className="flex items-center gap-2 px-3 py-1 mb-1">
+                <List size={18} className="text-foreground shrink-0" />
+                <h3 className="text-[15px] font-bold text-foreground leading-none">Mục lục tài liệu</h3>
             </div>
 
             <nav className="flex flex-col gap-0.5">

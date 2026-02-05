@@ -535,7 +535,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                                             </svg>
-                                                            Mục lục bài học
+                                                            Mục lục tài liệu
                                                         </div>
                                                         <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />
                                                     </summary>
