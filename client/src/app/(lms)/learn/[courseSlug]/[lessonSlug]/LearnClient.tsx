@@ -439,8 +439,8 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                             <Lightbulb className="w-5 h-5 fill-primary/20" />
                                         </div>
                                         <div className="flex flex-col min-w-0 justify-center">
-                                            <h3 className="text-sm font-bold text-primary/90 leading-tight">Hướng dẫn & Lưu ý học tập</h3>
-                                            <p className="text-[11px] text-muted-foreground font-medium leading-tight focus:outline-none">Mở rộng để xem thông tin bài học</p>
+                                            <h3 className="text-sm font-bold text-primary/90 leading-tight m-0">Hướng dẫn & Lưu ý học tập</h3>
+                                            <p className="text-[11px] text-muted-foreground font-medium leading-tight m-0 focus:outline-none">Mở rộng để xem thông tin bài học</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -454,6 +454,17 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                     <MarkdownRenderer content={currentLesson.guide} />
                                 </div>
                             </details>
+                        </div>
+                    )}
+
+                    {loadingSecure && (
+                        <div className="mt-8 space-y-4">
+                            <div className="h-8 bg-muted rounded w-3/4 animate-pulse" />
+                            <div className="space-y-2">
+                                <div className="h-4 bg-muted rounded w-full animate-pulse" />
+                                <div className="h-4 bg-muted rounded w-full animate-pulse" />
+                                <div className="h-4 bg-muted rounded w-2/3 animate-pulse" />
+                            </div>
                         </div>
                     )}
 
