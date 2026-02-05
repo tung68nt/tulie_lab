@@ -180,7 +180,7 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
             <div className="flex max-w-[1200px] mx-auto border-x border-border/40 min-h-screen shadow-sm bg-background">
                 {/* Sidebar */}
                 <aside className="hidden lg:block w-64 shrink-0 border-r border-border bg-background/50 backdrop-blur-sm">
-                    <div className="sticky top-24 h-[calc(100vh-96px)] overflow-y-auto py-4 px-6">
+                    <div className="sticky top-24 h-[calc(100vh-96px)] overflow-y-auto pt-10 pb-4 px-6">
                         {/* Sidebar Header - matches reference design */}
                         <div className="flex items-center gap-2 mb-6">
                             <FileText className="w-5 h-5 text-foreground" />
