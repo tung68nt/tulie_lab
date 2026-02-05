@@ -68,22 +68,27 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     }, [content]);
 
     useEffect(() => {
-        const handleObserver = (entries: IntersectionObserverEntry[]) => {
-            const visibleHeadings = entries
-                .filter(entry => entry.isIntersecting)
-                .sort((a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top);
+        const observer = new IntersectionObserver(
+            (entries) => {
+                // We track all visible headings
+                const visibleHeadings = headings
+                    .map(h => ({ id: h.id, element: document.getElementById(h.id) }))
+                    .filter(h => h.element)
+                    .map(h => ({ id: h.id, rect: h.element!.getBoundingClientRect() }))
+                    .filter(h => h.rect.top < 150); // Focus on headings that are near or above the top (with a small buffer)
 
-            if (visibleHeadings.length > 0) {
-                // If we see headings, the one closest to the top of the rootMargin is active
-                setActiveId(visibleHeadings[0].target.id);
+                if (visibleHeadings.length > 0) {
+                    // The active one is the one closest to the top of our focus line (e.g. 100px from top)
+                    // but we pick the last one that hasn't scrolled past our focus point yet
+                    const active = visibleHeadings[visibleHeadings.length - 1];
+                    setActiveId(active.id);
+                }
+            },
+            {
+                rootMargin: '-80px 0px -80% 0px',
+                threshold: [0, 1]
             }
-        };
-
-        const observer = new IntersectionObserver(handleObserver, {
-            // Check top 25% of the screen
-            rootMargin: '0px 0px -75% 0px',
-            threshold: 0
-        });
+        );
 
         headings.forEach((heading) => {
             const element = document.getElementById(heading.id);
@@ -97,12 +102,14 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     return (
         <div className={cn("space-y-4", className)}>
-            <div className="flex items-center gap-2 px-3 py-1 mb-1">
+            <div className="flex items-center gap-2.5 px-1 py-1">
                 <List size={18} className="text-foreground shrink-0" />
                 <h3 className="text-[15px] font-bold text-foreground leading-none">Mục lục tài liệu</h3>
             </div>
 
-            <nav className="flex flex-col gap-0.5">
+            <div className="h-[1px] bg-border/60 mx-1" />
+
+            <nav className="flex flex-col gap-0.5 pt-1">
                 {headings.map((heading) => (
                     <a
                         key={heading.id}

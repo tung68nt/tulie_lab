@@ -547,9 +547,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                                             {/* Desktop TOC */}
                                             <div className="hidden lg:block">
-                                                <div className="p-1 rounded-xl border border-border/40 bg-zinc-50/50">
-                                                    <TableOfContents content={currentLesson.content} />
-                                                </div>
+                                                <TableOfContents content={currentLesson.content} />
                                             </div>
 
                                         </aside>
