@@ -469,12 +469,12 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
-                    <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-baseline justify-between gap-4">
                         <h2 className="text-2xl font-bold text-foreground">{currentLesson.title}</h2>
                         <Button
                             onClick={() => handleToggleComplete(currentLesson.id)}
                             variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
-                            className="gap-2 shrink-0"
+                            className="gap-2 shrink-0 text-xs h-9"
                         >
                             {completedLessons.includes(currentLesson.id) ? (
                                 <><Check className="w-4 h-4" /> Đã hoàn thành</>
@@ -567,9 +567,9 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             </Link>
                         ) : isLastLesson ? (
                             <Link href={`/courses/${courseSlug}`}
-                                className="group flex flex-col p-5 rounded-2xl border border-zinc-900 bg-zinc-900 hover:bg-zinc-800 transition-all text-right items-end shadow-md">
-                                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Kết thúc khóa học</span>
-                                <div className="flex items-center gap-2 text-sm font-bold text-white">
+                                className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 transition-all text-right items-end">
+                                <span className="text-[11px] font-bold text-zinc-500 tracking-widest mb-1 group-hover:text-zinc-900">Kết thúc khóa học</span>
+                                <div className="flex items-center gap-2 text-sm font-bold text-zinc-800 group-hover:text-black">
                                     Quay lại danh sách bài học
                                     <Check className="w-4 h-4" />
                                 </div>

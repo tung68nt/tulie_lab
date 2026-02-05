@@ -77,20 +77,37 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 /* Syntax Highlighting - High Vibrancy Overrides for Vercel Look */
                 .token.comment { color: #8e8e8e !important; }
                 .token.punctuation { color: #999 !important; }
-                .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #0070f3 !important; } /* Vercel Blue */
-                .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #02824c !important; } /* Success Green */
-                .token.operator, .token.entity, .token.url { color: #0070f3 !important; }
-                .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; font-weight: 500 !important; } /* Vivid Red */
-                .token.function, .token.class-name { color: #f81ce5 !important; } /* Vercel Pink/Purple */
-                .token.parameter, .token.variable { color: #7928ca !important; } /* Deep Purple */
                 
-                /* Dark Mode Overrides */
+                /* Keywords, Tags, Atrules - Red (#D73A49) */
+                .token.atrule, .token.attr-name, .token.keyword, .token.tag, .token.selector { 
+                    color: #d73a49 !important; 
+                    font-weight: 500 !important; 
+                }
+                
+                /* Strings, Booleans, Attr-values - Blue (#005CC5) */
+                .token.string, .token.char, .token.attr-value, .token.boolean, .token.inserted { 
+                    color: #005cc5 !important; 
+                }
+                
+                /* Functions, Classes, Builtins - Purple (#6F42C1) */
+                .token.function, .token.class-name, .token.builtin, .token.property { 
+                    color: #6f42c1 !important; 
+                }
+                
+                /* Constants, Numbers, Symbols - Deep Blue (#032F62) */
+                .token.constant, .token.number, .token.symbol, .token.deleted, .token.variable { 
+                    color: #032f62 !important; 
+                }
+
+                .token.operator, .token.entity, .token.url { color: #005cc5 !important; }
+                
+                /* Dark Mode Overrides - Keep it vibrant but readable */
                 .dark .token.comment { color: #888 !important; }
                 .dark .token.punctuation { color: #666 !important; }
-                .dark .token.property, .dark .token.tag, .dark .token.boolean, .dark .token.number, .dark .token.constant, .dark .token.symbol { color: #3291ff !important; }
-                .dark .token.keyword { color: #ff4d4d !important; }
-                .dark .token.function { color: #f81ce5 !important; }
+                .dark .token.keyword, .dark .token.tag { color: #ff4d4d !important; }
                 .dark .token.string { color: #50e3c2 !important; }
+                .dark .token.function { color: #f81ce5 !important; }
+                .dark .token.number, .dark .token.constant { color: #3291ff !important; }
             `}</style>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}

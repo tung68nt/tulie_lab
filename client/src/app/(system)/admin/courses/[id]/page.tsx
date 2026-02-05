@@ -14,6 +14,7 @@ import { Select } from '@/components/Select';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { PriceInput } from '@/components/PriceInput';
 import { MultiSelect } from '@/components/MultiSelect';
+import { AdminStickyFooter } from '@/components/system/admin/AdminStickyFooter';
 import dynamic from 'next/dynamic';
 
 const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEditor'), {
@@ -783,6 +784,14 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                     </Card>
                 </div>
             </div>
+
+            <div className="h-24" />
+            <AdminStickyFooter
+                onSave={handleUpdateCourse}
+                onCancel={() => router.push('/admin/courses')}
+                onViewLive={() => window.open(`/courses/${courseForm.slug}`, '_blank')}
+                isDirty={true}
+            />
         </div>
     );
 }
@@ -1173,8 +1182,7 @@ function LessonItem({
                         <div className="md:col-span-2 space-y-2 pt-4 border-t border-dashed">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                    <label className="text-xs font-semibold text-muted-foreground">Hướng dẫn & Lưu ý học tập (Prompts)</label>
-                                    <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Mở rộng dưới Video</span>
+                                    <label className="text-xs font-semibold text-muted-foreground">Hướng dẫn & Lưu ý học tập</label>
                                 </div>
                                 {isEditingGuide ? (
                                     <div className="flex gap-2">
