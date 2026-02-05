@@ -1,0 +1,87 @@
+{
+  "taskId": "ucq5w4",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "ucq5w4",
+      "version": 1,
+      "timestamp": "2026-02-05T15:25:58.164Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Image upload and external video embedding"
+            },
+            {
+              "completed": false,
+              "text": "Sticky notes and template system"
+            },
+            {
+              "completed": false,
+              "text": "Layer management (Order/Group)"
+            },
+            {
+              "completed": false,
+              "text": "Version history / Snapshotting"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Image upload and external video embedding"
+            },
+            {
+              "completed": true,
+              "text": "Sticky notes and template system"
+            },
+            {
+              "completed": true,
+              "text": "Layer management (Order/Group)"
+            },
+            {
+              "completed": true,
+              "text": "Version history / Snapshotting"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Phase 3: Image uploads, version history (snapshotting), and advanced UI features implemented."
+        }
+      ],
+      "snapshot": {
+        "title": "[Whiteboard] Phase 3: Advanced Features & Multimedia Integration",
+        "status": "done",
+        "priority": "medium",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Image upload and external video embedding"
+          },
+          {
+            "completed": true,
+            "text": "Sticky notes and template system"
+          },
+          {
+            "completed": true,
+            "text": "Layer management (Order/Group)"
+          },
+          {
+            "completed": true,
+            "text": "Version history / Snapshotting"
+          }
+        ],
+        "implementationNotes": "Phase 3: Image uploads, version history (snapshotting), and advanced UI features implemented."
+      }
+    }
+  ]
+}

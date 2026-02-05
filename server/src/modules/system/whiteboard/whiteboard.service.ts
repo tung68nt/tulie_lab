@@ -1,5 +1,6 @@
 import { IWhiteboardRepository } from './interfaces/whiteboard.repository.interface';
 import { WhiteboardStatus } from '@prisma/client';
+import prisma from '../../../config/prisma';
 
 export class WhiteboardService {
     constructor(private whiteboardRepository: IWhiteboardRepository) { }
@@ -46,5 +47,58 @@ export class WhiteboardService {
             elements,
             createdById: userId
         });
+    }
+
+    async getAdminStats() {
+        const [totalBoards, totalArtboards, usersWithBoards] = await Promise.all([
+            prisma.whiteboard.count({ where: { deletedAt: null } }),
+            prisma.artboard.count(),
+            prisma.whiteboard.groupBy({
+                by: ['creatorId'],
+                _count: { id: true },
+            })
+        ]);
+
+        // Get storage estimation (elements size)
+        const storageUsage = await prisma.artboard.findMany({
+            select: { elements: true }
+        });
+
+        const totalSize = storageUsage.reduce((acc, art) => {
+            if (!art.elements) return acc;
+            return acc + JSON.stringify(art.elements).length;
+        }, 0);
+
+        const topUsers = await Promise.all(
+            usersWithBoards
+                .sort((a, b) => b._count.id - a._count.id)
+                .slice(0, 10)
+                .map(async (u) => {
+                    const user = await prisma.user.findUnique({
+                        where: { id: u.creatorId },
+                        select: {
+                            email: true,
+                            profile: {
+                                select: { name: true }
+                            }
+                        }
+                    });
+                    return {
+                        id: u.creatorId,
+                        name: user?.profile?.name || 'Unknown',
+                        email: user?.email || 'N/A',
+                        boardCount: u._count.id
+                    };
+                })
+        );
+
+        return {
+            totalBoards,
+            totalArtboards,
+            totalUsers: usersWithBoards.length,
+            totalStorageBytes: totalSize,
+            topUsers,
+            updatedAt: new Date().toISOString()
+        };
     }
 }

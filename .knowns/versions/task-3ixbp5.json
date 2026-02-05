@@ -1,0 +1,99 @@
+{
+  "taskId": "3ixbp5",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "3ixbp5",
+      "version": 1,
+      "timestamp": "2026-02-05T15:25:57.527Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Fabric.js/tldraw integrated with Next.js"
+            },
+            {
+              "completed": false,
+              "text": "Pen, shapes, eraser, and text tools functional"
+            },
+            {
+              "completed": false,
+              "text": "Artboard management (slides) implemented"
+            },
+            {
+              "completed": false,
+              "text": "Auto-save to backend"
+            },
+            {
+              "completed": false,
+              "text": "Export as PDF/PNG"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Fabric.js/tldraw integrated with Next.js"
+            },
+            {
+              "completed": true,
+              "text": "Pen, shapes, eraser, and text tools functional"
+            },
+            {
+              "completed": true,
+              "text": "Artboard management (slides) implemented"
+            },
+            {
+              "completed": true,
+              "text": "Auto-save to backend"
+            },
+            {
+              "completed": true,
+              "text": "Export as PDF/PNG"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Phase 1: Core drawing engine with tldraw, artboard management, and auto-sync implemented."
+        }
+      ],
+      "snapshot": {
+        "title": "[Whiteboard] Phase 1: MVP Core Features (Canvas & Drawing)",
+        "status": "done",
+        "priority": "high",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Fabric.js/tldraw integrated with Next.js"
+          },
+          {
+            "completed": true,
+            "text": "Pen, shapes, eraser, and text tools functional"
+          },
+          {
+            "completed": true,
+            "text": "Artboard management (slides) implemented"
+          },
+          {
+            "completed": true,
+            "text": "Auto-save to backend"
+          },
+          {
+            "completed": true,
+            "text": "Export as PDF/PNG"
+          }
+        ],
+        "implementationNotes": "Phase 1: Core drawing engine with tldraw, artboard management, and auto-sync implemented."
+      }
+    }
+  ]
+}

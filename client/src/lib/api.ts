@@ -553,5 +553,6 @@ export const api: any = {
         saveArtboard: (artboardId: string, elements: any) => request<any>(`/whiteboards/artboards/${artboardId}/state`, { method: 'PUT', body: JSON.stringify({ elements }) }),
         addArtboard: (id: string, name?: string) => request<any>(`/whiteboards/${id}/artboards`, { method: 'POST', body: JSON.stringify({ name }) }),
         saveSnapshot: (id: string, artboardId: string, elements: any) => request<any>(`/whiteboards/${id}/snapshots`, { method: 'POST', body: JSON.stringify({ artboardId, elements }) }),
+        getAdminStats: () => request<any>('/whiteboards/admin/stats'),
     }
 };

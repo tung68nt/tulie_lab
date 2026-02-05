@@ -1,18 +1,3 @@
 {
-  "active": [
-    {
-      "taskId": "y11dhx",
-      "taskTitle": "Fix UI/UX Issues - Responsive, Icons, Buttons",
-      "startedAt": "2026-02-04T15:48:16.666Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
-    },
-    {
-      "taskId": "206udw",
-      "taskTitle": "Comprehensive Independent System Audit (Security, Performance & Code Quality)",
-      "startedAt": "2026-02-05T12:25:45.542Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
-    }
-  ]
+  "active": []
 }

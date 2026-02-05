@@ -23,4 +23,9 @@ router.post('/:id/artboards', controller.addArtboard);
 router.post('/:id/snapshots', controller.saveSnapshot);
 router.put('/artboards/:artboardId/state', controller.saveArtboardState);
 
+// Admin routes
+import { authorize } from '../../../middleware/auth.middleware';
+import { Role } from '@prisma/client';
+router.get('/admin/stats', authorize([Role.ADMIN]), controller.getAdminStats);
+
 export default router;

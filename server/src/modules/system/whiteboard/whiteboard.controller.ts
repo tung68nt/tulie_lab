@@ -89,4 +89,13 @@ export class WhiteboardController {
             res.status(500).json({ message: error.message });
         }
     };
+
+    getAdminStats = async (req: Request, res: Response) => {
+        try {
+            const stats = await this.whiteboardService.getAdminStats();
+            res.json(stats);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    };
 }

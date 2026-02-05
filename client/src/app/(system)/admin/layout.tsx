@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             icon: Palette,
             items: [
                 { href: '/whiteboard', label: 'Bảng vẽ của tôi' },
-                { href: '/whiteboard', label: 'Phòng cộng tác', exact: false },
+                { href: '/admin/whiteboards', label: 'Quản lý & Thống kê' },
             ]
         },
         {
