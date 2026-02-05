@@ -787,7 +787,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
 
             <div className="h-24" />
             <AdminStickyFooter
-                onSave={handleUpdateCourse}
+                onSave={() => handleUpdateCourse({ preventDefault: () => { } } as any)}
                 onCancel={() => router.push('/admin/courses')}
                 onViewLive={() => window.open(`/courses/${courseForm.slug}`, '_blank')}
                 isDirty={true}
