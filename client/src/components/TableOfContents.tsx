@@ -100,9 +100,9 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     return (
         <div className={cn("px-0 md:px-1", className)}>
-            <div className="flex items-center gap-2 px-0 pb-4 border-b border-zinc-200">
-                <List size={18} className="text-foreground/90 shrink-0" />
-                <h3 className="text-[15px] font-bold text-foreground whitespace-nowrap">Mục lục tài liệu</h3>
+            <div className="flex items-center gap-2 pb-4 border-b border-zinc-200">
+                <List size={16} className="text-foreground/90 shrink-0 translate-y-[1px]" />
+                <span className="text-[15px] font-bold text-foreground whitespace-nowrap leading-none">Mục lục tài liệu</span>
             </div>
 
             <nav className="flex flex-col gap-0.5 mt-4">
