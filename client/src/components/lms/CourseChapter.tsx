@@ -158,29 +158,27 @@ export function CourseChapter({
                                                     <span className="text-xs">🔒</span>
                                                 </Button>
                                             ) : (
-                                            ): (
-                                                    <Link href = {`/learn/${courseSlug}/${lesson.slug}`}>
-                                            <Button size="sm" className="h-8 text-xs font-semibold shadow-sm px-4">
-                                                Vào học
-                                            </Button>
-                                        </Link>
+                                                <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
+                                                    <Button size="sm" className="h-8 text-xs font-semibold shadow-sm px-4">
+                                                        Vào học
+                                                    </Button>
+                                                </Link>
                                             )}
-                                            )}
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Expandable Description */}
-                                {lesson.description && (
-                                    <p className={`text-xs text-muted-foreground mt-2 leading-relaxed transition-all ${isExpanded ? 'line-clamp-none' : 'line-clamp-1'}`}>
-                                        {lesson.description}
-                                    </p>
-                                )}
+                                    {/* Expandable Description */}
+                                    {lesson.description && (
+                                        <p className={`text-xs text-muted-foreground mt-2 leading-relaxed transition-all ${isExpanded ? 'line-clamp-none' : 'line-clamp-1'}`}>
+                                            {lesson.description}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        </div>
-            );
+                    );
                 })}
-        </div>
+            </div>
         </div >
     );
 }
