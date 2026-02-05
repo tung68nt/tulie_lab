@@ -107,12 +107,12 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-2 px-3 text-[13px] leading-tight border-l-2 transition-all duration-200 font-normal rounded-r-md",
+                            "group block py-2 px-3 text-[13px] leading-tight transition-all duration-200 font-normal rounded-lg",
                             heading.level === 3 ? "pl-6" : "",
                             heading.level === 1 ? "font-semibold text-foreground/90" : "",
                             activeId === heading.id
-                                ? "text-primary border-primary bg-primary/10 font-bold shadow-sm"
-                                : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"
+                                ? "text-primary bg-primary/5 font-bold shadow-sm"
+                                : "text-muted-foreground/70 hover:text-foreground hover:bg-muted/30"
                         )}
                     >
                         <span className={cn(

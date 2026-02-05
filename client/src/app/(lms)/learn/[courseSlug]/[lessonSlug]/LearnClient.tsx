@@ -485,7 +485,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     </div>
 
                     {currentLesson.attachments && currentLesson.attachments.length > 0 && (
-                        <div className="bg-muted/10 rounded-xl border p-5 mb-6">
+                        <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
                             <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider">Tài nguyên bài học</h3>
                             <div className="space-y-2">
                                 {currentLesson.attachments.map((att: any) => (
