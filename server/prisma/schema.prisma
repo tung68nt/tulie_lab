@@ -413,6 +413,7 @@ model Order {
   isGift           Boolean             @default(false)
   metadata         Json?
   promoCodeId      String?
+  promoCode        Coupon?             @relation(fields: [promoCodeId], references: [id])
   invoiceProfileId String?
   activationCodes  ActivationCode[]
   marketingLead    MarketingLead?
@@ -487,6 +488,7 @@ model Coupon {
   forBirthday   Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  orders        Order[]
   usages        CouponUsage[]
 }
 
