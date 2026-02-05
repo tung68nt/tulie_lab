@@ -414,7 +414,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
             {/* Main Content */}
             <main className="flex-1 min-w-0">
-                <div className="max-w-[1600px] mx-auto p-4 md:p-6">
+                <div className="max-w-6xl mx-auto p-4 md:p-6">
                     {currentLesson.videoUrl && (
                         <div className="w-full relative">
                             <VideoPlayer
@@ -469,12 +469,12 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
-                    <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-baseline justify-between gap-4">
+                    <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <h2 className="text-2xl font-bold text-foreground">{currentLesson.title}</h2>
                         <Button
                             onClick={() => handleToggleComplete(currentLesson.id)}
                             variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
-                            className="lg:hidden gap-2 shrink-0 text-xs h-9"
+                            className="gap-2 shrink-0 text-xs h-9"
                         >
                             {completedLessons.includes(currentLesson.id) ? (
                                 <><Check className="w-4 h-4" /> Đã hoàn thành</>
@@ -508,26 +508,13 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             !currentLesson.content && "hidden"
                         )}>
                             {currentLesson.content && (
-                                <div className="grid grid-cols-1 lg:grid-cols-[1fr,350px] gap-12 border-t pt-10 mt-8">
-                                    <div className="lg:pr-12">
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-t pt-10 mt-8">
+                                    <div className="lg:col-span-8 lg:pr-10">
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:border-l border-zinc-200/50 lg:pl-10 relative h-full">
+                                    <div className="lg:col-span-4 lg:border-l border-zinc-200/50 lg:pl-10 relative h-full">
                                         <aside className="sticky top-[100px] flex flex-col gap-6">
-                                            {/* Desktop Mark Complete Button */}
-                                            <Button
-                                                onClick={() => handleToggleComplete(currentLesson.id)}
-                                                variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
-                                                className="hidden lg:flex w-full gap-2 text-xs font-semibold h-10 shadow-sm"
-                                            >
-                                                {completedLessons.includes(currentLesson.id) ? (
-                                                    <><Check className="w-4 h-4" /> Đã hoàn thành</>
-                                                ) : (
-                                                    "Đánh dấu hoàn thành"
-                                                )}
-                                            </Button>
-
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">
                                                 <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
@@ -560,6 +547,37 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             )}
                         </div>
                     )}
+
+                    {/* Floating Bottom Navigation (Restore version) */}
+                    <div className="fixed bottom-10 right-10 z-50 flex flex-col items-end gap-3 pointer-events-none">
+                        <Button
+                            onClick={() => {
+                                if (isLastLesson) {
+                                    window.location.href = `/courses/${courseSlug}`;
+                                } else {
+                                    handleToggleComplete(currentLesson.id);
+                                }
+                            }}
+                            className={cn(
+                                "h-14 px-8 rounded-full shadow-2xl pointer-events-auto flex items-center gap-3 transition-all scale-100 hover:scale-105 active:scale-95",
+                                "bg-zinc-900 text-white hover:bg-black border-none"
+                            )}
+                        >
+                            {isLastLesson ? (
+                                <>
+                                    <span className="font-bold">Hoàn thành khóa học</span>
+                                    <Check className="w-5 h-5" />
+                                </>
+                            ) : (
+                                <>
+                                    <span className="font-bold">
+                                        {completedLessons.includes(currentLesson.id) ? "Đã hoàn thành bài học" : "Hoàn thành bài học"}
+                                    </span>
+                                    <Check className="w-5 h-5" />
+                                </>
+                            )}
+                        </Button>
+                    </div>
 
                     {/* Navigation Cards - Vercel Geist Style */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-12 border-t border-zinc-200 mt-12">

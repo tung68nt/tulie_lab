@@ -125,11 +125,11 @@ export function TableOfContents({ content, className, onItemClick, hideHeader = 
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-1.5 px-2 text-[13px] leading-snug transition-all duration-200 rounded-md",
-                            heading.level === 3 ? "pl-4" : "pl-2",
+                            "group block py-1 text-[13px] leading-snug transition-all duration-200",
+                            heading.level === 3 ? "pl-4" : "pl-0",
                             activeId === heading.id
                                 ? "text-foreground font-bold"
-                                : "text-muted-foreground/70 hover:text-foreground font-normal"
+                                : "text-muted-foreground/60 hover:text-foreground font-normal"
                         )}
                     >
                         <span className="transition-transform inline-block">

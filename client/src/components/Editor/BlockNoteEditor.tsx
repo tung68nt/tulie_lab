@@ -53,10 +53,10 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
             <style dangerouslySetInnerHTML={{
                 __html: `
                 .bn-editor {
-                    padding: 2rem 1rem !important; /* Reduced horizontal padding */
+                    padding: 2rem 2rem !important; /* Reduced horizontal padding */
                     font-family: var(--font-sans) !important;
-                    max-width: 65ch; /* Match prose width approximately if needed, or keeping it fluid but padded */
-                    margin: 0 auto;
+                    max-width: 100% !important; /* Full width */
+                    margin: 0 !important;
                 }
                 
                 /* Headings - matching MarkdownRenderer prose-premium */
