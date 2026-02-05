@@ -108,6 +108,12 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 .dark .token.string { color: #50e3c2 !important; }
                 .dark .token.function { color: #f81ce5 !important; }
                 .dark .token.number, .dark .token.constant { color: #3291ff !important; }
+                
+                /* Explicitly hide any potential shadows from Prism generated elements */
+                pre, code, div[class*="language-"] {
+                    box-shadow: none !important;
+                    text-shadow: none !important;
+                }
             `}</style>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
@@ -142,10 +148,10 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="rounded-xl border border-[#eaeaea] bg-white overflow-hidden shadow-sm">
+                                    <div className="rounded-lg border border-[#eaeaea] bg-white overflow-hidden shadow-none">
                                         <SyntaxHighlighter
                                             {...props}
-                                            style={ghcolors}
+                                            useInlineStyles={false}
                                             language={match ? match[1] : 'markdown'}
                                             PreTag="div"
                                             showLineNumbers={true}
@@ -164,13 +170,6 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                                 fontSize: '14px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
-                                            }}
-                                            codeTagProps={{
-                                                style: {
-                                                    backgroundColor: 'transparent',
-                                                    fontStyle: 'normal',
-                                                    boxShadow: 'none',
-                                                }
                                             }}
                                         >
                                             {String(children).replace(/\n$/, '')}
