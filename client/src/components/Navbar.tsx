@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './Button';
-import { Sun, Moon, Rocket, BookOpen, Package, User, Key, FileText, LogOut } from 'lucide-react';
+import { Sun, Moon, Rocket, BookOpen, Package, User, Key, FileText, LogOut, Palette } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import { api } from '@/lib/api';
 import { Logo } from '@/components/Logo';
@@ -403,6 +403,12 @@ export function Navbar() {
                                                         Quản trị hệ thống
                                                     </Link>
                                                 )}
+                                                <Link href="/whiteboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                    <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
+                                                        <Palette size={14} />
+                                                    </div>
+                                                    Bảng trắng
+                                                </Link>
                                                 <Link href="/dashboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <BookOpen size={14} />
@@ -623,6 +629,9 @@ export function Navbar() {
                         </Link>
                         <Link href="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Hồ sơ cá nhân
+                        </Link>
+                        <Link href="/whiteboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                            Bảng trắng cộng tác
                         </Link>
                         <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Khoá học của tôi

@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import { Server } from 'socket.io';
+import { WhiteboardGateway } from './modules/system/whiteboard/whiteboard.gateway';
 
 // Set timezone to Vietnam (UTC+7) for consistent date/time display
 process.env.TZ = 'Asia/Ho_Chi_Minh';
@@ -33,6 +35,22 @@ const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}. Initializing services... [Reloaded: ${new Date().toISOString()}]`);
   initializeApp();
 });
+
+// --- WebSocket Initialization ---
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_URL || '*',
+    methods: ['GET', 'POST'],
+    credentials: true
+  },
+  pingTimeout: 60000,
+});
+
+// Initialize Whiteboard Socket Gateway
+new WhiteboardGateway(io);
+
+// Pass io to app if needed for other modules
+app.set('io', io);
 
 // --- Async App Initialization ---
 async function initializeApp() {
@@ -190,6 +208,7 @@ async function initializeApp() {
         { path: '/api/crm', module: './modules/system/crm/crm.routes' },
         { path: '/api/admin/lms/analytics', module: './modules/lms/analytics/analytics.routes' },
         { path: '/api/mentoring', module: './modules/lms/mentoring/mentoring.routes' },
+        { path: '/api/whiteboards', module: './modules/system/whiteboard/whiteboard.routes' },
         { path: '/api', module: './modules/lms/journeys/journey.routes' }
       ];
 

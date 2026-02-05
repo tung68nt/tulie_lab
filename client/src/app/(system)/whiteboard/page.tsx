@@ -1,0 +1,119 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { api } from '@/lib/api';
+import { Button } from '@/components/Button';
+import { Plus, Layout, ArrowRight, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+export default function WhiteboardDashboard() {
+    const [whiteboards, setWhiteboards] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isCreating, setIsCreating] = useState(false);
+    const router = useRouter();
+
+    const fetchWhiteboards = async () => {
+        try {
+            const data = await api.whiteboards.list();
+            setWhiteboards(data);
+        } catch (error) {
+            console.error('Failed to fetch whiteboards:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchWhiteboards();
+    }, []);
+
+    const handleCreate = async () => {
+        setIsCreating(true);
+        try {
+            const newBoard = await api.whiteboards.create({
+                title: `Bảng trắng mới ${whiteboards.length + 1}`,
+            });
+            router.push(`/whiteboard/${newBoard.id}`);
+        } catch (error) {
+            console.error('Failed to create whiteboard:', error);
+            setIsCreating(false);
+        }
+    };
+
+    const handleDelete = async (id: string, e: React.MouseEvent) => {
+        e.preventDefault();
+        if (!confirm('Bạn có chắc chắn muốn xóa bảng trắng này?')) return;
+        try {
+            await api.whiteboards.delete(id);
+            setWhiteboards(whiteboards.filter(b => b.id !== id));
+        } catch (error) {
+            console.error('Failed to delete whiteboard:', error);
+        }
+    };
+
+    return (
+        <div className="container max-w-6xl py-8 pt-24 px-4 md:px-0">
+            <div className="flex items-center justify-between mb-8">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Bảng trắng của tôi</h1>
+                    <p className="text-muted-foreground mt-1">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
+                </div>
+                <Button onClick={handleCreate} disabled={isCreating} className="gap-2">
+                    <Plus className="w-4 h-4" />
+                    Tạo bảng mới
+                </Button>
+            </div>
+
+            {isLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="h-48 rounded-xl bg-muted animate-pulse" />
+                    ))}
+                </div>
+            ) : whiteboards.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed rounded-2xl bg-muted/30">
+                    <Layout className="w-12 h-12 text-muted-foreground mb-4 opacity-20" />
+                    <h2 className="text-xl font-semibold mb-2">Chưa có bảng trắng nào</h2>
+                    <p className="text-muted-foreground mb-6">Hãy bắt đầu tạo bảng trắng đầu tiên của bạn để cộng tác.</p>
+                    <Button variant="outline" onClick={handleCreate} disabled={isCreating}>
+                        Bắt đầu vẽ ngay
+                    </Button>
+                </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {whiteboards.map((board) => (
+                        <Link
+                            key={board.id}
+                            href={`/whiteboard/${board.id}`}
+                            className="group relative flex flex-col bg-card border rounded-xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg"
+                        >
+                            <div className="h-32 bg-muted/50 flex items-center justify-center border-b">
+                                <Layout className="w-8 h-8 text-muted-foreground opacity-30 group-hover:scale-110 transition-transform" />
+                            </div>
+                            <div className="p-4">
+                                <h3 className="font-semibold text-lg line-clamp-1">{board.title || 'Không tiêu đề'}</h3>
+                                <div className="flex items-center justify-between mt-4">
+                                    <span className="text-xs text-muted-foreground">
+                                        {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-8 w-8 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                                            onClick={(e) => handleDelete(board.id, e)}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </Button>
+                                        <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
