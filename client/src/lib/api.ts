@@ -50,6 +50,7 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 
     const headers: Record<string, string> = {
         'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
     };
 
     if (token) {
