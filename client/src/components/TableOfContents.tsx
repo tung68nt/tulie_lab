@@ -106,7 +106,7 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
             </div>
             <div className="h-[1px] w-full bg-border/40 mb-6" />
 
-            <div className="h-[1px] bg-border/60 mx-0.5" />
+
 
             <nav className="flex flex-col gap-0.5 pt-1">
                 {headings.map((heading) => (
