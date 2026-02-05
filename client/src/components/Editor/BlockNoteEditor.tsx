@@ -72,40 +72,40 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                 .bn-block[data-type="table"] table {
                     width: 100%;
                     border-collapse: collapse;
-                    margin: 0.5rem 0;
+                    margin: 1.5rem 0;
                     font-size: 14px;
                 }
                 .bn-block[data-type="table"] th {
-                    background-color: #f6f8fa !important;
+                    background-color: #f9fafb !important;
                     text-align: left;
-                    padding: 8px 12px !important;
+                    padding: 12px 16px !important;
                     font-weight: 600 !important;
-                    color: #24292e !important;
-                    border: 1px solid #dfe2e5 !important;
+                    color: #111 !important;
+                    border: 1px solid #eaeaea !important;
                 }
                 .bn-block[data-type="table"] td {
-                    padding: 8px 12px !important;
-                    border: 1px solid #dfe2e5 !important;
-                    color: #24292e !important;
+                    padding: 12px 16px !important;
+                    border: 1px solid #eaeaea !important;
+                    color: #444 !important;
                 }
-                .dark .bn-block[data-type="table"] th { background-color: #161b22 !important; border-color: #30363d !important; color: #c9d1d9 !important; }
-                .dark .bn-block[data-type="table"] td { border-color: #30363d !important; color: #c9d1d9 !important; }
+                .dark .bn-block[data-type="table"] th { background-color: #111 !important; border-color: #333 !important; color: #fafafa !important; }
+                .dark .bn-block[data-type="table"] td { border-color: #333 !important; color: #888 !important; }
 
                 /* Fix code block background and font */
                 .bn-block[data-type="codeBlock"] .bn-inline-content,
                 .bn-block[data-type="codeBlock"] pre,
                 .bn-block[data-type="codeBlock"] code {
                     background-color: white !important;
-                    color: #27272a !important;
+                    color: #18181b !important;
                     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
                     font-size: 14px !important;
                 }
                 .bn-block[data-type="codeBlock"] .bn-code-content-wrapper {
                    background-color: white !important;
-                   border: 0.5px solid rgba(0,0,0,0.1) !important;
+                   border: 1px solid #e4e4e7 !important;
                    border-radius: 0.75rem !important;
                    box-shadow: none !important;
-                   padding: 1.25rem 1rem !important;
+                   padding: 1.5rem 1rem !important;
                 }
                 /* Inline code styling */
                 .bn-inline-content code {
