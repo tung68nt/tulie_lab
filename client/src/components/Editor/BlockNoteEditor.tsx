@@ -65,7 +65,8 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                     line-height: 2.5rem !important;
                     font-weight: 700 !important;
                     letter-spacing: -0.025em !important; /* tracking-tight */
-                    margin-bottom: 2rem !important;
+                    margin-bottom: 2rem !important; /* mb-8 */
+                    margin-top: 0 !important;
                     padding-top: 0.25rem !important;
                 }
                 .bn-block[data-type="heading"][data-level="2"] .bn-inline-content {
@@ -73,24 +74,28 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                     line-height: 2.25rem !important;
                     font-weight: 700 !important;
                     letter-spacing: -0.025em !important;
-                    margin-top: 3rem !important;
-                    margin-bottom: 1rem !important;
-                    padding-bottom: 0.5rem !important;
-                    border-bottom: 1px solid #e4e4e7 !important; /* border-zinc-200 */
+                    margin-top: 3rem !important; /* mt-12 */
+                    margin-bottom: 1rem !important; /* mb-4 */
+                    padding-bottom: 0.5rem !important; /* pb-2 */
+                    border-bottom: 1px solid #eaeaea !important; /* match table border */
                 }
                 .bn-block[data-type="heading"][data-level="3"] .bn-inline-content {
                     font-size: 1.5rem !important; /* text-2xl */
                     line-height: 2rem !important;
                     font-weight: 600 !important;
                     letter-spacing: -0.025em !important;
-                    margin-top: 2rem !important;
-                    margin-bottom: 1rem !important;
+                    margin-top: 2rem !important; /* mt-8 */
+                    margin-bottom: 1rem !important; /* mb-4 */
                 }
 
                 /* Paragraphs */
                 .bn-block[data-type="paragraph"] .bn-inline-content {
-                    line-height: 1.75 !important; /* leading-7 */
-                    margin-bottom: 1.5rem !important;
+                    line-height: 1.75rem !important; /* leading-7 */
+                    margin-top: 1.5rem !important; /* mt-6 */
+                    margin-bottom: 0 !important;
+                }
+                .bn-block[data-type="paragraph"]:first-child .bn-inline-content {
+                    margin-top: 0 !important;
                 }
 
                 /* Table styling - Exactly matching MarkdownRenderer */

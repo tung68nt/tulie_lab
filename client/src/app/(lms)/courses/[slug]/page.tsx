@@ -655,7 +655,7 @@ export default function CoursePage({ params }: { params: any }) {
                         <div className="sticky top-24 space-y-6">
                             <div>
                                 <h2 className="mb-10 text-2xl font-bold">Bạn sẽ học được gì</h2>
-                                <div className="rounded-xl border bg-card p-6 shadow-sm">
+                                <div className="rounded-xl border bg-card pt-3 pb-6 px-6 shadow-sm">
                                     {(() => {
                                         let outcomes: string[] = [];
                                         try {
@@ -668,14 +668,16 @@ export default function CoursePage({ params }: { params: any }) {
                                             console.error('Error parsing learning outcomes', e);
                                         }
 
-                                        return outcomes.length > 0 ? (
+                                        const filteredOutcomes = outcomes.filter(line => line && line.trim() && line.toLowerCase() !== 'null');
+
+                                        return filteredOutcomes.length > 0 ? (
                                             <ul className="space-y-3 text-sm text-muted-foreground">
-                                                {outcomes.map((line: string, i: number) => line.trim() && (
+                                                {filteredOutcomes.map((line: string, i: number) => (
                                                     <li key={i} className="flex gap-2">✓ {line.replace(/^- /, '')}</li>
                                                 ))}
                                             </ul>
                                         ) : (
-                                            <p className="text-sm text-muted-foreground">Nội dung đang cập nhật...</p>
+                                            <p className="text-sm text-muted-foreground italic opacity-50">Nội dung đang cập nhật...</p>
                                         );
                                     })()}
                                 </div>
