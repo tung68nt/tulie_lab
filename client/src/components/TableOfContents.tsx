@@ -68,43 +68,33 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     }, [content]);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            () => {
-                // Find all headings and their positions
-                const headingElements = headings
-                    .map(h => ({ id: h.id, element: document.getElementById(h.id) }))
-                    .filter(h => h.element);
+        const handleScroll = () => {
+            const headingElements = headings
+                .map(h => ({ id: h.id, element: document.getElementById(h.id) }))
+                .filter(h => h.element);
 
-                // The active heading is the one that is currently above a certain line (e.g. 150px)
-                // but we pick the LAST one that satisfies this (the one we are currently "in")
-                let currentActiveId = '';
-                for (const h of headingElements) {
-                    const rect = h.element!.getBoundingClientRect();
-                    if (rect.top < 150) {
-                        currentActiveId = h.id;
-                    } else {
-                        break; // Stop at first heading below the focus line
-                    }
+            let currentActiveId = '';
+            for (const h of headingElements) {
+                const rect = h.element!.getBoundingClientRect();
+                if (rect.top < 150) {
+                    currentActiveId = h.id;
+                } else {
+                    break;
                 }
-
-                if (currentActiveId) {
-                    setActiveId(currentActiveId);
-                }
-            },
-            {
-                // Trigger whenever a heading crosses the top area
-                rootMargin: '0px 0px -70% 0px',
-                threshold: [0, 0.5, 1]
             }
-        );
+            if (currentActiveId && currentActiveId !== activeId) {
+                setActiveId(currentActiveId);
+            }
+        };
 
-        headings.forEach((heading) => {
-            const element = document.getElementById(heading.id);
-            if (element) observer.observe(element);
-        });
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        const timeout = setTimeout(handleScroll, 200);
 
-        return () => observer.disconnect();
-    }, [headings]);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            clearTimeout(timeout);
+        };
+    }, [headings, activeId]);
 
     if (headings.length === 0) return null;
 
