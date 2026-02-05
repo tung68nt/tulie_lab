@@ -10,6 +10,7 @@ import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Ligh
 import { MentoringSidebar } from './MentoringSidebar';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
+import { cn } from '@/lib/utils';
 import { BackToTop } from '@/components/BackToTop';
 
 // Helper function to parse duration string
@@ -508,46 +509,65 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                             {/* Hidden debug info for troubleshooting - User can screenshot if needed */}
                             <div className="mt-4 text-[10px] text-muted-foreground opacity-50 font-mono">
-                                Debug: hasAccess=true, content=null, token={typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'present' : 'missing') : 'ssr'}
+                                Debug: hasAccess=true, content=null, token={typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'Active' : 'Missing') : 'ssr'}, role={user?.role || 'none'}
                             </div>
                         </div>
                     )}
 
-                    {currentLesson.content && (
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 border-t pt-8 mt-4">
-                            <div className="lg:col-span-9">
-                                <MarkdownRenderer content={currentLesson.content} />
-                            </div>
+                    {hasAccess ? (
+                        <div className={cn(
+                            "mb-12 border-t pt-8 mt-4 transition-all duration-300",
+                            !currentLesson.content && !loadingSecure && "min-h-[120px] flex items-center justify-center border-dashed border-2 bg-muted/5 rounded-2xl"
+                        )}>
+                            {currentLesson.content ? (
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 border-t pt-8 mt-4">
+                                    <div className="lg:col-span-9">
+                                        <MarkdownRenderer content={currentLesson.content} />
+                                    </div>
 
-                            <div className="lg:col-span-3">
-                                <aside className="sticky top-[100px]">
-                                    {/* Mobile TOC (Accordion style) */}
-                                    <div className="lg:hidden mb-6">
-                                        <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
-                                            <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/30 transition-colors list-none">
-                                                <div className="flex items-center gap-2 text-sm font-bold tracking-widest text-primary/80">
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                                    </svg>
-                                                    Mục lục bài học
-                                                </div>
-                                                <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />
-                                            </summary>
-                                            <div className="p-6 border-t border-border/30 bg-card">
+                                    <div className="lg:col-span-3">
+                                        <aside className="sticky top-[100px]">
+                                            {/* Mobile TOC (Accordion style) */}
+                                            <div className="lg:hidden mb-6">
+                                                <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
+                                                    <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/30 transition-colors list-none">
+                                                        <div className="flex items-center gap-2 text-sm font-bold tracking-widest text-primary/80">
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                                            </svg>
+                                                            Mục lục
+                                                        </div>
+                                                        <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />
+                                                    </summary>
+                                                    <div className="p-6 border-t border-border/30 bg-card">
+                                                        <TableOfContents content={currentLesson.content} />
+                                                    </div>
+                                                </details>
+                                            </div>
+
+                                            {/* Desktop TOC */}
+                                            <div className="hidden lg:block p-3 rounded-xl bg-muted/30 border border-border/50 backdrop-blur-sm">
                                                 <TableOfContents content={currentLesson.content} />
                                             </div>
-                                        </details>
-                                    </div>
 
-                                    {/* Desktop TOC */}
-                                    <div className="hidden lg:block p-3 rounded-xl bg-muted/30 border border-border/50 backdrop-blur-sm">
-                                        <TableOfContents content={currentLesson.content} />
+                                        </aside>
                                     </div>
-
-                                </aside>
-                            </div>
+                                </div>
+                            ) : (
+                                !loadingSecure && (
+                                    <div className="text-center py-4 px-6">
+                                        <p className="text-muted-foreground text-sm font-medium">Nội dung bài học đang được cập nhật hoặc không thể tải.</p>
+                                        <p className="text-[10px] text-muted-foreground/40 mt-2 font-mono uppercase tracking-tighter">
+                                            Status: No Content | Auth: {typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'Active' : 'Missing') : 'SSR'} | User: {user?.role || 'Guest'}
+                                        </p>
+                                        <Button variant="ghost" size="sm" className="mt-2 text-xs" onClick={() => window.location.reload()}>
+                                            Thử tải lại
+                                        </Button>
+                                    </div>
+                                )
+                            )}
                         </div>
-                    )}
+                    ) : null}
 
                     <div className="flex items-center justify-between pt-4 border-t">
                         {prevLesson ? (
