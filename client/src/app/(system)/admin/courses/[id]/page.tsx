@@ -657,12 +657,33 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium">Nội dung bài học (Rich Text)</label>
-                                    <div className="border rounded-md min-h-[300px]">
-                                        <BlockNoteEditor
-                                            onChange={(content) => setNewLesson({ ...newLesson, content } as any)}
-                                        />
-                                    </div>
+                                    <details className="group border rounded-lg overflow-hidden">
+                                        <summary className="flex items-center justify-between p-3 bg-muted/30 cursor-pointer list-none">
+                                            <label className="text-sm font-medium cursor-pointer">Nội dung bài học (Rich Text)</label>
+                                            <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform group-open:rotate-180" />
+                                        </summary>
+                                        <div className="p-3 border-t">
+                                            <BlockNoteEditor
+                                                minHeight="200px"
+                                                onChange={(content) => setNewLesson({ ...newLesson, content } as any)}
+                                            />
+                                        </div>
+                                    </details>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <details className="group border rounded-lg overflow-hidden">
+                                        <summary className="flex items-center justify-between p-3 bg-muted/30 cursor-pointer list-none">
+                                            <label className="text-sm font-medium cursor-pointer">Hướng dẫn & Lưu ý học tập (Rich Text)</label>
+                                            <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform group-open:rotate-180" />
+                                        </summary>
+                                        <div className="p-3 border-t">
+                                            <BlockNoteEditor
+                                                minHeight="200px"
+                                                onChange={(content) => setNewLesson({ ...newLesson, guide: content } as any)}
+                                            />
+                                        </div>
+                                    </details>
                                 </div>
 
                                 {/* Attachments Section */}
@@ -1245,50 +1266,66 @@ function LessonItem({
 
                         {/* Content/Description Section */}
                         <div className="md:col-span-2 space-y-2">
-                            <div className="flex items-center justify-between">
-                                <label className="text-xs font-semibold text-muted-foreground">Nội dung bài học (Chính)</label>
-                                {isEditingContent ? (
-                                    <div className="flex gap-2">
-                                        <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveContent}>Lưu nội dung</Button>
-                                        <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
-                                            setContent(lesson.content || '');
-                                            setIsEditingContent(false);
-                                        }}>Hủy</Button>
+                            <details className="group">
+                                <summary className="flex items-center justify-between cursor-pointer list-none py-1">
+                                    <label className="text-xs font-semibold text-muted-foreground cursor-pointer">Nội dung bài học (Chính)</label>
+                                    <div className="flex items-center gap-2">
+                                        {isEditingContent && (
+                                            <div className="flex gap-2">
+                                                <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveContent}>Lưu nội dung</Button>
+                                                <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
+                                                    setContent(lesson.content || '');
+                                                    setIsEditingContent(false);
+                                                }}>Hủy</Button>
+                                            </div>
+                                        )}
+                                        {!isEditingContent && (
+                                            <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={(e) => { e.preventDefault(); setIsEditingContent(true); }}>Chỉnh sửa nội dung</Button>
+                                        )}
+                                        <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform group-open:rotate-180" />
                                     </div>
-                                ) : (
-                                    <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={() => setIsEditingContent(true)}>Chỉnh sửa nội dung</Button>
-                                )}
-                            </div>
-                            <BlockNoteEditor
-                                initialContent={content}
-                                onChange={(val) => setContent(val)}
-                                editable={isEditingContent}
-                            />
+                                </summary>
+                                <div className="pt-2">
+                                    <BlockNoteEditor
+                                        initialContent={content}
+                                        onChange={(val) => setContent(val)}
+                                        editable={isEditingContent}
+                                        minHeight="200px"
+                                    />
+                                </div>
+                            </details>
                         </div>
 
                         {/* Lesson Guide / Prompt Section */}
                         <div className="md:col-span-2 space-y-2 pt-4 border-t border-dashed">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                    <label className="text-xs font-semibold text-muted-foreground">Hướng dẫn & Lưu ý học tập</label>
-                                </div>
-                                {isEditingGuide ? (
-                                    <div className="flex gap-2">
-                                        <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveGuide}>Lưu hướng dẫn</Button>
-                                        <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
-                                            setGuide(lesson.guide || '');
-                                            setIsEditingGuide(false);
-                                        }}>Hủy</Button>
+                            <details className="group">
+                                <summary className="flex items-center justify-between cursor-pointer list-none py-1">
+                                    <label className="text-xs font-semibold text-muted-foreground cursor-pointer">Hướng dẫn & Lưu ý học tập</label>
+                                    <div className="flex items-center gap-2">
+                                        {isEditingGuide && (
+                                            <div className="flex gap-2">
+                                                <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveGuide}>Lưu hướng dẫn</Button>
+                                                <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
+                                                    setGuide(lesson.guide || '');
+                                                    setIsEditingGuide(false);
+                                                }}>Hủy</Button>
+                                            </div>
+                                        )}
+                                        {!isEditingGuide && (
+                                            <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={(e) => { e.preventDefault(); setIsEditingGuide(true); }}>Chỉnh sửa hướng dẫn</Button>
+                                        )}
+                                        <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform group-open:rotate-180" />
                                     </div>
-                                ) : (
-                                    <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={() => setIsEditingGuide(true)}>Chỉnh sửa hướng dẫn</Button>
-                                )}
-                            </div>
-                            <BlockNoteEditor
-                                initialContent={guide}
-                                onChange={(val) => setGuide(val)}
-                                editable={isEditingGuide}
-                            />
+                                </summary>
+                                <div className="pt-2">
+                                    <BlockNoteEditor
+                                        initialContent={guide}
+                                        onChange={(val) => setGuide(val)}
+                                        editable={isEditingGuide}
+                                        minHeight="200px"
+                                    />
+                                </div>
+                            </details>
                         </div>
 
                         {/* Free View Section */}

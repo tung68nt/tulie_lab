@@ -19,7 +19,7 @@ interface EditorProps {
     editable?: boolean;
 }
 
-export default function Editor({ initialContent, onChange, editable = true }: EditorProps) {
+export default function Editor({ initialContent, onChange, editable = true, minHeight = "500px" }: EditorProps & { minHeight?: string }) {
     const { resolvedTheme } = useTheme();
     const [blocks, setBlocks] = useState<PartialBlock[] | null>(null);
 
@@ -225,7 +225,7 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                     line-height: 1.75 !important;
                 }
             `}} />
-            <div className="border rounded-md min-h-[500px] bg-background p-4">
+            <div className="border rounded-md bg-background p-4" style={{ minHeight }}>
                 <BlockNoteView
                     editor={editor}
                     theme={resolvedTheme === "dark" ? "dark" : "light"}

@@ -100,12 +100,14 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     } catch { access = false; }
                 }
 
-                setHasAccess(access);
+                const hasAdminRole = authResult && ((authResult as any).user?.role === 'ADMIN' || (authResult as any).role === 'ADMIN');
+                setHasAccess(access || hasAdminRole);
+
                 if (progressResult && (progressResult as any).completedLessonIds) {
                     setCompletedLessons((progressResult as any).completedLessonIds);
                 }
 
-                if (access) {
+                if (access || hasAdminRole) {
                     try {
                         const secureContent = await api.courses.getContent(foundLesson.id);
                         setCurrentLesson(secureContent);
@@ -498,7 +500,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {/* What You'll Learn Box */}
                     <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider uppercase">Bạn sẽ học được gì</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans tracking-wider uppercase">Bạn sẽ học được gì</h3>
                         <div className="text-[13px] text-muted-foreground leading-relaxed">
                             {(() => {
                                 let outcomes: string[] = [];

@@ -132,6 +132,8 @@ export class CourseService {
                     duration: true,
                     videoUrl: true,
                     thumbnail: true,
+                    description: true,
+                    learningOutcomes: true,
                     chapter: true,
                     section: true,
                     guide: true,
