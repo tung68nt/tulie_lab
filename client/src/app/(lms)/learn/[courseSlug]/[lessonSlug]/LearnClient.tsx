@@ -501,23 +501,10 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
-                    {/* Documentation Content */}
-                    {!loadingSecure && hasAccess && !currentLesson.content && (
-                        <div className="p-8 border-2 border-dashed border-muted rounded-2xl text-center my-8">
-                            <p className="text-muted-foreground mb-4">Không thể tải nội dung bài học. Vui lòng kiểm tra kết nối mạng hoặc đăng nhập lại.</p>
-                            <Button variant="outline" size="sm" onClick={() => window.location.reload()}>Tải lại trang</Button>
-
-                            {/* Hidden debug info for troubleshooting - User can screenshot if needed */}
-                            <div className="mt-4 text-[10px] text-muted-foreground opacity-50 font-mono">
-                                Debug: hasAccess=true, content=null, token={typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'Active' : 'Missing') : 'ssr'}, role={user?.role || 'none'}
-                            </div>
-                        </div>
-                    )}
-
-                    {hasAccess ? (
+                    {hasAccess && (
                         <div className={cn(
                             "mb-12 border-t pt-8 mt-4 transition-all duration-300",
-                            !currentLesson.content && !loadingSecure && "min-h-[120px] flex items-center justify-center border-dashed border-2 bg-muted/5 rounded-2xl"
+                            !currentLesson.content && "hidden"
                         )}>
                             {currentLesson.content ? (
                                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-12 border-t pt-8 mt-4">
@@ -553,19 +540,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         </aside>
                                     </div>
                                 </div>
-                            ) : (
-                                !loadingSecure && (
-                                    <div className="text-center py-4 px-6">
-                                        <p className="text-muted-foreground text-sm font-medium">Nội dung bài học đang được cập nhật hoặc không thể tải.</p>
-                                        <p className="text-[10px] text-muted-foreground/40 mt-2 font-mono uppercase tracking-tighter">
-                                            Status: No Content | Auth: {typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'Active' : 'Missing') : 'SSR'} | User: {user?.role || 'Guest'}
-                                        </p>
-                                        <Button variant="ghost" size="sm" className="mt-2 text-xs" onClick={() => window.location.reload()}>
-                                            Thử tải lại
-                                        </Button>
-                                    </div>
-                                )
-                            )}
+                            ) : null}
                         </div>
                     ) : null}
 
