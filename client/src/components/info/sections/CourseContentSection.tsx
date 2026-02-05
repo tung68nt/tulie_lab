@@ -102,10 +102,10 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
 
     const getLessonIcon = (type: string) => {
         switch (type) {
-            case 'VIDEO': return <PlayCircle className="w-4 h-4" />;
-            case 'TEXT': return <FileText className="w-4 h-4" />;
-            case 'QUIZ': return <HelpCircle className="w-4 h-4" />;
-            default: return <PlayCircle className="w-4 h-4" />;
+            case 'VIDEO': return <PlayCircle className="w-3.5 h-3.5" />;
+            case 'TEXT': return <FileText className="w-3.5 h-3.5" />;
+            case 'QUIZ': return <HelpCircle className="w-3.5 h-3.5" />;
+            default: return <PlayCircle className="w-3.5 h-3.5" />;
         }
     };
 
@@ -215,15 +215,15 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
                                                 {/* Chapter Info */}
                                                 <div className="flex-1 min-w-0">
                                                     <h3 className={cn(
-                                                        "font-semibold text-base md:text-lg leading-snug line-clamp-2",
+                                                        "font-bold text-[16px] leading-snug line-clamp-2",
                                                         isDark ? "text-white" : "text-zinc-900"
                                                     )}>
                                                         {chapter.title}
                                                     </h3>
-                                                    <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                                                        <span>{lessonCount} bài</span>
+                                                    <div className="flex items-center gap-3 mt-1 text-[14px] font-medium text-zinc-900/60 transition-colors">
+                                                        <span>({lessonCount} bài học)</span>
                                                         {chapterDuration > 0 && (
-                                                            <span>{formatDuration(chapterDuration)}</span>
+                                                            <span>• {formatDuration(chapterDuration)}</span>
                                                         )}
                                                     </div>
                                                 </div>
@@ -255,8 +255,8 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
                                                             )}
                                                         >
                                                             {/* Lesson Number */}
-                                                            <span className="w-6 text-center text-xs text-muted-foreground font-medium shrink-0">
-                                                                {chapterIndex + 1}.{lessonIndex + 1}
+                                                            <span className="w-6 text-center text-[14px] text-zinc-900/40 font-medium shrink-0">
+                                                                {lessonIndex + 1}
                                                             </span>
 
                                                             {/* Lesson Icon */}
@@ -269,27 +269,27 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
 
                                                             {/* Lesson Title */}
                                                             <span className={cn(
-                                                                "flex-1 text-sm font-medium line-clamp-1",
-                                                                isDark ? "text-zinc-300" : "text-zinc-700"
+                                                                "flex-1 text-[15px] font-medium line-clamp-1",
+                                                                isDark ? "text-zinc-200" : "text-zinc-900"
                                                             )}>
                                                                 {lesson.title}
                                                             </span>
 
                                                             {/* Free Badge or Lock */}
                                                             {lesson.isFree ? (
-                                                                <SectionTag size="sm" variant="primary" showDot={false} className="shrink-0">
-                                                                    <div className="flex items-center gap-1">
-                                                                        <Eye className="w-3 h-3" />
-                                                                        <span className="whitespace-nowrap">Học thử</span>
-                                                                    </div>
-                                                                </SectionTag>
+                                                                <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50/50 px-2 py-0.5 text-[13px] font-medium text-emerald-600 whitespace-nowrap ml-2">
+                                                                    Học thử miễn phí
+                                                                </span>
                                                             ) : (
-                                                                <Lock className="w-3.5 h-3.5 text-muted-foreground/40 shrink-0" />
+                                                                <div className="flex items-center gap-1.5 text-zinc-400 ml-2">
+                                                                    <span className="text-[13px] font-medium">Mua khóa học</span>
+                                                                    <Lock size={13} className="opacity-60" />
+                                                                </div>
                                                             )}
 
                                                             {/* Duration */}
                                                             {lesson.duration && (
-                                                                <span className="text-xs text-muted-foreground shrink-0 ml-2">
+                                                                <span className="text-[14px] font-medium text-zinc-900/40 shrink-0 ml-3">
                                                                     {formatDuration(lesson.duration)}
                                                                 </span>
                                                             )}

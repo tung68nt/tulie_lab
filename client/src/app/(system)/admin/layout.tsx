@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/Button';
 import { AdminGuard } from '@/components/AdminGuard';
-import { ChevronDown, ChevronRight, LayoutDashboard, ScrollText, ShoppingBag, Settings, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, LayoutDashboard, ScrollText, ShoppingBag, Settings, BookOpen, Palette } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -24,6 +24,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {
             items: [
                 { href: '/admin', label: 'Tổng quan', exact: true },
+            ]
+        },
+        {
+            title: 'Whiteboard (Bảng trắng)',
+            icon: Palette,
+            items: [
+                { href: '/whiteboard', label: 'Bảng vẽ của tôi' },
+                { href: '/whiteboard', label: 'Phòng cộng tác', exact: false },
             ]
         },
         {
