@@ -41,6 +41,7 @@ async function initializeApp() {
     const { requestId } = await import('./middleware/request-id.middleware');
     const { sanitize } = await import('./middleware/validation.middleware');
     const { apiLimiter } = await import('./middleware/rate-limit.middleware');
+    const { csrfProtection } = await import('./middleware/csrf.middleware');
 
     // Global Request Tracking
     let globalRequestCount = 0;
@@ -56,6 +57,7 @@ async function initializeApp() {
     });
 
     app.use(helmet()); // Security headers
+    app.use(csrfProtection); // Custom header-based CSRF protection
     app.use('/api', apiLimiter); // Global rate limiting (only for /api routes)
     app.use(cors({
       origin: (origin, callback) => {
@@ -220,12 +222,16 @@ async function initializeApp() {
 
     // Global Error Handler - MUST be last
     app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-      console.error('[Global Error]', err);
       const status = err.status || err.statusCode || 500;
+      const isProd = process.env.NODE_ENV === 'production';
+
+      console.error(`[Global Error] ${req.method} ${req.path}:`, err);
+
       res.status(status).json({
-        message: err.message || 'Internal Server Error',
-        error: err.message || 'Internal Server Error',
-        status
+        message: (status >= 500 && isProd) ? 'Internal Server Error' : (err.message || 'Internal Server Error'),
+        error: (status >= 500 && isProd) ? 'Internal Server Error' : (err.message || 'Internal Server Error'),
+        status,
+        requestId: (req as any).id
       });
     });
 

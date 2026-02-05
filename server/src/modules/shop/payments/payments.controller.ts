@@ -63,11 +63,21 @@ export const getOrder = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
         const { code } = req.params;
+        const user = (req as AuthRequest).user;
+
         if (!code) return res.status(400).json({ message: 'Missing code' });
+
         const order = await paymentService.getOrder(code as string);
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
+
+        // BOLA Check: Only owner or admin can view order details
+        if (order.userId !== user?.id && user?.role !== 'ADMIN') {
+            console.warn(`[Security] Unauthorized access attempt to order ${code} by user ${user?.id}`);
+            return res.status(403).json({ message: 'You do not have permission to view this order' });
+        }
+
         res.json(order);
     } catch (error: any) {
         res.status(500).json({ message: error.message });
@@ -78,10 +88,13 @@ export const webhook = async (req: Request, res: Response) => {
     try {
         const paymentService = container.resolve<PaymentService>('PaymentService');
 
-        // Log full request for debugging
-        console.log('=== WEBHOOK RECEIVED ===');
-        console.log('Headers:', JSON.stringify(req.headers, null, 2));
-        console.log('Body:', JSON.stringify(req.body, null, 2));
+        // Log full request for debugging (Limited in production)
+        const isProd = process.env.NODE_ENV === 'production';
+        if (!isProd) {
+            console.log('=== WEBHOOK RECEIVED ===');
+            console.log('Headers:', JSON.stringify(req.headers, null, 2));
+            console.log('Body:', JSON.stringify(req.body, null, 2));
+        }
 
         // Validate API Key from Authorization header (flexible validation)
         const authHeader = req.headers.authorization || req.headers['x-api-key'] as string;
@@ -105,9 +118,15 @@ export const webhook = async (req: Request, res: Response) => {
                 console.warn('=== WEBHOOK AUTH FAILED ===');
                 return res.status(401).json({ success: false, message: 'Invalid API key' });
             }
-            console.log('✅ Webhook: API key validated successfully');
+            if (!isProd) console.log('✅ Webhook: API key validated successfully');
         } else {
-            console.log('⚠️  Webhook: No API key configured, skipping validation');
+            // [Security] Log warning if webhook is called without API key configured
+            console.warn('⚠️  Webhook: No API key configured in system settings. This endpoint is currently unprotected.');
+            // UNLESS it is local or something, we should probably allow it for now but warn.
+            // Ideally we should block it in production if not configured.
+            if (isProd) {
+                return res.status(500).json({ success: false, message: 'System configuration error: Webhook API key missing' });
+            }
         }
 
         // Sepay payload mapping

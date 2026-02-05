@@ -144,18 +144,26 @@ export class UserController {
         }
     }
 
-    async getInvoiceProfiles(req: Request, res: Response) {
+    async getInvoiceProfiles(req: AuthRequest, res: Response) {
         try {
-            const profiles = await this.userService.getInvoiceProfiles(req.params.id as string);
+            const { id } = req.params;
+            if (id !== req.user?.id && req.user?.role !== 'ADMIN') {
+                return res.status(403).json({ message: 'Access denied' });
+            }
+            const profiles = await this.userService.getInvoiceProfiles(id as string);
             res.json(profiles);
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
     }
 
-    async createInvoiceProfile(req: Request, res: Response) {
+    async createInvoiceProfile(req: AuthRequest, res: Response) {
         try {
-            const profile = await this.userService.createInvoiceProfile(req.params.id as string, req.body);
+            const { id } = req.params;
+            if (id !== req.user?.id && req.user?.role !== 'ADMIN') {
+                return res.status(403).json({ message: 'Access denied' });
+            }
+            const profile = await this.userService.createInvoiceProfile(id as string, req.body);
             res.json(profile);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

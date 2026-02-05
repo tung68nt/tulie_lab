@@ -229,6 +229,8 @@ model Course {
 
   @@index([isPublished])
   @@index([price])
+  @@index([categoryId])
+  @@index([instructorId])
 }
 
 model Lesson {
@@ -442,6 +444,9 @@ model PaymentTransaction {
   referenceCode   String?
   description     String?
   createdAt       DateTime  @default(now())
+
+  @@index([code])
+  @@index([transactionDate])
 }
 
 model Bundle {
@@ -907,6 +912,7 @@ model MentoringSession {
   @@index([userId])
   @@index([addOnId])
   @@index([startTime])
+  @@index([status])
 }
 
 // =============================================================================

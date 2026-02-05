@@ -16,6 +16,34 @@ export class AuthService {
         private emailService?: any
     ) { }
 
+    private async getAuthenticatedUserResponse(user: any) {
+        const fullUser = await this.userRepository.findById(user.id, {
+            profile: true,
+            subscriptions: {
+                include: {
+                    product: true
+                }
+            }
+        });
+
+        const token = jwt.sign(
+            { id: user.id, role: user.role, email: user.email },
+            JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        return {
+            user: {
+                id: user.id,
+                email: user.email,
+                name: (fullUser as any)?.profile?.name,
+                role: user.role,
+                subscriptions: (fullUser as any)?.subscriptions
+            },
+            token
+        };
+    }
+
     async register(email: string, password: string, name: string) {
         const existingUser = await this.userRepository.findByEmail(email);
         if (existingUser) {
@@ -42,31 +70,7 @@ export class AuthService {
             }
         }
 
-        const token = jwt.sign(
-            { id: user.id, role: user.role, email: user.email },
-            JWT_SECRET,
-            { expiresIn: '7d' }
-        );
-
-        const fullUser = await this.userRepository.findById(user.id, {
-            profile: true,
-            subscriptions: {
-                include: {
-                    product: true
-                }
-            }
-        });
-
-        return {
-            user: {
-                id: user.id,
-                email: user.email,
-                name: (fullUser as any)?.profile?.name,
-                role: user.role,
-                subscriptions: (fullUser as any)?.subscriptions
-            },
-            token
-        };
+        return this.getAuthenticatedUserResponse(user);
     }
 
     async login(email: string, password: string) {
@@ -80,31 +84,7 @@ export class AuthService {
             throw new Error('Invalid credentials');
         }
 
-        const token = jwt.sign(
-            { id: user.id, role: user.role, email: user.email },
-            JWT_SECRET,
-            { expiresIn: '7d' }
-        );
-
-        const fullUser = await this.userRepository.findById(user.id, {
-            profile: true,
-            subscriptions: {
-                include: {
-                    product: true
-                }
-            }
-        });
-
-        return {
-            user: {
-                id: user.id,
-                email: user.email,
-                name: (fullUser as any)?.profile?.name,
-                role: user.role,
-                subscriptions: (fullUser as any)?.subscriptions
-            },
-            token
-        };
+        return this.getAuthenticatedUserResponse(user);
     }
 
     async getUserById(id: string) {
@@ -210,32 +190,7 @@ export class AuthService {
                 });
             }
 
-            // 3. Issue our own JWT
-            const ownToken = jwt.sign(
-                { id: user.id, role: user.role, email: user.email },
-                JWT_SECRET,
-                { expiresIn: '7d' }
-            );
-
-            const fullUser = await this.userRepository.findById(user.id, {
-                profile: true,
-                subscriptions: {
-                    include: {
-                        product: true
-                    }
-                }
-            });
-
-            return {
-                user: {
-                    id: user.id,
-                    email: user.email,
-                    name: (fullUser as any)?.profile?.name,
-                    role: user.role,
-                    subscriptions: (fullUser as any)?.subscriptions
-                },
-                token: ownToken
-            };
+            return this.getAuthenticatedUserResponse(user);
 
         } catch (error: any) {
             console.error('Supabase verification error:', error.response?.data || error.message);

@@ -226,38 +226,32 @@ export class PaymentService {
         return { order, isNewUser };
     }
 
+    private async enrichOrderWithTransactions(order: Order | null): Promise<Order | null> {
+        if (!order) return null;
+
+        const transactions = await prisma.paymentTransaction.findMany({
+            where: { code: order.code },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        (order as any).transactions = transactions.map((tx: any) => ({
+            ...tx,
+            amount: Number(tx.amountIn || 0),
+            bankName: tx.gateway || 'Chuyển khoản ngân hàng',
+            createdAt: tx.transactionDate || tx.createdAt
+        }));
+
+        return order;
+    }
+
     async getOrder(code: string): Promise<Order | null> {
         const order = await this.orderRepository.findByCode(code);
-        if (order) {
-            const transactions = await prisma.paymentTransaction.findMany({
-                where: { code: order.code },
-                orderBy: { createdAt: 'desc' }
-            });
-            (order as any).transactions = transactions.map((tx: any) => ({
-                ...tx,
-                amount: Number(tx.amountIn || 0),
-                bankName: tx.gateway || 'Chuyển khoản ngân hàng',
-                createdAt: tx.transactionDate || tx.createdAt
-            }));
-        }
-        return order;
+        return this.enrichOrderWithTransactions(order);
     }
 
     async getOrderById(id: string): Promise<Order | null> {
         const order = await this.orderRepository.findById(id);
-        if (order) {
-            const transactions = await prisma.paymentTransaction.findMany({
-                where: { code: order.code },
-                orderBy: { createdAt: 'desc' }
-            });
-            (order as any).transactions = transactions.map((tx: any) => ({
-                ...tx,
-                amount: Number(tx.amountIn || 0),
-                bankName: tx.gateway || 'Chuyển khoản ngân hàng',
-                createdAt: tx.transactionDate || tx.createdAt
-            }));
-        }
-        return order;
+        return this.enrichOrderWithTransactions(order);
     }
 
     async deleteOrder(id: string): Promise<void> {
@@ -458,17 +452,29 @@ export class PaymentService {
             prisma.paymentTransaction.count({ where })
         ]);
 
-        // Enrich with orderId if code exists
-        const enrichedTransactions = await Promise.all(transactions.map(async (tx) => {
-            if (tx.code && tx.code.startsWith('DH')) {
-                const order = await prisma.order.findUnique({
-                    where: { code: tx.code },
-                    select: { id: true }
-                });
-                return { ...tx, orderId: order?.id };
+        // Efficiently enrich with orderId by batching the lookup
+        const orderCodes = transactions
+            .map(tx => tx.code)
+            .filter((code): code is string => !!code && code.startsWith('DH'));
+
+        let codeToOrderId: Record<string, string> = {};
+        if (orderCodes.length > 0) {
+            const orders = await prisma.order.findMany({
+                where: { code: { in: orderCodes } },
+                select: { id: true, code: true }
+            });
+            codeToOrderId = orders.reduce((acc, order) => {
+                acc[order.code] = order.id;
+                return acc;
+            }, {} as Record<string, string>);
+        }
+
+        const enrichedTransactions = transactions.map(tx => {
+            if (tx.code && codeToOrderId[tx.code]) {
+                return { ...tx, orderId: codeToOrderId[tx.code] };
             }
             return tx;
-        }));
+        });
 
         return { data: enrichedTransactions, total };
     }

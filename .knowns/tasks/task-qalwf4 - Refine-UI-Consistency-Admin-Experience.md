@@ -1,14 +1,14 @@
 ---
 id: qalwf4
 title: Refine UI Consistency & Admin Experience
-status: todo
+status: done
 priority: high
 labels:
   - ui
   - lms
   - admin
 createdAt: '2026-02-05T07:28:27.900Z'
-updatedAt: '2026-02-05T07:55:07.110Z'
+updatedAt: '2026-02-05T12:14:08.799Z'
 timeSpent: 627
 assignee: '@me'
 ---

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { z, ZodSchema } from 'zod';
+import sanitizeHtmlLib from 'sanitize-html';
 
 /**
  * Validation middleware factory
@@ -69,16 +70,26 @@ export const orderCodeSchema = z.string()
     .regex(/^[A-Z0-9]{10}$/, 'Invalid order code format');
 
 /**
- * Sanitization helpers
+ * Sanitization helpers using sanitize-html
  */
+
+const sanitizeOptions = {
+    allowedTags: [
+        'b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'div'
+    ],
+    allowedAttributes: {
+        'a': ['href', 'target', 'rel'],
+        'span': ['style', 'class'],
+        'div': ['style', 'class'],
+        '*': ['title'] // Global attributes
+    },
+    allowedIframeHostnames: ['www.youtube.com', 'player.vimeo.com']
+};
 
 // Remove potentially dangerous HTML/script tags
 export const sanitizeHtml = (str: string): string => {
-    return str
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-        .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-        .replace(/on\w+="[^"]*"/gi, '') // Remove inline event handlers
-        .trim();
+    return sanitizeHtmlLib(str, sanitizeOptions).trim();
 };
 
 // Sanitize object by removing dangerous HTML from all string fields
