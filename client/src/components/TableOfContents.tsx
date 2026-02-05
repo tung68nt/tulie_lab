@@ -69,24 +69,32 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     useEffect(() => {
         const observer = new IntersectionObserver(
-            (entries) => {
-                // We track all visible headings
-                const visibleHeadings = headings
+            () => {
+                // Find all headings and their positions
+                const headingElements = headings
                     .map(h => ({ id: h.id, element: document.getElementById(h.id) }))
-                    .filter(h => h.element)
-                    .map(h => ({ id: h.id, rect: h.element!.getBoundingClientRect() }))
-                    .filter(h => h.rect.top < 150); // Focus on headings that are near or above the top (with a small buffer)
+                    .filter(h => h.element);
 
-                if (visibleHeadings.length > 0) {
-                    // The active one is the one closest to the top of our focus line (e.g. 100px from top)
-                    // but we pick the last one that hasn't scrolled past our focus point yet
-                    const active = visibleHeadings[visibleHeadings.length - 1];
-                    setActiveId(active.id);
+                // The active heading is the one that is currently above a certain line (e.g. 150px)
+                // but we pick the LAST one that satisfies this (the one we are currently "in")
+                let currentActiveId = '';
+                for (const h of headingElements) {
+                    const rect = h.element!.getBoundingClientRect();
+                    if (rect.top < 150) {
+                        currentActiveId = h.id;
+                    } else {
+                        break; // Stop at first heading below the focus line
+                    }
+                }
+
+                if (currentActiveId) {
+                    setActiveId(currentActiveId);
                 }
             },
             {
-                rootMargin: '-80px 0px -80% 0px',
-                threshold: [0, 1]
+                // Trigger whenever a heading crosses the top area
+                rootMargin: '0px 0px -70% 0px',
+                threshold: [0, 0.5, 1]
             }
         );
 
@@ -103,7 +111,7 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     return (
         <div className={cn("space-y-4", className)}>
             <div className="flex items-center gap-2.5 px-1 py-1">
-                <List size={18} className="text-foreground shrink-0" />
+                <List size={18} className="text-foreground shrink-0 mt-[0.5px]" />
                 <h3 className="text-[15px] font-bold text-foreground">Mục lục tài liệu</h3>
             </div>
 
