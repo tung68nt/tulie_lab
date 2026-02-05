@@ -20,6 +20,7 @@ const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEdito
 export default function DocsPage() {
     const { addToast } = useToast();
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -30,6 +31,7 @@ export default function DocsPage() {
                 const settings = await api.admin.settings.get();
                 if (settings) {
                     setTitle(settings.SYSTEM_DOC_TITLE || 'Hướng dẫn sử dụng hệ thống');
+                    setDescription(settings.SYSTEM_DOC_DESCRIPTION || 'Hướng dẫn chi tiết cách sử dụng các tính năng trên hệ thống Tulie Academy.');
                     setContent(settings.SYSTEM_DOC_CONTENT || '# Chào mừng bạn đến với hệ thống Docs chuyên nghiệp\n\n...');
                 }
             } catch (error) {
@@ -48,6 +50,7 @@ export default function DocsPage() {
         try {
             await api.admin.settings.update({
                 SYSTEM_DOC_TITLE: title,
+                SYSTEM_DOC_DESCRIPTION: description,
                 SYSTEM_DOC_CONTENT: content
             });
             addToast('Đã lưu tài liệu thành công!', 'success');
@@ -104,6 +107,15 @@ export default function DocsPage() {
                                     value={title}
                                     onChange={e => setTitle(e.target.value)}
                                     placeholder="Nhập tiêu đề hướng dẫn..."
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Mô tả ngắn</label>
+                                <Input
+                                    value={description}
+                                    onChange={e => setDescription(e.target.value)}
+                                    placeholder="Nhập mô tả ngắn cho tài liệu..."
                                 />
                             </div>
 

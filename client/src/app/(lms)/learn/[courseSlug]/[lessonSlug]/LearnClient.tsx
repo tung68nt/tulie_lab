@@ -414,7 +414,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
             {/* Main Content */}
             <main className="flex-1 min-w-0">
-                <div className="max-w-5xl mx-auto p-4 md:p-6">
+                <div className="max-w-[1600px] mx-auto p-4 md:p-6">
                     {currentLesson.videoUrl && (
                         <div className="w-full relative">
                             <VideoPlayer
@@ -474,7 +474,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         <Button
                             onClick={() => handleToggleComplete(currentLesson.id)}
                             variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
-                            className="gap-2 shrink-0 text-xs h-9"
+                            className="lg:hidden gap-2 shrink-0 text-xs h-9"
                         >
                             {completedLessons.includes(currentLesson.id) ? (
                                 <><Check className="w-4 h-4" /> Đã hoàn thành</>
@@ -508,13 +508,26 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             !currentLesson.content && "hidden"
                         )}>
                             {currentLesson.content && (
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-t pt-10 mt-8">
-                                    <div className="lg:col-span-9 lg:pr-8">
+                                <div className="grid grid-cols-1 lg:grid-cols-[1fr,350px] gap-12 border-t pt-10 mt-8">
+                                    <div className="lg:pr-12">
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:col-span-3 lg:border-l border-zinc-200/50 lg:pl-0 relative h-full">
-                                        <aside className="sticky top-[100px]">
+                                    <div className="lg:border-l border-zinc-200/50 lg:pl-10 relative h-full">
+                                        <aside className="sticky top-[100px] flex flex-col gap-6">
+                                            {/* Desktop Mark Complete Button */}
+                                            <Button
+                                                onClick={() => handleToggleComplete(currentLesson.id)}
+                                                variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
+                                                className="hidden lg:flex w-full gap-2 text-xs font-semibold h-10 shadow-sm"
+                                            >
+                                                {completedLessons.includes(currentLesson.id) ? (
+                                                    <><Check className="w-4 h-4" /> Đã hoàn thành</>
+                                                ) : (
+                                                    "Đánh dấu hoàn thành"
+                                                )}
+                                            </Button>
+
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">
                                                 <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">

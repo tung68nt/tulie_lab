@@ -9,6 +9,7 @@ import { Loader2, FileText } from 'lucide-react';
 
 export default function PublicDocsPage() {
     const [title, setTitle] = useState('Hướng dẫn sử dụng hệ thống');
+    const [description, setDescription] = useState('Hướng dẫn chi tiết cách sử dụng các tính năng trên hệ thống Tulie Academy.');
     const [content, setContent] = useState(`# Hướng dẫn sử dụng hệ thống Tulie Academy
 
 Chào mừng bạn đến với **Tulie Academy**! Tài liệu này được biên soạn chi tiết để hỗ trợ bạn - từ người chưa biết gì về công nghệ đến khi thành thạo hệ thống.
@@ -153,6 +154,7 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
                 const settings = await api.admin.settings.get();
                 if (settings && settings.SYSTEM_DOC_CONTENT) {
                     setTitle(settings.SYSTEM_DOC_TITLE || 'Hướng dẫn sử dụng hệ thống');
+                    setDescription(settings.SYSTEM_DOC_DESCRIPTION || 'Hướng dẫn chi tiết cách sử dụng các tính năng trên hệ thống Tulie Academy.');
                     setContent(settings.SYSTEM_DOC_CONTENT);
                 }
             } catch (error) {
@@ -198,12 +200,12 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
                 <main className="flex-1 min-w-0">
                     <div className="max-w-3xl mx-auto px-6 lg:px-12 py-10">
                         {/* Page Title */}
-                        <div className="mb-8">
+                        <div className="mb-10 pt-1">
                             <h1 className="text-3xl font-bold tracking-tight text-foreground">
                                 {title}
                             </h1>
                             <p className="text-muted-foreground mt-2">
-                                Hướng dẫn chi tiết cách sử dụng các tính năng trên hệ thống Tulie Academy.
+                                {description}
                             </p>
                         </div>
 
