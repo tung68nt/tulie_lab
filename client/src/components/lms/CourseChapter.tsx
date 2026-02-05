@@ -66,7 +66,7 @@ export function CourseChapter({
         <div className="border-b border-border/50 last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
-                className="bg-card px-4 pt-2 pb-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                className="bg-card px-4 pt-1.5 pb-5 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
                 <h3 className="font-bold text-[15px] text-foreground flex items-center gap-2 h-full py-1">
@@ -85,8 +85,8 @@ export function CourseChapter({
                 {Object.entries(lessonsBySection).map(([sectionName, sectionLessons]: [string, any], sIndex) => (
                     <div key={sectionName || sIndex} className="flex flex-col">
                         {sectionName && (
-                            <div className="px-5 py-2 bg-muted/20 border-t border-border/30">
-                                <h4 className="text-[14px] font-semibold text-muted-foreground/80">
+                            <div className="pl-[38px] pr-5 py-2 bg-muted/20 border-t border-border/30">
+                                <h4 className="text-[15px] font-semibold text-muted-foreground/80">
                                     {sectionName}
                                 </h4>
                             </div>
@@ -99,7 +99,7 @@ export function CourseChapter({
                                 return (
                                     <div key={lesson.id} className="group flex flex-col transition-colors hover:bg-muted/30">
                                         <div
-                                            className="flex items-start p-3 gap-3 cursor-pointer"
+                                            className="flex items-start pl-[38px] pr-3 py-3 gap-3 cursor-pointer"
                                             onClick={() => toggleLesson(lesson.id)}
                                         >
                                             {/* Lesson Thumbnail */}
@@ -152,20 +152,20 @@ export function CourseChapter({
                                                 <div className="flex items-start justify-between gap-2">
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                                            <h4 className={`text-[13px] font-medium leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
+                                                            <h4 className={`text-[14px] font-medium leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
                                                                 {lesson.title}
                                                             </h4>
                                                             <span className="text-muted-foreground/60 transition-transform duration-200 shrink-0" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                                                                 <ChevronDown className="w-3 h-3" />
                                                             </span>
                                                             {lesson.isFree && !isEnrolled && (
-                                                                <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50/50 px-1.5 py-0.5 text-[11px] font-medium text-emerald-600 whitespace-nowrap">
+                                                                <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50/50 px-1.5 py-0.5 text-[12px] font-medium text-emerald-600 whitespace-nowrap">
                                                                     Học thử miễn phí
                                                                 </span>
                                                             )}
                                                         </div>
                                                         {lesson.description && (
-                                                            <div className="text-[12px] text-muted-foreground mb-1 leading-relaxed line-clamp-1 group-hover:line-clamp-none">
+                                                            <div className="text-[13px] text-muted-foreground mb-1 leading-relaxed line-clamp-1 group-hover:line-clamp-none">
                                                                 {lesson.description}
                                                             </div>
                                                         )}
@@ -179,7 +179,7 @@ export function CourseChapter({
                                                             </div>
                                                         ) : (
                                                             <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
-                                                                <Button size="sm" className="h-8 text-[12px] font-semibold shadow-sm px-4">
+                                                                <Button size="sm" className="h-8 text-[13px] font-semibold shadow-sm px-4">
                                                                     Vào học
                                                                 </Button>
                                                             </Link>
@@ -191,8 +191,8 @@ export function CourseChapter({
                                                 <div className={`transition-all duration-300 overflow-hidden ${isExpanded && lesson.learningOutcomes ? 'max-h-[500px] mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
                                                     {lesson.learningOutcomes && (
                                                         <div className="bg-muted/30 rounded-lg p-2.5 border border-border/30">
-                                                            <p className="text-[11px] font-bold text-foreground mb-1.5 uppercase tracking-wider">Bạn sẽ học được gì:</p>
-                                                            <div className="text-[12px] text-muted-foreground space-y-1.5">
+                                                            <p className="text-[12px] font-bold text-foreground mb-1.5 uppercase tracking-wider">Bạn sẽ học được gì:</p>
+                                                            <div className="text-[13px] text-muted-foreground space-y-1.5">
                                                                 {(() => {
                                                                     let outcomes: string[] = [];
                                                                     const raw = lesson.learningOutcomes;

@@ -2,6 +2,8 @@
 import { LandingPageRenderer } from '@/components/info/LandingPageRenderer';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
     title: 'Google Sheets & Apps Script Automation | The Tulie Lab',
     description: 'Xây dựng hệ thống quản trị dữ liệu, CRM, ERP tinh gọn và tự động hóa quy trình với Google Sheets và Apps Script.',
