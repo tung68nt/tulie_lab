@@ -81,8 +81,8 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
         };
 
         const observer = new IntersectionObserver(handleObserver, {
-            rootMargin: '-80px 0px -70% 0px', // Account for header and focus on top area
-            threshold: [0, 1]
+            rootMargin: '-10% 0px -80% 0px',
+            threshold: 0
         });
 
         headings.forEach((heading) => {
@@ -96,12 +96,8 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     if (headings.length === 0) return null;
 
     return (
-        <div className={cn("space-y-4 pt-2", className)}>
-            <p className="text-sm font-bold text-foreground flex items-center gap-2">
-                <List className="w-4 h-4" />
-                Mục lục bài học
-            </p>
-            <nav className="relative flex flex-col">
+        <div className={cn("space-y-4", className)}>
+            <nav className="flex flex-col gap-1">
                 {headings.map((heading) => (
                     <a
                         key={heading.id}
@@ -110,30 +106,23 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             e.preventDefault();
                             const element = document.getElementById(heading.id);
                             if (element) {
-                                const offset = 100; // Account for sticky header
+                                const offset = 100;
                                 const elementPosition = element.getBoundingClientRect().top;
                                 const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-                                window.scrollTo({
-                                    top: offsetPosition,
-                                    behavior: 'smooth'
-                                });
+                                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                             }
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-2 px-3 text-[13px] leading-tight transition-all duration-200 font-normal rounded-lg",
+                            "group block py-1.5 px-3 text-[13px] leading-snug transition-all duration-200 rounded-md",
                             heading.level === 3 ? "pl-6" : "",
-                            heading.level === 1 ? "font-semibold text-foreground/90" : "",
+                            heading.level === 1 ? "font-semibold text-foreground/90" : "font-normal",
                             activeId === heading.id
-                                ? "text-primary bg-primary/5 font-bold shadow-sm"
-                                : "text-muted-foreground/70 hover:text-foreground hover:bg-muted/30"
+                                ? "text-primary bg-primary/5 font-medium"
+                                : "text-muted-foreground/60 hover:text-foreground hover:bg-muted/30"
                         )}
                     >
-                        <span className={cn(
-                            "transition-transform inline-block",
-                            activeId === heading.id ? "translate-x-0.5" : "group-hover:translate-x-0.5"
-                        )}>
+                        <span className="transition-transform inline-block">
                             {heading.text}
                         </span>
                     </a>

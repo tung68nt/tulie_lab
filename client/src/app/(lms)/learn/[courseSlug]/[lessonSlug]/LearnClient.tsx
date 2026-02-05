@@ -546,8 +546,11 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                             </div>
 
                                             {/* Desktop TOC */}
-                                            <div className="hidden lg:block p-3 rounded-xl bg-muted/30 border border-border/50 backdrop-blur-sm">
-                                                <TableOfContents content={currentLesson.content} />
+                                            <div className="hidden lg:block">
+                                                <h3 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/50 mb-4 px-3">Mục lục</h3>
+                                                <div className="p-1 rounded-xl bg-muted/5 border border-border/40">
+                                                    <TableOfContents content={currentLesson.content} />
+                                                </div>
                                             </div>
 
                                         </aside>

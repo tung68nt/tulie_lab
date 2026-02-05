@@ -32,13 +32,19 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                     margin: 0 !important;
                     padding: 0 !important;
                 }
-                .react-syntax-highlighter-line-number {
+                /* Target BOTH react-syntax-highlighter line numbers and Prism content */
+                .react-syntax-highlighter-line-number, 
+                code[class*="language-"] span,
+                .prose pre span {
                     font-style: normal !important;
-                    opacity: 0.6 !important;
+                    text-decoration: none !important;
                 }
                 code[class*="language-"], pre[class*="language-"] {
                     background: transparent !important;
                 }
+                /* Ensure tokens still have colors */
+                .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #708090; }
+                .token.punctuation { color: #999; }
             `}</style>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
@@ -73,7 +79,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="my-6 rounded-xl border bg-white overflow-hidden shadow-sm">
+                                    <div className="my-4 rounded-xl border-[0.5px] border-zinc-200/60 bg-white overflow-hidden shadow-sm">
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
@@ -82,22 +88,21 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             showLineNumbers={true}
                                             lineNumberStyle={{
                                                 minWidth: '3.5em',
-                                                paddingRight: '1.5em',
-                                                color: '#71717a',
+                                                paddingRight: '1.25em',
+                                                color: '#a1a1aa',
                                                 textAlign: 'right',
                                                 userSelect: 'none',
                                                 fontSize: '11px',
-                                                fontStyle: 'normal !important',
+                                                fontStyle: 'normal',
                                             }}
                                             customStyle={{
                                                 margin: 0,
-                                                padding: '1.5rem 1.25rem',
-                                                fontSize: '13.5px',
+                                                padding: '1.25rem 1rem',
+                                                fontSize: '13px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
                                             }}
                                             codeTagProps={{
-                                                className: "font-mono",
                                                 style: {
                                                     backgroundColor: 'transparent',
                                                     fontStyle: 'normal'
