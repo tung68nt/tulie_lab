@@ -5,8 +5,7 @@ import { api } from '@/lib/api';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
 import { BackToTop } from '@/components/BackToTop';
-import { Loader2, BookOpen, ChevronRight, Menu } from 'lucide-react';
-import Link from 'next/link';
+import { Loader2, FileText } from 'lucide-react';
 
 export default function PublicDocsPage() {
     const [title, setTitle] = useState('Hướng dẫn sử dụng hệ thống');
@@ -147,12 +146,10 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
 *Chúc bạn có trải nghiệm học tập tuyệt vời tại Tulie Academy!*
 `);
     const [isLoading, setIsLoading] = useState(true);
-    const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
 
     useEffect(() => {
         const loadDocs = async () => {
             try {
-                // Try fetching from API to see if there's any override
                 const settings = await api.admin.settings.get();
                 if (settings && settings.SYSTEM_DOC_CONTENT) {
                     setTitle(settings.SYSTEM_DOC_TITLE || 'Hướng dẫn sử dụng hệ thống');
@@ -160,7 +157,6 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
                 }
             } catch (error) {
                 console.error('Failed to load docs from API, using default content');
-                // Keep default content
             } finally {
                 setIsLoading(false);
             }
@@ -180,73 +176,40 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
 
     return (
         <div className="min-h-screen bg-background">
-            {/* Header */}
-            <div className="border-b bg-background">
-                <div className="container py-8 md:py-12">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                        <Link href="/" className="hover:text-primary transition-colors">Trang chủ</Link>
-                        <ChevronRight className="w-4 h-4" />
-                        <span className="text-foreground font-medium">Tài liệu</span>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                            <BookOpen className="w-6 h-6" />
+            {/* Clean Two-Column Layout */}
+            <div className="flex">
+                {/* Sidebar */}
+                <aside className="hidden lg:block w-64 shrink-0 border-r border-border">
+                    <div className="sticky top-14 h-[calc(100vh-56px)] overflow-y-auto py-8 px-6">
+                        {/* Sidebar Header - matches reference design */}
+                        <div className="flex items-center gap-2 mb-6">
+                            <FileText className="w-5 h-5 text-foreground" />
+                            <span className="font-semibold text-foreground">Tài liệu</span>
                         </div>
-                        <div>
-                            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+
+                        {/* Table of Contents */}
+                        {content && (
+                            <TableOfContents content={content} hideHeader className="border-none" />
+                        )}
+                    </div>
+                </aside>
+
+                {/* Main Content */}
+                <main className="flex-1 min-w-0">
+                    <div className="max-w-3xl mx-auto px-6 lg:px-12 py-10">
+                        {/* Page Title */}
+                        <div className="mb-8">
+                            <h1 className="text-3xl font-bold tracking-tight text-foreground">
                                 {title}
                             </h1>
-                            <p className="text-muted-foreground mt-2 text-lg">
+                            <p className="text-muted-foreground mt-2">
                                 Hướng dẫn chi tiết cách sử dụng các tính năng trên hệ thống Tulie Academy.
                             </p>
+                            <p className="text-sm text-muted-foreground/70 mt-2">5 min read</p>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            {/* Main Content */}
-            <div className="container py-8 md:py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    {/* Sidebar / TOC */}
-                    <div className="lg:col-span-3 lg:border-r border-zinc-200/50 lg:pr-8">
-                        <aside className="sticky top-24">
-                            {/* Mobile TOC Toggle */}
-                            {content && (
-                                <div className="lg:hidden mb-6">
-                                    <button
-                                        onClick={() => setIsMobileTocOpen(!isMobileTocOpen)}
-                                        className="w-full flex items-center justify-between p-3 rounded-lg border border-border bg-background text-sm font-medium"
-                                    >
-                                        <div className="flex items-center gap-2">
-                                            <Menu className="w-4 h-4" />
-                                            Mục lục tài liệu
-                                        </div>
-                                        <ChevronRight className={`w-4 h-4 transition-transform ${isMobileTocOpen ? 'rotate-90' : ''}`} />
-                                    </button>
-
-                                    {isMobileTocOpen && (
-                                        <div className="mt-2 p-4 rounded-lg bg-background border border-border shadow-md animate-in slide-in-from-top-2">
-                                            <TableOfContents
-                                                content={content}
-                                                onItemClick={() => setIsMobileTocOpen(false)}
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {content && (
-                                <div className="hidden lg:block">
-                                    <TableOfContents content={content} />
-                                </div>
-                            )}
-                        </aside>
-                    </div>
-
-                    {/* Documentation Content */}
-                    <div className="lg:col-span-9">
-                        <div className="prose-premium min-h-[500px]">
+                        {/* Content */}
+                        <div className="prose-premium">
                             {content ? (
                                 <MarkdownRenderer content={content} />
                             ) : (
@@ -256,7 +219,7 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
                             )}
                         </div>
                     </div>
-                </div>
+                </main>
             </div>
             <BackToTop />
         </div>

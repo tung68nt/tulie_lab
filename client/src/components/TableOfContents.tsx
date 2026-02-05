@@ -14,9 +14,10 @@ interface TableOfContentsProps {
     content: string;
     className?: string;
     onItemClick?: () => void;
+    hideHeader?: boolean;
 }
 
-export function TableOfContents({ content, className, onItemClick }: TableOfContentsProps) {
+export function TableOfContents({ content, className, onItemClick, hideHeader = false }: TableOfContentsProps) {
     const [headings, setHeadings] = useState<TOCItem[]>([]);
     const [activeId, setActiveId] = useState<string>('');
 
@@ -100,12 +101,14 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     return (
         <div className={cn("px-0 md:px-1", className)}>
-            <div className="flex items-center gap-2 pb-4 border-b border-zinc-200">
-                <List size={16} className="text-foreground/90 shrink-0 translate-y-[1px]" />
-                <span className="text-[15px] font-bold text-foreground whitespace-nowrap leading-none">Mục lục tài liệu</span>
-            </div>
+            {!hideHeader && (
+                <div className="flex items-center gap-2 pb-4 border-b border-zinc-200">
+                    <List size={16} className="text-foreground/90 shrink-0 translate-y-[1px]" />
+                    <span className="text-[15px] font-bold text-foreground whitespace-nowrap leading-none">Mục lục tài liệu</span>
+                </div>
+            )}
 
-            <nav className="flex flex-col gap-0.5 mt-4">
+            <nav className={cn("flex flex-col gap-0.5", !hideHeader && "mt-4")}>
                 {headings.map((heading) => (
                     <a
                         key={heading.id}
