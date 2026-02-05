@@ -508,12 +508,12 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             !currentLesson.content && "hidden"
                         )}>
                             {currentLesson.content && (
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 border-t pt-10 mt-8">
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-t pt-10 mt-8">
                                     <div className="lg:col-span-9 lg:pr-8">
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:col-span-3 lg:border-l border-zinc-200/50 lg:pl-12 relative h-full">
+                                    <div className="lg:col-span-3 lg:border-l border-zinc-200/50 lg:pl-8 relative h-full">
                                         <aside className="sticky top-[100px]">
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">
