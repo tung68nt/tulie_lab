@@ -582,4 +582,3 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
         </div>
     );
 }
-```
