@@ -24,8 +24,20 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
         // Extract headings from markdown content
         const lines = content.split('\n');
         const extractedHeadings: TOCItem[] = [];
+        let inCodeBlock = false;
 
         lines.forEach(line => {
+            const trimmedLine = line.trim();
+
+            // Toggle code block state
+            if (trimmedLine.startsWith('```')) {
+                inCodeBlock = !inCodeBlock;
+                return;
+            }
+
+            // Skip if inside code block
+            if (inCodeBlock) return;
+
             // Capture H1, H2, H3
             const match = line.match(/^(#{1,3})\s+(.+)$/);
             if (match) {
@@ -41,6 +53,9 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                     .replace(/<[^>]*>/g, ''); // Remove HTML tags
 
                 const text = rawText.trim();
+
+                // Explicitly ignore "Good" and "Bad" labels
+                if (text.toLowerCase() === 'good' || text.toLowerCase() === 'bad') return;
 
                 // Generate ID similar to rehype-slug (naive approximation)
                 const id = slugify(text);
