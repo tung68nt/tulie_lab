@@ -29,28 +29,28 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 .prose table {
                     width: 100%;
                     border-collapse: collapse;
-                    margin: 1.5rem 0;
+                    margin: 2.5rem 0;
                     font-size: 14px;
                 }
                 .prose thead {
-                    background-color: #f6f8fa;
-                    border-bottom: 1px solid #e1e4e8;
+                    background-color: #f9fafb;
+                    border-bottom: 1px solid #eaeaea;
                 }
                 .prose th {
                     text-align: left;
-                    padding: 8px 12px;
+                    padding: 12px 16px;
                     font-weight: 600;
-                    color: #24292e;
-                    border: 1px solid #dfe2e5;
+                    color: #111;
+                    border: 1px solid #eaeaea;
                 }
                 .prose td {
-                    padding: 8px 12px;
-                    border: 1px solid #dfe2e5;
-                    color: #24292e;
+                    padding: 12px 16px;
+                    border: 1px solid #eaeaea;
+                    color: #444;
                 }
-                .dark .prose thead { background-color: #161b22; border-bottom-color: #30363d; }
-                .dark .prose th { color: #c9d1d9; border-color: #30363d; }
-                .dark .prose td { color: #c9d1d9; border-color: #30363d; }
+                .dark .prose thead { background-color: #111; border-bottom-color: #333; }
+                .dark .prose th { color: #fafafa; border-color: #333; }
+                .dark .prose td { color: #888; border-color: #333; }
 
                 .prose pre, .prose pre code {
                     background-color: transparent !important;
@@ -73,36 +73,32 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                     background: transparent !important;
                     box-shadow: none !important;
                 }
-                /* Syntax Highlighting - Exact Match to cli.knowns.dev (GitHub-inspired palette) */
-                /* Syntax Highlighting - Force Colors */
-                .token.comment { color: #6A737D !important; }
-                .token.punctuation { color: #24292e !important; }
-                .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #005CC5 !important; }
-                .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032F62 !important; }
-                .token.operator, .token.entity, .token.url { color: #005CC5 !important; }
-                .token.atrule, .token.attr-value, .token.keyword { color: #D73A49 !important; }
-                .token.function, .token.class-name { color: #6F42C1 !important; }
-                .token.parameter, .token.variable { color: #005CC5 !important; }
-                /* For Shell/Bash specifically */
-                .language-bash .token.function, .language-shell .token.function { color: #6F42C1 !important; }
-                .language-bash .token.parameter, .language-shell .token.parameter { color: #005CC5 !important; }
+
+                /* Syntax Highlighting - High Vibrancy Overrides for Vercel Look */
+                .token.comment { color: #8e8e8e !important; }
+                .token.punctuation { color: #999 !important; }
+                .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #0070f3 !important; } /* Vercel Blue */
+                .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #02824c !important; } /* Success Green */
+                .token.operator, .token.entity, .token.url { color: #0070f3 !important; }
+                .token.atrule, .token.attr-value, .token.keyword { color: #d73a49 !important; font-weight: 500 !important; } /* Vivid Red */
+                .token.function, .token.class-name { color: #f81ce5 !important; } /* Vercel Pink/Purple */
+                .token.parameter, .token.variable { color: #7928ca !important; } /* Deep Purple */
                 
                 /* Dark Mode Overrides */
-                .dark .token.comment { color: #8b949e !important; }
-                .dark .token.punctuation { color: #c9d1d9 !important; }
-                .dark .token.property, .dark .token.tag, .dark .token.boolean, .dark .token.number, .dark .token.constant, .dark .token.symbol { color: #79B8FF !important; }
-                .dark .token.selector, .dark .token.attr-name, .dark .token.string, .dark .token.char, .dark .token.builtin { color: #A5D6FF !important; }
-                .dark .token.keyword, .dark .token.atrule, .dark .token.attr-value { color: #FF7B72 !important; }
-                .dark .token.function, .dark .token.class-name { color: #B392F0 !important; }
-                .dark .token.parameter, .dark .token.variable { color: #79B8FF !important; }
+                .dark .token.comment { color: #888 !important; }
+                .dark .token.punctuation { color: #666 !important; }
+                .dark .token.property, .dark .token.tag, .dark .token.boolean, .dark .token.number, .dark .token.constant, .dark .token.symbol { color: #3291ff !important; }
+                .dark .token.keyword { color: #ff4d4d !important; }
+                .dark .token.function { color: #f81ce5 !important; }
+                .dark .token.string { color: #50e3c2 !important; }
             `}</style>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
                     // Custom heading tags to support TOC anchors
-                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-4xl font-bold tracking-tight mb-8 first:mt-0" />,
-                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight mt-12 mb-4 first:mt-0" />,
-                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4 first:mt-0" />,
+                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-4xl font-bold tracking-tight mb-8 first:mt-0 pt-1" />,
+                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight mt-12 mb-4 first:mt-0 pt-1" />,
+                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4 first:mt-0 pt-1" />,
                     p: ({ node, ...props }) => <p {...props} className="leading-7 [&:not(:first-child)]:mt-6" />,
                     hr: () => <hr className="hidden" />,
 
@@ -119,18 +115,17 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
 
                         if (!inline) {
                             return (
-                                <div className="relative group my-4">
+                                <div className="relative group my-8">
                                     <div className="absolute right-4 top-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={handleCopy}
-                                            className="p-1.5 rounded-md bg-white/80 backdrop-blur-sm border border-zinc-200 text-zinc-500 hover:text-primary transition-colors shadow-none"
+                                            className="p-1.5 rounded-md bg-white border border-zinc-200 text-zinc-500 hover:text-black transition-colors"
                                             title="Copy code"
-                                            style={{ boxShadow: 'none' }}
                                         >
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="rounded-xl border border-zinc-200/50 bg-white overflow-hidden" style={{ boxShadow: 'none' }}>
+                                    <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden" style={{ boxShadow: 'none' }}>
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
@@ -140,7 +135,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             lineNumberStyle={{
                                                 minWidth: '3.5em',
                                                 paddingRight: '1.25em',
-                                                color: '#a1a1aa',
+                                                color: '#bbb',
                                                 textAlign: 'right',
                                                 userSelect: 'none',
                                                 fontSize: '11px',
@@ -148,7 +143,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             }}
                                             customStyle={{
                                                 margin: 0,
-                                                padding: '1.25rem 1rem',
+                                                padding: '1.5rem 1rem',
                                                 fontSize: '14px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
@@ -172,7 +167,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                         return (
                             <code
                                 className={cn(
-                                    "px-1.5 py-[1px] rounded-md bg-zinc-100 text-zinc-900 font-medium font-mono text-[13px] border border-zinc-200/50 inline-block align-middle",
+                                    "px-1.5 py-[2px] rounded-md bg-zinc-100 text-zinc-900 font-medium font-mono text-[13px] border border-zinc-200/50 inline-block align-middle mx-0.5",
                                     className
                                 )}
                                 {...props}
