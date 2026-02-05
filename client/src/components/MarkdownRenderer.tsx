@@ -142,7 +142,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="rounded-lg border border-[#eaeaea] bg-white overflow-hidden shadow-none" style={{ boxShadow: 'none' }}>
+                                    <div className="rounded-xl border border-[#eaeaea] bg-white overflow-hidden shadow-sm">
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
@@ -164,7 +164,6 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                                 fontSize: '14px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
-                                                boxShadow: 'none',
                                             }}
                                             codeTagProps={{
                                                 style: {
