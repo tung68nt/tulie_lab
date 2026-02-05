@@ -540,9 +540,9 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         </aside>
                                     </div>
                                 </div>
-                            ) : null}
+                            )}
                         </div>
-                    ) : null}
+                    )}
 
                     <div className="flex items-center justify-between pt-4 border-t">
                         {prevLesson ? (
