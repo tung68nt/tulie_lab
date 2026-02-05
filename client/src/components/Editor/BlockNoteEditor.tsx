@@ -83,6 +83,17 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                    border-radius: 0.75rem !important;
                    box-shadow: none !important;
                 }
+                /* Inline code styling */
+                .bn-inline-content code {
+                    background-color: rgba(244, 244, 245, 0.7) !important; /* bg-zinc-100/70 */
+                    color: #18181b !important; /* text-zinc-900 */
+                    padding: 2px 5px !important;
+                    border-radius: 6px !important;
+                    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+                    font-size: 0.95em !important;
+                    font-weight: 500 !important;
+                    border: 0.5px solid rgba(228, 228, 231, 0.5) !important; /* border-zinc-200/50 */
+                }
             `}} />
             <div className="border rounded-md min-h-[500px] bg-background p-4">
                 <BlockNoteView

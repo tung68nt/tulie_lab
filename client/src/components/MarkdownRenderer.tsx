@@ -122,7 +122,13 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                         }
 
                         return (
-                            <code className={cn("bg-muted px-1.5 py-0.5 rounded text-sm font-mono", className)} {...props}>
+                            <code
+                                className={cn(
+                                    "px-1.5 py-0.5 rounded-md bg-zinc-100/70 text-zinc-900 font-medium font-mono text-[13px] border border-zinc-200/50",
+                                    className
+                                )}
+                                {...props}
+                            >
                                 {children}
                             </code>
                         );
