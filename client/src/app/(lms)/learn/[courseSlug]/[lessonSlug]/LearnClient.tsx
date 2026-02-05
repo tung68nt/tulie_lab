@@ -501,6 +501,18 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     )}
 
                     {/* Documentation Content */}
+                    {!loadingSecure && hasAccess && !currentLesson.content && (
+                        <div className="p-8 border-2 border-dashed border-muted rounded-2xl text-center my-8">
+                            <p className="text-muted-foreground mb-4">Không thể tải nội dung bài học. Vui lòng kiểm tra kết nối mạng hoặc đăng nhập lại.</p>
+                            <Button variant="outline" size="sm" onClick={() => window.location.reload()}>Tải lại trang</Button>
+
+                            {/* Hidden debug info for troubleshooting - User can screenshot if needed */}
+                            <div className="mt-4 text-[10px] text-muted-foreground opacity-50 font-mono">
+                                Debug: hasAccess=true, content=null, token={typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'present' : 'missing') : 'ssr'}
+                            </div>
+                        </div>
+                    )}
+
                     {currentLesson.content && (
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 border-t pt-8 mt-4">
                             <div className="lg:col-span-9">
