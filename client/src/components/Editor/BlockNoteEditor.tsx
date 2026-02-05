@@ -68,6 +68,21 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                     font-size: 1.25rem !important;
                     font-weight: 600 !important;
                 }
+                /* Fix code block background and font */
+                .bn-block[data-type="codeBlock"] .bn-inline-content,
+                .bn-block[data-type="codeBlock"] pre,
+                .bn-block[data-type="codeBlock"] code {
+                    background-color: white !important;
+                    color: #27272a !important;
+                    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+                    font-size: 14px !important;
+                }
+                .bn-block[data-type="codeBlock"] .bn-code-content-wrapper {
+                   background-color: white !important;
+                   border: 0.5px solid rgba(0,0,0,0.1) !important;
+                   border-radius: 0.75rem !important;
+                   box-shadow: none !important;
+                }
             `}} />
             <div className="border rounded-md min-h-[500px] bg-background p-4">
                 <BlockNoteView

@@ -69,19 +69,19 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     useEffect(() => {
         const handleObserver = (entries: IntersectionObserverEntry[]) => {
-            // Find all intersecting headers
-            const intersecting = entries
+            const visibleHeadings = entries
                 .filter(entry => entry.isIntersecting)
-                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+                .sort((a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top);
 
-            if (intersecting.length > 0) {
-                // Pick the first one (closest to top)
-                setActiveId(intersecting[0].target.id);
+            if (visibleHeadings.length > 0) {
+                // If we see headings, the one closest to the top of the rootMargin is active
+                setActiveId(visibleHeadings[0].target.id);
             }
         };
 
         const observer = new IntersectionObserver(handleObserver, {
-            rootMargin: '-80px 0px -80% 0px',
+            // Check top 25% of the screen
+            rootMargin: '0px 0px -75% 0px',
             threshold: 0
         });
 

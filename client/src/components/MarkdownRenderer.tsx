@@ -31,6 +31,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                     background: transparent !important;
                     margin: 0 !important;
                     padding: 0 !important;
+                    box-shadow: none !important;
                 }
                 /* Target BOTH react-syntax-highlighter line numbers and Prism content */
                 .react-syntax-highlighter-line-number, 
@@ -40,9 +41,11 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                     font-style: normal !important;
                     text-decoration: none !important;
                     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+                    font-size: 14px !important;
                 }
                 code[class*="language-"], pre[class*="language-"] {
                     background: transparent !important;
+                    box-shadow: none !important;
                 }
                 /* Ensure tokens still have colors */
                 .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #708090; }
@@ -81,7 +84,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="my-4 rounded-xl border-[0.5px] border-zinc-200/60 bg-white overflow-hidden">
+                                    <div className="my-4 rounded-xl border-[0.5px] border-zinc-200/50 bg-white overflow-hidden shadow-none">
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
@@ -100,7 +103,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             customStyle={{
                                                 margin: 0,
                                                 padding: '1.25rem 1rem',
-                                                fontSize: '13px',
+                                                fontSize: '14px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
                                             }}
