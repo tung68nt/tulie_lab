@@ -6,7 +6,7 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Watermark } from '@/components/system/security/Watermark';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Lightbulb } from 'lucide-react';
+import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Lightbulb, FileText } from 'lucide-react';
 import { MentoringSidebar } from './MentoringSidebar';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
@@ -484,9 +484,49 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </Button>
                     </div>
 
-                    {currentLesson.attachments && currentLesson.attachments.length > 0 && (
-                        <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
-                            <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider">Tài nguyên bài học</h3>
+                    {/* Lesson Description Box */}
+                    <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider uppercase">Mô tả chương trình</h3>
+                        <div className="text-[13px] text-muted-foreground leading-relaxed">
+                            {currentLesson.description ? (
+                                <p>{currentLesson.description}</p>
+                            ) : (
+                                <p className="italic opacity-50 text-xs">Cập nhật nội dung mô tả...</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* What You'll Learn Box */}
+                    <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider uppercase">Bạn sẽ học được gì</h3>
+                        <div className="text-[13px] text-muted-foreground leading-relaxed">
+                            {(() => {
+                                let outcomes: string[] = [];
+                                try {
+                                    if (typeof currentLesson.learningOutcomes === 'string') {
+                                        outcomes = currentLesson.learningOutcomes.split('\n');
+                                    } else if (Array.isArray(currentLesson.learningOutcomes)) {
+                                        outcomes = currentLesson.learningOutcomes.map(String);
+                                    }
+                                } catch (e) { console.error(e); }
+
+                                return outcomes.length > 0 ? (
+                                    <ul className="space-y-2">
+                                        {outcomes.map((line: string, i: number) => line.trim() && (
+                                            <li key={i} className="flex gap-2">✓ {line.replace(/^- /, '')}</li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p className="italic opacity-50 text-xs">Cập nhật mục tiêu bài học...</p>
+                                );
+                            })()}
+                        </div>
+                    </div>
+
+                    {/* Lesson Materials Box */}
+                    <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-mono tracking-wider uppercase">Tài liệu bài học</h3>
+                        {currentLesson.attachments && currentLesson.attachments.length > 0 ? (
                             <div className="space-y-2">
                                 {currentLesson.attachments.map((att: any) => (
                                     <a key={att.id} href={att.url} target="_blank" rel="noopener noreferrer"
@@ -498,8 +538,10 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                     </a>
                                 ))}
                             </div>
-                        </div>
-                    )}
+                        ) : (
+                            <p className="italic opacity-50 text-xs">Bài học này không có tài liệu đính kèm.</p>
+                        )}
+                    </div>
 
                     {/* Documentation Content */}
                     {!loadingSecure && hasAccess && !currentLesson.content && (
@@ -532,9 +574,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                 <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
                                                     <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/30 transition-colors list-none">
                                                         <div className="flex items-center gap-2 text-sm font-bold tracking-widest text-primary/80">
-                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                                            </svg>
+                                                            <FileText className="w-4 h-4" />
                                                             Mục lục
                                                         </div>
                                                         <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />

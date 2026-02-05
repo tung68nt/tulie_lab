@@ -654,7 +654,7 @@ export default function CoursePage({ params }: { params: any }) {
                     <div className="hidden md:block">
                         <div className="sticky top-24 space-y-6">
                             <div>
-                                <h3 className="mb-10 text-2xl font-bold">Bạn sẽ học được gì</h3>
+                                <h2 className="mb-10 text-2xl font-bold">Bạn sẽ học được gì</h2>
                                 <div className="rounded-xl border bg-card p-6 shadow-sm">
                                     {(() => {
                                         let outcomes: string[] = [];

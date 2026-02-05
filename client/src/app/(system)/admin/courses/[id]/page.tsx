@@ -66,6 +66,8 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         section: '',
         position: 0,
         isFree: false,
+        description: '',
+        learningOutcomes: '',
         guide: ''
     });
     const [pendingAttachments, setPendingAttachments] = useState<{ name: string, url: string }[]>([]);
@@ -170,7 +172,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 }
             }
             setLessons([...lessons, added]);
-            setNewLesson({ title: '', slug: '', videoUrl: '', duration: '', chapter: '', section: '', position: lessons.length + 2, isFree: false, guide: '' });
+            setNewLesson({ title: '', slug: '', videoUrl: '', duration: '', chapter: '', section: '', position: lessons.length + 2, isFree: false, description: '', learningOutcomes: '', guide: '' });
             setPendingAttachments([]);
             setNewAttachment({ name: '', url: '' });
             addToast('Đã thêm bài học', 'success');
@@ -596,6 +598,24 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                         />
                                     </div>
                                 </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Mô tả tóm tắt (Description)</label>
+                                    <textarea
+                                        className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
+                                        value={newLesson.description}
+                                        onChange={e => setNewLesson({ ...newLesson, description: e.target.value })}
+                                        placeholder="Mô tả ngắn gọn nội dung bài học..."
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">Bạn sẽ học được gì (Learning Outcomes)</label>
+                                    <textarea
+                                        className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y font-mono"
+                                        value={newLesson.learningOutcomes}
+                                        onChange={e => setNewLesson({ ...newLesson, learningOutcomes: e.target.value })}
+                                        placeholder="- Hiểu về...\n- Thực hành..."
+                                    />
+                                </div>
                                 <div className="grid grid-cols-3 gap-4">
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">Thời lượng</label>
@@ -825,6 +845,8 @@ function LessonItem({
     const [section, setSection] = useState(lesson.section || '');
     const [thumbnail, setThumbnail] = useState(lesson.thumbnail || '');
     const [content, setContent] = useState(lesson.content || '');
+    const [description, setDescription] = useState(lesson.description || '');
+    const [learningOutcomes, setLearningOutcomes] = useState(lesson.learningOutcomes || '');
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isEditingVideo, setIsEditingVideo] = useState(false);
     const [isEditingDuration, setIsEditingDuration] = useState(false);
@@ -833,6 +855,8 @@ function LessonItem({
     const [isEditingSection, setIsEditingSection] = useState(false);
     const [isEditingThumbnail, setIsEditingThumbnail] = useState(false);
     const [isEditingContent, setIsEditingContent] = useState(false);
+    const [isEditingDescription, setIsEditingDescription] = useState(false);
+    const [isEditingOutcomes, setIsEditingOutcomes] = useState(false);
     const [guide, setGuide] = useState(lesson.guide || '');
     const [isEditingGuide, setIsEditingGuide] = useState(false);
 
@@ -864,6 +888,20 @@ function LessonItem({
             onUpdateLesson(lesson.id, { content });
         }
         setIsEditingContent(false);
+    };
+
+    const handleSaveDescription = () => {
+        if (onUpdateLesson) {
+            onUpdateLesson(lesson.id, { description });
+        }
+        setIsEditingDescription(false);
+    };
+
+    const handleSaveOutcomes = () => {
+        if (onUpdateLesson) {
+            onUpdateLesson(lesson.id, { learningOutcomes });
+        }
+        setIsEditingOutcomes(false);
     };
 
     const handleSaveGuide = () => {
@@ -1155,10 +1193,60 @@ function LessonItem({
                             )}
                         </div>
 
+                        {/* Lesson Description Section */}
+                        <div className="md:col-span-2 space-y-2">
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-semibold text-muted-foreground">Mô tả bài học (Tài liệu)</label>
+                                {isEditingDescription ? (
+                                    <div className="flex gap-2">
+                                        <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveDescription}>Lưu mô tả</Button>
+                                        <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
+                                            setDescription(lesson.description || '');
+                                            setIsEditingDescription(false);
+                                        }}>Hủy</Button>
+                                    </div>
+                                ) : (
+                                    <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={() => setIsEditingDescription(true)}>Chỉnh sửa mô tả</Button>
+                                )}
+                            </div>
+                            <textarea
+                                className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y disabled:opacity-50"
+                                value={description}
+                                onChange={e => setDescription(e.target.value)}
+                                disabled={!isEditingDescription}
+                                placeholder="Mô tả tóm tắt nội dung bài học..."
+                            />
+                        </div>
+
+                        {/* Learning Outcomes Section */}
+                        <div className="md:col-span-2 space-y-2">
+                            <div className="flex items-center justify-between">
+                                <label className="text-xs font-semibold text-muted-foreground">Bạn sẽ học được gì (Mỗi ý 1 dòng)</label>
+                                {isEditingOutcomes ? (
+                                    <div className="flex gap-2">
+                                        <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveOutcomes}>Lưu ý định</Button>
+                                        <Button size="sm" variant="ghost" className="h-7 text-[10px]" onClick={() => {
+                                            setLearningOutcomes(lesson.learningOutcomes || '');
+                                            setIsEditingOutcomes(false);
+                                        }}>Hủy</Button>
+                                    </div>
+                                ) : (
+                                    <Button size="sm" variant="outline" className="h-7 text-[10px]" onClick={() => setIsEditingOutcomes(true)}>Chỉnh sửa ý định</Button>
+                                )}
+                            </div>
+                            <textarea
+                                className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y disabled:opacity-50 font-mono"
+                                value={learningOutcomes}
+                                onChange={e => setLearningOutcomes(e.target.value)}
+                                disabled={!isEditingOutcomes}
+                                placeholder="- Hiểu về...\n- Vận dụng..."
+                            />
+                        </div>
+
                         {/* Content/Description Section */}
                         <div className="md:col-span-2 space-y-2">
                             <div className="flex items-center justify-between">
-                                <label className="text-xs font-semibold text-muted-foreground">Mô tả / Nội dung bài học</label>
+                                <label className="text-xs font-semibold text-muted-foreground">Nội dung bài học (Chính)</label>
                                 {isEditingContent ? (
                                     <div className="flex gap-2">
                                         <Button size="sm" className="h-7 text-[10px]" onClick={handleSaveContent}>Lưu nội dung</Button>

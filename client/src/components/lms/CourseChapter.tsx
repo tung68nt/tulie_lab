@@ -60,12 +60,12 @@ export function CourseChapter({
                 className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
-                <h3 className="font-bold text-sm text-foreground flex items-center gap-2">
+                <h3 className="font-bold text-[13px] text-foreground flex items-center gap-2">
                     <span className="text-muted-foreground transition-transform duration-200" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
-                        <ChevronDown className="w-4 h-4" />
+                        <ChevronDown className="w-3.5 h-3.5" />
                     </span>
                     {chapterName}
-                    <span className="text-xs font-normal text-muted-foreground ml-2">
+                    <span className="text-[11px] font-normal text-muted-foreground ml-2">
                         ({chapterLessons.length} bài học)
                     </span>
                 </h3>
@@ -137,11 +137,11 @@ export function CourseChapter({
                                     <div className="flex items-start justify-between gap-2">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
-                                                <h4 className={`text-sm font-medium leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
+                                                <h4 className={`text-[13px] font-medium leading-tight ${isLocked ? 'text-muted-foreground' : 'text-foreground group-hover:text-primary transition-colors'}`}>
                                                     {lesson.title}
                                                 </h4>
                                                 <span className="text-muted-foreground transition-transform duration-200" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-                                                    <ChevronDown className="w-3.5 h-3.5" />
+                                                    <ChevronDown className="w-3 h-3" />
                                                 </span>
                                             </div>
                                             {lesson.isFree && !isEnrolled && (
@@ -169,7 +169,7 @@ export function CourseChapter({
 
                                     {/* Expandable Description */}
                                     {lesson.description && (
-                                        <p className={`text-xs text-muted-foreground mt-2 leading-relaxed transition-all ${isExpanded ? 'line-clamp-none' : 'line-clamp-1'}`}>
+                                        <p className={`text-[11px] text-muted-foreground mt-2 leading-relaxed transition-all ${isExpanded ? 'line-clamp-none' : 'line-clamp-1'}`}>
                                             {lesson.description}
                                         </p>
                                     )}

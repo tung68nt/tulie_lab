@@ -235,6 +235,7 @@ model Lesson {
   title       String
   slug        String
   description String?
+  learningOutcomes String?
   videoUrl    String?
   duration    String?
   content     String?

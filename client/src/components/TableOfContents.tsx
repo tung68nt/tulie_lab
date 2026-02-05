@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { cn, slugify } from '@/lib/utils';
-import { List } from 'lucide-react';
+import { FileText } from 'lucide-react';
 
 interface TOCItem {
     id: string;
@@ -110,7 +110,7 @@ export function TableOfContents({
         <div className={cn("px-0 md:px-1", className)}>
             {!hideHeader && (
                 <div className="flex items-center gap-2 pb-4 border-b border-zinc-200">
-                    <List size={16} className="text-foreground/90 shrink-0 translate-y-[1px]" />
+                    <FileText size={16} className="text-foreground/90 shrink-0 translate-y-[1px]" />
                     <span className="text-[15px] font-bold text-foreground whitespace-nowrap leading-none">Mục lục bài học</span>
                 </div>
             )}
