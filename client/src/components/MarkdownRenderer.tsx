@@ -47,9 +47,26 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                     background: transparent !important;
                     box-shadow: none !important;
                 }
-                /* Ensure tokens still have colors */
-                .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #708090; }
-                .token.punctuation { color: #999; }
+                /* Syntax Highlighting - Exact Match to cli.knowns.dev (GitHub-inspired palette) */
+                .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6A737D !important; }
+                .token.punctuation { color: #24292e !important; }
+                .token.namespace { opacity: .7; }
+                .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #005CC5 !important; }
+                .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032F62 !important; }
+                .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #005CC5 !important; }
+                .token.atrule, .token.attr-value, .token.keyword { color: #D73A49 !important; } /* GitHub Red for keywords */
+                /* Special overrides for the user's snippet colors */
+                .token.function, .token.class-name { color: #6F42C1 !important; } /* Purple for functions/knowns */
+                .token.parameter, .token.variable { color: #005CC5 !important; } /* Blue for flags */
+                
+                /* Dark Mode Overrides */
+                .dark .token.comment { color: #8b949e !important; }
+                .dark .token.punctuation { color: #c9d1d9 !important; }
+                .dark .token.property, .dark .token.tag, .dark .token.boolean, .dark .token.number, .dark .token.constant, .dark .token.symbol { color: #79B8FF !important; }
+                .dark .token.selector, .dark .token.attr-name, .dark .token.string, .dark .token.char, .dark .token.builtin { color: #A5D6FF !important; }
+                .dark .token.keyword, .dark .token.atrule, .dark .token.attr-value { color: #FF7B72 !important; }
+                .dark .token.function, .dark .token.class-name { color: #B392F0 !important; }
+                .dark .token.parameter, .dark .token.variable { color: #79B8FF !important; }
             `}</style>
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
