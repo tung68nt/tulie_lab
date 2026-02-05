@@ -25,6 +25,7 @@ const extractText = (children: any): string => {
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
     return (
         <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:tracking-tight", className)}>
+            <style jsx global>{`
                 .prose table {
                     width: 100%;
                     border-collapse: collapse;
