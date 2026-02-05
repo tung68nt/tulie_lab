@@ -104,7 +104,7 @@ export function TableOfContents({ content, className, onItemClick, hideHeader = 
             {!hideHeader && (
                 <div className="flex items-center gap-2 pb-4 border-b border-zinc-200">
                     <List size={16} className="text-foreground/90 shrink-0 translate-y-[1px]" />
-                    <span className="text-[15px] font-bold text-foreground whitespace-nowrap leading-none">Mục lục tài liệu</span>
+                    <span className="text-[15px] font-bold text-foreground whitespace-nowrap leading-none">Mục lục bài học</span>
                 </div>
             )}
 
@@ -125,8 +125,8 @@ export function TableOfContents({ content, className, onItemClick, hideHeader = 
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-1.5 px-3 text-[13px] leading-snug transition-all duration-200 rounded-md",
-                            heading.level === 3 ? "pl-8" : "pl-4",
+                            "group block py-1.5 px-2 text-[13px] leading-snug transition-all duration-200 rounded-md",
+                            heading.level === 3 ? "pl-4" : "pl-2",
                             activeId === heading.id
                                 ? "text-foreground font-bold"
                                 : "text-muted-foreground/70 hover:text-foreground font-normal"
