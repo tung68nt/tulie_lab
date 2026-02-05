@@ -97,7 +97,12 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
 
     return (
         <div className={cn("space-y-4", className)}>
-            <nav className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 px-3 py-1">
+                <List size={18} className="text-foreground" />
+                <h3 className="text-[15px] font-bold text-foreground">Mục lục bài học</h3>
+            </div>
+
+            <nav className="flex flex-col gap-0.5">
                 {headings.map((heading) => (
                     <a
                         key={heading.id}
@@ -115,11 +120,10 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                         }}
                         className={cn(
                             "group block py-1.5 px-3 text-[13px] leading-snug transition-all duration-200 rounded-md",
-                            heading.level === 3 ? "pl-6" : "",
-                            heading.level === 1 ? "font-semibold text-foreground/90" : "font-normal",
+                            heading.level === 3 ? "pl-8" : "pl-4",
                             activeId === heading.id
-                                ? "text-primary bg-primary/5 font-medium"
-                                : "text-muted-foreground/60 hover:text-foreground hover:bg-muted/30"
+                                ? "text-foreground font-bold"
+                                : "text-muted-foreground/70 hover:text-foreground font-normal"
                         )}
                     >
                         <span className="transition-transform inline-block">

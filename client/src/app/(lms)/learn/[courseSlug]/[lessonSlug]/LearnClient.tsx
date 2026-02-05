@@ -535,7 +535,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                                             </svg>
-                                                            Mục lục
+                                                            Mục lục bài học
                                                         </div>
                                                         <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />
                                                     </summary>
@@ -547,8 +547,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                                             {/* Desktop TOC */}
                                             <div className="hidden lg:block">
-                                                <h3 className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/50 mb-4 px-3">Mục lục</h3>
-                                                <div className="p-1 rounded-xl bg-muted/5 border border-border/40">
+                                                <div className="p-1 rounded-xl border border-border/40 bg-zinc-50/50">
                                                     <TableOfContents content={currentLesson.content} />
                                                 </div>
                                             </div>
