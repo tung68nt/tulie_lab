@@ -175,6 +175,11 @@ export function Navbar() {
 
     const [navLinks, setNavLinks] = useState<NavLinkItem[]>(DEFAULT_NAV_LINKS);
 
+    // Hide navbar for whiteboard editor
+    if (pathname?.startsWith('/whiteboard')) {
+        return null;
+    }
+
     // Fetch dynamic menu from CMS
     useEffect(() => {
         const fetchMenu = async () => {

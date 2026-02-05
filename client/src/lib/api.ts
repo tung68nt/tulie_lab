@@ -554,5 +554,12 @@ export const api: any = {
         addArtboard: (id: string, name?: string) => request<any>(`/whiteboards/${id}/artboards`, { method: 'POST', body: JSON.stringify({ name }) }),
         saveSnapshot: (id: string, artboardId: string, elements: any) => request<any>(`/whiteboards/${id}/snapshots`, { method: 'POST', body: JSON.stringify({ artboardId, elements }) }),
         getAdminStats: () => request<any>('/whiteboards/admin/stats'),
+    },
+    shortLinks: {
+        list: () => request<any[]>('/short-links'),
+        create: (data: { code?: string, originalUrl: string, title?: string }) => request<any>('/short-links', { method: 'POST', body: JSON.stringify(data) }),
+        update: (id: string, data: { originalUrl?: string, title?: string }) => request<any>(`/short-links/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+        delete: (id: string) => request<void>(`/short-links/${id}`, { method: 'DELETE' }),
+        resolve: (code: string) => request<any>(`/short-links/${code}`),
     }
 };

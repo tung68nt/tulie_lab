@@ -1124,6 +1124,20 @@ model ArtboardHistory {
   @@index([artboardId])
 }
 
+model ShortLink {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  originalUrl   String
+  title         String?
+  clicks        Int       @default(0)
+  userId        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastClickedAt DateTime?
+
+  @@index([code])
+}
+
 enum WhiteboardStatus {
   DRAFT
   PUBLISHED

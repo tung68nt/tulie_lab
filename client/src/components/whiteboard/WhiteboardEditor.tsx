@@ -223,13 +223,46 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             <style jsx global>{`
                 .whiteboard-container .tl-canvas {
                     background-color: #ffffff !important;
-                    background-image: radial-gradient(#e0e0e0 0.5px, transparent 0.5px) !important;
-                    background-size: 20px 20px !important;
+                    background-image: 
+                        radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px) !important;
+                    background-size: 25px 25px !important;
                     background-position: center !important;
+                    image-rendering: crisp-edges;
                 }
+                
+                /* Monochrome Theme for tldraw components */
+                .tl-ui-layout {
+                    --tl-select-fill: rgba(0, 0, 0, 0.05) !important;
+                    --tl-primary: #000000 !important;
+                    --tl-accent: #000000 !important;
+                    --tl-secondary: #71717a !important;
+                    --tl-background: #ffffff !important;
+                }
+
+                .tl-ui-button {
+                    border-radius: 8px !important;
+                    transition: all 0.2s ease !important;
+                }
+
+                .tl-ui-button:hover {
+                    background-color: #f4f4f5 !important;
+                }
+
                 /* Hide default tldraw background if any */
                 .tl-background {
                     display: none !important;
+                }
+                
+                /* Ensure toolbar is visible and not hidden by top controls */
+                .tl-ui-toolbar {
+                    z-index: 105 !important;
+                    bottom: 24px !important;
+                }
+
+                /* Custom branding style */
+                .whiteboard-branding {
+                    font-family: 'Inter', sans-serif;
+                    letter-spacing: -0.02em;
                 }
             `}</style>
             <Tldraw
@@ -240,18 +273,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             />
 
             {/* Header Controls */}
-            <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[102]">
-                <div className="flex items-center gap-2 pointer-events-auto">
-                    <Button
-                        variant="light"
-                        size="sm"
-                        onClick={() => window.history.back()}
-                        className="rounded-full px-4"
+            <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[110]">
+                <div className="flex items-center gap-3 pointer-events-auto bg-white/80 backdrop-blur-md border border-zinc-200 px-4 py-2 rounded-2xl shadow-sm">
+                    <div
+                        className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                        onClick={() => window.location.href = '/admin'}
                     >
-                        Quay lại
-                    </Button>
-                    <div className="h-6 w-[1px] bg-zinc-200 mx-2" />
-                    <h1 className="text-sm font-semibold text-zinc-900 border-l border-zinc-200 pl-4">
+                        <Logo showText={false} className="scale-90" />
+                        <div className="flex flex-col -gap-1">
+                            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none">Tulie</span>
+                            <span className="text-sm font-black text-zinc-900 whiteboard-branding leading-none">Whiteboard</span>
+                        </div>
+                    </div>
+                    <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
+                    <h1 className="text-xs font-medium text-zinc-500 max-w-[150px] truncate">
                         {whiteboard?.title || 'Đang tải...'}
                     </h1>
                 </div>
