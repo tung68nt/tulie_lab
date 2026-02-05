@@ -451,7 +451,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         </div>
                                     </div>
                                 </summary>
-                                <div className="p-4 pt-1 border-t border-primary/5 bg-card/30 backdrop-blur-[2px]">
+                                <div className="p-6 border-t border-zinc-200 bg-white">
                                     <MarkdownRenderer content={currentLesson.guide} />
                                 </div>
                             </details>
@@ -470,7 +470,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                     )}
 
                     <div className="mt-8 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <h1 className="text-2xl font-bold text-foreground">{currentLesson.title}</h1>
+                        <h2 className="text-2xl font-bold text-foreground">{currentLesson.title}</h2>
                         <Button
                             onClick={() => handleToggleComplete(currentLesson.id)}
                             variant={completedLessons.includes(currentLesson.id) ? "outline" : "default"}
@@ -501,13 +501,14 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
+                    {/* Content Section */}
                     {hasAccess && (
                         <div className={cn(
-                            "mb-12 border-t pt-8 mt-4 transition-all duration-300",
+                            "mb-16",
                             !currentLesson.content && "hidden"
                         )}>
                             {currentLesson.content && (
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-12 border-t pt-8 mt-4">
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 border-t pt-10 mt-8">
                                     <div className="lg:col-span-9 lg:pr-8">
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
@@ -522,7 +523,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                                                             </svg>
-                                                            Mục lục tài liệu
+                                                            Mục lục bài học
                                                         </div>
                                                         <ChevronRight className="w-4 h-4 transition-transform group-open:rotate-90" />
                                                     </summary>
@@ -544,36 +545,36 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         </div>
                     )}
 
-                    <div className="flex items-center justify-between pt-4 border-t">
+                    {/* Navigation Cards - Vercel Geist Style */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-12 border-t border-zinc-200 mt-12">
                         {prevLesson ? (
-                            <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}>
-                                <Button as="div" variant="outline" size="sm" className="gap-2">
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                    Bài trước
-                                </Button>
+                            <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}
+                                className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 hover:bg-zinc-50 transition-all text-left">
+                                <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-1 group-hover:text-zinc-900">Bài cũ hơn</span>
+                                <span className="text-sm font-bold text-zinc-800 line-clamp-1 group-hover:text-black">
+                                    {prevLesson.title}
+                                </span>
                             </Link>
                         ) : <div />}
-                        {!isLastLesson && nextLesson ? (
-                            <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}>
-                                <Button as="div" size="sm" className="gap-2">
-                                    Bài tiếp theo
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </Button>
+
+                        {nextLesson ? (
+                            <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}
+                                className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 hover:bg-zinc-50 transition-all text-right items-end">
+                                <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-1 group-hover:text-zinc-900">Tiếp theo</span>
+                                <span className="text-sm font-bold text-zinc-800 line-clamp-1 group-hover:text-black">
+                                    {nextLesson.title}
+                                </span>
                             </Link>
                         ) : isLastLesson ? (
-                            <Link href={`/courses/${courseSlug}`}>
-                                <Button as="div" size="sm" className="gap-2">
-                                    Hoàn thành khóa học
+                            <Link href={`/courses/${courseSlug}`}
+                                className="group flex flex-col p-5 rounded-2xl border border-zinc-900 bg-zinc-900 hover:bg-zinc-800 transition-all text-right items-end shadow-md">
+                                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Kết thúc khóa học</span>
+                                <div className="flex items-center gap-2 text-sm font-bold text-white">
+                                    Quay lại danh sách bài học
                                     <Check className="w-4 h-4" />
-                                </Button>
+                                </div>
                             </Link>
-                        ) : (
-                            <div />
-                        )}
+                        ) : <div />}
                     </div>
                 </div>
             </main>
@@ -581,3 +582,4 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
         </div>
     );
 }
+```
