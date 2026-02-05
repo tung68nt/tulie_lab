@@ -53,16 +53,22 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
     }, [content]);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveId(entry.target.id);
-                    }
-                });
-            },
-            { rootMargin: '0% 0% -80% 0%' }
-        );
+        const handleObserver = (entries: IntersectionObserverEntry[]) => {
+            // Find all intersecting headers
+            const intersecting = entries
+                .filter(entry => entry.isIntersecting)
+                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+            if (intersecting.length > 0) {
+                // Pick the first one (closest to top)
+                setActiveId(intersecting[0].target.id);
+            }
+        };
+
+        const observer = new IntersectionObserver(handleObserver, {
+            rootMargin: '-80px 0px -70% 0px', // Account for header and focus on top area
+            threshold: [0, 1]
+        });
 
         headings.forEach((heading) => {
             const element = document.getElementById(heading.id);
@@ -101,11 +107,11 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
                             if (onItemClick) onItemClick();
                         }}
                         className={cn(
-                            "group block py-2 px-1 text-[13px] leading-tight border-l-2 transition-all duration-200 font-normal",
-                            heading.level === 3 ? "pl-4" : "",
+                            "group block py-2 px-3 text-[13px] leading-tight border-l-2 transition-all duration-200 font-normal rounded-r-md",
+                            heading.level === 3 ? "pl-6" : "",
                             heading.level === 1 ? "font-semibold text-foreground/90" : "",
                             activeId === heading.id
-                                ? "text-primary border-primary bg-primary/5 font-bold"
+                                ? "text-primary border-primary bg-primary/10 font-bold shadow-sm"
                                 : "text-muted-foreground/70 border-transparent hover:text-foreground hover:bg-muted/30"
                         )}
                     >
