@@ -35,9 +35,11 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 /* Target BOTH react-syntax-highlighter line numbers and Prism content */
                 .react-syntax-highlighter-line-number, 
                 code[class*="language-"] span,
-                .prose pre span {
+                .prose pre span,
+                .prose pre code {
                     font-style: normal !important;
                     text-decoration: none !important;
+                    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
                 }
                 code[class*="language-"], pre[class*="language-"] {
                     background: transparent !important;
@@ -79,7 +81,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="my-4 rounded-xl border-[0.5px] border-zinc-200/60 bg-white overflow-hidden shadow-sm">
+                                    <div className="my-4 rounded-xl border-[0.5px] border-zinc-200/60 bg-white overflow-hidden">
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}

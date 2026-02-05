@@ -81,7 +81,7 @@ export function TableOfContents({ content, className, onItemClick }: TableOfCont
         };
 
         const observer = new IntersectionObserver(handleObserver, {
-            rootMargin: '-10% 0px -80% 0px',
+            rootMargin: '-80px 0px -80% 0px',
             threshold: 0
         });
 
