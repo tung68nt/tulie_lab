@@ -12,6 +12,11 @@ const controller = new WhiteboardController(service);
 // All whiteboard routes require authentication
 router.use(authenticate);
 
+// Admin routes (Must be before generic :id routes)
+import { authorize } from '../../../middleware/auth.middleware';
+import { Role } from '@prisma/client';
+router.get('/admin/stats', authorize([Role.ADMIN]), controller.getAdminStats);
+
 router.post('/', controller.create);
 router.get('/my', controller.getMyWhiteboards);
 router.get('/:id', controller.getOne);
@@ -22,10 +27,5 @@ router.delete('/:id', controller.delete);
 router.post('/:id/artboards', controller.addArtboard);
 router.post('/:id/snapshots', controller.saveSnapshot);
 router.put('/artboards/:artboardId/state', controller.saveArtboardState);
-
-// Admin routes
-import { authorize } from '../../../middleware/auth.middleware';
-import { Role } from '@prisma/client';
-router.get('/admin/stats', authorize([Role.ADMIN]), controller.getAdminStats);
 
 export default router;

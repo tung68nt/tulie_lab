@@ -219,7 +219,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }
 
     return (
-        <div className="fixed inset-0 pt-16 bg-background overflow-hidden">
+        <div className="fixed inset-0 pt-20 bg-background overflow-hidden whiteboard-container">
+            <style jsx global>{`
+                .whiteboard-container .tl-canvas {
+                    background-color: #ffffff !important;
+                    background-image: radial-gradient(#e0e0e0 0.5px, transparent 0.5px) !important;
+                    background-size: 20px 20px !important;
+                    background-position: center !important;
+                }
+                /* Hide default tldraw background if any */
+                .tl-background {
+                    display: none !important;
+                }
+            `}</style>
             <Tldraw
                 autoFocus
                 onMount={handleMount}
