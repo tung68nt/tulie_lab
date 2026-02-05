@@ -8,7 +8,7 @@ import { Check, Copy, Info, AlertTriangle, Lightbulb } from 'lucide-react';
 import { useState } from 'react';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { coldarkLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { ghcolors } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface MarkdownRendererProps {
     content: string;
@@ -61,7 +61,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                     <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-sm">
                                         <SyntaxHighlighter
                                             {...props}
-                                            style={coldarkLight}
+                                            style={ghcolors}
                                             language={match ? match[1] : 'text'}
                                             PreTag="div"
                                             showLineNumbers={true}
