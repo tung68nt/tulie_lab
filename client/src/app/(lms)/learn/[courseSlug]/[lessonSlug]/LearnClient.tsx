@@ -513,7 +513,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:col-span-3 lg:border-l border-zinc-200/50 lg:pl-0 relative h-full">
+                                    <div className="lg:col-span-3 lg:border-l border-zinc-200/50 lg:pl-4 relative h-full">
                                         <aside className="sticky top-[100px]">
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">
@@ -534,10 +534,9 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                             </div>
 
                                             {/* Desktop TOC */}
-                                            <div className="hidden lg:block mt-2">
+                                            <div className="hidden lg:block mt-6">
                                                 <TableOfContents content={currentLesson.content} />
                                             </div>
-
                                         </aside>
                                     </div>
                                 </div>
