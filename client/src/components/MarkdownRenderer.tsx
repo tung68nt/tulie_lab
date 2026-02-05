@@ -25,7 +25,32 @@ const extractText = (children: any): string => {
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
     return (
         <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:tracking-tight", className)}>
-            <style jsx global>{`
+                .prose table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 1.5rem 0;
+                    font-size: 14px;
+                }
+                .prose thead {
+                    background-color: #f6f8fa;
+                    border-bottom: 1px solid #e1e4e8;
+                }
+                .prose th {
+                    text-align: left;
+                    padding: 8px 12px;
+                    font-weight: 600;
+                    color: #24292e;
+                    border: 1px solid #dfe2e5;
+                }
+                .prose td {
+                    padding: 8px 12px;
+                    border: 1px solid #dfe2e5;
+                    color: #24292e;
+                }
+                .dark .prose thead { background-color: #161b22; border-bottom-color: #30363d; }
+                .dark .prose th { color: #c9d1d9; border-color: #30363d; }
+                .dark .prose td { color: #c9d1d9; border-color: #30363d; }
+
                 .prose pre, .prose pre code {
                     background-color: transparent !important;
                     background: transparent !important;
@@ -91,7 +116,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
 
                         if (!inline) {
                             return (
-                                <div className="relative group my-6">
+                                <div className="relative group my-4">
                                     <div className="absolute right-4 top-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={handleCopy}
@@ -101,7 +126,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="my-4 rounded-xl border-[0.5px] border-zinc-200/50 bg-white overflow-hidden shadow-none">
+                                    <div className="rounded-xl border-[0.5px] border-zinc-200/50 bg-white overflow-hidden shadow-none">
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
@@ -141,7 +166,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                         return (
                             <code
                                 className={cn(
-                                    "px-1.5 py-0.5 rounded-md bg-zinc-100/70 text-zinc-900 font-medium font-mono text-[13px] border border-zinc-200/50",
+                                    "px-1.5 py-[1px] rounded-md bg-zinc-100 text-zinc-900 font-medium font-mono text-[13px] border border-zinc-200/50 inline-block align-middle",
                                     className
                                 )}
                                 {...props}
@@ -227,6 +252,6 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
             >
                 {content}
             </ReactMarkdown>
-        </div>
+        </div >
     );
 }
