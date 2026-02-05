@@ -506,7 +506,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             "mb-12 border-t pt-8 mt-4 transition-all duration-300",
                             !currentLesson.content && "hidden"
                         )}>
-                            {currentLesson.content ? (
+                            {currentLesson.content && (
                                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-12 border-t pt-8 mt-4">
                                     <div className="lg:col-span-9 lg:pr-8">
                                         <MarkdownRenderer content={currentLesson.content} />
