@@ -520,12 +520,12 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                             !currentLesson.content && !loadingSecure && "min-h-[120px] flex items-center justify-center border-dashed border-2 bg-muted/5 rounded-2xl"
                         )}>
                             {currentLesson.content ? (
-                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 border-t pt-8 mt-4">
-                                    <div className="lg:col-span-9">
+                                <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 mb-12 border-t pt-8 mt-4">
+                                    <div className="lg:col-span-9 lg:pr-12">
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:col-span-3 relative h-full">
+                                    <div className="lg:col-span-3 lg:border-l border-border/60 lg:pl-8 relative h-full">
                                         <aside className="sticky top-[100px]">
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">

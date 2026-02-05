@@ -74,16 +74,18 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                     box-shadow: none !important;
                 }
                 /* Syntax Highlighting - Exact Match to cli.knowns.dev (GitHub-inspired palette) */
-                .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6A737D !important; }
+                /* Syntax Highlighting - Force Colors */
+                .token.comment { color: #6A737D !important; }
                 .token.punctuation { color: #24292e !important; }
-                .token.namespace { opacity: .7; }
                 .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #005CC5 !important; }
                 .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #032F62 !important; }
-                .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #005CC5 !important; }
-                .token.atrule, .token.attr-value, .token.keyword { color: #D73A49 !important; } /* GitHub Red for keywords */
-                /* Special overrides for the user's snippet colors */
-                .token.function, .token.class-name { color: #6F42C1 !important; } /* Purple for functions/knowns */
-                .token.parameter, .token.variable { color: #005CC5 !important; } /* Blue for flags */
+                .token.operator, .token.entity, .token.url { color: #005CC5 !important; }
+                .token.atrule, .token.attr-value, .token.keyword { color: #D73A49 !important; }
+                .token.function, .token.class-name { color: #6F42C1 !important; }
+                .token.parameter, .token.variable { color: #005CC5 !important; }
+                /* For Shell/Bash specifically */
+                .language-bash .token.function, .language-shell .token.function { color: #6F42C1 !important; }
+                .language-bash .token.parameter, .language-shell .token.parameter { color: #005CC5 !important; }
                 
                 /* Dark Mode Overrides */
                 .dark .token.comment { color: #8b949e !important; }
@@ -98,9 +100,9 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 remarkPlugins={[remarkGfm]}
                 components={{
                     // Custom heading tags to support TOC anchors
-                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-4xl font-bold tracking-tight mb-8" />,
-                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight mt-12 mb-4" />,
-                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4" />,
+                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-4xl font-bold tracking-tight mb-8 first:mt-0" />,
+                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight mt-12 mb-4 first:mt-0" />,
+                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4 first:mt-0" />,
                     p: ({ node, ...props }) => <p {...props} className="leading-7 [&:not(:first-child)]:mt-6" />,
                     hr: () => <hr className="hidden" />,
 
@@ -121,13 +123,14 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                     <div className="absolute right-4 top-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={handleCopy}
-                                            className="p-1.5 rounded-md bg-white/80 backdrop-blur-sm border border-zinc-200 text-zinc-500 hover:text-primary transition-colors shadow-sm"
+                                            className="p-1.5 rounded-md bg-white/80 backdrop-blur-sm border border-zinc-200 text-zinc-500 hover:text-primary transition-colors shadow-none"
                                             title="Copy code"
+                                            style={{ boxShadow: 'none' }}
                                         >
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="rounded-xl border-[0.5px] border-zinc-200/50 bg-white overflow-hidden shadow-none">
+                                    <div className="rounded-xl border border-zinc-200/50 bg-white overflow-hidden" style={{ boxShadow: 'none' }}>
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
@@ -149,11 +152,13 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                                 fontSize: '14px',
                                                 lineHeight: '1.6',
                                                 backgroundColor: 'transparent',
+                                                boxShadow: 'none',
                                             }}
                                             codeTagProps={{
                                                 style: {
                                                     backgroundColor: 'transparent',
-                                                    fontStyle: 'normal'
+                                                    fontStyle: 'normal',
+                                                    boxShadow: 'none',
                                                 }
                                             }}
                                         >

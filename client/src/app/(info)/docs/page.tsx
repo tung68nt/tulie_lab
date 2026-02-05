@@ -207,7 +207,7 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
 
             {/* Main Content */}
             <div className="container py-8 md:py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                     {/* Sidebar / TOC */}
                     <div className="lg:col-span-3 lg:border-r border-border/60 lg:pr-8">
                         <aside className="sticky top-24 space-y-6">
