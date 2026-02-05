@@ -123,7 +123,7 @@ export default function Editor({ initialContent, onChange, editable = true }: Ed
                 .bn-block[data-type="codeBlock"] .bn-code-content-wrapper {
                    background-color: white !important;
                    border: 1px solid #e4e4e7 !important;
-                   border-radius: 0.75rem !important; /* rounded-xl */
+                   border-radius: 0.5rem !important; /* rounded-lg */
                    box-shadow: none !important;
                    padding: 1.5rem 1rem !important;
                 }

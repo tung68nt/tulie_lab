@@ -513,7 +513,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                         <MarkdownRenderer content={currentLesson.content} />
                                     </div>
 
-                                    <div className="lg:col-span-3 lg:border-l border-zinc-200/50 lg:pl-8 relative h-full">
+                                    <div className="lg:col-span-3 lg:border-l border-zinc-200/50 lg:pl-0 relative h-full">
                                         <aside className="sticky top-[100px]">
                                             {/* Mobile TOC (Accordion style) */}
                                             <div className="lg:hidden mb-6">
@@ -534,7 +534,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                             </div>
 
                                             {/* Desktop TOC */}
-                                            <div className="hidden lg:block">
+                                            <div className="hidden lg:block mt-2">
                                                 <TableOfContents content={currentLesson.content} />
                                             </div>
 
@@ -550,7 +550,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         {prevLesson ? (
                             <Link href={`/learn/${courseSlug}/${prevLesson.slug}`}
                                 className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 hover:bg-zinc-50 transition-all text-left">
-                                <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-1 group-hover:text-zinc-900">Bài cũ hơn</span>
+                                <span className="text-[11px] font-bold text-zinc-500 mb-1 group-hover:text-zinc-900">Bài cũ hơn</span>
                                 <span className="text-sm font-bold text-zinc-800 line-clamp-1 group-hover:text-black">
                                     {prevLesson.title}
                                 </span>
@@ -560,7 +560,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         {nextLesson ? (
                             <Link href={`/learn/${courseSlug}/${nextLesson.slug}`}
                                 className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 hover:bg-zinc-50 transition-all text-right items-end">
-                                <span className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mb-1 group-hover:text-zinc-900">Tiếp theo</span>
+                                <span className="text-[11px] font-bold text-zinc-500 mb-1 group-hover:text-zinc-900">Tiếp theo</span>
                                 <span className="text-sm font-bold text-zinc-800 line-clamp-1 group-hover:text-black">
                                     {nextLesson.title}
                                 </span>
@@ -568,7 +568,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                         ) : isLastLesson ? (
                             <Link href={`/courses/${courseSlug}`}
                                 className="group flex flex-col p-5 rounded-2xl border border-zinc-200 hover:border-zinc-900 transition-all text-right items-end">
-                                <span className="text-[11px] font-bold text-zinc-500 tracking-widest mb-1 group-hover:text-zinc-900">Kết thúc khóa học</span>
+                                <span className="text-[11px] font-bold text-zinc-500 mb-1 group-hover:text-zinc-900">Kết thúc khóa học</span>
                                 <div className="flex items-center gap-2 text-sm font-bold text-zinc-800 group-hover:text-black">
                                     Quay lại danh sách bài học
                                     <Check className="w-4 h-4" />

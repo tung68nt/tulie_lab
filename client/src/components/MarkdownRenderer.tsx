@@ -142,7 +142,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                                             {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                                         </button>
                                     </div>
-                                    <div className="rounded-xl border border-zinc-200 bg-white overflow-hidden" style={{ boxShadow: 'none' }}>
+                                    <div className="rounded-lg border border-zinc-200 bg-white overflow-hidden" style={{ boxShadow: 'none' }}>
                                         <SyntaxHighlighter
                                             {...props}
                                             style={ghcolors}
