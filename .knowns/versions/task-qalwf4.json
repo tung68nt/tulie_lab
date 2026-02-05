@@ -1,0 +1,447 @@
+{
+  "taskId": "qalwf4",
+  "currentVersion": 6,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "qalwf4",
+      "version": 1,
+      "timestamp": "2026-02-05T07:30:34.049Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Refine UI Consistency & Admin Experience",
+        "description": "Address vertical alignment, excessive margins, and add persistent navigation buttons to the lesson editor.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "ui",
+          "lms",
+          "admin"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "TOC horizontal margins are reduced"
+          },
+          {
+            "completed": false,
+            "text": "TOC icon is perfectly aligned with the title text"
+          },
+          {
+            "completed": false,
+            "text": "Code blocks have no shadow and a simple border"
+          },
+          {
+            "completed": false,
+            "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+          },
+          {
+            "completed": false,
+            "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+          },
+          {
+            "completed": false,
+            "text": "Mark Complete button is aligned with lesson title"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "qalwf4",
+      "version": 2,
+      "timestamp": "2026-02-05T07:41:01.969Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Final Fix: Resolved TypeScript compilation error in course editor. Clean local build verified."
+        }
+      ],
+      "snapshot": {
+        "title": "Refine UI Consistency & Admin Experience",
+        "description": "Address vertical alignment, excessive margins, and add persistent navigation buttons to the lesson editor.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "ui",
+          "lms",
+          "admin"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "TOC horizontal margins are reduced"
+          },
+          {
+            "completed": false,
+            "text": "TOC icon is perfectly aligned with the title text"
+          },
+          {
+            "completed": false,
+            "text": "Code blocks have no shadow and a simple border"
+          },
+          {
+            "completed": false,
+            "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+          },
+          {
+            "completed": false,
+            "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+          },
+          {
+            "completed": false,
+            "text": "Mark Complete button is aligned with lesson title"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+          }
+        ],
+        "implementationNotes": "Final Fix: Resolved TypeScript compilation error in course editor. Clean local build verified."
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "qalwf4",
+      "version": 3,
+      "timestamp": "2026-02-05T07:53:31.681Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Address vertical alignment, excessive margins, and add persistent navigation buttons to the lesson editor.",
+          "newValue": "thêm task vào knowns cho tôi, thực hiện rồi kiểm tra, tránh trường hợp fix nhiều lần vẫn lỗi, nếu không hiển thị được như mẫu thì <https://cli.knowns.dev/docs> thì cứ loop check DOM, fix, push git rồi check DOM, fix, push git...:\\\nfix lại lề cho mục lục tài liệu (đang bị nhiều lề trái phải quá)\\\nfix lại icon thẳng với mục lục tài liệu, icon đang bị cao hơn mục lục tài liệu (nếu ko fix được thì bỏ icon đi) như ảnh mẫu\\\nbox code block fix bỏ shadown, chỉ để lại viền border đơn giản thôi (như ảnh mẫu)\\\ncode inline và code block chưa có màu text từng loại term code như ảnh mẫu\\\nnút kết thúc khóa học cho về như cũ, bị to, nhiều lề trái quá, bỏ uppercase đi\\\nnút đánh dấu hoàn thành bị cao hơn title bài học\\\ntrong phần edit bài học,dòng Hướng dẫn & Lưu ý học tập (Prompts) Mở rộng dưới Video thì xoá tag \"Mở rộng dưới Video đi\"\\\nthêm bộ nút Hủy - Xem thực tế - Lưu thay đổi trang vào cuối sau danh sách bài học để tiện cho việc sửa xong bài học thì lưu luôn không cần lộn lên phần trên để bấm lưu\n"
+        }
+      ],
+      "snapshot": {
+        "title": "Refine UI Consistency & Admin Experience",
+        "description": "thêm task vào knowns cho tôi, thực hiện rồi kiểm tra, tránh trường hợp fix nhiều lần vẫn lỗi, nếu không hiển thị được như mẫu thì <https://cli.knowns.dev/docs> thì cứ loop check DOM, fix, push git rồi check DOM, fix, push git...:\\\nfix lại lề cho mục lục tài liệu (đang bị nhiều lề trái phải quá)\\\nfix lại icon thẳng với mục lục tài liệu, icon đang bị cao hơn mục lục tài liệu (nếu ko fix được thì bỏ icon đi) như ảnh mẫu\\\nbox code block fix bỏ shadown, chỉ để lại viền border đơn giản thôi (như ảnh mẫu)\\\ncode inline và code block chưa có màu text từng loại term code như ảnh mẫu\\\nnút kết thúc khóa học cho về như cũ, bị to, nhiều lề trái quá, bỏ uppercase đi\\\nnút đánh dấu hoàn thành bị cao hơn title bài học\\\ntrong phần edit bài học,dòng Hướng dẫn & Lưu ý học tập (Prompts) Mở rộng dưới Video thì xoá tag \"Mở rộng dưới Video đi\"\\\nthêm bộ nút Hủy - Xem thực tế - Lưu thay đổi trang vào cuối sau danh sách bài học để tiện cho việc sửa xong bài học thì lưu luôn không cần lộn lên phần trên để bấm lưu\n",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "ui",
+          "lms",
+          "admin"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "TOC horizontal margins are reduced"
+          },
+          {
+            "completed": false,
+            "text": "TOC icon is perfectly aligned with the title text"
+          },
+          {
+            "completed": false,
+            "text": "Code blocks have no shadow and a simple border"
+          },
+          {
+            "completed": false,
+            "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+          },
+          {
+            "completed": false,
+            "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+          },
+          {
+            "completed": false,
+            "text": "Mark Complete button is aligned with lesson title"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+          }
+        ],
+        "implementationNotes": "Final Fix: Resolved TypeScript compilation error in course editor. Clean local build verified."
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "qalwf4",
+      "version": 4,
+      "timestamp": "2026-02-05T07:53:44.589Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "done",
+          "newValue": "todo"
+        }
+      ],
+      "snapshot": {
+        "title": "Refine UI Consistency & Admin Experience",
+        "description": "thêm task vào knowns cho tôi, thực hiện rồi kiểm tra, tránh trường hợp fix nhiều lần vẫn lỗi, nếu không hiển thị được như mẫu thì <https://cli.knowns.dev/docs> thì cứ loop check DOM, fix, push git rồi check DOM, fix, push git...:\\\nfix lại lề cho mục lục tài liệu (đang bị nhiều lề trái phải quá)\\\nfix lại icon thẳng với mục lục tài liệu, icon đang bị cao hơn mục lục tài liệu (nếu ko fix được thì bỏ icon đi) như ảnh mẫu\\\nbox code block fix bỏ shadown, chỉ để lại viền border đơn giản thôi (như ảnh mẫu)\\\ncode inline và code block chưa có màu text từng loại term code như ảnh mẫu\\\nnút kết thúc khóa học cho về như cũ, bị to, nhiều lề trái quá, bỏ uppercase đi\\\nnút đánh dấu hoàn thành bị cao hơn title bài học\\\ntrong phần edit bài học,dòng Hướng dẫn & Lưu ý học tập (Prompts) Mở rộng dưới Video thì xoá tag \"Mở rộng dưới Video đi\"\\\nthêm bộ nút Hủy - Xem thực tế - Lưu thay đổi trang vào cuối sau danh sách bài học để tiện cho việc sửa xong bài học thì lưu luôn không cần lộn lên phần trên để bấm lưu",
+        "status": "todo",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "ui",
+          "lms",
+          "admin"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "TOC horizontal margins are reduced"
+          },
+          {
+            "completed": false,
+            "text": "TOC icon is perfectly aligned with the title text"
+          },
+          {
+            "completed": false,
+            "text": "Code blocks have no shadow and a simple border"
+          },
+          {
+            "completed": false,
+            "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+          },
+          {
+            "completed": false,
+            "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+          },
+          {
+            "completed": false,
+            "text": "Mark Complete button is aligned with lesson title"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+          }
+        ],
+        "implementationNotes": "Final Fix: Resolved TypeScript compilation error in course editor. Clean local build verified."
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "qalwf4",
+      "version": 5,
+      "timestamp": "2026-02-05T07:54:15.444Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "thêm task vào knowns cho tôi, thực hiện rồi kiểm tra, tránh trường hợp fix nhiều lần vẫn lỗi, nếu không hiển thị được như mẫu thì <https://cli.knowns.dev/docs> thì cứ loop check DOM, fix, push git rồi check DOM, fix, push git...:\\\nfix lại lề cho mục lục tài liệu (đang bị nhiều lề trái phải quá)\\\nfix lại icon thẳng với mục lục tài liệu, icon đang bị cao hơn mục lục tài liệu (nếu ko fix được thì bỏ icon đi) như ảnh mẫu\\\nbox code block fix bỏ shadown, chỉ để lại viền border đơn giản thôi (như ảnh mẫu)\\\ncode inline và code block chưa có màu text từng loại term code như ảnh mẫu\\\nnút kết thúc khóa học cho về như cũ, bị to, nhiều lề trái quá, bỏ uppercase đi\\\nnút đánh dấu hoàn thành bị cao hơn title bài học\\\ntrong phần edit bài học,dòng Hướng dẫn & Lưu ý học tập (Prompts) Mở rộng dưới Video thì xoá tag \"Mở rộng dưới Video đi\"\\\nthêm bộ nút Hủy - Xem thực tế - Lưu thay đổi trang vào cuối sau danh sách bài học để tiện cho việc sửa xong bài học thì lưu luôn không cần lộn lên phần trên để bấm lưu",
+          "newValue": "thêm task vào knowns cho tôi, thực hiện rồi kiểm tra, tránh trường hợp fix nhiều lần vẫn lỗi, nếu không hiển thị được như mẫu thì <https://cli.knowns.dev/docs> thì cứ loop check DOM, fix, push git rồi check DOM, fix, push git...:\\\n\\\nfix lại lề cho mục lục tài liệu (đang bị nhiều lề trái phải quá)\\\n\\\nfix lại icon thẳng với mục lục tài liệu, icon đang bị cao hơn mục lục tài liệu (nếu ko fix được thì bỏ icon đi) như ảnh mẫu\\\n\\\nbox code block fix bỏ shadown, chỉ để lại viền border đơn giản thôi (như ảnh mẫu)\\\n\\\ncode inline và code block chưa có màu text từng loại term code như ảnh mẫu\\\n\\\nnút kết thúc khóa học, bài học trước, bài học tiếp theo cho về như cũ, bị to, nhiều lề trái quá, bỏ uppercase đi, cho gọn nút lại\\\n\\\nnút đánh dấu hoàn thành bị cao hơn title bài học\\\n\\\ntrong phần edit bài học,dòng Hướng dẫn & Lưu ý học tập (Prompts) Mở rộng dưới Video thì xoá tag \"Mở rộng dưới Video đi\"\\\n\\\nthêm bộ nút Hủy - Xem thực tế - Lưu thay đổi trang vào cuối sau danh sách bài học để tiện cho việc sửa xong bài học thì lưu luôn không cần lộn lên phần trên để bấm lưu\n"
+        }
+      ],
+      "snapshot": {
+        "title": "Refine UI Consistency & Admin Experience",
+        "description": "thêm task vào knowns cho tôi, thực hiện rồi kiểm tra, tránh trường hợp fix nhiều lần vẫn lỗi, nếu không hiển thị được như mẫu thì <https://cli.knowns.dev/docs> thì cứ loop check DOM, fix, push git rồi check DOM, fix, push git...:\\\n\\\nfix lại lề cho mục lục tài liệu (đang bị nhiều lề trái phải quá)\\\n\\\nfix lại icon thẳng với mục lục tài liệu, icon đang bị cao hơn mục lục tài liệu (nếu ko fix được thì bỏ icon đi) như ảnh mẫu\\\n\\\nbox code block fix bỏ shadown, chỉ để lại viền border đơn giản thôi (như ảnh mẫu)\\\n\\\ncode inline và code block chưa có màu text từng loại term code như ảnh mẫu\\\n\\\nnút kết thúc khóa học, bài học trước, bài học tiếp theo cho về như cũ, bị to, nhiều lề trái quá, bỏ uppercase đi, cho gọn nút lại\\\n\\\nnút đánh dấu hoàn thành bị cao hơn title bài học\\\n\\\ntrong phần edit bài học,dòng Hướng dẫn & Lưu ý học tập (Prompts) Mở rộng dưới Video thì xoá tag \"Mở rộng dưới Video đi\"\\\n\\\nthêm bộ nút Hủy - Xem thực tế - Lưu thay đổi trang vào cuối sau danh sách bài học để tiện cho việc sửa xong bài học thì lưu luôn không cần lộn lên phần trên để bấm lưu\n",
+        "status": "todo",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "ui",
+          "lms",
+          "admin"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "TOC horizontal margins are reduced"
+          },
+          {
+            "completed": false,
+            "text": "TOC icon is perfectly aligned with the title text"
+          },
+          {
+            "completed": false,
+            "text": "Code blocks have no shadow and a simple border"
+          },
+          {
+            "completed": false,
+            "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+          },
+          {
+            "completed": false,
+            "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+          },
+          {
+            "completed": false,
+            "text": "Mark Complete button is aligned with lesson title"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+          }
+        ],
+        "implementationNotes": "Final Fix: Resolved TypeScript compilation error in course editor. Clean local build verified."
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "qalwf4",
+      "version": 6,
+      "timestamp": "2026-02-05T07:55:07.111Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "TOC horizontal margins are reduced"
+            },
+            {
+              "completed": false,
+              "text": "TOC icon is perfectly aligned with the title text"
+            },
+            {
+              "completed": false,
+              "text": "Code blocks have no shadow and a simple border"
+            },
+            {
+              "completed": false,
+              "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+            },
+            {
+              "completed": false,
+              "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+            },
+            {
+              "completed": false,
+              "text": "Mark Complete button is aligned with lesson title"
+            },
+            {
+              "completed": false,
+              "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+            },
+            {
+              "completed": false,
+              "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "TOC horizontal margins are reduced"
+            },
+            {
+              "completed": false,
+              "text": "TOC icon is perfectly aligned with the title text"
+            },
+            {
+              "completed": false,
+              "text": "Code blocks have no shadow and a simple border"
+            },
+            {
+              "completed": false,
+              "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+            },
+            {
+              "completed": false,
+              "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+            },
+            {
+              "completed": false,
+              "text": "Mark Complete button is aligned with lesson title"
+            },
+            {
+              "completed": false,
+              "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+            },
+            {
+              "completed": false,
+              "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+            },
+            {
+              "text": "giao diện hiển thị, khoảng cách, text code color như https://cli.knowns.dev/docs",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Refine UI Consistency & Admin Experience",
+        "description": "thêm task vào knowns cho tôi, thực hiện rồi kiểm tra, tránh trường hợp fix nhiều lần vẫn lỗi, nếu không hiển thị được như mẫu thì <https://cli.knowns.dev/docs> thì cứ loop check DOM, fix, push git rồi check DOM, fix, push git...:\\\n\\\nfix lại lề cho mục lục tài liệu (đang bị nhiều lề trái phải quá)\\\n\\\nfix lại icon thẳng với mục lục tài liệu, icon đang bị cao hơn mục lục tài liệu (nếu ko fix được thì bỏ icon đi) như ảnh mẫu\\\n\\\nbox code block fix bỏ shadown, chỉ để lại viền border đơn giản thôi (như ảnh mẫu)\\\n\\\ncode inline và code block chưa có màu text từng loại term code như ảnh mẫu\\\n\\\nnút kết thúc khóa học, bài học trước, bài học tiếp theo cho về như cũ, bị to, nhiều lề trái quá, bỏ uppercase đi, cho gọn nút lại\\\n\\\nnút đánh dấu hoàn thành bị cao hơn title bài học\\\n\\\ntrong phần edit bài học,dòng Hướng dẫn & Lưu ý học tập (Prompts) Mở rộng dưới Video thì xoá tag \"Mở rộng dưới Video đi\"\\\n\\\nthêm bộ nút Hủy - Xem thực tế - Lưu thay đổi trang vào cuối sau danh sách bài học để tiện cho việc sửa xong bài học thì lưu luôn không cần lộn lên phần trên để bấm lưu",
+        "status": "todo",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "ui",
+          "lms",
+          "admin"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "TOC horizontal margins are reduced"
+          },
+          {
+            "completed": false,
+            "text": "TOC icon is perfectly aligned with the title text"
+          },
+          {
+            "completed": false,
+            "text": "Code blocks have no shadow and a simple border"
+          },
+          {
+            "completed": false,
+            "text": "Syntax highlighting colors are applied correctly to both inline and block code"
+          },
+          {
+            "completed": false,
+            "text": "Next/Prev buttons are refined (no uppercase, better spacing)"
+          },
+          {
+            "completed": false,
+            "text": "Mark Complete button is aligned with lesson title"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Guide header text is updated (Remove 'Mở rộng dưới Video')"
+          },
+          {
+            "completed": false,
+            "text": "Admin: Persistent action buttons (Cancel, View, Save) are added to the bottom of the lesson editor"
+          },
+          {
+            "text": "giao diện hiển thị, khoảng cách, text code color như https://cli.knowns.dev/docs",
+            "completed": false
+          }
+        ],
+        "implementationNotes": "Final Fix: Resolved TypeScript compilation error in course editor. Clean local build verified."
+      }
+    }
+  ]
+}

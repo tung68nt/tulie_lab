@@ -506,13 +506,13 @@ export default function CoursePage({ params }: { params: any }) {
             </div>
 
             {/* Content Section */}
-            <div className="container py-10 mt-8 bg-background md:mt-12 relative">
+            <div className="container py-6 mt-8 bg-background md:mt-12 relative">
                 <DotPatternBackground className="opacity-[0.08] dark:opacity-[0.1]" withVignette={false} />
                 <div className="grid gap-8 md:gap-12 md:grid-cols-3 relative z-10">
                     <div className="md:col-span-2">
                         {/* Course Curriculum */}
                         <section className="mb-12">
-                            <h2 className="mb-8 text-2xl font-bold">Nội dung khóa học</h2>
+                            <h2 className="mb-10 text-2xl font-bold">Nội dung khóa học</h2>
                             <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <div className="">
@@ -654,7 +654,7 @@ export default function CoursePage({ params }: { params: any }) {
                     <div className="hidden md:block">
                         <div className="sticky top-24 space-y-6">
                             <div>
-                                <h3 className="mb-8 text-2xl font-bold">Bạn sẽ học được gì</h3>
+                                <h3 className="mb-10 text-2xl font-bold">Bạn sẽ học được gì</h3>
                                 <div className="rounded-xl border bg-card p-6 shadow-sm">
                                     {(() => {
                                         let outcomes: string[] = [];

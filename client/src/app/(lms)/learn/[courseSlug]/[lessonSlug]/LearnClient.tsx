@@ -6,7 +6,7 @@ import { VideoPlayer } from '@/components/VideoPlayer';
 import { Watermark } from '@/components/system/security/Watermark';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Lightbulb } from 'lucide-react';
+import { Check, Play, ChevronDown, ChevronRight, ChevronsUpDown, Paperclip, Lightbulb, FileText } from 'lucide-react';
 import { MentoringSidebar } from './MentoringSidebar';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { TableOfContents } from '@/components/TableOfContents';
@@ -535,7 +535,11 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                                             {/* Desktop TOC */}
                                             <div className="hidden lg:block mt-0">
-                                                <TableOfContents content={currentLesson.content} />
+                                                <div className="flex items-center gap-2 mb-6">
+                                                    <FileText className="w-5 h-5 text-foreground" />
+                                                    <span className="font-semibold text-foreground">Mục lục bài học</span>
+                                                </div>
+                                                <TableOfContents content={currentLesson.content} hideHeader className="border-none" />
                                             </div>
                                         </aside>
                                     </div>

@@ -11,3 +11,16 @@ export function slugify(text: string) {
         .replace(/[^a-z0-9\u00C0-\u1EF9]+/g, '-')
         .replace(/^-+|-+$/g, '');
 }
+
+export function getVideoThumbnail(url?: string): string | null {
+    if (!url) return null;
+
+    // YouTube
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const youtubeMatch = url.match(youtubeRegex);
+    if (youtubeMatch && youtubeMatch[1]) {
+        return `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`;
+    }
+
+    return null;
+}

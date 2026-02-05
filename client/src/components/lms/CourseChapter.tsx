@@ -13,6 +13,22 @@ interface Lesson {
     thumbnail?: string;
     duration?: string;
     isFree?: boolean;
+    videoUrl?: string; // Added videoUrl
+    type?: 'VIDEO' | 'QUIZ' | 'TEXT';
+}
+
+function getVideoThumbnail(url?: string): string | null {
+    if (!url) return null;
+
+    // YouTube
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const youtubeMatch = url.match(youtubeRegex);
+    if (youtubeMatch && youtubeMatch[1]) {
+        return `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`;
+    }
+
+    // Add Vimeo later if needed
+    return null;
 }
 
 interface CourseChapterProps {
@@ -68,18 +84,49 @@ export function CourseChapter({
                                 onClick={() => toggleLesson(lesson.id)}
                             >
                                 {/* Lesson Thumbnail */}
-                                <div className="shrink-0 w-24 h-16 bg-zinc-200 rounded-md overflow-hidden relative border border-zinc-200">
-                                    {lesson.thumbnail && typeof lesson.thumbnail === 'string' ? (
-                                        <img src={lesson.thumbnail} alt={lesson.title} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground">
-                                            {/* Play Icon Placeholder */}
-                                            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                                        </div>
-                                    )}
+                                <div className="shrink-0 w-24 h-16 bg-zinc-100 rounded-md overflow-hidden relative border border-zinc-200">
+                                    {(() => {
+                                        const thumb = lesson.thumbnail || getVideoThumbnail(lesson.videoUrl);
+                                        const hasVideo = !!lesson.videoUrl;
+
+                                        if (thumb) {
+                                            return (
+                                                <>
+                                                    <img src={thumb} alt={lesson.title} className="w-full h-full object-cover" />
+                                                    {/* Overlay Play Icon if it is a video */}
+                                                    {hasVideo && (
+                                                        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                                                            <div className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-sm">
+                                                                <svg className="w-3 h-3 text-white fill-current translate-x-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </>
+                                            );
+                                        }
+
+                                        // Placeholder logic
+                                        if (hasVideo) {
+                                            return (
+                                                <div className="w-full h-full flex items-center justify-center bg-zinc-100 text-zinc-400">
+                                                    <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                                </div>
+                                            );
+                                        }
+
+                                        // No video -> Document icon
+                                        return (
+                                            <div className="w-full h-full flex items-center justify-center bg-zinc-50 text-zinc-300">
+                                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                            </div>
+                                        );
+                                    })()}
+
                                     {/* Duration Badge */}
                                     {lesson.duration && (
-                                        <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[10px] px-1 rounded-sm">
+                                        <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] font-medium px-1 rounded-[2px]">
                                             {lesson.duration}
                                         </div>
                                     )}
@@ -111,27 +158,29 @@ export function CourseChapter({
                                                     <span className="text-xs">🔒</span>
                                                 </Button>
                                             ) : (
-                                                <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
-                                                    <Button variant="ghost" size="sm" className="h-8 text-primary hover:text-primary hover:bg-primary/10">
-                                                        Vào học
-                                                    </Button>
-                                                </Link>
+                                            ): (
+                                                    <Link href = {`/learn/${courseSlug}/${lesson.slug}`}>
+                                            <Button size="sm" className="h-8 text-xs font-semibold shadow-sm px-4">
+                                                Vào học
+                                            </Button>
+                                        </Link>
                                             )}
-                                        </div>
+                                            )}
                                     </div>
-
-                                    {/* Expandable Description */}
-                                    {lesson.description && (
-                                        <p className={`text-xs text-muted-foreground mt-2 leading-relaxed transition-all ${isExpanded ? 'line-clamp-none' : 'line-clamp-1'}`}>
-                                            {lesson.description}
-                                        </p>
-                                    )}
                                 </div>
+
+                                {/* Expandable Description */}
+                                {lesson.description && (
+                                    <p className={`text-xs text-muted-foreground mt-2 leading-relaxed transition-all ${isExpanded ? 'line-clamp-none' : 'line-clamp-1'}`}>
+                                        {lesson.description}
+                                    </p>
+                                )}
                             </div>
                         </div>
-                    );
+                        </div>
+            );
                 })}
-            </div>
         </div>
+        </div >
     );
 }

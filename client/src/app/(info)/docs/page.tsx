@@ -205,7 +205,6 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
                             <p className="text-muted-foreground mt-2">
                                 Hướng dẫn chi tiết cách sử dụng các tính năng trên hệ thống Tulie Academy.
                             </p>
-                            <p className="text-sm text-muted-foreground/70 mt-2">5 min read</p>
                         </div>
 
                         {/* Content */}
