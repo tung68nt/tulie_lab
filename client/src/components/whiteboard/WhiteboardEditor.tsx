@@ -327,8 +327,16 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
 
                 /* Hide the default tldraw page selector and menu to avoid overlap */
-                .tl-ui-layout__top {
+                .tl-ui-layout__top, .tl-page-menu {
                     display: none !important;
+                }
+
+                /* Target light theme specifically for accents */
+                .tl-theme__light, :root {
+                    --tl-accent: #18181b !important;
+                    --tl-primary: #18181b !important;
+                    --tl-select-fill: rgba(0, 0, 0, 0.05) !important;
+                    --tl-select-stroke: #18181b !important;
                 }
             `}</style>
             <div className="relative w-full h-full">
@@ -341,6 +349,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         TopPanel: null,
                         SharePanel: null,
                         HelpMenu: null,
+                        PageMenu: null,
+                        MainMenu: null,
                     }}
                 />
             </div>
