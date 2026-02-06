@@ -175,11 +175,7 @@ export function Navbar() {
 
     const [navLinks, setNavLinks] = useState<NavLinkItem[]>(DEFAULT_NAV_LINKS);
 
-    // Hide navbar for whiteboard editor (paths starting with /whiteboard/ followed by ID)
-    // We want to show navbar on /whiteboard (list page) but hide on /whiteboard/[id]
-    if (pathname?.startsWith('/whiteboard/') && pathname.length > 12) {
-        return null;
-    }
+    // Moved early return logic to the end to prevent Hook violation
 
     // Fetch dynamic menu from CMS
     useEffect(() => {
@@ -198,6 +194,14 @@ export function Navbar() {
         };
         fetchMenu();
     }, []);
+
+    // Hide navbar for whiteboard editor (paths starting with /whiteboard/ followed by ID)
+    // We want to show navbar on /whiteboard (list page) but hide on /whiteboard/[id]
+    const isWhiteboardEditor = pathname?.startsWith('/whiteboard/') && pathname && pathname.length > 12;
+
+    if (isWhiteboardEditor) {
+        return null;
+    }
 
     return (
         <>
