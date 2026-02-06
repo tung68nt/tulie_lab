@@ -195,9 +195,9 @@ export function Navbar() {
         fetchMenu();
     }, []);
 
-    // Hide navbar for whiteboard editor (paths starting with /whiteboard/ followed by ID)
+    // Hide navbar for whiteboard editor (paths containing /whiteboard/ followed by ID)
     // We want to show navbar on /whiteboard (list page) but hide on /whiteboard/[id]
-    const isWhiteboardEditor = pathname?.startsWith('/whiteboard/') && pathname && pathname.length > 12;
+    const isWhiteboardEditor = pathname?.includes('/whiteboard/') && pathname.split('/whiteboard/')[1]?.length > 0;
 
     if (isWhiteboardEditor) {
         return null;

@@ -20,6 +20,7 @@ import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { ShortLink } from '@/types/api';
+import { Portal } from '@/components/Portal';
 
 export default function AdminShortLinksPage() {
     const [links, setLinks] = useState<ShortLink[]>([]);
@@ -245,81 +246,83 @@ export default function AdminShortLinksPage() {
 
             {/* Create Modal */}
             {isCreateModalOpen && (
-                <div className="fixed top-0 left-0 right-0 bottom-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-xl p-4">
-                    <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-zinc-200 animate-in fade-in zoom-in duration-200">
-                        <div className="flex justify-between items-center p-6 border-b shrink-0">
-                            <div className="space-y-0.5">
-                                <h2 className="text-lg font-bold text-zinc-950">Tạo Link mới</h2>
-                                <p className="text-zinc-500 text-xs">Nhập thông tin bên dưới để tạo liên kết rút gọn.</p>
-                            </div>
-                            <button
-                                onClick={() => setIsCreateModalOpen(false)}
-                                className="p-2 hover:bg-zinc-100 rounded-full transition-colors"
-                            >
-                                <X className="w-5 h-5 text-zinc-400" />
-                            </button>
-                        </div>
-
-                        <form onSubmit={handleCreate} className="p-6 space-y-6">
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-zinc-700 ml-1">Tiêu đề (Ghi chú)</label>
-                                <input
-                                    type="text"
-                                    placeholder="VD: Link đăng ký học React..."
-                                    required
-                                    value={newLink.title}
-                                    onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
-                                    className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:ring-2 focus:ring-zinc-950 outline-none transition-all placeholder:text-zinc-400"
-                                />
+                <Portal>
+                    <div className="fixed top-0 left-0 right-0 bottom-0 z-[100000] flex items-center justify-center bg-zinc-950/40 backdrop-blur-xl p-4">
+                        <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-zinc-200 animate-in fade-in zoom-in duration-200">
+                            <div className="flex justify-between items-center p-6 border-b shrink-0">
+                                <div className="space-y-0.5">
+                                    <h2 className="text-lg font-bold text-zinc-950">Tạo Link mới</h2>
+                                    <p className="text-zinc-500 text-xs">Nhập thông tin bên dưới để tạo liên kết rút gọn.</p>
+                                </div>
+                                <button
+                                    onClick={() => setIsCreateModalOpen(false)}
+                                    className="p-2 hover:bg-zinc-100 rounded-full transition-colors"
+                                >
+                                    <X className="w-5 h-5 text-zinc-400" />
+                                </button>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-zinc-700 ml-1">URL Gốc (Destination)</label>
-                                <input
-                                    type="url"
-                                    placeholder="https://..."
-                                    required
-                                    value={newLink.originalUrl}
-                                    onChange={(e) => setNewLink({ ...newLink, originalUrl: e.target.value })}
-                                    className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:ring-2 focus:ring-zinc-950 outline-none transition-all placeholder:text-zinc-400"
-                                />
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="text-xs font-semibold text-zinc-700 ml-1">Mã thu gọn (Tùy chọn)</label>
-                                <div className="flex items-center gap-2">
-                                    <div className="px-3 py-2.5 bg-zinc-100 text-zinc-500 rounded-lg text-sm font-medium border border-zinc-200">/</div>
+                            <form onSubmit={handleCreate} className="p-6 space-y-6">
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-zinc-700 ml-1">Tiêu đề (Ghi chú)</label>
                                     <input
                                         type="text"
-                                        placeholder="Để trống để tạo ngẫu nhiên"
-                                        value={newLink.code}
-                                        onChange={(e) => setNewLink({ ...newLink, code: e.target.value })}
-                                        className="flex-1 px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:ring-2 focus:ring-zinc-950 outline-none transition-all placeholder:text-zinc-400"
+                                        placeholder="VD: Link đăng ký học React..."
+                                        required
+                                        value={newLink.title}
+                                        onChange={(e) => setNewLink({ ...newLink, title: e.target.value })}
+                                        className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:ring-2 focus:ring-zinc-950 outline-none transition-all placeholder:text-zinc-400"
                                     />
                                 </div>
-                                <p className="text-[10px] text-zinc-500 font-medium ml-1">Để trống hệ thống sẽ tự sinh 1 mã ngẫu nhiên 7 ký tự.</p>
-                            </div>
 
-                            <div className="pt-4 flex gap-3">
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    className="flex-1 rounded-lg py-5 border-zinc-200 text-zinc-600 font-semibold"
-                                    onClick={() => setIsCreateModalOpen(false)}
-                                >
-                                    Hủy bỏ
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="flex-[2] bg-zinc-950 text-white rounded-lg py-5 font-semibold shadow hover:scale-[1.01] active:scale-95 transition-all"
-                                >
-                                    {isSubmitting ? 'Đang tạo...' : 'Tạo liên kết'}
-                                </Button>
-                            </div>
-                        </form>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-zinc-700 ml-1">URL Gốc (Destination)</label>
+                                    <input
+                                        type="url"
+                                        placeholder="https://..."
+                                        required
+                                        value={newLink.originalUrl}
+                                        onChange={(e) => setNewLink({ ...newLink, originalUrl: e.target.value })}
+                                        className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:ring-2 focus:ring-zinc-950 outline-none transition-all placeholder:text-zinc-400"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs font-semibold text-zinc-700 ml-1">Mã thu gọn (Tùy chọn)</label>
+                                    <div className="flex items-center gap-2">
+                                        <div className="px-3 py-2.5 bg-zinc-100 text-zinc-500 rounded-lg text-sm font-medium border border-zinc-200">/</div>
+                                        <input
+                                            type="text"
+                                            placeholder="Để trống để tạo ngẫu nhiên"
+                                            value={newLink.code}
+                                            onChange={(e) => setNewLink({ ...newLink, code: e.target.value })}
+                                            className="flex-1 px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:ring-2 focus:ring-zinc-950 outline-none transition-all placeholder:text-zinc-400"
+                                        />
+                                    </div>
+                                    <p className="text-[10px] text-zinc-500 font-medium ml-1">Để trống hệ thống sẽ tự sinh 1 mã ngẫu nhiên 7 ký tự.</p>
+                                </div>
+
+                                <div className="pt-4 flex gap-3">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        className="flex-1 rounded-lg py-5 border-zinc-200 text-zinc-600 font-semibold"
+                                        onClick={() => setIsCreateModalOpen(false)}
+                                    >
+                                        Hủy bỏ
+                                    </Button>
+                                    <Button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="flex-[2] bg-zinc-950 text-white rounded-lg py-5 font-semibold shadow hover:scale-[1.01] active:scale-95 transition-all"
+                                    >
+                                        {isSubmitting ? 'Đang tạo...' : 'Tạo liên kết'}
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                </Portal>
             )}
         </div>
     );
