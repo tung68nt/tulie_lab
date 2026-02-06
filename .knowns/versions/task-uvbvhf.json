@@ -1,0 +1,55 @@
+{
+  "taskId": "uvbvhf",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "uvbvhf",
+      "version": 1,
+      "timestamp": "2026-02-06T12:16:22.803Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Transition Whiteboard from tldraw to Excalidraw",
+        "description": "Switching from tldraw to the open-source version of Excalidraw to provide a free and stable whiteboard alternative. Related: @task-nvekf6",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "refactor"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Replace tldraw package with excalidraw"
+          },
+          {
+            "completed": false,
+            "text": "Implement Excalidraw component in Whiteboard page"
+          },
+          {
+            "completed": false,
+            "text": "Restore/Ensure collaborative features work with Excalidraw"
+          },
+          {
+            "completed": false,
+            "text": "Verify persistence of drawings"
+          },
+          {
+            "completed": false,
+            "text": "Remove tldraw related code and dependencies"
+          }
+        ]
+      }
+    }
+  ]
+}
