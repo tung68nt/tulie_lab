@@ -43,6 +43,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const editorRef = useRef<Editor | null>(null);
     const socketRef = useRef<Socket | null>(null);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const initialLoadRef = useRef(false);
 
     // Fetch whiteboard data on mount
     useEffect(() => {
@@ -211,11 +212,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         };
     }, [id, handleAssetUpload]);
 
-    // Stable Load initial state
+    // Stable Load initial state - only once per session/id
     useEffect(() => {
-        if (!editorRef.current || !whiteboard?.artboards?.[0]?.elements) return;
+        if (!editorRef.current || !whiteboard?.artboards?.[0]?.elements || initialLoadRef.current) return;
 
         try {
+            initialLoadRef.current = true;
             const elements = typeof whiteboard.artboards[0].elements === 'string'
                 ? JSON.parse(whiteboard.artboards[0].elements)
                 : whiteboard.artboards[0].elements;
@@ -223,7 +225,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         } catch (e) {
             console.error('Failed to load snapshot:', e);
         }
-    }, [whiteboard]);
+    }, [whiteboard, id]);
 
     useEffect(() => {
         const editor = editorRef.current;
@@ -327,7 +329,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
 
                 /* Hide the default tldraw page selector and menu to avoid overlap */
-                .tl-ui-layout__top, .tl-page-menu {
+                .tl-ui-layout__top, .tl-page-menu, .tl-main-menu, .tl-ui-layout__top-right {
                     display: none !important;
                 }
 
@@ -344,14 +346,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     autoFocus
                     onMount={handleMount}
                     inferDarkMode={false}
-                    persistenceKey={`whiteboard-${id}`}
-                    components={{
-                        TopPanel: null,
-                        SharePanel: null,
-                        HelpMenu: null,
-                        PageMenu: null,
-                        MainMenu: null,
-                    }}
                 />
             </div>
             {/* Header Controls - Redesigned for Monochrome Premium Look */}
@@ -384,8 +378,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                 </div>
 
-                {/* Right Group: Actions */}
-                <div className="flex items-center gap-2 pointer-events-auto bg-white/90 backdrop-blur-md p-1.5 rounded-xl border border-zinc-200 shadow-sm">
+                {/* Right Group: Actions - Positioned to avoid Tldraw native panels if they appear */}
+                <div className="flex items-center gap-2 pointer-events-auto bg-white/90 backdrop-blur-md p-1.5 rounded-xl border border-zinc-200 shadow-sm mr-12">
                     <Button
                         variant="ghost"
                         size="sm"
