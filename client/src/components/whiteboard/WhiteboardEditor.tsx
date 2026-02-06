@@ -324,8 +324,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[110]">
                 <div className="flex items-center gap-2 pointer-events-auto bg-white/80 backdrop-blur-md border border-zinc-200 px-4 py-2 rounded-2xl shadow-sm">
                     <Link href="/">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg hover:bg-zinc-100">
-                            <Home className="w-4 h-4 text-zinc-900" />
+                        <Button variant="ghost" size="sm" className="h-10 w-10 p-0 rounded-lg hover:bg-zinc-100">
+                            <Home className="w-5 h-5 text-zinc-900" />
                         </Button>
                     </Link>
                     <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
