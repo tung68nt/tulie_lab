@@ -276,100 +276,37 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
                 
                 /* Monochrome Theme for tldraw components */
-                .tl-ui-layout {
-                    --tl-select-fill: rgba(0, 0, 0, 0.05) !important;
+                :root, .tldraw-view-port, .tl-ui-layout {
+                    --color-primary: #000000 !important;
+                    --color-selected: #f4f4f5 !important; /* zinc-100 */
+                    --color-selection-stroke: #000000 !important;
+                    --color-selection-fill: #f4f4f5 !important;
+                    --color-text: #18181b !important;
+                    --color-text-1: #18181b !important;
+                    --color-text-2: #52525b !important;
+                    --color-muted-1: #e4e4e7 !important;
                     --tl-primary: #000000 !important;
+                    --tl-select-fill: rgba(0, 0, 0, 0.05) !important;
                     --tl-accent: #000000 !important;
-                    --tl-secondary: #71717a !important;
-                    --tl-background: #ffffff !important;
                 }
 
-                .tl-ui-button {
+                .whiteboard-container .tl-ui-button {
                     border-radius: 8px !important;
-                    transition: all 0.2s ease !important;
                 }
 
-                .tl-ui-button:hover {
+                /* Force toolbar icons to be black/gray */
+                .tl-ui-icon {
+                    color: #52525b !important;
+                }
+                
+                .tl-ui-button[data-state="selected"] {
                     background-color: #f4f4f5 !important;
                 }
-
-                /* Hide default tldraw background if any */
-                .tl-background {
-                    display: none !important;
-                }
                 
-                /* Custom branding style */
-                .whiteboard-branding {
-                    font-family: 'Inter', sans-serif;
-                    letter-spacing: -0.02em;
-                    font-weight: 700 !important;
-                }
-
-                /* -------------------------------------------------------------------------- */
-                /*                         MONOCHROME OVERRIDES (AGGRESSIVE)                  */
-                /* -------------------------------------------------------------------------- */
-                
-                /* Toolbar Container */
-                .tl-ui-toolbar {
-                    z-index: 105 !important;
-                    bottom: 24px !important;
-                    border-radius: 16px !important;
-                    background-color: white !important;
-                    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1) !important;
-                    border: 1px solid #e4e4e7 !important; /* zinc-200 */
-                    padding: 4px !important;
-                }
-
-                /* Toolbar Buttons */
-                .tl-ui-toolbar__tools .tl-ui-button {
-                    border-radius: 10px !important;
-                    color: #52525b !important; /* zinc-600 */
-                }
-
-                /* Active/Selected Tool - Force Black/White */
-                .tl-ui-button[data-state="selected"],
-                .tl-ui-button[aria-checked="true"] {
-                    background-color: #f4f4f5 !important; /* zinc-100 */
-                    color: #18181b !important; /* zinc-900 */
-                }
-
-                /* Icon Styling - Grayscale filter to kill any blue */
-                .tl-ui-icon {
-                    filter: grayscale(100%) !important;
-                    opacity: 0.8;
-                }
-                .tl-ui-button:hover .tl-ui-icon,
                 .tl-ui-button[data-state="selected"] .tl-ui-icon {
-                    opacity: 1;
-                    filter: grayscale(100%) contrast(1.2) !important;
-                }
-                
-                /* Selection/Accent Colors */
-                .tl-user-presence-color-0 { color: #f4f4f5 !important; }
-
-                /* Hide the default tldraw menu/top-panel if it conflicts or style it */
-                .tl-ui-top-panel {
-                    display: none !important; /* Hiding default top panel to use our custom one */
-                }
-                
-                /* Zoom Controls (Bottom Left/Right) */
-                .tl-ui-zoom-menu {
-                    border-radius: 12px !important;
-                    border: 1px solid #e4e4e7 !important;
-                    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.1) !important;
-                }
-                
-                /* Context Menu */
-                .tl-ui-menu {
-                    border-radius: 12px !important;
-                    border: 1px solid #e4e4e7 !important;
-                    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15) !important;
+                    color: #000000 !important;
                 }
 
-                /* Active Indicator (blue dot) -> Black dot */
-                .tl-ui-button__icon[style*="background-color: var(--color-selected)"] {
-                    background-color: black !important;
-                }
             `}</style>
             <div className="relative w-full h-full">
                 <Tldraw
@@ -377,6 +314,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     onMount={handleMount}
                     inferDarkMode={false}
                     persistenceKey={`whiteboard-${id}`}
+                    /* Hide UI parts we replaced */
+                    overrides={{
+                        uiOverrides: {
+                            topPanel: null,
+                            menu: null,
+                        }
+                    }}
                 />
             </div>
 
@@ -386,12 +330,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 <div className="flex items-center gap-3 pointer-events-auto">
                     <Link href="/whiteboard">
                         <Button
-                            variant="default"
+                            variant="white"
                             size="icon"
-                            className="h-10 w-10 rounded-xl bg-white text-zinc-900 border border-zinc-200 shadow-sm hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md transition-all group"
+                            className="h-10 w-10 round-xl shadow-sm hover:shadow-md transition-all group"
                             title="Quay lại danh sách"
                         >
-                            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+                            <ChevronLeft className="w-5 h-5 text-zinc-900 group-hover:-translate-x-0.5 transition-transform" />
                         </Button>
                     </Link>
 
