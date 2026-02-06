@@ -91,7 +91,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         });
 
         socket.on('draw_synced', (patch: unknown) => {
-            if (editorRef.current) {
+            if (editorRef.current && initialLoadRef.current) {
                 // Apply remote changes without triggering local 'user' events
                 editorRef.current.store.mergeRemoteChanges(() => {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -227,6 +227,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             return await handleAssetUpload(editor, file);
         });
 
+        // Enable grid by default
+        editor.updateInstanceState({ isGridMode: true });
+
         return () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             editor.off('event', handlePointerMove as any);
@@ -292,11 +295,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             <style jsx global>{`
                 .whiteboard-container .tl-canvas {
                     background-color: #ffffff !important;
-                    background-image: 
-                        radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px) !important;
-                    background-size: 25px 25px !important;
-                    background-position: center !important;
-                    image-rendering: crisp-edges;
+                }
+                
+                /* Aggressively force dot pattern visibility */
+                .tl-grid, .tl-grid-dots, [class*="tl-grid"] {
+                    background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px) !important;
+                    background-size: 30px 30px !important;
+                    display: block !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    position: absolute !important;
+                    inset: 0 !important;
+                    pointer-events: none !important;
+                    z-index: 0 !important;
                 }
                 
                 /* Monochrome Theme for tldraw components */
@@ -365,6 +376,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             `}</style>
             <div className="relative w-full h-full">
                 <Tldraw
+                    key={id}
                     autoFocus
                     onMount={handleMount}
                     inferDarkMode={false}
