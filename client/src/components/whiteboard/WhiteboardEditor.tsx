@@ -325,6 +325,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .tl-ui-button {
                     color: #52525b !important;
                 }
+
+                /* Hide the default tldraw page selector and menu to avoid overlap */
+                .tl-ui-layout__top {
+                    display: none !important;
+                }
             `}</style>
             <div className="relative w-full h-full">
                 <Tldraw
@@ -332,9 +337,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     onMount={handleMount}
                     inferDarkMode={false}
                     persistenceKey={`whiteboard-${id}`}
+                    components={{
+                        TopPanel: null,
+                        SharePanel: null,
+                        HelpMenu: null,
+                    }}
                 />
             </div>
-
             {/* Header Controls - Redesigned for Monochrome Premium Look */}
             <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[200]">
                 {/* Left Group: Back & Branding */}
