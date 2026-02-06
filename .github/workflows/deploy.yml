@@ -57,14 +57,15 @@ jobs:
             DIR="$DB"
           fi
           
-          # Enforce pgbouncer=true for Transaction Pooler (port 6543)
-          if [[ "$DB" == *":6543"* ]] && [[ "$DB" != *"pgbouncer=true"* ]]; then
-             if [[ "$DB" == *"?"* ]]; then
-               DB="${DB}&pgbouncer=true"
-             else
-               DB="${DB}?pgbouncer=true"
+          # Enforce pgbouncer=true and statement_cache_size=0 for Transaction Pooler (port 6543)
+          if [[ "$DB" == *":6543"* ]] || [[ "$DB" == *"pgbouncer=true"* ]]; then
+             if [[ "$DB" != *"pgbouncer=true"* ]]; then
+                if [[ "$DB" == *"?"* ]]; then DB="${DB}&pgbouncer=true"; else DB="${DB}?pgbouncer=true"; fi
              fi
-             echo "🔌 Appended pgbouncer=true to DATABASE_URL"
+             if [[ "$DB" != *"statement_cache_size="* ]]; then
+                if [[ "$DB" == *"?"* ]]; then DB="${DB}&statement_cache_size=0"; else DB="${DB}?statement_cache_size=0"; fi
+             fi
+             echo "🔌 Optimized DATABASE_URL for PgBouncer"
           fi
 
           # Mask values just in case
@@ -169,6 +170,17 @@ jobs:
           if [ -z "$DIR_URL" ]; then
              echo "⚠️ Warning: DIRECT_URL is not set for runtime branch ${{ github.ref }}. Falling back to DATABASE_URL."
              DIR_URL="$DB_URL"
+          fi
+
+          # Enforce pgbouncer=true and statement_cache_size=0 for Runtime Env
+          if [[ "$DB_URL" == *":6543"* ]] || [[ "$DB_URL" == *"pgbouncer=true"* ]]; then
+             if [[ "$DB_URL" != *"pgbouncer=true"* ]]; then
+                if [[ "$DB_URL" == *"?"* ]]; then DB_URL="${DB_URL}&pgbouncer=true"; else DB_URL="${DB_URL}?pgbouncer=true"; fi
+             fi
+             if [[ "$DB_URL" != *"statement_cache_size="* ]]; then
+                if [[ "$DB_URL" == *"?"* ]]; then DB_URL="${DB_URL}&statement_cache_size=0"; else DB_URL="${DB_URL}?statement_cache_size=0"; fi
+             fi
+             echo "🔌 Optimized Runtime DATABASE_URL for PgBouncer"
           fi
 
           echo "RUNTIME_DB_URL=$DB_URL" >> $GITHUB_ENV
