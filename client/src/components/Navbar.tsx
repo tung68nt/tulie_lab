@@ -175,8 +175,9 @@ export function Navbar() {
 
     const [navLinks, setNavLinks] = useState<NavLinkItem[]>(DEFAULT_NAV_LINKS);
 
-    // Hide navbar for whiteboard editor
-    if (pathname?.startsWith('/whiteboard')) {
+    // Hide navbar for whiteboard editor (paths starting with /whiteboard/ followed by ID)
+    // We want to show navbar on /whiteboard (list page) but hide on /whiteboard/[id]
+    if (pathname?.startsWith('/whiteboard/') && pathname.length > 12) {
         return null;
     }
 

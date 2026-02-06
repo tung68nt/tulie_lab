@@ -53,7 +53,7 @@ export default function WhiteboardDashboard() {
     };
 
     return (
-        <div className="container max-w-6xl py-8 pt-24 px-4 md:px-0">
+        <div className="container max-w-[1200px] py-8 pt-24 px-4 md:px-0 bg-background min-h-screen">
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Bảng trắng của tôi</h1>
@@ -86,27 +86,29 @@ export default function WhiteboardDashboard() {
                         <Link
                             key={board.id}
                             href={`/whiteboard/${board.id}`}
-                            className="group relative flex flex-col bg-card border rounded-xl overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg"
+                            className="group relative flex flex-col bg-card border rounded-xl overflow-hidden hover:border-zinc-400 transition-all hover:shadow-md"
                         >
-                            <div className="h-32 bg-muted/50 flex items-center justify-center border-b">
-                                <Layout className="w-8 h-8 text-muted-foreground opacity-30 group-hover:scale-110 transition-transform" />
+                            <div className="h-40 bg-zinc-50 flex items-center justify-center border-b">
+                                <Layout className="w-10 h-10 text-zinc-300 group-hover:text-zinc-400 group-hover:scale-110 transition-all duration-300" />
                             </div>
-                            <div className="p-4">
-                                <h3 className="font-semibold text-lg line-clamp-1">{board.title || 'Không tiêu đề'}</h3>
-                                <div className="flex items-center justify-between mt-4">
-                                    <span className="text-xs text-muted-foreground">
+                            <div className="p-5">
+                                <h3 className="font-bold text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
+                                <div className="flex items-center justify-between mt-4 border-t pt-3 border-dashed">
+                                    <span className="text-xs font-medium text-zinc-400 bg-zinc-100 px-2 py-1 rounded-md">
                                         {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
                                     </span>
                                     <div className="flex items-center gap-2">
                                         <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="h-8 w-8 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="h-8 w-8 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 transition-all opacity-0 group-hover:opacity-100"
                                             onClick={(e) => handleDelete(board.id, e)}
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
-                                        <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                                        <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-zinc-900 text-white opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-300 shadow-sm">
+                                            <ArrowRight className="w-4 h-4" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

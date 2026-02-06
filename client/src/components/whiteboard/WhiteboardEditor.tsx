@@ -264,7 +264,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }
 
     return (
-        <div className="fixed inset-0 w-full h-full pt-20 bg-background overflow-hidden whiteboard-container">
+        <div className="fixed inset-0 w-full h-full pt-0 bg-background overflow-hidden whiteboard-container">
             <style jsx global>{`
                 .whiteboard-container .tl-canvas {
                     background-color: #ffffff !important;
@@ -298,17 +298,77 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: none !important;
                 }
                 
-                /* Ensure toolbar is visible and not hidden by top controls */
-                .tl-ui-toolbar {
-                    z-index: 105 !important;
-                    bottom: 24px !important;
-                }
-
                 /* Custom branding style */
                 .whiteboard-branding {
                     font-family: 'Inter', sans-serif;
                     letter-spacing: -0.02em;
                     font-weight: 700 !important;
+                }
+
+                /* -------------------------------------------------------------------------- */
+                /*                         MONOCHROME OVERRIDES (AGGRESSIVE)                  */
+                /* -------------------------------------------------------------------------- */
+                
+                /* Toolbar Container */
+                .tl-ui-toolbar {
+                    z-index: 105 !important;
+                    bottom: 24px !important;
+                    border-radius: 16px !important;
+                    background-color: white !important;
+                    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.1) !important;
+                    border: 1px solid #e4e4e7 !important; /* zinc-200 */
+                    padding: 4px !important;
+                }
+
+                /* Toolbar Buttons */
+                .tl-ui-toolbar__tools .tl-ui-button {
+                    border-radius: 10px !important;
+                    color: #52525b !important; /* zinc-600 */
+                }
+
+                /* Active/Selected Tool - Force Black/White */
+                .tl-ui-button[data-state="selected"],
+                .tl-ui-button[aria-checked="true"] {
+                    background-color: #f4f4f5 !important; /* zinc-100 */
+                    color: #18181b !important; /* zinc-900 */
+                }
+
+                /* Icon Styling - Grayscale filter to kill any blue */
+                .tl-ui-icon {
+                    filter: grayscale(100%) !important;
+                    opacity: 0.8;
+                }
+                .tl-ui-button:hover .tl-ui-icon,
+                .tl-ui-button[data-state="selected"] .tl-ui-icon {
+                    opacity: 1;
+                    filter: grayscale(100%) contrast(1.2) !important;
+                }
+                
+                /* Selection/Accent Colors */
+                .tl-user-presence-color-0 { color: #f4f4f5 !important; }
+
+                /* Hide the default tldraw menu/top-panel if it conflicts or style it */
+                .tl-ui-top-panel {
+                    display: none !important; /* Hiding default top panel to use our custom one */
+                }
+                
+                /* Zoom Controls (Bottom Left/Right) */
+                .tl-ui-zoom-menu {
+                    border-radius: 12px !important;
+                    border: 1px solid #e4e4e7 !important;
+                    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.1) !important;
+                }
+                
+                /* Context Menu */
+                .tl-ui-menu {
+                    border-radius: 12px !important;
+                    border: 1px solid #e4e4e7 !important;
+                    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15) !important;
+                }
+
+                /* Active Indicator (blue dot) -> Black dot */
+                .tl-ui-button__icon[style*="background-color: var(--color-selected)"] {
+                    background-color: black !important;
                 }
             `}</style>
             <div className="relative w-full h-full">
@@ -320,57 +380,64 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 />
             </div>
 
-            {/* Header Controls */}
-            <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[110]">
-                <div className="flex items-center gap-2 pointer-events-auto bg-white/80 backdrop-blur-md border border-zinc-200 px-4 py-2 rounded-2xl shadow-sm">
-                    <Link href="/">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg hover:bg-zinc-100 text-zinc-500 hover:text-zinc-900 transition-colors" title="Quay lại trang chủ">
-                            <ChevronLeft className="w-5 h-5" />
+            {/* Header Controls - Redesigned for Monochrome Premium Look */}
+            <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[200]">
+                {/* Left Group: Back & Branding */}
+                <div className="flex items-center gap-3 pointer-events-auto">
+                    <Link href="/whiteboard">
+                        <Button
+                            variant="default"
+                            size="icon"
+                            className="h-10 w-10 rounded-xl bg-white text-zinc-900 border border-zinc-200 shadow-sm hover:bg-zinc-50 hover:border-zinc-300 hover:shadow-md transition-all group"
+                            title="Quay lại danh sách"
+                        >
+                            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
                         </Button>
                     </Link>
-                    <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
-                    <div
-                        className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
-                        onClick={() => window.location.href = '/admin'}
-                    >
-                        <Logo showText={false} className="scale-90" />
-                        <div className="flex flex-col -gap-1">
-                            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none">Tulie</span>
-                            <span className="text-sm font-bold text-zinc-900 whiteboard-branding leading-none">Whiteboard</span>
+
+                    <div className="bg-white/90 backdrop-blur-md border border-zinc-200 pl-3 pr-4 py-2 rounded-xl shadow-sm flex items-center gap-3">
+                        <div className="flex items-center gap-2">
+                            <Logo showText={false} className="scale-90 grayscale opacity-80" />
+                            <div className="flex flex-col -gap-1">
+                                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none">Tulie</span>
+                                <span className="text-sm font-bold text-zinc-900 whiteboard-branding leading-none">Whiteboard</span>
+                            </div>
                         </div>
+                        <div className="h-4 w-[1px] bg-zinc-200" />
+                        <h1 className="text-sm font-medium text-zinc-600 max-w-[200px] truncate">
+                            {isLoading ? 'Đang tải...' : (whiteboard?.title || 'Bảng chưa đặt tên')}
+                        </h1>
                     </div>
-                    <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
-                    <h1 className="text-xs font-medium text-zinc-500 max-w-[150px] truncate">
-                        {isLoading ? 'Đang tải...' : (whiteboard?.title || 'Bảng chưa đặt tên')}
-                    </h1>
                 </div>
 
-                <div className="flex items-center gap-2 pointer-events-auto">
+                {/* Right Group: Actions */}
+                <div className="flex items-center gap-2 pointer-events-auto bg-white/90 backdrop-blur-md p-1.5 rounded-xl border border-zinc-200 shadow-sm">
                     <Button
-                        variant="light"
+                        variant="ghost"
                         size="sm"
                         onClick={handleSnapshot}
-                        className="rounded-full shadow-sm"
+                        className="rounded-lg hover:bg-zinc-100 text-zinc-600 h-8 px-2"
+                        title="Lưu bản sao"
                     >
-                        <Camera className="w-4 h-4 mr-2" />
-                        Lưu bản sao
+                        <Camera className="w-4 h-4" />
                     </Button>
                     <Button
-                        variant="light"
+                        variant="ghost"
                         size="sm"
                         onClick={handleExport}
-                        className="rounded-full shadow-sm"
+                        className="rounded-lg hover:bg-zinc-100 text-zinc-600 h-8 px-2"
+                        title="Xuất file"
                     >
-                        <Download className="w-4 h-4 mr-2" />
-                        Xuất file
+                        <Download className="w-4 h-4" />
                     </Button>
+                    <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
                     <Button
                         variant="default"
                         size="sm"
-                        className="rounded-full shadow-md bg-zinc-900"
+                        className="rounded-lg shadow-none bg-zinc-900 text-white hover:bg-zinc-800 h-8 px-3"
                         onClick={() => setIsShareModalOpen(true)}
                     >
-                        <Share2 className="w-4 h-4 mr-2" />
+                        <Share2 className="w-3.5 h-3.5 mr-1.5" />
                         Chia sẻ
                     </Button>
                 </div>

@@ -69,7 +69,7 @@ export function CourseChapter({
                 className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
-                <h3 className="font-bold text-[16px] text-zinc-900 flex items-center gap-2 h-full m-0 leading-none">
+                <h3 className="font-bold text-[16px] text-zinc-900 flex items-center gap-2 h-full m-0 leading-none py-1">
                     <span className="text-zinc-900/40 transition-transform duration-200 shrink-0 flex items-center justify-center p-0.5" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
                         <ChevronDown className="w-3.5 h-3.5" />
                     </span>
