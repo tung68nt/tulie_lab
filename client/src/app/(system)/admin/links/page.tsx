@@ -245,7 +245,7 @@ export default function AdminShortLinksPage() {
 
             {/* Create Modal */}
             {isCreateModalOpen && (
-                <div className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4">
+                <div className="fixed top-0 left-0 right-0 bottom-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-xl p-4">
                     <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-zinc-200 animate-in fade-in zoom-in duration-200">
                         <div className="flex justify-between items-center p-6 border-b shrink-0">
                             <div className="space-y-0.5">
