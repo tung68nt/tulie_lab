@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
+import Link from 'next/link';
 import { Tldraw, Editor, createShapeId } from 'tldraw';
 import 'tldraw/tldraw.css';
 import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
-import { Camera, Download, Share2, Copy, X } from 'lucide-react';
+import { Camera, Download, Share2, Copy, X, Home } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 
 interface WhiteboardEditorProps {
@@ -185,36 +186,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const handleMount = useCallback((editor: Editor) => {
         editorRef.current = editor;
 
-        // Load initial state if available
-        if (whiteboard?.artboards?.[0]?.elements) {
-            try {
-                const elements = typeof whiteboard.artboards[0].elements === 'string'
-                    ? JSON.parse(whiteboard.artboards[0].elements)
-                    : whiteboard.artboards[0].elements;
-                editor.loadSnapshot(elements);
-            } catch (e) {
-                console.error('Failed to load snapshot:', e);
-            }
-        }
-
-        editor.on('change', (event) => {
-            if (event.source === 'user') {
-                // Throttle saves to every 3 seconds of activity
-                if (!saveTimeoutRef.current) {
-                    saveTimeoutRef.current = setTimeout(() => {
-                        handleSave();
-                        saveTimeoutRef.current = null;
-                    }, 3000);
-                }
-
-                // Immediate broadcast for collaboration
-                socketRef.current?.emit('draw_change', {
-                    whiteboardId: id,
-                    changes: event.changes
-                });
-            }
-        });
-
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handlePointerMove = (event: any) => {
             if (event.name === 'pointer_move') {
@@ -235,11 +206,54 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         });
 
         return () => {
-            if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             editor.off('event', handlePointerMove as any);
         };
-    }, [whiteboard, handleSave, id, handleAssetUpload]);
+    }, [id, handleAssetUpload]);
+
+    // Stable Load initial state
+    useEffect(() => {
+        if (!editorRef.current || !whiteboard?.artboards?.[0]?.elements) return;
+
+        try {
+            const elements = typeof whiteboard.artboards[0].elements === 'string'
+                ? JSON.parse(whiteboard.artboards[0].elements)
+                : whiteboard.artboards[0].elements;
+            editorRef.current.loadSnapshot(elements);
+        } catch (e) {
+            console.error('Failed to load snapshot:', e);
+        }
+    }, [whiteboard]);
+
+    useEffect(() => {
+        const editor = editorRef.current;
+        if (!editor) return;
+
+        const handleChange = (event: any) => {
+            if (event.source === 'user') {
+                // Throttle saves to every 3 seconds of activity
+                if (!saveTimeoutRef.current) {
+                    saveTimeoutRef.current = setTimeout(() => {
+                        handleSave();
+                        saveTimeoutRef.current = null;
+                    }, 3000);
+                }
+
+                // Immediate broadcast for collaboration
+                socketRef.current?.emit('draw_change', {
+                    whiteboardId: id,
+                    changes: event.changes
+                });
+            }
+        };
+
+        editor.on('change', handleChange);
+
+        return () => {
+            editor.off('change', handleChange);
+            if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+        };
+    }, [whiteboard, handleSave, id]);
 
     if (isLoading) {
         return (
@@ -306,7 +320,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
             {/* Header Controls */}
             <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[110]">
-                <div className="flex items-center gap-3 pointer-events-auto bg-white/80 backdrop-blur-md border border-zinc-200 px-4 py-2 rounded-2xl shadow-sm">
+                <div className="flex items-center gap-2 pointer-events-auto bg-white/80 backdrop-blur-md border border-zinc-200 px-4 py-2 rounded-2xl shadow-sm">
+                    <Link href="/">
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg hover:bg-zinc-100">
+                            <Home className="w-4 h-4 text-zinc-900" />
+                        </Button>
+                    </Link>
+                    <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
                     <div
                         className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={() => window.location.href = '/admin'}
@@ -429,24 +449,26 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 ))}
             </div>
 
-            {/* Participants List Overlay */}
-            <div className="absolute top-20 right-4 flex items-center gap-1 z-[101]">
-                {Object.values(remoteCursors).slice(0, 3).map((cursor, idx) => (
-                    <div
-                        key={idx}
-                        className="w-8 h-8 rounded-full bg-blue-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-blue-600 shadow-sm first:ml-0 -ml-2"
-                        title={cursor.userName}
-                    >
-                        {cursor.userName?.[0] || 'U'}
-                    </div>
-                ))}
-                {Object.keys(remoteCursors).length > 3 && (
-                    <div className="w-8 h-8 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-gray-600 shadow-sm -ml-2">
-                        +{Object.keys(remoteCursors).length - 3}
-                    </div>
-                )}
-                <div className="ml-2 px-3 py-1 bg-background/80 backdrop-blur-md border rounded-full text-[10px] font-medium shadow-sm flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            {/* Participants List Overlay - Moved to bottom-left to avoid overlap */}
+            <div className="absolute bottom-4 left-4 flex items-center gap-1 z-[101]">
+                <div className="flex -space-x-2 mr-1">
+                    {Object.values(remoteCursors).slice(0, 3).map((cursor, idx) => (
+                        <div
+                            key={idx}
+                            className="w-8 h-8 rounded-full bg-blue-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-blue-600 shadow-sm transition-transform hover:scale-110"
+                            title={cursor.userName}
+                        >
+                            {cursor.userName?.[0] || 'U'}
+                        </div>
+                    ))}
+                    {Object.keys(remoteCursors).length > 3 && (
+                        <div className="w-8 h-8 rounded-full bg-zinc-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-zinc-600 shadow-sm">
+                            +{Object.keys(remoteCursors).length - 3}
+                        </div>
+                    )}
+                </div>
+                <div className="px-3 py-1.5 bg-white/90 backdrop-blur-md border border-zinc-200 rounded-full text-[11px] font-semibold text-zinc-900 shadow-md flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     {Object.keys(remoteCursors).length + 1} đang kết nối
                 </div>
             </div>

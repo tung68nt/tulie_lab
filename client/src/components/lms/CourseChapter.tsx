@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
-import { ChevronDown, Lock, PlayCircle } from 'lucide-react';
+import { ChevronDown, Lock, Play, FileText, BadgeCheck } from 'lucide-react';
 
 interface Lesson {
     id: string;
@@ -66,7 +66,7 @@ export function CourseChapter({
         <div className="border-b border-border/50 last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
-                className="bg-card px-4 pt-1.5 pb-5 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
                 <h3 className="font-bold text-[16px] text-zinc-900 flex items-center gap-2 h-full py-1">
@@ -85,8 +85,8 @@ export function CourseChapter({
                 {Object.entries(lessonsBySection).map(([sectionName, sectionLessons]: [string, any], sIndex) => (
                     <div key={sectionName || sIndex} className="flex flex-col">
                         {sectionName && (
-                            <div className="pl-[38px] pr-5 py-2 bg-muted/20 border-t border-border/30">
-                                <h4 className="text-[15px] font-medium text-zinc-900 leading-none">
+                            <div className="pl-[38px] pr-5 pt-5 pb-1 bg-muted/20 border-t border-border/30">
+                                <h4 className="text-[15px] font-bold text-zinc-900 leading-none">
                                     {sectionName}
                                 </h4>
                             </div>
@@ -133,9 +133,7 @@ export function CourseChapter({
 
                                                     return (
                                                         <div className="w-full h-full flex items-center justify-center bg-zinc-50 text-zinc-300">
-                                                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                            </svg>
+                                                            <FileText className="w-8 h-8 opacity-40" strokeWidth={1.5} />
                                                         </div>
                                                     );
                                                 })()}
@@ -152,17 +150,12 @@ export function CourseChapter({
                                                 <div className="flex items-start justify-between gap-2">
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-3 mb-1 flex-wrap">
-                                                            <h4 className={`text-[15px] font-medium leading-tight ${isLocked ? 'text-zinc-900' : 'text-zinc-900 group-hover:text-primary transition-colors'}`}>
+                                                            <h4 className={`text-[15px] font-bold leading-tight ${isLocked ? 'text-zinc-900' : 'text-zinc-900 group-hover:text-primary transition-colors'}`}>
                                                                 {lesson.title}
                                                             </h4>
                                                             <span className="text-zinc-900/40 transition-transform duration-200 shrink-0" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                                                                 <ChevronDown className="w-3 h-3" />
                                                             </span>
-                                                            {lesson.isFree && !isEnrolled && (
-                                                                <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50/50 px-2 py-0.5 text-[13px] font-medium text-emerald-600 whitespace-nowrap">
-                                                                    Học thử miễn phí
-                                                                </span>
-                                                            )}
                                                         </div>
                                                         {lesson.description && (
                                                             <div className="text-[14px] font-medium text-zinc-900 mb-1 leading-relaxed line-clamp-1 group-hover:line-clamp-none">
@@ -172,16 +165,21 @@ export function CourseChapter({
                                                     </div>
 
                                                     {/* Action Button */}
-                                                    <div className="shrink-0 pt-1" onClick={(e) => e.stopPropagation()}>
+                                                    <div className="shrink-0 flex items-center gap-3 pt-1" onClick={(e) => e.stopPropagation()}>
+                                                        {lesson.isFree && !isEnrolled && (
+                                                            <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50/50 px-3 py-1 text-[13px] font-bold text-emerald-600 whitespace-nowrap">
+                                                                Học thử miễn phí
+                                                            </span>
+                                                        )}
                                                         {isLocked ? (
                                                             <div className="flex items-center gap-1.5 text-zinc-400">
-                                                                <span className="text-[13px] font-medium">Mua khóa học để học tiếp</span>
+                                                                <span className="text-[13px] font-medium">Mua để tiếp tục</span>
                                                                 <Lock size={14} className="opacity-60" />
                                                             </div>
                                                         ) : (
                                                             <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
-                                                                <Button size="sm" className="h-[38px] text-[13px] font-semibold shadow-sm px-5 flex items-center gap-2 rounded-xl">
-                                                                    <PlayCircle size={15} />
+                                                                <Button size="sm" className="h-[38px] text-[13px] font-bold shadow-sm px-5 flex items-center gap-2 rounded-xl">
+                                                                    <Play size={15} />
                                                                     Vào học
                                                                 </Button>
                                                             </Link>
