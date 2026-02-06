@@ -216,34 +216,29 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         <Portal>
             <div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] w-full h-full bg-[#18181b] overflow-hidden whiteboard-container">
                 <style>{`
-                .whiteboard-container .excalidraw {
+                .whiteboard-container .excalidraw-wrapper {
                     height: 100% !important;
                     width: 100% !important;
                 }
-                .whiteboard-container .excalidraw-wrapper {
-                    height: 100% !important;
-                }
             `}</style>
 
-                <div className="relative w-full h-full">
-                    <Excalidraw
-                        excalidrawAPI={(api: any) => setExcalidrawAPI(api)}
-                        onChange={onChange}
-                        onPointerUpdate={handlePointerMove as any}
-                        theme="light"
-                        UIOptions={{
-                            canvasActions: {
-                                toggleTheme: false,
-                                export: {
-                                    saveFileToDisk: true,
-                                }
+                <Excalidraw
+                    excalidrawAPI={(api: any) => setExcalidrawAPI(api)}
+                    onChange={onChange}
+                    onPointerUpdate={handlePointerMove as any}
+                    theme="dark"
+                    UIOptions={{
+                        canvasActions: {
+                            toggleTheme: false,
+                            export: {
+                                saveFileToDisk: true,
                             }
-                        }}
-                    />
-                </div>
+                        }
+                    }}
+                />
 
-                {/* Header Controls - Re-integrated from original design */}
-                <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[200]">
+                {/* Header Controls - Lower z-index to avoid covering Excalidraw UI */}
+                <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[1001]">
                     {/* Left Group: Back & Branding */}
                     <div className="flex items-center gap-3 pointer-events-auto">
                         <Link href="/whiteboard">
@@ -298,7 +293,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* Share Modal */}
                 {isShareModalOpen && (
-                    <div className="absolute inset-0 z-[300] flex items-center justify-center bg-black/20 backdrop-blur-sm pointer-events-auto">
+                    <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/20 backdrop-blur-sm pointer-events-auto">
                         <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md border border-zinc-200">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-bold text-zinc-900">Chia sẻ bảng trắng</h2>
