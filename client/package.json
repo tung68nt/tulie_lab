@@ -13,7 +13,7 @@
     "@blocknote/mantine": "^0.46.2",
     "@blocknote/react": "^0.46.2",
     "@emotion/react": "^11.14.0",
-    "@excalidraw/excalidraw": "^0.17.6",
+    "@excalidraw/excalidraw": "^0.18.0",
     "@mantine/core": "^8.3.14",
     "@mantine/hooks": "^8.3.14",
     "@tailwindcss/typography": "^0.5.19",
