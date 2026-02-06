@@ -7,7 +7,7 @@ import 'tldraw/tldraw.css';
 import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
-import { Camera, Download, Share2, Copy, X, ChevronLeft } from 'lucide-react';
+import { Camera, Download, Share2, Copy, X, ChevronLeft, MousePointer2, Hand, Pencil, Type, StickyNote, Square, Circle, Image, Eraser, Minus } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 
 interface WhiteboardEditorProps {
@@ -44,6 +44,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const socketRef = useRef<Socket | null>(null);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const initialLoadRef = useRef(false);
+    const [selectedTool, setSelectedTool] = useState('select');
 
     // Fetch whiteboard data on mount
     useEffect(() => {
@@ -201,6 +202,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         editor.on('event', handlePointerMove as any);
 
+        // Sync selected tool state
+        const handleToolChange = () => {
+            setSelectedTool(editor.getCurrentToolId());
+        };
+        editor.on('change', handleToolChange);
+
         // Register asset handler for tldraw v4.3.1
         editor.registerExternalAssetHandler('file', async ({ file }) => {
             return await handleAssetUpload(editor, file);
@@ -209,6 +216,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         return () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             editor.off('event', handlePointerMove as any);
+            editor.off('change', handleToolChange);
         };
     }, [id, handleAssetUpload]);
 
@@ -328,8 +336,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     color: #52525b !important;
                 }
 
-                /* Hide the default tldraw page selector and menu to avoid overlap */
-                .tl-ui-layout__top, .tl-page-menu, .tl-main-menu, .tl-ui-layout__top-right {
+                /* Hide the default tldraw UI completely */
+                .tlui-layout, .tlui-layout__top, .tlui-layout__bottom, .tlui-page-menu, .tlui-main-menu {
                     display: none !important;
                 }
 
@@ -346,6 +354,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     autoFocus
                     onMount={handleMount}
                     inferDarkMode={false}
+                    hideUi={true}
                 />
             </div>
             {/* Header Controls - Redesigned for Monochrome Premium Look */}
@@ -511,6 +520,107 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     {Object.keys(remoteCursors).length + 1} đang kết nối
                 </div>
             </div>
+            {/* Custom Bottom Toolbar - monochrome premium style */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[200] flex items-center gap-1 bg-white/90 backdrop-blur-md border border-zinc-200 p-1.5 rounded-2xl shadow-xl">
+                <ToolButton
+                    active={selectedTool === 'select'}
+                    onClick={() => editorRef.current?.setCurrentTool('select')}
+                    icon={<MousePointer2 className="w-4 h-4" />}
+                    title="Chọn (V)"
+                />
+                <ToolButton
+                    active={selectedTool === 'hand'}
+                    onClick={() => editorRef.current?.setCurrentTool('hand')}
+                    icon={<Hand className="w-4 h-4" />}
+                    title="Di chuyển (H)"
+                />
+                <div className="w-[1px] h-6 bg-zinc-200 mx-1" />
+                <ToolButton
+                    active={selectedTool === 'draw'}
+                    onClick={() => editorRef.current?.setCurrentTool('draw')}
+                    icon={<Pencil className="w-4 h-4" />}
+                    title="Vẽ (D/P)"
+                />
+                <ToolButton
+                    active={selectedTool === 'eraser'}
+                    onClick={() => editorRef.current?.setCurrentTool('eraser')}
+                    icon={<Eraser className="w-4 h-4" />}
+                    title="Tẩy (E)"
+                />
+                <div className="w-[1px] h-6 bg-zinc-200 mx-1" />
+                <ToolButton
+                    active={selectedTool === 'text'}
+                    onClick={() => editorRef.current?.setCurrentTool('text')}
+                    icon={<Type className="w-4 h-4" />}
+                    title="Văn bản (T)"
+                />
+                <ToolButton
+                    active={selectedTool === 'note'}
+                    onClick={() => editorRef.current?.setCurrentTool('note')}
+                    icon={<StickyNote className="w-4 h-4" />}
+                    title="Ghi chú (N)"
+                />
+                <div className="w-[1px] h-6 bg-zinc-200 mx-1" />
+                <ToolButton
+                    active={selectedTool === 'geo' && (editorRef.current?.getInstanceState().stylesForNextShape as any)?.geo === 'rectangle'}
+                    onClick={() => {
+                        editorRef.current?.setCurrentTool('geo');
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        editorRef.current?.updateInstanceState({ stylesForNextShape: { ...editorRef.current?.getInstanceState().stylesForNextShape, geo: 'rectangle' as any } });
+                    }}
+                    icon={<Square className="w-4 h-4" />}
+                    title="Hình vuông (R)"
+                />
+                <ToolButton
+                    active={selectedTool === 'geo' && (editorRef.current?.getInstanceState().stylesForNextShape as any)?.geo === 'ellipse'}
+                    onClick={() => {
+                        editorRef.current?.setCurrentTool('geo');
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        editorRef.current?.updateInstanceState({ stylesForNextShape: { ...editorRef.current?.getInstanceState().stylesForNextShape, geo: 'ellipse' as any } });
+                    }}
+                    icon={<Circle className="w-4 h-4" />}
+                    title="Hình tròn (O)"
+                />
+                <ToolButton
+                    active={selectedTool === 'arrow'}
+                    onClick={() => editorRef.current?.setCurrentTool('arrow')}
+                    icon={<Minus className="w-4 h-4" />}
+                    title="Mũi tên (A)"
+                />
+                <div className="w-[1px] h-6 bg-zinc-200 mx-1" />
+                <ToolButton
+                    active={false}
+                    onClick={() => {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.onchange = (e) => {
+                            const file = (e.target as HTMLInputElement).files?.[0];
+                            if (file && editorRef.current) {
+                                handleAssetUpload(editorRef.current, file);
+                            }
+                        };
+                        input.click();
+                    }}
+                    icon={<Image className="w-4 h-4" />}
+                    title="Tải ảnh"
+                />
+            </div>
         </div >
+    );
+}
+
+function ToolButton({ active, onClick, icon, title }: { active: boolean, onClick: () => void, icon: React.ReactNode, title: string }) {
+    return (
+        <button
+            onClick={onClick}
+            className={`p-2.5 rounded-xl transition-all flex items-center justify-center ${active
+                ? 'bg-zinc-900 text-white shadow-inner scale-95'
+                : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 active:scale-90'
+                }`}
+            title={title}
+        >
+            {icon}
+        </button>
     );
 }
