@@ -66,7 +66,7 @@ export function CourseChapter({
         <div className="border-b border-border/50 last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
-                className="bg-card px-4 pt-5 pb-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
                 <h3 className="font-bold text-[16px] text-zinc-900 flex items-center gap-2 h-full py-1">
