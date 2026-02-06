@@ -2,13 +2,25 @@
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-import { Tldraw, Editor, createShapeId } from 'tldraw';
+import { Tldraw, Editor, createShapeId, useEditor } from 'tldraw';
 import 'tldraw/tldraw.css';
 import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
 import { Camera, Download, Share2, Copy, X, ChevronLeft, MousePointer2, Hand, Pencil, Type, StickyNote, Square, Circle, Image, Eraser, Minus } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+
+// Helper component to capture the editor instance via hook
+function EditorCapture({ onMount }: { onMount: (editor: Editor) => void }) {
+    const editor = useEditor();
+    useEffect(() => {
+        if (editor) {
+            console.log('CAPTURED EDITOR VIA HOOK', editor);
+            onMount(editor);
+        }
+    }, [editor, onMount]);
+    return null;
+}
 
 interface WhiteboardEditorProps {
     id: string;
@@ -357,7 +369,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     onMount={handleMount}
                     inferDarkMode={false}
                     hideUi={true}
-                />
+                    {...({ licenseKey: 'trial' } as any)}
+                >
+                    <EditorCapture onMount={handleMount} />
+                </Tldraw>
             </div>
             {/* Header Controls - Redesigned for Monochrome Premium Look */}
             <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[200]">
