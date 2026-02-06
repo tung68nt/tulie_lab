@@ -60,7 +60,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     // Socket Initialization
     useEffect(() => {
-        const socketUrl = typeof window !== 'undefined' ? window.location.origin : (process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5001');
+        // Use the API URL directly for the socket to avoid Next.js rewrite limitations with WebSockets
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+        const socketUrl = apiBaseUrl.replace(/\/api$/, '') || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5001');
 
         const socket = io(socketUrl, {
             withCredentials: true,
