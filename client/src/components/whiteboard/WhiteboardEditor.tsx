@@ -264,7 +264,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }
 
     return (
-        <div className="fixed inset-0 pt-20 bg-background overflow-hidden whiteboard-container">
+        <div className="fixed inset-0 w-full h-full pt-20 bg-background overflow-hidden whiteboard-container">
             <style jsx global>{`
                 .whiteboard-container .tl-canvas {
                     background-color: #ffffff !important;
@@ -311,12 +311,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     font-weight: 700 !important;
                 }
             `}</style>
-            <Tldraw
-                autoFocus
-                onMount={handleMount}
-                inferDarkMode={false}
-                persistenceKey={`whiteboard-${id}`}
-            />
+            <div className="relative w-full h-full">
+                <Tldraw
+                    autoFocus
+                    onMount={handleMount}
+                    inferDarkMode={false}
+                    persistenceKey={`whiteboard-${id}`}
+                />
+            </div>
 
             {/* Header Controls */}
             <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[110]">
