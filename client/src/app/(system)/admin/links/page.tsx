@@ -77,7 +77,7 @@ export default function AdminShortLinksPage() {
 
     const copyToClipboard = (code: string, id: string) => {
         const domain = typeof window !== 'undefined' ? window.location.origin : '';
-        const fullUrl = `${domain}/${code}`;
+        const fullUrl = `${domain}/s/${code}`;
         navigator.clipboard.writeText(fullUrl);
         setCopiedId(id);
         setTimeout(() => setCopiedId(null), 2000);
@@ -186,7 +186,7 @@ export default function AdminShortLinksPage() {
                                             <span className="font-bold text-zinc-900 text-sm mb-1">{link.title || 'Không có tiêu đề'}</span>
                                             <div className="flex items-center gap-2">
                                                 <span className="px-2 py-0.5 bg-zinc-900 text-white text-[10px] font-black rounded-md tracking-wider uppercase">
-                                                    /{link.code}
+                                                    /s/{link.code}
                                                 </span>
                                                 <button
                                                     onClick={() => copyToClipboard(link.code, link.id)}
