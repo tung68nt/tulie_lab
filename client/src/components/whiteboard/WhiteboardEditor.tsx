@@ -186,7 +186,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, [id]);
 
     const handleMount = useCallback((editor: Editor) => {
+        console.log('TLDRAW MOUNTED', editor);
         editorRef.current = editor;
+        if (typeof window !== 'undefined') (window as any).editor = editor;
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handlePointerMove = (event: any) => {
