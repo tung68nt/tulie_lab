@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     description: 'Cập nhật lịch khai giảng, webinar và workshop mới nhất từ The Tulie Lab.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function CalendarPage() {
     return <LandingPageRenderer slug="calendar" fallbackSections={DEFAULT_CALENDAR_SECTIONS} />;
 }

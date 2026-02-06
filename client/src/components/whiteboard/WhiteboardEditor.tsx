@@ -211,7 +211,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }
 
     return (
-        <div className="fixed inset-0 w-full h-full pt-0 bg-background overflow-hidden whiteboard-container">
+        <div className="fixed inset-0 z-[100] w-full h-full pt-0 bg-background overflow-hidden whiteboard-container">
             <style jsx global>{`
                 .whiteboard-container .excalidraw {
                     height: 100% !important;

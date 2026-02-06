@@ -100,7 +100,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
-export default async function DynamicLandingPage({ params }: { params: Promise<{ slug: string }> }) {
+export const dynamic = 'force-dynamic';
+
+export default async function GenericLandingPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const page = await getLandingPage(slug);
 

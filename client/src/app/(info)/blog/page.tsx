@@ -22,11 +22,8 @@ const DEFAULT_BLOG_SECTIONS: Section[] = [
     }
 ];
 
+export const dynamic = 'force-dynamic';
+
 export default function BlogPage() {
-    return (
-        <LandingPageRenderer
-            slug="blog"
-            fallbackSections={DEFAULT_BLOG_SECTIONS}
-        />
-    );
+    return <LandingPageRenderer slug="blog" />;
 }

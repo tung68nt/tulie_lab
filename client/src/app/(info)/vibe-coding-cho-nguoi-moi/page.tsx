@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     description: 'Khoá học Vibe Coding toàn diện dành cho người mới. Từ 0 đến tự xây dựng ứng dụng kiếm tiền trong 8 tuần. Cam kết hỗ trợ 1:1 với giảng viên. Xu hướng bắt buộc năm 2026.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function VibeCodingCoursePage() {
     return <LandingPageRenderer slug="vibe-coding-cho-nguoi-moi" fallbackSections={DEFAULT_VIBE_CODING_BEGINNER_COURSE} forceFallback={true} />;
 }

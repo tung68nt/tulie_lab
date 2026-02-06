@@ -22,11 +22,8 @@ const DEFAULT_COURSES_SECTIONS: Section[] = [
     }
 ];
 
+export const dynamic = 'force-dynamic';
+
 export default function CoursesPage() {
-    return (
-        <LandingPageRenderer
-            slug="courses"
-            fallbackSections={DEFAULT_COURSES_SECTIONS}
-        />
-    );
+    return <LandingPageRenderer slug="courses" />;
 }

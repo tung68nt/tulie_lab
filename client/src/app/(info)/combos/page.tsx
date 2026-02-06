@@ -1,6 +1,8 @@
 import { LandingPageRenderer } from '@/components/info/LandingPageRenderer';
 import { Section } from '@/types/sections';
 
+export const dynamic = 'force-dynamic';
+
 const DEFAULT_COMBOS_SECTIONS: Section[] = [
     {
         id: 'combos-heading',

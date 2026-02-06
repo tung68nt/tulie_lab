@@ -7,6 +7,8 @@ export const metadata: Metadata = {
     description: 'Gặp gỡ Nguyễn Thanh Tùng - Founder Tulie TSS, 10+ năm kinh nghiệm, tiên phong Vibe Coding tại Việt Nam. Cam kết hỗ trợ 1:1 cho mỗi học viên.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function InstructorsPage() {
     return (
         <LandingPageRenderer

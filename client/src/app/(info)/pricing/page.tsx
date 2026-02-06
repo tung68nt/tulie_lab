@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 
 import { DEFAULT_PRICING_SECTIONS } from '@/lib/defaultContent';
 
+export const dynamic = 'force-dynamic';
+
 export default function PricingPage() {
-    return <LandingPageRenderer slug="pricing" fallbackSections={DEFAULT_PRICING_SECTIONS} />;
+    return <LandingPageRenderer slug="pricing" />;
 }

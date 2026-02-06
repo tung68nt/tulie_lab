@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     keywords: ['Khoá học AI', 'Ứng dụng AI', 'ChatGPT', 'Midjourney', 'Tự động hóa'],
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function AIAppsPage() {
     return <LandingPageRenderer slug="ai" />;
 }

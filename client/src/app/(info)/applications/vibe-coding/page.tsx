@@ -8,6 +8,8 @@ export const metadata: Metadata = {
     keywords: ['Vibe Coding', 'AI Coding', 'Lập trình sáng tạo', 'Học lập trình AI'],
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function VibeCodingPage() {
     return <LandingPageRenderer slug="vibe-coding" />;
 }
