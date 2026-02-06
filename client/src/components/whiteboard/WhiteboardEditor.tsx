@@ -314,13 +314,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     onMount={handleMount}
                     inferDarkMode={false}
                     persistenceKey={`whiteboard-${id}`}
-                    /* Hide UI parts we replaced */
-                    overrides={{
-                        uiOverrides: {
-                            topPanel: null,
-                            menu: null,
-                        }
-                    }}
                 />
             </div>
 
