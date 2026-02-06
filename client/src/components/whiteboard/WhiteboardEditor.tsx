@@ -215,7 +215,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     return (
         <Portal>
             <div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] w-full h-full bg-[#18181b] overflow-hidden whiteboard-container">
-                <style jsx global>{`
+                <style>{`
                 .whiteboard-container .excalidraw {
                     height: 100% !important;
                     width: 100% !important;
