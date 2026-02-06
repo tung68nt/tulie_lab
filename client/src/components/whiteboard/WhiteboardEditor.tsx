@@ -1,21 +1,19 @@
 'use client';
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
-import { Camera, Download, Share2, Copy, X, ChevronLeft, Image as ImageIcon } from 'lucide-react';
+import { Share2, Copy, X } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+import { Portal } from '@/components/Portal';
 
-// Dynamic import for Excalidraw to avoid SSR issues
-const Excalidraw = dynamic(
-    () => import('@excalidraw/excalidraw').then((mod) => mod.Excalidraw),
+// Dynamic import for the wrapper that contains Excalidraw native components
+const ExcalidrawWrapper = dynamic(
+    () => import('./ExcalidrawWrapper'),
     { ssr: false }
 );
-
-import { Portal } from '@/components/Portal';
 
 interface WhiteboardEditorProps {
     id: string;
@@ -86,7 +84,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
         socket.on('draw_synced', (data: any) => {
             if (excalidrawAPI && initialLoadRef.current) {
-                // For Excalidraw, we typically sync elements and appState
                 if (data.elements) {
                     excalidrawAPI.updateScene({
                         elements: data.elements,
@@ -131,28 +128,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     }, [whiteboard, excalidrawAPI]);
 
-    const handleSnapshot = useCallback(async () => {
-        if (!excalidrawAPI || !whiteboard?.artboards?.[0]?.id) return;
-
-        try {
-            const elements = excalidrawAPI.getSceneElements();
-            const appState = excalidrawAPI.getAppState();
-            const snapshot = { elements, appState };
-
-            await api.whiteboards.saveSnapshot(id, whiteboard.artboards[0].id, snapshot);
-            alert('Đã lưu bản sao (snapshot)!');
-        } catch (error) {
-            console.error('Snapshot failed:', error);
-        }
-    }, [id, whiteboard, excalidrawAPI]);
-
-    const handleExport = useCallback(async () => {
-        if (!excalidrawAPI) return;
-        // Excalidraw has its own export logic, but for simplicity we trigger the internal UI or a basic download
-        // For now, let's just log and suggest using the built-in Excalidraw export
-        alert('Vui lòng sử dụng menu Excalidraw để xuất file!');
-    }, [excalidrawAPI]);
-
     // Load initial state
     useEffect(() => {
         if (!excalidrawAPI || !whiteboard?.artboards?.[0]?.elements || initialLoadRef.current) return;
@@ -177,7 +152,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const onChange = (elements: readonly any[], appState: any) => {
         if (!initialLoadRef.current) return;
 
-        // Broadcast changes (throttled/debounced is better but start simple)
         if (socketRef.current) {
             socketRef.current.emit('draw_change', {
                 whiteboardId: id,
@@ -185,7 +159,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             });
         }
 
-        // Throttle saves
         if (!saveTimeoutRef.current) {
             saveTimeoutRef.current = setTimeout(() => {
                 handleSave();
@@ -214,78 +187,47 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     return (
         <Portal>
-            <div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] w-full h-full bg-[#18181b] overflow-hidden whiteboard-container">
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] w-full h-full bg-[#f8f9fa] overflow-hidden whiteboard-container">
                 <style>{`
                 .whiteboard-container .excalidraw-wrapper {
                     height: 100% !important;
                     width: 100% !important;
                 }
+                .whiteboard-container .excalidraw {
+                    border: none !important;
+                }
             `}</style>
 
-                <Excalidraw
+                <ExcalidrawWrapper
                     excalidrawAPI={(api: any) => setExcalidrawAPI(api)}
                     onChange={onChange}
-                    onPointerUpdate={handlePointerMove as any}
-                    theme="dark"
-                    UIOptions={{
-                        canvasActions: {
-                            toggleTheme: false,
-                            export: {
-                                saveFileToDisk: true,
-                            }
-                        }
-                    }}
+                    onPointerUpdate={handlePointerMove}
+                    onBack={() => window.location.href = '/whiteboard'}
+                    title={whiteboard?.title}
                 />
 
-                {/* Header Controls - Lower z-index to avoid covering Excalidraw UI */}
-                <div className="absolute top-4 left-4 right-4 flex justify-between items-center pointer-events-none z-[1001]">
-                    {/* Left Group: Back & Branding */}
-                    <div className="flex items-center gap-3 pointer-events-auto">
-                        <Link href="/whiteboard">
-                            <Button
-                                variant="white"
-                                size="icon"
-                                className="h-10 w-10 round-xl shadow-sm hover:shadow-md transition-all group"
-                                title="Quay lại danh sách"
-                            >
-                                <ChevronLeft className="w-5 h-5 text-zinc-900 group-hover:-translate-x-0.5 transition-transform" />
-                            </Button>
-                        </Link>
-
-                        <div className="bg-white/90 backdrop-blur-md border border-zinc-200 pl-3 pr-4 py-2 rounded-xl shadow-sm flex items-center gap-3">
-                            <div className="flex items-center gap-2">
-                                <Logo showText={false} className="scale-90" />
-                                <div className="flex flex-col -gap-1">
-                                    <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none">Tulie</span>
-                                    <span className="text-sm font-bold text-zinc-900 whiteboard-branding leading-none">Whiteboard</span>
-                                </div>
-                            </div>
-                            <div className="h-4 w-[1px] bg-zinc-200" />
-                            <h1 className="text-sm font-medium text-zinc-600 max-w-[200px] truncate">
-                                {isLoading ? 'Đang tải...' : (whiteboard?.title || 'Bảng chưa đặt tên')}
-                            </h1>
-                        </div>
+                {/* Subtle Branding Layer */}
+                <div className="absolute top-4 left-4 z-[101] pointer-events-none">
+                    <div className="flex items-center gap-2 pointer-events-auto bg-white/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-zinc-200/50 shadow-sm">
+                        <Logo showText={false} className="w-5 h-5" />
+                        <span className="text-sm font-bold text-zinc-900">Whiteboard</span>
+                        <div className="h-3 w-[1px] bg-zinc-300 mx-1" />
+                        <span className="text-xs text-zinc-500 font-medium truncate max-w-[150px]">
+                            {whiteboard?.title || 'Bảng chưa đặt tên'}
+                        </span>
                     </div>
+                </div>
 
-                    {/* Right Group: Actions */}
-                    <div className="flex items-center gap-2 pointer-events-auto bg-white/90 backdrop-blur-md p-1.5 rounded-xl border border-zinc-200 shadow-sm mr-12">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={handleSnapshot}
-                            className="rounded-lg hover:bg-zinc-100 text-zinc-600 h-8 px-2"
-                            title="Lưu bản sao"
-                        >
-                            <Camera className="w-4 h-4" />
-                        </Button>
-                        <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
+                {/* Right Group: Share Action Only */}
+                <div className="absolute top-4 right-4 z-[101] pointer-events-none">
+                    <div className="flex items-center gap-2 pointer-events-auto">
                         <Button
                             variant="default"
                             size="sm"
-                            className="rounded-lg shadow-none bg-zinc-900 text-white hover:bg-zinc-800 h-8 px-3"
+                            className="rounded-full shadow-lg bg-indigo-600 text-white hover:bg-indigo-700 h-9 px-4 border-none"
                             onClick={() => setIsShareModalOpen(true)}
                         >
-                            <Share2 className="w-3.5 h-3.5 mr-1.5" />
+                            <Share2 className="w-4 h-4 mr-2" />
                             Chia sẻ
                         </Button>
                     </div>
@@ -366,9 +308,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     ))}
                 </div>
 
-                {/* Participants Status */}
-                <div className="absolute bottom-4 left-4 flex items-center gap-1 z-[101]">
-                    <div className="px-3 py-1.5 bg-white/90 backdrop-blur-md border border-zinc-200 rounded-full text-[11px] font-semibold text-zinc-900 shadow-md flex items-center gap-2">
+                {/* Status Indicator */}
+                <div className="absolute bottom-4 left-4 z-[101] pointer-events-none">
+                    <div className="px-3 py-1.5 bg-white/80 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         {Object.keys(remoteCursors).length + 1} đang kết nối
                     </div>
