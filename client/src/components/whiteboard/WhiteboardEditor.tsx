@@ -297,10 +297,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     background-color: #ffffff !important;
                 }
                 
-                /* Aggressively force dot pattern visibility */
-                .tl-grid, .tl-grid-dots, [class*="tl-grid"], .tl-canvas-grid {
-                    background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1px) !important;
-                    background-size: 35px 35px !important;
+                /* Aggressively force dot pattern visibility on any potential grid container */
+                .tl-grid, .tl-grid-dots, [class*="tl-grid"], .tl-canvas-grid, [data-testid="tl-grid"] {
+                    background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px) !important;
+                    background-size: 30px 30px !important;
                     display: block !important;
                     opacity: 1 !important;
                     visibility: visible !important;
@@ -376,7 +376,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             `}</style>
             <div className="relative w-full h-full">
                 <Tldraw
-                    key={id}
                     autoFocus
                     onMount={handleMount}
                     inferDarkMode={false}
