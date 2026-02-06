@@ -137,3 +137,15 @@ export interface SearchParams {
     search?: string;
     [key: string]: unknown;
 }
+
+export interface ShortLink {
+    id: string;
+    code: string;
+    originalUrl: string;
+    title?: string;
+    clicks: number;
+    userId?: string;
+    createdAt: string;
+    updatedAt: string;
+    lastClickedAt?: string;
+}

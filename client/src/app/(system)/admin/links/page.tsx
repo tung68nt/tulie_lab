@@ -12,14 +12,14 @@ import {
     Trash2,
     BarChart3,
     Calendar,
-    MoreVertical,
     Check
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
+import { ShortLink } from '@/types/api';
 
 export default function AdminShortLinksPage() {
-    const [links, setLinks] = useState<any[]>([]);
+    const [links, setLinks] = useState<ShortLink[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -57,8 +57,9 @@ export default function AdminShortLinksPage() {
             setIsCreateModalOpen(false);
             setNewLink({ originalUrl: '', code: '', title: '' });
             fetchLinks();
-        } catch (error: any) {
-            alert(error.message || 'Failed to create link');
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Failed to create link';
+            alert(message);
         } finally {
             setIsSubmitting(false);
         }
@@ -69,7 +70,7 @@ export default function AdminShortLinksPage() {
         try {
             await api.shortLinks.delete(id);
             fetchLinks();
-        } catch (error) {
+        } catch {
             alert('Xóa thất bại');
         }
     };

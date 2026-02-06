@@ -21,7 +21,7 @@ export default function RedirectPage() {
                 } else {
                     setError('Liên kết không hợp lệ hoặc đã bị xóa.');
                 }
-            } catch (err: any) {
+            } catch (err: unknown) {
                 if (err instanceof ApiError && err.status === 404) {
                     setError('Liên kết không tồn tại (404).');
                 } else {

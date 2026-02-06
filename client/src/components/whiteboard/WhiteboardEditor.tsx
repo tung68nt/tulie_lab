@@ -1,21 +1,43 @@
 'use client';
 
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { Tldraw, Editor, TLEventMapHandler, createShapeId } from 'tldraw';
+import { Tldraw, Editor, createShapeId } from 'tldraw';
 import 'tldraw/tldraw.css';
 import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
-import { Camera, Download, Layers, Share2, Copy, X } from 'lucide-react';
+import { Camera, Download, Share2, Copy, X } from 'lucide-react';
+import { Logo } from '@/components/Logo';
 
 interface WhiteboardEditorProps {
     id: string;
 }
 
+interface Artboard {
+    id: string;
+    name: string;
+    order: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    elements?: any;
+}
+
+interface WhiteboardData {
+    id: string;
+    title?: string;
+    description?: string;
+    artboards: Artboard[];
+}
+
+interface RemoteCursor {
+    point: { x: number; y: number };
+    userName?: string;
+}
+
+
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
-    const [whiteboard, setWhiteboard] = useState<any>(null);
+    const [whiteboard, setWhiteboard] = useState<WhiteboardData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [remoteCursors, setRemoteCursors] = useState<Record<string, any>>({});
+    const [remoteCursors, setRemoteCursors] = useState<Record<string, RemoteCursor>>({});
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const editorRef = useRef<Editor | null>(null);
     const socketRef = useRef<Socket | null>(null);
@@ -50,23 +72,24 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             socket.emit('join_whiteboard', id);
         });
 
-        socket.on('draw_synced', (patch: any) => {
+        socket.on('draw_synced', (patch: unknown) => {
             if (editorRef.current) {
                 // Apply remote changes without triggering local 'user' events
                 editorRef.current.store.mergeRemoteChanges(() => {
-                    editorRef.current!.store.applyDiff(patch);
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    editorRef.current!.store.applyDiff(patch as any);
                 });
             }
         });
 
-        socket.on('cursor_moved', (data: any) => {
+        socket.on('cursor_moved', (data: { socketId: string; point: { x: number; y: number }; userName?: string }) => {
             setRemoteCursors(prev => ({
                 ...prev,
                 [data.socketId]: { point: data.point, userName: data.userName }
             }));
         });
 
-        socket.on('participant_left', (data: any) => {
+        socket.on('participant_left', (data: { socketId: string }) => {
             setRemoteCursors(prev => {
                 const newCursors = { ...prev };
                 delete newCursors[data.socketId];
@@ -112,8 +135,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             const response = await api.uploads.single(file);
             const assetId = createShapeId();
 
-            const asset: any = {
-                id: assetId as any,
+            const asset = {
+                id: assetId,
                 type: 'image',
                 typeName: 'asset',
                 props: {
@@ -125,10 +148,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     isAnimated: false,
                 },
                 meta: {},
-            };
+            } as const;
 
-            editor.createAssets([asset]);
-            return asset;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            editor.createAssets([asset as any]);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return asset as any;
         } catch (error) {
             console.error('Asset upload failed:', error);
             return null;
@@ -187,6 +212,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handlePointerMove = (event: any) => {
             if (event.name === 'pointer_move') {
                 socketRef.current?.emit('cursor_move', {
@@ -197,7 +223,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
         };
 
-        (editor as any).on('event', handlePointerMove);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        editor.on('event', handlePointerMove as any);
 
         // Register asset handler for tldraw v4.3.1
         editor.registerExternalAssetHandler('file', async ({ file }) => {
@@ -206,9 +233,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
         return () => {
             if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
-            (editor as any).off('event', handlePointerMove);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            editor.off('event', handlePointerMove as any);
         };
-    }, [whiteboard, handleSave, id]);
+    }, [whiteboard, handleSave, id, handleAssetUpload]);
 
     if (isLoading) {
         return (
