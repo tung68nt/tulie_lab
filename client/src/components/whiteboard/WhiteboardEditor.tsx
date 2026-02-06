@@ -298,9 +298,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
                 
                 /* Aggressively force dot pattern visibility */
-                .tl-grid, .tl-grid-dots, [class*="tl-grid"] {
-                    background-image: radial-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px) !important;
-                    background-size: 30px 30px !important;
+                .tl-grid, .tl-grid-dots, [class*="tl-grid"], .tl-canvas-grid {
+                    background-image: radial-gradient(rgba(0, 0, 0, 0.2) 1.5px, transparent 1px) !important;
+                    background-size: 35px 35px !important;
                     display: block !important;
                     opacity: 1 !important;
                     visibility: visible !important;
@@ -381,7 +381,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     onMount={handleMount}
                     inferDarkMode={false}
                     hideUi={true}
-                    {...({ licenseKey: 'trial' } as any)}
                 >
                     <EditorCapture onMount={handleMount} />
                 </Tldraw>
