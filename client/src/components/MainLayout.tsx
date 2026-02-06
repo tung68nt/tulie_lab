@@ -16,6 +16,7 @@ export function MainLayout({ children }: MainLayoutProps) {
     const pathname = usePathname();
     const isLearnPage = pathname?.startsWith('/learn');
     const isAdminPage = pathname?.startsWith('/admin');
+    const isWhiteboardPage = pathname?.startsWith('/whiteboard');
 
     // Layout strategy:
     // Public pages: Full width (Sections handle their own containers)
@@ -31,7 +32,7 @@ export function MainLayout({ children }: MainLayoutProps) {
             <main className="flex-1">
                 {children}
             </main>
-            {!isLearnPage && <Footer />}
+            {!isLearnPage && !isWhiteboardPage && <Footer />}
             <BackToTop />
         </div>
     );

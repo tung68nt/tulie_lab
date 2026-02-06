@@ -60,7 +60,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     // Socket Initialization
     useEffect(() => {
-        const socketUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5001';
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || process.env.NEXT_PUBLIC_API_URL || '';
+        const socketUrl = serverUrl.replace(/\/api$/, '') || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5001');
+
         const socket = io(socketUrl, {
             withCredentials: true,
             transports: ['websocket', 'polling'],
@@ -291,6 +293,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-branding {
                     font-family: 'Inter', sans-serif;
                     letter-spacing: -0.02em;
+                    font-weight: 700 !important;
                 }
             `}</style>
             <Tldraw
@@ -310,12 +313,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         <Logo showText={false} className="scale-90" />
                         <div className="flex flex-col -gap-1">
                             <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none">Tulie</span>
-                            <span className="text-sm font-black text-zinc-900 whiteboard-branding leading-none">Whiteboard</span>
+                            <span className="text-sm font-bold text-zinc-900 whiteboard-branding leading-none">Whiteboard</span>
                         </div>
                     </div>
                     <div className="h-4 w-[1px] bg-zinc-200 mx-1" />
                     <h1 className="text-xs font-medium text-zinc-500 max-w-[150px] truncate">
-                        {whiteboard?.title || 'Đang tải...'}
+                        {isLoading ? 'Đang tải...' : (whiteboard?.title || 'Bảng chưa đặt tên')}
                     </h1>
                 </div>
 
