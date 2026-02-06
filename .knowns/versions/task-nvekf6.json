@@ -1,0 +1,83 @@
+{
+  "taskId": "nvekf6",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "nvekf6",
+      "version": 1,
+      "timestamp": "2026-02-06T08:11:45.927Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Toolbar does not overlap logo/share buttons"
+            },
+            {
+              "completed": false,
+              "text": "Theme is strictly black and white (monochrome)"
+            },
+            {
+              "completed": false,
+              "text": "Whiteboard does not disappear after loading"
+            },
+            {
+              "completed": false,
+              "text": "Stability and collaboration verified"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Toolbar does not overlap logo/share buttons"
+            },
+            {
+              "completed": true,
+              "text": "Theme is strictly black and white (monochrome)"
+            },
+            {
+              "completed": false,
+              "text": "Whiteboard does not disappear after loading"
+            },
+            {
+              "completed": false,
+              "text": "Stability and collaboration verified"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Hidden PageMenu and MainMenu. Added .tl-theme__light CSS overrides for strict monochrome theme."
+        }
+      ],
+      "snapshot": {
+        "title": "Fix Whiteboard UI: Monochrome, Layout, and Stability",
+        "description": "Fix overlapping toolbar, enforce black & white theme, and resolve the 2s disappearing bug.",
+        "status": "todo",
+        "priority": "high",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Toolbar does not overlap logo/share buttons"
+          },
+          {
+            "completed": true,
+            "text": "Theme is strictly black and white (monochrome)"
+          },
+          {
+            "completed": false,
+            "text": "Whiteboard does not disappear after loading"
+          },
+          {
+            "completed": false,
+            "text": "Stability and collaboration verified"
+          }
+        ],
+        "implementationNotes": "Hidden PageMenu and MainMenu. Added .tl-theme__light CSS overrides for strict monochrome theme."
+      }
+    }
+  ]
+}
