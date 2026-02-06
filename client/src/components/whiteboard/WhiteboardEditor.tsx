@@ -227,7 +227,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             return await handleAssetUpload(editor, file);
         });
 
-        // Enable grid by default
+        // Enable grid by default (v2 syntax)
         editor.updateInstanceState({ isGridMode: true });
 
         return () => {
