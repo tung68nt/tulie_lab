@@ -353,7 +353,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
             <div className="bg-white/90 backdrop-blur-md border border-zinc-200 pl-3 pr-4 py-2 rounded-xl shadow-sm flex items-center gap-3">
                 <div className="flex items-center gap-2">
-                    <Logo showText={false} className="scale-90 grayscale opacity-80" />
+                    <Logo showText={false} className="scale-90" />
                     <div className="flex flex-col -gap-1">
                         <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest leading-none">Tulie</span>
                         <span className="text-sm font-bold text-zinc-900 whiteboard-branding leading-none">Whiteboard</span>
