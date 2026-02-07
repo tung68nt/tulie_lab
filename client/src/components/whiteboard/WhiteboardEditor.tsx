@@ -619,37 +619,60 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --index-overlay: 2000 !important;
                 }
 
-                /* HIDE NATIVE UI CLUSTERS BUT KEEP WELCOME SCREEN */
-                /* Only disable pointer-events on UI wrappers, don't hide them */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__top-left,
+                /* PRESERVE NATIVE EXCALIDRAW UI - Only hide what custom UI replaces */
+                
+                /* Allow native properties panel (left side) to show and be interactive */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__top-left {
+                    pointer-events: auto !important;
+                }
+                
+                /* Disable pointer events on areas where custom UI overlays */
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-right,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center {
-                   pointer-events: none !important;
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
+                    pointer-events: none !important;
+                }
+                
+                /* Keep footer center and right accessible */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center,
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right {
+                    pointer-events: auto !important;
                 }
 
-                /* Hide specific native toolbar and menu elements - IMPORTANT: Don't hide main-menu or library sidebar */
-                .whiteboard-container .excalidraw .App-toolbar,
+                /* Hide ONLY the native menu trigger (custom BrandingBar replaces it) */
                 .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
-                .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
-                .whiteboard-container .excalidraw .library-button,
-                .whiteboard-container .excalidraw .footer-center {
+                .whiteboard-container .excalidraw .main-menu-trigger {
                     position: fixed !important;
                     top: -1000px !important;
                     left: -1000px !important;
                     opacity: 0 !important;
                     pointer-events: none !important;
-                    z-index: -1 !important;
                 }
 
-                /* CRITICAL: Ensure Main Menu and Library Sidebar ARE visible when opened */
+                /* Hide native library trigger in top-right (custom TitleShareBar has it) */
+                .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
+                .whiteboard-container .excalidraw .library-button {
+                    position: fixed !important;
+                    top: -1000px !important;
+                    left: -1000px !important;
+                    opacity: 0 !important;
+                    pointer-events: none !important;
+                }
+
+                /* KEEP native toolbar visible - position it below custom toolbar area */
+                .whiteboard-container .excalidraw .App-toolbar {
+                    position: relative !important;
+                    top: auto !important;
+                    left: auto !important;
+                    opacity: 1 !important;
+                    pointer-events: auto !important;
+                    z-index: 50 !important;
+                }
+
+                /* KEEP App-menu visible when opened */
                 .whiteboard-container .excalidraw .App-menu,
                 .whiteboard-container .excalidraw .App-menu__left,
                 .whiteboard-container .excalidraw .dropdown-menu,
-                .whiteboard-container .excalidraw .dropdown-menu-container,
-                .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .library-menu {
+                .whiteboard-container .excalidraw .dropdown-menu-container {
                     position: initial !important;
                     top: initial !important;
                     left: initial !important;
@@ -658,9 +681,26 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     z-index: 3000 !important;
                 }
 
+                /* KEEP sidebar (library) visible when opened */
+                .whiteboard-container .excalidraw .sidebar,
+                .whiteboard-container .excalidraw .library-menu {
+                    position: initial !important;
+                    opacity: 1 !important;
+                    pointer-events: auto !important;
+                    z-index: 3000 !important;
+                }
+
+                /* KEEP properties panel (.island) fully visible and interactive */
+                .whiteboard-container .excalidraw .island {
+                    filter: none !important;
+                    box-shadow: none !important;
+                    pointer-events: auto !important;
+                    opacity: 1 !important;
+                    z-index: 100 !important;
+                }
+
                 /* ENSURE PROPERTIES PANEL IS FULL COLOR */
                 .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .island,
                 .whiteboard-container .excalidraw .users-list-wrapper,
                 .whiteboard-container .excalidraw .context-menu {
                     filter: none !important;
@@ -699,17 +739,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     border-color: #e4e4e7 !important;
                 }
                 
-                /* Specific override for DropdownMenu-item border/background that often stays purple */
+                /* Override purple hover colors */
                 .whiteboard-container .excalidraw .DropdownMenu-item:hover,
                 .whiteboard-container .excalidraw .DropdownMenu-item:focus,
                 .whiteboard-container .excalidraw .DropdownMenu-item:active,
                 .whiteboard-container .excalidraw [class*="MenuItem"]:hover,
-                .whiteboard-container .excalidraw [class*="MenuItem"]:focus,
-                .whiteboard-container .excalidraw [class*="menu-item"]:hover,
-                .whiteboard-container .excalidraw [class*="menu-item"]:focus,
-                .whiteboard-container .excalidraw .welcome-screen-menu-item:hover,
-                .whiteboard-container .excalidraw .welcome-screen-menu-item:focus,
-                .whiteboard-container .excalidraw .WelcomeScreen-menuItem:hover {
+                .whiteboard-container .excalidraw [class*="MenuItem"]:focus {
                     background-color: #f4f4f5 !important;
                     box-shadow: none !important;
                     border-color: transparent !important;
@@ -717,7 +752,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     outline: none !important;
                 }
                 
-                /* Override focus ring and active states that can be purple */
+                /* Override focus ring colors */
                 .whiteboard-container .excalidraw *:focus {
                     outline-color: #18181b !important;
                     border-color: #d4d4d8 !important;
@@ -727,25 +762,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     outline: 2px solid #18181b !important;
                     outline-offset: 2px !important;
                 }
-                
-                /* EXCEPTION: Keep Undo/Redo accessible but hidden for API clicks */
-                .whiteboard-container .excalidraw [aria-label="Undo"],
-                .whiteboard-container .excalidraw [aria-label="Redo"] {
-                    position: fixed !important;
-                    top: -100px !important;
-                    left: -100px !important;
-                    opacity: 0 !important;
-                    pointer-events: none !important;
-                    display: block !important;
-                    z-index: -1 !important;
-                }
 
-                /* WELCOME SCREEN - CRITICAL: Show hints with arrows */
+                /* WELCOME SCREEN - Show hints with arrows */
                 .whiteboard-container .excalidraw .welcome-screen-center {
                     transform: translateY(-60px) !important;
                 }
                 
-                /* Make welcome screen hints + arrows fully visible */
                 .whiteboard-container .excalidraw .welcome-screen-hints {
                     display: flex !important;
                     opacity: 1 !important;
@@ -754,7 +776,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     pointer-events: none !important;
                 }
 
-                /* Show ALL 3 hint arrows - Menu, Toolbar, Help */
                 .whiteboard-container .excalidraw .welcome-screen-hints--menu-hint,
                 .whiteboard-container .excalidraw .welcome-screen-hints--help-hint,
                 .whiteboard-container .excalidraw .welcome-screen-hints--toolbar-hint,
@@ -762,17 +783,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: flex !important;
                     opacity: 1 !important;
                     visibility: visible !important;
-                }
-
-                /* HIDE ALL MENU TRIGGERS NATIVELY */
-                .whiteboard-container .excalidraw .main-menu-trigger,
-                .whiteboard-container .excalidraw .App-menu {
-                    position: fixed !important;
-                    top: -1000px !important;
-                    left: -1000px !important;
-                    opacity: 0 !important;
-                    pointer-events: auto !important;
-                    z-index: -1 !important;
                 }
 
                 /* Help Dialog & Modals Theme Override */
@@ -874,19 +884,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 {/* 1. TOP LEFT: Branding & Menu */}
                 <BrandingBar openMenu={openMenu} />
 
-                {/* 2. TOP CENTER: Toolbar + Undo/Redo */}
-                <Toolbar
-                    activeTool={activeTool}
-                    isLocked={isLocked}
-                    isMoreMenuOpen={isMoreMenuOpen}
-                    setTool={setTool}
-                    toggleLock={toggleLock}
-                    setIsMoreMenuOpen={setIsMoreMenuOpen}
-                    handleUndo={handleUndo}
-                    handleRedo={handleRedo}
-                />
+                {/* Native Excalidraw toolbar now shows - removed custom Toolbar */}
 
-                {/* 3. TOP RIGHT: Title & Share */}
+                {/* 2. TOP RIGHT: Title & Share */}
                 <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
                     <TitleShareBar
                         isEditingTitle={isEditingTitle}
