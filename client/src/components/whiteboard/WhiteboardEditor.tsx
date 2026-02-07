@@ -260,16 +260,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw {
                     border: none !important;
                     
-                    /* Override Font Family for Handwriting UI */
-                    --font-family-handwritten: 'Patrick Hand', cursive !important;
-                    font-family: 'Patrick Hand', cursive !important;
+                    /* FIXED: Do NOT force handwriting font on the entire UI. 
+                       Only the Canvas (using Virgil) should be handwritten.
+                       Force UI to use System Font. */
+                    --ui-font: system-ui, "Inter", sans-serif !important;
+                    font-family: system-ui, "Inter", sans-serif !important;
 
-                    /* Monochrome Theme Overrides */
+                    /* Monochrome Theme Overrides - Be careful not to kill palette colors */
                     --color-primary: #18181b !important; /* zinc-900 */
                     --color-primary-dark: #09090b !important; /* zinc-950 */
-                    --color-primary-light: #f4f4f5 !important; /* zinc-100 */
-                    --color-secondary: #52525b !important;
-                    --color-secondary-dark: #3f3f46 !important;
                     --color-brand: #18181b !important; /* Override purple brand color */
                 }
 
@@ -278,7 +277,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: none !important;
                 }
 
-                /* Force Grayscale on Specific UI Elements (Not Color Picker) */
+                /* Force Grayscale on Specific UI Elements ONLY (Navigation/System Buttons) */
                 .whiteboard-container .excalidraw .HelpBtn,
                 .whiteboard-container .excalidraw .App-menu__left,
                 .whiteboard-container .excalidraw .hint,
@@ -288,8 +287,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     filter: grayscale(100%) !important;
                 }
                 
-                /* Ensure popups/modals inside Overlay are NOT grayscale by default, 
-                   unless specifically targeted (like HelpDialog) */
+                /* CRITICAL: Ensure Properties Panel (Sidebar) and Color Picker are NEVER grayscale */
+                .whiteboard-container .excalidraw .sidebar,
+                .whiteboard-container .excalidraw .island,
+                .whiteboard-container .excalidraw .users-list-wrapper,
+                .whiteboard-container .excalidraw .context-menu {
+                    filter: none !important;
+                }
+
+                /* Ensure popups/modals inside Overlay are NOT grayscale by default */
                 .whiteboard-container .excalidraw .Overlay {
                      filter: none !important;
                 }
@@ -435,7 +441,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* 1. Branding (Top Left) */}
                 {/* Aligned with Native Menu (16px left + 48px width + gap) */}
-                <div className="absolute top-4 left-[72px] z-[101] pointer-events-auto flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[48px]">
+                {/* Moved to left-[100px] to strictly avoid overlap with Native Menu which can be wide */}
+                <div className="absolute top-4 left-[100px] z-[101] pointer-events-auto flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[48px]">
                     <Logo showText={false} height="h-6" className="flex-shrink-0" />
                     <div className="flex flex-col justify-center select-none">
                         <span className="text-[10px] uppercase font-bold text-zinc-400 leading-none tracking-widest">TULIE</span>
