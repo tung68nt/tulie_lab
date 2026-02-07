@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { io, Socket } from 'socket.io-client';
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
 
@@ -17,16 +18,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isLocked, setIsLocked] = useState<boolean>(false);
     const [zoom, setZoom] = useState<number>(1);
     const [isLibraryOpen, setIsLibraryOpen] = useState<boolean>(false);
-    const [saveStatus, setSaveStatus] = useState<'saved' | 'unsaved' | 'saving'>('saved');
 
+    // Refs
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const lastEmitTimeRef = useRef<number>(0);
     const lastPointerUpdateRef = useRef<number>(0);
-
-    // Placeholder for socket ref (not connected yet)
     const socketRef = useRef<any>(null);
 
-    // Initial Load
+    // Initial Load Data
     useEffect(() => {
         const loadWhiteboard = async () => {
             try {
@@ -42,7 +41,39 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     }, [id]);
 
-    // Handle initial data for Excalidraw
+    // Socket Connection
+    useEffect(() => {
+        if (!id) return;
+
+        // Initialize socket
+        const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || window.location.origin, {
+            query: { whiteboardId: id },
+            transports: ['websocket'],
+            reconnection: true,
+        });
+
+        socketRef.current = socket;
+
+        socket.on('connect', () => {
+            console.log('Socket connected:', socket.id);
+        });
+
+        socket.on('draw_synced', (data: any) => {
+            console.log('Socket draw_synced received (ignored for test)', data);
+            // In real impl, we would updateScene here
+        });
+
+        socket.on('cursor_moved', (data: any) => {
+            // console.log('Cursor moved (ignored)');
+        });
+
+        return () => {
+            socket.disconnect();
+            socketRef.current = null;
+        };
+    }, [id]);
+
+    // Handle initial data for Excalidraw (Once API is ready)
     useEffect(() => {
         if (!excalidrawAPI || !whiteboard?.artboards?.[0]?.elements) return;
 
@@ -77,14 +108,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             const newZoom = appState.zoom?.value;
             const isLibOpen = !!(appState.openSidebar?.name === "library");
 
-            // Only update if changed to avoid unnecessary re-renders
             if (newTool !== activeTool) setActiveTool(newTool);
             if (newLocked !== isLocked) setIsLocked(newLocked);
             if (newZoom !== zoom) setZoom(newZoom);
             if (isLibOpen !== isLibraryOpen) setIsLibraryOpen(isLibOpen);
 
-            // Auto-save Mock
-            // console.log("Auto-save trigger (mock)");
+            // Socket emit disabled for now
         }, 300);
     }, [activeTool, isLocked, zoom, isLibraryOpen]);
 
@@ -93,7 +122,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         const now = Date.now();
         if (now - lastPointerUpdateRef.current > 100) {
             lastPointerUpdateRef.current = now;
-            // Socket emit would go here
+            // Socket emit disabled for now
         }
     }, []);
 
