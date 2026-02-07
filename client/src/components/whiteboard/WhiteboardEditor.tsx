@@ -281,10 +281,18 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         saveStatusRef.current = saveStatus;
     }, [saveStatus]);
 
-    // Fetch whiteboard data on mount
+    // Fetch whiteboard data on mount, or create new if id is "new"
     useEffect(() => {
         async function loadWhiteboard() {
             try {
+                // Handle "new" case - create a new whiteboard and redirect
+                if (id === 'new') {
+                    const newWhiteboard = await api.whiteboards.create({ title: 'Bảng trắng mới' });
+                    // Redirect to the real whiteboard ID
+                    window.location.href = `/whiteboard/${newWhiteboard.id}`;
+                    return; // Don't set loading to false, we're redirecting
+                }
+
                 const data = await api.whiteboards.get(id);
                 setWhiteboard(data);
             } catch (error) {
@@ -852,14 +860,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     visibility: visible !important;
                 }
 
-                /* HIDE ALL MENU TRIGGERS NATIVELY */
-                .whiteboard-container .excalidraw .main-menu-trigger,
-                .whiteboard-container .excalidraw .App-menu {
+                /* HIDE MENU TRIGGER BUTTONS - but NOT the menu itself */
+                .whiteboard-container .excalidraw .main-menu-trigger {
                     position: fixed !important;
                     top: -1000px !important;
                     left: -1000px !important;
                     opacity: 0 !important;
-                    pointer-events: auto !important;
+                    pointer-events: none !important;
                     z-index: -1 !important;
                 }
 
