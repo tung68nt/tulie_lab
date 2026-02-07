@@ -5,11 +5,14 @@ import { io, Socket } from 'socket.io-client';
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
 
+import { useRouter } from 'next/navigation';
+
 interface WhiteboardEditorProps {
     id: string;
 }
 
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
+    const router = useRouter();
     const [whiteboard, setWhiteboard] = useState<any>(null);
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
 
@@ -41,9 +44,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     const newWhiteboard = await api.whiteboards.create({ title: 'Untitled Whiteboard' });
                     console.log('Whiteboard created:', newWhiteboard);
 
-                    window.history.replaceState(null, '', `/whiteboard/${newWhiteboard.id}`);
                     setWhiteboard(newWhiteboard);
-                    window.location.href = `/whiteboard/${newWhiteboard.id}`;
+                    router.replace(`/whiteboard/${newWhiteboard.id}`);
                     return;
                 } catch (error) {
                     console.error('Failed to create new whiteboard:', error);
@@ -64,7 +66,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         if (id) {
             loadWhiteboard();
         }
-    }, [id]);
+    }, [id, router]);
 
     // Socket Connection
     useEffect(() => {
@@ -202,7 +204,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 excalidrawAPI={setExcalidrawAPI}
                 onChange={onChange}
                 onPointerUpdate={onPointerUpdate}
-                onBack={() => { window.location.href = '/whiteboard'; }}
+                onBack={() => router.back()}
                 title={whiteboard?.title}
             />
             {/* Simple Save Status Indicator */}
