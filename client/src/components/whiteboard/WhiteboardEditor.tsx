@@ -18,6 +18,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isLocked, setIsLocked] = useState<boolean>(false);
     const [zoom, setZoom] = useState<number>(1);
     const [isLibraryOpen, setIsLibraryOpen] = useState<boolean>(false);
+    const [saveStatus, setSaveStatus] = useState<'saved' | 'unsaved' | 'saving'>('saved');
 
     // Refs
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -76,7 +77,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             socket.disconnect();
             socketRef.current = null;
         };
-    }, [id]);
+    }, [id, excalidrawAPI]);
 
     // Handle initial data for Excalidraw (Once API is ready)
     useEffect(() => {
@@ -134,8 +135,27 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     });
                 }
             }
+
+            // AUTO-SAVE to API
+            if (whiteboard?.artboards?.[0]?.id) {
+                setSaveStatus('saving');
+                const snapshot = {
+                    elements: elements,
+                    appState: {
+                        viewBackgroundColor: appState.viewBackgroundColor
+                    }
+                };
+
+                api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot)
+                    .then(() => setSaveStatus('saved'))
+                    .catch((err) => {
+                        console.error('Auto-save failed:', err);
+                        setSaveStatus('unsaved');
+                    });
+            }
+
         }, 300);
-    }, [activeTool, isLocked, zoom, isLibraryOpen, id]);
+    }, [activeTool, isLocked, zoom, isLibraryOpen, id, whiteboard]);
 
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
         // Throttle
@@ -153,7 +173,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, [id]);
 
     return (
-        <div style={{ width: '100vw', height: '100vh' }}>
+        <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
             <ExcalidrawWrapper
                 excalidrawAPI={setExcalidrawAPI}
                 onChange={onChange}
@@ -161,6 +181,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 onBack={() => { window.location.href = '/whiteboard'; }}
                 title={whiteboard?.title}
             />
+            {/* Simple Save Status Indicator */}
+            <div style={{ position: 'absolute', top: 10, right: 200, zIndex: 10, fontSize: '12px', color: '#666', background: 'rgba(255,255,255,0.8)', padding: '4px 8px', borderRadius: '4px' }}>
+                {saveStatus === 'saving' && 'Saving...'}
+                {saveStatus === 'saved' && 'Saved'}
+                {saveStatus === 'unsaved' && 'Unsaved Changes'}
+            </div>
         </div>
     );
 }
