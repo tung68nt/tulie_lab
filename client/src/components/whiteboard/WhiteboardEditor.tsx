@@ -619,17 +619,25 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --index-overlay: 2000 !important;
                 }
 
-                /* HIDE NATIVE UI CLUSTERS BUT KEEP WELCOME SCREEN */
-                /* Only disable pointer-events on UI wrappers, don't hide them */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__top-left,
+                /* NATIVE UI VISIBILITY CONTROL */
+                /* Allow properties panel (top-left) to be visible and interactive */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__top-left {
+                    pointer-events: auto !important;
+                }
+                
+                /* Disable pointer events on areas with custom UI overlays */
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-right,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center {
-                   pointer-events: none !important;
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
+                    pointer-events: none !important;
+                }
+                
+                /* Keep footer center and right accessible */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center,
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right {
+                    pointer-events: auto !important;
                 }
 
-                /* Hide specific native toolbar and menu elements - IMPORTANT: Don't hide main-menu or library sidebar */
+                /* Hide native toolbar and triggers (custom Toolbar replaces it) */
                 .whiteboard-container .excalidraw .App-toolbar,
                 .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
                 .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
@@ -658,9 +666,60 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     z-index: 3000 !important;
                 }
 
-                /* ENSURE PROPERTIES PANEL IS FULL COLOR */
+                /* ========== TULIE THEME FOR PROPERTIES PANEL ========== */
+                .whiteboard-container .excalidraw .island {
+                    filter: none !important;
+                    box-shadow: none !important;
+                    background: white !important;
+                    border: 1px solid #e4e4e7 !important;
+                    border-radius: 16px !important;
+                    pointer-events: auto !important;
+                }
+                
+                /* Property panel section labels */
+                .whiteboard-container .excalidraw .island .section-title,
+                .whiteboard-container .excalidraw .island label {
+                    color: #71717a !important;
+                    font-weight: 500 !important;
+                    font-size: 11px !important;
+                }
+                
+                /* Property buttons - inactive */
+                .whiteboard-container .excalidraw .island button {
+                    border-radius: 8px !important;
+                    transition: all 0.1s ease !important;
+                }
+                
+                .whiteboard-container .excalidraw .island button:not(.active):not([aria-checked="true"]):hover {
+                    background: #f4f4f5 !important;
+                }
+                
+                /* Property buttons - active (black) */
+                .whiteboard-container .excalidraw .island button.active,
+                .whiteboard-container .excalidraw .island button[aria-checked="true"],
+                .whiteboard-container .excalidraw .island .ToolIcon--selected {
+                    background: #18181b !important;
+                    color: white !important;
+                }
+                
+                .whiteboard-container .excalidraw .island button.active svg,
+                .whiteboard-container .excalidraw .island button[aria-checked="true"] svg {
+                    color: white !important;
+                }
+                
+                /* Color picker - black ring on selected */
+                .whiteboard-container .excalidraw .color-picker button.active,
+                .whiteboard-container .excalidraw [class*="colorPicker"] button.active {
+                    box-shadow: 0 0 0 2px white, 0 0 0 4px #18181b !important;
+                }
+                
+                /* Slider - black accent */
+                .whiteboard-container .excalidraw .island input[type="range"] {
+                    accent-color: #18181b !important;
+                }
+
+                /* ENSURE PANELS HAVE NO FILTERS */
                 .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .island,
                 .whiteboard-container .excalidraw .users-list-wrapper,
                 .whiteboard-container .excalidraw .context-menu {
                     filter: none !important;
