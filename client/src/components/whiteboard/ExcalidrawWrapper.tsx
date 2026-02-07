@@ -34,34 +34,6 @@ export default function ExcalidrawWrapper({
     }), []);
 
     return (
-        <Excalidraw
-            excalidrawAPI={excalidrawAPI}
-            onChange={onChange}
-            onPointerUpdate={onPointerUpdate as any}
-            langCode="vi-VN"
-            theme="light"
-            viewModeEnabled={false}
-            zenModeEnabled={false}
-            gridModeEnabled={true}
-            UIOptions={UIOptions}
-        >
-            <MainMenu>
-                <MainMenu.DefaultItems.LoadScene />
-                <MainMenu.DefaultItems.SaveAsImage />
-                <MainMenu.DefaultItems.Export />
-                <MainMenu.Separator />
-                <MainMenu.DefaultItems.CommandPalette />
-                <MainMenu.DefaultItems.SearchMenu />
-                <MainMenu.DefaultItems.Help />
-                <MainMenu.DefaultItems.ClearCanvas />
-                <MainMenu.Separator />
-                <MainMenu.DefaultItems.ToggleTheme />
-                <MainMenu.DefaultItems.ChangeCanvasBackground />
-                <MainMenu.Separator />
-                <MainMenu.Item onSelect={onBack}>
-                    Quay lại danh sách
-                </MainMenu.Item>
-            </MainMenu>
-        </Excalidraw>
+        <Excalidraw />
     );
 }
