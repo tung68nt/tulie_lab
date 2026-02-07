@@ -6,7 +6,7 @@ import { io, Socket } from 'socket.io-client';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import {
-    Share2, Copy, X, Cloud, CloudUpload,
+    Share2, Copy, X, Cloud, CloudUpload, Check,
     MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser,
     Grab, Lock, Undo2, Redo2, Menu, Library as LibraryIcon, Plus, HelpCircle,
     Layout, Zap, Globe, Sparkles, ChevronDown, MousePointer
@@ -327,18 +327,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         const api = excalidrawRef.current;
         if (!api) return;
 
-        const appState = api.getAppState();
-        const isCurrentlyOpen = !!(
-            appState.openSidebar?.name === "library" ||
-            appState.openSidebar === "library" ||
-            appState.libraryOpen
-        );
-
-        const newState = !isCurrentlyOpen;
-
-        if (typeof api.toggleSidebar === 'function') {
-            api.toggleSidebar({ name: "library", force: newState });
+        // Try to trigger via native UI button first (most reliable for sidebar)
+        const libBtn = document.querySelector('[aria-label="Library icon"], [aria-label="Thư viện"], .sidebar-trigger[data-id="library"]') as HTMLButtonElement;
+        if (libBtn) {
+            libBtn.click();
         } else {
+            // Fallback to API
+            const appState = api.getAppState();
+            const isCurrentlyOpen = !!(
+                appState.openSidebar?.name === "library" ||
+                appState.openSidebar === "library" ||
+                appState.libraryOpen
+            );
+            const newState = !isCurrentlyOpen;
             api.updateScene({
                 appState: {
                     openSidebar: newState ? { name: "library" } : null,
@@ -346,22 +347,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
             });
         }
-        setIsLibraryOpen(newState);
     }, []);
 
     const openMenu = useCallback(() => {
         const api = excalidrawRef.current;
         if (!api) return;
 
-        // Use standard Excalidraw way to open menu if possible, 
-        // otherwise fallback to clicking the hidden button
-        const menuBtn = document.querySelector('.DropdownMenu-button') as HTMLButtonElement;
-        if (menuBtn) {
-            menuBtn.click();
-        } else {
-            // Fallback for newer versions or different internal structures
-            api.updateScene({ appState: { openMenu: 'canvas' } });
-        }
+        // Try direct AppState first
+        api.updateScene({ appState: { openMenu: 'canvas' } });
+
+        // Fallback: Trigger through DOM if API update doesn't catch it
+        setTimeout(() => {
+            const menuBtn = document.querySelector('.DropdownMenu-button, [aria-label="Main menu"]') as HTMLButtonElement;
+            if (menuBtn) menuBtn.click();
+        }, 10);
     }, []);
 
     const openHelp = () => {
@@ -586,6 +585,18 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     border-radius: 12px !important;
                 }
 
+                /* Standardize typography: weight 500, no tracking */
+                .whiteboard-container .excalidraw {
+                    font-weight: 500 !important;
+                    letter-spacing: normal !important;
+                }
+                
+                .whiteboard-container .excalidraw .Shortcut__key,
+                .whiteboard-container .excalidraw kbd,
+                .whiteboard-container .excalidraw .kbd {
+                    font-weight: 500 !important;
+                }
+
                 /* Ensure text tool click works */
                 .whiteboard-container .excalidraw .excalidraw-text-input {
                     z-index: 4000 !important;
@@ -598,7 +609,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     padding: 2px 8px;
                     border-radius: 6px;
                     font-size: 11px;
-                    font-weight: 700;
+                    font-weight: 500;
                     min-width: 24px;
                     display: inline-flex;
                     align-items: center;
@@ -617,7 +628,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 {/* --- CUSTOM UI --- */}
 
                 {/* 1. TOP LEFT: Branding & Menu */}
-                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-3 bg-white/95 backdrop-blur-md p-1.5 pr-6 rounded-2xl border border-zinc-200 transition-all h-[52px] shadow-sm hover:shadow-md">
+                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-3 bg-white/95 backdrop-blur-md p-1.5 pr-6 rounded-2xl border border-zinc-200 transition-all h-[52px]">
                     <button
                         onClick={openMenu}
                         className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-700 active:scale-95"
@@ -627,14 +638,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="w-px h-6 bg-zinc-200" />
                     <Logo showText={false} height="h-8" className="flex-shrink-0 ml-1" />
                     <div className="flex flex-col justify-center select-none ml-2">
-                        <span className="text-[10px] font-bold text-zinc-400 leading-none mb-0.5 tracking-tight">Tulie</span>
-                        <span className="text-sm font-bold text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
+                        <span className="text-[10px] font-medium text-zinc-400 leading-none mb-0.5">Tulie</span>
+                        <span className="text-sm font-medium text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
                     </div>
                 </div>
 
                 {/* 2. TOP CENTER: Toolbar + Undo/Redo */}
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto">
-                    <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px] shadow-sm hover:shadow-md">
+                    <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px]">
 
                         <button
                             onClick={toggleLock}
@@ -663,7 +674,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                 title={tool.label}
                             >
                                 <tool.icon className="w-3.5 h-3.5" />
-                                <span className={`absolute -bottom-1 -right-1 text-[7px] font-bold px-1 rounded-full ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-60'}`}>
+                                <span className={`absolute -bottom-1 -right-1 text-[7px] font-medium px-1 rounded-full ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-60'}`}>
                                     {tool.shortcut}
                                 </span>
                             </button>
@@ -689,7 +700,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             className={`flex items-center gap-3 w-full p-2 rounded-xl transition-colors ${activeTool === tool.value ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}
                                         >
                                             <tool.icon className="w-3.5 h-3.5" />
-                                            <span className="text-[13px] font-bold flex-1 text-left">{tool.label}</span>
+                                            <span className="text-[13px] font-medium flex-1 text-left">{tool.label}</span>
                                             {tool.shortcut && <span className="text-[10px] opacity-40">{tool.shortcut}</span>}
                                         </button>
                                     ))}
@@ -701,27 +712,44 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* 3. TOP RIGHT: Library & Share */}
                 <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
-                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group shadow-sm hover:shadow-md">
+                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group">
                         {isEditingTitle ? (
-                            <input
-                                autoFocus
-                                type="text"
-                                value={tempTitle}
-                                onChange={(e) => setTempTitle(e.target.value)}
-                                onBlur={handleSaveTitle}
-                                onKeyDown={handleTitleKeyDown}
-                                className="text-sm font-bold bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-1 outline-none w-[150px] text-zinc-900"
-                            />
+                            <div className="flex items-center gap-1.5 p-1 bg-zinc-50 rounded-xl border border-zinc-200">
+                                <input
+                                    autoFocus
+                                    type="text"
+                                    value={tempTitle}
+                                    onChange={(e) => setTempTitle(e.target.value)}
+                                    onBlur={() => setTimeout(handleSaveTitle, 200)}
+                                    onKeyDown={handleTitleKeyDown}
+                                    className="text-sm font-medium bg-white border-2 border-zinc-900 rounded-xl px-3 py-1.5 outline-none w-[200px] text-zinc-900 placeholder:text-zinc-300 transition-all font-sans"
+                                    placeholder="Tên bảng mới..."
+                                />
+                                <button
+                                    onClick={handleSaveTitle}
+                                    className="p-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-all active:scale-95 shadow-lg"
+                                    title="Lưu (Enter)"
+                                >
+                                    <Check className="w-4 h-4" />
+                                </button>
+                                <button
+                                    onClick={() => setIsEditingTitle(false)}
+                                    className="p-2 bg-white text-zinc-400 rounded-xl hover:bg-zinc-50 transition-all active:scale-95"
+                                    title="Hủy (Esc)"
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
+                            </div>
                         ) : (
-                            <div className="flex items-center gap-2 cursor-pointer" onClick={handleStartEditing}>
-                                <span className="text-sm font-bold max-w-[150px] truncate text-zinc-900" title="Nhấn để đổi tên">
+                            <div className="flex items-center gap-2 cursor-pointer h-full px-2 hover:bg-zinc-50 rounded-xl transition-colors" onClick={handleStartEditing}>
+                                <span className="text-sm font-medium max-w-[150px] truncate text-zinc-900" title="Nhấn để đổi tên">
                                     {whiteboard?.title || 'Bảng chưa đặt tên'}
                                 </span>
-                                <Pencil className="w-3 h-3 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <Pencil className="w-3.5 h-3.5 text-zinc-400" />
                             </div>
                         )}
                         <Button
-                            variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[40px] px-4 text-[11px] font-bold shadow-none hover:bg-zinc-800 active:scale-95 transition-all"
+                            variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[40px] px-4 text-[11px] font-medium shadow-none hover:bg-zinc-800 active:scale-95 transition-all outline-none border-none"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-3.5 h-3.5 mr-2" />
@@ -730,7 +758,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                     <button
                         onClick={toggleLibrary}
-                        className={`p-3 rounded-2xl border transition-all h-[52px] w-[52px] flex items-center justify-center shadow-sm hover:shadow-md active:scale-95 ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/95 backdrop-blur-md text-zinc-700 border-zinc-200 hover:bg-zinc-50'}`}
+                        className={`p-3 rounded-2xl border transition-all h-[52px] w-[52px] flex items-center justify-center active:scale-95 ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/95 backdrop-blur-md text-zinc-700 border-zinc-200 hover:bg-zinc-50'}`}
                         title="Thư viện"
                     >
                         <LibraryIcon className="w-5 h-5 transition-transform" />
@@ -738,7 +766,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 </div>
 
                 {/* 4. BOTTOM LEFT: Zoom Controls */}
-                <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px] shadow-sm hover:shadow-md">
+                <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px]">
                     <button onClick={handleZoomOut} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
                         <Minus className="w-5 h-5" />
                     </button>
@@ -755,9 +783,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* 5. BOTTOM RIGHT: Status & Help */}
                 <div className="absolute bottom-6 right-6 z-[1000] pointer-events-auto flex items-center gap-3 h-[48px]">
-                    <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-bold text-zinc-900 flex items-center gap-2.5 h-full">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-                        <span className="tracking-tight">{Object.keys(remoteCursors).length + 1} kết nối</span>
+                    <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-medium text-zinc-900 flex items-center gap-2.5 h-full">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>{Object.keys(remoteCursors).length + 1} kết nối</span>
                     </div>
                     <button
                         onClick={openHelp}
@@ -806,7 +834,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.65376 12.3822L15.3326 21.0277C16.6221 22.1792 18.5077 21.2215 18.4528 19.5101L17.9213 2.96914C17.8826 1.76231 16.4815 1.10738 15.564 1.88852L5.4357 10.5126C4.5447 11.2709 4.68192 12.671 5.65376 12.3822Z" fill="#18181b" stroke="white" strokeWidth="2" />
                             </svg>
-                            <div className="ml-4 mt-2 px-3 py-1.5 bg-zinc-900 text-white text-[11px] rounded-full whitespace-nowrap font-bold shadow-2xl">
+                            <div className="ml-4 mt-2 px-3 py-1.5 bg-zinc-900 text-white text-[11px] rounded-full whitespace-nowrap font-medium shadow-2xl">
                                 {cursor.userName || 'Bạn học'}
                             </div>
                         </div>
@@ -818,7 +846,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
                         <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-2xl border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
                             <div className="flex justify-between items-center mb-8">
-                                <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Trợ giúp</h2>
+                                <h2 className="text-2xl font-medium text-zinc-900 leading-none">Trợ giúp</h2>
                                 <button onClick={() => setIsHelpOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
                                     <X className="w-6 h-6 text-zinc-300" />
                                 </button>
@@ -827,13 +855,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             <div className="grid grid-cols-2 gap-12">
                                 {/* Tools Section */}
                                 <div>
-                                    <h3 className="text-sm font-bold text-zinc-400 mb-6 tracking-wider">Công cụ</h3>
+                                    <h3 className="text-sm font-medium text-zinc-400 mb-6 uppercase tracking-normal">Công cụ</h3>
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Bàn tay (kéo trang)</span>
                                             <span className="shortcut-key">H</span>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Chọn đối tượng</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">V</span>
@@ -841,7 +869,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">1</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Hình chữ nhật</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">R</span>
@@ -849,7 +877,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">2</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Hình thoi</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">D</span>
@@ -857,7 +885,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">3</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Hình ellipse</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">O</span>
@@ -865,7 +893,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">4</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Mũi tên</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">A</span>
@@ -873,7 +901,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">5</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Đường thẳng</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">L</span>
@@ -881,7 +909,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">6</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Vẽ tự do</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">P</span>
@@ -889,7 +917,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">7</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Văn bản</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">T</span>
@@ -897,7 +925,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">8</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Tẩy</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">E</span>
@@ -910,27 +938,27 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                                 {/* Editor Section */}
                                 <div>
-                                    <h3 className="text-sm font-bold text-zinc-400 mb-6 tracking-wider">Trình chỉnh sửa</h3>
+                                    <h3 className="text-sm font-medium text-zinc-400 mb-6 tracking-wider">Trình chỉnh sửa</h3>
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Xoá đối tượng</span>
                                             <span className="shortcut-key">Delete</span>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Chọn tất cả</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">Cmd</span>
                                                 <span className="shortcut-key">A</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Hoàn tác (Undo)</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">Cmd</span>
                                                 <span className="shortcut-key">Z</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Làm lại (Redo)</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">Cmd</span>
@@ -938,28 +966,28 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                                 <span className="shortcut-key">Z</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Sao chép</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">Cmd</span>
                                                 <span className="shortcut-key">C</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Dán</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">Cmd</span>
                                                 <span className="shortcut-key">V</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Góc nhìn mặc định</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key">Shift</span>
                                                 <span className="shortcut-key">1</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                        <div className="flex items-center justify-between text-[13px] font-medium text-zinc-700">
                                             <span>Thu nhỏ / Phóng to</span>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="shortcut-key font-black">-</span>
@@ -973,7 +1001,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                             <div className="mt-12 flex justify-center">
                                 <Button
-                                    className="rounded-2xl h-[56px] px-10 text-base font-bold bg-zinc-900 hover:bg-zinc-800 shadow-xl transition-all active:scale-[0.98]"
+                                    className="rounded-2xl h-[56px] px-10 text-base font-medium bg-zinc-900 hover:bg-zinc-800 shadow-xl transition-all active:scale-[0.98]"
                                     onClick={() => setIsHelpOpen(false)}
                                 >
                                     Đã hiểu

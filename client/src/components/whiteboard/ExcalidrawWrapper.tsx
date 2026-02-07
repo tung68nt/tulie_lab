@@ -56,9 +56,9 @@ export default function ExcalidrawWrapper({
                         <div className="flex flex-col items-center gap-6 mb-10">
                             <Logo showText={false} className="w-32 h-32" />
                             <div className="flex flex-col items-center select-none">
-                                <span className="text-sm font-bold text-zinc-400 leading-none mb-3">Tulie</span>
-                                <span className="text-5xl font-bold text-zinc-900 tracking-tighter leading-none">Whiteboard</span>
-                                <span className="text-lg font-bold text-zinc-500 mt-4 tracking-wide">Bảng trắng sáng tạo</span>
+                                <span className="text-sm font-medium text-zinc-400 leading-none mb-3">Tulie</span>
+                                <span className="text-5xl font-medium text-zinc-900 leading-none">Whiteboard</span>
+                                <span className="text-lg font-medium text-zinc-500 mt-4">Bảng trắng sáng tạo</span>
                             </div>
                         </div>
                     </WelcomeScreen.Center.Logo>
