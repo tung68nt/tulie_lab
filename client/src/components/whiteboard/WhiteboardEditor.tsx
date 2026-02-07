@@ -59,12 +59,17 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         });
 
         socket.on('draw_synced', (data: any) => {
-            console.log('Socket draw_synced received (ignored for test)', data);
-            // In real impl, we would updateScene here
+            if (excalidrawAPI && data.elements) {
+                // Update scene from remote
+                excalidrawAPI.updateScene({
+                    elements: data.elements,
+                    commitToHistory: false
+                });
+            }
         });
 
         socket.on('cursor_moved', (data: any) => {
-            // console.log('Cursor moved (ignored)');
+            // Handle remote cursors (future impl)
         });
 
         return () => {
@@ -113,18 +118,39 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             if (newZoom !== zoom) setZoom(newZoom);
             if (isLibOpen !== isLibraryOpen) setIsLibraryOpen(isLibOpen);
 
-            // Socket emit disabled for now
+            // THROTTLED SOCKET EMISSION: 500ms
+            const now = Date.now();
+            if (now - lastEmitTimeRef.current > 500) {
+                lastEmitTimeRef.current = now;
+                if (socketRef.current?.connected) {
+                    socketRef.current.emit('draw_change', {
+                        whiteboardId: id,
+                        changes: {
+                            elements: elements,
+                            appState: {
+                                viewBackgroundColor: appState.viewBackgroundColor
+                            }
+                        }
+                    });
+                }
+            }
         }, 300);
-    }, [activeTool, isLocked, zoom, isLibraryOpen]);
+    }, [activeTool, isLocked, zoom, isLibraryOpen, id]);
 
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
         // Throttle
         const now = Date.now();
         if (now - lastPointerUpdateRef.current > 100) {
             lastPointerUpdateRef.current = now;
-            // Socket emit disabled for now
+            if (socketRef.current) {
+                socketRef.current.emit('cursor_move', {
+                    whiteboardId: id,
+                    point: { x: pointerData.x, y: pointerData.y },
+                    userName: 'Bạn' // Should be real user name if available
+                });
+            }
         }
-    }, []);
+    }, [id]);
 
     return (
         <div style={{ width: '100vw', height: '100vh' }}>
