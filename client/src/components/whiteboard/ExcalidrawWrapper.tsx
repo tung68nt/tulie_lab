@@ -40,8 +40,10 @@ export default function ExcalidrawWrapper({
             onPointerUpdate={onPointerUpdate as any}
             langCode="vi-VN"
             theme="light"
+            viewModeEnabled={false}
+            zenModeEnabled={false}
+            gridModeEnabled={true}
             UIOptions={UIOptions}
-            initialData={initialData}
         >
             <MainMenu>
                 <MainMenu.DefaultItems.LoadScene />
@@ -60,33 +62,6 @@ export default function ExcalidrawWrapper({
                     Quay lại danh sách
                 </MainMenu.Item>
             </MainMenu>
-            <WelcomeScreen>
-                <WelcomeScreen.Center>
-                    <WelcomeScreen.Center.Logo>
-                        <div className="flex flex-col items-center gap-6 mb-10">
-                            <Logo showText={false} className="w-32 h-32" />
-                            <div className="flex flex-col items-center select-none">
-                                <span className="text-sm font-medium text-zinc-400 leading-none mb-3">Tulie</span>
-                                <span className="text-5xl font-medium text-zinc-900 leading-none">Whiteboard</span>
-                                <span className="text-lg font-medium text-zinc-500 mt-4">Bảng trắng sáng tạo</span>
-                            </div>
-                        </div>
-                    </WelcomeScreen.Center.Logo>
-                    <WelcomeScreen.Center.Menu>
-                        <WelcomeScreen.Center.MenuItemLoadScene />
-                        <WelcomeScreen.Center.MenuItemHelp />
-                    </WelcomeScreen.Center.Menu>
-                </WelcomeScreen.Center>
-                <WelcomeScreen.Hints.MenuHint>
-                    Xuất file, cài đặt, ngôn ngữ, ...
-                </WelcomeScreen.Hints.MenuHint>
-                <WelcomeScreen.Hints.ToolbarHint>
-                    Chọn một công cụ và bắt đầu vẽ!
-                </WelcomeScreen.Hints.ToolbarHint>
-                <WelcomeScreen.Hints.HelpHint>
-                    Phím tắt & trợ giúp
-                </WelcomeScreen.Hints.HelpHint>
-            </WelcomeScreen>
-        </Excalidraw >
+        </Excalidraw>
     );
 }
