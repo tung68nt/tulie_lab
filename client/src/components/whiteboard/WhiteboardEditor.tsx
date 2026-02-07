@@ -6,7 +6,7 @@ import { io, Socket } from 'socket.io-client';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import {
-    Share2, Copy, X, Cloud, CloudUpload, Check,
+    Share2, Copy, X, Cloud, CloudUpload, Check, Save,
     MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser,
     Grab, Lock, Undo2, Redo2, Menu, Library as LibraryIcon, Plus, HelpCircle,
     Layout, Zap, Globe, Sparkles, ChevronDown, MousePointer
@@ -149,8 +149,8 @@ const Toolbar = React.memo(({
 ));
 
 const TitleShareBar = React.memo(({
-    isEditingTitle, tempTitle, whiteboardTitle,
-    setTempTitle, handleSaveTitle, handleTitleKeyDown, handleStartEditing, setIsEditingTitle, setIsShareModalOpen
+    isEditingTitle, tempTitle, whiteboardTitle, saveStatus,
+    setTempTitle, handleSaveTitle, handleTitleKeyDown, handleStartEditing, setIsEditingTitle, setIsShareModalOpen, onSave
 }: any) => (
     <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group">
         {isEditingTitle ? (
@@ -168,7 +168,7 @@ const TitleShareBar = React.memo(({
                 <button
                     onClick={handleSaveTitle}
                     className="p-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-all active:scale-95 shadow-lg"
-                    title="Lưu (Enter)"
+                    title="Lưu tên (Enter)"
                 >
                     <Check className="w-4 h-4" />
                 </button>
@@ -188,13 +188,32 @@ const TitleShareBar = React.memo(({
                 <Pencil className="w-3.5 h-3.5 text-zinc-400" />
             </div>
         )}
-        <Button
-            variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[40px] px-4 text-[11px] font-medium shadow-none hover:bg-zinc-800 active:scale-95 transition-all outline-none border-none"
-            onClick={() => setIsShareModalOpen(true)}
-        >
-            <Share2 className="w-3.5 h-3.5 mr-2" />
-            Chia sẻ
-        </Button>
+
+        <div className="flex items-center gap-1.5 bg-zinc-50 p-1 rounded-xl border border-zinc-100">
+            <button
+                onClick={onSave}
+                disabled={saveStatus === 'saving'}
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-medium transition-all active:scale-95 ${saveStatus === 'unsaved' ? 'bg-amber-100 text-amber-600 hover:bg-amber-200' : saveStatus === 'saving' ? 'bg-zinc-100 text-zinc-400 italic' : 'bg-white text-zinc-500 hover:bg-white/80'}`}
+                title="Lưu thủ công (Ctrl+S)"
+            >
+                {saveStatus === 'saving' ? (
+                    <div className="w-3 h-3 border-2 border-zinc-300 border-t-transparent rounded-full animate-spin" />
+                ) : (
+                    <Save className={`w-3.5 h-3.5 ${saveStatus === 'unsaved' ? 'animate-pulse' : ''}`} />
+                )}
+                {saveStatus === 'saving' ? 'Đang lưu...' : saveStatus === 'unsaved' ? 'Lưu ngay' : 'Đã lưu'}
+            </button>
+
+            <div className="w-px h-6 bg-zinc-200 mx-1" />
+
+            <Button
+                variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[36px] px-4 text-[11px] font-medium shadow-none hover:bg-zinc-800 active:scale-95 transition-all outline-none border-none"
+                onClick={() => setIsShareModalOpen(true)}
+            >
+                <Share2 className="w-3.5 h-3.5 mr-2" />
+                Chia sẻ
+            </Button>
+        </div>
     </div>
 ));
 
@@ -490,43 +509,17 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, [isMoreMenuOpen]);
 
     const toggleLibrary = useCallback(() => {
-        const api = excalidrawRef.current;
-        if (!api) return;
-
-        // Try to trigger via native UI button first (most reliable for sidebar)
-        const libBtn = document.querySelector('[aria-label="Library icon"], [aria-label="Thư viện"], .sidebar-trigger[data-id="library"]') as HTMLButtonElement;
+        const libBtn = document.querySelector('[data-testid="sidebar-trigger-library"]') as HTMLButtonElement;
         if (libBtn) {
             libBtn.click();
-        } else {
-            // Fallback to API
-            const appState = api.getAppState();
-            const isCurrentlyOpen = !!(
-                appState.openSidebar?.name === "library" ||
-                appState.openSidebar === "library" ||
-                appState.libraryOpen
-            );
-            const newState = !isCurrentlyOpen;
-            api.updateScene({
-                appState: {
-                    openSidebar: newState ? { name: "library" } : null,
-                    libraryOpen: newState
-                }
-            });
         }
     }, []);
 
     const openMenu = useCallback(() => {
-        const api = excalidrawRef.current;
-        if (!api) return;
-
-        // Try direct AppState first
-        api.updateScene({ appState: { openMenu: 'canvas' } });
-
-        // Fallback: Trigger through DOM if API update doesn't catch it
-        setTimeout(() => {
-            const menuBtn = document.querySelector('.DropdownMenu-button, [aria-label="Main menu"]') as HTMLButtonElement;
-            if (menuBtn) menuBtn.click();
-        }, 10);
+        const menuBtn = document.querySelector('[data-testid="main-menu-trigger"]') as HTMLButtonElement;
+        if (menuBtn) {
+            menuBtn.click();
+        }
     }, []);
 
     const openHelp = () => {
@@ -577,6 +570,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         if (e.key === 'Escape') setIsEditingTitle(false);
     };
 
+    // Keyboard Shortcuts for custom actions
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Save (Ctrl+S or Cmd+S)
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                handleSave();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [handleSave]);
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center w-full h-full bg-background pt-16">
@@ -620,15 +627,35 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --index-overlay: 2000 !important;
                 }
 
-                /* HIDE ALL NATIVE UI CLUSTERS */
+                /* HIDE NATIVE UI CLUSTERS BUT KEEP THEM REACHABLE */
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-left,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-right,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center,
-                .whiteboard-container .excalidraw .App-toolbar,
-                .whiteboard-container .excalidraw .DropdownMenu-button {
-                    display: none !important;
+                .whiteboard-container .excalidraw .App-toolbar {
+                    position: fixed !important;
+                    top: -1000px !important;
+                    left: -1000px !important;
+                    opacity: 0 !important;
+                    pointer-events: auto !important;
+                    z-index: -1 !important;
+                }
+
+                /* FALLBACK: Keep specific triggers in DOM but off-screen for JS clicking */
+                .whiteboard-container .excalidraw .DropdownMenu-button,
+                .whiteboard-container .excalidraw button[aria-label="Main menu"],
+                .whiteboard-container .excalidraw .sidebar-trigger[data-id="library"],
+                .whiteboard-container .excalidraw [aria-label="Library icon"],
+                .whiteboard-container .excalidraw [aria-label="Thư viện"],
+                .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
+                .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"] {
+                    position: fixed !important;
+                    top: -1000px !important;
+                    left: -1000px !important;
+                    opacity: 0 !important;
+                    pointer-events: auto !important;
+                    z-index: -1 !important;
                 }
 
                 /* ENSURE PROPERTIES PANEL IS FULL COLOR */
@@ -686,15 +713,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: flex !important;
                 }
 
-                /* HIDE NATIVE MENU ELEMENTS AGGRESSIVELY */
+                /* HIDE ALL MENU TRIGGERS NATIVELY */
                 .whiteboard-container .excalidraw .main-menu-trigger,
-                .whiteboard-container .excalidraw .App-menu,
-                .whiteboard-container .excalidraw button[aria-label="Main menu"],
-                .whiteboard-container .excalidraw .layer-ui__wrapper .main-menu-trigger {
-                    display: none !important;
+                .whiteboard-container .excalidraw .App-menu {
+                    position: fixed !important;
+                    top: -1000px !important;
+                    left: -1000px !important;
                     opacity: 0 !important;
-                    pointer-events: none !important;
-                    visibility: hidden !important;
+                    pointer-events: auto !important;
+                    z-index: -1 !important;
                 }
 
                 /* Help Dialog & Modals Theme Override */
@@ -814,12 +841,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         isEditingTitle={isEditingTitle}
                         tempTitle={tempTitle}
                         whiteboardTitle={whiteboard?.title}
+                        saveStatus={saveStatus}
                         setTempTitle={setTempTitle}
                         handleSaveTitle={handleSaveTitle}
                         handleTitleKeyDown={handleTitleKeyDown}
                         handleStartEditing={handleStartEditing}
                         setIsEditingTitle={setIsEditingTitle}
                         setIsShareModalOpen={setIsShareModalOpen}
+                        onSave={handleSave}
                     />
                     <button
                         onClick={toggleLibrary}
