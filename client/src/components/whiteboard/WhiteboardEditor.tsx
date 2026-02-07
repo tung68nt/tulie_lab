@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { io, Socket } from 'socket.io-client';
 import { api } from '@/lib/api';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/Button';
 import {
     Share2, Copy, X, Cloud, CloudUpload,
     MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser,
