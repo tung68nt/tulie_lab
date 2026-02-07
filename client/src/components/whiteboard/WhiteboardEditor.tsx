@@ -183,19 +183,6 @@ const TitleShareBar = React.memo(({
 
         <div className="flex items-center gap-1 bg-zinc-50 p-1 rounded-xl border border-zinc-100">
             <button
-                onClick={onSave}
-                disabled={saveStatus === 'saving'}
-                className={`p-2.5 rounded-xl transition-all active:scale-95 ${saveStatus === 'unsaved' ? 'bg-zinc-900 text-white hover:bg-zinc-800' : saveStatus === 'saving' ? 'bg-zinc-100 text-zinc-400' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
-                title={saveStatus === 'saving' ? 'Đang lưu...' : 'Lưu thủ công (Ctrl+S)'}
-            >
-                {saveStatus === 'saving' ? (
-                    <div className="w-3.5 h-3.5 border-2 border-zinc-300 border-t-transparent rounded-full animate-spin" />
-                ) : (
-                    <Save className={`w-4 h-4 ${saveStatus === 'unsaved' ? 'animate-pulse' : ''}`} />
-                )}
-            </button>
-
-            <button
                 className="p-2.5 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 active:scale-95 transition-all"
                 onClick={() => setIsShareModalOpen(true)}
                 title="Chia sẻ"
@@ -445,7 +432,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         saveTimeoutRef.current = setTimeout(() => {
             handleSave();
             saveTimeoutRef.current = null;
-        }, 1000); // Reduce from 3000 to 1000 for better persistence
+        }, 15000); // Silent auto-save every 15 seconds
     }, [id, handleSave, activeTool, isLocked, zoom, isLibraryOpen]);
     // Removed isLibraryOpen and saveStatus from deps to maximize canvas stability.
     // handleSave is stable due to its own useCallback.
@@ -506,16 +493,26 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, [isMoreMenuOpen]);
 
     const toggleLibrary = useCallback(() => {
-        // Use DOM click - more reliable than updateScene for sidebar
-        const libBtn = document.querySelector('[data-testid="sidebar-trigger-library"]') as HTMLButtonElement;
-        if (libBtn) libBtn.click();
-    }, []);
+        if (!excalidrawAPI) return;
+        const currentState = excalidrawAPI.getAppState();
+        const isOpen = currentState.openSidebar?.name === "library";
+        excalidrawAPI.updateScene({
+            appState: {
+                openSidebar: isOpen ? null : { name: "library" }
+            }
+        });
+    }, [excalidrawAPI]);
 
     const openMenu = useCallback(() => {
-        // Use DOM click - more reliable than updateScene for menu
-        const menuBtn = document.querySelector('[data-testid="main-menu-trigger"]') as HTMLButtonElement;
-        if (menuBtn) menuBtn.click();
-    }, []);
+        if (!excalidrawAPI) return;
+        const currentState = excalidrawAPI.getAppState();
+        const isOpen = currentState.openMenu === "canvas";
+        excalidrawAPI.updateScene({
+            appState: {
+                openMenu: isOpen ? null : "canvas"
+            }
+        });
+    }, [excalidrawAPI]);
 
     const openHelp = () => {
         setIsHelpOpen(true);
@@ -622,32 +619,43 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --index-overlay: 2000 !important;
                 }
 
-                /* HIDE NATIVE UI CLUSTERS BUT KEEP THEM REACHABLE */
-                /* MODIFIED: Stop hiding the entire wrapper to preserve welcome hints */
+                /* HIDE NATIVE UI CLUSTERS BUT KEEP WELCOME SCREEN */
+                /* Only disable pointer-events on UI wrappers, don't hide them */
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-left,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-right,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center {
-                   /* Relax position hiding to allow hints */
                    pointer-events: none !important;
                 }
 
-                /* Target specific native UI fragments specifically */
+                /* Hide specific native toolbar and menu elements - IMPORTANT: Don't hide main-menu or library sidebar */
                 .whiteboard-container .excalidraw .App-toolbar,
-                .whiteboard-container .excalidraw .App-menu,
                 .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
                 .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
                 .whiteboard-container .excalidraw .library-button,
-                .whiteboard-container .excalidraw .dropdown-menu-trigger,
-                .whiteboard-container .excalidraw .footer-center,
-                .whiteboard-container .excalidraw .layer-ui__wrapper .dropdown-menu {
+                .whiteboard-container .excalidraw .footer-center {
                     position: fixed !important;
                     top: -1000px !important;
                     left: -1000px !important;
                     opacity: 0 !important;
-                    pointer-events: auto !important;
+                    pointer-events: none !important;
                     z-index: -1 !important;
+                }
+
+                /* CRITICAL: Ensure Main Menu and Library Sidebar ARE visible when opened */
+                .whiteboard-container .excalidraw .App-menu,
+                .whiteboard-container .excalidraw .App-menu__left,
+                .whiteboard-container .excalidraw .dropdown-menu,
+                .whiteboard-container .excalidraw .dropdown-menu-container,
+                .whiteboard-container .excalidraw .sidebar,
+                .whiteboard-container .excalidraw .library-menu {
+                    position: initial !important;
+                    top: initial !important;
+                    left: initial !important;
+                    opacity: 1 !important;
+                    pointer-events: auto !important;
+                    z-index: 3000 !important;
                 }
 
                 /* ENSURE PROPERTIES PANEL IS FULL COLOR */
@@ -678,15 +686,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .DropdownMenu-item,
                 .whiteboard-container .excalidraw .button-list__button {
                     border-radius: 8px !important;
-                    transition: all 0.1s ease !important;
-                    color: #27272a !important;
+                    transition: background-color 0.1s ease !important;
+                    color: #18181b !important;
+                    font-size: 13px !important;
+                    padding: 8px 12px !important;
                 }
-
+                
                 .whiteboard-container .excalidraw .context-menu-item:hover,
-                .whiteboard-container .excalidraw .context-menu-item:focus,
-                .whiteboard-container .excalidraw .DropdownMenu-item:hover,
-                .whiteboard-container .excalidraw .DropdownMenu-item:focus,
-                .whiteboard-container .excalidraw .DropdownMenu-item--active,
                 .whiteboard-container .excalidraw .button-list__button:hover {
                     background-color: #f4f4f5 !important;
                     color: #000000 !important;
@@ -722,7 +728,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     outline-offset: 2px !important;
                 }
                 
-                /* EXCEPTION: Trigger hidden elements for API support */
+                /* EXCEPTION: Keep Undo/Redo accessible but hidden for API clicks */
                 .whiteboard-container .excalidraw [aria-label="Undo"],
                 .whiteboard-container .excalidraw [aria-label="Redo"] {
                     position: fixed !important;
@@ -734,24 +740,28 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     z-index: -1 !important;
                 }
 
-                /* WELCOME SCREEN HINT REPOSITION */
+                /* WELCOME SCREEN - CRITICAL: Show hints with arrows */
                 .whiteboard-container .excalidraw .welcome-screen-center {
                     transform: translateY(-60px) !important;
                 }
                 
+                /* Make welcome screen hints + arrows fully visible */
                 .whiteboard-container .excalidraw .welcome-screen-hints {
-                    bottom: 100px !important;
                     display: flex !important;
                     opacity: 1 !important;
                     visibility: visible !important;
-                    z-index: 50 !important;
+                    z-index: 100 !important;
                     pointer-events: none !important;
                 }
 
+                /* Show ALL 3 hint arrows - Menu, Toolbar, Help */
                 .whiteboard-container .excalidraw .welcome-screen-hints--menu-hint,
                 .whiteboard-container .excalidraw .welcome-screen-hints--help-hint,
-                .whiteboard-container .excalidraw .welcome-screen-hints--toolbar-hint {
+                .whiteboard-container .excalidraw .welcome-screen-hints--toolbar-hint,
+                .whiteboard-container .excalidraw [class*="welcome-screen"][class*="hint"] {
                     display: flex !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
                 }
 
                 /* HIDE ALL MENU TRIGGERS NATIVELY */
@@ -977,6 +987,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Chọn đối tượng</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">V</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">1</span>
                                             </div>
                                         </div>
@@ -984,6 +995,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Hình chữ nhật</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">R</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">2</span>
                                             </div>
                                         </div>
@@ -991,6 +1003,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Hình thoi</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">D</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">3</span>
                                             </div>
                                         </div>
@@ -998,6 +1011,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Ellipse</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">O</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">4</span>
                                             </div>
                                         </div>
@@ -1005,6 +1019,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Mũi tên</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">A</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">5</span>
                                             </div>
                                         </div>
@@ -1012,6 +1027,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Đường thẳng</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">L</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">6</span>
                                             </div>
                                         </div>
@@ -1019,6 +1035,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Vẽ tự do</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">P</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">7</span>
                                             </div>
                                         </div>
@@ -1026,6 +1043,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Văn bản</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">T</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">8</span>
                                             </div>
                                         </div>
@@ -1037,6 +1055,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             <span>Tẩy</span>
                                             <div className="flex items-center gap-1">
                                                 <span className="shortcut-key">E</span>
+                                                <span className="text-zinc-300 text-[10px]">or</span>
                                                 <span className="shortcut-key">0</span>
                                             </div>
                                         </div>
