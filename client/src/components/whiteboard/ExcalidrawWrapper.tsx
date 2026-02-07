@@ -22,6 +22,9 @@ export default function ExcalidrawWrapper({
 }: ExcalidrawWrapperProps) {
     return (
         <Excalidraw
+            excalidrawAPI={excalidrawAPI}
+            onChange={onChange}
+            onPointerUpdate={onPointerUpdate as any}
             langCode="vi-VN"
             theme="light"
         />
