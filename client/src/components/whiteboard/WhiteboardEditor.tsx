@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
-import { Share2, Copy, X } from 'lucide-react';
+import { Share2, Copy, X, Cloud, CloudUpload } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Portal } from '@/components/Portal';
 
@@ -44,6 +44,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [remoteCursors, setRemoteCursors] = useState<Record<string, RemoteCursor>>({});
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
@@ -126,10 +127,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
             const snapshot = { elements, appState };
 
+            setSaveStatus('saving');
             await api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot);
+            setSaveStatus('saved');
             console.log('Whiteboard auto-saved (Excalidraw)');
         } catch (error) {
             console.error('Auto-save failed:', error);
+            setSaveStatus('unsaved');
         }
     }, [whiteboard, excalidrawAPI]);
 
@@ -163,6 +167,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     const onChange = (elements: readonly any[], appState: any) => {
         if (!initialLoadRef.current) return;
+
+        if (saveStatus === 'saved') setSaveStatus('unsaved');
 
         if (socketRef.current) {
             socketRef.current.emit('draw_change', {
@@ -216,11 +222,27 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --color-secondary-dark: #3f3f46 !important;
                     --color-s-accent-outline: #18181b !important;
                     --color-on-primary-container: #18181b !important;
+                    --color-brand: #18181b !important; /* Override purple brand color */
                     
                     /* Toolbar Active State */
                     --button-hover-bg: #f4f4f5 !important;
                     --sidebar-bg: #ffffff !important;
                     --sidebar-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+                }
+
+                /* Force Grayscale on Help Button & Hints */
+                .whiteboard-container .excalidraw .HelpBtn {
+                    filter: grayscale(100%) !important;
+                    color: #52525b !important; /* zinc-600 */
+                }
+                
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
+                    /* Ensure footer controls don't use brand colors */
+                    --color-primary: #18181b !important;
+                }
+
+                .whiteboard-container .excalidraw .hint {
+                    filter: grayscale(100%) !important;
                 }
 
                 /* Context Menu Redesign */
@@ -299,17 +321,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="pointer-events-auto flex items-center gap-3">
                         {/* Branding & Status Panel */}
                         <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-zinc-200 shadow-sm transition-all hover:shadow-md">
-                            <Logo showText={false} className="w-5 h-5 flex-shrink-0" />
+                            <Logo showText={false} className="w-6 h-6 flex-shrink-0" />
 
                             <div className="flex flex-col">
-                                <span className="text-xs font-bold text-zinc-900 leading-tight">
-                                    {whiteboard?.title || 'Bảng chưa đặt tên'}
-                                </span>
-                                <div className="flex items-center gap-1.5 mt-0.5">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                    <span className="text-[10px] font-medium text-zinc-500">
-                                        {Object.keys(remoteCursors).length + 1} đang kết nối
+                                <div className="flex items-center gap-2">
+                                    <span className="text-sm font-bold text-zinc-900 leading-tight">
+                                        {whiteboard?.title || 'Bảng chưa đặt tên'}
                                     </span>
+                                    {saveStatus === 'saving' ? (
+                                        <CloudUpload className="w-3 h-3 text-zinc-400 animate-pulse" />
+                                    ) : saveStatus === 'saved' ? (
+                                        <Cloud className="w-3 h-3 text-emerald-500" />
+                                    ) : (
+                                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -324,6 +349,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             <Share2 className="w-4 h-4 mr-2" />
                             Chia sẻ
                         </Button>
+                    </div>
+                </div>
+
+                {/* Status Indicator (Bottom Left) */}
+                <div className="absolute bottom-4 left-4 z-[101] pointer-events-none">
+                    <div className="px-3 py-1.5 bg-white/90 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto transition-all hover:scale-105 cursor-default">
+                        <div className={`w-2 h-2 rounded-full ${Object.keys(remoteCursors).length > 0 ? 'bg-emerald-500 animate-pulse' : 'bg-zinc-400'}`} />
+                        {Object.keys(remoteCursors).length + 1} đang kết nối
                     </div>
                 </div>
 
