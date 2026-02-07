@@ -9,7 +9,7 @@ interface SaveStatusIndicatorProps {
 
 const SaveStatusIndicator = memo(({ status }: SaveStatusIndicatorProps) => {
     return (
-        <div className="absolute top-4 right-16 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-border shadow-sm text-xs font-medium transition-all duration-300">
+        <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm border border-border shadow-sm text-xs font-medium transition-all duration-300">
             {status === 'saving' && (
                 <>
                     <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
