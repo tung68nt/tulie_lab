@@ -78,6 +78,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isLibraryOpen, setIsLibraryOpen] = useState(false);
     const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
     const [isHelpOpen, setIsHelpOpen] = useState(false);
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
+    const [tempTitle, setTempTitle] = useState('');
 
     const socketRef = useRef<Socket | null>(null);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -384,6 +386,32 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         window.location.href = '/whiteboard';
     }, []);
 
+    const handleStartEditing = () => {
+        setTempTitle(whiteboard?.title || '');
+        setIsEditingTitle(true);
+    };
+
+    const handleSaveTitle = async () => {
+        if (!tempTitle.trim() || tempTitle === whiteboard?.title) {
+            setIsEditingTitle(false);
+            return;
+        }
+
+        try {
+            await api.whiteboards.update(id, { title: tempTitle });
+            setWhiteboard(prev => prev ? { ...prev, title: tempTitle } : null);
+            setIsEditingTitle(false);
+        } catch (error) {
+            console.error('Failed to update title:', error);
+            alert('Không thể đổi tên bảng. Vui lòng thử lại.');
+        }
+    };
+
+    const handleTitleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') handleSaveTitle();
+        if (e.key === 'Escape') setIsEditingTitle(false);
+    };
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center w-full h-full bg-background pt-16">
@@ -648,8 +676,25 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* 3. TOP RIGHT: Library & Share */}
                 <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[48px]">
-                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-xl border border-zinc-200 h-full">
-                        <span className="text-sm font-bold max-w-[150px] truncate text-zinc-900">{whiteboard?.title || 'Bảng chưa đặt tên'}</span>
+                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-xl border border-zinc-200 h-full group">
+                        {isEditingTitle ? (
+                            <input
+                                autoFocus
+                                type="text"
+                                value={tempTitle}
+                                onChange={(e) => setTempTitle(e.target.value)}
+                                onBlur={handleSaveTitle}
+                                onKeyDown={handleTitleKeyDown}
+                                className="text-sm font-bold bg-zinc-50 border border-zinc-200 rounded-lg px-2 py-1 outline-none w-[150px] text-zinc-900"
+                            />
+                        ) : (
+                            <div className="flex items-center gap-2 cursor-pointer" onClick={handleStartEditing}>
+                                <span className="text-sm font-bold max-w-[150px] truncate text-zinc-900" title="Nhấn để đổi tên">
+                                    {whiteboard?.title || 'Bảng chưa đặt tên'}
+                                </span>
+                                <Pencil className="w-3 h-3 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </div>
+                        )}
                         <Button
                             variant="default" size="sm" className="rounded-lg bg-zinc-900 text-white h-[36px] px-4 text-[11px] font-bold shadow-none"
                             onClick={() => setIsShareModalOpen(true)}
