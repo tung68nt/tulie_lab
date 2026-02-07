@@ -648,35 +648,27 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
 
                 /* KEEP native trigger buttons accessible (for programmatic clicks) but visually hidden */
+                /* TEMPORARILY DISABLED FOR DEBUGGING - SHOW NATIVE UI */
+                /*
                 .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
                 .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
                 .whiteboard-container .excalidraw .library-button {
-                    position: absolute !important;
-                    width: 1px !important;
-                    height: 1px !important;
-                    padding: 0 !important;
-                    margin: -1px !important;
-                    overflow: hidden !important;
-                    clip: rect(0, 0, 0, 0) !important;
-                    white-space: nowrap !important;
-                    border: 0 !important;
-                    /* pointer-events: auto so we can click them programmatically */
-                    pointer-events: auto !important;
+                   ...
                 }
-                
-                /* Hide footer center - not needed with custom UI */
-                .whiteboard-container .excalidraw .footer-center {
-                    display: none !important;
-                }
+                */
                 
                 /* Hide the native toolbar ICONS but keep the container for properties panel */
+                /* TEMPORARILY DISABLED FOR DEBUGGING - SHOW NATIVE TOOLBAR */
+                /*
                 .whiteboard-container .excalidraw .App-toolbar__divider,
-                .whiteboard-container .excalidraw .App-toolbar .ToolIcon:not([data-testid="toolbar-lock"]) {
+                .whiteboard-container .excalidraw .App-toolbar__attribute {
                     display: none !important;
                 }
                 
-                /* Keep App-toolbar container visible but transparent - needed for properties panel */
-                .whiteboard-container .excalidraw .App-toolbar {
+                .whiteboard-container .excalidraw .App-toolbar .ToolIcon {
+                    display: none !important;
+                }
+                */.whiteboard-container .excalidraw .App-toolbar {
                     background: transparent !important;
                     border: none !important;
                     box-shadow: none !important;
@@ -980,22 +972,17 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* --- CUSTOM UI --- */}
 
-                {/* 1. TOP LEFT: Branding & Menu */}
-                <BrandingBar openMenu={openMenu} />
-
-                {/* 2. TOP CENTER: Toolbar + Undo/Redo */}
-                <Toolbar
-                    activeTool={activeTool}
-                    isLocked={isLocked}
-                    isMoreMenuOpen={isMoreMenuOpen}
-                    setTool={setTool}
-                    toggleLock={toggleLock}
-                    setIsMoreMenuOpen={setIsMoreMenuOpen}
-                    handleUndo={handleUndo}
-                    handleRedo={handleRedo}
-                />
-
-                {/* 3. TOP RIGHT: Title & Share */}
+                {/* --- CUSTOM UI DISABLED FOR DEBUGGING --- */}
+                {/* <BrandingBar openMenu={openMenu} /> */}
+                {/* <Toolbar ... /> */}
+                {/* <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
+                    <TitleShareBar ... />
+                </div> */}
+                {/* <ZoomBar ... /> */}
+                {/* <SyncStatusHelpBar ... /> */}
+                isEditingTitle={isEditingTitle}
+                {/* 3. TOP RIGHT: Title & Share - DISABLED FOR DEBUGGING */}
+                {/*
                 <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
                     <TitleShareBar
                         isEditingTitle={isEditingTitle}
@@ -1012,20 +999,25 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         toggleLibrary={toggleLibrary}
                     />
                 </div>
+                */}
 
-                {/* 4. BOTTOM LEFT: Zoom Controls */}
+                {/* 4. BOTTOM LEFT: Zoom Controls - DISABLED FOR DEBUGGING */}
+                {/*
                 <ZoomBar
                     zoom={zoom}
                     handleZoomIn={handleZoomIn}
                     handleZoomOut={handleZoomOut}
                     handleResetZoom={handleResetZoom}
                 />
+                */}
 
-                {/* 5. BOTTOM RIGHT: Status & Help */}
+                {/* 5. BOTTOM RIGHT: Status & Help - DISABLED FOR DEBUGGING */}
+                {/*
                 <SyncStatusHelpBar
                     connectionCount={Object.keys(remoteCursors).length + 1}
                     openHelp={openHelp}
                 />
+                */}
 
                 {/* Share Modal */}
                 {isShareModalOpen && (
@@ -1348,6 +1340,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                 )}
             </div>
-        </Portal>
+        </Portal >
     );
 }
