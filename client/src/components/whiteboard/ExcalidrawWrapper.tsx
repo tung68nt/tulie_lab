@@ -34,6 +34,9 @@ export default function ExcalidrawWrapper({
                     }
                 }
             }}
+            initialData={{
+                appState: { gridModeEnabled: true }
+            }}
         >
             <MainMenu>
                 <MainMenu.DefaultItems.SaveAsImage />
@@ -63,6 +66,6 @@ export default function ExcalidrawWrapper({
                     </WelcomeScreen.Center.Menu>
                 </WelcomeScreen.Center>
             </WelcomeScreen>
-        </Excalidraw>
+        </Excalidraw >
     );
 }

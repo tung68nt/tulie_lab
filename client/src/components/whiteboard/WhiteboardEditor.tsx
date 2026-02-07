@@ -230,19 +230,44 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --sidebar-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
                 }
 
-                /* Force Grayscale on Help Button & Hints */
-                .whiteboard-container .excalidraw .HelpBtn {
+                /* Force Grayscale on Specific UI Elements (Not Color Picker) */
+                .whiteboard-container .excalidraw .HelpBtn,
+                .whiteboard-container .excalidraw .App-menu__left,
+                .whiteboard-container .excalidraw .hint,
+                .whiteboard-container .excalidraw .Toast,
+                .whiteboard-container .excalidraw .library-button {
                     filter: grayscale(100%) !important;
-                    color: #52525b !important; /* zinc-600 */
+                }
+
+                /* Hide overlapping native UI */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__top-right {
+                    display: none !important;
                 }
                 
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
                     /* Ensure footer controls don't use brand colors */
-                    --color-primary: #18181b !important;
+                    --color-primary: #18181b !important; /* zinc-900 */
                 }
 
-                .whiteboard-container .excalidraw .hint {
-                    filter: grayscale(100%) !important;
+                /* Toolbar Active State - Fix Contrast */
+                .whiteboard-container .excalidraw .ToolIcon__icon.active {
+                    background-color: #18181b !important;
+                }
+                
+                .whiteboard-container .excalidraw .ToolIcon__icon.active svg {
+                    fill: #ffffff !important;
+                    stroke: #ffffff !important;
+                    color: #ffffff !important;
+                }
+                
+                .whiteboard-container .excalidraw .App-toolbar .ToolIcon_type_radio:checked + .ToolIcon__icon {
+                    background-color: #18181b !important;
+                }
+
+                .whiteboard-container .excalidraw .App-toolbar .ToolIcon_type_radio:checked + .ToolIcon__icon svg {
+                    fill: #ffffff !important;
+                    stroke: #ffffff !important;
+                    color: #ffffff !important;
                 }
 
                 /* Context Menu Redesign */
@@ -280,18 +305,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     border-bottom: 1px solid #e4e4e7 !important;
                     margin: 4px 0 !important;
                     width: 100% !important;
-                }
-
-                /* Override active tool background to black/dark */
-                .whiteboard-container .excalidraw .ToolIcon__icon.active {
-                    background-color: #18181b !important;
-                    color: #ffffff !important;
-                }
-                
-                /* Override shape tools active state if different */
-                .whiteboard-container .excalidraw .App-toolbar .ToolIcon_type_radio:checked + .ToolIcon__icon {
-                    background-color: #18181b !important;
-                    color: #ffffff !important;
                 }
             `}</style>
 
@@ -352,10 +365,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                 </div>
 
-                {/* Status Indicator (Bottom Left) */}
-                <div className="absolute bottom-4 left-4 z-[101] pointer-events-none">
+                {/* Status Indicator (Bottom Left - Shifted Up to avoid Zoom) */}
+                <div className="absolute bottom-20 left-4 z-[101] pointer-events-none">
                     <div className="px-3 py-1.5 bg-white/90 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto transition-all hover:scale-105 cursor-default">
-                        <div className={`w-2 h-2 rounded-full ${Object.keys(remoteCursors).length > 0 ? 'bg-emerald-500 animate-pulse' : 'bg-zinc-400'}`} />
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         {Object.keys(remoteCursors).length + 1} đang kết nối
                     </div>
                 </div>
