@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
 
@@ -95,7 +96,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
         });
 
-        socket.on('cursor_moved', (data: any) => {
+        socket.on('cursor_moved', () => {
             // Handle remote cursors (future impl)
         });
 
@@ -174,7 +175,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot)
                     .then(() => setSaveStatus('saved'))
-                    .catch((err) => {
+                    .catch((err: any) => {
                         console.error('Auto-save failed:', err);
                         setSaveStatus('unsaved');
                     });
