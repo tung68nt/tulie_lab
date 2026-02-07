@@ -597,14 +597,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center w-full h-full bg-background pt-16">
+            <div style={{ height: "100vh", width: "100vw", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
             </div>
         );
     }
 
     return (
-        <div className="fixed top-0 left-0 right-0 bottom-0 z-[200] w-full h-full bg-[#f8f9fa] overflow-hidden whiteboard-container">
+        <div style={{ height: "100vh", width: "100vw" }}>
             {/* CSS DISABLED */}
             <style>{`/* CSS DISABLED */`}</style>
 
