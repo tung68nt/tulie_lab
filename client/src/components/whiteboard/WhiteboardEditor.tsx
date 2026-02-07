@@ -324,15 +324,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         const api = excalidrawRef.current;
         if (!api) return;
 
+        // Try standard toggleSidebar first
         if (typeof api.toggleSidebar === 'function') {
             api.toggleSidebar({ name: "library" });
         } else {
+            // Re-fetch current state to ensure accuracy
             const appState = api.getAppState();
             const isCurrentlyOpen = !!(appState.libraryOpen || appState.openSidebar === "library" || appState.openSidebar?.name === "library");
             const newState = !isCurrentlyOpen;
+
             api.updateScene({
                 appState: {
-                    openSidebar: newState ? { name: "library" } : null
+                    openSidebar: newState ? { name: "library" } : null,
+                    libraryOpen: newState // Fallback for various versions
                 }
             });
             setIsLibraryOpen(newState);
@@ -417,6 +421,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --color-primary: #18181b !important;
                     --color-primary-dark: #09090b !important;
                     --color-brand: #18181b !important;
+                    --index-overlay: 2000 !important;
                 }
 
                 /* HIDE ALL NATIVE UI CLUSTERS */
@@ -425,7 +430,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center,
-                .whiteboard-container .excalidraw .App-toolbar {
+                .whiteboard-container .excalidraw .App-toolbar,
+                .whiteboard-container .excalidraw .DropdownMenu-button {
                     display: none !important;
                 }
 
@@ -435,6 +441,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .users-list-wrapper,
                 .whiteboard-container .excalidraw .context-menu {
                     filter: none !important;
+                    box-shadow: none !important;
                 }
                 
                 .whiteboard-container .excalidraw .Overlay,
@@ -447,13 +454,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     background-color: #ffffff !important;
                     border: 1px solid #e4e4e7 !important;
                     border-radius: 12px !important;
-                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
                     padding: 4px !important;
-                    z-index: 1000 !important;
+                    z-index: 3000 !important;
                 }
                 
                 /* EXCEPTION: Trigger hidden elements for API support */
-                .whiteboard-container .excalidraw .DropdownMenu-button,
                 .whiteboard-container .excalidraw [aria-label="Undo"],
                 .whiteboard-container .excalidraw [aria-label="Redo"] {
                     position: fixed !important;
@@ -467,14 +472,16 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 /* WELCOME SCREEN HINT REPOSITION */
                 .whiteboard-container .excalidraw .welcome-screen-center {
-                    transform: translateY(80px) !important;
+                    transform: translateY(60px) !important;
                 }
                 
                 .whiteboard-container .excalidraw .welcome-screen-hints {
-                    bottom: 140px !important;
+                    bottom: 160px !important;
                     display: flex !important;
                     opacity: 1 !important;
                     visibility: visible !important;
+                    z-index: 50 !important;
+                    pointer-events: none !important;
                 }
 
                 .whiteboard-container .excalidraw .welcome-screen-hints--menu-hint,
@@ -483,38 +490,54 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: flex !important;
                 }
 
-                /* Ensure all hints are under the toolbar/branding and visible */
-                .whiteboard-container .excalidraw .welcome-screen-hints {
-                    z-index: 50 !important;
-                    pointer-events: none !important;
-                }
-
                 /* Help Dialog & Modals Theme Override */
                 .whiteboard-container .excalidraw .HelpDialog,
                 .whiteboard-container .excalidraw .Dialog,
-                .whiteboard-container .excalidraw .Modal {
+                .whiteboard-container .excalidraw .Modal,
+                .whiteboard-container .excalidraw .Island,
+                .whiteboard-container .excalidraw .ToolIcon {
                     --color-primary: #18181b !important;
+                    --color-primary-dark: #000000 !important;
+                    --color-brand: #18181b !important;
+                    box-shadow: none !important;
                 }
 
+                /* Deep override for purple elements in HelpDialog */
                 .whiteboard-container .excalidraw .HelpDialog__header,
                 .whiteboard-container .excalidraw .Dialog__header {
                     background: #f4f4f5 !important;
                     border-bottom: 1px solid #e4e4e7 !important;
+                    color: #18181b !important;
                 }
 
                 .whiteboard-container .excalidraw .HelpDialog__key,
-                .whiteboard-container .excalidraw .Dialog__key {
+                .whiteboard-container .excalidraw .Dialog__key,
+                .whiteboard-container .excalidraw .kbd,
+                .whiteboard-container .excalidraw kbd {
                     background: #18181b !important;
                     color: white !important;
+                    border: none !important;
+                    box-shadow: none !important;
                 }
 
-                .whiteboard-container .excalidraw .Dialog__content {
+                .whiteboard-container .excalidraw .Dialog__content,
+                .whiteboard-container .excalidraw .Modal__content {
                     background: white !important;
+                }
+
+                /* Remove all shadows from all islands and modals */
+                .whiteboard-container .excalidraw .island,
+                .whiteboard-container .excalidraw .sidebar,
+                .whiteboard-container .excalidraw .context-menu,
+                .whiteboard-container .excalidraw .Dialog__window,
+                .whiteboard-container .excalidraw .Modal__window {
+                    box-shadow: none !important;
+                    border: 1px solid #e4e4e7 !important;
                 }
 
                 /* Ensure text tool click works */
                 .whiteboard-container .excalidraw .excalidraw-text-input {
-                    z-index: 2000 !important;
+                    z-index: 4000 !important;
                 }
             `}</style>
 
@@ -529,7 +552,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 {/* --- CUSTOM UI --- */}
 
                 {/* 1. TOP LEFT: Branding & Menu */}
-                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/90 backdrop-blur-md p-1 pr-4 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[48px]">
+                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1 pr-4 rounded-xl border border-zinc-200 transition-all h-[48px]">
                     <button
                         onClick={openMenu}
                         className="p-2 hover:bg-zinc-100 rounded-lg transition-colors text-zinc-600"
@@ -539,68 +562,68 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="w-px h-6 bg-zinc-200 mx-0.5" />
                     <Logo showText={false} height="h-7" className="flex-shrink-0" />
                     <div className="flex flex-col justify-center select-none ml-1">
-                        <span className="text-[10px] font-medium text-zinc-500 leading-none tracking-wider">Tulie</span>
-                        <span className="text-base font-medium text-zinc-900 leading-none mt-0.5 whitespace-nowrap">Whiteboard</span>
+                        <span className="text-[10px] font-bold text-zinc-400 leading-none tracking-widest uppercase mb-0.5">Tulie</span>
+                        <span className="text-base font-black text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
                     </div>
                 </div>
 
                 {/* 2. TOP CENTER: Toolbar + Undo/Redo */}
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto">
-                    <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md p-2 rounded-2xl border border-zinc-200 shadow-xl">
+                    <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[48px]">
 
                         <button
                             onClick={toggleLock}
-                            className={`p-2.5 rounded-xl transition-all duration-200 ${isLocked ? 'bg-amber-100 text-amber-600' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                            className={`p-2 rounded-xl transition-all duration-200 ${isLocked ? 'bg-amber-100 text-amber-600' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
                             title="Keep tool active"
                         >
-                            <Lock className="w-4 h-4" />
+                            <Lock className="w-3.5 h-3.5" />
                         </button>
 
-                        <div className="w-px h-6 bg-zinc-200 mx-1" />
+                        <div className="w-px h-5 bg-zinc-200 mx-0.5" />
 
-                        <button onClick={handleUndo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Undo (Ctrl+Z)">
-                            <Undo2 className="w-4 h-4" />
+                        <button onClick={handleUndo} className="p-2 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Undo (Ctrl+Z)">
+                            <Undo2 className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={handleRedo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Redo (Ctrl+Shift+Z)">
-                            <Redo2 className="w-4 h-4" />
+                        <button onClick={handleRedo} className="p-2 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Redo (Ctrl+Shift+Z)">
+                            <Redo2 className="w-3.5 h-3.5" />
                         </button>
 
-                        <div className="w-px h-6 bg-zinc-200 mx-1" />
+                        <div className="w-px h-5 bg-zinc-200 mx-0.5" />
 
                         {TOOLS.map((tool) => (
                             <button
                                 key={tool.value}
                                 onClick={() => setTool(tool.value)}
-                                className={`relative p-2.5 rounded-xl transition-all duration-200 ${activeTool === tool.value ? 'bg-zinc-900 text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                                className={`relative p-2 rounded-xl transition-all duration-200 ${activeTool === tool.value ? 'bg-zinc-900 text-white shadow-none' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
                                 title={tool.label}
                             >
-                                <tool.icon className="w-4 h-4" />
-                                <span className={`absolute -bottom-1 -right-1 text-[8px] font-bold px-1 rounded-full ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-60'}`}>
+                                <tool.icon className="w-3.5 h-3.5" />
+                                <span className={`absolute -bottom-1 -right-1 text-[7px] font-bold px-1 rounded-full ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-60'}`}>
                                     {tool.shortcut}
                                 </span>
                             </button>
                         ))}
 
-                        <div className="w-px h-6 bg-zinc-200 mx-1" />
+                        <div className="w-px h-5 bg-zinc-200 mx-0.5" />
 
                         <div className="relative pointer-events-auto">
                             <button
                                 onClick={(e) => { e.stopPropagation(); setIsMoreMenuOpen(!isMoreMenuOpen); }}
-                                className={`p-2.5 rounded-xl transition-all duration-200 ${isMoreMenuOpen ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                                className={`p-2 rounded-xl transition-all duration-200 ${isMoreMenuOpen ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
                                 title="Mở rộng công cụ"
                             >
-                                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isMoreMenuOpen ? 'rotate-180' : ''}`} />
+                                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isMoreMenuOpen ? 'rotate-180' : ''}`} />
                             </button>
 
                             {isMoreMenuOpen && (
-                                <div className="absolute top-full mt-2 right-0 bg-white rounded-2xl border border-zinc-200 shadow-2xl p-2 min-w-[200px] animate-in fade-in zoom-in duration-200 flex flex-col gap-1">
+                                <div className="absolute top-full mt-2 right-0 bg-white rounded-2xl border border-zinc-200 shadow-none p-2 min-w-[200px] animate-in fade-in zoom-in duration-200 flex flex-col gap-1">
                                     {EXTRA_TOOLS.map((tool) => (
                                         <button
                                             key={tool.value}
                                             onClick={() => setTool(tool.value)}
-                                            className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-colors ${activeTool === tool.value ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}
+                                            className={`flex items-center gap-3 w-full p-2 rounded-xl transition-colors ${activeTool === tool.value ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}
                                         >
-                                            <tool.icon className="w-4 h-4" />
+                                            <tool.icon className="w-3.5 h-3.5" />
                                             <span className="text-[13px] font-medium flex-1 text-left">{tool.label}</span>
                                             {tool.shortcut && <span className="text-[10px] opacity-40">{tool.shortcut}</span>}
                                         </button>
@@ -612,52 +635,52 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 </div>
 
                 {/* 3. TOP RIGHT: Library & Share */}
-                <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-3 h-[44px]">
-                    <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-5 pr-2 py-2 rounded-full border border-zinc-200 shadow-sm h-full">
+                <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[48px]">
+                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-xl border border-zinc-200 h-full">
                         <span className="text-sm font-bold max-w-[150px] truncate text-zinc-900">{whiteboard?.title || 'Bảng chưa đặt tên'}</span>
                         <Button
-                            variant="default" size="sm" className="rounded-full bg-zinc-900 text-white h-8 px-4 text-[11px] font-medium tracking-wider"
+                            variant="default" size="sm" className="rounded-lg bg-zinc-900 text-white h-[36px] px-4 text-[11px] font-bold tracking-wider shadow-none"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-3.5 h-3.5 mr-2" />
-                            Chia sẻ
+                            CHIA SẺ
                         </Button>
                     </div>
                     <button
                         onClick={toggleLibrary}
-                        className={`p-2.5 rounded-full border shadow-sm transition-all h-[44px] w-[44px] flex items-center justify-center ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/90 backdrop-blur-md text-zinc-600 border-zinc-200 hover:bg-zinc-50'}`}
-                        title="Library"
+                        className={`p-2.5 rounded-xl border transition-all h-[48px] w-[48px] flex items-center justify-center ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/90 backdrop-blur-md text-zinc-600 border-zinc-200 shadow-none hover:bg-zinc-50'}`}
+                        title="Thư viện"
                     >
                         <LibraryIcon className="w-5 h-5" />
                     </button>
                 </div>
 
                 {/* 4. BOTTOM LEFT: Zoom Controls */}
-                <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 shadow-xl h-[52px]">
-                    <button onClick={handleZoomOut} className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
+                <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1 rounded-2xl border border-zinc-200 h-[48px]">
+                    <button onClick={handleZoomOut} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
                         <Minus className="w-5 h-5" />
                     </button>
                     <button
                         onClick={handleResetZoom}
-                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-medium text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
+                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-black text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
                     >
                         {Math.round(zoom * 100)}%
                     </button>
-                    <button onClick={handleZoomIn} className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
+                    <button onClick={handleZoomIn} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
                         <Plus className="w-5 h-5" />
                     </button>
                 </div>
 
                 {/* 5. BOTTOM RIGHT: Status & Help */}
-                <div className="absolute bottom-6 right-6 z-[1000] pointer-events-auto flex items-center gap-4 h-[48px]">
-                    <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-medium text-zinc-900 shadow-xl flex items-center gap-2.5 h-full">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.4)]" />
-                        <span className="tracking-tight">{Object.keys(remoteCursors).length + 1} kết nối</span>
+                <div className="absolute bottom-6 right-6 z-[1000] pointer-events-auto flex items-center gap-3 h-[48px]">
+                    <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-bold text-zinc-900 flex items-center gap-2.5 h-full">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
+                        <span className="tracking-tight uppercase">{Object.keys(remoteCursors).length + 1} kết nối</span>
                     </div>
                     <button
                         onClick={openHelp}
-                        className="h-[48px] w-[48px] bg-zinc-900 text-white hover:bg-zinc-800 rounded-2xl flex items-center justify-center shadow-xl transition-all hover:-translate-y-1 active:scale-95"
-                        title="Help"
+                        className="h-[48px] w-[48px] bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl flex items-center justify-center transition-all active:scale-95"
+                        title="Trợ giúp"
                     >
                         <HelpCircle className="w-6 h-6" />
                     </button>
