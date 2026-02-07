@@ -679,6 +679,33 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     border-radius: 12px !important;
                     padding: 4px !important;
                     z-index: 3000 !important;
+                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+                }
+                
+                .whiteboard-container .excalidraw .context-menu-item,
+                .whiteboard-container .excalidraw .DropdownMenu-item,
+                .whiteboard-container .excalidraw .button-list__button {
+                    border-radius: 8px !important;
+                    transition: all 0.1s ease !important;
+                    color: #27272a !important;
+                }
+
+                .whiteboard-container .excalidraw .context-menu-item:hover,
+                .whiteboard-container .excalidraw .context-menu-item:focus,
+                .whiteboard-container .excalidraw .DropdownMenu-item:hover,
+                .whiteboard-container .excalidraw .DropdownMenu-item:focus,
+                .whiteboard-container .excalidraw .DropdownMenu-item--active,
+                .whiteboard-container .excalidraw .button-list__button:hover {
+                    background-color: #f4f4f5 !important;
+                    color: #000000 !important;
+                    border-color: #e4e4e7 !important;
+                }
+                
+                /* Specific override for DropdownMenu-item border/background that often stays purple */
+                .whiteboard-container .excalidraw .DropdownMenu-item:hover,
+                .whiteboard-container .excalidraw .DropdownMenu-item:focus {
+                    background-color: #f4f4f5 !important;
+                    box-shadow: inset 0 0 0 1px #e4e4e7 !important;
                 }
                 
                 /* EXCEPTION: Trigger hidden elements for API support */
