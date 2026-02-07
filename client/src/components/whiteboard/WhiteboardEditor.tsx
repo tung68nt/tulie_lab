@@ -25,6 +25,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const lastEmitTimeRef = useRef<number>(0);
     const lastPointerUpdateRef = useRef<number>(0);
     const socketRef = useRef<any>(null);
+    const creatingRef = useRef(false);
 
     // Initial Load Data
     useEffect(() => {
@@ -32,6 +33,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
         const loadWhiteboard = async () => {
             if (id === 'new') {
+                if (creatingRef.current) return;
+                creatingRef.current = true;
+
                 console.log('Attempting to create new whiteboard...');
                 try {
                     const newWhiteboard = await api.whiteboards.create({ title: 'Untitled Whiteboard' });
@@ -43,6 +47,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     return;
                 } catch (error) {
                     console.error('Failed to create new whiteboard:', error);
+                    creatingRef.current = false;
                 }
             } else {
                 console.log('Loading existing whiteboard:', id);
@@ -192,7 +197,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, [id]);
 
     return (
-        <div style={{ width: '100vw', height: '100vh', position: 'relative', border: '5px solid red' }}>
+        <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
             <ExcalidrawWrapper
                 excalidrawAPI={setExcalidrawAPI}
                 onChange={onChange}
