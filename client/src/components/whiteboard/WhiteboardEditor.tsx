@@ -424,8 +424,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="w-px h-6 bg-zinc-200 mx-0.5" />
                     <Logo showText={false} height="h-7" className="flex-shrink-0" />
                     <div className="flex flex-col justify-center select-none ml-1">
-                        <span className="text-[10px] font-bold text-zinc-500 leading-none tracking-wider">Tulie</span>
-                        <span className="text-base font-bold text-zinc-900 leading-none mt-0.5 whitespace-nowrap">Whiteboard</span>
+                        <span className="text-[10px] font-medium text-zinc-500 leading-none tracking-wider">Tulie</span>
+                        <span className="text-base font-medium text-zinc-900 leading-none mt-0.5 whitespace-nowrap">Whiteboard</span>
                     </div>
                 </div>
 
@@ -473,7 +473,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-5 pr-2 py-2 rounded-full border border-zinc-200 shadow-sm h-full">
                         <span className="text-sm font-bold max-w-[150px] truncate text-zinc-900">{whiteboard?.title || 'Bảng chưa đặt tên'}</span>
                         <Button
-                            variant="default" size="sm" className="rounded-full bg-zinc-900 text-white h-8 px-4 text-[11px] font-bold tracking-wider"
+                            variant="default" size="sm" className="rounded-full bg-zinc-900 text-white h-8 px-4 text-[11px] font-medium tracking-wider"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-3.5 h-3.5 mr-2" />
@@ -496,7 +496,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </button>
                     <button
                         onClick={handleResetZoom}
-                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-black text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
+                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-medium text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
                     >
                         {Math.round(zoom * 100)}%
                     </button>
@@ -507,7 +507,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* 5. BOTTOM RIGHT: Status & Help */}
                 <div className="absolute bottom-6 right-6 z-[1000] pointer-events-auto flex items-center gap-4 h-[48px]">
-                    <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-bold text-zinc-900 shadow-xl flex items-center gap-2.5 h-full">
+                    <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-medium text-zinc-900 shadow-xl flex items-center gap-2.5 h-full">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.4)]" />
                         <span className="tracking-tight">{Object.keys(remoteCursors).length + 1} kết nối</span>
                     </div>
@@ -525,23 +525,23 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
                         <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-md border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
                             <div className="flex justify-between items-center mb-8">
-                                <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Chia sẻ bảng</h2>
+                                <h2 className="text-2xl font-medium text-zinc-900 tracking-tight">Chia sẻ bảng</h2>
                                 <button onClick={() => setIsShareModalOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
                                     <X className="w-6 h-6 text-zinc-300" />
                                 </button>
                             </div>
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-[11px] font-bold text-zinc-500 mb-2 tracking-wider pl-1">Liên kết công khai</label>
+                                    <label className="block text-[11px] font-medium text-zinc-500 mb-2 tracking-wider pl-1">Liên kết công khai</label>
                                     <div className="flex gap-2">
-                                        <input type="text" readOnly value={typeof window !== 'undefined' ? window.location.href : ''} className="flex-1 bg-zinc-50 border border-zinc-100 rounded-xl px-4 py-3 text-sm text-zinc-600 outline-none font-bold" />
+                                        <input type="text" readOnly value={typeof window !== 'undefined' ? window.location.href : ''} className="flex-1 bg-zinc-50 border border-zinc-100 rounded-xl px-4 py-3 text-sm text-zinc-600 outline-none font-medium" />
                                         <Button variant="outline" className="rounded-xl h-[48px] px-4 border-zinc-200 hover:bg-zinc-50" onClick={() => { navigator.clipboard.writeText(window.location.href); alert('Đã sao chép!'); }}>
                                             <Copy className="w-4 h-4" />
                                         </Button>
                                     </div>
                                 </div>
                                 <div className="pt-2">
-                                    <Button className="w-full rounded-xl h-[56px] text-base font-bold bg-zinc-900 hover:bg-zinc-800 shadow-xl transition-all active:scale-[0.98]" onClick={() => setIsShareModalOpen(false)}>Hoàn tất</Button>
+                                    <Button className="w-full rounded-xl h-[56px] text-base font-medium bg-zinc-900 hover:bg-zinc-800 shadow-xl transition-all active:scale-[0.98]" onClick={() => setIsShareModalOpen(false)}>Hoàn tất</Button>
                                 </div>
                             </div>
                         </div>
