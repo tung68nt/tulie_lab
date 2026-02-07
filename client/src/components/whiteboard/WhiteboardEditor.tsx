@@ -78,13 +78,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isLibraryOpen, setIsLibraryOpen] = useState(false);
     const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
-
-    // Sync ref with state for use in callbacks
-    useEffect(() => {
-        excalidrawRef.current = excalidrawAPI;
-    }, [excalidrawAPI]);
     const socketRef = useRef<Socket | null>(null);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const initialLoadRef = useRef(false);
@@ -92,6 +85,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const lastEmitTimeRef = useRef(0); // For Performance Throttling
     const saveStatusRef = useRef(saveStatus);
     const excalidrawRef = useRef<any>(null);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
+
+    // Sync ref with state for use in callbacks
+    useEffect(() => {
+        excalidrawRef.current = excalidrawAPI;
+    }, [excalidrawAPI]);
 
     useEffect(() => {
         saveStatusRef.current = saveStatus;
@@ -238,7 +239,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             return prev;
         });
 
-        if (saveStatusRef.current === 'saved') setSaveStatus('unsaved');
+        if (saveStatusRef.current !== 'unsaved') {
+            setSaveStatus('unsaved');
+        }
 
         // PERFORMANCE OPTIMIZATION: Throttle socket emission
         const now = Date.now();
@@ -329,7 +332,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             const newState = !isCurrentlyOpen;
             api.updateScene({
                 appState: {
-                    openSidebar: newState ? "library" : null
+                    openSidebar: newState ? { name: "library" } : null
                 }
             });
             setIsLibraryOpen(newState);
@@ -346,6 +349,24 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         if (!excalidrawAPI) return;
         excalidrawAPI.updateScene({ appState: { openDialog: { name: "help" } } });
     };
+
+    const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
+        const now = Date.now();
+        if (now - lastPointerUpdateRef.current > 50) {
+            lastPointerUpdateRef.current = now;
+            if (socketRef.current) {
+                socketRef.current.emit('cursor_move', {
+                    whiteboardId: id,
+                    point: { x: pointerData.x, y: pointerData.y },
+                    userName: 'Bạn'
+                });
+            }
+        }
+    }, [id]);
+
+    const onBack = useCallback(() => {
+        window.location.href = '/whiteboard';
+    }, []);
 
     if (isLoading) {
         return (
@@ -436,17 +457,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
 
                 /* WELCOME SCREEN HINT REPOSITION */
-                .whiteboard-container .excalidraw .welcome-screen-center,
-                .whiteboard-container .excalidraw .welcome-screen-center--hint {
+                .whiteboard-container .excalidraw .welcome-screen-center {
                     transform: translateY(140px) !important;
                 }
                 
                 .whiteboard-container .excalidraw .welcome-screen-hints {
-                    transform: translateX(-50%) translateY(140px) !important;
+                    bottom: 120px !important;
                     display: flex !important;
                     opacity: 1 !important;
                     visibility: visible !important;
-                    pointer-events: none !important;
                 }
 
                 .whiteboard-container .excalidraw .welcome-screen-hints--menu-hint,
@@ -467,20 +486,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 <ExcalidrawWrapper
                     excalidrawAPI={setExcalidrawAPI}
                     onChange={onChange}
-                    onPointerUpdate={useCallback((activeTool: any, pointerData: any) => {
-                        const now = Date.now();
-                        if (now - lastPointerUpdateRef.current > 50) {
-                            lastPointerUpdateRef.current = now;
-                            if (socketRef.current) {
-                                socketRef.current.emit('cursor_move', {
-                                    whiteboardId: id,
-                                    point: { x: pointerData.x, y: pointerData.y },
-                                    userName: 'Bạn'
-                                });
-                            }
-                        }
-                    }, [id])}
-                    onBack={useCallback(() => window.location.href = '/whiteboard', [])}
+                    onPointerUpdate={onPointerUpdate}
+                    onBack={onBack}
                     title={whiteboard?.title}
                 />
 

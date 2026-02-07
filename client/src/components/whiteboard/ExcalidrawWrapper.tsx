@@ -62,6 +62,9 @@ export default function ExcalidrawWrapper({
                         <WelcomeScreen.Center.MenuItemHelp />
                     </WelcomeScreen.Center.Menu>
                 </WelcomeScreen.Center>
+                <WelcomeScreen.Hints.ToolbarHint>
+                    Pick a tool & start drawing!
+                </WelcomeScreen.Hints.ToolbarHint>
             </WelcomeScreen>
         </Excalidraw >
     );
