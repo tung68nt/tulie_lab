@@ -6,20 +6,6 @@
       "startedAt": "2026-02-05T15:59:43.484Z",
       "pausedAt": null,
       "totalPausedMs": 0
-    },
-    {
-      "taskId": "nvekf6",
-      "taskTitle": "Fix Whiteboard UI: Monochrome, Layout, and Stability",
-      "startedAt": "2026-02-06T08:07:30.010Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
-    },
-    {
-      "taskId": "uvbvhf",
-      "taskTitle": "Transition Whiteboard from tldraw to Excalidraw",
-      "startedAt": "2026-02-06T12:16:21.532Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
     }
   ]
 }

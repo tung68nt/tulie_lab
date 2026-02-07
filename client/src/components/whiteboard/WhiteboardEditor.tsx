@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
-import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
-import { Button } from '@/components/Button';
+import { api } from '@/lib/api';
+import { Button } from '@/components/ui/button';
 import {
     Share2, Copy, X, Cloud, CloudUpload,
     MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser,
-    Hand, Lock
+    Hand, Lock, Undo2, Redo2, Menu, Library as LibraryIcon, Plus, HelpCircle
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Portal } from '@/components/Portal';
@@ -65,6 +65,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
     const [activeTool, setActiveTool] = useState('selection');
     const [isLocked, setIsLocked] = useState(false);
+    const [zoom, setZoom] = useState(1);
+    const [isLibraryOpen, setIsLibraryOpen] = useState(false);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
@@ -72,6 +74,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const initialLoadRef = useRef(false);
     const lastPointerUpdateRef = useRef(0);
+    const lastEmitTimeRef = useRef(0); // For Performance Throttling
 
     // Fetch whiteboard data on mount
     useEffect(() => {
@@ -91,7 +94,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     // Socket Initialization
     useEffect(() => {
         const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
-        // Use window.location.origin as fallback - no localhost references for production
         const socketUrl = apiBaseUrl.replace(/\/api$/, '') || (typeof window !== 'undefined' ? window.location.origin : '');
 
         const socket = io(socketUrl, {
@@ -142,7 +144,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         try {
             const elements = excalidrawAPI.getSceneElements();
             const appState = { ...excalidrawAPI.getAppState() };
-            // Don't save collaborators state as it causes serialization issues
             delete appState.collaborators;
 
             const snapshot = { elements, appState };
@@ -150,7 +151,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             setSaveStatus('saving');
             await api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot);
             setSaveStatus('saved');
-            console.log('Whiteboard auto-saved (Excalidraw)');
         } catch (error) {
             console.error('Auto-save failed:', error);
             setSaveStatus('unsaved');
@@ -168,8 +168,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 : whiteboard.artboards[0].elements;
 
             if (data.elements) {
-                // Sanitize appState to prevent "collaborators.forEach is not a function" error
-                // Excalidraw expects collaborators to be a Map, but JSON.parse makes it an object
                 const sanitizedAppState = data.appState || {};
                 if (sanitizedAppState.collaborators) {
                     delete sanitizedAppState.collaborators;
@@ -179,6 +177,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     elements: data.elements,
                     appState: sanitizedAppState
                 });
+
+                if (sanitizedAppState.zoom) {
+                    setZoom(sanitizedAppState.zoom.value);
+                }
             }
         } catch (e) {
             console.error('Failed to load snapshot:', e);
@@ -198,13 +200,28 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
         }
 
+        // Sync zoom state
+        if (appState.zoom && appState.zoom.value !== zoom) {
+            setZoom(appState.zoom.value);
+        }
+
+        // Sync library state
+        if (appState.libraryOpen !== isLibraryOpen) {
+            setIsLibraryOpen(appState.libraryOpen);
+        }
+
         if (saveStatus === 'saved') setSaveStatus('unsaved');
 
-        if (socketRef.current) {
-            socketRef.current.emit('draw_change', {
-                whiteboardId: id,
-                changes: { elements }
-            });
+        // PERFORMANCE OPTIMIZATION: Throttle socket emission
+        const now = Date.now();
+        if (now - lastEmitTimeRef.current > 50) { // Limit to 20 updates per second
+            lastEmitTimeRef.current = now;
+            if (socketRef.current) {
+                socketRef.current.emit('draw_change', {
+                    whiteboardId: id,
+                    changes: { elements }
+                });
+            }
         }
 
         if (!saveTimeoutRef.current) {
@@ -228,6 +245,56 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         excalidrawAPI.setActiveTool({ locked: newLockedState });
     };
 
+    // Custom UI Handlers
+    const handleUndo = () => {
+        if (excalidrawAPI) {
+            // Triggering native undo via DOM is most reliable
+            const undoBtn = document.querySelector('[aria-label="Undo"]') as HTMLButtonElement;
+            if (undoBtn) undoBtn.click();
+        }
+    };
+
+    const handleRedo = () => {
+        if (excalidrawAPI) {
+            const redoBtn = document.querySelector('[aria-label="Redo"]') as HTMLButtonElement;
+            if (redoBtn) redoBtn.click();
+        }
+    };
+
+    const handleZoomIn = () => {
+        if (!excalidrawAPI) return;
+        const currentZoom = excalidrawAPI.getAppState().zoom.value;
+        excalidrawAPI.updateScene({ appState: { zoom: { value: Math.min(currentZoom + 0.1, 10) } } });
+    };
+
+    const handleZoomOut = () => {
+        if (!excalidrawAPI) return;
+        const currentZoom = excalidrawAPI.getAppState().zoom.value;
+        excalidrawAPI.updateScene({ appState: { zoom: { value: Math.max(currentZoom - 0.1, 0.1) } } });
+    };
+
+    const handleResetZoom = () => {
+        if (!excalidrawAPI) return;
+        excalidrawAPI.updateScene({ appState: { zoom: { value: 1 } } });
+    };
+
+    const toggleLibrary = () => {
+        if (!excalidrawAPI) return;
+        excalidrawAPI.updateScene({ appState: { libraryOpen: !isLibraryOpen } });
+        setIsLibraryOpen(!isLibraryOpen);
+    };
+
+    const openMenu = () => {
+        if (!excalidrawAPI) return;
+        const menuBtn = document.querySelector('.DropdownMenu-button') as HTMLButtonElement;
+        if (menuBtn) menuBtn.click();
+    };
+
+    const openHelp = () => {
+        if (!excalidrawAPI) return;
+        excalidrawAPI.updateScene({ appState: { openDialog: { name: "help" } } });
+    };
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center w-full h-full bg-background pt-16">
@@ -245,13 +312,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     width: 100% !important;
                 }
                 
-                /* Import Patrick Hand Font */
-                @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
-
-                /* CRITICAL: Alias 'Virgil' to 'Patrick Hand' so Excalidraw Canvas uses it */
+                /* CRITICAL: Alias 'Virgil' to 'DFVN-Excalifont' for 100% Vietnamese support */
                 @font-face {
                     font-family: "Virgil";
-                    src: local("Patrick Hand"), url(https://fonts.gstatic.com/s/patrickhand/v13/LDI1apMD5E3kBafKcuZUEYiF.woff2) format('woff2');
+                    src: url('/fonts/DFVN-Excalifont.otf') format('opentype');
                     font-weight: 400;
                     font-style: normal;
                     font-display: swap;
@@ -259,163 +323,54 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 .whiteboard-container .excalidraw {
                     border: none !important;
-                    
-                    /* FIXED: Do NOT force handwriting font on the entire UI. 
-                       Only the Canvas (using Virgil) should be handwritten.
-                       Force UI to use System Font. */
                     --ui-font: system-ui, "Inter", sans-serif !important;
                     font-family: system-ui, "Inter", sans-serif !important;
-
-                    /* Monochrome Theme Overrides - Be careful not to kill palette colors */
-                    --color-primary: #18181b !important; /* zinc-900 */
-                    --color-primary-dark: #09090b !important; /* zinc-950 */
-                    --color-brand: #18181b !important; /* Override purple brand color */
+                    --color-primary: #18181b !important;
+                    --color-primary-dark: #09090b !important;
+                    --color-brand: #18181b !important;
                 }
 
-                /* HIDE NATIVE TOOLBAR */
+                /* HIDE ALL NATIVE UI CLUSTERS */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__top-left,
+                .whiteboard-container .excalidraw .layer-ui__wrapper__top-right,
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left,
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right,
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center,
                 .whiteboard-container .excalidraw .App-toolbar {
                     display: none !important;
                 }
 
-                /* Force Grayscale on Specific UI Elements ONLY (Navigation/System Buttons) */
-                .whiteboard-container .excalidraw .HelpBtn,
-                .whiteboard-container .excalidraw .App-menu__left,
-                .whiteboard-container .excalidraw .hint,
-                .whiteboard-container .excalidraw .Toast,
-                .whiteboard-container .excalidraw .library-button,
-                .whiteboard-container .excalidraw .HelpDialog {
-                    filter: grayscale(100%) !important;
-                }
-                
-                /* CRITICAL: Ensure Properties Panel (Sidebar) and Color Picker are NEVER grayscale */
+                /* ENSURE PROPERTIES PANEL IS FULL COLOR */
                 .whiteboard-container .excalidraw .sidebar,
                 .whiteboard-container .excalidraw .island,
                 .whiteboard-container .excalidraw .users-list-wrapper,
                 .whiteboard-container .excalidraw .context-menu {
                     filter: none !important;
                 }
-
-                /* Ensure popups/modals inside Overlay are NOT grayscale by default */
-                .whiteboard-container .excalidraw .Overlay {
-                     filter: none !important;
-                }
-
+                
+                .whiteboard-container .excalidraw .Overlay,
                 .whiteboard-container .excalidraw .modal {
                     filter: none !important;
                 }
 
-
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
-                    /* Ensure footer controls don't use brand colors */
-                    --color-primary: #18181b !important; /* zinc-900 */
-                }
-
-                /* --- ROUND 6: NATIVE UI REDESIGN (GLASS STYLE) --- */
-
-                /* 1. Hamburger Menu (Top Left) */
-                .whiteboard-container .excalidraw .App-menu__left .DropdownMenu-button {
-                    background-color: rgba(255, 255, 255, 0.9) !important;
-                    backdrop-filter: blur(8px) !important;
-                    border: 1px solid #e4e4e7 !important; /* zinc-200 */
-                    border-radius: 14px !important; /* Match adjacent branding */
-                    height: 48px !important; 
-                    width: 48px !important;
-                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
-                    color: #18181b !important;
-                }
-                .whiteboard-container .excalidraw .App-menu__left {
-                    top: 16px !important;
-                    left: 16px !important;
-                }
-                
-                /* 2. Library Button (Top Right) */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__top-right {
-                    top: 16px !important;
-                    right: 16px !important; /* Native position */
-                }
-                .whiteboard-container .excalidraw .library-button {
-                    background-color: rgba(255, 255, 255, 0.9) !important;
-                    backdrop-filter: blur(8px) !important;
-                    border: 1px solid #e4e4e7 !important;
-                    border-radius: 9999px !important;
-                    height: 40px !important;
-                    /* width: 40px !important;  <-- Don't force width, let it contain text */
-                    min-width: 40px !important;
-                    padding: 0 12px !important;
-                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    color: #18181b !important;
-                }
-
-                /* 3. Zoom Controls */
-                .whiteboard-container .excalidraw .zoom-actions {
-                    background-color: rgba(255, 255, 255, 0.9) !important;
-                    backdrop-filter: blur(8px) !important;
-                    border: 1px solid #e4e4e7 !important;
-                    border-radius: 9999px !important;
-                    padding: 4px !important;
-                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
-                    color: #18181b !important;
-                    margin-bottom: 16px !important;
-                    margin-left: 16px !important;
-                }
-                .whiteboard-container .excalidraw .zoom-actions .ToolIcon__icon {
-                    border-radius: 9999px !important;
-                }
-
-                /* 4. Help Button */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right {
-                    margin-bottom: 16px !important;
-                    margin-right: 16px !important;
-                }
-                .whiteboard-container .excalidraw .HelpBtn {
-                    background-color: rgba(255, 255, 255, 0.9) !important;
-                    backdrop-filter: blur(8px) !important;
-                    border: 1px solid #e4e4e7 !important;
-                    border-radius: 9999px !important;
-                    height: 40px !important;
-                    width: 40px !important;
-                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
-                    color: #18181b !important;
-                }
-                
-                /* Context Menu Redesign */
+                /* Redesign Context Menu */
                 .whiteboard-container .excalidraw .context-menu {
                     background-color: #ffffff !important;
-                    border: 1px solid #e4e4e7 !important; /* zinc-200 */
+                    border: 1px solid #e4e4e7 !important;
                     border-radius: 12px !important;
-                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
                     padding: 4px !important;
-                    z-index: 999999 !important;
+                    z-index: 1000 !important;
                 }
                 
-                .whiteboard-container .excalidraw .context-menu-item {
-                    color: #18181b !important; /* zinc-900 */
-                    border-radius: 6px !important;
-                    font-family: inherit !important;
-                    font-size: 13px !important;
-                    transition: all 0.1s ease !important;
-                    margin: 2px 0 !important;
-                }
-
-                .whiteboard-container .excalidraw .context-menu-item:hover {
-                    background-color: #f4f4f5 !important; /* zinc-100 */
-                    color: #000000 !important;
-                    text-decoration: none !important;
-                }
-
-                .whiteboard-container .excalidraw .context-menu-item__shortcut {
-                    color: #71717a !important; /* zinc-500 */
-                    font-size: 11px !important;
-                    opacity: 0.7 !important;
-                }
-
-                .whiteboard-container .excalidraw .context-menu-item separator {
-                    border-bottom: 1px solid #e4e4e7 !important;
-                    margin: 4px 0 !important;
-                    width: 100% !important;
+                /* EXCEPTION: Trigger hidden elements for API support */
+                .whiteboard-container .excalidraw .DropdownMenu-button,
+                .whiteboard-container .excalidraw [aria-label="Undo"],
+                .whiteboard-container .excalidraw [aria-label="Redo"] {
+                    position: absolute !important;
+                    opacity: 0 !important;
+                    pointer-events: none !important;
+                    display: block !important;
                 }
             `}</style>
 
@@ -424,7 +379,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     onChange={onChange}
                     onPointerUpdate={(activeTool: any, pointerData: any) => {
                         const now = Date.now();
-                        if (now - lastPointerUpdateRef.current > 50) { // Throttle ~20fps
+                        if (now - lastPointerUpdateRef.current > 50) {
                             lastPointerUpdateRef.current = now;
                             if (socketRef.current) {
                                 socketRef.current.emit('cursor_move', {
@@ -439,34 +394,43 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     title={whiteboard?.title}
                 />
 
-                {/* 1. Branding (Top Left) */}
-                {/* Aligned with Native Menu (16px left + 48px width + gap) */}
-                {/* Moved to left-[100px] to strictly avoid overlap with Native Menu which can be wide */}
-                <div className="absolute top-4 left-[100px] z-[101] pointer-events-auto flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[48px]">
-                    <Logo showText={false} height="h-6" className="flex-shrink-0" />
-                    <div className="flex flex-col justify-center select-none">
-                        <span className="text-[10px] uppercase font-bold text-zinc-400 leading-none tracking-widest">TULIE</span>
-                        <span className="text-sm font-bold text-zinc-900 leading-none mt-0.5">Whiteboard</span>
+                {/* --- CUSTOM UI --- */}
+
+                {/* 1. TOP LEFT: Branding & Menu */}
+                <div className="absolute top-4 left-4 z-[101] pointer-events-auto flex items-center gap-3 bg-white/90 backdrop-blur-md p-1.5 pr-6 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[64px]">
+                    <button
+                        onClick={openMenu}
+                        className="p-3 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-600"
+                    >
+                        <Menu className="w-6 h-6" />
+                    </button>
+                    <div className="w-px h-8 bg-zinc-200 mx-1" />
+                    <Logo showText={false} height="h-10" className="flex-shrink-0" />
+                    <div className="flex flex-col justify-center select-none ml-1">
+                        <span className="text-[11px] uppercase font-bold text-zinc-400 leading-none tracking-[0.2em]">TULIE</span>
+                        <span className="text-xl font-black text-zinc-900 leading-none mt-1 whitespace-nowrap">Whiteboard</span>
                     </div>
                 </div>
 
-                {/* 2. Custom Toolbar (Bottom Center) */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[101] pointer-events-auto">
+                {/* 2. TOP CENTER: Toolbar + Undo/Redo */}
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[101] pointer-events-auto">
                     <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md p-2 rounded-2xl border border-zinc-200 shadow-xl">
 
-                        {/* Lock Tool */}
                         <button
                             onClick={toggleLock}
-                            className={`
-                                relative p-2.5 rounded-xl transition-all duration-200 group
-                                ${isLocked
-                                    ? 'bg-amber-100 text-amber-600'
-                                    : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'
-                                }
-                            `}
-                            title="Keep selected tool active"
+                            className={`p-2.5 rounded-xl transition-all duration-200 ${isLocked ? 'bg-amber-100 text-amber-600' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                            title="Keep tool active"
                         >
-                            <Lock className="w-5 h-5" />
+                            <Lock className="w-4 h-4" />
+                        </button>
+
+                        <div className="w-px h-6 bg-zinc-200 mx-1" />
+
+                        <button onClick={handleUndo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Undo (Ctrl+Z)">
+                            <Undo2 className="w-4 h-4" />
+                        </button>
+                        <button onClick={handleRedo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Redo (Ctrl+Shift+Z)">
+                            <Redo2 className="w-4 h-4" />
                         </button>
 
                         <div className="w-px h-6 bg-zinc-200 mx-1" />
@@ -475,22 +439,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             <button
                                 key={tool.value}
                                 onClick={() => setTool(tool.value)}
-                                className={`
-                                    relative p-2.5 rounded-xl transition-all duration-200 group
-                                    ${activeTool === tool.value
-                                        ? 'bg-zinc-900 text-white shadow-md -translate-y-1'
-                                        : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 hover:-translate-y-0.5'
-                                    }
-                                `}
+                                className={`relative p-2.5 rounded-xl transition-all duration-200 ${activeTool === tool.value ? 'bg-zinc-900 text-white shadow-md' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
                                 title={tool.label}
                             >
-                                <tool.icon className="w-5 h-5" />
-                                {/* Shortcut Indicator (Always Visible) */}
-                                <span className={`
-                                    absolute -bottom-1 -right-1 text-[9px] font-bold px-1 rounded-full text-zinc-400
-                                    ${activeTool === tool.value ? 'bg-zinc-800' : 'bg-zinc-100'}
-                                    transition-all
-                                `}>
+                                <tool.icon className="w-4 h-4" />
+                                <span className={`absolute -bottom-1 -right-1 text-[8px] font-bold px-1 rounded-full ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-60'}`}>
                                     {tool.shortcut}
                                 </span>
                             </button>
@@ -498,93 +451,80 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                 </div>
 
-                {/* 3. Share & Title (Top Right) */}
-                {/* Moved further left to avoid overlapping Native Library (16px right + ~80px width) */}
-                <div className="absolute top-4 right-[120px] z-[101] pointer-events-auto">
-                    <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-4 pr-1.5 py-1.5 rounded-full border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[40px]">
-                        <div className="flex items-center gap-2 mr-2">
-                            <span className="text-sm font-semibold max-w-[150px] truncate">
-                                {whiteboard?.title || 'Bảng chưa đặt tên'}
-                            </span>
-                            {saveStatus === 'saving' ? (
-                                <CloudUpload className="w-3.5 h-3.5 text-zinc-400 animate-pulse" />
-                            ) : saveStatus === 'saved' ? (
-                                <Cloud className="w-3.5 h-3.5 text-emerald-500" />
-                            ) : (
-                                <div className="w-2 h-2 rounded-full bg-amber-400" />
-                            )}
-                        </div>
+                {/* 3. TOP RIGHT: Library & Share */}
+                <div className="absolute top-4 right-4 z-[101] pointer-events-auto flex items-center gap-3 h-[44px]">
+                    <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-5 pr-2 py-2 rounded-full border border-zinc-200 shadow-sm h-full">
+                        <span className="text-sm font-bold max-w-[150px] truncate text-zinc-900">{whiteboard?.title || 'Bảng chưa đặt tên'}</span>
                         <Button
-                            variant="default"
-                            size="sm"
-                            className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 h-8 px-4"
+                            variant="default" size="sm" className="rounded-full bg-zinc-900 text-white h-8 px-5 text-[10px] font-black tracking-widest"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-3.5 h-3.5 mr-2" />
-                            Chia sẻ
+                            CHIA SẺ
                         </Button>
                     </div>
+                    <button
+                        onClick={toggleLibrary}
+                        className={`p-2.5 rounded-full border shadow-sm transition-all h-[44px] w-[44px] flex items-center justify-center ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/90 backdrop-blur-md text-zinc-600 border-zinc-200'}`}
+                        title="Library"
+                    >
+                        <LibraryIcon className="w-5 h-5" />
+                    </button>
                 </div>
 
-                {/* 4. Status Indicator (Bottom Right - Moved up slightly to align with Help?) */}
-                {/* Actually, let's put it on Top Right Stack or Top Center? */}
-                {/* User asked for "Balanced". If Toolbar is Bottom Center, Status can be Bottom Right above Help Button or Top Left? */}
-                {/* Let's Try Bottom Right, above Help Button which is usually at bottom-16 right-16 */}
-                {/* Help Button is bottom-right, let's put status next to it or above it. */}
-                <div className="absolute bottom-[22px] right-[72px] z-[101] pointer-events-none">
-                    <div className="px-3 py-2 bg-white/90 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto transition-all hover:scale-105 cursor-default h-[40px]">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        {Object.keys(remoteCursors).length + 1} kết nối
+                {/* 4. BOTTOM LEFT: Zoom Controls */}
+                <div className="absolute bottom-6 left-6 z-[101] pointer-events-auto flex items-center gap-2 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 shadow-xl h-[52px]">
+                    <button onClick={handleZoomOut} className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
+                        <Minus className="w-5 h-5" />
+                    </button>
+                    <button
+                        onClick={handleResetZoom}
+                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-black text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
+                    >
+                        {Math.round(zoom * 100)}%
+                    </button>
+                    <button onClick={handleZoomIn} className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
+                        <Plus className="w-5 h-5" />
+                    </button>
+                </div>
+
+                {/* 5. BOTTOM RIGHT: Status & Help */}
+                <div className="absolute bottom-6 right-6 z-[101] pointer-events-auto flex items-center gap-4 h-[48px]">
+                    <div className="px-5 py-2.5 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-2xl text-[11px] font-black text-zinc-900 shadow-xl flex items-center gap-3 h-full">
+                        <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.4)]" />
+                        <span className="tracking-tight">{Object.keys(remoteCursors).length + 1} KẾT NỐI</span>
                     </div>
+                    <button
+                        onClick={openHelp}
+                        className="h-[48px] w-[48px] bg-zinc-900 text-white hover:bg-zinc-800 rounded-2xl flex items-center justify-center shadow-xl transition-all hover:-translate-y-1 active:scale-95"
+                        title="Help"
+                    >
+                        <HelpCircle className="w-6 h-6" />
+                    </button>
                 </div>
 
                 {/* Share Modal */}
                 {isShareModalOpen && (
-                    <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/20 backdrop-blur-sm pointer-events-auto">
-                        <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md border border-zinc-200">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-xl font-bold text-zinc-900">Chia sẻ bảng trắng</h2>
-                                <button
-                                    onClick={() => setIsShareModalOpen(false)}
-                                    className="p-2 hover:bg-zinc-100 rounded-full transition-colors"
-                                >
-                                    <X className="w-5 h-5 text-zinc-500" />
+                    <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
+                        <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-md border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
+                            <div className="flex justify-between items-center mb-8">
+                                <h2 className="text-3xl font-black text-zinc-900 tracking-tighter">Chia sẻ bảng</h2>
+                                <button onClick={() => setIsShareModalOpen(false)} className="p-3 hover:bg-zinc-100 rounded-full transition-colors">
+                                    <X className="w-7 h-7 text-zinc-300" />
                                 </button>
                             </div>
-
-                            <div className="space-y-4">
+                            <div className="space-y-8">
                                 <div>
-                                    <label className="block text-xs font-medium text-zinc-500 mb-1">Liên kết công khai</label>
+                                    <label className="block text-[10px] font-black uppercase text-zinc-400 mb-2.5 tracking-[0.2em] pl-1">Liên kết công khai</label>
                                     <div className="flex gap-2">
-                                        <input
-                                            type="text"
-                                            readOnly
-                                            value={typeof window !== 'undefined' ? window.location.href : ''}
-                                            className="flex-1 bg-zinc-50 border border-zinc-200 rounded-lg px-3 py-2 text-sm text-zinc-600 outline-none"
-                                        />
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => {
-                                                navigator.clipboard.writeText(window.location.href);
-                                                alert('Đã sao chép liên kết!');
-                                            }}
-                                        >
-                                            <Copy className="w-4 h-4" />
+                                        <input type="text" readOnly value={typeof window !== 'undefined' ? window.location.href : ''} className="flex-1 bg-zinc-50 border border-zinc-100 rounded-2xl px-5 py-4 text-sm text-zinc-600 outline-none font-bold" />
+                                        <Button variant="outline" className="rounded-2xl h-[56px] px-5 border-zinc-200 hover:bg-zinc-50" onClick={() => { navigator.clipboard.writeText(window.location.href); alert('Đã sao chép!'); }}>
+                                            <Copy className="w-5 h-5" />
                                         </Button>
                                     </div>
                                 </div>
-
-                                <div className="pt-2 border-t border-zinc-100">
-                                    <p className="text-sm text-zinc-500 text-center mb-4">
-                                        Bất kỳ ai có liên kết này đều có thể xem và vẽ.
-                                    </p>
-                                    <Button
-                                        className="w-full rounded-xl py-6"
-                                        onClick={() => setIsShareModalOpen(false)}
-                                    >
-                                        Hoàn tất
-                                    </Button>
+                                <div className="pt-2">
+                                    <Button className="w-full rounded-[20px] h-[64px] text-lg font-black bg-zinc-900 hover:bg-zinc-800 shadow-2xl transition-all active:scale-[0.98]" onClick={() => setIsShareModalOpen(false)}>HOÀN TẤT</Button>
                                 </div>
                             </div>
                         </div>
@@ -595,19 +535,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 <div className="pointer-events-none absolute inset-0 z-[100]">
                     {Object.entries(remoteCursors).map(([socketId, cursor]) => (
                         <div
-                            key={socketId}
-                            className="absolute transition-all duration-75 ease-linear pointer-events-none"
-                            style={{
-                                left: cursor.point.x,
-                                top: cursor.point.y,
-                                transform: 'translate(-2px, -2px)'
-                            }}
+                            key={socketId} className="absolute transition-all duration-75 ease-linear pointer-events-none"
+                            style={{ left: cursor.point.x, top: cursor.point.y, transform: 'translate(-2px, -2px)' }}
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.65376 12.3822L15.3326 21.0277C16.6221 22.1792 18.5077 21.2215 18.4528 19.5101L17.9213 2.96914C17.8826 1.76231 16.4815 1.10738 15.564 1.88852L5.4357 10.5126C4.5447 11.2709 4.68192 12.671 5.65376 12.3822Z" fill="#3B82F6" stroke="white" strokeWidth="2" />
+                                <path d="M5.65376 12.3822L15.3326 21.0277C16.6221 22.1792 18.5077 21.2215 18.4528 19.5101L17.9213 2.96914C17.8826 1.76231 16.4815 1.10738 15.564 1.88852L5.4357 10.5126C4.5447 11.2709 4.68192 12.671 5.65376 12.3822Z" fill="#18181b" stroke="white" strokeWidth="2" />
                             </svg>
-                            <div className="ml-4 mt-2 px-2 py-1 bg-blue-500 text-white text-[10px] rounded-full whitespace-nowrap font-medium shadow-sm">
-                                {cursor.userName || 'Người dùng'}
+                            <div className="ml-4 mt-2 px-3 py-1.5 bg-zinc-900 text-white text-[11px] rounded-full whitespace-nowrap font-black shadow-2xl">
+                                {cursor.userName || 'Bạn học'}
                             </div>
                         </div>
                     ))}
