@@ -66,6 +66,172 @@ const EXTRA_TOOLS = [
     { value: 'magicframe', icon: Sparkles, label: 'AI Generate', shortcut: '' },
 ];
 
+// MEMOIZED UI COMPONENTS
+const BrandingBar = React.memo(({ openMenu }: { openMenu: () => void }) => (
+    <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-3 bg-white/95 backdrop-blur-md p-1.5 pr-6 rounded-2xl border border-zinc-200 h-[52px]">
+        <button
+            onClick={openMenu}
+            className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-700 active:scale-95"
+        >
+            <Menu className="w-5 h-5" />
+        </button>
+        <div className="w-px h-6 bg-zinc-200" />
+        <Logo showText={false} height="h-8" className="flex-shrink-0 ml-1" />
+        <div className="flex flex-col justify-center select-none ml-2">
+            <span className="text-[10px] font-medium text-zinc-400 leading-none mb-0.5">Tulie</span>
+            <span className="text-sm font-medium text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
+        </div>
+    </div>
+));
+
+const Toolbar = React.memo(({
+    activeTool, isLocked, isMoreMenuOpen,
+    setTool, toggleLock, setIsMoreMenuOpen,
+    handleUndo, handleRedo
+}: any) => (
+    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto">
+        <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px]">
+            <button
+                onClick={toggleLock}
+                className={`p-2.5 rounded-xl transition-all duration-75 ${isLocked ? 'bg-amber-100 text-amber-600' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                title="Keep tool active"
+            >
+                <Lock className="w-3.5 h-3.5" />
+            </button>
+            <div className="w-px h-6 bg-zinc-200 mx-0.5" />
+            <button onClick={handleUndo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Undo (Ctrl+Z)">
+                <Undo2 className="w-3.5 h-3.5" />
+            </button>
+            <button onClick={handleRedo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Redo (Ctrl+Shift+Z)">
+                <Redo2 className="w-3.5 h-3.5" />
+            </button>
+            <div className="w-px h-6 bg-zinc-200 mx-0.5" />
+            {TOOLS.map((tool) => (
+                <button
+                    key={tool.value}
+                    onClick={() => setTool(tool.value)}
+                    className={`relative p-2.5 rounded-xl transition-all duration-75 ${activeTool === tool.value ? 'bg-zinc-900 text-white shadow-none' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                    title={tool.label}
+                >
+                    <tool.icon className="w-3.5 h-3.5" />
+                    <span className={`absolute -bottom-1 -right-1 text-[7px] font-medium px-1 rounded-full ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-60'}`}>
+                        {tool.shortcut}
+                    </span>
+                </button>
+            ))}
+            <div className="w-px h-6 bg-zinc-200 mx-0.5" />
+            <div className="relative pointer-events-auto">
+                <button
+                    onClick={(e) => { e.stopPropagation(); setIsMoreMenuOpen(!isMoreMenuOpen); }}
+                    className={`p-2 rounded-xl transition-all duration-75 ${isMoreMenuOpen ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                    title="Mở rộng công cụ"
+                >
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-75 ${isMoreMenuOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isMoreMenuOpen && (
+                    <div className="absolute top-full mt-2 right-0 bg-white rounded-2xl border border-zinc-200 shadow-none p-2 min-w-[200px] animate-in fade-in zoom-in duration-75 flex flex-col gap-1">
+                        {EXTRA_TOOLS.map((tool) => (
+                            <button
+                                key={tool.value}
+                                onClick={() => setTool(tool.value)}
+                                className={`flex items-center gap-3 w-full p-2 rounded-xl transition-colors ${activeTool === tool.value ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}
+                            >
+                                <tool.icon className="w-3.5 h-3.5" />
+                                <span className="text-[13px] font-medium flex-1 text-left">{tool.label}</span>
+                                {tool.shortcut && <span className="text-[10px] opacity-40">{tool.shortcut}</span>}
+                            </button>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    </div>
+));
+
+const TitleShareBar = React.memo(({
+    isEditingTitle, tempTitle, whiteboardTitle,
+    setTempTitle, handleSaveTitle, handleTitleKeyDown, handleStartEditing, setIsEditingTitle, setIsShareModalOpen
+}: any) => (
+    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group">
+        {isEditingTitle ? (
+            <div className="flex items-center gap-1.5 p-1 bg-zinc-50 rounded-xl border border-zinc-200">
+                <input
+                    autoFocus
+                    type="text"
+                    value={tempTitle}
+                    onChange={(e) => setTempTitle(e.target.value)}
+                    onBlur={() => setTimeout(handleSaveTitle, 200)}
+                    onKeyDown={handleTitleKeyDown}
+                    className="text-sm font-medium bg-white border-2 border-zinc-900 rounded-xl px-3 py-1.5 outline-none w-[200px] text-zinc-900 placeholder:text-zinc-300 transition-all font-sans"
+                    placeholder="Tên bảng mới..."
+                />
+                <button
+                    onClick={handleSaveTitle}
+                    className="p-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-all active:scale-95 shadow-lg"
+                    title="Lưu (Enter)"
+                >
+                    <Check className="w-4 h-4" />
+                </button>
+                <button
+                    onClick={() => setIsEditingTitle(false)}
+                    className="p-2 bg-white text-zinc-400 rounded-xl hover:bg-zinc-50 transition-all active:scale-95"
+                    title="Hủy (Esc)"
+                >
+                    <X className="w-4 h-4" />
+                </button>
+            </div>
+        ) : (
+            <div className="flex items-center gap-2 cursor-pointer h-full px-2 hover:bg-zinc-50 rounded-xl transition-colors" onClick={handleStartEditing}>
+                <span className="text-sm font-medium max-w-[150px] truncate text-zinc-900" title="Nhấn để đổi tên">
+                    {whiteboardTitle || 'Bảng chưa đặt tên'}
+                </span>
+                <Pencil className="w-3.5 h-3.5 text-zinc-400" />
+            </div>
+        )}
+        <Button
+            variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[40px] px-4 text-[11px] font-medium shadow-none hover:bg-zinc-800 active:scale-95 transition-all outline-none border-none"
+            onClick={() => setIsShareModalOpen(true)}
+        >
+            <Share2 className="w-3.5 h-3.5 mr-2" />
+            Chia sẻ
+        </Button>
+    </div>
+));
+
+const ZoomBar = React.memo(({ zoom, handleZoomIn, handleZoomOut, handleResetZoom }: any) => (
+    <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px]">
+        <button onClick={handleZoomOut} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
+            <Minus className="w-5 h-5" />
+        </button>
+        <button
+            onClick={handleResetZoom}
+            className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-medium text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
+        >
+            {Math.round(zoom * 100)}%
+        </button>
+        <button onClick={handleZoomIn} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
+            <Plus className="w-5 h-5" />
+        </button>
+    </div>
+));
+
+const SyncStatusHelpBar = React.memo(({ connectionCount, openHelp }: any) => (
+    <div className="absolute bottom-6 right-6 z-[1000] pointer-events-auto flex items-center gap-3 h-[48px]">
+        <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-medium text-zinc-900 flex items-center gap-2.5 h-full">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>{connectionCount} kết nối</span>
+        </div>
+        <button
+            onClick={openHelp}
+            className="h-[48px] w-[48px] bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl flex items-center justify-center transition-all active:scale-95"
+            title="Trợ giúp"
+        >
+            <HelpCircle className="w-6 h-6" />
+        </button>
+    </div>
+));
+// --- END MEMOIZED COMPONENTS ---
+
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [whiteboard, setWhiteboard] = useState<WhiteboardData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -248,7 +414,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
         // PERFORMANCE OPTIMIZATION: Throttle socket emission
         const now = Date.now();
-        if (now - lastEmitTimeRef.current > 50) { // Limit to 20 updates per second
+        if (now - lastEmitTimeRef.current > 100) { // Limit to 10 updates per second
             lastEmitTimeRef.current = now;
             if (socketRef.current) {
                 socketRef.current.emit('draw_change', {
@@ -369,7 +535,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
         const now = Date.now();
-        if (now - lastPointerUpdateRef.current > 50) {
+        if (now - lastPointerUpdateRef.current > 100) { // Throttle cursor movement
             lastPointerUpdateRef.current = now;
             if (socketRef.current) {
                 socketRef.current.emit('cursor_move', {
@@ -628,134 +794,33 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 {/* --- CUSTOM UI --- */}
 
                 {/* 1. TOP LEFT: Branding & Menu */}
-                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-3 bg-white/95 backdrop-blur-md p-1.5 pr-6 rounded-2xl border border-zinc-200 transition-all h-[52px]">
-                    <button
-                        onClick={openMenu}
-                        className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-700 active:scale-95"
-                    >
-                        <Menu className="w-5 h-5" />
-                    </button>
-                    <div className="w-px h-6 bg-zinc-200" />
-                    <Logo showText={false} height="h-8" className="flex-shrink-0 ml-1" />
-                    <div className="flex flex-col justify-center select-none ml-2">
-                        <span className="text-[10px] font-medium text-zinc-400 leading-none mb-0.5">Tulie</span>
-                        <span className="text-sm font-medium text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
-                    </div>
-                </div>
+                <BrandingBar openMenu={openMenu} />
 
                 {/* 2. TOP CENTER: Toolbar + Undo/Redo */}
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto">
-                    <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px]">
-
-                        <button
-                            onClick={toggleLock}
-                            className={`p-2.5 rounded-xl transition-all duration-200 ${isLocked ? 'bg-amber-100 text-amber-600' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
-                            title="Keep tool active"
-                        >
-                            <Lock className="w-3.5 h-3.5" />
-                        </button>
-
-                        <div className="w-px h-6 bg-zinc-200 mx-0.5" />
-
-                        <button onClick={handleUndo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Undo (Ctrl+Z)">
-                            <Undo2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button onClick={handleRedo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Redo (Ctrl+Shift+Z)">
-                            <Redo2 className="w-3.5 h-3.5" />
-                        </button>
-
-                        <div className="w-px h-6 bg-zinc-200 mx-0.5" />
-
-                        {TOOLS.map((tool) => (
-                            <button
-                                key={tool.value}
-                                onClick={() => setTool(tool.value)}
-                                className={`relative p-2.5 rounded-xl transition-all duration-200 ${activeTool === tool.value ? 'bg-zinc-900 text-white shadow-none' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
-                                title={tool.label}
-                            >
-                                <tool.icon className="w-3.5 h-3.5" />
-                                <span className={`absolute -bottom-1 -right-1 text-[7px] font-medium px-1 rounded-full ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-60'}`}>
-                                    {tool.shortcut}
-                                </span>
-                            </button>
-                        ))}
-
-                        <div className="w-px h-6 bg-zinc-200 mx-0.5" />
-
-                        <div className="relative pointer-events-auto">
-                            <button
-                                onClick={(e) => { e.stopPropagation(); setIsMoreMenuOpen(!isMoreMenuOpen); }}
-                                className={`p-2 rounded-xl transition-all duration-200 ${isMoreMenuOpen ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
-                                title="Mở rộng công cụ"
-                            >
-                                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isMoreMenuOpen ? 'rotate-180' : ''}`} />
-                            </button>
-
-                            {isMoreMenuOpen && (
-                                <div className="absolute top-full mt-2 right-0 bg-white rounded-2xl border border-zinc-200 shadow-none p-2 min-w-[200px] animate-in fade-in zoom-in duration-200 flex flex-col gap-1">
-                                    {EXTRA_TOOLS.map((tool) => (
-                                        <button
-                                            key={tool.value}
-                                            onClick={() => setTool(tool.value)}
-                                            className={`flex items-center gap-3 w-full p-2 rounded-xl transition-colors ${activeTool === tool.value ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}
-                                        >
-                                            <tool.icon className="w-3.5 h-3.5" />
-                                            <span className="text-[13px] font-medium flex-1 text-left">{tool.label}</span>
-                                            {tool.shortcut && <span className="text-[10px] opacity-40">{tool.shortcut}</span>}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                <Toolbar
+                    activeTool={activeTool}
+                    isLocked={isLocked}
+                    isMoreMenuOpen={isMoreMenuOpen}
+                    setTool={setTool}
+                    toggleLock={toggleLock}
+                    setIsMoreMenuOpen={setIsMoreMenuOpen}
+                    handleUndo={handleUndo}
+                    handleRedo={handleRedo}
+                />
 
                 {/* 3. TOP RIGHT: Library & Share */}
                 <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
-                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group">
-                        {isEditingTitle ? (
-                            <div className="flex items-center gap-1.5 p-1 bg-zinc-50 rounded-xl border border-zinc-200">
-                                <input
-                                    autoFocus
-                                    type="text"
-                                    value={tempTitle}
-                                    onChange={(e) => setTempTitle(e.target.value)}
-                                    onBlur={() => setTimeout(handleSaveTitle, 200)}
-                                    onKeyDown={handleTitleKeyDown}
-                                    className="text-sm font-medium bg-white border-2 border-zinc-900 rounded-xl px-3 py-1.5 outline-none w-[200px] text-zinc-900 placeholder:text-zinc-300 transition-all font-sans"
-                                    placeholder="Tên bảng mới..."
-                                />
-                                <button
-                                    onClick={handleSaveTitle}
-                                    className="p-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-all active:scale-95 shadow-lg"
-                                    title="Lưu (Enter)"
-                                >
-                                    <Check className="w-4 h-4" />
-                                </button>
-                                <button
-                                    onClick={() => setIsEditingTitle(false)}
-                                    className="p-2 bg-white text-zinc-400 rounded-xl hover:bg-zinc-50 transition-all active:scale-95"
-                                    title="Hủy (Esc)"
-                                >
-                                    <X className="w-4 h-4" />
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="flex items-center gap-2 cursor-pointer h-full px-2 hover:bg-zinc-50 rounded-xl transition-colors" onClick={handleStartEditing}>
-                                <span className="text-sm font-medium max-w-[150px] truncate text-zinc-900" title="Nhấn để đổi tên">
-                                    {whiteboard?.title || 'Bảng chưa đặt tên'}
-                                </span>
-                                <Pencil className="w-3.5 h-3.5 text-zinc-400" />
-                            </div>
-                        )}
-                        <Button
-                            variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[40px] px-4 text-[11px] font-medium shadow-none hover:bg-zinc-800 active:scale-95 transition-all outline-none border-none"
-                            onClick={() => setIsShareModalOpen(true)}
-                        >
-                            <Share2 className="w-3.5 h-3.5 mr-2" />
-                            Chia sẻ
-                        </Button>
-                    </div>
+                    <TitleShareBar
+                        isEditingTitle={isEditingTitle}
+                        tempTitle={tempTitle}
+                        whiteboardTitle={whiteboard?.title}
+                        setTempTitle={setTempTitle}
+                        handleSaveTitle={handleSaveTitle}
+                        handleTitleKeyDown={handleTitleKeyDown}
+                        handleStartEditing={handleStartEditing}
+                        setIsEditingTitle={setIsEditingTitle}
+                        setIsShareModalOpen={setIsShareModalOpen}
+                    />
                     <button
                         onClick={toggleLibrary}
                         className={`p-3 rounded-2xl border transition-all h-[52px] w-[52px] flex items-center justify-center active:scale-95 ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/95 backdrop-blur-md text-zinc-700 border-zinc-200 hover:bg-zinc-50'}`}
@@ -766,35 +831,18 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 </div>
 
                 {/* 4. BOTTOM LEFT: Zoom Controls */}
-                <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px]">
-                    <button onClick={handleZoomOut} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
-                        <Minus className="w-5 h-5" />
-                    </button>
-                    <button
-                        onClick={handleResetZoom}
-                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-medium text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
-                    >
-                        {Math.round(zoom * 100)}%
-                    </button>
-                    <button onClick={handleZoomIn} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
-                        <Plus className="w-5 h-5" />
-                    </button>
-                </div>
+                <ZoomBar
+                    zoom={zoom}
+                    handleZoomIn={handleZoomIn}
+                    handleZoomOut={handleZoomOut}
+                    handleResetZoom={handleResetZoom}
+                />
 
                 {/* 5. BOTTOM RIGHT: Status & Help */}
-                <div className="absolute bottom-6 right-6 z-[1000] pointer-events-auto flex items-center gap-3 h-[48px]">
-                    <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-medium text-zinc-900 flex items-center gap-2.5 h-full">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                        <span>{Object.keys(remoteCursors).length + 1} kết nối</span>
-                    </div>
-                    <button
-                        onClick={openHelp}
-                        className="h-[48px] w-[48px] bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl flex items-center justify-center transition-all active:scale-95"
-                        title="Trợ giúp"
-                    >
-                        <HelpCircle className="w-6 h-6" />
-                    </button>
-                </div>
+                <SyncStatusHelpBar
+                    connectionCount={Object.keys(remoteCursors).length + 1}
+                    openHelp={openHelp}
+                />
 
                 {/* Share Modal */}
                 {isShareModalOpen && (
