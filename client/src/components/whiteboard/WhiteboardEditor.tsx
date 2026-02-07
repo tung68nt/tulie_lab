@@ -597,370 +597,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     return (
         <Portal>
             <div className="fixed top-0 left-0 right-0 bottom-0 z-[200] w-full h-full bg-[#f8f9fa] overflow-hidden whiteboard-container">
-                <style>{`
-                .whiteboard-container .excalidraw-wrapper {
-                    height: 100% !important;
-                    width: 100% !important;
-                }
-                
-                /* CRITICAL: Alias both 'Virgil' and 'Excalifont' for 100% Vietnamese support */
-                @font-face {
-                    font-family: "Virgil";
-                    src: url('/fonts/DFVN-Excalifont.otf') format('opentype');
-                    font-weight: 400;
-                    font-style: normal;
-                    font-display: swap;
-                }
-                @font-face {
-                    font-family: "Excalifont";
-                    src: url('/fonts/DFVN-Excalifont.otf') format('opentype');
-                    font-weight: 400;
-                    font-style: normal;
-                    font-display: swap;
-                }
-
-                .whiteboard-container .excalidraw {
-                    border: none !important;
-                    --ui-font: system-ui, "Inter", sans-serif !important;
-                    font-family: system-ui, "Inter", sans-serif !important;
-                    --color-primary: #18181b !important;
-                    --color-primary-dark: #09090b !important;
-                    --color-brand: #18181b !important;
-                    --index-overlay: 2000 !important;
-                }
-
-                /* NATIVE UI VISIBILITY CONTROL */
-                /* Allow properties panel (top-left) to be visible and interactive */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__top-left {
-                    pointer-events: auto !important;
-                }
-                
-                /* Disable pointer events on areas with custom UI overlays */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__top-right,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
-                    pointer-events: none !important;
-                }
-                
-                /* Keep footer center and right accessible */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right {
-                    pointer-events: auto !important;
-                }
-
-                /* KEEP native trigger buttons accessible (for programmatic clicks) but visually hidden */
-                /* TEMPORARILY DISABLED FOR DEBUGGING - SHOW NATIVE UI */
-                /*
-                .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
-                .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
-                .whiteboard-container .excalidraw .library-button {
-                   ...
-                }
-                */
-                
-                /* Hide the native toolbar ICONS but keep the container for properties panel */
-                /* TEMPORARILY DISABLED FOR DEBUGGING - SHOW NATIVE TOOLBAR */
-                /*
-                .whiteboard-container .excalidraw .App-toolbar__divider,
-                .whiteboard-container .excalidraw .App-toolbar__attribute {
-                    display: none !important;
-                }
-                
-                .whiteboard-container .excalidraw .App-toolbar .ToolIcon {
-                    display: none !important;
-                }
-                */.whiteboard-container .excalidraw .App-toolbar {
-                    background: transparent !important;
-                    border: none !important;
-                    box-shadow: none !important;
-                    min-height: 0 !important;
-                    padding: 0 !important;
-                }
-
-                /* CRITICAL: Main Menu - preserve native positioning, just ensure visible */
-                .whiteboard-container .excalidraw .App-menu,
-                .whiteboard-container .excalidraw .App-menu__left,
-                .whiteboard-container .excalidraw .dropdown-menu,
-                .whiteboard-container .excalidraw .dropdown-menu-container {
-                    opacity: 1 !important;
-                    visibility: visible !important;
-                    pointer-events: auto !important;
-                    z-index: 9999 !important;
-                }
-                
-                /* Library Sidebar - preserve native positioning */
-                .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .library-menu,
-                .whiteboard-container .excalidraw .layer-ui__sidebar {
-                    opacity: 1 !important;
-                    visibility: visible !important;
-                    pointer-events: auto !important;
-                    z-index: 9999 !important;
-                }
-                
-                /* Menu styling - Tulie theme */
-                .whiteboard-container .excalidraw .App-menu {
-                    background: white !important;
-                    border: 1px solid #e4e4e7 !important;
-                    border-radius: 12px !important;
-                    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1) !important;
-                }
-                
-                .whiteboard-container .excalidraw .dropdown-menu-container .dropdown-menu-item:hover {
-                    background: #f4f4f5 !important;
-                }
-
-                /* ========== TULIE THEME FOR PROPERTIES PANEL ========== */
-                .whiteboard-container .excalidraw .island {
-                    filter: none !important;
-                    box-shadow: none !important;
-                    background: white !important;
-                    border: 1px solid #e4e4e7 !important;
-                    border-radius: 16px !important;
-                    pointer-events: auto !important;
-                }
-                
-                /* Property panel section labels */
-                .whiteboard-container .excalidraw .island .section-title,
-                .whiteboard-container .excalidraw .island label {
-                    color: #71717a !important;
-                    font-weight: 500 !important;
-                    font-size: 11px !important;
-                }
-                
-                /* Property buttons - inactive */
-                .whiteboard-container .excalidraw .island button {
-                    border-radius: 8px !important;
-                    transition: all 0.1s ease !important;
-                }
-                
-                .whiteboard-container .excalidraw .island button:not(.active):not([aria-checked="true"]):hover {
-                    background: #f4f4f5 !important;
-                }
-                
-                /* Property buttons - active (black) */
-                .whiteboard-container .excalidraw .island button.active,
-                .whiteboard-container .excalidraw .island button[aria-checked="true"],
-                .whiteboard-container .excalidraw .island .ToolIcon--selected {
-                    background: #18181b !important;
-                    color: white !important;
-                }
-                
-                .whiteboard-container .excalidraw .island button.active svg,
-                .whiteboard-container .excalidraw .island button[aria-checked="true"] svg {
-                    color: white !important;
-                }
-                
-                /* Color picker - black ring on selected */
-                .whiteboard-container .excalidraw .color-picker button.active,
-                .whiteboard-container .excalidraw [class*="colorPicker"] button.active {
-                    box-shadow: 0 0 0 2px white, 0 0 0 4px #18181b !important;
-                }
-                
-                /* Slider - black accent */
-                .whiteboard-container .excalidraw .island input[type="range"] {
-                    accent-color: #18181b !important;
-                }
-
-                /* ENSURE PANELS HAVE NO FILTERS */
-                .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .users-list-wrapper,
-                .whiteboard-container .excalidraw .context-menu {
-                    filter: none !important;
-                    box-shadow: none !important;
-                }
-                
-                .whiteboard-container .excalidraw .Overlay,
-                .whiteboard-container .excalidraw .modal {
-                    filter: none !important;
-                }
-
-                /* Redesign Context Menu */
-                .whiteboard-container .excalidraw .context-menu {
-                    background-color: #ffffff !important;
-                    border: 1px solid #e4e4e7 !important;
-                    border-radius: 12px !important;
-                    padding: 4px !important;
-                    z-index: 3000 !important;
-                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
-                }
-                
-                .whiteboard-container .excalidraw .context-menu-item,
-                .whiteboard-container .excalidraw .DropdownMenu-item,
-                .whiteboard-container .excalidraw .button-list__button {
-                    border-radius: 8px !important;
-                    transition: background-color 0.1s ease !important;
-                    color: #18181b !important;
-                    font-size: 13px !important;
-                    padding: 8px 12px !important;
-                }
-                
-                .whiteboard-container .excalidraw .context-menu-item:hover,
-                .whiteboard-container .excalidraw .button-list__button:hover {
-                    background-color: #f4f4f5 !important;
-                    color: #000000 !important;
-                    border-color: #e4e4e7 !important;
-                }
-                
-                /* Specific override for DropdownMenu-item border/background that often stays purple */
-                .whiteboard-container .excalidraw .DropdownMenu-item:hover,
-                .whiteboard-container .excalidraw .DropdownMenu-item:focus,
-                .whiteboard-container .excalidraw .DropdownMenu-item:active,
-                .whiteboard-container .excalidraw [class*="MenuItem"]:hover,
-                .whiteboard-container .excalidraw [class*="MenuItem"]:focus,
-                .whiteboard-container .excalidraw [class*="menu-item"]:hover,
-                .whiteboard-container .excalidraw [class*="menu-item"]:focus,
-                .whiteboard-container .excalidraw .welcome-screen-menu-item:hover,
-                .whiteboard-container .excalidraw .welcome-screen-menu-item:focus,
-                .whiteboard-container .excalidraw .WelcomeScreen-menuItem:hover {
-                    background-color: #f4f4f5 !important;
-                    box-shadow: none !important;
-                    border-color: transparent !important;
-                    color: #18181b !important;
-                    outline: none !important;
-                }
-                
-                /* Override focus ring and active states that can be purple */
-                .whiteboard-container .excalidraw *:focus {
-                    outline-color: #18181b !important;
-                    border-color: #d4d4d8 !important;
-                }
-                
-                .whiteboard-container .excalidraw button:focus-visible {
-                    outline: 2px solid #18181b !important;
-                    outline-offset: 2px !important;
-                }
-                
-                /* EXCEPTION: Keep Undo/Redo accessible but hidden for API clicks */
-                .whiteboard-container .excalidraw [aria-label="Undo"],
-                .whiteboard-container .excalidraw [aria-label="Redo"] {
-                    position: fixed !important;
-                    top: -100px !important;
-                    left: -100px !important;
-                    opacity: 0 !important;
-                    pointer-events: none !important;
-                    display: block !important;
-                    z-index: -1 !important;
-                }
-
-                /* WELCOME SCREEN - CRITICAL: Show hints with arrows */
-                .whiteboard-container .excalidraw .welcome-screen-center {
-                    transform: translateY(-60px) !important;
-                }
-                
-                /* Make welcome screen hints + arrows fully visible */
-                .whiteboard-container .excalidraw .welcome-screen-hints {
-                    display: flex !important;
-                    opacity: 1 !important;
-                    visibility: visible !important;
-                    z-index: 100 !important;
-                    pointer-events: none !important;
-                }
-
-                /* Show ALL 3 hint arrows - Menu, Toolbar, Help */
-                .whiteboard-container .excalidraw .welcome-screen-hints--menu-hint,
-                .whiteboard-container .excalidraw .welcome-screen-hints--help-hint,
-                .whiteboard-container .excalidraw .welcome-screen-hints--toolbar-hint,
-                .whiteboard-container .excalidraw [class*="welcome-screen"][class*="hint"] {
-                    display: flex !important;
-                    opacity: 1 !important;
-                    visibility: visible !important;
-                }
-
-                /* HIDE MENU TRIGGER BUTTONS - but NOT the menu itself */
-                .whiteboard-container .excalidraw .main-menu-trigger {
-                    position: fixed !important;
-                    top: -1000px !important;
-                    left: -1000px !important;
-                    opacity: 0 !important;
-                    pointer-events: none !important;
-                    z-index: -1 !important;
-                }
-
-                /* Help Dialog & Modals Theme Override */
-                .whiteboard-container .excalidraw .HelpDialog,
-                .whiteboard-container .excalidraw .Dialog,
-                .whiteboard-container .excalidraw .Modal,
-                .whiteboard-container .excalidraw .Island,
-                .whiteboard-container .excalidraw .ToolIcon {
-                    --color-primary: #18181b !important;
-                    --color-primary-dark: #000000 !important;
-                    --color-brand: #18181b !important;
-                    box-shadow: none !important;
-                }
-
-                /* Deep override for purple elements in HelpDialog */
-                .whiteboard-container .excalidraw .HelpDialog__header,
-                .whiteboard-container .excalidraw .Dialog__header {
-                    background: #f4f4f5 !important;
-                    border-bottom: 1px solid #e4e4e7 !important;
-                    color: #18181b !important;
-                }
-
-                .whiteboard-container .excalidraw .HelpDialog__key,
-                .whiteboard-container .excalidraw .Dialog__key,
-                .whiteboard-container .excalidraw .kbd,
-                .whiteboard-container .excalidraw kbd,
-                .whiteboard-container .excalidraw .Shortcut__key {
-                    background: #18181b !important;
-                    color: white !important;
-                    border: none !important;
-                    box-shadow: none !important;
-                    font-weight: 700 !important;
-                }
-
-                .whiteboard-container .excalidraw .Dialog__content,
-                .whiteboard-container .excalidraw .Modal__content {
-                    background: white !important;
-                }
-
-                /* Remove all shadows from all islands and modals and sync radius */
-                .whiteboard-container .excalidraw .island,
-                .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .context-menu,
-                .whiteboard-container .excalidraw .Dialog__window,
-                .whiteboard-container .excalidraw .Modal__window {
-                    box-shadow: none !important;
-                    border: 1px solid #e4e4e7 !important;
-                    border-radius: 20px !important;
-                }
-
-                .whiteboard-container .excalidraw .button-list button,
-                .whiteboard-container .excalidraw .ToolIcon,
-                .whiteboard-container .excalidraw .ToolIcon button {
-                    border-radius: 12px !important;
-                }
-
-                /* Standardize typography: weight 500, no tracking */
-                .whiteboard-container .excalidraw {
-                    font-weight: 500 !important;
-                    letter-spacing: normal !important;
-                }
-                
-                .whiteboard-container .excalidraw .Shortcut__key,
-                .whiteboard-container .excalidraw kbd,
-                .whiteboard-container .excalidraw .kbd {
-                    font-weight: 500 !important;
-                }
-
-                /* Ensure text tool click works */
-                .whiteboard-container .excalidraw .excalidraw-text-input {
-                    z-index: 4000 !important;
-                }
-
-                /* Shortcut styling for custom help modal */
-                .shortcut-key {
-                    background: #18181b;
-                    color: white;
-                    padding: 2px 8px;
-                    border-radius: 6px;
-                    font-size: 11px;
-                    font-weight: 500;
-                    min-width: 24px;
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-            `}</style>
+                {/* CSS DISABLED */}
+                <style>{`/* CSS DISABLED */`}</style>
 
                 <ExcalidrawWrapper
                     excalidrawAPI={setExcalidrawAPI}
@@ -970,36 +608,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     title={whiteboard?.title}
                 />
 
-                {/* --- CUSTOM UI --- */}
 
-                {/* --- CUSTOM UI DISABLED FOR DEBUGGING --- */}
-                {/* <BrandingBar openMenu={openMenu} /> */}
-                {/* <Toolbar ... /> */}
-                {/* <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
-                    <TitleShareBar ... />
-                </div> */}
-                {/* <ZoomBar ... /> */}
-                {/* <SyncStatusHelpBar ... /> */}
-                isEditingTitle={isEditingTitle}
-                {/* 3. TOP RIGHT: Title & Share - DISABLED FOR DEBUGGING */}
-                {/*
-                <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
-                    <TitleShareBar
-                        isEditingTitle={isEditingTitle}
-                        tempTitle={tempTitle}
-                        whiteboardTitle={whiteboard?.title}
-                        saveStatus={saveStatus}
-                        setTempTitle={setTempTitle}
-                        handleSaveTitle={handleSaveTitle}
-                        handleTitleKeyDown={handleTitleKeyDown}
-                        handleStartEditing={handleStartEditing}
-                        setIsEditingTitle={setIsEditingTitle}
-                        setIsShareModalOpen={setIsShareModalOpen}
-                        onSave={handleSave}
-                        toggleLibrary={toggleLibrary}
-                    />
-                </div>
-                */}
+
+                {/* SyncStatusHelpBar DISABLED */}
 
                 {/* 4. BOTTOM LEFT: Zoom Controls - DISABLED FOR DEBUGGING */}
                 {/*
@@ -1020,32 +631,34 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 */}
 
                 {/* Share Modal */}
-                {isShareModalOpen && (
-                    <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
-                        <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-md border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
-                            <div className="flex justify-between items-center mb-8">
-                                <h2 className="text-2xl font-medium text-zinc-900 tracking-tight">Chia sẻ bảng</h2>
-                                <button onClick={() => setIsShareModalOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
-                                    <X className="w-6 h-6 text-zinc-300" />
-                                </button>
-                            </div>
-                            <div className="space-y-6">
-                                <div>
-                                    <label className="block text-[11px] font-medium text-zinc-500 mb-2 tracking-wider pl-1">Liên kết công khai</label>
-                                    <div className="flex gap-2">
-                                        <input type="text" readOnly value={typeof window !== 'undefined' ? window.location.href : ''} className="flex-1 bg-zinc-50 border border-zinc-100 rounded-xl px-4 py-3 text-sm text-zinc-600 outline-none font-medium" />
-                                        <Button variant="outline" className="rounded-xl h-[48px] px-4 border-zinc-200 hover:bg-zinc-50" onClick={() => { navigator.clipboard.writeText(window.location.href); alert('Đã sao chép!'); }}>
-                                            <Copy className="w-4 h-4" />
-                                        </Button>
-                                    </div>
+                {
+                    isShareModalOpen && (
+                        <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
+                            <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-md border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
+                                <div className="flex justify-between items-center mb-8">
+                                    <h2 className="text-2xl font-medium text-zinc-900 tracking-tight">Chia sẻ bảng</h2>
+                                    <button onClick={() => setIsShareModalOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
+                                        <X className="w-6 h-6 text-zinc-300" />
+                                    </button>
                                 </div>
-                                <div className="pt-2">
-                                    <Button className="w-full rounded-xl h-[56px] text-base font-medium bg-zinc-900 hover:bg-zinc-800 shadow-xl transition-all active:scale-[0.98]" onClick={() => setIsShareModalOpen(false)}>Hoàn tất</Button>
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="block text-[11px] font-medium text-zinc-500 mb-2 tracking-wider pl-1">Liên kết công khai</label>
+                                        <div className="flex gap-2">
+                                            <input type="text" readOnly value={typeof window !== 'undefined' ? window.location.href : ''} className="flex-1 bg-zinc-50 border border-zinc-100 rounded-xl px-4 py-3 text-sm text-zinc-600 outline-none font-medium" />
+                                            <Button variant="outline" className="rounded-xl h-[48px] px-4 border-zinc-200 hover:bg-zinc-50" onClick={() => { navigator.clipboard.writeText(window.location.href); alert('Đã sao chép!'); }}>
+                                                <Copy className="w-4 h-4" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    <div className="pt-2">
+                                        <Button className="w-full rounded-xl h-[56px] text-base font-medium bg-zinc-900 hover:bg-zinc-800 shadow-xl transition-all active:scale-[0.98]" onClick={() => setIsShareModalOpen(false)}>Hoàn tất</Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )}
+                    )
+                }
 
                 {/* Remote Cursors Overlay */}
                 <div className="pointer-events-none absolute inset-0 z-[100]">
@@ -1065,281 +678,283 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 </div>
 
                 {/* --- CUSTOM HELP MODAL --- */}
-                {isHelpOpen && (
-                    <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
-                        <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-2xl border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
-                            <div className="flex justify-between items-center mb-6">
-                                <h2 className="text-2xl font-medium text-zinc-900 leading-none">Phím tắt</h2>
-                                <button onClick={() => setIsHelpOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
-                                    <X className="w-6 h-6 text-zinc-300" />
-                                </button>
-                            </div>
+                {
+                    isHelpOpen && (
+                        <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
+                            <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-2xl border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-medium text-zinc-900 leading-none">Phím tắt</h2>
+                                    <button onClick={() => setIsHelpOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
+                                        <X className="w-6 h-6 text-zinc-300" />
+                                    </button>
+                                </div>
 
-                            <div className="grid grid-cols-3 gap-8 max-h-[60vh] overflow-y-auto pr-2">
-                                {/* Tools Section */}
-                                <div>
-                                    <h3 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wide">Công cụ</h3>
-                                    <div className="space-y-2.5">
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Bàn tay (kéo)</span>
-                                            <span className="shortcut-key">H</span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Chọn đối tượng</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">V</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">1</span>
+                                <div className="grid grid-cols-3 gap-8 max-h-[60vh] overflow-y-auto pr-2">
+                                    {/* Tools Section */}
+                                    <div>
+                                        <h3 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wide">Công cụ</h3>
+                                        <div className="space-y-2.5">
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Bàn tay (kéo)</span>
+                                                <span className="shortcut-key">H</span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Chọn đối tượng</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">V</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">1</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Hình chữ nhật</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">R</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">2</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Hình thoi</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">D</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">3</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Ellipse</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">O</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">4</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Mũi tên</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">A</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">5</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Đường thẳng</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">L</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">6</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Vẽ tự do</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">P</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">7</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Văn bản</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">T</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">8</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Chèn ảnh</span>
+                                                <span className="shortcut-key">9</span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Tẩy</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">E</span>
+                                                    <span className="text-zinc-300 text-[10px]">or</span>
+                                                    <span className="shortcut-key">0</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Khung</span>
+                                                <span className="shortcut-key">F</span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Laser</span>
+                                                <span className="shortcut-key">K</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Hình chữ nhật</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">R</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">2</span>
+                                    </div>
+
+                                    {/* View & Canvas Section */}
+                                    <div>
+                                        <h3 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wide">Xem & Canvas</h3>
+                                        <div className="space-y-2.5">
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Thu/phóng</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">+/-</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>100%</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">0</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Fit to screen</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⇧</span>
+                                                    <span className="shortcut-key">1</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Fit selection</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⇧</span>
+                                                    <span className="shortcut-key">2</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Toggle grid</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">'</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Zen mode</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">.</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Dark mode</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">⇧</span>
+                                                    <span className="shortcut-key">D</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Kéo canvas</span>
+                                                <span className="shortcut-key text-[10px]">Space+Drag</span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Scroll zoom</span>
+                                                <span className="shortcut-key text-[10px]">⌘+Scroll</span>
                                             </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Hình thoi</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">D</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">3</span>
+                                    </div>
+
+                                    {/* Editor Section */}
+                                    <div>
+                                        <h3 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wide">Chỉnh sửa</h3>
+                                        <div className="space-y-2.5">
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Undo</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">Z</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Ellipse</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">O</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">4</span>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Redo</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">⇧</span>
+                                                    <span className="shortcut-key">Z</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Mũi tên</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">A</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">5</span>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Copy</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">C</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Đường thẳng</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">L</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">6</span>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Paste</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">V</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Vẽ tự do</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">P</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">7</span>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Duplicate</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">D</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Văn bản</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">T</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">8</span>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Select all</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">A</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Chèn ảnh</span>
-                                            <span className="shortcut-key">9</span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Tẩy</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">E</span>
-                                                <span className="text-zinc-300 text-[10px]">or</span>
-                                                <span className="shortcut-key">0</span>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Delete</span>
+                                                <span className="shortcut-key">⌫</span>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Khung</span>
-                                            <span className="shortcut-key">F</span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Laser</span>
-                                            <span className="shortcut-key">K</span>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Group</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">G</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Ungroup</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">⇧</span>
+                                                    <span className="shortcut-key">G</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Bring forward</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">]</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Send backward</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">[</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
+                                                <span>Lock</span>
+                                                <div className="flex items-center gap-1">
+                                                    <span className="shortcut-key">⌘</span>
+                                                    <span className="shortcut-key">⇧</span>
+                                                    <span className="shortcut-key">L</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* View & Canvas Section */}
-                                <div>
-                                    <h3 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wide">Xem & Canvas</h3>
-                                    <div className="space-y-2.5">
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Thu/phóng</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">+/-</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>100%</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">0</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Fit to screen</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⇧</span>
-                                                <span className="shortcut-key">1</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Fit selection</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⇧</span>
-                                                <span className="shortcut-key">2</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Toggle grid</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">'</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Zen mode</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">.</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Dark mode</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">⇧</span>
-                                                <span className="shortcut-key">D</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Kéo canvas</span>
-                                            <span className="shortcut-key text-[10px]">Space+Drag</span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Scroll zoom</span>
-                                            <span className="shortcut-key text-[10px]">⌘+Scroll</span>
-                                        </div>
-                                    </div>
+                                <div className="mt-6 flex justify-center">
+                                    <Button
+                                        className="rounded-2xl h-[48px] px-8 text-sm font-medium bg-zinc-900 hover:bg-zinc-800 transition-all active:scale-[0.98]"
+                                        onClick={() => setIsHelpOpen(false)}
+                                    >
+                                        Đã hiểu
+                                    </Button>
                                 </div>
-
-                                {/* Editor Section */}
-                                <div>
-                                    <h3 className="text-xs font-semibold text-zinc-400 mb-4 uppercase tracking-wide">Chỉnh sửa</h3>
-                                    <div className="space-y-2.5">
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Undo</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">Z</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Redo</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">⇧</span>
-                                                <span className="shortcut-key">Z</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Copy</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">C</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Paste</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">V</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Duplicate</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">D</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Select all</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">A</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Delete</span>
-                                            <span className="shortcut-key">⌫</span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Group</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">G</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Ungroup</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">⇧</span>
-                                                <span className="shortcut-key">G</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Bring forward</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">]</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Send backward</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">[</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center justify-between text-[12px] font-medium text-zinc-700">
-                                            <span>Lock</span>
-                                            <div className="flex items-center gap-1">
-                                                <span className="shortcut-key">⌘</span>
-                                                <span className="shortcut-key">⇧</span>
-                                                <span className="shortcut-key">L</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 flex justify-center">
-                                <Button
-                                    className="rounded-2xl h-[48px] px-8 text-sm font-medium bg-zinc-900 hover:bg-zinc-800 transition-all active:scale-[0.98]"
-                                    onClick={() => setIsHelpOpen(false)}
-                                >
-                                    Đã hiểu
-                                </Button>
                             </div>
                         </div>
-                    </div>
-                )}
-            </div>
+                    )
+                }
+            </div >
         </Portal >
     );
 }
