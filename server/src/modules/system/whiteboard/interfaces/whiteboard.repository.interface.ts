@@ -4,7 +4,7 @@ export interface IWhiteboardRepository {
     create(data: { creatorId: string; title?: string; description?: string }): Promise<Whiteboard>;
     findById(id: string): Promise<Whiteboard | null>;
     findByCreatorId(creatorId: string): Promise<Whiteboard[]>;
-    update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus }): Promise<Whiteboard>;
+    update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus; thumbnail?: string }): Promise<Whiteboard>;
     delete(id: string): Promise<Whiteboard>;
 
     // Artboard operations

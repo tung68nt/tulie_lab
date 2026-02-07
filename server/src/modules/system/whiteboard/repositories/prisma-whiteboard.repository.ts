@@ -39,7 +39,7 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
         });
     }
 
-    async update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus }): Promise<Whiteboard> {
+    async update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus; thumbnail?: string }): Promise<Whiteboard> {
         return prisma.whiteboard.update({
             where: { id },
             data

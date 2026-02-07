@@ -3,10 +3,13 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
+import { useRouter } from 'next/navigation';
+import { exportToBlob } from '@excalidraw/excalidraw';
+
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
-
-import { useRouter } from 'next/navigation';
+import SaveStatusIndicator, { SaveStatus } from './SaveStatusIndicator';
+import WelcomeScreen from './WelcomeScreen';
 
 interface WhiteboardEditorProps {
     id: string;
@@ -16,20 +19,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const router = useRouter();
     const [whiteboard, setWhiteboard] = useState<any>(null);
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
+    const [isLoaded, setIsLoaded] = useState(false);
 
-    // State for UI sync
-    const [activeTool, setActiveTool] = useState<string>('selection');
-    const [isLocked, setIsLocked] = useState<boolean>(false);
-    const [zoom, setZoom] = useState<number>(1);
-    const [isLibraryOpen, setIsLibraryOpen] = useState<boolean>(false);
-    const [saveStatus, setSaveStatus] = useState<'saved' | 'unsaved' | 'saving'>('saved');
+    // Optimized UI State
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>('saved');
+    const [showWelcome, setShowWelcome] = useState(false);
 
-    // Refs
+    // Refs for performance (avoid state updates during drawing)
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const lastEmitTimeRef = useRef<number>(0);
     const lastPointerUpdateRef = useRef<number>(0);
     const socketRef = useRef<any>(null);
     const creatingRef = useRef(false);
+    const currentElementsRef = useRef<readonly any[]>([]);
 
     // Initial Load Data
     useEffect(() => {
@@ -43,8 +45,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 console.log('Attempting to create new whiteboard...');
                 try {
                     const newWhiteboard = await api.whiteboards.create({ title: 'Untitled Whiteboard' });
-                    console.log('Whiteboard created:', newWhiteboard);
-
                     setWhiteboard(newWhiteboard);
                     router.replace(`/whiteboard/${newWhiteboard.id}`);
                     return;
@@ -59,8 +59,17 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             try {
                 const data = await api.whiteboards.get(id);
                 setWhiteboard(data);
+
+                // Show welcome screen if empty
+                if (!data.artboards?.[0]?.elements ||
+                    (Array.isArray(JSON.parse(data.artboards[0].elements || '[]').elements) &&
+                        JSON.parse(data.artboards[0].elements).elements.length === 0)) {
+                    setShowWelcome(true);
+                }
             } catch (error) {
                 console.error('Failed to load whiteboard:', error);
+            } finally {
+                setIsLoaded(true);
             }
         };
 
@@ -71,7 +80,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     // Socket Connection
     useEffect(() => {
-        if (!id) return;
+        if (!id || id === 'new') return;
 
         // Initialize socket
         const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || window.location.origin, {
@@ -89,15 +98,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         socket.on('draw_synced', (data: any) => {
             if (excalidrawAPI && data.elements) {
                 // Update scene from remote
+                // Check if we have active changes to avoid conflict? Use versioning ideally.
+                // For now, straightforward update
                 excalidrawAPI.updateScene({
                     elements: data.elements,
                     commitToHistory: false
                 });
             }
-        });
-
-        socket.on('cursor_moved', () => {
-            // Handle remote cursors (future impl)
         });
 
         return () => {
@@ -106,22 +113,23 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         };
     }, [id, excalidrawAPI]);
 
-    // Handle initial data for Excalidraw (Once API is ready)
+    // Handle initial data for Excalidraw
     useEffect(() => {
         if (!excalidrawAPI || !whiteboard?.artboards?.[0]?.elements) return;
 
         console.log('Loading data into Excalidraw', whiteboard.title);
 
         try {
-            const elements = typeof whiteboard.artboards[0].elements === 'string'
+            const elementsData = typeof whiteboard.artboards[0].elements === 'string'
                 ? JSON.parse(whiteboard.artboards[0].elements)
                 : whiteboard.artboards[0].elements;
 
-            if (elements && elements.elements) {
+            if (elementsData && elementsData.elements) {
                 excalidrawAPI.updateScene({
-                    elements: elements.elements,
-                    appState: elements.appState
+                    elements: elementsData.elements,
+                    appState: elementsData.appState
                 });
+                currentElementsRef.current = elementsData.elements;
             }
         } catch (e) {
             console.error(e);
@@ -129,23 +137,27 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     }, [excalidrawAPI, whiteboard]);
 
+    // --- OPTIMIZED HANDLERS ---
+
+    const handleStartDrawing = () => {
+        setShowWelcome(false);
+    };
+
     const onChange = useCallback((elements: readonly any[], appState: any) => {
-        // Debounce State Updates
+        // Fast path: Update ref immediately
+        currentElementsRef.current = elements;
+
+        // Debounce Network Operations (Save & Sync)
         if (saveTimeoutRef.current) {
             clearTimeout(saveTimeoutRef.current);
         }
 
-        saveTimeoutRef.current = setTimeout(() => {
-            const newTool = appState.activeTool?.type;
-            const newLocked = appState.activeTool?.locked;
-            const newZoom = appState.zoom?.value;
-            const isLibOpen = !!(appState.openSidebar?.name === "library");
+        // Hide welcome screen if elements exist
+        if (elements.length > 0 && showWelcome) {
+            setShowWelcome(false);
+        }
 
-            if (newTool !== activeTool) setActiveTool(newTool);
-            if (newLocked !== isLocked) setIsLocked(newLocked);
-            if (newZoom !== zoom) setZoom(newZoom);
-            if (isLibOpen !== isLibraryOpen) setIsLibraryOpen(isLibOpen);
-
+        saveTimeoutRef.current = setTimeout(async () => {
             // THROTTLED SOCKET EMISSION: 500ms
             const now = Date.now();
             if (now - lastEmitTimeRef.current > 500) {
@@ -166,6 +178,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             // AUTO-SAVE to API
             if (whiteboard?.artboards?.[0]?.id) {
                 setSaveStatus('saving');
+
                 const snapshot = {
                     elements: elements,
                     appState: {
@@ -173,31 +186,69 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     }
                 };
 
-                api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot)
-                    .then(() => setSaveStatus('saved'))
-                    .catch((err: any) => {
-                        console.error('Auto-save failed:', err);
-                        setSaveStatus('unsaved');
+                try {
+                    // Generate Thumbnail
+                    const blob = await exportToBlob({
+                        elements,
+                        mimeType: 'image/jpeg',
+                        appState: {
+                            ...appState,
+                            viewBackgroundColor: appState.viewBackgroundColor || '#ffffff',
+                        },
+                        files: excalidrawAPI.getFiles(),
+                        quality: 0.5, // Low quality for thumbnail
                     });
+
+                    // Convert blob to base64 for simple storage (temporary until dedicated upload)
+                    const reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = async () => {
+                        const base64data = reader.result;
+
+                        // Add thumbnail to snapshot payload (API needs to handle this)
+                        // Note: If API doesn't support 'thumbnail' in body yet, it might ignore it or we need a separate call.
+                        // Ideally we update api.whiteboards.saveArtboard to accept partial updates or use update().
+
+                        // For now, we mix it into the saveArtboard call if the backend supports it, 
+                        // OR we call update() separately.
+                        // Let's call update() separately to be safe and cleaner.
+
+                        await api.whiteboards.update(whiteboard.id, { thumbnail: base64data as string });
+                    }
+
+                    await api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot);
+                    setSaveStatus('saved');
+                } catch (err: any) {
+                    console.error('Auto-save failed:', err);
+                    setSaveStatus('error');
+                }
             }
 
-        }, 300);
-    }, [activeTool, isLocked, zoom, isLibraryOpen, id, whiteboard]);
+        }, 500); // Increased debounce to 500ms for better perf
+    }, [id, whiteboard, showWelcome, excalidrawAPI]);
 
+    // Throttle: 200ms (Reduced frequency)
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
-        // Throttle
         const now = Date.now();
-        if (now - lastPointerUpdateRef.current > 100) {
+        if (now - lastPointerUpdateRef.current > 200) {
             lastPointerUpdateRef.current = now;
-            if (socketRef.current) {
+            if (socketRef.current?.connected) {
                 socketRef.current.emit('cursor_move', {
                     whiteboardId: id,
                     point: { x: pointerData.x, y: pointerData.y },
-                    userName: 'Bạn' // Should be real user name if available
+                    userName: 'User'
                 });
             }
         }
     }, [id]);
+
+    if (!isLoaded && id !== 'new') {
+        return (
+            <div className="flex items-center justify-center w-full h-screen bg-background">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+            </div>
+        );
+    }
 
     return (
         <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
@@ -208,12 +259,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 onBack={() => router.back()}
                 title={whiteboard?.title}
             />
-            {/* Simple Save Status Indicator */}
-            <div style={{ position: 'absolute', top: 10, right: 200, zIndex: 10, fontSize: '12px', color: '#666', background: 'rgba(255,255,255,0.8)', padding: '4px 8px', borderRadius: '4px' }}>
-                {saveStatus === 'saving' && 'Saving...'}
-                {saveStatus === 'saved' && 'Saved'}
-                {saveStatus === 'unsaved' && 'Unsaved Changes'}
-            </div>
+
+            <SaveStatusIndicator status={saveStatus} />
+
+            {showWelcome && (
+                <WelcomeScreen onStart={handleStartDrawing} />
+            )}
         </div>
     );
 }
