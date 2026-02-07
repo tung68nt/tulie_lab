@@ -35,11 +35,11 @@ export const webhookLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     // Key by IP and optionally API key
-    keyGenerator: (req) => {
-        const apiKey = req.headers.authorization || req.headers['x-api-key'];
-        const ip = req.ip || req.socket.remoteAddress || 'unknown';
-        return apiKey ? `${ip}:${apiKey}` : ip;
-    },
+    // keyGenerator: (req) => {
+    //     const apiKey = req.headers.authorization || req.headers['x-api-key'];
+    //     const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    //     return apiKey ? `${ip}:${apiKey}` : typeof ip === 'string' ? ip : 'unknown';
+    // },
     validate: { trustProxy: false },
 });
 
