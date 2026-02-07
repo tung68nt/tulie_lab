@@ -8,7 +8,7 @@ import { Button } from '@/components/Button';
 import {
     Share2, Copy, X, Cloud, CloudUpload,
     MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser,
-    Hand, Lock, Undo2, Redo2, Menu, Library as LibraryIcon, Plus, HelpCircle,
+    Grab, Lock, Undo2, Redo2, Menu, Library as LibraryIcon, Plus, HelpCircle,
     Layout, Zap, Globe, Sparkles, ChevronDown, MousePointer
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
@@ -45,7 +45,7 @@ interface RemoteCursor {
 }
 
 const TOOLS = [
-    { value: 'hand', icon: Hand, label: 'Hand (H)', shortcut: 'H' },
+    { value: 'hand', icon: Grab, label: 'Hand (H)', shortcut: 'H' },
     { value: 'selection', icon: MousePointer2, label: 'Selection (1)', shortcut: '1' },
     { value: 'rectangle', icon: Square, label: 'Rectangle (2)', shortcut: '2' },
     { value: 'diamond', icon: Diamond, label: 'Diamond (3)', shortcut: '3' },
@@ -80,11 +80,22 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
+
+    // Sync ref with state for use in callbacks
+    useEffect(() => {
+        excalidrawRef.current = excalidrawAPI;
+    }, [excalidrawAPI]);
     const socketRef = useRef<Socket | null>(null);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const initialLoadRef = useRef(false);
     const lastPointerUpdateRef = useRef(0);
     const lastEmitTimeRef = useRef(0); // For Performance Throttling
+    const saveStatusRef = useRef(saveStatus);
+    const excalidrawRef = useRef<any>(null);
+
+    useEffect(() => {
+        saveStatusRef.current = saveStatus;
+    }, [saveStatus]);
 
     // Fetch whiteboard data on mount
     useEffect(() => {
@@ -197,31 +208,37 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     }, [whiteboard, excalidrawAPI]);
 
-    const onChange = (elements: readonly any[], appState: any) => {
+    const onChange = useCallback((elements: readonly any[], appState: any) => {
         if (!initialLoadRef.current) return;
 
         // Sync active tool state
         if (appState.activeTool) {
-            if (appState.activeTool.type !== activeTool) {
-                setActiveTool(appState.activeTool.type);
-            }
-            if (appState.activeTool.locked !== isLocked) {
-                setIsLocked(appState.activeTool.locked);
-            }
+            setActiveTool(prev => {
+                if (appState.activeTool.type !== prev) return appState.activeTool.type;
+                return prev;
+            });
+            setIsLocked(prev => {
+                if (appState.activeTool.locked !== prev) return appState.activeTool.locked;
+                return prev;
+            });
         }
 
         // Sync zoom state
-        if (appState.zoom && appState.zoom.value !== zoom) {
-            setZoom(appState.zoom.value);
+        if (appState.zoom) {
+            setZoom(prev => {
+                if (appState.zoom.value !== prev) return appState.zoom.value;
+                return prev;
+            });
         }
 
         // Sync library state
-        const isLibOpen = appState.libraryOpen || appState.openSidebar === "library";
-        if (isLibOpen !== isLibraryOpen) {
-            setIsLibraryOpen(isLibOpen);
-        }
+        const isLibOpen = !!(appState.libraryOpen || appState.openSidebar?.name === "library" || appState.openSidebar === "library");
+        setIsLibraryOpen(prev => {
+            if (isLibOpen !== prev) return isLibOpen;
+            return prev;
+        });
 
-        if (saveStatus === 'saved') setSaveStatus('unsaved');
+        if (saveStatusRef.current === 'saved') setSaveStatus('unsaved');
 
         // PERFORMANCE OPTIMIZATION: Throttle socket emission
         const now = Date.now();
@@ -241,7 +258,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 saveTimeoutRef.current = null;
             }, 3000);
         }
-    };
+    }, [id, handleSave]);
+    // Removed isLibraryOpen and saveStatus from deps to maximize canvas stability.
+    // handleSave is stable due to its own useCallback.
 
     const setTool = (tool: string) => {
         if (!excalidrawAPI) return;
@@ -258,20 +277,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     };
 
     // Custom UI Handlers
-    const handleUndo = () => {
+    const handleUndo = useCallback(() => {
         if (excalidrawAPI) {
             // Triggering native undo via DOM is most reliable
             const undoBtn = document.querySelector('[aria-label="Undo"]') as HTMLButtonElement;
             if (undoBtn) undoBtn.click();
         }
-    };
+    }, [excalidrawAPI]);
 
-    const handleRedo = () => {
+    const handleRedo = useCallback(() => {
         if (excalidrawAPI) {
             const redoBtn = document.querySelector('[aria-label="Redo"]') as HTMLButtonElement;
             if (redoBtn) redoBtn.click();
         }
-    };
+    }, [excalidrawAPI]);
 
     const handleZoomIn = () => {
         if (!excalidrawAPI) return;
@@ -298,31 +317,30 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         return () => window.removeEventListener('click', handleClick);
     }, [isMoreMenuOpen]);
 
-    const toggleLibrary = () => {
-        if (!excalidrawAPI) return;
+    const toggleLibrary = useCallback(() => {
+        const api = excalidrawRef.current;
+        if (!api) return;
 
-        // Use toggleSidebar if available, fallback to updateScene
-        if (typeof excalidrawAPI.toggleSidebar === 'function') {
-            excalidrawAPI.toggleSidebar({ name: "library" });
+        if (typeof api.toggleSidebar === 'function') {
+            api.toggleSidebar({ name: "library" });
         } else {
-            const appState = excalidrawAPI.getAppState();
-            const isCurrentlyOpen = appState.libraryOpen || appState.openSidebar === "library";
+            const appState = api.getAppState();
+            const isCurrentlyOpen = !!(appState.libraryOpen || appState.openSidebar === "library" || appState.openSidebar?.name === "library");
             const newState = !isCurrentlyOpen;
-            excalidrawAPI.updateScene({
+            api.updateScene({
                 appState: {
-                    libraryOpen: newState,
                     openSidebar: newState ? "library" : null
                 }
             });
             setIsLibraryOpen(newState);
         }
-    };
+    }, []);
 
-    const openMenu = () => {
+    const openMenu = useCallback(() => {
         if (!excalidrawAPI) return;
         const menuBtn = document.querySelector('.DropdownMenu-button') as HTMLButtonElement;
         if (menuBtn) menuBtn.click();
-    };
+    }, [excalidrawAPI]);
 
     const openHelp = () => {
         if (!excalidrawAPI) return;
@@ -418,19 +436,38 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
 
                 /* WELCOME SCREEN HINT REPOSITION */
-                .whiteboard-container .excalidraw .welcome-screen-center {
-                    transform: translateY(40px) !important;
+                .whiteboard-container .excalidraw .welcome-screen-center,
+                .whiteboard-container .excalidraw .welcome-screen-center--hint {
+                    transform: translateY(140px) !important;
                 }
                 
                 .whiteboard-container .excalidraw .welcome-screen-hints {
-                    transform: translate(-50%, 80px) !important;
+                    transform: translateX(-50%) translateY(140px) !important;
+                    display: flex !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    pointer-events: none !important;
+                }
+
+                .whiteboard-container .excalidraw .welcome-screen-hints--menu-hint,
+                .whiteboard-container .excalidraw .welcome-screen-hints--help-hint {
+                    display: none !important;
+                }
+                
+                .whiteboard-container .excalidraw .welcome-screen-hints--toolbar-hint {
+                    display: flex !important;
+                }
+
+                /* Ensure text tool click works */
+                .whiteboard-container .excalidraw .excalidraw-text-input {
+                    z-index: 2000 !important;
                 }
             `}</style>
 
                 <ExcalidrawWrapper
-                    excalidrawAPI={(api: any) => setExcalidrawAPI(api)}
+                    excalidrawAPI={setExcalidrawAPI}
                     onChange={onChange}
-                    onPointerUpdate={(activeTool: any, pointerData: any) => {
+                    onPointerUpdate={useCallback((activeTool: any, pointerData: any) => {
                         const now = Date.now();
                         if (now - lastPointerUpdateRef.current > 50) {
                             lastPointerUpdateRef.current = now;
@@ -442,8 +479,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                 });
                             }
                         }
-                    }}
-                    onBack={() => window.location.href = '/whiteboard'}
+                    }, [id])}
+                    onBack={useCallback(() => window.location.href = '/whiteboard', [])}
                     title={whiteboard?.title}
                 />
 
