@@ -500,25 +500,29 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     const toggleLibrary = useCallback(() => {
         if (!excalidrawAPI) return;
-        const currentState = excalidrawAPI.getAppState();
-        const isOpen = currentState.openSidebar?.name === "library";
-        excalidrawAPI.updateScene({
-            appState: {
-                openSidebar: isOpen ? null : { name: "library" }
+        // Use toggleSidebar API method if available, otherwise try updateScene
+        if (typeof excalidrawAPI.toggleSidebar === 'function') {
+            excalidrawAPI.toggleSidebar({ name: "library" });
+        } else {
+            // Fallback: try clicking the native library button
+            const libraryBtn = document.querySelector('[data-testid="sidebar-trigger-library"]') as HTMLButtonElement;
+            if (libraryBtn) {
+                libraryBtn.click();
             }
-        });
+        }
     }, [excalidrawAPI]);
 
     const openMenu = useCallback(() => {
-        if (!excalidrawAPI) return;
-        const currentState = excalidrawAPI.getAppState();
-        const isOpen = currentState.openMenu === "canvas";
-        excalidrawAPI.updateScene({
-            appState: {
-                openMenu: isOpen ? null : "canvas"
-            }
-        });
-    }, [excalidrawAPI]);
+        // Menu doesn't have direct API - need to click the DOM element
+        const menuTrigger = document.querySelector('[data-testid="main-menu-trigger"]') as HTMLButtonElement;
+        if (menuTrigger) {
+            menuTrigger.click();
+        } else {
+            // Fallback: try other selectors
+            const altTrigger = document.querySelector('.dropdown-menu-button') as HTMLButtonElement;
+            if (altTrigger) altTrigger.click();
+        }
+    }, []);
 
     const openHelp = () => {
         setIsHelpOpen(true);
@@ -643,16 +647,26 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     pointer-events: auto !important;
                 }
 
-                /* Hide ONLY specific trigger buttons (not the entire toolbar structure) */
+                /* KEEP native trigger buttons accessible (for programmatic clicks) but visually hidden */
                 .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
                 .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
-                .whiteboard-container .excalidraw .library-button,
+                .whiteboard-container .excalidraw .library-button {
+                    position: absolute !important;
+                    width: 1px !important;
+                    height: 1px !important;
+                    padding: 0 !important;
+                    margin: -1px !important;
+                    overflow: hidden !important;
+                    clip: rect(0, 0, 0, 0) !important;
+                    white-space: nowrap !important;
+                    border: 0 !important;
+                    /* pointer-events: auto so we can click them programmatically */
+                    pointer-events: auto !important;
+                }
+                
+                /* Hide footer center - not needed with custom UI */
                 .whiteboard-container .excalidraw .footer-center {
-                    position: fixed !important;
-                    top: -1000px !important;
-                    left: -1000px !important;
-                    opacity: 0 !important;
-                    pointer-events: none !important;
+                    display: none !important;
                 }
                 
                 /* Hide the native toolbar ICONS but keep the container for properties panel */
