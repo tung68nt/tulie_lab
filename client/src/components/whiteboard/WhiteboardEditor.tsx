@@ -29,6 +29,22 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     // Initial Load Data
     useEffect(() => {
         const loadWhiteboard = async () => {
+            if (id === 'new') {
+                try {
+                    const newWhiteboard = await api.whiteboards.create({ title: 'Untitled Whiteboard' });
+                    window.history.replaceState(null, '', `/whiteboard/${newWhiteboard.id}`);
+                    setWhiteboard(newWhiteboard);
+                    // Force a reload to ensure socket/clean state if needed, or just let React handle it
+                    // window.location.reload(); 
+                    // Actually, let's just update the ID prop conceptually or similar? 
+                    // Since ID is a prop, we might need to redirect properly.
+                    window.location.href = `/whiteboard/${newWhiteboard.id}`;
+                    return;
+                } catch (error) {
+                    console.error('Failed to create new whiteboard:', error);
+                }
+            }
+
             try {
                 const data = await api.whiteboards.get(id);
                 setWhiteboard(data);
