@@ -5,7 +5,10 @@ import dynamic from 'next/dynamic';
 import { api } from '@/lib/api';
 import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
-import { Share2, Copy, X, Cloud, CloudUpload } from 'lucide-react';
+import {
+    Share2, Copy, X, Cloud, CloudUpload,
+    MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser
+} from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Portal } from '@/components/Portal';
 
@@ -39,12 +42,26 @@ interface RemoteCursor {
     userName?: string;
 }
 
+const TOOLS = [
+    { value: 'selection', icon: MousePointer2, label: 'Selection' },
+    { value: 'rectangle', icon: Square, label: 'Rectangle' },
+    { value: 'diamond', icon: Diamond, label: 'Diamond' },
+    { value: 'ellipse', icon: Circle, label: 'Ellipse' },
+    { value: 'arrow', icon: ArrowRight, label: 'Arrow' },
+    { value: 'line', icon: Minus, label: 'Line' },
+    { value: 'freedraw', icon: Pencil, label: 'Draw' },
+    { value: 'text', icon: Type, label: 'Text' },
+    { value: 'image', icon: ImageIcon, label: 'Image' },
+    { value: 'eraser', icon: Eraser, label: 'Eraser' },
+];
+
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [whiteboard, setWhiteboard] = useState<WhiteboardData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [remoteCursors, setRemoteCursors] = useState<Record<string, RemoteCursor>>({});
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
+    const [activeTool, setActiveTool] = useState('selection');
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
@@ -168,6 +185,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const onChange = (elements: readonly any[], appState: any) => {
         if (!initialLoadRef.current) return;
 
+        // Sync active tool state
+        if (appState.activeTool && appState.activeTool.type !== activeTool) {
+            setActiveTool(appState.activeTool.type);
+        }
+
         if (saveStatus === 'saved') setSaveStatus('unsaved');
 
         if (socketRef.current) {
@@ -185,14 +207,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     };
 
-    const handlePointerMove = (activeTool: any, pointerData: any) => {
-        if (socketRef.current) {
-            socketRef.current.emit('cursor_move', {
-                whiteboardId: id,
-                point: { x: pointerData.x, y: pointerData.y },
-                userName: 'Bạn'
-            });
-        }
+    const setTool = (tool: string) => {
+        if (!excalidrawAPI) return;
+        setActiveTool(tool);
+        excalidrawAPI.setActiveTool({ type: tool });
     };
 
     if (isLoading) {
@@ -223,14 +241,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     --color-s-accent-outline: #18181b !important;
                     --color-on-primary-container: #18181b !important;
                     --color-brand: #18181b !important; /* Override purple brand color */
-                    
-                    /* Toolbar Active State */
-                    --button-hover-bg: #f4f4f5 !important;
-                    --sidebar-bg: #ffffff !important;
-                    --sidebar-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
                 }
 
-                /* Force Grayscale on Specific UI Elements (Not Color Picker) */
+                /* HIDE NATIVE TOOLBAR */
+                .whiteboard-container .excalidraw .App-toolbar {
+                    display: none !important;
+                }
+
+                /* Force Grayscale on UI */
                 .whiteboard-container .excalidraw .HelpBtn,
                 .whiteboard-container .excalidraw .App-menu__left,
                 .whiteboard-container .excalidraw .hint,
@@ -245,27 +263,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
                     /* Ensure footer controls don't use brand colors */
                     --color-primary: #18181b !important; /* zinc-900 */
-                }
-
-                /* Toolbar Active State - Fix Contrast */
-                .whiteboard-container .excalidraw .ToolIcon__icon.active {
-                    background-color: #18181b !important;
-                }
-                
-                .whiteboard-container .excalidraw .ToolIcon__icon.active svg {
-                    fill: #ffffff !important;
-                    stroke: #ffffff !important;
-                    color: #ffffff !important;
-                }
-                
-                .whiteboard-container .excalidraw .App-toolbar .ToolIcon_type_radio:checked + .ToolIcon__icon {
-                    background-color: #18181b !important;
-                }
-
-                .whiteboard-container .excalidraw .App-toolbar .ToolIcon_type_radio:checked + .ToolIcon__icon svg {
-                    fill: #ffffff !important;
-                    stroke: #ffffff !important;
-                    color: #ffffff !important;
                 }
 
                 /* Context Menu Redesign */
@@ -326,48 +323,56 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     title={whiteboard?.title}
                 />
 
-                {/* Top Center Branding Panel */}
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[101] pointer-events-none flex flex-col items-center gap-3">
-                    <div className="pointer-events-auto flex items-center gap-3">
-                        {/* Branding & Status Panel - Big Logo Version */}
-                        <div className="flex items-center gap-4 bg-white/90 backdrop-blur-md px-6 py-2.5 rounded-2xl border border-zinc-200 shadow-sm transition-all hover:shadow-md">
-                            {/* Logo Section */}
-                            <div className="flex items-center gap-3">
-                                <Logo showText={false} height="h-10" className="flex-shrink-0" />
+                {/* 1. Branding (Top Left - Offset to avoid Hamburger) */}
+                <div className="absolute top-4 left-[60px] z-[101] pointer-events-auto flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-2 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all">
+                    <Logo showText={false} height="h-8" className="flex-shrink-0" />
+                    <div className="flex flex-col justify-center select-none">
+                        <span className="text-[10px] uppercase font-bold text-zinc-400 leading-none tracking-widest">TULIE</span>
+                        <span className="text-lg font-bold text-zinc-900 leading-none">Whiteboard</span>
+                    </div>
+                </div>
 
-                                <div className="flex flex-col justify-center select-none">
-                                    <span className="text-[10px] uppercase font-bold text-zinc-400 leading-none tracking-widest">TULIE</span>
-                                    <span className="text-xl font-bold text-zinc-900 leading-none">Whiteboard</span>
-                                </div>
-                            </div>
+                {/* 2. Custom Toolbar (Top Center) */}
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[101] pointer-events-auto">
+                    <div className="flex items-center gap-1 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 shadow-lg">
+                        {TOOLS.map((tool) => (
+                            <button
+                                key={tool.value}
+                                onClick={() => setTool(tool.value)}
+                                className={`
+                                    p-2.5 rounded-xl transition-all duration-200
+                                    ${activeTool === tool.value
+                                        ? 'bg-zinc-900 text-white shadow-md scale-105'
+                                        : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'
+                                    }
+                                `}
+                                title={tool.label}
+                            >
+                                <tool.icon className="w-5 h-5" />
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
-                            {/* Divider */}
-                            <div className="w-px h-8 bg-zinc-200" />
-
-                            {/* Title & Save Status */}
-                            <div className="flex flex-col">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-sm font-bold text-zinc-900 leading-tight">
-                                        {whiteboard?.title || 'Bảng chưa đặt tên'}
-                                    </span>
-                                    {saveStatus === 'saving' ? (
-                                        <CloudUpload className="w-4 h-4 text-zinc-400 animate-pulse" />
-                                    ) : saveStatus === 'saved' ? (
-                                        <Cloud className="w-4 h-4 text-emerald-500" />
-                                    ) : (
-                                        <div className="w-2 h-2 rounded-full bg-amber-400" />
-                                    )}
-                                </div>
-                            </div>
+                {/* 3. Share Button (Top Right - Offset to avoid Library) */}
+                <div className="absolute top-4 right-[60px] z-[101] pointer-events-auto">
+                    <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-4 pr-1.5 py-1.5 rounded-full border border-zinc-200 shadow-sm hover:shadow-md transition-all">
+                        <div className="flex items-center gap-2 mr-2">
+                            <span className="text-sm font-semibold max-w-[150px] truncate">
+                                {whiteboard?.title || 'Bảng chưa đặt tên'}
+                            </span>
+                            {saveStatus === 'saving' ? (
+                                <CloudUpload className="w-3.5 h-3.5 text-zinc-400 animate-pulse" />
+                            ) : saveStatus === 'saved' ? (
+                                <Cloud className="w-3.5 h-3.5 text-emerald-500" />
+                            ) : (
+                                <div className="w-2 h-2 rounded-full bg-amber-400" />
+                            )}
                         </div>
-
-                        {/* Share Button - Moved here or kept separate? User said "Under Share button is covered". */}
-                        {/* If we move branding to Center, Share can stay Top Right OR move to Center. */}
-                        {/* Let's keep Share Button attached to Branding for consistency as per Plan "Top Center" */}
                         <Button
                             variant="default"
                             size="sm"
-                            className="rounded-full shadow-lg bg-zinc-900 text-white hover:bg-zinc-800 h-10 px-5 border-none transition-all hover:scale-105"
+                            className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 h-9 px-4"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-4 h-4 mr-2" />
@@ -376,8 +381,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                 </div>
 
-                {/* Status Indicator (Bottom Left - Shifted Up to avoid Zoom) */}
-                <div className="absolute bottom-20 left-4 z-[101] pointer-events-none">
+                {/* 4. Status Indicator (Bottom Right) */}
+                <div className="absolute bottom-4 right-4 z-[101] pointer-events-none">
                     <div className="px-3 py-1.5 bg-white/90 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto transition-all hover:scale-105 cursor-default">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                         {Object.keys(remoteCursors).length + 1} đang kết nối
