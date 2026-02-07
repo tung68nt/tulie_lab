@@ -68,18 +68,18 @@ const EXTRA_TOOLS = [
 
 // MEMOIZED UI COMPONENTS
 const BrandingBar = React.memo(({ openMenu }: { openMenu: () => void }) => (
-    <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-3 bg-white/95 backdrop-blur-md p-1.5 pr-6 rounded-2xl border border-zinc-200 h-[52px]">
+    <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1.5 pr-4 rounded-2xl border border-zinc-200 h-[52px]">
         <button
             onClick={openMenu}
             className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-700 active:scale-95"
+            title="Menu"
         >
             <Menu className="w-5 h-5" />
         </button>
         <div className="w-px h-6 bg-zinc-200" />
-        <Logo showText={false} height="h-8" className="flex-shrink-0 ml-1" />
-        <div className="flex flex-col justify-center select-none ml-2">
-            <span className="text-[10px] font-medium text-zinc-400 leading-none mb-0.5">Tulie</span>
-            <span className="text-sm font-medium text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
+        <Logo showText={false} height="h-7" className="flex-shrink-0 ml-1" />
+        <div className="flex flex-col justify-center select-none ml-1.5">
+            <span className="text-[10px] font-medium text-zinc-400 leading-none">Whiteboard</span>
         </div>
     </div>
 ));
@@ -150,11 +150,11 @@ const Toolbar = React.memo(({
 
 const TitleShareBar = React.memo(({
     isEditingTitle, tempTitle, whiteboardTitle, saveStatus,
-    setTempTitle, handleSaveTitle, handleTitleKeyDown, handleStartEditing, setIsEditingTitle, setIsShareModalOpen, onSave
+    setTempTitle, handleSaveTitle, handleTitleKeyDown, handleStartEditing, setIsEditingTitle, setIsShareModalOpen, onSave, toggleLibrary
 }: any) => (
-    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group">
+    <div className="flex items-center gap-2.5 bg-white/95 backdrop-blur-md pl-4 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group">
         {isEditingTitle ? (
-            <div className="flex items-center gap-1.5 p-1 bg-zinc-50 rounded-xl border border-zinc-200">
+            <div className="flex items-center gap-1 p-1 bg-zinc-50 rounded-xl border border-zinc-200">
                 <input
                     autoFocus
                     type="text"
@@ -162,57 +162,56 @@ const TitleShareBar = React.memo(({
                     onChange={(e) => setTempTitle(e.target.value)}
                     onBlur={() => setTimeout(handleSaveTitle, 200)}
                     onKeyDown={handleTitleKeyDown}
-                    className="text-sm font-medium bg-white border-2 border-zinc-900 rounded-xl px-3 py-1.5 outline-none w-[200px] text-zinc-900 placeholder:text-zinc-300 transition-all font-sans"
-                    placeholder="Tên bảng mới..."
+                    className="text-xs font-medium bg-white border-2 border-zinc-900 rounded-xl px-2.5 py-1.5 outline-none w-[140px] text-zinc-900 placeholder:text-zinc-300 transition-all font-sans"
+                    placeholder="Tên bảng..."
                 />
                 <button
                     onClick={handleSaveTitle}
-                    className="p-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600 transition-all active:scale-95 shadow-lg"
-                    title="Lưu tên (Enter)"
+                    className="p-1.5 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-all active:scale-95"
                 >
-                    <Check className="w-4 h-4" />
-                </button>
-                <button
-                    onClick={() => setIsEditingTitle(false)}
-                    className="p-2 bg-white text-zinc-400 rounded-xl hover:bg-zinc-50 transition-all active:scale-95"
-                    title="Hủy (Esc)"
-                >
-                    <X className="w-4 h-4" />
+                    <Check className="w-3.5 h-3.5" />
                 </button>
             </div>
         ) : (
-            <div className="flex items-center gap-2 cursor-pointer h-full px-2 hover:bg-zinc-50 rounded-xl transition-colors" onClick={handleStartEditing}>
-                <span className="text-sm font-medium max-w-[150px] truncate text-zinc-900" title="Nhấn để đổi tên">
-                    {whiteboardTitle || 'Bảng chưa đặt tên'}
+            <div className="flex items-center gap-2 cursor-pointer h-full px-1.5 hover:bg-zinc-50 rounded-xl transition-colors" onClick={handleStartEditing}>
+                <span className="text-[13px] font-medium max-w-[120px] truncate text-zinc-900">
+                    {whiteboardTitle || 'Untitled'}
                 </span>
-                <Pencil className="w-3.5 h-3.5 text-zinc-400" />
+                <Pencil className="w-3 h-3 text-zinc-400" />
             </div>
         )}
 
-        <div className="flex items-center gap-1.5 bg-zinc-50 p-1 rounded-xl border border-zinc-100">
+        <div className="flex items-center gap-1 bg-zinc-50 p-1 rounded-xl border border-zinc-100">
             <button
                 onClick={onSave}
                 disabled={saveStatus === 'saving'}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-[11px] font-medium transition-all active:scale-95 ${saveStatus === 'unsaved' ? 'bg-amber-100 text-amber-600 hover:bg-amber-200' : saveStatus === 'saving' ? 'bg-zinc-100 text-zinc-400 italic' : 'bg-white text-zinc-500 hover:bg-white/80'}`}
-                title="Lưu thủ công (Ctrl+S)"
+                className={`p-2.5 rounded-xl transition-all active:scale-95 ${saveStatus === 'unsaved' ? 'bg-amber-100 text-amber-600 hover:bg-amber-200' : saveStatus === 'saving' ? 'bg-zinc-100 text-zinc-400' : 'bg-white text-zinc-500 hover:bg-white/80'}`}
+                title={saveStatus === 'saving' ? 'Đang lưu...' : 'Lưu thủ công (Ctrl+S)'}
             >
                 {saveStatus === 'saving' ? (
-                    <div className="w-3 h-3 border-2 border-zinc-300 border-t-transparent rounded-full animate-spin" />
+                    <div className="w-3.5 h-3.5 border-2 border-zinc-300 border-t-transparent rounded-full animate-spin" />
                 ) : (
-                    <Save className={`w-3.5 h-3.5 ${saveStatus === 'unsaved' ? 'animate-pulse' : ''}`} />
+                    <Save className={`w-4 h-4 ${saveStatus === 'unsaved' ? 'animate-pulse' : ''}`} />
                 )}
-                {saveStatus === 'saving' ? 'Đang lưu...' : saveStatus === 'unsaved' ? 'Lưu ngay' : 'Đã lưu'}
             </button>
 
-            <div className="w-px h-6 bg-zinc-200 mx-1" />
-
-            <Button
-                variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[36px] px-4 text-[11px] font-medium shadow-none hover:bg-zinc-800 active:scale-95 transition-all outline-none border-none"
+            <button
+                className="p-2.5 rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 active:scale-95 transition-all"
                 onClick={() => setIsShareModalOpen(true)}
+                title="Chia sẻ"
             >
-                <Share2 className="w-3.5 h-3.5 mr-2" />
-                Chia sẻ
-            </Button>
+                <Share2 className="w-4 h-4" />
+            </button>
+
+            <div className="w-px h-5 bg-zinc-200 mx-0.5" />
+
+            <button
+                onClick={toggleLibrary}
+                className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all active:scale-95"
+                title="Thư viện"
+            >
+                <LibraryIcon className="w-4 h-4" />
+            </button>
         </div>
     </div>
 ));
@@ -507,18 +506,33 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, [isMoreMenuOpen]);
 
     const toggleLibrary = useCallback(() => {
-        const libBtn = document.querySelector('[data-testid="sidebar-trigger-library"]') as HTMLButtonElement;
-        if (libBtn) {
-            libBtn.click();
+        if (excalidrawAPI) {
+            // Priority: Use the API if available - much more robust
+            excalidrawAPI.updateScene({
+                appState: {
+                    openSidebar: excalidrawAPI.getAppState().openSidebar ? null : { name: "library" }
+                }
+            });
+        } else {
+            // Fallback to DOM Trigger
+            const libBtn = document.querySelector('[data-testid="sidebar-trigger-library"]') as HTMLButtonElement;
+            if (libBtn) libBtn.click();
         }
-    }, []);
+    }, [excalidrawAPI]);
 
     const openMenu = useCallback(() => {
-        const menuBtn = document.querySelector('[data-testid="main-menu-trigger"]') as HTMLButtonElement;
-        if (menuBtn) {
-            menuBtn.click();
+        if (excalidrawAPI) {
+            // Standard Excalidraw way to programmatically open the main menu
+            excalidrawAPI.updateScene({
+                appState: {
+                    openMenu: excalidrawAPI.getAppState().openMenu === "main" ? null : "main"
+                }
+            });
+        } else {
+            const menuBtn = document.querySelector('[data-testid="main-menu-trigger"]') as HTMLButtonElement;
+            if (menuBtn) menuBtn.click();
         }
-    }, []);
+    }, [excalidrawAPI]);
 
     const openHelp = () => {
         setIsHelpOpen(true);
@@ -871,6 +885,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         setIsEditingTitle={setIsEditingTitle}
                         setIsShareModalOpen={setIsShareModalOpen}
                         onSave={handleSave}
+                        toggleLibrary={toggleLibrary}
                     />
                     <button
                         onClick={toggleLibrary}
