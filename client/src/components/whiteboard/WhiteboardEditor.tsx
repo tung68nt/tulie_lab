@@ -192,7 +192,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, [id]);
 
     return (
-        <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+        <div style={{ width: '100vw', height: '100vh', position: 'relative', border: '5px solid red' }}>
             <ExcalidrawWrapper
                 excalidrawAPI={setExcalidrawAPI}
                 onChange={onChange}
