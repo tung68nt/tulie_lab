@@ -20,20 +20,10 @@ export default function ExcalidrawWrapper({
     onBack,
     title
 }: ExcalidrawWrapperProps) {
-    const UIOptions = React.useMemo(() => ({
-        canvasActions: {
-            toggleTheme: true,
-            export: {
-                saveFileToDisk: true,
-            }
-        }
-    }), []);
-
-    const initialData = React.useMemo(() => ({
-        appState: { gridModeEnabled: true }
-    }), []);
-
     return (
-        <Excalidraw />
+        <Excalidraw
+            langCode="vi-VN"
+            theme="light"
+        />
     );
 }

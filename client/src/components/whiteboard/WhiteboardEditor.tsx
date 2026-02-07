@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Excalidraw } from '@excalidraw/excalidraw';
-import '@excalidraw/excalidraw/index.css';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import ExcalidrawWrapper from './ExcalidrawWrapper';
 
 interface WhiteboardEditorProps {
     id: string;
@@ -11,9 +11,12 @@ interface WhiteboardEditorProps {
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     return (
         <div style={{ width: '100vw', height: '100vh' }}>
-            <Excalidraw
-                langCode="vi-VN"
-                theme="light"
+            <ExcalidrawWrapper
+                excalidrawAPI={() => { }}
+                onChange={() => { }}
+                onPointerUpdate={() => { }}
+                onBack={() => { }}
+                title=""
             />
         </div>
     );
