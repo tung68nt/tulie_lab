@@ -320,16 +320,17 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             socket.emit('join_whiteboard', id);
         });
 
-        socket.on('draw_synced', (data: any) => {
-            if (excalidrawAPI && initialLoadRef.current) {
-                if (data.elements) {
-                    excalidrawAPI.updateScene({
-                        elements: data.elements,
-                        commitToHistory: false
-                    });
-                }
-            }
-        });
+        // SOCKET LISTENERS DISABLED FOR DEBUGGING
+        // socket.on('draw_synced', (data: any) => {
+        //     if (excalidrawAPI && initialLoadRef.current) {
+        //         if (data.elements) {
+        //             excalidrawAPI.updateScene({
+        //                 elements: data.elements,
+        //                 commitToHistory: false
+        //             });
+        //         }
+        //     }
+        // });
 
         socket.on('cursor_moved', (data: { socketId: string; point: { x: number; y: number }; userName?: string }) => {
             setRemoteCursors(prev => ({
@@ -417,11 +418,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         if (now - lastEmitTimeRef.current > 500) {
             lastEmitTimeRef.current = now;
             if (socketRef.current?.connected) {
-                // Only emit if we have meaningful changes
-                socketRef.current.emit('draw_change', {
-                    whiteboardId: id,
-                    changes: { elements }
-                });
+                // SOCKET DISABLED FOR DEBUGGING
+                // if (now - lastEmitTimeRef.current > 500) {
+                //     socketRef.current?.emit('draw_change', {
+                //         whiteboardId: id,
+                //         changes: {
+                //             elements: elements,
+                //             appState: {
+                //                 viewBackgroundColor: appState.viewBackgroundColor
+                //             }
+                //         }
+                //     });
+                //     lastEmitTimeRef.current = now;
+                // }
             }
         }
 
