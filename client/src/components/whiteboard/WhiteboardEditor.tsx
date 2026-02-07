@@ -77,6 +77,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [zoom, setZoom] = useState(1);
     const [isLibraryOpen, setIsLibraryOpen] = useState(false);
     const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+    const [isHelpOpen, setIsHelpOpen] = useState(false);
 
     const socketRef = useRef<Socket | null>(null);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -359,8 +360,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, []);
 
     const openHelp = () => {
-        if (!excalidrawAPI) return;
-        excalidrawAPI.updateScene({ appState: { openDialog: { name: "help" } } });
+        setIsHelpOpen(true);
     };
 
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
@@ -472,11 +472,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 /* WELCOME SCREEN HINT REPOSITION */
                 .whiteboard-container .excalidraw .welcome-screen-center {
-                    transform: translateY(60px) !important;
+                    transform: translateY(-20px) !important;
                 }
                 
                 .whiteboard-container .excalidraw .welcome-screen-hints {
-                    bottom: 160px !important;
+                    bottom: 100px !important;
                     display: flex !important;
                     opacity: 1 !important;
                     visibility: visible !important;
@@ -513,11 +513,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .HelpDialog__key,
                 .whiteboard-container .excalidraw .Dialog__key,
                 .whiteboard-container .excalidraw .kbd,
-                .whiteboard-container .excalidraw kbd {
+                .whiteboard-container .excalidraw kbd,
+                .whiteboard-container .excalidraw .Shortcut__key {
                     background: #18181b !important;
                     color: white !important;
                     border: none !important;
                     box-shadow: none !important;
+                    font-weight: 700 !important;
                 }
 
                 .whiteboard-container .excalidraw .Dialog__content,
@@ -539,6 +541,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .excalidraw-text-input {
                     z-index: 4000 !important;
                 }
+
+                /* Shortcut styling for custom help modal */
+                .shortcut-key {
+                    background: #18181b;
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 6px;
+                    font-size: 11px;
+                    font-weight: 700;
+                    min-width: 24px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
             `}</style>
 
                 <ExcalidrawWrapper
@@ -552,18 +568,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 {/* --- CUSTOM UI --- */}
 
                 {/* 1. TOP LEFT: Branding & Menu */}
-                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1 pr-4 rounded-xl border border-zinc-200 transition-all h-[48px]">
-                    <button
-                        onClick={openMenu}
-                        className="p-2 hover:bg-zinc-100 rounded-lg transition-colors text-zinc-600"
-                    >
-                        <Menu className="w-5 h-5" />
-                    </button>
-                    <div className="w-px h-6 bg-zinc-200 mx-0.5" />
+                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-4 bg-white/95 backdrop-blur-md px-6 py-2 rounded-xl border border-zinc-200 transition-all h-[48px]">
                     <Logo showText={false} height="h-7" className="flex-shrink-0" />
                     <div className="flex flex-col justify-center select-none ml-1">
-                        <span className="text-[10px] font-bold text-zinc-400 leading-none tracking-widest uppercase mb-0.5">Tulie</span>
-                        <span className="text-base font-black text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
+                        <span className="text-[10px] font-bold text-zinc-400 leading-none mb-0.5">Tulie</span>
+                        <span className="text-base font-bold text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
                     </div>
                 </div>
 
@@ -624,7 +633,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                             className={`flex items-center gap-3 w-full p-2 rounded-xl transition-colors ${activeTool === tool.value ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}
                                         >
                                             <tool.icon className="w-3.5 h-3.5" />
-                                            <span className="text-[13px] font-medium flex-1 text-left">{tool.label}</span>
+                                            <span className="text-[13px] font-bold flex-1 text-left">{tool.label}</span>
                                             {tool.shortcut && <span className="text-[10px] opacity-40">{tool.shortcut}</span>}
                                         </button>
                                     ))}
@@ -639,11 +648,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-xl border border-zinc-200 h-full">
                         <span className="text-sm font-bold max-w-[150px] truncate text-zinc-900">{whiteboard?.title || 'Bảng chưa đặt tên'}</span>
                         <Button
-                            variant="default" size="sm" className="rounded-lg bg-zinc-900 text-white h-[36px] px-4 text-[11px] font-bold tracking-wider shadow-none"
+                            variant="default" size="sm" className="rounded-lg bg-zinc-900 text-white h-[36px] px-4 text-[11px] font-bold shadow-none"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-3.5 h-3.5 mr-2" />
-                            CHIA SẺ
+                            Chia sẻ
                         </Button>
                     </div>
                     <button
@@ -662,7 +671,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </button>
                     <button
                         onClick={handleResetZoom}
-                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-black text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
+                        className="px-4 py-1.5 hover:bg-zinc-100 rounded-xl text-sm font-medium text-zinc-900 min-w-[64px] transition-all bg-zinc-50/50"
                     >
                         {Math.round(zoom * 100)}%
                     </button>
@@ -675,7 +684,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 <div className="absolute bottom-6 right-6 z-[1000] pointer-events-auto flex items-center gap-3 h-[48px]">
                     <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-zinc-200 rounded-xl text-[12px] font-bold text-zinc-900 flex items-center gap-2.5 h-full">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-                        <span className="tracking-tight uppercase">{Object.keys(remoteCursors).length + 1} kết nối</span>
+                        <span className="tracking-tight">{Object.keys(remoteCursors).length + 1} kết nối</span>
                     </div>
                     <button
                         onClick={openHelp}
@@ -724,12 +733,182 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.65376 12.3822L15.3326 21.0277C16.6221 22.1792 18.5077 21.2215 18.4528 19.5101L17.9213 2.96914C17.8826 1.76231 16.4815 1.10738 15.564 1.88852L5.4357 10.5126C4.5447 11.2709 4.68192 12.671 5.65376 12.3822Z" fill="#18181b" stroke="white" strokeWidth="2" />
                             </svg>
-                            <div className="ml-4 mt-2 px-3 py-1.5 bg-zinc-900 text-white text-[11px] rounded-full whitespace-nowrap font-black shadow-2xl">
+                            <div className="ml-4 mt-2 px-3 py-1.5 bg-zinc-900 text-white text-[11px] rounded-full whitespace-nowrap font-bold shadow-2xl">
                                 {cursor.userName || 'Bạn học'}
                             </div>
                         </div>
                     ))}
                 </div>
+
+                {/* --- CUSTOM HELP MODAL --- */}
+                {isHelpOpen && (
+                    <div className="absolute inset-0 z-[2000] flex items-center justify-center bg-black/40 backdrop-blur-[4px] pointer-events-auto p-4">
+                        <div className="bg-white rounded-[32px] shadow-2xl p-8 w-full max-w-2xl border border-zinc-100 animate-in fade-in zoom-in slide-in-from-bottom-4 duration-300">
+                            <div className="flex justify-between items-center mb-8">
+                                <h2 className="text-2xl font-bold text-zinc-900 tracking-tight">Trợ giúp</h2>
+                                <button onClick={() => setIsHelpOpen(false)} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
+                                    <X className="w-6 h-6 text-zinc-300" />
+                                </button>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-12">
+                                {/* Tools Section */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-zinc-400 mb-6 tracking-wider">Công cụ</h3>
+                                    <div className="space-y-4">
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Bàn tay (kéo trang)</span>
+                                            <span className="shortcut-key">H</span>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Chọn đối tượng</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">V</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">1</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Hình chữ nhật</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">R</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">2</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Hình thoi</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">D</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">3</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Hình ellipse</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">O</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">4</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Mũi tên</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">A</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">5</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Đường thẳng</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">L</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">6</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Vẽ tự do</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">P</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">7</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Văn bản</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">T</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">8</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Tẩy</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">E</span>
+                                                <span className="text-zinc-300">hoặc</span>
+                                                <span className="shortcut-key">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Editor Section */}
+                                <div>
+                                    <h3 className="text-sm font-bold text-zinc-400 mb-6 tracking-wider">Trình chỉnh sửa</h3>
+                                    <div className="space-y-4">
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Xoá đối tượng</span>
+                                            <span className="shortcut-key">Delete</span>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Chọn tất cả</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">Cmd</span>
+                                                <span className="shortcut-key">A</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Hoàn tác (Undo)</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">Cmd</span>
+                                                <span className="shortcut-key">Z</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Làm lại (Redo)</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">Cmd</span>
+                                                <span className="shortcut-key">Shift</span>
+                                                <span className="shortcut-key">Z</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Sao chép</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">Cmd</span>
+                                                <span className="shortcut-key">C</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Dán</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">Cmd</span>
+                                                <span className="shortcut-key">V</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Góc nhìn mặc định</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key">Shift</span>
+                                                <span className="shortcut-key">1</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-[13px] font-bold text-zinc-700">
+                                            <span>Thu nhỏ / Phóng to</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="shortcut-key font-black">-</span>
+                                                <span className="text-zinc-300">/</span>
+                                                <span className="shortcut-key font-black">+</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-12 flex justify-center">
+                                <Button
+                                    className="rounded-2xl h-[56px] px-10 text-base font-bold bg-zinc-900 hover:bg-zinc-800 shadow-xl transition-all active:scale-[0.98]"
+                                    onClick={() => setIsHelpOpen(false)}
+                                >
+                                    Đã hiểu
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </Portal>
     );
