@@ -1,6 +1,6 @@
 {
   "taskId": "uvbvhf",
-  "currentVersion": 1,
+  "currentVersion": 3,
   "versions": [
     {
       "id": "v1",
@@ -49,6 +49,230 @@
             "text": "Remove tldraw related code and dependencies"
           }
         ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "uvbvhf",
+      "version": 2,
+      "timestamp": "2026-02-06T13:36:13.923Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Replace tldraw package with excalidraw"
+            },
+            {
+              "completed": false,
+              "text": "Implement Excalidraw component in Whiteboard page"
+            },
+            {
+              "completed": false,
+              "text": "Restore/Ensure collaborative features work with Excalidraw"
+            },
+            {
+              "completed": false,
+              "text": "Verify persistence of drawings"
+            },
+            {
+              "completed": false,
+              "text": "Remove tldraw related code and dependencies"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Replace tldraw package with excalidraw"
+            },
+            {
+              "completed": false,
+              "text": "Implement Excalidraw component in Whiteboard page"
+            },
+            {
+              "completed": false,
+              "text": "Restore/Ensure collaborative features work with Excalidraw"
+            },
+            {
+              "completed": false,
+              "text": "Verify persistence of drawings"
+            },
+            {
+              "completed": false,
+              "text": "Remove tldraw related code and dependencies"
+            },
+            {
+              "text": "Fix deployment error (DYNAMIC_SERVER_USAGE)",
+              "completed": false
+            },
+            {
+              "text": "Fix Whiteboard UI regression (Navbar gap)",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Transition Whiteboard from tldraw to Excalidraw",
+        "description": "Switching from tldraw to the open-source version of Excalidraw to provide a free and stable whiteboard alternative. Related: @task-nvekf6",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "refactor"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Replace tldraw package with excalidraw"
+          },
+          {
+            "completed": false,
+            "text": "Implement Excalidraw component in Whiteboard page"
+          },
+          {
+            "completed": false,
+            "text": "Restore/Ensure collaborative features work with Excalidraw"
+          },
+          {
+            "completed": false,
+            "text": "Verify persistence of drawings"
+          },
+          {
+            "completed": false,
+            "text": "Remove tldraw related code and dependencies"
+          },
+          {
+            "text": "Fix deployment error (DYNAMIC_SERVER_USAGE)",
+            "completed": false
+          },
+          {
+            "text": "Fix Whiteboard UI regression (Navbar gap)",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "uvbvhf",
+      "version": 3,
+      "timestamp": "2026-02-06T13:36:19.569Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Replace tldraw package with excalidraw"
+            },
+            {
+              "completed": false,
+              "text": "Implement Excalidraw component in Whiteboard page"
+            },
+            {
+              "completed": false,
+              "text": "Restore/Ensure collaborative features work with Excalidraw"
+            },
+            {
+              "completed": false,
+              "text": "Verify persistence of drawings"
+            },
+            {
+              "completed": false,
+              "text": "Remove tldraw related code and dependencies"
+            },
+            {
+              "completed": false,
+              "text": "Fix deployment error (DYNAMIC_SERVER_USAGE)"
+            },
+            {
+              "completed": false,
+              "text": "Fix Whiteboard UI regression (Navbar gap)"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Replace tldraw package with excalidraw"
+            },
+            {
+              "completed": true,
+              "text": "Implement Excalidraw component in Whiteboard page"
+            },
+            {
+              "completed": true,
+              "text": "Restore/Ensure collaborative features work with Excalidraw"
+            },
+            {
+              "completed": true,
+              "text": "Verify persistence of drawings"
+            },
+            {
+              "completed": true,
+              "text": "Remove tldraw related code and dependencies"
+            },
+            {
+              "completed": true,
+              "text": "Fix deployment error (DYNAMIC_SERVER_USAGE)"
+            },
+            {
+              "completed": true,
+              "text": "Fix Whiteboard UI regression (Navbar gap)"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "## Project Summary: Whiteboard Transition to Excalidraw\n\n### Excalidraw Transition\n- Successfully uninstalled  and integrated .\n- Rewrote  using dynamic imports and adapted collaborative logic for scene syncing.\n- Migrated data persistence to store scene elements as JSON objects.\n\n### Deployment & UI Fixes\n- **Build Stability**: Fixed  errors by standardizing  across all CMS-driven landing pages.\n- **UI Refinement**: Resolved the whiteboard navbar gap by increasing the editor z-index to .\n- Verified the fix with a successful production build locally.\n\nAll tasks completed, committed, and pushed."
+        }
+      ],
+      "snapshot": {
+        "title": "Transition Whiteboard from tldraw to Excalidraw",
+        "description": "Switching from tldraw to the open-source version of Excalidraw to provide a free and stable whiteboard alternative. Related: @task-nvekf6",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "refactor"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Replace tldraw package with excalidraw"
+          },
+          {
+            "completed": true,
+            "text": "Implement Excalidraw component in Whiteboard page"
+          },
+          {
+            "completed": true,
+            "text": "Restore/Ensure collaborative features work with Excalidraw"
+          },
+          {
+            "completed": true,
+            "text": "Verify persistence of drawings"
+          },
+          {
+            "completed": true,
+            "text": "Remove tldraw related code and dependencies"
+          },
+          {
+            "completed": true,
+            "text": "Fix deployment error (DYNAMIC_SERVER_USAGE)"
+          },
+          {
+            "completed": true,
+            "text": "Fix Whiteboard UI regression (Navbar gap)"
+          }
+        ],
+        "implementationNotes": "## Project Summary: Whiteboard Transition to Excalidraw\n\n### Excalidraw Transition\n- Successfully uninstalled  and integrated .\n- Rewrote  using dynamic imports and adapted collaborative logic for scene syncing.\n- Migrated data persistence to store scene elements as JSON objects.\n\n### Deployment & UI Fixes\n- **Build Stability**: Fixed  errors by standardizing  across all CMS-driven landing pages.\n- **UI Refinement**: Resolved the whiteboard navbar gap by increasing the editor z-index to .\n- Verified the fix with a successful production build locally.\n\nAll tasks completed, committed, and pushed."
       }
     }
   ]

@@ -50,6 +50,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const socketRef = useRef<Socket | null>(null);
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const initialLoadRef = useRef(false);
+    const lastPointerUpdateRef = useRef(0);
 
     // Fetch whiteboard data on mount
     useEffect(() => {
@@ -198,7 +199,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     return (
         <Portal>
-            <div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] w-full h-full bg-[#f8f9fa] overflow-hidden whiteboard-container">
+            <div className="fixed top-0 left-0 right-0 bottom-0 z-[200] w-full h-full bg-[#f8f9fa] overflow-hidden whiteboard-container">
                 <style>{`
                 .whiteboard-container .excalidraw-wrapper {
                     height: 100% !important;
@@ -206,36 +207,118 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
                 .whiteboard-container .excalidraw {
                     border: none !important;
+                    
+                    /* Monochrome Theme Overrides */
+                    --color-primary: #18181b !important; /* zinc-900 */
+                    --color-primary-dark: #09090b !important; /* zinc-950 */
+                    --color-primary-light: #f4f4f5 !important; /* zinc-100 */
+                    --color-secondary: #52525b !important;
+                    --color-secondary-dark: #3f3f46 !important;
+                    --color-s-accent-outline: #18181b !important;
+                    --color-on-primary-container: #18181b !important;
+                    
+                    /* Toolbar Active State */
+                    --button-hover-bg: #f4f4f5 !important;
+                    --sidebar-bg: #ffffff !important;
+                    --sidebar-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+                }
+
+                /* Context Menu Redesign */
+                .whiteboard-container .excalidraw .context-menu {
+                    background-color: #ffffff !important;
+                    border: 1px solid #e4e4e7 !important; /* zinc-200 */
+                    border-radius: 12px !important;
+                    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+                    padding: 4px !important;
+                    z-index: 999999 !important;
+                }
+                
+                .whiteboard-container .excalidraw .context-menu-item {
+                    color: #18181b !important; /* zinc-900 */
+                    border-radius: 6px !important;
+                    font-family: inherit !important;
+                    font-size: 13px !important;
+                    transition: all 0.1s ease !important;
+                    margin: 2px 0 !important;
+                }
+
+                .whiteboard-container .excalidraw .context-menu-item:hover {
+                    background-color: #f4f4f5 !important; /* zinc-100 */
+                    color: #000000 !important;
+                    text-decoration: none !important;
+                }
+
+                .whiteboard-container .excalidraw .context-menu-item__shortcut {
+                    color: #71717a !important; /* zinc-500 */
+                    font-size: 11px !important;
+                    opacity: 0.7 !important;
+                }
+
+                .whiteboard-container .excalidraw .context-menu-item separator {
+                    border-bottom: 1px solid #e4e4e7 !important;
+                    margin: 4px 0 !important;
+                    width: 100% !important;
+                }
+
+                /* Override active tool background to black/dark */
+                .whiteboard-container .excalidraw .ToolIcon__icon.active {
+                    background-color: #18181b !important;
+                    color: #ffffff !important;
+                }
+                
+                /* Override shape tools active state if different */
+                .whiteboard-container .excalidraw .App-toolbar .ToolIcon_type_radio:checked + .ToolIcon__icon {
+                    background-color: #18181b !important;
+                    color: #ffffff !important;
                 }
             `}</style>
 
                 <ExcalidrawWrapper
                     excalidrawAPI={(api: any) => setExcalidrawAPI(api)}
                     onChange={onChange}
-                    onPointerUpdate={handlePointerMove}
+                    onPointerUpdate={(activeTool: any, pointerData: any) => {
+                        const now = Date.now();
+                        if (now - lastPointerUpdateRef.current > 50) { // Throttle ~20fps
+                            lastPointerUpdateRef.current = now;
+                            if (socketRef.current) {
+                                socketRef.current.emit('cursor_move', {
+                                    whiteboardId: id,
+                                    point: { x: pointerData.x, y: pointerData.y },
+                                    userName: 'Bạn'
+                                });
+                            }
+                        }
+                    }}
                     onBack={() => window.location.href = '/whiteboard'}
                     title={whiteboard?.title}
                 />
 
-                {/* Subtle Branding Layer */}
-                <div className="absolute top-4 left-4 z-[101] pointer-events-none">
-                    <div className="flex items-center gap-2 pointer-events-auto bg-white/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-zinc-200/50 shadow-sm">
-                        <Logo showText={false} className="w-5 h-5" />
-                        <span className="text-sm font-bold text-zinc-900">Whiteboard</span>
-                        <div className="h-3 w-[1px] bg-zinc-300 mx-1" />
-                        <span className="text-xs text-zinc-500 font-medium truncate max-w-[150px]">
-                            {whiteboard?.title || 'Bảng chưa đặt tên'}
-                        </span>
-                    </div>
-                </div>
+                {/* Top Right Control Group: Branding + Share + Status */}
+                <div className="absolute top-4 right-4 z-[101] pointer-events-none flex flex-col items-end gap-3">
 
-                {/* Right Group: Share Action Only */}
-                <div className="absolute top-4 right-4 z-[101] pointer-events-none">
-                    <div className="flex items-center gap-2 pointer-events-auto">
+                    <div className="pointer-events-auto flex items-center gap-3">
+                        {/* Branding & Status Panel */}
+                        <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-zinc-200 shadow-sm transition-all hover:shadow-md">
+                            <Logo showText={false} className="w-5 h-5 flex-shrink-0" />
+
+                            <div className="flex flex-col">
+                                <span className="text-xs font-bold text-zinc-900 leading-tight">
+                                    {whiteboard?.title || 'Bảng chưa đặt tên'}
+                                </span>
+                                <div className="flex items-center gap-1.5 mt-0.5">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                    <span className="text-[10px] font-medium text-zinc-500">
+                                        {Object.keys(remoteCursors).length + 1} đang kết nối
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Share Button */}
                         <Button
                             variant="default"
                             size="sm"
-                            className="rounded-full shadow-lg bg-indigo-600 text-white hover:bg-indigo-700 h-9 px-4 border-none"
+                            className="rounded-full shadow-lg bg-zinc-900 text-white hover:bg-zinc-800 h-10 px-5 border-none transition-all hover:scale-105"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-4 h-4 mr-2" />
@@ -302,7 +385,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     {Object.entries(remoteCursors).map(([socketId, cursor]) => (
                         <div
                             key={socketId}
-                            className="absolute transition-all duration-75 ease-linear"
+                            className="absolute transition-all duration-75 ease-linear pointer-events-none"
                             style={{
                                 left: cursor.point.x,
                                 top: cursor.point.y,
@@ -317,14 +400,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             </div>
                         </div>
                     ))}
-                </div>
-
-                {/* Status Indicator */}
-                <div className="absolute bottom-4 left-4 z-[101] pointer-events-none">
-                    <div className="px-3 py-1.5 bg-white/80 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        {Object.keys(remoteCursors).length + 1} đang kết nối
-                    </div>
                 </div>
             </div>
         </Portal>
