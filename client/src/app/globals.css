@@ -321,3 +321,24 @@
 .admin-container {
   @apply max-w-[1200px] mx-auto;
 }
+
+/* Custom Font for Excalidraw (Vietnamese Support) */
+@font-face {
+  font-family: "Virgil";
+  src: url("/fonts/DFVN-Excalifont.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Excalifont";
+  src: url("/fonts/DFVN-Excalifont.otf") format("opentype");
+  font-display: swap;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.excalidraw {
+  --font-family: "Excalifont", "Virgil", sans-serif !important;
+}
