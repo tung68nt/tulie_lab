@@ -400,32 +400,29 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const onChange = useCallback((elements: readonly any[], appState: any) => {
         if (!initialLoadRef.current) return;
 
+        // PERFORMANCE: Batch state updates and only update if changed
+        let hasChanged = false;
+
         // Sync active tool state
         if (appState.activeTool) {
-            setActiveTool(prev => {
-                if (appState.activeTool.type !== prev) return appState.activeTool.type;
-                return prev;
-            });
-            setIsLocked(prev => {
-                if (appState.activeTool.locked !== prev) return appState.activeTool.locked;
-                return prev;
-            });
+            if (appState.activeTool.type !== activeTool) {
+                setActiveTool(appState.activeTool.type);
+            }
+            if (appState.activeTool.locked !== isLocked) {
+                setIsLocked(appState.activeTool.locked);
+            }
         }
 
         // Sync zoom state
-        if (appState.zoom) {
-            setZoom(prev => {
-                if (appState.zoom.value !== prev) return appState.zoom.value;
-                return prev;
-            });
+        if (appState.zoom && appState.zoom.value !== zoom) {
+            setZoom(appState.zoom.value);
         }
 
         // Sync library state
         const isLibOpen = !!(appState.libraryOpen || appState.openSidebar?.name === "library" || appState.openSidebar === "library");
-        setIsLibraryOpen(prev => {
-            if (isLibOpen !== prev) return isLibOpen;
-            return prev;
-        });
+        if (isLibOpen !== isLibraryOpen) {
+            setIsLibraryOpen(isLibOpen);
+        }
 
         if (saveStatusRef.current !== 'unsaved') {
             setSaveStatus('unsaved');
@@ -443,13 +440,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
         }
 
-        if (!saveTimeoutRef.current) {
-            saveTimeoutRef.current = setTimeout(() => {
-                handleSave();
-                saveTimeoutRef.current = null;
-            }, 3000);
+        if (saveTimeoutRef.current) {
+            clearTimeout(saveTimeoutRef.current);
         }
-    }, [id, handleSave]);
+        saveTimeoutRef.current = setTimeout(() => {
+            handleSave();
+            saveTimeoutRef.current = null;
+        }, 1000); // Reduce from 3000 to 1000 for better persistence
+    }, [id, handleSave, activeTool, isLocked, zoom, isLibraryOpen]);
     // Removed isLibraryOpen and saveStatus from deps to maximize canvas stability.
     // handleSave is stable due to its own useCallback.
 
@@ -628,28 +626,25 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
 
                 /* HIDE NATIVE UI CLUSTERS BUT KEEP THEM REACHABLE */
+                /* MODIFIED: Stop hiding the entire wrapper to preserve welcome hints */
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-left,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-right,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left,
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right,
-                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center,
-                .whiteboard-container .excalidraw .App-toolbar {
-                    position: fixed !important;
-                    top: -1000px !important;
-                    left: -1000px !important;
-                    opacity: 0 !important;
-                    pointer-events: auto !important;
-                    z-index: -1 !important;
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-center {
+                   /* Relax position hiding to allow hints */
+                   pointer-events: none !important;
                 }
 
-                /* FALLBACK: Keep specific triggers in DOM but off-screen for JS clicking */
-                .whiteboard-container .excalidraw .DropdownMenu-button,
-                .whiteboard-container .excalidraw button[aria-label="Main menu"],
-                .whiteboard-container .excalidraw .sidebar-trigger[data-id="library"],
-                .whiteboard-container .excalidraw [aria-label="Library icon"],
-                .whiteboard-container .excalidraw [aria-label="Thư viện"],
+                /* Target specific native UI fragments specifically */
+                .whiteboard-container .excalidraw .App-toolbar,
+                .whiteboard-container .excalidraw .App-menu,
                 .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
-                .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"] {
+                .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
+                .whiteboard-container .excalidraw .library-button,
+                .whiteboard-container .excalidraw .dropdown-menu-trigger,
+                .whiteboard-container .excalidraw .footer-center,
+                .whiteboard-container .excalidraw .layer-ui__wrapper .dropdown-menu {
                     position: fixed !important;
                     top: -1000px !important;
                     left: -1000px !important;
