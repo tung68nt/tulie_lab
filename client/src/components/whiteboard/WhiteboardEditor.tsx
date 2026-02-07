@@ -248,22 +248,28 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 /* Import Patrick Hand Font */
                 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 
+                /* CRITICAL: Alias 'Virgil' to 'Patrick Hand' so Excalidraw Canvas uses it */
+                @font-face {
+                    font-family: "Virgil";
+                    src: local("Patrick Hand"), url(https://fonts.gstatic.com/s/patrickhand/v13/LDI1apMD5E3kBafKcuZUEYiF.woff2) format('woff2');
+                    font-weight: 400;
+                    font-style: normal;
+                    font-display: swap;
+                }
+
                 .whiteboard-container .excalidraw {
                     border: none !important;
                     
-                    /* Override Font Family for Handwriting */
+                    /* Override Font Family for Handwriting UI */
                     --font-family-handwritten: 'Patrick Hand', cursive !important;
                     font-family: 'Patrick Hand', cursive !important;
 
-                    
                     /* Monochrome Theme Overrides */
                     --color-primary: #18181b !important; /* zinc-900 */
                     --color-primary-dark: #09090b !important; /* zinc-950 */
                     --color-primary-light: #f4f4f5 !important; /* zinc-100 */
                     --color-secondary: #52525b !important;
                     --color-secondary-dark: #3f3f46 !important;
-                    --color-s-accent-outline: #18181b !important;
-                    --color-on-primary-container: #18181b !important;
                     --color-brand: #18181b !important; /* Override purple brand color */
                 }
 
@@ -319,7 +325,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 /* 2. Library Button (Top Right) */
                 .whiteboard-container .excalidraw .layer-ui__wrapper__top-right {
                     top: 16px !important;
-                    right: 16px !important;
+                    right: 16px !important; /* Native position */
                 }
                 .whiteboard-container .excalidraw .library-button {
                     background-color: rgba(255, 255, 255, 0.9) !important;
@@ -327,7 +333,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     border: 1px solid #e4e4e7 !important;
                     border-radius: 9999px !important;
                     height: 40px !important;
-                    width: 40px !important;
+                    /* width: 40px !important;  <-- Don't force width, let it contain text */
+                    min-width: 40px !important;
+                    padding: 0 12px !important;
                     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
                     display: flex !important;
                     align-items: center !important;
@@ -335,7 +343,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     color: #18181b !important;
                 }
 
-                /* 3. Zoom Controls (Bottom Left -> Moved to Bottom Right via CSS grid usually, but Excalidraw uses explicit positioning. Actually Zoom is usually Bottom Left. We need to style it.) */
+                /* 3. Zoom Controls */
                 .whiteboard-container .excalidraw .zoom-actions {
                     background-color: rgba(255, 255, 255, 0.9) !important;
                     backdrop-filter: blur(8px) !important;
@@ -344,14 +352,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     padding: 4px !important;
                     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
                     color: #18181b !important;
-                    margin-bottom: 16px !important; /* Lift up from bottom */
+                    margin-bottom: 16px !important;
                     margin-left: 16px !important;
                 }
                 .whiteboard-container .excalidraw .zoom-actions .ToolIcon__icon {
                     border-radius: 9999px !important;
                 }
 
-                /* 4. Help Button (Bottom Right) */
+                /* 4. Help Button */
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right {
                     margin-bottom: 16px !important;
                     margin-right: 16px !important;
@@ -391,6 +399,18 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     color: #000000 !important;
                     text-decoration: none !important;
                 }
+
+                .whiteboard-container .excalidraw .context-menu-item__shortcut {
+                    color: #71717a !important; /* zinc-500 */
+                    font-size: 11px !important;
+                    opacity: 0.7 !important;
+                }
+
+                .whiteboard-container .excalidraw .context-menu-item separator {
+                    border-bottom: 1px solid #e4e4e7 !important;
+                    margin: 4px 0 !important;
+                    width: 100% !important;
+                }
             `}</style>
 
                 <ExcalidrawWrapper
@@ -413,8 +433,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     title={whiteboard?.title}
                 />
 
-                {/* 1. Branding (Top Left - NEXT TO Native Hamburger) */}
-                {/* Native Hamburger is at 16px left, 48px width -> roughly 70px space needed */}
+                {/* 1. Branding (Top Left) */}
+                {/* Aligned with Native Menu (16px left + 48px width + gap) */}
                 <div className="absolute top-4 left-[72px] z-[101] pointer-events-auto flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[48px]">
                     <Logo showText={false} height="h-6" className="flex-shrink-0" />
                     <div className="flex flex-col justify-center select-none">
@@ -423,11 +443,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                 </div>
 
-                {/* 2. Custom Toolbar (BOTTOM Center - Dock Style) */}
+                {/* 2. Custom Toolbar (Bottom Center) */}
                 <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[101] pointer-events-auto">
                     <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md p-2 rounded-2xl border border-zinc-200 shadow-xl">
 
-                        {/* Lock Tool (Special) */}
+                        {/* Lock Tool */}
                         <button
                             onClick={toggleLock}
                             className={`
@@ -458,11 +478,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                 title={tool.label}
                             >
                                 <tool.icon className="w-5 h-5" />
-                                {/* Shortcut Indicator */}
+                                {/* Shortcut Indicator (Always Visible) */}
                                 <span className={`
-                                    absolute -bottom-1 -right-1 text-[9px] font-bold px-1 rounded-full
-                                    ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-0 group-hover:opacity-100'}
-                                    transition-opacity
+                                    absolute -bottom-1 -right-1 text-[9px] font-bold px-1 rounded-full text-zinc-400
+                                    ${activeTool === tool.value ? 'bg-zinc-800' : 'bg-zinc-100'}
+                                    transition-all
                                 `}>
                                     {tool.shortcut}
                                 </span>
@@ -471,9 +491,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                 </div>
 
-                {/* 3. Share Button (Top Right - LEFT OF Native Library) */}
-                {/* Native Library is at 16px right, 40px width + spacing -> need ~60-70px offset */}
-                <div className="absolute top-4 right-[72px] z-[101] pointer-events-auto">
+                {/* 3. Share & Title (Top Right) */}
+                {/* Moved further left to avoid overlapping Native Library (16px right + ~80px width) */}
+                <div className="absolute top-4 right-[120px] z-[101] pointer-events-auto">
                     <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-4 pr-1.5 py-1.5 rounded-full border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[40px]">
                         <div className="flex items-center gap-2 mr-2">
                             <span className="text-sm font-semibold max-w-[150px] truncate">
