@@ -658,14 +658,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     pointer-events: none !important;
                 }
 
-                /* KEEP native toolbar visible - position it below custom toolbar area */
+                /* Hide native toolbar (custom Toolbar replaces it) */
                 .whiteboard-container .excalidraw .App-toolbar {
-                    position: relative !important;
-                    top: auto !important;
-                    left: auto !important;
-                    opacity: 1 !important;
-                    pointer-events: auto !important;
-                    z-index: 50 !important;
+                    position: fixed !important;
+                    top: -1000px !important;
+                    left: -1000px !important;
+                    opacity: 0 !important;
+                    pointer-events: none !important;
                 }
 
                 /* KEEP App-menu visible when opened */
@@ -690,19 +689,136 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     z-index: 3000 !important;
                 }
 
-                /* KEEP properties panel (.island) fully visible and interactive */
+                /* ========== TULIE THEME FOR PROPERTIES PANEL ========== */
+                
+                /* Properties panel container - white bg, no shadow, rounded */
                 .whiteboard-container .excalidraw .island {
                     filter: none !important;
                     box-shadow: none !important;
                     pointer-events: auto !important;
                     opacity: 1 !important;
                     z-index: 100 !important;
+                    background: white !important;
+                    border: 1px solid #e4e4e7 !important;
+                    border-radius: 16px !important;
                 }
-
-                /* ENSURE PROPERTIES PANEL IS FULL COLOR */
+                
+                /* Section titles in properties panel */
+                .whiteboard-container .excalidraw .island .section-title,
+                .whiteboard-container .excalidraw .island label {
+                    color: #71717a !important;
+                    font-weight: 500 !important;
+                    font-size: 11px !important;
+                    text-transform: uppercase !important;
+                    letter-spacing: 0.05em !important;
+                }
+                
+                /* Property panel buttons - Tulie style */
+                .whiteboard-container .excalidraw .island button,
+                .whiteboard-container .excalidraw .island .ToolIcon__icon,
+                .whiteboard-container .excalidraw .island [class*="buttonList"] button {
+                    border-radius: 8px !important;
+                    transition: all 0.1s ease !important;
+                }
+                
+                /* Inactive property buttons */
+                .whiteboard-container .excalidraw .island button:not(.active):not([aria-checked="true"]),
+                .whiteboard-container .excalidraw .island [class*="buttonList"] button:not(.active) {
+                    background: #f4f4f5 !important;
+                    border: 1px solid transparent !important;
+                }
+                
+                .whiteboard-container .excalidraw .island button:not(.active):hover {
+                    background: #e4e4e7 !important;
+                }
+                
+                /* Active/selected property buttons - BLACK */
+                .whiteboard-container .excalidraw .island button.active,
+                .whiteboard-container .excalidraw .island button[aria-checked="true"],
+                .whiteboard-container .excalidraw .island [class*="buttonList"] button.active,
+                .whiteboard-container .excalidraw .island .ToolIcon--selected {
+                    background: #18181b !important;
+                    border-color: #18181b !important;
+                    color: white !important;
+                }
+                
+                .whiteboard-container .excalidraw .island button.active svg,
+                .whiteboard-container .excalidraw .island button[aria-checked="true"] svg,
+                .whiteboard-container .excalidraw .island .ToolIcon--selected svg {
+                    color: white !important;
+                    stroke: white !important;
+                }
+                
+                /* Color picker buttons - keep colors but style border */
+                .whiteboard-container .excalidraw .color-picker button,
+                .whiteboard-container .excalidraw [class*="colorPicker"] button {
+                    border-radius: 6px !important;
+                    border: 2px solid transparent !important;
+                }
+                
+                .whiteboard-container .excalidraw .color-picker button:hover,
+                .whiteboard-container .excalidraw [class*="colorPicker"] button:hover {
+                    border-color: #18181b !important;
+                }
+                
+                .whiteboard-container .excalidraw .color-picker button.active,
+                .whiteboard-container .excalidraw [class*="colorPicker"] button.active,
+                .whiteboard-container .excalidraw .color-picker button[aria-checked="true"] {
+                    border-color: #18181b !important;
+                    box-shadow: 0 0 0 2px white, 0 0 0 4px #18181b !important;
+                }
+                
+                /* Slider styling */
+                .whiteboard-container .excalidraw .island input[type="range"] {
+                    accent-color: #18181b !important;
+                }
+                
+                .whiteboard-container .excalidraw .island input[type="range"]::-webkit-slider-thumb {
+                    background: #18181b !important;
+                }
+                
+                /* Layers/order buttons */
+                .whiteboard-container .excalidraw .island .buttonList button {
+                    background: #f4f4f5 !important;
+                    border: none !important;
+                }
+                
+                .whiteboard-container .excalidraw .island .buttonList button:hover {
+                    background: #e4e4e7 !important;
+                }
+                /* ========== TULIE THEME FOR SIDEBAR/LIBRARY ========== */
                 .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .users-list-wrapper,
-                .whiteboard-container .excalidraw .context-menu {
+                .whiteboard-container .excalidraw .library-menu {
+                    background: white !important;
+                    border-left: 1px solid #e4e4e7 !important;
+                    filter: none !important;
+                    box-shadow: none !important;
+                }
+                
+                .whiteboard-container .excalidraw .sidebar-header,
+                .whiteboard-container .excalidraw .library-header {
+                    background: white !important;
+                    border-bottom: 1px solid #e4e4e7 !important;
+                }
+                
+                .whiteboard-container .excalidraw .sidebar button,
+                .whiteboard-container .excalidraw .library-menu button {
+                    border-radius: 8px !important;
+                    transition: all 0.1s ease !important;
+                }
+                
+                .whiteboard-container .excalidraw .sidebar button:hover,
+                .whiteboard-container .excalidraw .library-menu button:hover {
+                    background: #f4f4f5 !important;
+                }
+                
+                .whiteboard-container .excalidraw .sidebar .active,
+                .whiteboard-container .excalidraw .library-menu .active {
+                    background: #18181b !important;
+                    color: white !important;
+                }
+                
+                .whiteboard-container .excalidraw .users-list-wrapper {
                     filter: none !important;
                     box-shadow: none !important;
                 }
@@ -884,9 +1000,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 {/* 1. TOP LEFT: Branding & Menu */}
                 <BrandingBar openMenu={openMenu} />
 
-                {/* Native Excalidraw toolbar now shows - removed custom Toolbar */}
+                {/* 2. TOP CENTER: Custom Toolbar (Tulie style) */}
+                <Toolbar
+                    activeTool={activeTool}
+                    isLocked={isLocked}
+                    isMoreMenuOpen={isMoreMenuOpen}
+                    setTool={setTool}
+                    toggleLock={toggleLock}
+                    setIsMoreMenuOpen={setIsMoreMenuOpen}
+                    handleUndo={handleUndo}
+                    handleRedo={handleRedo}
+                />
 
-                {/* 2. TOP RIGHT: Title & Share */}
+                {/* 3. TOP RIGHT: Title & Share */}
                 <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
                     <TitleShareBar
                         isEditingTitle={isEditingTitle}
