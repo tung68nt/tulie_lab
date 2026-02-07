@@ -662,19 +662,37 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     padding: 0 !important;
                 }
 
-                /* CRITICAL: Ensure Main Menu and Library Sidebar ARE visible when opened */
+                /* CRITICAL: Main Menu - preserve native positioning, just ensure visible */
                 .whiteboard-container .excalidraw .App-menu,
                 .whiteboard-container .excalidraw .App-menu__left,
                 .whiteboard-container .excalidraw .dropdown-menu,
-                .whiteboard-container .excalidraw .dropdown-menu-container,
-                .whiteboard-container .excalidraw .sidebar,
-                .whiteboard-container .excalidraw .library-menu {
-                    position: initial !important;
-                    top: initial !important;
-                    left: initial !important;
+                .whiteboard-container .excalidraw .dropdown-menu-container {
                     opacity: 1 !important;
+                    visibility: visible !important;
                     pointer-events: auto !important;
-                    z-index: 3000 !important;
+                    z-index: 9999 !important;
+                }
+                
+                /* Library Sidebar - preserve native positioning */
+                .whiteboard-container .excalidraw .sidebar,
+                .whiteboard-container .excalidraw .library-menu,
+                .whiteboard-container .excalidraw .layer-ui__sidebar {
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                    pointer-events: auto !important;
+                    z-index: 9999 !important;
+                }
+                
+                /* Menu styling - Tulie theme */
+                .whiteboard-container .excalidraw .App-menu {
+                    background: white !important;
+                    border: 1px solid #e4e4e7 !important;
+                    border-radius: 12px !important;
+                    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1) !important;
+                }
+                
+                .whiteboard-container .excalidraw .dropdown-menu-container .dropdown-menu-item:hover {
+                    background: #f4f4f5 !important;
                 }
 
                 /* ========== TULIE THEME FOR PROPERTIES PANEL ========== */
