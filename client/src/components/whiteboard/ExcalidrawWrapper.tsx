@@ -20,6 +20,19 @@ export default function ExcalidrawWrapper({
     onBack,
     title
 }: ExcalidrawWrapperProps) {
+    const UIOptions = React.useMemo(() => ({
+        canvasActions: {
+            toggleTheme: true,
+            export: {
+                saveFileToDisk: true,
+            }
+        }
+    }), []);
+
+    const initialData = React.useMemo(() => ({
+        appState: { gridModeEnabled: true }
+    }), []);
+
     return (
         <Excalidraw
             excalidrawAPI={excalidrawAPI}
@@ -27,17 +40,8 @@ export default function ExcalidrawWrapper({
             onPointerUpdate={onPointerUpdate as any}
             langCode="vi-VN"
             theme="light"
-            UIOptions={{
-                canvasActions: {
-                    toggleTheme: true,
-                    export: {
-                        saveFileToDisk: true,
-                    }
-                }
-            }}
-            initialData={{
-                appState: { gridModeEnabled: true }
-            }}
+            UIOptions={UIOptions}
+            initialData={initialData}
         >
             <MainMenu>
                 <MainMenu.DefaultItems.LoadScene />
