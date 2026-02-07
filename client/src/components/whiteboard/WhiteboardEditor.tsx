@@ -325,23 +325,26 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         const api = excalidrawRef.current;
         if (!api) return;
 
-        // Try standard toggleSidebar first
-        if (typeof api.toggleSidebar === 'function') {
-            api.toggleSidebar({ name: "library" });
-        } else {
-            // Re-fetch current state to ensure accuracy
-            const appState = api.getAppState();
-            const isCurrentlyOpen = !!(appState.libraryOpen || appState.openSidebar === "library" || appState.openSidebar?.name === "library");
-            const newState = !isCurrentlyOpen;
+        const appState = api.getAppState();
+        const isCurrentlyOpen = !!(
+            appState.openSidebar?.name === "library" ||
+            appState.openSidebar === "library" ||
+            appState.libraryOpen
+        );
 
+        const newState = !isCurrentlyOpen;
+
+        if (typeof api.toggleSidebar === 'function') {
+            api.toggleSidebar({ name: "library", force: newState });
+        } else {
             api.updateScene({
                 appState: {
                     openSidebar: newState ? { name: "library" } : null,
-                    libraryOpen: newState // Fallback for various versions
+                    libraryOpen: newState
                 }
             });
-            setIsLibraryOpen(newState);
         }
+        setIsLibraryOpen(newState);
     }, []);
 
     const openMenu = useCallback(() => {
