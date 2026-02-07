@@ -235,13 +235,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .App-menu__left,
                 .whiteboard-container .excalidraw .hint,
                 .whiteboard-container .excalidraw .Toast,
-                .whiteboard-container .excalidraw .library-button {
+                .whiteboard-container .excalidraw .library-button,
+                .whiteboard-container .excalidraw .Overlay,
+                .whiteboard-container .excalidraw .HelpDialog,
+                .whiteboard-container .excalidraw .modal {
                     filter: grayscale(100%) !important;
-                }
-
-                /* Hide overlapping native UI */
-                .whiteboard-container .excalidraw .layer-ui__wrapper__top-right {
-                    display: none !important;
                 }
                 
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
@@ -328,31 +326,44 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     title={whiteboard?.title}
                 />
 
-                {/* Top Right Control Group: Branding + Share + Status */}
-                <div className="absolute top-4 right-4 z-[101] pointer-events-none flex flex-col items-end gap-3">
-
+                {/* Top Center Branding Panel */}
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[101] pointer-events-none flex flex-col items-center gap-3">
                     <div className="pointer-events-auto flex items-center gap-3">
-                        {/* Branding & Status Panel */}
-                        <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl border border-zinc-200 shadow-sm transition-all hover:shadow-md">
-                            <Logo showText={false} className="w-6 h-6 flex-shrink-0" />
+                        {/* Branding & Status Panel - Big Logo Version */}
+                        <div className="flex items-center gap-4 bg-white/90 backdrop-blur-md px-6 py-2.5 rounded-2xl border border-zinc-200 shadow-sm transition-all hover:shadow-md">
+                            {/* Logo Section */}
+                            <div className="flex items-center gap-3">
+                                <Logo showText={false} height="h-10" className="flex-shrink-0" />
 
+                                <div className="flex flex-col justify-center select-none">
+                                    <span className="text-[10px] uppercase font-bold text-zinc-400 leading-none tracking-widest">TULIE</span>
+                                    <span className="text-xl font-bold text-zinc-900 leading-none">Whiteboard</span>
+                                </div>
+                            </div>
+
+                            {/* Divider */}
+                            <div className="w-px h-8 bg-zinc-200" />
+
+                            {/* Title & Save Status */}
                             <div className="flex flex-col">
                                 <div className="flex items-center gap-2">
                                     <span className="text-sm font-bold text-zinc-900 leading-tight">
                                         {whiteboard?.title || 'Bảng chưa đặt tên'}
                                     </span>
                                     {saveStatus === 'saving' ? (
-                                        <CloudUpload className="w-3 h-3 text-zinc-400 animate-pulse" />
+                                        <CloudUpload className="w-4 h-4 text-zinc-400 animate-pulse" />
                                     ) : saveStatus === 'saved' ? (
-                                        <Cloud className="w-3 h-3 text-emerald-500" />
+                                        <Cloud className="w-4 h-4 text-emerald-500" />
                                     ) : (
-                                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                                        <div className="w-2 h-2 rounded-full bg-amber-400" />
                                     )}
                                 </div>
                             </div>
                         </div>
 
-                        {/* Share Button */}
+                        {/* Share Button - Moved here or kept separate? User said "Under Share button is covered". */}
+                        {/* If we move branding to Center, Share can stay Top Right OR move to Center. */}
+                        {/* Let's keep Share Button attached to Branding for consistency as per Plan "Top Center" */}
                         <Button
                             variant="default"
                             size="sm"

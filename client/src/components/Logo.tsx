@@ -8,9 +8,10 @@ import { useEffect, useState, useMemo } from "react";
 interface LogoProps {
     className?: string;
     showText?: boolean;
+    height?: string;
 }
 
-export function Logo({ className = "", showText = true }: LogoProps) {
+export function Logo({ className = "", showText = true, height = "h-8" }: LogoProps) {
     const { settings } = useSettings();
     const { theme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
@@ -83,7 +84,7 @@ export function Logo({ className = "", showText = true }: LogoProps) {
     return (
         <Link href="/" className={`flex items-center gap-2.5 ${className}`}>
             {displayLogo ? (
-                <div className="relative h-8 w-auto transition-transform hover:scale-105">
+                <div className={`relative ${height} w-auto transition-transform hover:scale-105`}>
                     <img
                         src={displayLogo}
                         alt="Logo"
