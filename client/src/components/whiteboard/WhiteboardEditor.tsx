@@ -119,7 +119,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
         try {
             const elements = excalidrawAPI.getSceneElements();
-            const appState = excalidrawAPI.getAppState();
+            const appState = { ...excalidrawAPI.getAppState() };
+            // Don't save collaborators state as it causes serialization issues
+            delete appState.collaborators;
+
             const snapshot = { elements, appState };
 
             await api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot);
@@ -140,9 +143,16 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 : whiteboard.artboards[0].elements;
 
             if (data.elements) {
+                // Sanitize appState to prevent "collaborators.forEach is not a function" error
+                // Excalidraw expects collaborators to be a Map, but JSON.parse makes it an object
+                const sanitizedAppState = data.appState || {};
+                if (sanitizedAppState.collaborators) {
+                    delete sanitizedAppState.collaborators;
+                }
+
                 excalidrawAPI.updateScene({
                     elements: data.elements,
-                    appState: data.appState || {}
+                    appState: sanitizedAppState
                 });
             }
         } catch (e) {
