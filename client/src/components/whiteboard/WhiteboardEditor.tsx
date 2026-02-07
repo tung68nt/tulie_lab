@@ -7,7 +7,8 @@ import { io, Socket } from 'socket.io-client';
 import { Button } from '@/components/Button';
 import {
     Share2, Copy, X, Cloud, CloudUpload,
-    MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser
+    MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser,
+    Hand, Lock
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Portal } from '@/components/Portal';
@@ -43,16 +44,17 @@ interface RemoteCursor {
 }
 
 const TOOLS = [
-    { value: 'selection', icon: MousePointer2, label: 'Selection' },
-    { value: 'rectangle', icon: Square, label: 'Rectangle' },
-    { value: 'diamond', icon: Diamond, label: 'Diamond' },
-    { value: 'ellipse', icon: Circle, label: 'Ellipse' },
-    { value: 'arrow', icon: ArrowRight, label: 'Arrow' },
-    { value: 'line', icon: Minus, label: 'Line' },
-    { value: 'freedraw', icon: Pencil, label: 'Draw' },
-    { value: 'text', icon: Type, label: 'Text' },
-    { value: 'image', icon: ImageIcon, label: 'Image' },
-    { value: 'eraser', icon: Eraser, label: 'Eraser' },
+    { value: 'hand', icon: Hand, label: 'Hand (H)', shortcut: 'H' },
+    { value: 'selection', icon: MousePointer2, label: 'Selection (1)', shortcut: '1' },
+    { value: 'rectangle', icon: Square, label: 'Rectangle (2)', shortcut: '2' },
+    { value: 'diamond', icon: Diamond, label: 'Diamond (3)', shortcut: '3' },
+    { value: 'ellipse', icon: Circle, label: 'Ellipse (4)', shortcut: '4' },
+    { value: 'arrow', icon: ArrowRight, label: 'Arrow (5)', shortcut: '5' },
+    { value: 'line', icon: Minus, label: 'Line (6)', shortcut: '6' },
+    { value: 'freedraw', icon: Pencil, label: 'Draw (7)', shortcut: '7' },
+    { value: 'text', icon: Type, label: 'Text (8)', shortcut: '8' },
+    { value: 'image', icon: ImageIcon, label: 'Image (9)', shortcut: '9' },
+    { value: 'eraser', icon: Eraser, label: 'Eraser (0)', shortcut: '0' },
 ];
 
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
@@ -62,6 +64,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
     const [activeTool, setActiveTool] = useState('selection');
+    const [isLocked, setIsLocked] = useState(false);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
@@ -186,8 +189,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         if (!initialLoadRef.current) return;
 
         // Sync active tool state
-        if (appState.activeTool && appState.activeTool.type !== activeTool) {
-            setActiveTool(appState.activeTool.type);
+        if (appState.activeTool) {
+            if (appState.activeTool.type !== activeTool) {
+                setActiveTool(appState.activeTool.type);
+            }
+            if (appState.activeTool.locked !== isLocked) {
+                setIsLocked(appState.activeTool.locked);
+            }
         }
 
         if (saveStatus === 'saved') setSaveStatus('unsaved');
@@ -213,6 +221,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         excalidrawAPI.setActiveTool({ type: tool });
     };
 
+    const toggleLock = () => {
+        if (!excalidrawAPI) return;
+        const newLockedState = !isLocked;
+        setIsLocked(newLockedState);
+        excalidrawAPI.setActiveTool({ locked: newLockedState });
+    };
+
     if (isLoading) {
         return (
             <div className="flex items-center justify-center w-full h-full bg-background pt-16">
@@ -229,8 +244,17 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     height: 100% !important;
                     width: 100% !important;
                 }
+                
+                /* Import Patrick Hand Font */
+                @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+
                 .whiteboard-container .excalidraw {
                     border: none !important;
+                    
+                    /* Override Font Family for Handwriting */
+                    --font-family-handwritten: 'Patrick Hand', cursive !important;
+                    font-family: 'Patrick Hand', cursive !important;
+
                     
                     /* Monochrome Theme Overrides */
                     --color-primary: #18181b !important; /* zinc-900 */
@@ -248,23 +272,101 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: none !important;
                 }
 
-                /* Force Grayscale on UI */
+                /* Force Grayscale on Specific UI Elements (Not Color Picker) */
                 .whiteboard-container .excalidraw .HelpBtn,
                 .whiteboard-container .excalidraw .App-menu__left,
                 .whiteboard-container .excalidraw .hint,
                 .whiteboard-container .excalidraw .Toast,
                 .whiteboard-container .excalidraw .library-button,
-                .whiteboard-container .excalidraw .Overlay,
-                .whiteboard-container .excalidraw .HelpDialog,
-                .whiteboard-container .excalidraw .modal {
+                .whiteboard-container .excalidraw .HelpDialog {
                     filter: grayscale(100%) !important;
                 }
                 
+                /* Ensure popups/modals inside Overlay are NOT grayscale by default, 
+                   unless specifically targeted (like HelpDialog) */
+                .whiteboard-container .excalidraw .Overlay {
+                     filter: none !important;
+                }
+
+                .whiteboard-container .excalidraw .modal {
+                    filter: none !important;
+                }
+
+
                 .whiteboard-container .excalidraw .layer-ui__wrapper__footer-left {
                     /* Ensure footer controls don't use brand colors */
                     --color-primary: #18181b !important; /* zinc-900 */
                 }
 
+                /* --- ROUND 6: NATIVE UI REDESIGN (GLASS STYLE) --- */
+
+                /* 1. Hamburger Menu (Top Left) */
+                .whiteboard-container .excalidraw .App-menu__left .DropdownMenu-button {
+                    background-color: rgba(255, 255, 255, 0.9) !important;
+                    backdrop-filter: blur(8px) !important;
+                    border: 1px solid #e4e4e7 !important; /* zinc-200 */
+                    border-radius: 14px !important; /* Match adjacent branding */
+                    height: 48px !important; 
+                    width: 48px !important;
+                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+                    color: #18181b !important;
+                }
+                .whiteboard-container .excalidraw .App-menu__left {
+                    top: 16px !important;
+                    left: 16px !important;
+                }
+                
+                /* 2. Library Button (Top Right) */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__top-right {
+                    top: 16px !important;
+                    right: 16px !important;
+                }
+                .whiteboard-container .excalidraw .library-button {
+                    background-color: rgba(255, 255, 255, 0.9) !important;
+                    backdrop-filter: blur(8px) !important;
+                    border: 1px solid #e4e4e7 !important;
+                    border-radius: 9999px !important;
+                    height: 40px !important;
+                    width: 40px !important;
+                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    color: #18181b !important;
+                }
+
+                /* 3. Zoom Controls (Bottom Left -> Moved to Bottom Right via CSS grid usually, but Excalidraw uses explicit positioning. Actually Zoom is usually Bottom Left. We need to style it.) */
+                .whiteboard-container .excalidraw .zoom-actions {
+                    background-color: rgba(255, 255, 255, 0.9) !important;
+                    backdrop-filter: blur(8px) !important;
+                    border: 1px solid #e4e4e7 !important;
+                    border-radius: 9999px !important;
+                    padding: 4px !important;
+                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+                    color: #18181b !important;
+                    margin-bottom: 16px !important; /* Lift up from bottom */
+                    margin-left: 16px !important;
+                }
+                .whiteboard-container .excalidraw .zoom-actions .ToolIcon__icon {
+                    border-radius: 9999px !important;
+                }
+
+                /* 4. Help Button (Bottom Right) */
+                .whiteboard-container .excalidraw .layer-ui__wrapper__footer-right {
+                    margin-bottom: 16px !important;
+                    margin-right: 16px !important;
+                }
+                .whiteboard-container .excalidraw .HelpBtn {
+                    background-color: rgba(255, 255, 255, 0.9) !important;
+                    backdrop-filter: blur(8px) !important;
+                    border: 1px solid #e4e4e7 !important;
+                    border-radius: 9999px !important;
+                    height: 40px !important;
+                    width: 40px !important;
+                    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+                    color: #18181b !important;
+                }
+                
                 /* Context Menu Redesign */
                 .whiteboard-container .excalidraw .context-menu {
                     background-color: #ffffff !important;
@@ -289,18 +391,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     color: #000000 !important;
                     text-decoration: none !important;
                 }
-
-                .whiteboard-container .excalidraw .context-menu-item__shortcut {
-                    color: #71717a !important; /* zinc-500 */
-                    font-size: 11px !important;
-                    opacity: 0.7 !important;
-                }
-
-                .whiteboard-container .excalidraw .context-menu-item separator {
-                    border-bottom: 1px solid #e4e4e7 !important;
-                    margin: 4px 0 !important;
-                    width: 100% !important;
-                }
             `}</style>
 
                 <ExcalidrawWrapper
@@ -323,40 +413,68 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     title={whiteboard?.title}
                 />
 
-                {/* 1. Branding (Top Left - Offset to avoid Hamburger) */}
-                <div className="absolute top-4 left-[60px] z-[101] pointer-events-auto flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-2 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all">
-                    <Logo showText={false} height="h-8" className="flex-shrink-0" />
+                {/* 1. Branding (Top Left - NEXT TO Native Hamburger) */}
+                {/* Native Hamburger is at 16px left, 48px width -> roughly 70px space needed */}
+                <div className="absolute top-4 left-[72px] z-[101] pointer-events-auto flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-2.5 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[48px]">
+                    <Logo showText={false} height="h-6" className="flex-shrink-0" />
                     <div className="flex flex-col justify-center select-none">
                         <span className="text-[10px] uppercase font-bold text-zinc-400 leading-none tracking-widest">TULIE</span>
-                        <span className="text-lg font-bold text-zinc-900 leading-none">Whiteboard</span>
+                        <span className="text-sm font-bold text-zinc-900 leading-none mt-0.5">Whiteboard</span>
                     </div>
                 </div>
 
-                {/* 2. Custom Toolbar (Top Center) */}
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[101] pointer-events-auto">
-                    <div className="flex items-center gap-1 bg-white/90 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 shadow-lg">
+                {/* 2. Custom Toolbar (BOTTOM Center - Dock Style) */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[101] pointer-events-auto">
+                    <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-md p-2 rounded-2xl border border-zinc-200 shadow-xl">
+
+                        {/* Lock Tool (Special) */}
+                        <button
+                            onClick={toggleLock}
+                            className={`
+                                relative p-2.5 rounded-xl transition-all duration-200 group
+                                ${isLocked
+                                    ? 'bg-amber-100 text-amber-600'
+                                    : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'
+                                }
+                            `}
+                            title="Keep selected tool active"
+                        >
+                            <Lock className="w-5 h-5" />
+                        </button>
+
+                        <div className="w-px h-6 bg-zinc-200 mx-1" />
+
                         {TOOLS.map((tool) => (
                             <button
                                 key={tool.value}
                                 onClick={() => setTool(tool.value)}
                                 className={`
-                                    p-2.5 rounded-xl transition-all duration-200
+                                    relative p-2.5 rounded-xl transition-all duration-200 group
                                     ${activeTool === tool.value
-                                        ? 'bg-zinc-900 text-white shadow-md scale-105'
-                                        : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'
+                                        ? 'bg-zinc-900 text-white shadow-md -translate-y-1'
+                                        : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 hover:-translate-y-0.5'
                                     }
                                 `}
                                 title={tool.label}
                             >
                                 <tool.icon className="w-5 h-5" />
+                                {/* Shortcut Indicator */}
+                                <span className={`
+                                    absolute -bottom-1 -right-1 text-[9px] font-bold px-1 rounded-full
+                                    ${activeTool === tool.value ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-400 opacity-0 group-hover:opacity-100'}
+                                    transition-opacity
+                                `}>
+                                    {tool.shortcut}
+                                </span>
                             </button>
                         ))}
                     </div>
                 </div>
 
-                {/* 3. Share Button (Top Right - Offset to avoid Library) */}
-                <div className="absolute top-4 right-[60px] z-[101] pointer-events-auto">
-                    <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-4 pr-1.5 py-1.5 rounded-full border border-zinc-200 shadow-sm hover:shadow-md transition-all">
+                {/* 3. Share Button (Top Right - LEFT OF Native Library) */}
+                {/* Native Library is at 16px right, 40px width + spacing -> need ~60-70px offset */}
+                <div className="absolute top-4 right-[72px] z-[101] pointer-events-auto">
+                    <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md pl-4 pr-1.5 py-1.5 rounded-full border border-zinc-200 shadow-sm hover:shadow-md transition-all h-[40px]">
                         <div className="flex items-center gap-2 mr-2">
                             <span className="text-sm font-semibold max-w-[150px] truncate">
                                 {whiteboard?.title || 'Bảng chưa đặt tên'}
@@ -372,20 +490,24 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         <Button
                             variant="default"
                             size="sm"
-                            className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 h-9 px-4"
+                            className="rounded-full bg-zinc-900 text-white hover:bg-zinc-800 h-8 px-4"
                             onClick={() => setIsShareModalOpen(true)}
                         >
-                            <Share2 className="w-4 h-4 mr-2" />
+                            <Share2 className="w-3.5 h-3.5 mr-2" />
                             Chia sẻ
                         </Button>
                     </div>
                 </div>
 
-                {/* 4. Status Indicator (Bottom Right) */}
-                <div className="absolute bottom-4 right-4 z-[101] pointer-events-none">
-                    <div className="px-3 py-1.5 bg-white/90 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto transition-all hover:scale-105 cursor-default">
+                {/* 4. Status Indicator (Bottom Right - Moved up slightly to align with Help?) */}
+                {/* Actually, let's put it on Top Right Stack or Top Center? */}
+                {/* User asked for "Balanced". If Toolbar is Bottom Center, Status can be Bottom Right above Help Button or Top Left? */}
+                {/* Let's Try Bottom Right, above Help Button which is usually at bottom-16 right-16 */}
+                {/* Help Button is bottom-right, let's put status next to it or above it. */}
+                <div className="absolute bottom-[22px] right-[72px] z-[101] pointer-events-none">
+                    <div className="px-3 py-2 bg-white/90 backdrop-blur-md border border-zinc-200/50 rounded-full text-[11px] font-semibold text-zinc-900 shadow-sm flex items-center gap-2 pointer-events-auto transition-all hover:scale-105 cursor-default h-[40px]">
                         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        {Object.keys(remoteCursors).length + 1} đang kết nối
+                        {Object.keys(remoteCursors).length + 1} kết nối
                     </div>
                 </div>
 
