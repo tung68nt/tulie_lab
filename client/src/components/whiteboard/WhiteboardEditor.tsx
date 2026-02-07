@@ -384,10 +384,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .DropdownMenu-button,
                 .whiteboard-container .excalidraw [aria-label="Undo"],
                 .whiteboard-container .excalidraw [aria-label="Redo"] {
-                    position: absolute !important;
+                    position: fixed !important;
+                    top: -100px !important;
+                    left: -100px !important;
                     opacity: 0 !important;
                     pointer-events: none !important;
                     display: block !important;
+                    z-index: -1 !important;
                 }
             `}</style>
 

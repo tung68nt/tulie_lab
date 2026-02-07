@@ -50,9 +50,6 @@ export default function ExcalidrawWrapper({
                 </MainMenu.Item>
             </MainMenu>
             <WelcomeScreen>
-                <WelcomeScreen.Hints.MenuHint />
-                <WelcomeScreen.Hints.ToolbarHint />
-                <WelcomeScreen.Hints.HelpHint />
                 <WelcomeScreen.Center>
                     <WelcomeScreen.Center.Logo>
                         <Logo showText={false} className="w-16 h-16 mb-4" />
