@@ -259,13 +259,22 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const lastEmitTimeRef = useRef(0); // For Performance Throttling
     const saveStatusRef = useRef(saveStatus);
     const excalidrawRef = useRef<any>(null);
+    const undoBtnRef = useRef<HTMLButtonElement | null>(null);
+    const redoBtnRef = useRef<HTMLButtonElement | null>(null);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
 
-    // Sync ref with state for use in callbacks
+    // Sync ref with state for use in callbacks + cache Undo/Redo buttons
     useEffect(() => {
         excalidrawRef.current = excalidrawAPI;
+        if (excalidrawAPI) {
+            // Cache button refs once after API loads (avoid querySelector every click)
+            setTimeout(() => {
+                undoBtnRef.current = document.querySelector('[aria-label="Undo"]') as HTMLButtonElement;
+                redoBtnRef.current = document.querySelector('[aria-label="Redo"]') as HTMLButtonElement;
+            }, 100);
+        }
     }, [excalidrawAPI]);
 
     useEffect(() => {
@@ -386,39 +395,21 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const onChange = useCallback((elements: readonly any[], appState: any) => {
         if (!initialLoadRef.current) return;
 
-        // PERFORMANCE: Batch state updates and only update if changed
-        let hasChanged = false;
+        // PERFORMANCE: Use refs for tracking during drawing to avoid re-renders
+        // Only sync to state when user stops drawing (via debounced function below)
 
-        // Sync active tool state
-        if (appState.activeTool) {
-            if (appState.activeTool.type !== activeTool) {
-                setActiveTool(appState.activeTool.type);
-            }
-            if (appState.activeTool.locked !== isLocked) {
-                setIsLocked(appState.activeTool.locked);
-            }
-        }
+        // Store latest state in refs (no re-render)
+        const newTool = appState.activeTool?.type;
+        const newLocked = appState.activeTool?.locked;
+        const newZoom = appState.zoom?.value;
+        const isLibOpen = !!(appState.openSidebar?.name === "library");
 
-        // Sync zoom state
-        if (appState.zoom && appState.zoom.value !== zoom) {
-            setZoom(appState.zoom.value);
-        }
-
-        // Sync library state
-        const isLibOpen = !!(appState.libraryOpen || appState.openSidebar?.name === "library" || appState.openSidebar === "library");
-        if (isLibOpen !== isLibraryOpen) {
-            setIsLibraryOpen(isLibOpen);
-        }
-
-        if (saveStatusRef.current !== 'unsaved') {
-            setSaveStatus('unsaved');
-        }
-
-        // PERFORMANCE OPTIMIZATION: Throttle socket emission
+        // THROTTLED SOCKET EMISSION: 500ms = 2 updates per second max
         const now = Date.now();
-        if (now - lastEmitTimeRef.current > 100) { // Limit to 10 updates per second
+        if (now - lastEmitTimeRef.current > 500) {
             lastEmitTimeRef.current = now;
-            if (socketRef.current) {
+            if (socketRef.current?.connected) {
+                // Only emit if we have meaningful changes
                 socketRef.current.emit('draw_change', {
                     whiteboardId: id,
                     changes: { elements }
@@ -426,16 +417,30 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
         }
 
+        // DEBOUNCED UI STATE SYNC: Only update React state after 300ms of no changes
         if (saveTimeoutRef.current) {
             clearTimeout(saveTimeoutRef.current);
         }
+
         saveTimeoutRef.current = setTimeout(() => {
-            handleSave();
-            saveTimeoutRef.current = null;
-        }, 15000); // Silent auto-save every 15 seconds
+            // Batch all state updates together after drawing stops
+            if (newTool !== activeTool) setActiveTool(newTool);
+            if (newLocked !== isLocked) setIsLocked(newLocked);
+            if (newZoom !== zoom) setZoom(newZoom);
+            if (isLibOpen !== isLibraryOpen) setIsLibraryOpen(isLibOpen);
+
+            // Only mark unsaved after user stops drawing
+            if (saveStatusRef.current !== 'unsaved') {
+                setSaveStatus('unsaved');
+            }
+
+            // Auto-save after 10 seconds of inactivity
+            saveTimeoutRef.current = setTimeout(() => {
+                handleSave();
+            }, 10000);
+        }, 300);
     }, [id, handleSave, activeTool, isLocked, zoom, isLibraryOpen]);
-    // Removed isLibraryOpen and saveStatus from deps to maximize canvas stability.
-    // handleSave is stable due to its own useCallback.
+    // Dependencies are needed for comparison but setState only fires after debounce
 
     const setTool = (tool: string) => {
         if (!excalidrawAPI) return;
@@ -451,21 +456,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         excalidrawAPI.setActiveTool({ locked: newLockedState });
     };
 
-    // Custom UI Handlers
+    // Custom UI Handlers - use cached refs for better performance
     const handleUndo = useCallback(() => {
-        if (excalidrawAPI) {
-            // Triggering native undo via DOM is most reliable
-            const undoBtn = document.querySelector('[aria-label="Undo"]') as HTMLButtonElement;
-            if (undoBtn) undoBtn.click();
-        }
-    }, [excalidrawAPI]);
+        undoBtnRef.current?.click();
+    }, []);
 
     const handleRedo = useCallback(() => {
-        if (excalidrawAPI) {
-            const redoBtn = document.querySelector('[aria-label="Redo"]') as HTMLButtonElement;
-            if (redoBtn) redoBtn.click();
-        }
-    }, [excalidrawAPI]);
+        redoBtnRef.current?.click();
+    }, []);
 
     const handleZoomIn = () => {
         if (!excalidrawAPI) return;
