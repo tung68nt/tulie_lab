@@ -8,7 +8,8 @@ import { Button } from '@/components/Button';
 import {
     Share2, Copy, X, Cloud, CloudUpload,
     MousePointer2, Square, Diamond, Circle, ArrowRight, Minus, Pencil, Type, Image as ImageIcon, Eraser,
-    Hand, Lock, Undo2, Redo2, Menu, Library as LibraryIcon, Plus, HelpCircle
+    Hand, Lock, Undo2, Redo2, Menu, Library as LibraryIcon, Plus, HelpCircle,
+    Layout, Zap, Globe, Sparkles, ChevronDown, MousePointer
 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
 import { Portal } from '@/components/Portal';
@@ -57,6 +58,14 @@ const TOOLS = [
     { value: 'eraser', icon: Eraser, label: 'Eraser (0)', shortcut: '0' },
 ];
 
+const EXTRA_TOOLS = [
+    { value: 'frame', icon: Layout, label: 'Frame (F)', shortcut: 'F' },
+    { value: 'laser', icon: Zap, label: 'Laser (K)', shortcut: 'K' },
+    { value: 'lasso', icon: MousePointer, label: 'Lasso (L)', shortcut: 'L' },
+    { value: 'embeddable', icon: Globe, label: 'Web Embed', shortcut: '' },
+    { value: 'magicframe', icon: Sparkles, label: 'AI Generate', shortcut: '' },
+];
+
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [whiteboard, setWhiteboard] = useState<WhiteboardData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -67,6 +76,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isLocked, setIsLocked] = useState(false);
     const [zoom, setZoom] = useState(1);
     const [isLibraryOpen, setIsLibraryOpen] = useState(false);
+    const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
@@ -237,6 +247,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         if (!excalidrawAPI) return;
         setActiveTool(tool);
         excalidrawAPI.setActiveTool({ type: tool });
+        setIsMoreMenuOpen(false);
     };
 
     const toggleLock = () => {
@@ -279,19 +290,32 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         excalidrawAPI.updateScene({ appState: { zoom: { value: 1 } } });
     };
 
+    // Close "More" menu when clicking outside
+    useEffect(() => {
+        if (!isMoreMenuOpen) return;
+        const handleClick = () => setIsMoreMenuOpen(false);
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, [isMoreMenuOpen]);
+
     const toggleLibrary = () => {
         if (!excalidrawAPI) return;
-        const appState = excalidrawAPI.getAppState();
-        const isCurrentlyOpen = appState.libraryOpen || appState.openSidebar === "library";
-        const newState = !isCurrentlyOpen;
 
-        excalidrawAPI.updateScene({
-            appState: {
-                libraryOpen: newState,
-                openSidebar: newState ? "library" : null
-            }
-        });
-        setIsLibraryOpen(newState);
+        // Use toggleSidebar if available, fallback to updateScene
+        if (typeof excalidrawAPI.toggleSidebar === 'function') {
+            excalidrawAPI.toggleSidebar({ name: "library" });
+        } else {
+            const appState = excalidrawAPI.getAppState();
+            const isCurrentlyOpen = appState.libraryOpen || appState.openSidebar === "library";
+            const newState = !isCurrentlyOpen;
+            excalidrawAPI.updateScene({
+                appState: {
+                    libraryOpen: newState,
+                    openSidebar: newState ? "library" : null
+                }
+            });
+            setIsLibraryOpen(newState);
+        }
     };
 
     const openMenu = () => {
@@ -392,6 +416,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: block !important;
                     z-index: -1 !important;
                 }
+
+                /* WELCOME SCREEN HINT REPOSITION */
+                .whiteboard-container .excalidraw .welcome-screen-center {
+                    transform: translateY(40px) !important;
+                }
+                
+                .whiteboard-container .excalidraw .welcome-screen-hints {
+                    transform: translate(-50%, 80px) !important;
+                }
             `}</style>
 
                 <ExcalidrawWrapper
@@ -468,6 +501,34 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                 </span>
                             </button>
                         ))}
+
+                        <div className="w-px h-6 bg-zinc-200 mx-1" />
+
+                        <div className="relative pointer-events-auto">
+                            <button
+                                onClick={(e) => { e.stopPropagation(); setIsMoreMenuOpen(!isMoreMenuOpen); }}
+                                className={`p-2.5 rounded-xl transition-all duration-200 ${isMoreMenuOpen ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                                title="Mở rộng công cụ"
+                            >
+                                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isMoreMenuOpen ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {isMoreMenuOpen && (
+                                <div className="absolute top-full mt-2 right-0 bg-white rounded-2xl border border-zinc-200 shadow-2xl p-2 min-w-[200px] animate-in fade-in zoom-in duration-200 flex flex-col gap-1">
+                                    {EXTRA_TOOLS.map((tool) => (
+                                        <button
+                                            key={tool.value}
+                                            onClick={() => setTool(tool.value)}
+                                            className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-colors ${activeTool === tool.value ? 'bg-zinc-900 text-white' : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}`}
+                                        >
+                                            <tool.icon className="w-4 h-4" />
+                                            <span className="text-[13px] font-medium flex-1 text-left">{tool.label}</span>
+                                            {tool.shortcut && <span className="text-[10px] opacity-40">{tool.shortcut}</span>}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
