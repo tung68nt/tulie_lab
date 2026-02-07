@@ -521,6 +521,17 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     display: flex !important;
                 }
 
+                /* HIDE NATIVE MENU ELEMENTS AGGRESSIVELY */
+                .whiteboard-container .excalidraw .main-menu-trigger,
+                .whiteboard-container .excalidraw .App-menu,
+                .whiteboard-container .excalidraw button[aria-label="Main menu"],
+                .whiteboard-container .excalidraw .layer-ui__wrapper .main-menu-trigger {
+                    display: none !important;
+                    opacity: 0 !important;
+                    pointer-events: none !important;
+                    visibility: hidden !important;
+                }
+
                 /* Help Dialog & Modals Theme Override */
                 .whiteboard-container .excalidraw .HelpDialog,
                 .whiteboard-container .excalidraw .Dialog,
@@ -599,11 +610,18 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 {/* --- CUSTOM UI --- */}
 
                 {/* 1. TOP LEFT: Branding & Menu */}
-                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-4 bg-white/95 backdrop-blur-md px-6 py-2 rounded-xl border border-zinc-200 transition-all h-[48px]">
-                    <Logo showText={false} height="h-7" className="flex-shrink-0" />
-                    <div className="flex flex-col justify-center select-none ml-1">
-                        <span className="text-[10px] font-bold text-zinc-400 leading-none mb-0.5">Tulie</span>
-                        <span className="text-base font-bold text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
+                <div className="absolute top-4 left-4 z-[1000] pointer-events-auto flex items-center gap-3 bg-white/95 backdrop-blur-md p-1.5 pr-6 rounded-2xl border border-zinc-200 transition-all h-[52px] shadow-sm hover:shadow-md">
+                    <button
+                        onClick={openMenu}
+                        className="p-2.5 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-700 active:scale-95"
+                    >
+                        <Menu className="w-5 h-5" />
+                    </button>
+                    <div className="w-px h-6 bg-zinc-200" />
+                    <Logo showText={false} height="h-8" className="flex-shrink-0 ml-1" />
+                    <div className="flex flex-col justify-center select-none ml-2">
+                        <span className="text-[10px] font-bold text-zinc-400 leading-none mb-0.5 tracking-tight">Tulie</span>
+                        <span className="text-sm font-bold text-zinc-900 leading-none whitespace-nowrap">Whiteboard</span>
                     </div>
                 </div>
 
