@@ -40,11 +40,17 @@ export default function ExcalidrawWrapper({
             }}
         >
             <MainMenu>
+                <MainMenu.DefaultItems.LoadScene />
                 <MainMenu.DefaultItems.SaveAsImage />
                 <MainMenu.DefaultItems.Export />
+                <MainMenu.Separator />
+                <MainMenu.DefaultItems.CommandPalette />
+                <MainMenu.DefaultItems.SearchMenu />
+                <MainMenu.DefaultItems.Help />
                 <MainMenu.DefaultItems.ClearCanvas />
                 <MainMenu.Separator />
                 <MainMenu.DefaultItems.ToggleTheme />
+                <MainMenu.DefaultItems.ChangeCanvasBackground />
                 <MainMenu.Separator />
                 <MainMenu.Item onSelect={onBack}>
                     Quay lại danh sách
