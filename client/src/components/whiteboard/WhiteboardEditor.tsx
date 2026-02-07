@@ -569,7 +569,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     background: white !important;
                 }
 
-                /* Remove all shadows from all islands and modals */
+                /* Remove all shadows from all islands and modals and sync radius */
                 .whiteboard-container .excalidraw .island,
                 .whiteboard-container .excalidraw .sidebar,
                 .whiteboard-container .excalidraw .context-menu,
@@ -577,6 +577,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 .whiteboard-container .excalidraw .Modal__window {
                     box-shadow: none !important;
                     border: 1px solid #e4e4e7 !important;
+                    border-radius: 20px !important;
+                }
+
+                .whiteboard-container .excalidraw .button-list button,
+                .whiteboard-container .excalidraw .ToolIcon,
+                .whiteboard-container .excalidraw .ToolIcon button {
+                    border-radius: 12px !important;
                 }
 
                 /* Ensure text tool click works */
@@ -627,32 +634,32 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 {/* 2. TOP CENTER: Toolbar + Undo/Redo */}
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] pointer-events-auto">
-                    <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[48px]">
+                    <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px] shadow-sm hover:shadow-md">
 
                         <button
                             onClick={toggleLock}
-                            className={`p-2 rounded-xl transition-all duration-200 ${isLocked ? 'bg-amber-100 text-amber-600' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                            className={`p-2.5 rounded-xl transition-all duration-200 ${isLocked ? 'bg-amber-100 text-amber-600' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
                             title="Keep tool active"
                         >
                             <Lock className="w-3.5 h-3.5" />
                         </button>
 
-                        <div className="w-px h-5 bg-zinc-200 mx-0.5" />
+                        <div className="w-px h-6 bg-zinc-200 mx-0.5" />
 
-                        <button onClick={handleUndo} className="p-2 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Undo (Ctrl+Z)">
+                        <button onClick={handleUndo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Undo (Ctrl+Z)">
                             <Undo2 className="w-3.5 h-3.5" />
                         </button>
-                        <button onClick={handleRedo} className="p-2 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Redo (Ctrl+Shift+Z)">
+                        <button onClick={handleRedo} className="p-2.5 rounded-xl text-zinc-500 hover:bg-zinc-100 transition-all" title="Redo (Ctrl+Shift+Z)">
                             <Redo2 className="w-3.5 h-3.5" />
                         </button>
 
-                        <div className="w-px h-5 bg-zinc-200 mx-0.5" />
+                        <div className="w-px h-6 bg-zinc-200 mx-0.5" />
 
                         {TOOLS.map((tool) => (
                             <button
                                 key={tool.value}
                                 onClick={() => setTool(tool.value)}
-                                className={`relative p-2 rounded-xl transition-all duration-200 ${activeTool === tool.value ? 'bg-zinc-900 text-white shadow-none' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
+                                className={`relative p-2.5 rounded-xl transition-all duration-200 ${activeTool === tool.value ? 'bg-zinc-900 text-white shadow-none' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'}`}
                                 title={tool.label}
                             >
                                 <tool.icon className="w-3.5 h-3.5" />
@@ -662,7 +669,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             </button>
                         ))}
 
-                        <div className="w-px h-5 bg-zinc-200 mx-0.5" />
+                        <div className="w-px h-6 bg-zinc-200 mx-0.5" />
 
                         <div className="relative pointer-events-auto">
                             <button
@@ -693,8 +700,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 </div>
 
                 {/* 3. TOP RIGHT: Library & Share */}
-                <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[48px]">
-                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-xl border border-zinc-200 h-full group">
+                <div className="absolute top-4 right-4 z-[1000] pointer-events-auto flex items-center gap-2 h-[52px]">
+                    <div className="flex items-center gap-3 bg-white/95 backdrop-blur-md pl-5 pr-1.5 py-1 rounded-2xl border border-zinc-200 h-full group shadow-sm hover:shadow-md">
                         {isEditingTitle ? (
                             <input
                                 autoFocus
@@ -703,7 +710,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                 onChange={(e) => setTempTitle(e.target.value)}
                                 onBlur={handleSaveTitle}
                                 onKeyDown={handleTitleKeyDown}
-                                className="text-sm font-bold bg-zinc-50 border border-zinc-200 rounded-lg px-2 py-1 outline-none w-[150px] text-zinc-900"
+                                className="text-sm font-bold bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-1 outline-none w-[150px] text-zinc-900"
                             />
                         ) : (
                             <div className="flex items-center gap-2 cursor-pointer" onClick={handleStartEditing}>
@@ -714,7 +721,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             </div>
                         )}
                         <Button
-                            variant="default" size="sm" className="rounded-lg bg-zinc-900 text-white h-[36px] px-4 text-[11px] font-bold shadow-none"
+                            variant="default" size="sm" className="rounded-xl bg-zinc-900 text-white h-[40px] px-4 text-[11px] font-bold shadow-none hover:bg-zinc-800 active:scale-95 transition-all"
                             onClick={() => setIsShareModalOpen(true)}
                         >
                             <Share2 className="w-3.5 h-3.5 mr-2" />
@@ -723,15 +730,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                     <button
                         onClick={toggleLibrary}
-                        className={`p-2.5 rounded-xl border transition-all h-[48px] w-[48px] flex items-center justify-center ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/90 backdrop-blur-md text-zinc-600 border-zinc-200 shadow-none hover:bg-zinc-50'}`}
+                        className={`p-3 rounded-2xl border transition-all h-[52px] w-[52px] flex items-center justify-center shadow-sm hover:shadow-md active:scale-95 ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/95 backdrop-blur-md text-zinc-700 border-zinc-200 hover:bg-zinc-50'}`}
                         title="Thư viện"
                     >
-                        <LibraryIcon className="w-5 h-5" />
+                        <LibraryIcon className="w-5 h-5 transition-transform" />
                     </button>
                 </div>
 
                 {/* 4. BOTTOM LEFT: Zoom Controls */}
-                <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1 rounded-2xl border border-zinc-200 h-[48px]">
+                <div className="absolute bottom-6 left-6 z-[1000] pointer-events-auto flex items-center gap-2 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-200 h-[52px] shadow-sm hover:shadow-md">
                     <button onClick={handleZoomOut} className="p-2 hover:bg-zinc-100 rounded-xl transition-colors text-zinc-500">
                         <Minus className="w-5 h-5" />
                     </button>
