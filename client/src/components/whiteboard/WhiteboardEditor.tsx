@@ -635,8 +635,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     pointer-events: auto !important;
                 }
 
-                /* Hide native toolbar and triggers (custom Toolbar replaces it) */
-                .whiteboard-container .excalidraw .App-toolbar,
+                /* Hide ONLY specific trigger buttons (not the entire toolbar structure) */
                 .whiteboard-container .excalidraw [data-testid="main-menu-trigger"],
                 .whiteboard-container .excalidraw [data-testid="sidebar-trigger-library"],
                 .whiteboard-container .excalidraw .library-button,
@@ -646,7 +645,21 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     left: -1000px !important;
                     opacity: 0 !important;
                     pointer-events: none !important;
-                    z-index: -1 !important;
+                }
+                
+                /* Hide the native toolbar ICONS but keep the container for properties panel */
+                .whiteboard-container .excalidraw .App-toolbar__divider,
+                .whiteboard-container .excalidraw .App-toolbar .ToolIcon:not([data-testid="toolbar-lock"]) {
+                    display: none !important;
+                }
+                
+                /* Keep App-toolbar container visible but transparent - needed for properties panel */
+                .whiteboard-container .excalidraw .App-toolbar {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                    min-height: 0 !important;
+                    padding: 0 !important;
                 }
 
                 /* CRITICAL: Ensure Main Menu and Library Sidebar ARE visible when opened */
