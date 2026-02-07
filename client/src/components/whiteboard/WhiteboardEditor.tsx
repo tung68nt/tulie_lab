@@ -503,7 +503,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 /* WELCOME SCREEN HINT REPOSITION */
                 .whiteboard-container .excalidraw .welcome-screen-center {
-                    transform: translateY(-20px) !important;
+                    transform: translateY(-60px) !important;
                 }
                 
                 .whiteboard-container .excalidraw .welcome-screen-hints {
