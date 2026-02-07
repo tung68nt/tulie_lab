@@ -340,10 +340,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, []);
 
     const openMenu = useCallback(() => {
-        if (!excalidrawAPI) return;
+        const api = excalidrawRef.current;
+        if (!api) return;
+
+        // Use standard Excalidraw way to open menu if possible, 
+        // otherwise fallback to clicking the hidden button
         const menuBtn = document.querySelector('.DropdownMenu-button') as HTMLButtonElement;
-        if (menuBtn) menuBtn.click();
-    }, [excalidrawAPI]);
+        if (menuBtn) {
+            menuBtn.click();
+        } else {
+            // Fallback for newer versions or different internal structures
+            api.updateScene({ appState: { openMenu: 'canvas' } });
+        }
+    }, []);
 
     const openHelp = () => {
         if (!excalidrawAPI) return;
@@ -458,23 +467,49 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
                 /* WELCOME SCREEN HINT REPOSITION */
                 .whiteboard-container .excalidraw .welcome-screen-center {
-                    transform: translateY(140px) !important;
+                    transform: translateY(80px) !important;
                 }
                 
                 .whiteboard-container .excalidraw .welcome-screen-hints {
-                    bottom: 120px !important;
+                    bottom: 140px !important;
                     display: flex !important;
                     opacity: 1 !important;
                     visibility: visible !important;
                 }
 
                 .whiteboard-container .excalidraw .welcome-screen-hints--menu-hint,
-                .whiteboard-container .excalidraw .welcome-screen-hints--help-hint {
-                    display: none !important;
-                }
-                
+                .whiteboard-container .excalidraw .welcome-screen-hints--help-hint,
                 .whiteboard-container .excalidraw .welcome-screen-hints--toolbar-hint {
                     display: flex !important;
+                }
+
+                /* Ensure all hints are under the toolbar/branding and visible */
+                .whiteboard-container .excalidraw .welcome-screen-hints {
+                    z-index: 50 !important;
+                    pointer-events: none !important;
+                }
+
+                /* Help Dialog & Modals Theme Override */
+                .whiteboard-container .excalidraw .HelpDialog,
+                .whiteboard-container .excalidraw .Dialog,
+                .whiteboard-container .excalidraw .Modal {
+                    --color-primary: #18181b !important;
+                }
+
+                .whiteboard-container .excalidraw .HelpDialog__header,
+                .whiteboard-container .excalidraw .Dialog__header {
+                    background: #f4f4f5 !important;
+                    border-bottom: 1px solid #e4e4e7 !important;
+                }
+
+                .whiteboard-container .excalidraw .HelpDialog__key,
+                .whiteboard-container .excalidraw .Dialog__key {
+                    background: #18181b !important;
+                    color: white !important;
+                }
+
+                .whiteboard-container .excalidraw .Dialog__content {
+                    background: white !important;
                 }
 
                 /* Ensure text tool click works */
@@ -590,7 +625,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     </div>
                     <button
                         onClick={toggleLibrary}
-                        className={`p-2.5 rounded-full border shadow-sm transition-all h-[44px] w-[44px] flex items-center justify-center ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/90 backdrop-blur-md text-zinc-600 border-zinc-200'}`}
+                        className={`p-2.5 rounded-full border shadow-sm transition-all h-[44px] w-[44px] flex items-center justify-center ${isLibraryOpen ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white/90 backdrop-blur-md text-zinc-600 border-zinc-200 hover:bg-zinc-50'}`}
                         title="Library"
                     >
                         <LibraryIcon className="w-5 h-5" />

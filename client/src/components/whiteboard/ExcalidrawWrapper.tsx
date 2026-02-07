@@ -52,19 +52,28 @@ export default function ExcalidrawWrapper({
             <WelcomeScreen>
                 <WelcomeScreen.Center>
                     <WelcomeScreen.Center.Logo>
-                        <Logo showText={false} className="w-16 h-16 mb-4" />
+                        <div className="flex flex-col items-center gap-4 mb-6">
+                            <Logo showText={false} className="w-24 h-24" />
+                            <div className="flex flex-col items-center select-none">
+                                <span className="text-sm font-bold text-zinc-400 uppercase tracking-[0.2em] leading-none mb-1">Tulie</span>
+                                <span className="text-4xl font-black text-zinc-900 leading-none">Whiteboard</span>
+                            </div>
+                        </div>
                     </WelcomeScreen.Center.Logo>
-                    <WelcomeScreen.Center.Heading>
-                        Tulie Whiteboard
-                    </WelcomeScreen.Center.Heading>
                     <WelcomeScreen.Center.Menu>
                         <WelcomeScreen.Center.MenuItemLoadScene />
                         <WelcomeScreen.Center.MenuItemHelp />
                     </WelcomeScreen.Center.Menu>
                 </WelcomeScreen.Center>
+                <WelcomeScreen.Hints.MenuHint>
+                    Export, preferences, languages, ...
+                </WelcomeScreen.Hints.MenuHint>
                 <WelcomeScreen.Hints.ToolbarHint>
                     Pick a tool & start drawing!
                 </WelcomeScreen.Hints.ToolbarHint>
+                <WelcomeScreen.Hints.HelpHint>
+                    Shortcuts & help
+                </WelcomeScreen.Hints.HelpHint>
             </WelcomeScreen>
         </Excalidraw >
     );
