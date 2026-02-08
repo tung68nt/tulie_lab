@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { Plus, Layout, ArrowRight, Trash2 } from 'lucide-react';
+import { Plus, Layout, ArrowRight, Trash2, List } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -12,6 +12,8 @@ export default function WhiteboardDashboard() {
     const [isLoading, setIsLoading] = useState(true);
     const [isCreating, setIsCreating] = useState(false);
     const router = useRouter();
+
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
     const fetchWhiteboards = async () => {
         try {
@@ -59,10 +61,30 @@ export default function WhiteboardDashboard() {
                     <h1 className="text-3xl font-bold tracking-tight">Bảng trắng của tôi</h1>
                     <p className="text-muted-foreground mt-1">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
-                <Button onClick={handleCreate} disabled={isCreating} className="gap-2">
-                    <Plus className="w-4 h-4" />
-                    Tạo bảng mới
-                </Button>
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center p-1 bg-muted rounded-lg border">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setViewMode('grid')}
+                            className={`h-8 px-2 ${viewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                        >
+                            <Layout className="w-4 h-4" />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setViewMode('list')}
+                            className={`h-8 px-2 ${viewMode === 'list' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                        >
+                            <List className="w-4 h-4" />
+                        </Button>
+                    </div>
+                    <Button onClick={handleCreate} disabled={isCreating} className="gap-2">
+                        <Plus className="w-4 h-4" />
+                        Tạo bảng mới
+                    </Button>
+                </div>
             </div>
 
             {isLoading ? (
@@ -80,7 +102,7 @@ export default function WhiteboardDashboard() {
                         Bắt đầu vẽ ngay
                     </Button>
                 </div>
-            ) : (
+            ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {whiteboards.map((board) => (
                         <Link
@@ -88,11 +110,15 @@ export default function WhiteboardDashboard() {
                             href={`/whiteboard/${board.id}`}
                             className="group relative flex flex-col bg-card border rounded-xl overflow-hidden hover:border-zinc-400 transition-all hover:shadow-md"
                         >
-                            <div className="h-40 bg-zinc-50 flex items-center justify-center border-b">
-                                <Layout className="w-10 h-10 text-zinc-300 group-hover:text-zinc-400 group-hover:scale-110 transition-all duration-300" />
+                            <div className="h-40 bg-zinc-50 flex items-center justify-center border-b relative">
+                                {board.thumbnail ? (
+                                    <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover" />
+                                ) : (
+                                    <Layout className="w-10 h-10 text-zinc-300 group-hover:text-zinc-400 group-hover:scale-110 transition-all duration-300" />
+                                )}
                             </div>
                             <div className="p-5">
-                                <h3 className="font-bold text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
+                                <h3 className="font-medium text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
                                 <div className="flex items-center justify-between mt-4 border-t pt-3 border-dashed">
                                     <span className="text-xs font-medium text-zinc-400 bg-zinc-100 px-2 py-1 rounded-md">
                                         {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
@@ -106,11 +132,43 @@ export default function WhiteboardDashboard() {
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
-                                        <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-zinc-900 text-white opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 transition-all duration-300 shadow-sm">
-                                            <ArrowRight className="w-4 h-4" />
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            ) : (
+                <div className="flex flex-col border rounded-xl overflow-hidden bg-card">
+                    {whiteboards.map((board, i) => (
+                        <Link
+                            key={board.id}
+                            href={`/whiteboard/${board.id}`}
+                            className={`group flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors ${i !== whiteboards.length - 1 ? 'border-b' : ''}`}
+                        >
+                            <div className="w-16 h-10 bg-zinc-100 rounded-md flex items-center justify-center border shrink-0 overflow-hidden">
+                                {board.thumbnail ? (
+                                    <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover" />
+                                ) : (
+                                    <Layout className="w-5 h-5 text-zinc-300" />
+                                )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <h3 className="font-medium text-base truncate group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
+                            </div>
+                            <div className="text-sm text-muted-foreground w-32 text-right">
+                                {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                            </div>
+                            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                    onClick={(e) => handleDelete(board.id, e)}
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </Button>
+                                <ArrowRight className="w-4 h-4 text-muted-foreground" />
                             </div>
                         </Link>
                     ))}

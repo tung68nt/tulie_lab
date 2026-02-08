@@ -1,0 +1,338 @@
+{
+  "taskId": "bnwehz",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "bnwehz",
+      "version": 1,
+      "timestamp": "2026-02-07T17:52:02.908Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Menu button hoạt động - mở được menu chính",
+              "completed": false
+            },
+            {
+              "text": "Library button hoạt động - mở được sidebar library",
+              "completed": false
+            },
+            {
+              "text": "Bảng thuộc tính công cụ hoạt động (màu sắc, nét đậm/mảnh, font size...)",
+              "completed": false
+            },
+            {
+              "text": "Đủ 3 mũi tên hướng dẫn trên welcome screen (menu, toolbar, help)",
+              "completed": false
+            },
+            {
+              "text": "Dữ liệu được lưu vào database Supabase (reload vẫn giữ dữ liệu)",
+              "completed": false
+            },
+            {
+              "text": "Công cụ vẽ mượt mà, không lag, không lỗi nhả chuột",
+              "completed": false
+            },
+            {
+              "text": "Text tool hoạt động đúng - có thể chèn và chỉnh sửa text",
+              "completed": false
+            },
+            {
+              "text": "Bảng chọn whiteboard đã tạo hoạt động - có thể mở/chỉnh sửa bảng cũ",
+              "completed": false
+            },
+            {
+              "text": "Demo: Tải và sử dụng được 1 library kit mẫu",
+              "completed": false
+            },
+            {
+              "text": "DOM test passed cho tất cả các chức năng trên thelab.tulie.vn",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Fix Whiteboard Critical Bugs - DOM Testing & Auto Loop Fix",
+        "description": "Fix tất cả các lỗi nghiêm trọng của Whiteboard với yêu cầu DOM test từng lỗi và auto loop check-fix-check. Sử dụng tên miền thelab.tulie.vn (không localhost). Related: @task-nvekf6",
+        "status": "todo",
+        "priority": "high",
+        "labels": [
+          "whiteboard",
+          "bug-fix",
+          "dom-testing"
+        ],
+        "acceptanceCriteria": [
+          {
+            "text": "Menu button hoạt động - mở được menu chính",
+            "completed": false
+          },
+          {
+            "text": "Library button hoạt động - mở được sidebar library",
+            "completed": false
+          },
+          {
+            "text": "Bảng thuộc tính công cụ hoạt động (màu sắc, nét đậm/mảnh, font size...)",
+            "completed": false
+          },
+          {
+            "text": "Đủ 3 mũi tên hướng dẫn trên welcome screen (menu, toolbar, help)",
+            "completed": false
+          },
+          {
+            "text": "Dữ liệu được lưu vào database Supabase (reload vẫn giữ dữ liệu)",
+            "completed": false
+          },
+          {
+            "text": "Công cụ vẽ mượt mà, không lag, không lỗi nhả chuột",
+            "completed": false
+          },
+          {
+            "text": "Text tool hoạt động đúng - có thể chèn và chỉnh sửa text",
+            "completed": false
+          },
+          {
+            "text": "Bảng chọn whiteboard đã tạo hoạt động - có thể mở/chỉnh sửa bảng cũ",
+            "completed": false
+          },
+          {
+            "text": "Demo: Tải và sử dụng được 1 library kit mẫu",
+            "completed": false
+          },
+          {
+            "text": "DOM test passed cho tất cả các chức năng trên thelab.tulie.vn",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "bnwehz",
+      "version": 2,
+      "timestamp": "2026-02-07T17:52:18.093Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix Whiteboard Critical Bugs - DOM Testing & Auto Loop Fix",
+        "description": "Fix tất cả các lỗi nghiêm trọng của Whiteboard với yêu cầu DOM test từng lỗi và auto loop check-fix-check. Sử dụng tên miền thelab.tulie.vn (không localhost). Related: @task-nvekf6",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "whiteboard",
+          "bug-fix",
+          "dom-testing"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Menu button hoạt động - mở được menu chính"
+          },
+          {
+            "completed": false,
+            "text": "Library button hoạt động - mở được sidebar library"
+          },
+          {
+            "completed": false,
+            "text": "Bảng thuộc tính công cụ hoạt động (màu sắc, nét đậm/mảnh, font size...)"
+          },
+          {
+            "completed": false,
+            "text": "Đủ 3 mũi tên hướng dẫn trên welcome screen (menu, toolbar, help)"
+          },
+          {
+            "completed": false,
+            "text": "Dữ liệu được lưu vào database Supabase (reload vẫn giữ dữ liệu)"
+          },
+          {
+            "completed": false,
+            "text": "Công cụ vẽ mượt mà, không lag, không lỗi nhả chuột"
+          },
+          {
+            "completed": false,
+            "text": "Text tool hoạt động đúng - có thể chèn và chỉnh sửa text"
+          },
+          {
+            "completed": false,
+            "text": "Bảng chọn whiteboard đã tạo hoạt động - có thể mở/chỉnh sửa bảng cũ"
+          },
+          {
+            "completed": false,
+            "text": "Demo: Tải và sử dụng được 1 library kit mẫu"
+          },
+          {
+            "completed": false,
+            "text": "DOM test passed cho tất cả các chức năng trên thelab.tulie.vn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "bnwehz",
+      "version": 3,
+      "timestamp": "2026-02-07T18:10:58.558Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Menu button hoạt động - mở được menu chính"
+            },
+            {
+              "completed": false,
+              "text": "Library button hoạt động - mở được sidebar library"
+            },
+            {
+              "completed": false,
+              "text": "Bảng thuộc tính công cụ hoạt động (màu sắc, nét đậm/mảnh, font size...)"
+            },
+            {
+              "completed": false,
+              "text": "Đủ 3 mũi tên hướng dẫn trên welcome screen (menu, toolbar, help)"
+            },
+            {
+              "completed": false,
+              "text": "Dữ liệu được lưu vào database Supabase (reload vẫn giữ dữ liệu)"
+            },
+            {
+              "completed": false,
+              "text": "Công cụ vẽ mượt mà, không lag, không lỗi nhả chuột"
+            },
+            {
+              "completed": false,
+              "text": "Text tool hoạt động đúng - có thể chèn và chỉnh sửa text"
+            },
+            {
+              "completed": false,
+              "text": "Bảng chọn whiteboard đã tạo hoạt động - có thể mở/chỉnh sửa bảng cũ"
+            },
+            {
+              "completed": false,
+              "text": "Demo: Tải và sử dụng được 1 library kit mẫu"
+            },
+            {
+              "completed": false,
+              "text": "DOM test passed cho tất cả các chức năng trên thelab.tulie.vn"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Menu button hoạt động - mở được menu chính"
+            },
+            {
+              "completed": true,
+              "text": "Library button hoạt động - mở được sidebar library"
+            },
+            {
+              "completed": true,
+              "text": "Bảng thuộc tính công cụ hoạt động (màu sắc, nét đậm/mảnh, font size...)"
+            },
+            {
+              "completed": true,
+              "text": "Đủ 3 mũi tên hướng dẫn trên welcome screen (menu, toolbar, help)"
+            },
+            {
+              "completed": false,
+              "text": "Dữ liệu được lưu vào database Supabase (reload vẫn giữ dữ liệu)"
+            },
+            {
+              "completed": false,
+              "text": "Công cụ vẽ mượt mà, không lag, không lỗi nhả chuột"
+            },
+            {
+              "completed": false,
+              "text": "Text tool hoạt động đúng - có thể chèn và chỉnh sửa text"
+            },
+            {
+              "completed": false,
+              "text": "Bảng chọn whiteboard đã tạo hoạt động - có thể mở/chỉnh sửa bảng cũ"
+            },
+            {
+              "completed": false,
+              "text": "Demo: Tải và sử dụng được 1 library kit mẫu"
+            },
+            {
+              "completed": false,
+              "text": "DOM test passed cho tất cả các chức năng trên thelab.tulie.vn"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Verified on thelab.tulie.vn:\n- Menu button: WORKS (opens Excalidraw menu)\n- Library button: WORKS (opens sidebar)\n- Properties panel: WORKS (Stroke, Background, Font, Size, etc.)\n- Hints arrows: VISIBLE (3 arrows with Vietnamese text)\n- Redirect: WORKS (/whiteboard/new -> real ID)"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix Whiteboard Critical Bugs - DOM Testing & Auto Loop Fix",
+        "description": "Fix tất cả các lỗi nghiêm trọng của Whiteboard với yêu cầu DOM test từng lỗi và auto loop check-fix-check. Sử dụng tên miền thelab.tulie.vn (không localhost). Related: @task-nvekf6",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "whiteboard",
+          "bug-fix",
+          "dom-testing"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Menu button hoạt động - mở được menu chính"
+          },
+          {
+            "completed": true,
+            "text": "Library button hoạt động - mở được sidebar library"
+          },
+          {
+            "completed": true,
+            "text": "Bảng thuộc tính công cụ hoạt động (màu sắc, nét đậm/mảnh, font size...)"
+          },
+          {
+            "completed": true,
+            "text": "Đủ 3 mũi tên hướng dẫn trên welcome screen (menu, toolbar, help)"
+          },
+          {
+            "completed": false,
+            "text": "Dữ liệu được lưu vào database Supabase (reload vẫn giữ dữ liệu)"
+          },
+          {
+            "completed": false,
+            "text": "Công cụ vẽ mượt mà, không lag, không lỗi nhả chuột"
+          },
+          {
+            "completed": false,
+            "text": "Text tool hoạt động đúng - có thể chèn và chỉnh sửa text"
+          },
+          {
+            "completed": false,
+            "text": "Bảng chọn whiteboard đã tạo hoạt động - có thể mở/chỉnh sửa bảng cũ"
+          },
+          {
+            "completed": false,
+            "text": "Demo: Tải và sử dụng được 1 library kit mẫu"
+          },
+          {
+            "completed": false,
+            "text": "DOM test passed cho tất cả các chức năng trên thelab.tulie.vn"
+          }
+        ],
+        "implementationNotes": "Verified on thelab.tulie.vn:\n- Menu button: WORKS (opens Excalidraw menu)\n- Library button: WORKS (opens sidebar)\n- Properties panel: WORKS (Stroke, Background, Font, Size, etc.)\n- Hints arrows: VISIBLE (3 arrows with Vietnamese text)\n- Redirect: WORKS (/whiteboard/new -> real ID)"
+      }
+    }
+  ]
+}

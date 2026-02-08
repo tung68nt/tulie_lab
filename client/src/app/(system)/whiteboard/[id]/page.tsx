@@ -3,6 +3,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
+import ExcalidrawConfig from '@/components/whiteboard/ExcalidrawConfig';
 
 // Dynamically import the editor with no SSR
 const WhiteboardEditor = dynamic(() => import('@/components/whiteboard/WhiteboardEditor'), {
@@ -20,6 +21,7 @@ export default function WhiteboardPage() {
 
     return (
         <div className="w-full h-screen overflow-hidden">
+            <ExcalidrawConfig />
             <WhiteboardEditor id={id} />
         </div>
     );
