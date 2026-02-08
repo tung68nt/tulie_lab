@@ -57,7 +57,7 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
                     </div>
                     <div className="flex items-center gap-3 text-zinc-400 group hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors cursor-default">
                         <Share2 className="w-5 h-5" />
-                        <span className="text-lg">Live Collab</span>
+                        <span className="text-lg">Cloud Sync</span>
                     </div>
                     <div className="flex items-center gap-3 text-zinc-400 group hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors cursor-default">
                         <Keyboard className="w-5 h-5" />
