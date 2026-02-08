@@ -445,6 +445,23 @@ body {
   display: none !important;
 }
 
+/* Push main menu dropdown lower to avoid overlapping with custom logo header */
+.excalidraw .App-menu_top .dropdown-menu-container {
+  margin-top: 60px !important;
+}
+
+/* Also hide Excalidraw links section in main menu */
+.excalidraw .App-menu_top .dropdown-menu-container .dropdown-menu-group:has(a[href*="github.com/excalidraw"]),
+.excalidraw .App-menu_top .dropdown-menu-container .dropdown-menu-group:has(a[href*="twitter.com"]),
+.excalidraw .App-menu__heading:has(~ * a[href*="github.com"]) {
+  display: none !important;
+}
+
+/* Hide "Excalidraw links" text header in menu */
+.excalidraw .Island .dropdown-menu-group__title:has(+ div a[href*="github.com"]) {
+  display: none !important;
+}
+
 /* Style for injected kbd tags in HintViewer (matching excalidraw.com) */
 .excalidraw-kbd {
   display: inline-block;
