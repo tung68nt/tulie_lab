@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Excalidraw, MainMenu, WelcomeScreen } from '@excalidraw/excalidraw';
+import { Excalidraw } from '@excalidraw/excalidraw';
 import '@excalidraw/excalidraw/index.css';
-import { Logo } from '@/components/Logo';
 
 interface ExcalidrawWrapperProps {
     excalidrawAPI: (api: any) => void;
@@ -13,56 +12,41 @@ interface ExcalidrawWrapperProps {
     title?: string;
 }
 
-export default function ExcalidrawWrapper({
+const ExcalidrawWrapper = React.memo(({
     excalidrawAPI,
     onChange,
     onPointerUpdate,
     onBack,
     title
-}: ExcalidrawWrapperProps) {
+}: ExcalidrawWrapperProps) => {
     return (
         <Excalidraw
             excalidrawAPI={excalidrawAPI}
             onChange={onChange}
             onPointerUpdate={onPointerUpdate as any}
+            langCode="vi-VN"
             theme="light"
             UIOptions={{
                 canvasActions: {
-                    toggleTheme: true,
-                    export: {
-                        saveFileToDisk: true,
-                    }
-                }
+                    changeViewBackgroundColor: true,
+                    clearCanvas: true,
+                    loadScene: false,
+                    saveToActiveFile: false,
+                    toggleTheme: false,
+                    saveAsImage: true,
+                },
             }}
-            initialData={{
-                appState: { gridModeEnabled: true }
-            }}
-        >
-            <MainMenu>
-                <MainMenu.DefaultItems.SaveAsImage />
-                <MainMenu.DefaultItems.Export />
-                <MainMenu.DefaultItems.ClearCanvas />
-                <MainMenu.Separator />
-                <MainMenu.DefaultItems.ToggleTheme />
-                <MainMenu.Separator />
-                <MainMenu.Item onSelect={onBack}>
-                    Quay lại danh sách
-                </MainMenu.Item>
-            </MainMenu>
-            <WelcomeScreen>
-                <WelcomeScreen.Center>
-                    <WelcomeScreen.Center.Logo>
-                        <Logo showText={false} className="w-16 h-16 mb-4" />
-                    </WelcomeScreen.Center.Logo>
-                    <WelcomeScreen.Center.Heading>
-                        Tulie Whiteboard
-                    </WelcomeScreen.Center.Heading>
-                    <WelcomeScreen.Center.Menu>
-                        <WelcomeScreen.Center.MenuItemLoadScene />
-                        <WelcomeScreen.Center.MenuItemHelp />
-                    </WelcomeScreen.Center.Menu>
-                </WelcomeScreen.Center>
-            </WelcomeScreen>
-        </Excalidraw >
+        />
     );
-}
+}, (prev, next) => {
+    // Custom comparison to ensure we don't re-render unless function references change
+    // title change shouldn't trigger full reload of canvas ideally, but might correspond to document switch
+    return prev.excalidrawAPI === next.excalidrawAPI &&
+        prev.onChange === next.onChange &&
+        prev.onPointerUpdate === next.onPointerUpdate &&
+        prev.title === next.title;
+});
+
+ExcalidrawWrapper.displayName = 'ExcalidrawWrapper';
+
+export default ExcalidrawWrapper;
