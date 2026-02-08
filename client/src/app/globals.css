@@ -341,4 +341,32 @@ body {
 
 .excalidraw {
   --font-family: "Excalifont", "Virgil", sans-serif !important;
+
+  /* Override Default Purple Theme to Tulie Zinc/Black Theme */
+  --color-primary: #18181b !important;
+  /* zinc-900 */
+  --color-primary-dark: #09090b !important;
+  /* zinc-950 */
+  --color-primary-darker: #09090b !important;
+  --color-primary-light: #f4f4f5 !important;
+  /* zinc-100 */
+  --color-primary-light-darker: #e4e4e7 !important;
+  /* zinc-200 */
+
+  /* Focus rings and checks */
+  --color-brand: #18181b !important;
+  --color-brand-hover: #09090b !important;
+  --color-brand-active: #09090b !important;
+}
+
+.excalidraw.theme--dark {
+  --color-primary: #fafafa !important;
+  /* zinc-50 */
+  --color-primary-dark: #ffffff !important;
+  --color-primary-darker: #ffffff !important;
+  --color-primary-light: #27272a !important;
+  /* zinc-800 */
+
+  --color-brand: #fafafa !important;
+  --color-brand-hover: #ffffff !important;
 }
