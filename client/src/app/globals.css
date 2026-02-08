@@ -480,8 +480,8 @@ body {
   border-radius: 4px;
   box-shadow: none;
   margin: 0 2px;
-  vertical-align: 1px;
-  /* slight adjustment for border */
+  vertical-align: baseline;
+  white-space: nowrap;
 }
 
 .dark .excalidraw-kbd {
