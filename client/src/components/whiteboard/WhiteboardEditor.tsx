@@ -27,6 +27,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [saveStatus, setSaveStatus] = useState<SaveStatus>('saved');
     const [showWelcome, setShowWelcome] = useState(false);
     const [isSidebarDocked, setIsSidebarDocked] = useState(false);
+    const [gridEnabled, setGridEnabled] = useState(true); // Default true
     const [parsedInitialData, setParsedInitialData] = useState<{ elements?: any[]; appState?: any } | undefined>(undefined);
 
     // Refs for performance (avoid state updates during drawing)
@@ -208,7 +209,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 console.log('10. Calling updateScene with', finalElements.length, 'elements');
                 excalidrawAPI.updateScene({
                     elements: finalElements,
-                    appState: { ...finalAppState, gridModeEnabled: true, viewBackgroundColor: finalAppState.viewBackgroundColor || '#f9f9f9' }
+                    appState: {
+                        ...finalAppState,
+                        gridModeEnabled: finalAppState.gridModeEnabled !== undefined ? finalAppState.gridModeEnabled : true,
+                        viewBackgroundColor: finalAppState.viewBackgroundColor || '#f9f9f9'
+                    }
                 });
                 currentElementsRef.current = finalElements;
                 console.log('11. updateScene called successfully');
@@ -280,6 +285,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         // Fast path: Update ref immediately
         currentElementsRef.current = elements;
 
+        // Sync grid state for UI toggle
+        if (appState.gridModeEnabled !== gridEnabled) {
+            setGridEnabled(appState.gridModeEnabled);
+        }
+
         // Debounce Network Operations (Save & Sync)
         if (saveTimeoutRef.current) {
             clearTimeout(saveTimeoutRef.current);
@@ -340,6 +350,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     elements: elements,
                     appState: {
                         viewBackgroundColor: appState.viewBackgroundColor,
+                        gridModeEnabled: appState.gridModeEnabled, // Persist grid state
                         currentItemFontFamily: appState.currentItemFontFamily,
                         currentItemFontSize: appState.currentItemFontSize,
                         // Add other necessary appState props
@@ -407,6 +418,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     };
 
+    const handleToggleGrid = () => {
+        if (!excalidrawAPI) return;
+        const current = excalidrawAPI.getAppState().gridModeEnabled;
+        excalidrawAPI.updateScene({
+            appState: { gridModeEnabled: !current }
+        });
+        setGridEnabled(!current);
+    };
+
     if (!isLoaded && id !== 'new') {
         return (
             <div className="flex items-center justify-center w-full h-screen bg-background">
@@ -424,6 +444,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 onBack={() => router.push('/whiteboard')}
                 onRename={handleRename}
                 isSidebarDocked={isSidebarDocked}
+                gridEnabled={gridEnabled}
+                onToggleGrid={handleToggleGrid}
             />
 
             <ExcalidrawWrapper

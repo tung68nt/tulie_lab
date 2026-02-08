@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
-import { ChevronLeft, Cloud, Check, Home, Pencil } from 'lucide-react';
+import { ChevronLeft, Cloud, Check, Home, Pencil, Grid3X3 } from 'lucide-react';
 import Link from 'next/link';
 import { SaveStatus } from './SaveStatusIndicator';
 import { Logo } from '@/components/Logo';
@@ -11,9 +11,14 @@ interface WhiteboardHeaderProps {
     onBack: () => void;
     onRename?: (newTitle: string) => void;
     isSidebarDocked?: boolean;
+    gridEnabled?: boolean;
+    onToggleGrid?: () => void;
 }
 
-export default function WhiteboardHeader({ title, saveStatus, onBack, onRename, isSidebarDocked }: WhiteboardHeaderProps) {
+export default function WhiteboardHeader({
+    title, saveStatus, onBack, onRename, isSidebarDocked,
+    gridEnabled = true, onToggleGrid
+}: WhiteboardHeaderProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(title || 'Untitled Whiteboard');
 
@@ -89,8 +94,22 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename, 
                             )}
                         </div>
 
+                        {/* Grid Toggle */}
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className={`h-8 w-8 ml-2 rounded-lg transition-colors ${gridEnabled
+                                ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100'
+                                : 'text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300'
+                                }`}
+                            onClick={onToggleGrid}
+                            title={gridEnabled ? "Hide Grid" : "Show Grid"}
+                        >
+                            <Grid3X3 className="w-4 h-4" />
+                        </Button>
+
                         {/* Status Badge */}
-                        <div className="hidden sm:flex items-center gap-1.5 bg-zinc-50 dark:bg-zinc-700/50 px-2 py-0.5 rounded-full border border-zinc-100 dark:border-zinc-700 ml-2">
+                        <div className="hidden sm:flex items-center gap-1.5 bg-zinc-50 dark:bg-zinc-700/50 px-2 py-0.5 rounded-full border border-zinc-100 dark:border-zinc-700 ml-1">
                             {saveStatus === 'saving' && (
                                 <>
                                     <div className="w-2 h-2 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
