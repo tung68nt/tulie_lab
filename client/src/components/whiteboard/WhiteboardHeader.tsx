@@ -37,9 +37,11 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
     };
 
     return (
-        <div className="absolute top-4 left-[60px] z-20 flex items-center gap-3">
-            {/* Back Button - Separated */}
-            <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 p-1">
+        <div className="absolute top-4 left-4 z-20 flex items-center">
+            {/* Unified Bar: Back + Logo + Title + Status */}
+            <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 h-11 p-1 flex items-center pr-4 gap-2">
+
+                {/* Back Button */}
                 <Button
                     variant="ghost"
                     size="icon"
@@ -49,24 +51,21 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
                 >
                     <ChevronLeft className="w-5 h-5" />
                 </Button>
-            </div>
 
-            {/* Main Bar: Logo + Title + Status */}
-            <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 h-11 px-2 flex items-center gap-4 pr-4">
+                <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-700 mx-1" />
+
                 {/* Logo Section */}
-                <div className="flex items-center pl-2">
-                    {/* Increased height and enabled text */}
-                    <Logo showText={true} height="h-7" />
-                    {/* Optional: Add "Whiteboard" badge if not in logo */}
-                    <span className="ml-2 text-xs font-semibold text-zinc-400 uppercase tracking-wider hidden sm:block">
+                <div className="flex items-center pl-1">
+                    <Logo showText={true} height="h-6" />
+                    <span className="ml-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest hidden lg:block">
                         Whiteboard
                     </span>
                 </div>
 
-                <div className="h-5 w-px bg-zinc-200 dark:bg-zinc-700" />
+                <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-700 mx-1 hidden sm:block" />
 
                 {/* Title & Status Panel */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                     {isEditing ? (
                         <input
                             autoFocus
@@ -74,12 +73,12 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
                             onChange={(e) => setTempTitle(e.target.value)}
                             onKeyDown={handleKeyDown}
                             onBlur={handleBlur}
-                            className="text-sm font-medium text-zinc-900 dark:text-zinc-100 bg-transparent border-none outline-none min-w-[150px]"
+                            className="text-sm font-medium text-zinc-900 dark:text-zinc-100 bg-transparent border-none outline-none min-w-[120px]"
                             style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
                         />
                     ) : (
                         <h1
-                            className="text-sm font-medium text-zinc-900 dark:text-zinc-100 max-w-[300px] truncate cursor-pointer hover:underline decoration-zinc-400 underline-offset-4 flex items-center gap-2"
+                            className="text-sm font-medium text-zinc-900 dark:text-zinc-100 max-w-[200px] sm:max-w-[300px] truncate cursor-pointer hover:underline decoration-zinc-400 underline-offset-4 flex items-center gap-2"
                             style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
                             onClick={() => setIsEditing(true)}
                             title="Click to rename"

@@ -203,12 +203,28 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             // AUTO-SAVE to API
             const currentWhiteboard = whiteboardRef.current;
             if (currentWhiteboard?.artboards?.[0]?.id) {
+                // Guard: Don't save if empty (prevents overwriting with blank state on load)
+                if (!elements || elements.length === 0) {
+                    console.log('Skipping auto-save: No elements to save');
+                    return;
+                }
+
+                // Check if we have only deleted elements (optional, depends on behavior)
+                const hasNonDeleted = elements.some((el: any) => !el.isDeleted);
+                if (!hasNonDeleted && elements.length > 0) {
+                    // We allow saving "all deleted" if the user actually deleted everything.
+                    // But strictly speaking, on initial load, it might be empty.
+                }
+
                 setSaveStatus('saving');
 
                 const snapshot = {
                     elements: elements,
                     appState: {
-                        viewBackgroundColor: appState.viewBackgroundColor
+                        viewBackgroundColor: appState.viewBackgroundColor,
+                        currentItemFontFamily: appState.currentItemFontFamily,
+                        currentItemFontSize: appState.currentItemFontSize,
+                        // Add other necessary appState props
                     }
                 };
 
