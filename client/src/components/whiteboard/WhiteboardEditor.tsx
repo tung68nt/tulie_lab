@@ -132,15 +132,28 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 ? JSON.parse(whiteboard.artboards[0].elements)
                 : whiteboard.artboards[0].elements;
 
-            if (elementsData && elementsData.elements) {
+            let finalElements = [];
+            let finalAppState = {};
+
+            if (Array.isArray(elementsData)) {
+                // Recovery: Handle data saved during bug period (just array of elements)
+                console.warn('Recovering legacy array data format');
+                finalElements = elementsData;
+            } else if (elementsData && elementsData.elements) {
+                // Correct format
+                finalElements = elementsData.elements;
+                finalAppState = elementsData.appState || {};
+            }
+
+            if (finalElements && finalElements.length > 0) {
                 excalidrawAPI.updateScene({
-                    elements: elementsData.elements,
-                    appState: elementsData.appState
+                    elements: finalElements,
+                    appState: finalAppState
                 });
-                currentElementsRef.current = elementsData.elements;
+                currentElementsRef.current = finalElements;
             }
         } catch (e) {
-            console.error(e);
+            console.error('Failed to parse whiteboard elements:', e);
         }
 
     }, [excalidrawAPI, whiteboard]);
