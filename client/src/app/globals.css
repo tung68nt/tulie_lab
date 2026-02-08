@@ -447,32 +447,43 @@ body {
 
 /* Push main menu dropdown lower to avoid overlapping with custom logo header */
 .excalidraw .App-menu_top .dropdown-menu-container {
-  margin-top: 60px !important;
+  margin-top: 16px !important;
 }
 
-/* Also hide Excalidraw links section in main menu */
-.excalidraw .App-menu_top .dropdown-menu-container .dropdown-menu-group:has(a[href*="github.com/excalidraw"]),
-.excalidraw .App-menu_top .dropdown-menu-container .dropdown-menu-group:has(a[href*="twitter.com"]),
-.excalidraw .App-menu__heading:has(~ * a[href*="github.com"]) {
+/* Hide Excalidraw links section in main menu and the separator above it */
+.excalidraw .dropdown-menu-container .dropdown-menu-group:has(a[href*="github.com"]),
+.excalidraw .dropdown-menu-container .dropdown-menu-group:has(a[href*="twitter.com"]),
+.excalidraw .dropdown-menu-container .dropdown-menu-group:has(a[href*="discord"]) {
   display: none !important;
 }
 
-/* Hide "Excalidraw links" text header in menu */
-.excalidraw .Island .dropdown-menu-group__title:has(+ div a[href*="github.com"]) {
+/* Hide the extra separator line that appears after hiding content */
+.excalidraw .dropdown-menu hr+hr,
+.excalidraw .dropdown-menu-container hr:first-of-type {
   display: none !important;
 }
 
-/* Style for injected kbd tags in HintViewer (matching excalidraw.com) */
+/* Style for injected kbd tags in HintViewer (simple 4-sided border, no button effect) */
 .excalidraw-kbd {
   display: inline-block;
-  padding: 2px 6px;
+  padding: 2px 5px;
   font-family: var(--font-mono, ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.2;
-  color: #3d4852;
-  background-color: #f8f9fa;
-  border: 1px solid #d4d4d8;
+  font-size: 11px;
+  line-height: normal;
+  color: #52525b;
+  /* zinc-600 */
+  background-color: transparent;
+  border: 1px solid #e4e4e7;
+  /* zinc-200 */
   border-radius: 4px;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  margin: 0 2px;
+  vertical-align: middle;
+}
+
+.dark .excalidraw-kbd {
+  color: #a1a1aa;
+  /* zinc-400 */
+  border-color: #3f3f46;
+  /* zinc-700 */
 }

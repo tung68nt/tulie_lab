@@ -219,25 +219,102 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     }, [excalidrawAPI, whiteboard]);
 
-    // Style HintViewer text with kbd tags (like excalidraw.com)
+    // Style HintViewer text with kbd tags + Translate UI to Vietnamese
     useEffect(() => {
+        // Translation map for bilingual display
+        const translations: Record<string, string> = {
+            // Help dialog title
+            'Help': 'Trợ giúp',
+            'Keyboard shortcuts': 'Phím tắt',
+            'Tools': 'Công cụ',
+            'Editor': 'Trình chỉnh sửa',
+            // Tool names
+            'Hand (panning tool)': 'Công cụ di chuyển',
+            'Selection': 'Chọn đối tượng',
+            'Rectangle': 'Hình chữ nhật',
+            'Diamond': 'Hình thoi',
+            'Ellipse': 'Hình elip',
+            'Arrow': 'Mũi tên',
+            'Line': 'Đường thẳng',
+            'Draw': 'Vẽ tự do',
+            'Text': 'Văn bản',
+            'Insert image': 'Chèn ảnh',
+            'Eraser': 'Tẩy',
+            'Frame tool': 'Khung',
+            'Laser pointer': 'Con trỏ laser',
+            'Pick color from canvas': 'Chọn màu từ canvas',
+            // Editor actions
+            'Create a flowchart from a generic element': 'Tạo lưu đồ',
+            'Navigate a flowchart': 'Di chuyển lưu đồ',
+            'Move canvas': 'Di chuyển canvas',
+            'Reset the canvas': 'Đặt lại canvas',
+            'Delete': 'Xóa',
+            'Cut': 'Cắt',
+            'Copy': 'Sao chép',
+            'Paste': 'Dán',
+            'Paste as plaintext': 'Dán văn bản thuần',
+            'Select all': 'Chọn tất cả',
+            'Add element to selection': 'Thêm vào vùng chọn',
+            'Deep select': 'Chọn sâu',
+            'Deep select within box, and prevent dragging': 'Chọn sâu trong hộp',
+            'Copy to clipboard as PNG': 'Sao chép PNG',
+            // Menu items  
+            'Save to...': 'Lưu vào...',
+            'Export image...': 'Xuất ảnh...',
+            'Find on canvas': 'Tìm trên canvas',
+            'Canvas background': 'Màu nền canvas',
+        };
+
+        const translateElement = (el: Element) => {
+            const text = el.textContent?.trim();
+            if (text && translations[text]) {
+                el.textContent = translations[text];
+            }
+        };
+
         const styleHintViewer = () => {
             const hintViewer = document.querySelector('.HintViewer span');
             if (!hintViewer || hintViewer.querySelector('kbd')) return;
 
             const text = hintViewer.textContent || '';
-            const styledText = text
-                .replace(/mouse wheel/gi, '<kbd class="excalidraw-kbd">Scroll wheel</kbd>')
-                .replace(/spacebar/gi, '<kbd class="excalidraw-kbd">Space</kbd>');
+            // Regex to match keys: Modifiers, named keys, or single uppercase letters (A-Z) and numbers (0-9)
+            // Avoid matching common words unless they are specifically capitalised key names like 'Space'
+            const keyRegex = /\b(Scroll wheel|Space|Option|Cmd|Ctrl|Alt|Shift|Enter|Delete|Backspace|Esc|Tab|Return|PgUp|PgDn|End|Home|Ins|Del|Arrow [A-Za-z]+|[A-Z0-9])\b/g;
+
+            let styledText = text
+                .replace(/mouse wheel/gi, 'Scroll wheel')
+                .replace(/spacebar/gi, 'Space')
+                .replace(/To move canvas, hold/gi, 'Di chuyển canvas:');
+
+            styledText = styledText.replace(keyRegex, (match) => `<kbd class="excalidraw-kbd">${match}</kbd>`);
 
             if (styledText !== text) {
                 hintViewer.innerHTML = styledText;
             }
         };
 
-        // Observer to watch for HintViewer changes
+        const translateUI = () => {
+            // Translate Help dialog title
+            const helpTitle = document.querySelector('.HelpDialog h3');
+            if (helpTitle) translateElement(helpTitle);
+
+            // Translate section titles in Help dialog
+            document.querySelectorAll('.HelpDialog h4').forEach(translateElement);
+
+            // Translate table cells in Help dialog (tool/action names)
+            document.querySelectorAll('.HelpDialog td:first-child').forEach(translateElement);
+
+            // Translate menu items (correct selector: .dropdown-menu-item__text)
+            document.querySelectorAll('.dropdown-menu-item__text').forEach(translateElement);
+
+            // Translate menu group titles
+            document.querySelectorAll('.dropdown-menu-group-title').forEach(translateElement);
+        };
+
+        // Observer to watch for HintViewer and dialog changes
         const observer = new MutationObserver(() => {
             styleHintViewer();
+            translateUI();
         });
 
         observer.observe(document.body, {
@@ -247,6 +324,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
         // Initial run
         styleHintViewer();
+        translateUI();
 
         return () => observer.disconnect();
     }, []);

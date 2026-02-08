@@ -41,14 +41,14 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
             {/* Box 1: Back + Logo - exact toolbar styling */}
             <div className="absolute top-4 left-52 z-20">
                 <div
-                    className="bg-white dark:bg-zinc-800 rounded-lg h-[44px] p-1 flex items-center gap-1 pr-3"
+                    className="bg-white dark:bg-zinc-800 rounded-md h-[44px] p-1 flex items-center gap-1 pr-3"
                     style={{ boxShadow: 'rgba(0, 0, 0, 0.17) 0px 0px 0.931014px 0px, rgba(0, 0, 0, 0.08) 0px 0px 3.12708px 0px, rgba(0, 0, 0, 0.05) 0px 7px 14px 0px' }}
                 >
                     {/* Back Button */}
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg text-zinc-500"
+                        className="h-9 w-9 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-md text-zinc-500"
                         onClick={onBack}
                         title="Back to Dashboard"
                     >
@@ -70,7 +70,7 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
             {/* Box 2: Title + Status - bottom center, exact toolbar styling */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
                 <div
-                    className="bg-white dark:bg-zinc-800 rounded-lg h-[44px] px-3 flex items-center gap-3"
+                    className="bg-white dark:bg-zinc-800 rounded-md h-[44px] px-3 flex items-center gap-3"
                     style={{ boxShadow: 'rgba(0, 0, 0, 0.17) 0px 0px 0.931014px 0px, rgba(0, 0, 0, 0.08) 0px 0px 3.12708px 0px, rgba(0, 0, 0, 0.05) 0px 7px 14px 0px' }}
                 >
                     {isEditing ? (
