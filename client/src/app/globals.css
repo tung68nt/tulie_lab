@@ -457,7 +457,8 @@ body {
   display: none !important;
 }
 
-/* Hide the extra separator line that appears after hiding content */
+/* Hide the extra separator lines (which are empty divs) */
+.excalidraw .dropdown-menu-container>div:empty,
 .excalidraw .dropdown-menu hr+hr,
 .excalidraw .dropdown-menu-container hr:first-of-type {
   display: none !important;
