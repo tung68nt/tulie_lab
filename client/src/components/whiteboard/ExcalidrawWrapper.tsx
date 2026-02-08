@@ -31,23 +31,20 @@ const ExcalidrawWrapper = React.memo(({
             onChange={onChange}
             onPointerUpdate={onPointerUpdate as any}
             initialData={initialData}
-            langCode="vi-VN"
-            theme="light"
-            langCode="vi-VN"
-            theme="light"
-        // UIOptions removed to restore default Zoom/Menu behavior
-        /*
-        UIOptions={{
-            canvasActions: {
-                changeViewBackgroundColor: true,
-                clearCanvas: true,
-                loadScene: false,
-                saveToActiveFile: false,
-                toggleTheme: false,
-                saveAsImage: true,
-            },
-        }}
-        */
+            // langCode="vi-VN" // Localization reverted to English
+            // theme="light" // Removed to allow toggle
+            UIOptions={{
+                canvasActions: {
+                    toggleTheme: true,
+                    changeViewBackgroundColor: true,
+                    clearCanvas: true,
+                    saveAsImage: true,
+                    export: { saveFileToDisk: true },
+                    loadScene: true,
+                    saveToActiveFile: true,
+                },
+            }}
+
         />
     );
 }, (prev, next) => {

@@ -208,12 +208,16 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 console.log('10. Calling updateScene with', finalElements.length, 'elements');
                 excalidrawAPI.updateScene({
                     elements: finalElements,
-                    appState: { ...finalAppState, gridModeEnabled: true }
+                    appState: { ...finalAppState, gridModeEnabled: true, viewBackgroundColor: finalAppState.viewBackgroundColor || '#f9f9f9' }
                 });
                 currentElementsRef.current = finalElements;
                 console.log('11. updateScene called successfully');
             } else {
                 console.warn('10. No elements to load');
+                // Ensure grid and background are set even if no elements
+                excalidrawAPI.updateScene({
+                    appState: { ...finalAppState, gridModeEnabled: true, viewBackgroundColor: '#f9f9f9' }
+                });
             }
         } catch (e) {
             console.error('Failed to parse whiteboard elements:', e);
@@ -222,59 +226,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     }, [excalidrawAPI, whiteboard]);
 
-    // Style HintViewer text with kbd tags + Translate UI to Vietnamese
+    // Style HintViewer text with kbd tags (Layout fixes only)
     useEffect(() => {
-        // Translation map for bilingual display
-        const translations: Record<string, string> = {
-            // Help dialog title
-            'Help': 'Help / Trợ giúp',
-            'Keyboard shortcuts': 'Shortcuts / Phím tắt',
-            'Tools': 'Tools / Công cụ',
-            'Editor': 'Editor / Trình chỉnh sửa',
-            // Tool names
-            'Hand (panning tool)': 'Hand / Di chuyển',
-            'Selection': 'Selection / Chọn',
-            'Rectangle': 'Rectangle / Hình chữ nhật',
-            'Diamond': 'Diamond / Hình thoi',
-            'Ellipse': 'Ellipse / Hình elip',
-            'Arrow': 'Arrow / Mũi tên',
-            'Line': 'Line / Đường thẳng',
-            'Draw': 'Draw / Vẽ',
-            'Text': 'Text / Văn bản',
-            'Insert image': 'Image / Chèn ảnh',
-            'Eraser': 'Eraser / Tẩy',
-            'Frame tool': 'Frame / Khung',
-            'Laser pointer': 'Laser / Con trỏ',
-            'Pick color from canvas': 'Color / Chọn màu',
-            // Editor actions
-            'Create a flowchart from a generic element': 'Flowchart / Tạo lưu đồ',
-            'Navigate a flowchart': 'Navigate / Di chuyển lưu đồ',
-            'Move canvas': 'Move / Di chuyển canvas',
-            'Reset the canvas': 'Reset / Đặt lại',
-            'Delete': 'Delete / Xóa',
-            'Cut': 'Cut / Cắt',
-            'Copy': 'Copy / Sao chép',
-            'Paste': 'Paste / Dán',
-            'Paste as plaintext': 'Paste text / Dán văn bản',
-            'Select all': 'Select all / Chọn tất cả',
-            'Add element to selection': 'Add to selection / Thêm vào vùng chọn',
-            'Deep select': 'Deep select / Chọn sâu',
-            'Deep select within box, and prevent dragging': 'Deep select box / Chọn sâu trong hộp',
-            'Copy to clipboard as PNG': 'Copy PNG / Sao chép ảnh PNG',
-            // Menu items  
-            'Save to...': 'Save to... / Lưu vào...',
-            'Export image...': 'Export image... / Xuất ảnh...',
-            'Find on canvas': 'Find / Tìm kiếm',
-            'Canvas background': 'Canvas background / Màu nền',
-        };
-
-        const translateElement = (el: Element) => {
-            const text = el.textContent?.trim();
-            if (text && translations[text]) {
-                el.textContent = translations[text];
-            }
-        };
-
         const styleHintViewer = () => {
             const hintViewer = document.querySelector('.HintViewer span');
             if (!hintViewer || hintViewer.querySelector('kbd')) return;
@@ -286,38 +239,24 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
             let styledText = text
                 .replace(/mouse wheel/gi, 'Scroll wheel')
-                .replace(/spacebar/gi, 'Space')
-                .replace(/To move canvas, hold/gi, 'Di chuyển canvas:');
+                .replace(/spacebar/gi, 'Space');
 
             styledText = styledText.replace(keyRegex, (match) => `<kbd class="excalidraw-kbd">${match}</kbd>`);
 
             if (styledText !== text) {
                 hintViewer.innerHTML = styledText;
             }
+
+            // Layout fix: Ensure margin bottom for hint viewer (Reduced from 40px as requested)
+            const hintViewerEl = document.querySelector('.excalidraw .HintViewer');
+            if (hintViewerEl) {
+                (hintViewerEl as HTMLElement).style.marginBottom = '24px';
+            }
         };
 
-        const translateUI = () => {
-            // Translate Help dialog title
-            const helpTitle = document.querySelector('.HelpDialog h3');
-            if (helpTitle) translateElement(helpTitle);
-
-            // Translate section titles in Help dialog
-            document.querySelectorAll('.HelpDialog h4').forEach(translateElement);
-
-            // Translate table cells in Help dialog (tool/action names)
-            document.querySelectorAll('.HelpDialog td:first-child').forEach(translateElement);
-
-            // Translate menu items (correct selector: .dropdown-menu-item__text)
-            document.querySelectorAll('.dropdown-menu-item__text').forEach(translateElement);
-
-            // Translate menu group titles
-            document.querySelectorAll('.dropdown-menu-group-title').forEach(translateElement);
-        };
-
-        // Observer to watch for HintViewer and dialog changes
+        // Observer to watch for HintViewer changes
         const observer = new MutationObserver(() => {
             styleHintViewer();
-            translateUI();
         });
 
         observer.observe(document.body, {
@@ -327,7 +266,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
         // Initial run
         styleHintViewer();
-        translateUI();
 
         return () => observer.disconnect();
     }, []);

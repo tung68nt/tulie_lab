@@ -340,7 +340,8 @@ body {
 }
 
 .excalidraw {
-  --font-family: "Excalifont", "Virgil", sans-serif !important;
+  /* Use Inter for UI, but keep Excalifont/Virgil available for canvas elements if needed */
+  --font-family: "Inter", "Excalifont", "Virgil", sans-serif !important;
 
   /* Force Override Default Purple Theme (#6965db) to Tulie Zinc/Black Theme */
   --color-primary: #18181b !important;

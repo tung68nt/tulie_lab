@@ -65,7 +65,7 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename, 
                         </div>
 
                         {/* Title Section */}
-                        <div className="flex items-center gap-2 ml-1">
+                        <div className="flex items-center gap-2 ml-4">
                             {isEditing ? (
                                 <input
                                     autoFocus
