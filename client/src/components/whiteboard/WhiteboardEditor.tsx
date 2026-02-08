@@ -8,7 +8,9 @@ import { exportToBlob } from '@excalidraw/excalidraw';
 
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
-import SaveStatusIndicator, { SaveStatus } from './SaveStatusIndicator';
+// import SaveStatusIndicator, { SaveStatus } from './SaveStatusIndicator'; // Kept for type import if needed
+import { SaveStatus } from './SaveStatusIndicator';
+import WhiteboardHeader from './WhiteboardHeader';
 import WelcomeScreen from './WelcomeScreen';
 
 interface WhiteboardEditorProps {
@@ -31,7 +33,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const lastPointerUpdateRef = useRef<number>(0);
     const socketRef = useRef<any>(null);
     const creatingRef = useRef(false);
+    const whiteboardRef = useRef<any>(null);
     const currentElementsRef = useRef<readonly any[]>([]);
+
+    // Keep ref in sync
+    useEffect(() => {
+        whiteboardRef.current = whiteboard;
+    }, [whiteboard]);
 
     // Initial Load Data
     useEffect(() => {
@@ -139,9 +147,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     // --- OPTIMIZED HANDLERS ---
 
-    const handleStartDrawing = () => {
+    const handleStartDrawing = useCallback(() => {
         setShowWelcome(false);
-    };
+    }, []);
 
     const onChange = useCallback((elements: readonly any[], appState: any) => {
         // Fast path: Update ref immediately
@@ -153,8 +161,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
 
         // Hide welcome screen if elements exist
-        if (elements.length > 0 && showWelcome) {
-            setShowWelcome(false);
+        // check ref to avoid dependency
+        if (elements.length > 0) {
+            setShowWelcome((prev) => {
+                if (prev) return false;
+                return prev;
+            });
         }
 
         saveTimeoutRef.current = setTimeout(async () => {
@@ -176,7 +188,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
 
             // AUTO-SAVE to API
-            if (whiteboard?.artboards?.[0]?.id) {
+            const currentWhiteboard = whiteboardRef.current;
+            if (currentWhiteboard?.artboards?.[0]?.id) {
                 setSaveStatus('saving');
 
                 const snapshot = {
@@ -199,24 +212,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         quality: 0.5, // Low quality for thumbnail
                     });
 
-                    // Convert blob to base64 for simple storage (temporary until dedicated upload)
+                    // Convert blob to base64
                     const reader = new FileReader();
                     reader.readAsDataURL(blob);
                     reader.onloadend = async () => {
                         const base64data = reader.result;
-
-                        // Add thumbnail to snapshot payload (API needs to handle this)
-                        // Note: If API doesn't support 'thumbnail' in body yet, it might ignore it or we need a separate call.
-                        // Ideally we update api.whiteboards.saveArtboard to accept partial updates or use update().
-
-                        // For now, we mix it into the saveArtboard call if the backend supports it, 
-                        // OR we call update() separately.
-                        // Let's call update() separately to be safe and cleaner.
-
-                        await api.whiteboards.update(whiteboard.id, { thumbnail: base64data as string });
+                        await api.whiteboards.update(currentWhiteboard.id, { thumbnail: base64data as string });
                     }
 
-                    await api.whiteboards.saveArtboard(whiteboard.artboards[0].id, snapshot);
+                    await api.whiteboards.saveArtboard(currentWhiteboard.artboards[0].id, snapshot);
                     setSaveStatus('saved');
                 } catch (err: any) {
                     console.error('Auto-save failed:', err);
@@ -225,7 +229,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
 
         }, 500); // Increased debounce to 500ms for better perf
-    }, [id, whiteboard, showWelcome, excalidrawAPI]);
+    }, [id, excalidrawAPI]); // REMOVED whiteboard, showWelcome dependence
 
     // Throttle: 200ms (Reduced frequency)
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
@@ -252,15 +256,21 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     return (
         <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+            <WhiteboardHeader
+                title={whiteboard?.title}
+                saveStatus={saveStatus}
+                onBack={() => router.push('/whiteboard')}
+            />
+
             <ExcalidrawWrapper
                 excalidrawAPI={setExcalidrawAPI}
                 onChange={onChange}
                 onPointerUpdate={onPointerUpdate}
-                onBack={() => router.back()}
+                onBack={() => router.back()} // Kept for internal logic if needed, but header handles main back
                 title={whiteboard?.title}
             />
 
-            <SaveStatusIndicator status={saveStatus} />
+            {/* SaveStatusIndicator removed in favor of Header */}
 
             {showWelcome && (
                 <WelcomeScreen onStart={handleStartDrawing} />
