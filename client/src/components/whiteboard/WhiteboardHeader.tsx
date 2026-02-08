@@ -100,19 +100,19 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
                         {saveStatus === 'saving' && (
                             <>
                                 <div className="w-2.5 h-2.5 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
-                                <span className="text-[10px] text-zinc-500 font-medium uppercase tracking-wide">Saving</span>
+                                <span className="text-[10px] text-zinc-500 font-medium">Saving</span>
                             </>
                         )}
                         {saveStatus === 'saved' && (
                             <>
                                 <Cloud className="w-3 h-3 text-zinc-400" />
-                                <span className="text-[10px] text-zinc-400 font-medium uppercase tracking-wide">Saved</span>
+                                <span className="text-[10px] text-zinc-400 font-medium">Saved</span>
                             </>
                         )}
                         {saveStatus === 'error' && (
                             <>
                                 <div className="w-2 h-2 bg-red-500 rounded-full" />
-                                <span className="text-[10px] text-red-500 font-medium uppercase tracking-wide">Error</span>
+                                <span className="text-[10px] text-red-500 font-medium">Error</span>
                             </>
                         )}
                     </div>
