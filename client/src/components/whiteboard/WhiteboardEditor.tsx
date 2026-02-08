@@ -219,6 +219,38 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     }, [excalidrawAPI, whiteboard]);
 
+    // Style HintViewer text with kbd tags (like excalidraw.com)
+    useEffect(() => {
+        const styleHintViewer = () => {
+            const hintViewer = document.querySelector('.HintViewer span');
+            if (!hintViewer || hintViewer.querySelector('kbd')) return;
+
+            const text = hintViewer.textContent || '';
+            const styledText = text
+                .replace(/mouse wheel/gi, '<kbd class="excalidraw-kbd">Scroll wheel</kbd>')
+                .replace(/spacebar/gi, '<kbd class="excalidraw-kbd">Space</kbd>');
+
+            if (styledText !== text) {
+                hintViewer.innerHTML = styledText;
+            }
+        };
+
+        // Observer to watch for HintViewer changes
+        const observer = new MutationObserver(() => {
+            styleHintViewer();
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+
+        // Initial run
+        styleHintViewer();
+
+        return () => observer.disconnect();
+    }, []);
+
     // --- OPTIMIZED HANDLERS ---
 
     const handleStartDrawing = useCallback(() => {

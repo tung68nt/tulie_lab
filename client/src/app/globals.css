@@ -430,3 +430,32 @@ body {
   background-color: var(--color-primary) !important;
   color: white !important;
 }
+
+/* Hide Excalidraw external links in Help dialog */
+/* Hide external resource buttons (Documentation, Blog, YouTube, Submit) */
+.excalidraw .HelpDialog__btn {
+  display: none !important;
+}
+
+/* Hide "Excalidraw links" footer section */
+.excalidraw .HelpDialog__footer,
+.excalidraw .HelpDialog a[href*="github.com/excalidraw"],
+.excalidraw .HelpDialog a[href*="twitter.com"],
+.excalidraw .HelpDialog a[href*="discord"] {
+  display: none !important;
+}
+
+/* Style for injected kbd tags in HintViewer (matching excalidraw.com) */
+.excalidraw-kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--font-mono, ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', monospace);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #3d4852;
+  background-color: #f8f9fa;
+  border: 1px solid #d4d4d8;
+  border-radius: 4px;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
