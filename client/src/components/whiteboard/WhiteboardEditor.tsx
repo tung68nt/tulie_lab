@@ -26,6 +26,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     // Optimized UI State
     const [saveStatus, setSaveStatus] = useState<SaveStatus>('saved');
     const [showWelcome, setShowWelcome] = useState(false);
+    const [parsedInitialData, setParsedInitialData] = useState<{ elements?: any[]; appState?: any } | undefined>(undefined);
 
     // Refs for performance (avoid state updates during drawing)
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -68,10 +69,44 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 const data = await api.whiteboards.get(id);
                 setWhiteboard(data);
 
-                // Show welcome screen if empty
-                if (!data.artboards?.[0]?.elements ||
-                    (Array.isArray(JSON.parse(data.artboards[0].elements || '[]').elements) &&
-                        JSON.parse(data.artboards[0].elements).elements.length === 0)) {
+                // Parse initial data for Excalidraw
+                const rawElements = data.artboards?.[0]?.elements;
+                console.log('=== PARSING INITIAL DATA ===');
+                console.log('Raw elements:', rawElements);
+
+                if (rawElements) {
+                    try {
+                        const parsed = typeof rawElements === 'string'
+                            ? JSON.parse(rawElements)
+                            : rawElements;
+
+                        console.log('Parsed data:', parsed);
+
+                        let elements: any[] = [];
+                        let appState = {};
+
+                        if (Array.isArray(parsed)) {
+                            // Legacy format: just array of elements
+                            elements = parsed;
+                        } else if (parsed && parsed.elements) {
+                            // Correct format: { elements, appState }
+                            elements = parsed.elements;
+                            appState = parsed.appState || {};
+                        }
+
+                        console.log('Final elements count:', elements.length);
+
+                        if (elements.length > 0) {
+                            setParsedInitialData({ elements, appState });
+                            currentElementsRef.current = elements;
+                        } else {
+                            setShowWelcome(true);
+                        }
+                    } catch (e) {
+                        console.error('Failed to parse elements:', e);
+                        setShowWelcome(true);
+                    }
+                } else {
                     setShowWelcome(true);
                 }
             } catch (error) {
@@ -123,37 +158,63 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     // Handle initial data for Excalidraw
     useEffect(() => {
-        if (!excalidrawAPI || !whiteboard?.artboards?.[0]?.elements) return;
+        if (!excalidrawAPI || !whiteboard?.artboards?.[0]) return;
+
+        const rawElements = whiteboard.artboards[0].elements;
+        console.log('=== DEBUG: Data Loading ===');
+        console.log('1. Raw elements from API:', rawElements);
+        console.log('2. Type of rawElements:', typeof rawElements);
+
+        if (!rawElements) {
+            console.log('3. No elements found, skipping load');
+            return;
+        }
 
         console.log('Loading data into Excalidraw', whiteboard.title);
 
         try {
-            const elementsData = typeof whiteboard.artboards[0].elements === 'string'
-                ? JSON.parse(whiteboard.artboards[0].elements)
-                : whiteboard.artboards[0].elements;
+            const elementsData = typeof rawElements === 'string'
+                ? JSON.parse(rawElements)
+                : rawElements;
 
-            let finalElements = [];
+            console.log('4. Parsed elementsData:', elementsData);
+            console.log('5. elementsData type:', typeof elementsData);
+            console.log('6. Is array?:', Array.isArray(elementsData));
+
+            let finalElements: any[] = [];
             let finalAppState = {};
 
             if (Array.isArray(elementsData)) {
                 // Recovery: Handle data saved during bug period (just array of elements)
-                console.warn('Recovering legacy array data format');
+                console.warn('7. Recovering legacy array data format');
                 finalElements = elementsData;
             } else if (elementsData && elementsData.elements) {
-                // Correct format
+                // Correct format: { elements: [...], appState: {...} }
+                console.log('7. Using correct format with elements key');
                 finalElements = elementsData.elements;
                 finalAppState = elementsData.appState || {};
+            } else if (elementsData && typeof elementsData === 'object') {
+                // Maybe double-stringified?
+                console.warn('7. Unknown format, trying to extract elements:', Object.keys(elementsData));
             }
 
+            console.log('8. Final elements count:', finalElements?.length);
+            console.log('9. Sample element:', finalElements?.[0]);
+
             if (finalElements && finalElements.length > 0) {
+                console.log('10. Calling updateScene with', finalElements.length, 'elements');
                 excalidrawAPI.updateScene({
                     elements: finalElements,
                     appState: finalAppState
                 });
                 currentElementsRef.current = finalElements;
+                console.log('11. updateScene called successfully');
+            } else {
+                console.warn('10. No elements to load');
             }
         } catch (e) {
             console.error('Failed to parse whiteboard elements:', e);
+            console.error('Raw data was:', rawElements);
         }
 
     }, [excalidrawAPI, whiteboard]);
@@ -310,8 +371,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 excalidrawAPI={setExcalidrawAPI}
                 onChange={onChange}
                 onPointerUpdate={onPointerUpdate}
-                onBack={() => router.back()} // Kept for internal logic if needed, but header handles main back
+                onBack={() => router.back()}
                 title={whiteboard?.title}
+                initialData={parsedInitialData}
             />
 
             {/* SaveStatusIndicator removed in favor of Header */}

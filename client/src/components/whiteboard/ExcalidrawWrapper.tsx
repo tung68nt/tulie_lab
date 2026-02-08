@@ -10,20 +10,27 @@ interface ExcalidrawWrapperProps {
     onPointerUpdate: (activeTool: any, pointerData: any) => void;
     onBack: () => void;
     title?: string;
+    initialData?: {
+        elements?: readonly any[];
+        appState?: any;
+    };
 }
 
 const ExcalidrawWrapper = React.memo(({
     excalidrawAPI,
     onChange,
     onPointerUpdate,
-    onBack,
-    title
+    initialData
 }: ExcalidrawWrapperProps) => {
+    console.log('=== ExcalidrawWrapper render ===');
+    console.log('initialData:', initialData?.elements?.length, 'elements');
+
     return (
         <Excalidraw
             excalidrawAPI={excalidrawAPI}
             onChange={onChange}
             onPointerUpdate={onPointerUpdate as any}
+            initialData={initialData}
             langCode="vi-VN"
             theme="light"
             UIOptions={{
@@ -39,14 +46,22 @@ const ExcalidrawWrapper = React.memo(({
         />
     );
 }, (prev, next) => {
-    // Custom comparison to ensure we don't re-render unless function references change
-    // title change shouldn't trigger full reload of canvas ideally, but might correspond to document switch
+    // IMPORTANT: Must compare initialData to reload when data changes
+    const prevElementsLength = prev.initialData?.elements?.length ?? 0;
+    const nextElementsLength = next.initialData?.elements?.length ?? 0;
+
+    // Re-render if initialData changes from empty to non-empty
+    if (prevElementsLength === 0 && nextElementsLength > 0) {
+        console.log('ExcalidrawWrapper: Triggering re-render for initialData change');
+        return false;
+    }
+
     return prev.excalidrawAPI === next.excalidrawAPI &&
         prev.onChange === next.onChange &&
-        prev.onPointerUpdate === next.onPointerUpdate &&
-        prev.title === next.title;
+        prev.onPointerUpdate === next.onPointerUpdate;
 });
 
 ExcalidrawWrapper.displayName = 'ExcalidrawWrapper';
 
 export default ExcalidrawWrapper;
+
