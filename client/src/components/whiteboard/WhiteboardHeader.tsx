@@ -14,7 +14,7 @@ interface WhiteboardHeaderProps {
 
 export default function WhiteboardHeader({ title, saveStatus, onBack }: WhiteboardHeaderProps) {
     return (
-        <div className="absolute top-4 left-4 z-20 flex items-center gap-3">
+        <div className="absolute top-4 left-[60px] z-20 flex items-center gap-3">
             {/* Back Button */}
             <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 p-1">
                 <Button
