@@ -344,21 +344,22 @@ body {
 
   /* Force Override Default Purple Theme (#6965db) to Tulie Zinc/Black Theme */
   --color-primary: #18181b !important;
-  /* zinc-900 */
+  /* Icon/Text Color (Zinc-900) */
   --color-primary-dark: #09090b !important;
-  /* zinc-950 */
   --color-primary-darker: #09090b !important;
   --color-primary-light: #f4f4f5 !important;
-  /* zinc-100 */
   --color-primary-light-darker: #e4e4e7 !important;
-  /* zinc-200 */
 
   /* Buttons & Active States */
-  --button-primary-bg: #18181b !important;
-  --button-hover-bg: #f4f4f5 !important;
-  --button-primary-hover: #09090b !important;
-  --button-active-bg: #e4e4e7 !important;
-  /* zinc-200 - was purple #f1f0ff */
+  --button-primary-bg: #f4f4f5 !important;
+  /* Light Bg (Zinc-100) - Contrast with Primary Icon */
+  --button-hover-bg: #e4e4e7 !important;
+  /* darker hover */
+  --button-primary-hover: #e4e4e7 !important;
+  --button-active-bg: #18181b !important;
+  /* Active = Dark */
+  --button-active-color: #ffffff !important;
+  /* Active Icon = White */
 
   /* Focus rings and checks */
   --color-brand: #18181b !important;
@@ -368,50 +369,53 @@ body {
   /* Selection & Accents */
   --color-focus-ring: #18181b !important;
   --color-selection: #a1a1aa !important;
-  /* zinc-400 */
 
-  /* Surface Colors - Override purple lavender tones */
-  --color-surface-high: #fafafa !important;
-  /* zinc-50 - was #f1f0ff */
-  --color-surface-mid: #f4f4f5 !important;
-  /* zinc-100 - was #f2f2f7 */
-  --color-surface-low: #e4e4e7 !important;
-  /* zinc-200 - was #ececf4 */
-  --color-surface-lowest: #d4d4d8 !important;
-  /* zinc-300 */
+  /* Surface Colors */
+  --color-surface-high: #ffffff !important;
+  /* Pure White */
+  --color-surface-mid: #fafafa !important;
+  --color-surface-low: #f4f4f5 !important;
+  --color-surface-lowest: #e4e4e7 !important;
 
-  /* Borders - Override purple borders */
+  /* Borders */
   --default-border-color: #e4e4e7 !important;
-  /* zinc-200 - was #f1f0ff */
   --sidebar-border-color: #e4e4e7 !important;
   --input-border-color: #d4d4d8 !important;
-  /* zinc-300 */
 
   /* Input/TextField backgrounds */
   --ExcTextField--background: #f4f4f5 !important;
-  /* zinc-100 - was #ececf4 */
   --ExcTextField--readonly--background: #fafafa !important;
-  /* zinc-50 - was #f1f0ff */
 
   /* Radio buttons */
   --RadioGroup-border: #e4e4e7 !important;
   --RadioGroup-choice-background-off-active: #e4e4e7 !important;
-  /* zinc-200 - was #f1f0ff */
 }
 
 .excalidraw.theme--dark {
   --color-primary: #fafafa !important;
-  /* zinc-50 */
+  /* Icon/Text (Zinc-50) */
   --color-primary-dark: #ffffff !important;
   --color-primary-darker: #ffffff !important;
   --color-primary-light: #27272a !important;
-  /* zinc-800 */
+  /* Zinc-800 */
 
-  --button-primary-bg: #fafafa !important;
-  --button-hover-bg: #27272a !important;
+  --button-primary-bg: #27272a !important;
+  /* Dark Bg (Zinc-800) - Contrast with Primary Icon */
+  --button-hover-bg: #3f3f46 !important;
+  /* Lighter hover (Zinc-700) */
+
+  --button-active-bg: #fafafa !important;
+  /* Active = Light */
+  --button-active-color: #18181b !important;
+  /* Active Icon = Dark */
 
   --color-brand: #fafafa !important;
   --color-brand-hover: #ffffff !important;
+
+  --color-surface-high: #18181b !important;
+  /* Zinc-900 */
+  --color-surface-mid: #27272a !important;
+  --color-surface-low: #3f3f46 !important;
 }
 
 /* Force specific elements that might escape variables */
@@ -464,28 +468,132 @@ body {
   display: none !important;
 }
 
+/* Adjust HintViewer position to avoid being too close to the bottom/footer */
+.excalidraw .HintViewer {
+  margin-bottom: 40px !important;
+  /* Increased from 20px */
+  padding-bottom: 8px !important;
+  /* Add padding for text descenders (g, p, y) */
+  pointer-events: none !important;
+  /* Ensure clicks pass through if needed */
+}
+
+.excalidraw .HintViewer span {
+  pointer-events: auto !important;
+}
+
 /* Style for injected kbd tags in HintViewer (simple 4-sided border, no button effect) */
 /* Style for injected kbd tags in HintViewer (inherit text style, just add border) */
+/* Fix Hint Viewer kbd spacing for descenders */
 .excalidraw-kbd {
   display: inline-block;
-  padding: 0 4px;
+  padding: 2px 4px 4px 4px !important;
   font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: 1;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
   color: inherit;
   background-color: transparent;
   border: 1px solid #e4e4e7;
   /* zinc-200 */
   border-radius: 4px;
   box-shadow: none;
-  margin: 0 2px;
+  margin: 0 2px 2px 2px !important;
   vertical-align: baseline;
   white-space: nowrap;
 }
 
 .dark .excalidraw-kbd {
-  border-color: #3f3f46;
   /* zinc-700 */
   color: inherit;
+}
+
+/* Context Menu & Dropdown Styling (Tulie Style) */
+.excalidraw .context-menu,
+.excalidraw .dropdown-menu {
+  background-color: white !important;
+  border: 1px solid #e4e4e7 !important;
+  /* zinc-200 */
+  border-radius: 0.75rem !important;
+  box-shadow: var(--shadow-xl) !important;
+  padding: 0.5rem !important;
+}
+
+.excalidraw.theme--dark .context-menu,
+.excalidraw.theme--dark .dropdown-menu {
+  background-color: #18181b !important;
+  /* zinc-900 */
+  border-color: #27272a !important;
+  /* zinc-800 */
+}
+
+/* Items */
+.excalidraw .context-menu-item,
+.excalidraw .dropdown-menu-item {
+  border-radius: 0.375rem !important;
+  margin: 2px 0 !important;
+  color: #18181b !important;
+  /* zinc-900 */
+  font-size: 13px !important;
+  padding: 6px 12px !important;
+}
+
+.excalidraw.theme--dark .context-menu-item,
+.excalidraw.theme--dark .dropdown-menu-item {
+  color: #fafafa !important;
+  /* zinc-50 */
+}
+
+/* Hover */
+.excalidraw .context-menu-item:hover,
+.excalidraw .dropdown-menu-item:hover {
+  background-color: #f4f4f5 !important;
+  /* zinc-100 */
+  color: #09090b !important;
+}
+
+.excalidraw.theme--dark .context-menu-item:hover,
+.excalidraw.theme--dark .dropdown-menu-item:hover {
+  background-color: #27272a !important;
+  /* zinc-800 */
+  color: #ffffff !important;
+}
+
+/* Selected / Active */
+.excalidraw .dropdown-menu-item--selected,
+.excalidraw .context-menu-item--selected {
+  background-color: #18181b !important;
+  /* zinc-900 */
+  color: white !important;
+}
+
+.excalidraw.theme--dark .dropdown-menu-item--selected,
+.excalidraw.theme--dark .context-menu-item--selected {
+  background-color: #fafafa !important;
+  /* zinc-50 */
+  color: #18181b !important;
+}
+
+/* Separators */
+.excalidraw .context-menu-item-separator {
+  border-bottom: 1px solid #e4e4e7 !important;
+  margin: 4px 0 !important;
+}
+
+.excalidraw.theme--dark .context-menu-item-separator {
+  border-bottom-color: #27272a !important;
+
+  /* Override Library View Toggle (Grid/List) */
+  .excalidraw .library-menu-items-container__header .excalidraw-button,
+  .excalidraw .ToolIcon_type_radio,
+  .excalidraw .ToolIcon_type_radio input+.ToolIcon__icon {
+    border-radius: 0.5rem !important;
+  }
+
+  .excalidraw .library-menu-items-container__header .excalidraw-button:hover,
+  .excalidraw .ToolIcon_type_radio:hover {
+    background-color: transparent !important;
+  }
+
+  /* Ensure active state remains visible if needed, relies on Excalidraw's active class usually */
 }

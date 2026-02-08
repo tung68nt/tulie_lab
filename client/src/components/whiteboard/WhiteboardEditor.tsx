@@ -26,6 +26,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     // Optimized UI State
     const [saveStatus, setSaveStatus] = useState<SaveStatus>('saved');
     const [showWelcome, setShowWelcome] = useState(false);
+    const [isSidebarDocked, setIsSidebarDocked] = useState(false);
     const [parsedInitialData, setParsedInitialData] = useState<{ elements?: any[]; appState?: any } | undefined>(undefined);
 
     // Refs for performance (avoid state updates during drawing)
@@ -97,9 +98,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         console.log('Final elements count:', elements.length);
 
                         if (elements.length > 0) {
-                            setParsedInitialData({ elements, appState });
+                            setParsedInitialData({ elements, appState: { ...appState, gridModeEnabled: true } });
                             currentElementsRef.current = elements;
                         } else {
+                            setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
                             setShowWelcome(true);
                         }
                     } catch (e) {
@@ -107,6 +109,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         setShowWelcome(true);
                     }
                 } else {
+                    setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
                     setShowWelcome(true);
                 }
             } catch (error) {
@@ -205,7 +208,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 console.log('10. Calling updateScene with', finalElements.length, 'elements');
                 excalidrawAPI.updateScene({
                     elements: finalElements,
-                    appState: finalAppState
+                    appState: { ...finalAppState, gridModeEnabled: true }
                 });
                 currentElementsRef.current = finalElements;
                 console.log('11. updateScene called successfully');
@@ -224,45 +227,45 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         // Translation map for bilingual display
         const translations: Record<string, string> = {
             // Help dialog title
-            'Help': 'Trợ giúp',
-            'Keyboard shortcuts': 'Phím tắt',
-            'Tools': 'Công cụ',
-            'Editor': 'Trình chỉnh sửa',
+            'Help': 'Help / Trợ giúp',
+            'Keyboard shortcuts': 'Shortcuts / Phím tắt',
+            'Tools': 'Tools / Công cụ',
+            'Editor': 'Editor / Trình chỉnh sửa',
             // Tool names
-            'Hand (panning tool)': 'Công cụ di chuyển',
-            'Selection': 'Chọn đối tượng',
-            'Rectangle': 'Hình chữ nhật',
-            'Diamond': 'Hình thoi',
-            'Ellipse': 'Hình elip',
-            'Arrow': 'Mũi tên',
-            'Line': 'Đường thẳng',
-            'Draw': 'Vẽ tự do',
-            'Text': 'Văn bản',
-            'Insert image': 'Chèn ảnh',
-            'Eraser': 'Tẩy',
-            'Frame tool': 'Khung',
-            'Laser pointer': 'Con trỏ laser',
-            'Pick color from canvas': 'Chọn màu từ canvas',
+            'Hand (panning tool)': 'Hand / Di chuyển',
+            'Selection': 'Selection / Chọn',
+            'Rectangle': 'Rectangle / Hình chữ nhật',
+            'Diamond': 'Diamond / Hình thoi',
+            'Ellipse': 'Ellipse / Hình elip',
+            'Arrow': 'Arrow / Mũi tên',
+            'Line': 'Line / Đường thẳng',
+            'Draw': 'Draw / Vẽ',
+            'Text': 'Text / Văn bản',
+            'Insert image': 'Image / Chèn ảnh',
+            'Eraser': 'Eraser / Tẩy',
+            'Frame tool': 'Frame / Khung',
+            'Laser pointer': 'Laser / Con trỏ',
+            'Pick color from canvas': 'Color / Chọn màu',
             // Editor actions
-            'Create a flowchart from a generic element': 'Tạo lưu đồ',
-            'Navigate a flowchart': 'Di chuyển lưu đồ',
-            'Move canvas': 'Di chuyển canvas',
-            'Reset the canvas': 'Đặt lại canvas',
-            'Delete': 'Xóa',
-            'Cut': 'Cắt',
-            'Copy': 'Sao chép',
-            'Paste': 'Dán',
-            'Paste as plaintext': 'Dán văn bản thuần',
-            'Select all': 'Chọn tất cả',
-            'Add element to selection': 'Thêm vào vùng chọn',
-            'Deep select': 'Chọn sâu',
-            'Deep select within box, and prevent dragging': 'Chọn sâu trong hộp',
-            'Copy to clipboard as PNG': 'Sao chép PNG',
+            'Create a flowchart from a generic element': 'Flowchart / Tạo lưu đồ',
+            'Navigate a flowchart': 'Navigate / Di chuyển lưu đồ',
+            'Move canvas': 'Move / Di chuyển canvas',
+            'Reset the canvas': 'Reset / Đặt lại',
+            'Delete': 'Delete / Xóa',
+            'Cut': 'Cut / Cắt',
+            'Copy': 'Copy / Sao chép',
+            'Paste': 'Paste / Dán',
+            'Paste as plaintext': 'Paste text / Dán văn bản',
+            'Select all': 'Select all / Chọn tất cả',
+            'Add element to selection': 'Add to selection / Thêm vào vùng chọn',
+            'Deep select': 'Deep select / Chọn sâu',
+            'Deep select within box, and prevent dragging': 'Deep select box / Chọn sâu trong hộp',
+            'Copy to clipboard as PNG': 'Copy PNG / Sao chép ảnh PNG',
             // Menu items  
-            'Save to...': 'Lưu vào...',
-            'Export image...': 'Xuất ảnh...',
-            'Find on canvas': 'Tìm trên canvas',
-            'Canvas background': 'Màu nền canvas',
+            'Save to...': 'Save to... / Lưu vào...',
+            'Export image...': 'Export image... / Xuất ảnh...',
+            'Find on canvas': 'Find / Tìm kiếm',
+            'Canvas background': 'Canvas background / Màu nền',
         };
 
         const translateElement = (el: Element) => {
@@ -371,6 +374,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 }
             }
 
+
+            // Update Sidebar State
+            if (appState.isSidebarDocked !== isSidebarDocked) {
+                setIsSidebarDocked(!!appState.isSidebarDocked);
+            }
+
             // AUTO-SAVE to API
             const currentWhiteboard = whiteboardRef.current;
             if (currentWhiteboard?.artboards?.[0]?.id) {
@@ -463,7 +472,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     if (!isLoaded && id !== 'new') {
         return (
             <div className="flex items-center justify-center w-full h-screen bg-background">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+                {/* Tulie-style Loader: Simple Arc Spinner */}
+                <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-zinc-200 border-t-zinc-900 dark:border-zinc-800 dark:border-t-zinc-50" />
             </div>
         );
     }
@@ -475,6 +485,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 saveStatus={saveStatus}
                 onBack={() => router.push('/whiteboard')}
                 onRename={handleRename}
+                isSidebarDocked={isSidebarDocked}
             />
 
             <ExcalidrawWrapper
