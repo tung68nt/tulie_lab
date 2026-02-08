@@ -20,7 +20,7 @@ export class WhiteboardService {
         return this.whiteboardRepository.findByCreatorId(creatorId);
     }
 
-    async updateWhiteboard(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus; thumbnail?: string }) {
+    async updateWhiteboard(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus }) {
         return this.whiteboardRepository.update(id, data);
     }
 

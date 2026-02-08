@@ -59,10 +59,8 @@ export class WhiteboardController {
     saveArtboardState = async (req: Request, res: Response) => {
         try {
             const artboardId = req.params.artboardId as string;
-            const { elements, appState } = req.body;
-            // Save the full snapshot object structure that frontend expects
-            const snapshot = { elements, appState };
-            const result = await this.whiteboardService.saveArtboardState(artboardId, snapshot);
+            const { elements } = req.body;
+            const result = await this.whiteboardService.saveArtboardState(artboardId, elements);
             res.status(200).json(result);
         } catch (error: any) {
             res.status(500).json({ error: error.message });

@@ -39,7 +39,7 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
         });
     }
 
-    async update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus; thumbnail?: string }): Promise<Whiteboard> {
+    async update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus }): Promise<Whiteboard> {
         return prisma.whiteboard.update({
             where: { id },
             data
@@ -63,19 +63,9 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
     }
 
     async updateArtboard(id: string, elements: any): Promise<any> {
-        // Validation: Prevent corrupted data from being saved
-        if (elements === '[object Object]') {
-            console.error('CRITICAL: Attempted to save [object Object] to artboard', id);
-            throw new Error('Invalid data payload (serialization error)');
-        }
-
-        // Defensive Serialization: Ensure we store a valid JSON string
-        // This prevents implicit .toString() issues if the DB column type is mismatched/text
-        const payload = typeof elements === 'string' ? elements : JSON.stringify(elements);
-
         return prisma.artboard.update({
             where: { id },
-            data: { elements: payload }
+            data: { elements }
         });
     }
 

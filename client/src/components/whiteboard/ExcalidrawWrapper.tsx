@@ -25,8 +25,44 @@ export default function ExcalidrawWrapper({
             excalidrawAPI={excalidrawAPI}
             onChange={onChange}
             onPointerUpdate={onPointerUpdate as any}
-            langCode="vi-VN"
             theme="light"
-        />
+            UIOptions={{
+                canvasActions: {
+                    toggleTheme: true,
+                    export: {
+                        saveFileToDisk: true,
+                    }
+                }
+            }}
+            initialData={{
+                appState: { gridModeEnabled: true }
+            }}
+        >
+            <MainMenu>
+                <MainMenu.DefaultItems.SaveAsImage />
+                <MainMenu.DefaultItems.Export />
+                <MainMenu.DefaultItems.ClearCanvas />
+                <MainMenu.Separator />
+                <MainMenu.DefaultItems.ToggleTheme />
+                <MainMenu.Separator />
+                <MainMenu.Item onSelect={onBack}>
+                    Quay lại danh sách
+                </MainMenu.Item>
+            </MainMenu>
+            <WelcomeScreen>
+                <WelcomeScreen.Center>
+                    <WelcomeScreen.Center.Logo>
+                        <Logo showText={false} className="w-16 h-16 mb-4" />
+                    </WelcomeScreen.Center.Logo>
+                    <WelcomeScreen.Center.Heading>
+                        Tulie Whiteboard
+                    </WelcomeScreen.Center.Heading>
+                    <WelcomeScreen.Center.Menu>
+                        <WelcomeScreen.Center.MenuItemLoadScene />
+                        <WelcomeScreen.Center.MenuItemHelp />
+                    </WelcomeScreen.Center.Menu>
+                </WelcomeScreen.Center>
+            </WelcomeScreen>
+        </Excalidraw >
     );
 }

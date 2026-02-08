@@ -2,12 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: any = {
   typedRoutes: false,
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
 
   images: {
     remotePatterns: [
