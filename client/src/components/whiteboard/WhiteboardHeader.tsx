@@ -38,9 +38,12 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
 
     return (
         <>
-            {/* Box 1: Back + Logo - styled like toolbar */}
+            {/* Box 1: Back + Logo - exact toolbar styling */}
             <div className="absolute top-4 left-52 z-20">
-                <div className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 h-[44px] p-1 flex items-center gap-1 pr-3">
+                <div
+                    className="bg-white dark:bg-zinc-800 rounded-lg h-[44px] p-1 flex items-center gap-1 pr-3"
+                    style={{ boxShadow: 'rgba(0, 0, 0, 0.17) 0px 0px 0.931014px 0px, rgba(0, 0, 0, 0.08) 0px 0px 3.12708px 0px, rgba(0, 0, 0, 0.05) 0px 7px 14px 0px' }}
+                >
                     {/* Back Button */}
                     <Button
                         variant="ghost"
@@ -57,16 +60,19 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
                     {/* Logo Section */}
                     <div className="flex items-center pl-1">
                         <Logo showText={false} height="h-5" />
-                        <span className="ml-1.5 text-[10px] font-bold text-zinc-400 tracking-widest hidden sm:block">
+                        <span className="ml-1.5 text-[10px] font-medium text-zinc-400 hidden sm:block">
                             Whiteboard
                         </span>
                     </div>
                 </div>
             </div>
 
-            {/* Box 2: Title + Status - moved further right to avoid Library sidebar overlap */}
-            <div className="absolute top-4 right-4 z-10">
-                <div className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 h-[44px] px-3 flex items-center gap-3">
+            {/* Box 2: Title + Status - bottom center, exact toolbar styling */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20">
+                <div
+                    className="bg-white dark:bg-zinc-800 rounded-lg h-[44px] px-3 flex items-center gap-3"
+                    style={{ boxShadow: 'rgba(0, 0, 0, 0.17) 0px 0px 0.931014px 0px, rgba(0, 0, 0, 0.08) 0px 0px 3.12708px 0px, rgba(0, 0, 0, 0.05) 0px 7px 14px 0px' }}
+                >
                     {isEditing ? (
                         <input
                             autoFocus
