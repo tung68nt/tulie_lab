@@ -259,6 +259,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     }, [id]);
 
+    const handleRename = async (newTitle: string) => {
+        if (!whiteboard || !newTitle.trim()) return;
+
+        // Optimistic update
+        setWhiteboard((prev: any) => ({ ...prev, title: newTitle }));
+
+        try {
+            await api.whiteboards.update(id, { title: newTitle });
+        } catch (error) {
+            console.error('Failed to rename whiteboard:', error);
+            // Revert on error (optional, or just show toast)
+        }
+    };
+
     if (!isLoaded && id !== 'new') {
         return (
             <div className="flex items-center justify-center w-full h-screen bg-background">
@@ -273,6 +287,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 title={whiteboard?.title}
                 saveStatus={saveStatus}
                 onBack={() => router.push('/whiteboard')}
+                onRename={handleRename}
             />
 
             <ExcalidrawWrapper
