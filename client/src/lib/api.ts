@@ -12,9 +12,10 @@ console.log('Using BASE_URL for API:', BASE_URL);
 // Build trigger: 2026-01-24 - Standardizing max-width and fixing connectivity
 
 // Hardcoded R2 legacy domain correction
-const LEGACY_R2_DOMAIN = 'https://pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev';
+// Hardcoded R2 legacy domain correction
+// const LEGACY_R2_DOMAIN = 'https://pub-d4a95eabdf153f73125f66e4c1557ab7.r2.dev';
 // Current correct domain (from user)
-const CURRENT_R2_DOMAIN = 'https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev';
+// const CURRENT_R2_DOMAIN = 'https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev';
 
 export const getMediaUrl = (url?: string) => {
     if (!url) return '';
@@ -550,7 +551,7 @@ export const api: any = {
         create: (data: { title?: string; description?: string }) => request<any>('/whiteboards', { method: 'POST', body: JSON.stringify(data) }),
         update: (id: string, data: any) => request<any>(`/whiteboards/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
         delete: (id: string) => request<void>(`/whiteboards/${id}`, { method: 'DELETE' }),
-        saveArtboard: (artboardId: string, elements: any) => request<any>(`/whiteboards/artboards/${artboardId}/state`, { method: 'PUT', body: JSON.stringify({ elements }) }),
+        saveArtboard: (artboardId: string, data: any) => request<any>(`/whiteboards/artboards/${artboardId}/state`, { method: 'PUT', body: JSON.stringify(data) }),
         addArtboard: (id: string, name?: string) => request<any>(`/whiteboards/${id}/artboards`, { method: 'POST', body: JSON.stringify({ name }) }),
         saveSnapshot: (id: string, artboardId: string, elements: any) => request<any>(`/whiteboards/${id}/snapshots`, { method: 'POST', body: JSON.stringify({ artboardId, elements }) }),
         getAdminStats: () => request<any>('/whiteboards/admin/stats'),
