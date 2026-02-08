@@ -357,6 +357,8 @@ body {
   --button-primary-bg: #18181b !important;
   --button-hover-bg: #f4f4f5 !important;
   --button-primary-hover: #09090b !important;
+  --button-active-bg: #e4e4e7 !important;
+  /* zinc-200 - was purple #f1f0ff */
 
   /* Focus rings and checks */
   --color-brand: #18181b !important;
@@ -367,6 +369,34 @@ body {
   --color-focus-ring: #18181b !important;
   --color-selection: #a1a1aa !important;
   /* zinc-400 */
+
+  /* Surface Colors - Override purple lavender tones */
+  --color-surface-high: #fafafa !important;
+  /* zinc-50 - was #f1f0ff */
+  --color-surface-mid: #f4f4f5 !important;
+  /* zinc-100 - was #f2f2f7 */
+  --color-surface-low: #e4e4e7 !important;
+  /* zinc-200 - was #ececf4 */
+  --color-surface-lowest: #d4d4d8 !important;
+  /* zinc-300 */
+
+  /* Borders - Override purple borders */
+  --default-border-color: #e4e4e7 !important;
+  /* zinc-200 - was #f1f0ff */
+  --sidebar-border-color: #e4e4e7 !important;
+  --input-border-color: #d4d4d8 !important;
+  /* zinc-300 */
+
+  /* Input/TextField backgrounds */
+  --ExcTextField--background: #f4f4f5 !important;
+  /* zinc-100 - was #ececf4 */
+  --ExcTextField--readonly--background: #fafafa !important;
+  /* zinc-50 - was #f1f0ff */
+
+  /* Radio buttons */
+  --RadioGroup-border: #e4e4e7 !important;
+  --RadioGroup-choice-background-off-active: #e4e4e7 !important;
+  /* zinc-200 - was #f1f0ff */
 }
 
 .excalidraw.theme--dark {

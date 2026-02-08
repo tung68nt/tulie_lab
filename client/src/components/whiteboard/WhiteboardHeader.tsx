@@ -38,14 +38,14 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
 
     return (
         <>
-            {/* Box 1: Back + Logo - shifted right to not cover Menu button */}
+            {/* Box 1: Back + Logo - styled like toolbar */}
             <div className="absolute top-4 left-52 z-20">
-                <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 h-11 p-1 flex items-center gap-1 pr-3">
+                <div className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 h-[44px] p-1 flex items-center gap-1 pr-3">
                     {/* Back Button */}
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="h-9 w-9 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-md text-zinc-500"
+                        className="h-9 w-9 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg text-zinc-500"
                         onClick={onBack}
                         title="Back to Dashboard"
                     >
@@ -57,16 +57,16 @@ export default function WhiteboardHeader({ title, saveStatus, onBack, onRename }
                     {/* Logo Section */}
                     <div className="flex items-center pl-1">
                         <Logo showText={false} height="h-5" />
-                        <span className="ml-1.5 text-[10px] font-bold text-zinc-400 uppercase tracking-widest hidden sm:block">
+                        <span className="ml-1.5 text-[10px] font-bold text-zinc-400 tracking-widest hidden sm:block">
                             Whiteboard
                         </span>
                     </div>
                 </div>
             </div>
 
-            {/* Box 2: Title + Status - positioned near Library button on right */}
-            <div className="absolute top-4 right-32 z-20">
-                <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-700 h-11 px-3 flex items-center gap-3">
+            {/* Box 2: Title + Status - moved further right to avoid Library sidebar overlap */}
+            <div className="absolute top-4 right-4 z-10">
+                <div className="bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 h-[44px] px-3 flex items-center gap-3">
                     {isEditing ? (
                         <input
                             autoFocus
