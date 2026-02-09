@@ -36,20 +36,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './server/package-lock.json'
 
-      - name: Pre-flight Check (Validate Secrets)
-        run: |
-          echo "🔍 Validating environment..."
-          MISSING=()
-          if [ -z "${{ secrets.GCP_PROJECT_ID }}" ]; then MISSING+=("GCP_PROJECT_ID"); fi
-          if [ -z "${{ secrets.GCP_SA_KEY }}" ]; then MISSING+=("GCP_SA_KEY"); fi
-          if [ -z "${{ secrets.DATABASE_URL }}" ]; then MISSING+=("DATABASE_URL"); fi
-          
-          if [ ${#MISSING[@]} -ne 0 ]; then
-            echo "❌ CRITICAL: Missing required secrets: ${MISSING[*]}"
-            exit 1
-          fi
-          echo "✅ Pre-flight secrets check passed."
-
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
