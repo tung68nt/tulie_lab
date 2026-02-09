@@ -7,7 +7,7 @@ import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
-import { Clock, ChevronDown, ChevronUp, Lock } from 'lucide-react';
+import { Clock, ChevronDown, ChevronUp, Lock, Check } from 'lucide-react';
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
 import { CourseChapter } from '@/features/lms/components/CourseChapter';
@@ -671,8 +671,8 @@ export default function CoursePage({ params }: { params: any }) {
                     <div className="hidden md:block">
                         <div className="sticky top-24 space-y-6">
                             <div>
-                                <h2 className="mb-10 text-2xl font-bold">Bạn sẽ học được gì</h2>
-                                <div className="rounded-xl border bg-card pt-3 pb-6 px-6 shadow-sm">
+                                <h2 className="mb-6 text-2xl font-bold">Bạn sẽ học được gì</h2>
+                                <div className="rounded-xl border bg-card p-6 shadow-sm">
                                     {(() => {
                                         let outcomes: string[] = [];
                                         try {
@@ -688,9 +688,12 @@ export default function CoursePage({ params }: { params: any }) {
                                         const filteredOutcomes = outcomes.filter(line => line && line.trim() && line.toLowerCase() !== 'null');
 
                                         return filteredOutcomes.length > 0 ? (
-                                            <ul className="space-y-3 text-sm text-muted-foreground">
+                                            <ul className="space-y-4">
                                                 {filteredOutcomes.map((line: string, i: number) => (
-                                                    <li key={i} className="flex gap-2">✓ {line.replace(/^- /, '')}</li>
+                                                    <li key={i} className="flex gap-3 items-start text-sm text-zinc-600">
+                                                        <Check className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                                                        <span className="leading-relaxed">{line.replace(/^- /, '')}</span>
+                                                    </li>
                                                 ))}
                                             </ul>
                                         ) : (
