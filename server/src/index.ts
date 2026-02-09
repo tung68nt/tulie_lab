@@ -39,6 +39,11 @@ app.get('/api/health', async (req, res) => {
     }
   };
 
+  // Skip deep checks during initialization to satisfy startup probe immediately
+  if (!isAppReady) {
+    return res.status(200).json(health);
+  }
+
   try {
     // 1. Check Database (Prisma)
     await prisma.$queryRaw`SELECT 1`;

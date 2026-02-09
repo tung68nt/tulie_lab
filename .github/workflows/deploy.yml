@@ -108,7 +108,7 @@ jobs:
   # 2. Deploy only if migrations succeed
   deploy:
     needs: migrate
-    if: (!cancelled() && !skipped())
+    if: success() || failure()
     runs-on: ubuntu-latest
     
     permissions:
