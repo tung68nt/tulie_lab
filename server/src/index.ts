@@ -297,14 +297,21 @@ async function initializeApp() {
         { path: '/api', module: './modules/lms/journeys/journey.routes' }
       ];
 
+      console.log(`🛣️  Mounting ${routes.length} route modules...`);
       for (const route of routes) {
         try {
+          // Use dynamic import to catch errors per module
           const routeModule = (await import(route.module)).default;
+          if (!routeModule) {
+            throw new Error(`Module ${route.module} has no default export`);
+          }
           app.use(route.path, routeModule);
-          console.log(`   - Mounted ${route.path}`);
+          if (process.env.NODE_ENV !== 'production') {
+            console.log(`   - Mounted ${route.path}`);
+          }
         } catch (err: any) {
-          console.error(`❌ Failed to mount ${route.path}:`, err.message);
-          mountingErrors.push({ path: route.path, error: err.message, stack: err.stack });
+          console.error(`❌ ERROR mounting ${route.path} (${route.module}):`, err.message);
+          mountingErrors.push({ path: route.path, module: route.module, error: err.message });
         }
       }
 
