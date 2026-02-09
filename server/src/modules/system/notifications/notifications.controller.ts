@@ -39,7 +39,7 @@ export const getMyNotifications = async (req: Request, res: Response) => {
 
         // Transform for frontend
         const notifications = [
-            ...result.unreadSystem.map(n => ({
+            ...result.unreadSystem.map((n: any) => ({
                 id: n.id,
                 title: n.title,
                 content: n.content,
@@ -47,7 +47,7 @@ export const getMyNotifications = async (req: Request, res: Response) => {
                 createdAt: n.createdAt,
                 isRead: false
             })),
-            ...result.userSpecific.map(un => ({
+            ...result.userSpecific.map((un: any) => ({
                 id: un.notification.id,
                 title: un.notification.title,
                 content: un.notification.content,
@@ -55,7 +55,7 @@ export const getMyNotifications = async (req: Request, res: Response) => {
                 createdAt: un.notification.createdAt,
                 isRead: un.isRead
             }))
-        ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        ].sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
         res.json(notifications);
     } catch (error: any) {

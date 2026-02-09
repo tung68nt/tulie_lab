@@ -101,13 +101,13 @@ export const getUserNotifications = async (userId: string) => {
         orderBy: { createdAt: 'desc' }
     });
 
-    const existingIds = new Set(userNotifications.map(un => un.notificationId));
+    const existingIds = new Set(userNotifications.map((un: any) => un.notificationId));
 
     // Filter out system notifications that have a corresponding user notification entry (read or tracking)
     // Note: For birthday, if it was read in previous years, this logic unfortunately hides it.
     // A proper solution requires a 'year' field or resetting read status.
     // For now, we assume simple behavior.
-    const unreadSystemNotifications = systemNotifications.filter(sn => !existingIds.has(sn.id));
+    const unreadSystemNotifications = systemNotifications.filter((sn: any) => !existingIds.has(sn.id));
 
     return {
         unreadSystem: unreadSystemNotifications,

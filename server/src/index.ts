@@ -26,7 +26,7 @@ const app = express();
 
 // Trust Cloud Run's proxy (GFE)
 app.set('trust proxy', 1);
-const PORT = process.env.PORT || 5001;
+const PORT = Number(process.env.PORT) || 5001;
 
 let isAppReady = false;
 
@@ -92,8 +92,8 @@ let server: any;
 if (process.env.NODE_ENV !== 'test') {
   // --- START LISTENING IMMEDIATELY ---
   // This is the definitive fix for "Container failed to start".
-  server = app.listen(PORT, () => {
-    loggerService.info(`Server listening on port ${PORT}. Initializing services...`, { reloadedAt: new Date().toISOString() });
+  server = app.listen(PORT, '0.0.0.0', () => {
+    loggerService.info(`Server listening on port ${PORT} at 0.0.0.0. Initializing services...`, { reloadedAt: new Date().toISOString() });
     initializeApp().catch(err => {
       console.error('❌ CRITICAL: initializeApp failed to start:', err);
     });

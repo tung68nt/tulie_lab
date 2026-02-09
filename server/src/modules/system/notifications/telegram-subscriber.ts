@@ -108,7 +108,7 @@ export class TelegramEventSubscriber {
                     }
                 });
 
-                const settingsMap = settings.reduce((acc: any, s) => {
+                const settingsMap = settings.reduce((acc: any, s: any) => {
                     acc[s.key] = s.value;
                     return acc;
                 }, {});

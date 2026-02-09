@@ -405,10 +405,9 @@ export class UserService {
         });
 
         const activityMap = new Map();
-        lastActivities.forEach(log => {
+        lastActivities.forEach((log: any) => {
             if (log.userId) activityMap.set(log.userId, log.createdAt);
         });
-
         const inactiveUsers = [];
         for (const user of usersWithEnrollments) {
             const lastData = activityMap.get(user.id);

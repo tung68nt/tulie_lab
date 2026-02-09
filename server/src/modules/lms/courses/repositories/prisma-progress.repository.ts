@@ -26,7 +26,7 @@ export class PrismaProgressRepository implements IProgressRepository {
             select: { id: true }
         });
 
-        const lessonIds = lessons.map(l => l.id);
+        const lessonIds = lessons.map((l: any) => l.id);
 
         const progress = await prisma.lessonProgress.findMany({
             where: {

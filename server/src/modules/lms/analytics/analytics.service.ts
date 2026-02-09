@@ -36,13 +36,13 @@ export class AnalyticsService {
             })
         ]);
 
-        const courseStats = courses.map(course => {
+        const courseStats = courses.map((course: any) => {
             const enrollments = course._count.enrollments;
             const paidOrders = course._count.orderItems;
             const totalLessonsInCourse = course._count.lessons;
 
             // Calculate total completions for this course across all students
-            const totalCompletions = course.lessons.reduce((acc, lesson) => acc + lesson._count.progress, 0);
+            const totalCompletions = course.lessons.reduce((acc: number, lesson: any) => acc + (lesson._count?.progress || 0), 0);
 
             // Average progress per student (as a percentage)
             const avgProgress = enrollments > 0 && totalLessonsInCourse > 0

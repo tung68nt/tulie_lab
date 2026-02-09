@@ -110,9 +110,9 @@ export class WhiteboardService {
 
         const topUsers = await Promise.all(
             usersWithBoards
-                .sort((a, b) => b._count.id - a._count.id)
+                .sort((a: any, b: any) => (b._count?.id || 0) - (a._count?.id || 0))
                 .slice(0, 10)
-                .map(async (u) => {
+                .map(async (u: any) => {
                     const user = await prisma.user.findUnique({
                         where: { id: u.creatorId },
                         select: {

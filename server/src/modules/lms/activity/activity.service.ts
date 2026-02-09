@@ -45,7 +45,7 @@ export const listActivities = async (limit = 100, page = 1) => {
         }
     });
 
-    const userMap = users.reduce((acc: any, u) => {
+    const userMap = users.reduce((acc: any, u: any) => {
         acc[u.id] = u;
         return acc;
     }, {});

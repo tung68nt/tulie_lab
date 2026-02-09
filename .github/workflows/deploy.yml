@@ -80,12 +80,8 @@ jobs:
             CLIENT_URL="https://beta.thelab.tulie.vn"
           fi
 
-          # Fallback for DIRECT_URL
+          if [ -z "$DB_URL" ]; then echo "❌ DATABASE_URL is missing!"; exit 1; fi
           if [ -z "$DIR_URL" ]; then DIR_URL="$DB_URL"; fi
-
-          # Masking
-          echo "::add-mask::$DB_URL"
-          echo "::add-mask::$DIR_URL"
 
           # Export
           echo "RUNTIME_DB_URL=$DB_URL" >> $GITHUB_ENV
@@ -94,11 +90,12 @@ jobs:
           echo "RUNTIME_S_KEY=$S_KEY" >> $GITHUB_ENV
           echo "ENV_CLIENT_URL=$CLIENT_URL" >> $GITHUB_ENV
 
-      - name: Install dependencies & Generate Prisma
+      - name: Install dependencies, Generate Prisma & Build
         working-directory: ./server
         run: |
           npm ci
           npx prisma generate
+          npm run build
 
       - name: Run Database Migrations
         working-directory: ./server
@@ -106,18 +103,38 @@ jobs:
           DATABASE_URL: ${{ env.RUNTIME_DIR_URL }}
         run: |
           echo "🚀 Running Database Migrations..."
-          npx prisma migrate deploy || echo "⚠️ Migration warning: Skipping or failed, check database state."
+          npx prisma migrate deploy || echo "⚠️ Migration warning: Check database state."
 
       - name: Build and Push Docker image
         run: |
           TAG="gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}"
           LATEST="gcr.io/$PROJECT_ID/$SERVICE_NAME:latest"
-          
           docker build -t "$TAG" -t "$LATEST" ./server
           docker push "$TAG"
           docker push "$LATEST"
-          
           echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Post-Build Smoke Test (Verify Startup)
+        working-directory: ./server
+        env:
+          DATABASE_URL: ${{ env.RUNTIME_DB_URL }}
+          JWT_SECRET: "smoke-test-secret"
+          PORT: 8080
+          NODE_ENV: production
+        run: |
+          echo "🚀 Starting 10s Smoke Test..."
+          # Start app in background, wait 10s, then kill it.
+          # If it crashes before 10s, it's a failed build.
+          timeout 15s node dist/index.js &
+          PID=$!
+          sleep 10
+          if ps -p $PID > /dev/null; then
+            echo "✅ App stayed alive for 10s. Killing process..."
+            kill $PID
+          else
+            echo "❌ App crashed within 10s! Check logs above."
+            exit 1
+          fi
 
       - name: Create Environment File
         run: |
@@ -173,16 +190,18 @@ jobs:
           echo "🌐 Live URL: $URL"
           echo "🩺 Polling Health Check (max 3 mins)..."
           
-          # Use a loop for more resilient polling
           for i in {1..12}; do
             echo "Attempt $i..."
-            RESPONSE=$(curl -i -s --max-time 10 "$URL/api/health" || echo "timeout")
-            echo "--- HTTP Info ---"
-            echo "$RESPONSE" | head -n 20
+            # Use curl with -L following redirects and -i to see headers
+            RESPONSE=$(curl -L -i -s --max-time 10 "$URL/api/health" || echo "timeout")
+            echo "--- HTTP Snippet ---"
+            echo "$RESPONSE" | head -n 30
             
-            if echo "$RESPONSE" | grep -q "200 OK"; then
+            if echo "$RESPONSE" | grep -q '{"status":"ok"'; then
               echo "✅ Health Check Passed!"
               exit 0
+            elif echo "$RESPONSE" | grep -q '{"status":"starting"'; then
+              echo "⏳ App is still starting (Initializing services)..."
             fi
             sleep 15
           done

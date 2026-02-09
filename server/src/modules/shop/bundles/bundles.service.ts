@@ -38,9 +38,9 @@ export const listBundles = async (isAdmin = false, userId?: string) => {
         where: { userId },
         select: { courseId: true }
     });
-    const ownedCourseIds = new Set(enrollments.map(e => e.courseId));
+    const ownedCourseIds = new Set(enrollments.map((e: any) => e.courseId));
 
-    return (bundles as any[]).map(bundle => {
+    return (bundles as any[]).map((bundle: any) => {
         const ownedCourses = bundle.courses.filter((bc: any) => ownedCourseIds.has(bc.courseId));
         if (ownedCourses.length === 0) return bundle;
 

@@ -132,7 +132,7 @@ export class PrismaOrderRepository implements IOrderRepository {
                     _sum: {
                         amount: true
                     }
-                }).catch(err => {
+                }).catch((err: any) => {
                     console.error('Stats groupBy failed:', err);
                     return [] as any[];
                 })

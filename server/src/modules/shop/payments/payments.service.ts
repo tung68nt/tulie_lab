@@ -328,7 +328,7 @@ export class PaymentService {
                 orderBy: { createdAt: 'desc' }
             });
             console.log(`[Webhook] ❌ Order "${data.code}" not found. Recent pending orders:`,
-                allPendingOrders.map(o => `${o.code} (${o.amount})`).join(', '));
+                allPendingOrders.map((o: any) => `${o.code} (${o.amount})`).join(', '));
             console.log(`[Webhook] Transaction ${data.transactionId} recorded but no order updated.`);
             return {} as Order;
         }
@@ -454,8 +454,8 @@ export class PaymentService {
 
         // Efficiently enrich with orderId by batching the lookup
         const orderCodes = transactions
-            .map(tx => tx.code)
-            .filter((code): code is string => !!code && code.startsWith('DH'));
+            .map((tx: any) => tx.code)
+            .filter((code: any): code is string => !!code && code.startsWith('DH'));
 
         let codeToOrderId: Record<string, string> = {};
         if (orderCodes.length > 0) {
@@ -463,13 +463,13 @@ export class PaymentService {
                 where: { code: { in: orderCodes } },
                 select: { id: true, code: true }
             });
-            codeToOrderId = orders.reduce((acc, order) => {
+            codeToOrderId = orders.reduce((acc: any, order: any) => {
                 acc[order.code] = order.id;
                 return acc;
             }, {} as Record<string, string>);
         }
 
-        const enrichedTransactions = transactions.map(tx => {
+        const enrichedTransactions = transactions.map((tx: any) => {
             if (tx.code && codeToOrderId[tx.code]) {
                 return { ...tx, orderId: codeToOrderId[tx.code] };
             }

@@ -46,7 +46,7 @@ export const SecurityService = {
             }
         });
 
-        const userMap = users.reduce((acc: any, u) => {
+        const userMap = users.reduce((acc: any, u: any) => {
             acc[u.id] = u;
             return acc;
         }, {});

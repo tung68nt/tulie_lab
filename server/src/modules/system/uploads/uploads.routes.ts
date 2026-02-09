@@ -92,7 +92,7 @@ router.get('/', authenticate, authorize([Role.ADMIN]), async (req, res) => {
         });
 
         // Map to expected format if needed, but DB fields match frontend well
-        const mappedFiles = files.map(f => ({
+        const mappedFiles = files.map((f: any) => ({
             key: f.key,
             url: f.url,
             // Add size/lastModified if frontend needs specifically named fields
@@ -226,7 +226,7 @@ router.post('/multiple', authenticate, authorize([Role.ADMIN]), upload.array('fi
     }
 
     try {
-        const uploadedFiles = await Promise.all(files.map(async (file) => {
+        const uploadedFiles = await Promise.all(files.map(async (file: any) => {
             const localFilePath = file.path;
             const r2Key = `uploads/${file.filename}`;
 
