@@ -21,6 +21,8 @@ const createRedisStore = () => {
     });
 };
 
+const store = createRedisStore();
+
 // General API rate limiting - 300 requests per 5 minutes
 export const apiLimiter = rateLimit({
     windowMs: 5 * 60 * 1000,
@@ -28,7 +30,7 @@ export const apiLimiter = rateLimit({
     message: { message: 'Too many requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
-    store: createRedisStore(),
+    ...(store ? { store } : {}),
 });
 
 // Auth endpoints - stricter limits (5 requests per 15 minutes)
@@ -39,7 +41,7 @@ export const authLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     skipSuccessfulRequests: true,
-    store: createRedisStore(),
+    ...(store ? { store } : {}),
 });
 
 // Webhook endpoints - moderate limits (30 requests per minute)
@@ -49,7 +51,7 @@ export const webhookLimiter = rateLimit({
     message: { success: false, message: 'Too many webhook requests' },
     standardHeaders: true,
     legacyHeaders: false,
-    store: createRedisStore(),
+    ...(store ? { store } : {}),
 });
 
 // Password reset - very strict (3 requests per hour)
@@ -59,7 +61,7 @@ export const passwordResetLimiter = rateLimit({
     message: { message: 'Too many password reset attempts, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
-    store: createRedisStore(),
+    ...(store ? { store } : {}),
 });
 
 // Email sending - moderate limits (10 per hour)
@@ -69,5 +71,5 @@ export const emailLimiter = rateLimit({
     message: { message: 'Too many email requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
-    store: createRedisStore(),
+    ...(store ? { store } : {}),
 });
