@@ -10,7 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { Clock, ChevronDown, ChevronUp, Lock } from 'lucide-react';
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
-import { CourseChapter } from '@/components/lms/CourseChapter';
+import { CourseChapter } from '@/features/lms/components/CourseChapter';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
 import { Sparkles, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
