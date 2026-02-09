@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { Plus, Layout, ArrowRight, Trash2, List, ShieldAlert } from 'lucide-react';
+import { Plus, Grid3X3, Layout, ArrowRight, Trash2, List, ShieldAlert, Archive, Check } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -53,6 +53,19 @@ export default function WhiteboardDashboard() {
         }
     };
 
+    const handleStatusUpdate = async (id: string, newStatus: string, e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            await api.whiteboards.update(id, { status: newStatus });
+            setWhiteboards(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b));
+            addToast(`Đã chuyển trạng thái sang ${newStatus.charAt(0) + newStatus.slice(1).toLowerCase()}`, 'success');
+        } catch (error) {
+            console.error('Failed to update status:', error);
+            addToast('Không thể cập nhật trạng thái', 'error');
+        }
+    };
+
     const handleDelete = async (id: string, e: React.MouseEvent) => {
         e.preventDefault();
         if (!confirm('Bạn có chắc chắn muốn xóa bảng trắng này?')) return;
@@ -88,7 +101,7 @@ export default function WhiteboardDashboard() {
                                 : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
                             title="Grid View"
                         >
-                            <Layout className="w-4 h-4" />
+                            <Grid3X3 className="w-4 h-4" />
                         </button>
                         <button
                             onClick={() => setViewMode('list')}
@@ -161,6 +174,28 @@ export default function WhiteboardDashboard() {
                                         <span className={`w-1 h-1 rounded-full mr-1.5 ${board.status === 'PUBLISHED' ? 'bg-white' : 'bg-zinc-400'}`} />
                                         {board.status === 'PUBLISHED' ? 'Published' : board.status === 'ARCHIVED' ? 'Archived' : 'Draft'}
                                     </span>
+                                </div>
+
+                                {/* Status Toggle Overlay (Quick Change) */}
+                                <div className="absolute top-3 right-3 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={(e) => handleStatusUpdate(board.id, 'PUBLISHED', e)}
+                                        className={`p-1.5 rounded-lg backdrop-blur-md shadow-sm transition-all ${board.status === 'PUBLISHED'
+                                            ? 'bg-emerald-500 text-white'
+                                            : 'bg-white/80 text-zinc-500 hover:bg-white hover:text-emerald-600'}`}
+                                        title="Mark as Published"
+                                    >
+                                        <Check className="w-3.5 h-3.5" />
+                                    </button>
+                                    <button
+                                        onClick={(e) => handleStatusUpdate(board.id, 'ARCHIVED', e)}
+                                        className={`p-1.5 rounded-lg backdrop-blur-md shadow-sm transition-all ${board.status === 'ARCHIVED'
+                                            ? 'bg-zinc-800 text-white'
+                                            : 'bg-white/80 text-zinc-500 hover:bg-white hover:text-zinc-800'}`}
+                                        title="Move to Archive"
+                                    >
+                                        <Archive className="w-3.5 h-3.5" />
+                                    </button>
                                 </div>
 
                                 {/* Hover Actions Overlay */}
@@ -236,15 +271,24 @@ export default function WhiteboardDashboard() {
 
                             {/* Status (Desktop) */}
                             <div className="hidden md:block col-span-2">
-                                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-medium border ${board.status === 'PUBLISHED'
-                                    ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20'
-                                    : board.status === 'ARCHIVED'
-                                        ? 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'
-                                        : 'bg-zinc-50 text-zinc-500 dark:bg-zinc-800/50 dark:text-zinc-400 border-zinc-100 dark:border-zinc-800'
-                                    }`}>
-                                    <span className={`w-1 h-1 rounded-full mr-1.5 ${board.status === 'PUBLISHED' ? 'bg-emerald-500' : 'bg-zinc-400'}`} />
-                                    {board.status === 'PUBLISHED' ? 'Published' : board.status === 'ARCHIVED' ? 'Archived' : 'Draft'}
-                                </span>
+                                <div className="flex items-center gap-1">
+                                    {['DRAFT', 'PUBLISHED', 'ARCHIVED'].map((s) => (
+                                        <button
+                                            key={s}
+                                            onClick={(e) => handleStatusUpdate(board.id, s, e)}
+                                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-all border ${board.status === s
+                                                ? s === 'PUBLISHED'
+                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20'
+                                                    : s === 'ARCHIVED'
+                                                        ? 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'
+                                                        : 'bg-zinc-50 text-zinc-500 border-zinc-100 dark:bg-zinc-800/50 dark:text-zinc-400 dark:border-zinc-800'
+                                                : 'text-zinc-400 hover:text-zinc-500 border-transparent hover:bg-zinc-50 dark:text-zinc-500 dark:hover:text-zinc-400 opacity-0 group-hover:opacity-100'
+                                                } ${board.status === s ? 'opacity-100' : ''}`}
+                                        >
+                                            {s.charAt(0) + s.slice(1).toLowerCase()}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Size (Desktop) */}

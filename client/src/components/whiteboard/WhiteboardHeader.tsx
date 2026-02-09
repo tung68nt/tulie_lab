@@ -8,6 +8,8 @@ import { Logo } from '@/components/Logo';
 interface WhiteboardHeaderProps {
     title?: string;
     saveStatus: SaveStatus;
+    status?: string;
+    onStatusChange?: (status: string) => void;
     onBack: () => void;
     onRename?: (newTitle: string) => void;
     isSidebarDocked?: boolean;
@@ -20,7 +22,7 @@ interface WhiteboardHeaderProps {
 }
 
 export default function WhiteboardHeader({
-    title, saveStatus, onBack, onRename, isSidebarDocked,
+    title, saveStatus, status = 'DRAFT', onStatusChange, onBack, onRename, isSidebarDocked,
     gridEnabled = true, onToggleGrid,
     artboards = [], activeIndex = 0, onAddArtboard, onSwitchArtboard
 }: WhiteboardHeaderProps) {
@@ -153,6 +155,28 @@ export default function WhiteboardHeader({
                         >
                             <Grid3X3 className="w-4 h-4" />
                         </Button>
+
+                        <div className="w-px h-6 bg-zinc-200 dark:bg-zinc-800 mx-1.5" />
+
+                        {/* Status Type Selector */}
+                        <div className="relative flex items-center gap-1 group">
+                            {['DRAFT', 'PUBLISHED', 'ARCHIVED'].map((s) => (
+                                <button
+                                    key={s}
+                                    onClick={() => onStatusChange?.(s)}
+                                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-all ${status === s
+                                        ? s === 'PUBLISHED'
+                                            ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+                                            : s === 'ARCHIVED'
+                                                ? 'bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 border border-zinc-300 dark:border-zinc-700'
+                                                : 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800/80 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700'
+                                        : 'text-zinc-400 hover:text-zinc-500 hover:bg-zinc-50 dark:text-zinc-500 dark:hover:text-zinc-400 dark:hover:bg-zinc-800/50 opacity-0 group-hover:opacity-100'
+                                        } ${status === s ? 'opacity-100' : ''}`}
+                                >
+                                    {s.charAt(0) + s.slice(1).toLowerCase()}
+                                </button>
+                            ))}
+                        </div>
 
                         {/* Status Badge */}
                         <div className="hidden sm:flex items-center gap-1.5 bg-zinc-50 dark:bg-zinc-700/50 px-2 py-0.5 rounded-full border border-zinc-100 dark:border-zinc-700 ml-1">

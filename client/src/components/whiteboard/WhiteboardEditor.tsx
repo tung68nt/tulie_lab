@@ -457,6 +457,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         // Data loading effect will handle the scene update
     };
 
+    const handleStatusChange = async (status: string) => {
+        if (!whiteboard) return;
+        try {
+            setSaveStatus('saving');
+            await api.whiteboards.update(id, { status });
+            setWhiteboard((prev: any) => ({ ...prev, status }));
+            setSaveStatus('saved');
+        } catch (error) {
+            console.error('Failed to update status:', error);
+            setSaveStatus('error');
+        }
+    };
+
 
 
     // ... existing refs
@@ -478,6 +491,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 <WhiteboardHeader
                     title={whiteboard?.title}
                     saveStatus={saveStatus}
+                    status={whiteboard?.status}
+                    onStatusChange={handleStatusChange}
                     onBack={() => router.push('/whiteboard')}
                     onRename={handleRename}
                     isSidebarDocked={isSidebarDocked}
