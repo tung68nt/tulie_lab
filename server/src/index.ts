@@ -20,6 +20,9 @@ process.env.TZ = 'Asia/Ho_Chi_Minh';
 
 dotenv.config({ path: path.join(__dirname, '../.env') }); // Load .env from server root
 
+let globalRequestCount = 0;
+setInterval(() => { globalRequestCount = 0; }, 60000);
+
 const app = express();
 
 // Trust Cloud Run's proxy (GFE)
@@ -146,11 +149,7 @@ async function initializeApp() {
     const { apiLimiter } = await import('./middleware/rate-limit.middleware');
     const { csrfProtection } = await import('./middleware/csrf.middleware');
 
-    // Global Request Tracking
-    let globalRequestCount = 0;
-    setInterval(() => { globalRequestCount = 0; }, 60000);
-
-    // Middleware order is important!
+    // --- Security Middleware ---
     app.use(requestId); // Add request ID to all requests
 
     // Recovery middleware: Return 503 while app is initializing

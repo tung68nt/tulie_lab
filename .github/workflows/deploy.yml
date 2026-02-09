@@ -12,15 +12,18 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  # Dynamic Service Name based on branch
   SERVICE_NAME: ${{ github.ref == 'refs/heads/main' && 'academy-api' || 'academy-api-beta' }}
   REGION: asia-southeast1
 
 jobs:
-  # 1. Run database migrations FIRST (Optional - continues even on failure)
-  migrate:
+  deploy:
+    name: Build, Migrate & Deploy
     runs-on: ubuntu-latest
-    continue-on-error: true  # Don't block deploy if migrations fail (common for direct connection issues in CI)
+    timeout-minutes: 20
+    
+    permissions:
+      contents: read
+      id-token: write
     
     steps:
       - name: Checkout code
@@ -30,93 +33,22 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './server/package-lock.json'
 
-      - name: Install dependencies
-        working-directory: ./server
-        run: npm ci
-
-      - name: Configure Environment
-        id: config-env
+      - name: Pre-flight Check (Validate Secrets)
         run: |
-          # Determine secrets based on branch
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DB="${{ secrets.DATABASE_URL_PROD }}"
-            if [ -z "$DB" ]; then DB="${{ secrets.DATABASE_URL }}"; fi
-            DIR="${{ secrets.DIRECT_URL_PROD }}"
-            if [ -z "$DIR" ]; then DIR="${{ secrets.DIRECT_URL }}"; fi
-          else
-            DB="${{ secrets.DATABASE_URL_BETA }}"
-            if [ -z "$DB" ]; then DB="${{ secrets.BETA_DATABASE_URL }}"; fi
-            DIR="${{ secrets.DIRECT_URL_BETA }}"
-            if [ -z "$DIR" ]; then DIR="${{ secrets.BETA_DIRECT_URL }}"; fi
-          fi
-
-          # Fallback for DIRECT_URL
-          if [ -z "$DIR" ]; then
-            echo "⚠️ DIRECT_URL is not set for branch ${{ github.ref }}. Falling back to DATABASE_URL."
-            DIR="$DB"
-          fi
+          echo "🔍 Validating environment..."
+          MISSING=()
+          if [ -z "${{ secrets.GCP_PROJECT_ID }}" ]; then MISSING+=("GCP_PROJECT_ID"); fi
+          if [ -z "${{ secrets.GCP_SA_KEY }}" ]; then MISSING+=("GCP_SA_KEY"); fi
+          if [ -z "${{ secrets.DATABASE_URL }}" ]; then MISSING+=("DATABASE_URL"); fi
           
-          # Enforce pgbouncer=true and statement_cache_size=0 for Transaction Pooler (port 6543)
-          if [[ "$DB" == *":6543"* ]] || [[ "$DB" == *"pgbouncer=true"* ]]; then
-             if [[ "$DB" != *"pgbouncer=true"* ]]; then
-                if [[ "$DB" == *"?"* ]]; then DB="${DB}&pgbouncer=true"; else DB="${DB}?pgbouncer=true"; fi
-             fi
-             if [[ "$DB" != *"statement_cache_size="* ]]; then
-                if [[ "$DB" == *"?"* ]]; then DB="${DB}&statement_cache_size=0"; else DB="${DB}?statement_cache_size=0"; fi
-             fi
-             echo "🔌 Optimized DATABASE_URL for PgBouncer"
+          if [ ${#MISSING[@]} -ne 0 ]; then
+            echo "❌ CRITICAL: Missing required secrets: ${MISSING[*]}"
+            exit 1
           fi
-
-          # Mask values just in case
-          echo "::add-mask::$DB"
-          echo "::add-mask::$DIR"
-
-          # Export to GITHUB_ENV for subsequent steps
-          echo "DATABASE_URL=$DB" >> $GITHUB_ENV
-          echo "DIRECT_URL=$DIR" >> $GITHUB_ENV
-
-      - name: Debug Database Connection
-        run: |
-          echo "🔍 Checking DATABASE_URL format..."
-          # Show only protocol and host (masked password)
-          DB_HOST=$(echo "$DATABASE_URL" | sed -E 's|postgresql://[^@]+@([^/]+).*|\1|')
-          echo "Database host: $DB_HOST"
-
-          DIRECT_HOST=$(echo "$DIRECT_URL" | sed -E 's|postgresql://[^@]+@([^/]+).*|\1|')
-          echo "Direct connection host: $DIRECT_HOST"
-
-          # Check if URL is set
-          if [ -z "$DATABASE_URL" ]; then
-            echo "⚠️ Warning: DATABASE_URL is empty! Migration will be skipped."
-          fi
-
-          if [ -z "$DIRECT_URL" ]; then
-            echo "⚠️  WARNING: DIRECT_URL is empty, using DATABASE_URL fallback"
-          fi
-
-      - name: Run migrations
-        working-directory: ./server
-        run: |
-          echo "🚀 Running Prisma generate..."
-          npx prisma generate
-
-          echo "🚀 Running Migrations..."
-          npx prisma migrate deploy || echo "⚠️ Migration failed but proceeding..."
-
-  # 2. Deploy only if migrations succeed
-  deploy:
-    needs: migrate
-    if: always()
-    runs-on: ubuntu-latest
-    
-    permissions:
-      contents: read
-      id-token: write
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+          echo "✅ Pre-flight secrets check passed."
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
@@ -128,82 +60,73 @@ jobs:
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Configure Docker for GCR
-        run: gcloud auth configure-docker
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
 
-      - name: Build Docker image
-        run: |
-          docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
-                       -t gcr.io/$PROJECT_ID/$SERVICE_NAME:latest \
-                       ./server
-
-      - name: Push Docker image
-        run: |
-          docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
-          docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:latest
-
-      - name: Determine Database and Supabase URLs for Runtime Env
-        id: db-env
+      - name: Determine Environment Variables
+        id: env-vars
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DB_URL="${{ secrets.DATABASE_URL_PROD }}"
-            if [ -z "$DB_URL" ]; then DB_URL="${{ secrets.DATABASE_URL }}"; fi
-            DIR_URL="${{ secrets.DIRECT_URL_PROD }}"
-            if [ -z "$DIR_URL" ]; then DIR_URL="${{ secrets.DIRECT_URL }}"; fi
-            
-            S_URL="${{ secrets.SUPABASE_URL_PROD }}"
-            if [ -z "$S_URL" ]; then S_URL="${{ secrets.SUPABASE_URL }}"; fi
-            S_KEY="${{ secrets.SUPABASE_ANON_KEY_PROD }}"
-            if [ -z "$S_KEY" ]; then S_KEY="${{ secrets.SUPABASE_ANON_KEY }}"; fi
+            DB_URL="${{ secrets.DATABASE_URL_PROD || secrets.DATABASE_URL }}"
+            DIR_URL="${{ secrets.DIRECT_URL_PROD || secrets.DIRECT_URL }}"
+            S_URL="${{ secrets.SUPABASE_URL_PROD || secrets.SUPABASE_URL }}"
+            S_KEY="${{ secrets.SUPABASE_ANON_KEY_PROD || secrets.SUPABASE_ANON_KEY }}"
+            CLIENT_URL="https://thelab.tulie.vn"
           else
-            DB_URL="${{ secrets.DATABASE_URL_BETA }}"
-            if [ -z "$DB_URL" ]; then DB_URL="${{ secrets.BETA_DATABASE_URL }}"; fi
-            DIR_URL="${{ secrets.DIRECT_URL_BETA }}"
-            if [ -z "$DIR_URL" ]; then DIR_URL="${{ secrets.BETA_DIRECT_URL }}"; fi
-            
-            S_URL="${{ secrets.SUPABASE_URL_BETA }}"
-            if [ -z "$S_URL" ]; then S_URL="${{ secrets.SUPABASE_URL }}"; fi
-            S_KEY="${{ secrets.SUPABASE_ANON_KEY_BETA }}"
-            if [ -z "$S_KEY" ]; then S_KEY="${{ secrets.SUPABASE_ANON_KEY }}"; fi
+            DB_URL="${{ secrets.DATABASE_URL_BETA || secrets.BETA_DATABASE_URL || secrets.DATABASE_URL }}"
+            DIR_URL="${{ secrets.DIRECT_URL_BETA || secrets.BETA_DIRECT_URL || secrets.DIRECT_URL }}"
+            S_URL="${{ secrets.SUPABASE_URL_BETA || secrets.SUPABASE_URL }}"
+            S_KEY="${{ secrets.SUPABASE_ANON_KEY_BETA || secrets.SUPABASE_ANON_KEY }}"
+            CLIENT_URL="https://beta.thelab.tulie.vn"
           fi
 
-          if [ -z "$DIR_URL" ]; then
-             echo "⚠️ Warning: DIRECT_URL is not set for runtime branch ${{ github.ref }}. Falling back to DATABASE_URL."
-             DIR_URL="$DB_URL"
-          fi
+          # Fallback for DIRECT_URL
+          if [ -z "$DIR_URL" ]; then DIR_URL="$DB_URL"; fi
 
-          # Enforce pgbouncer=true and statement_cache_size=0 for Runtime Env
-          if [[ "$DB_URL" == *":6543"* ]] || [[ "$DB_URL" == *"pgbouncer=true"* ]]; then
-             if [[ "$DB_URL" != *"pgbouncer=true"* ]]; then
-                if [[ "$DB_URL" == *"?"* ]]; then DB_URL="${DB_URL}&pgbouncer=true"; else DB_URL="${DB_URL}?pgbouncer=true"; fi
-             fi
-             if [[ "$DB_URL" != *"statement_cache_size="* ]]; then
-                if [[ "$DB_URL" == *"?"* ]]; then DB_URL="${DB_URL}&statement_cache_size=0"; else DB_URL="${DB_URL}?statement_cache_size=0"; fi
-             fi
-             echo "🔌 Optimized Runtime DATABASE_URL for PgBouncer"
-          fi
+          # Masking
+          echo "::add-mask::$DB_URL"
+          echo "::add-mask::$DIR_URL"
 
+          # Export
           echo "RUNTIME_DB_URL=$DB_URL" >> $GITHUB_ENV
-          echo "RUNTIME_DIRECT_URL=$DIR_URL" >> $GITHUB_ENV
-          echo "RUNTIME_SUPABASE_URL=$S_URL" >> $GITHUB_ENV
-          echo "RUNTIME_SUPABASE_ANON_KEY=$S_KEY" >> $GITHUB_ENV
+          echo "RUNTIME_DIR_URL=$DIR_URL" >> $GITHUB_ENV
+          echo "RUNTIME_S_URL=$S_URL" >> $GITHUB_ENV
+          echo "RUNTIME_S_KEY=$S_KEY" >> $GITHUB_ENV
+          echo "ENV_CLIENT_URL=$CLIENT_URL" >> $GITHUB_ENV
 
-      - name: Determine Config Vars
+      - name: Install dependencies & Generate Prisma
+        working-directory: ./server
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "ENV_CLIENT_URL=https://thelab.tulie.vn" >> $GITHUB_ENV
-          else
-            echo "ENV_CLIENT_URL=https://beta.thelab.tulie.vn" >> $GITHUB_ENV
-          fi
+          npm ci
+          npx prisma generate
 
-      - name: Deploy Back-End to Cloud Run
+      - name: Run Database Migrations
+        working-directory: ./server
+        env:
+          DATABASE_URL: ${{ env.RUNTIME_DIR_URL }}
+        run: |
+          echo "🚀 Running Database Migrations..."
+          npx prisma migrate deploy || echo "⚠️ Migration warning: Skipping or failed, check database state."
+
+      - name: Build and Push Docker image
+        run: |
+          TAG="gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}"
+          LATEST="gcr.io/$PROJECT_ID/$SERVICE_NAME:latest"
+          
+          docker build -t "$TAG" -t "$LATEST" ./server
+          docker push "$TAG"
+          docker push "$LATEST"
+          
+          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Deploy to Cloud Run
         run: |
           gcloud run deploy $SERVICE_NAME \
-            --image gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
+            --image $IMAGE_TAG \
             --platform managed \
             --region $REGION \
             --allow-unauthenticated \
-            --set-env-vars "NODE_ENV=production,DATABASE_URL=$RUNTIME_DB_URL,DIRECT_URL=$RUNTIME_DIRECT_URL" \
+            --set-env-vars "NODE_ENV=production,DATABASE_URL=$RUNTIME_DB_URL,DIRECT_URL=$RUNTIME_DIR_URL" \
             --set-env-vars "CLIENT_URL=$ENV_CLIENT_URL" \
             --set-env-vars "REDIS_URL=${{ secrets.REDIS_URL }}" \
             --set-env-vars "JWT_SECRET=${{ secrets.JWT_SECRET }}" \
@@ -212,12 +135,9 @@ jobs:
             --set-env-vars "R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}" \
             --set-env-vars "R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}" \
             --set-env-vars "R2_PUBLIC_DOMAIN=${{ secrets.R2_PUBLIC_DOMAIN }}" \
-            --set-env-vars "SUPABASE_URL=$RUNTIME_SUPABASE_URL" \
-            --set-env-vars "SUPABASE_ANON_KEY=$RUNTIME_SUPABASE_ANON_KEY" \
+            --set-env-vars "SUPABASE_URL=$RUNTIME_S_URL" \
+            --set-env-vars "SUPABASE_ANON_KEY=$RUNTIME_S_KEY" \
             --set-env-vars "SEPAY_API_KEY=${{ secrets.SEPAY_API_KEY }}" \
-            --set-env-vars "ANTHROPIC_BASE_URL=${{ secrets.ANTHROPIC_BASE_URL }}" \
-            --set-env-vars "ANTHROPIC_MODEL=${{ secrets.ANTHROPIC_MODEL }}" \
-            --set-env-vars "ANTHROPIC_AUTH_TOKEN=${{ secrets.ANTHROPIC_AUTH_TOKEN }}" \
             --set-env-vars "SEPAY_SECRET_KEY=${{ secrets.SEPAY_SECRET_KEY }}" \
             --set-env-vars "SMTP_HOST=${{ secrets.SMTP_HOST }}" \
             --set-env-vars "SMTP_PORT=${{ secrets.SMTP_PORT }}" \
@@ -228,39 +148,33 @@ jobs:
             --max-instances 10 \
             --memory 1Gi \
             --cpu 1 \
-            --timeout 600
+            --timeout 600 \
+            --quiet
 
-      - name: Verify Deployment
-        continue-on-error: true
+      - name: Verify Deployment Logic
         run: |
-          echo "✅ Deployed $SERVICE_NAME to $REGION"
           URL=$(gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)' || echo "")
-          
           if [ -z "$URL" ]; then
-            echo "❌ ERROR: Could not retrieve Service URL. Check gcloud logs."
-            exit 0 # Still exit 0 to keep the job 'warning' if it's just verification failing
+            echo "❌ Could not retrieve Service URL."
+            exit 1
           fi
-
+          
           echo "🌐 Live URL: $URL"
-          echo "🩺 Health check: $URL/api/health"
-          echo "⏳ Waiting for service to stabilize (Attempt 1)..."
-          sleep 30
+          echo "🩺 Polling Health Check (max 3 mins)..."
           
-          RESPONSE=$(curl -i -s --max-time 15 "$URL/api/health" || echo "curl_timeout")
-          echo "--- RAW RESPONSE START ---"
-          echo "$RESPONSE"
-          echo "--- RAW RESPONSE END ---"
-          
-          if echo "$RESPONSE" | grep -q "200 OK"; then
-            echo "🚀 Health check passed!"
-          else
-            echo "⏳ Attempt 2 (waiting 45s more)..."
-            sleep 45
-            RESPONSE=$(curl -i -s --max-time 15 "$URL/api/health" || echo "curl_timeout")
-            echo "Response 2: $RESPONSE"
+          # Use a loop for more resilient polling
+          for i in {1..12}; do
+            echo "Attempt $i..."
+            RESPONSE=$(curl -i -s --max-time 10 "$URL/api/health" || echo "timeout")
+            echo "--- HTTP Info ---"
+            echo "$RESPONSE" | head -n 20
+            
             if echo "$RESPONSE" | grep -q "200 OK"; then
-              echo "🚀 Health check passed on retry!"
-            else
-              echo "⚠ Warning: Health check still returned unexpected response."
+              echo "✅ Health Check Passed!"
+              exit 0
             fi
-          fi
+            sleep 15
+          done
+          
+          echo "❌ Health Check failed after 3 minutes."
+          exit 1
