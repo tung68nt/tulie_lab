@@ -96,11 +96,12 @@ if (process.env.NODE_ENV !== 'test') {
       const token = (socket.handshake.auth.token || socket.handshake.headers['x-auth-token'] || socket.handshake.headers['token']) as string;
       if (!token) return next(new Error('Authentication failed: No token provided'));
 
-      const jwt = await import('jsonwebtoken');
+      const jwtModule = await import('jsonwebtoken');
+      const verify = (jwtModule.default?.verify || jwtModule.verify) as any;
       const secret = process.env.JWT_SECRET || 'temporary-secret-for-startup-safety';
 
       try {
-        const decoded = jwt.default.verify(token, secret) as any;
+        const decoded = verify(token, secret);
         if (!decoded || !decoded.id) return next(new Error('Authentication failed: Invalid token'));
         socket.data.userId = decoded.id;
         next();
