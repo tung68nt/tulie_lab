@@ -14,10 +14,10 @@ process.env.TZ = 'Asia/Ho_Chi_Minh';
 dotenv.config({ path: path.join(__dirname, '../.env') }); // Load .env from server root
 
 const app = express();
-const PORT = process.env.PORT || 5001;
 
-// Trust proxy is required for Cloud Run to see the real user IP
-app.set('trust proxy', true);
+// Trust Cloud Run's proxy (GFE)
+app.set('trust proxy', 1);
+const PORT = process.env.PORT || 5001;
 
 // --- CRITICAL: Register health check FIRST, before any blocking operations ---
 // This ensures Cloud Run's health check always passes.

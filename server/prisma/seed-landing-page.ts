@@ -1,5 +1,5 @@
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, PageType } from '@prisma/client';
 
 const prismaClient = new PrismaClient();
 
@@ -737,6 +737,49 @@ const PAGES_TO_SEED = [
                 glowVariant: 5
             }
         ]
+    },
+    {
+        title: "Trang chủ",
+        slug: "home",
+        description: "Trang chủ chính của hệ thống.",
+        isActive: true,
+        isHomepage: true,
+        sections: [
+            {
+                id: "general-hero",
+                type: "hero",
+                tag: "Xu hướng 2026",
+                title: "Vibe Coding: Lập trình bằng AI - Kỹ năng bắt buộc năm 2026",
+                subtitle: "Không cần học code truyền thống. Chỉ cần tư duy logic + AI = Bạn có thể xây dựng ứng dụng thực tế. Tulie TSS đồng hành 1:1 cùng bạn từ con số 0 đến sản phẩm hoàn chỉnh.",
+                image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
+                ctaText: "Khám phá khoá học",
+                ctaLink: "/courses",
+                isVisible: true,
+                order: 1,
+                backgroundImage: '',
+                backgroundTheme: 'light',
+                overlayOpacity: 0.6,
+                glowVariant: 14
+            },
+            {
+                id: "tulie-stats",
+                type: "stats",
+                tag: "Cam kết",
+                title: "Tulie TSS - Đồng hành từ 0 đến sản phẩm",
+                subtitle: "Chúng tôi không chỉ dạy, chúng tôi cùng bạn làm",
+                items: [
+                    { title: "Học viên", value: "500+", icon: "Users", description: "Đã tin tưởng và học tập" },
+                    { title: "Tài nguyên", value: "50+", icon: "Package", description: "Templates & Scripts thực chiến" },
+                    { title: "Khoá học", value: "5+", icon: "GraduationCap", description: "Lộ trình từ cơ bản đến nâng cao" },
+                    { title: "Hỗ trợ 1:1", value: "100%", icon: "Headphones", description: "Cam kết đồng hành trọn khoá" }
+                ],
+                isVisible: true,
+                order: 2,
+                backgroundImage: '',
+                backgroundTheme: 'light',
+                overlayOpacity: 0.6
+            }
+        ]
     }
 ];
 
@@ -775,6 +818,7 @@ async function main() {
             await prismaClient.landingPage.create({
                 data: {
                     ...page,
+                    type: page.type as PageType,
                     sections: JSON.stringify(page.sections)
                 }
             });
