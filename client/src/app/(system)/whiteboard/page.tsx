@@ -76,7 +76,7 @@ export default function WhiteboardDashboard() {
                     <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700/50">
                         <button
                             onClick={() => setViewMode('grid')}
-                            className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'grid'
+                            className={`p-1.5 rounded transition-all duration-200 ${viewMode === 'grid'
                                 ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
                                 : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
                             title="Grid View"
@@ -132,6 +132,17 @@ export default function WhiteboardDashboard() {
                                     <Layout className="w-10 h-10 text-zinc-300 dark:text-zinc-600 transition-transform duration-300" />
                                 )}
 
+                                {/* Status Badge Overlay */}
+                                <div className="absolute top-3 left-3">
+                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider backdrop-blur-md border ${board.status === 'PUBLISHED'
+                                        ? 'bg-emerald-500/80 text-white border-emerald-400/30'
+                                        : 'bg-zinc-900/60 text-zinc-300 border-white/10'
+                                        }`}>
+                                        <span className={`w-1 h-1 rounded-full mr-1.5 ${board.status === 'PUBLISHED' ? 'bg-white' : 'bg-zinc-400'}`} />
+                                        {board.status || 'DRAFT'}
+                                    </span>
+                                </div>
+
                                 {/* Hover Actions Overlay */}
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-start justify-end p-3 opacity-0 group-hover:opacity-100">
                                     <Button
@@ -146,7 +157,8 @@ export default function WhiteboardDashboard() {
                                 </div>
                             </div>
                             <div className="p-4 bg-white dark:bg-zinc-900">
-                                <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-base line-clamp-1 mb-1">{board.title || 'Không tiêu đề'}</h3>
+                                <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-base line-clamp-1">{board.title || 'Không tiêu đề'}</h3>
+                                <p className="text-[10px] font-mono text-zinc-400 mt-0.5">ID: {board.id.split('-')[0]}</p>
                                 <div className="flex items-center justify-between mt-3 text-xs text-zinc-500">
                                     <div className="flex items-center gap-2">
                                         <span className="bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded-full font-medium">
@@ -163,11 +175,13 @@ export default function WhiteboardDashboard() {
             ) : (
                 <div className="flex flex-col border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-card shadow-sm">
                     {/* Header Row */}
-                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-xs font-semibold text-zinc-500 uppercase tracking-wider">
-                        <div className="col-span-6 md:col-span-5">Tên bảng</div>
-                        <div className="hidden md:block col-span-2">Dung lượng</div>
-                        <div className="hidden md:block col-span-3">Cập nhật lần cuối</div>
-                        <div className="col-span-6 md:col-span-2 text-right">Thao tác</div>
+                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                        <div className="col-span-6 md:col-span-4">Tên bảng</div>
+                        <div className="hidden md:block col-span-2">Trạng thái</div>
+                        <div className="hidden md:block col-span-1">Slides</div>
+                        <div className="hidden md:block col-span-2">Ngày tạo</div>
+                        <div className="hidden md:block col-span-2">Cập nhật</div>
+                        <div className="col-span-6 md:col-span-1 text-right">Thao tác</div>
                     </div>
 
                     {whiteboards.map((board, i) => (
@@ -176,13 +190,13 @@ export default function WhiteboardDashboard() {
                             className={`group grid grid-cols-12 gap-4 p-4 items-center hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${i !== whiteboards.length - 1 ? 'border-b border-zinc-100 dark:border-zinc-800' : ''}`}
                         >
                             {/* Title & Thumbnail */}
-                            <div className="col-span-6 md:col-span-5 flex items-center gap-4 min-w-0">
+                            <div className="col-span-6 md:col-span-4 flex items-center gap-4 min-w-0">
                                 <Link
                                     href={`/whiteboard/${board.id}`}
-                                    className="w-12 h-8 bg-zinc-100 dark:bg-zinc-800 rounded flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shrink-0 overflow-hidden"
+                                    className="w-12 h-8 bg-zinc-100 dark:bg-zinc-800 rounded flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shrink-0 overflow-hidden group-hover:border-primary/30 transition-colors"
                                 >
                                     {board.thumbnail ? (
-                                        <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover" />
+                                        <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
                                     ) : (
                                         <Layout className="w-4 h-4 text-zinc-300" />
                                     )}
@@ -191,29 +205,50 @@ export default function WhiteboardDashboard() {
                                     <Link href={`/whiteboard/${board.id}`} className="block font-medium text-sm text-zinc-900 dark:text-zinc-100 truncate hover:text-primary transition-colors">
                                         {board.title || 'Không tiêu đề'}
                                     </Link>
-                                    <div className="md:hidden text-xs text-zinc-500 mt-0.5">
-                                        {(board?._count?.artboards || 1)} slide • {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                                    <div className="text-[10px] font-mono text-zinc-400 mt-0.5 leading-none">
+                                        #{board.id.split('-')[0]}
+                                    </div>
+                                    <div className="md:hidden text-[10px] text-zinc-400 mt-1 font-medium uppercase tracking-tighter">
+                                        {(board?._count?.artboards || 1)} slides • {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Size (Desktop) */}
-                            <div className="hidden md:block col-span-2 text-sm text-zinc-500">
-                                <span className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs font-medium text-zinc-600 dark:text-zinc-400">
-                                    {(board?._count?.artboards || 1)} slides
+                            {/* Status (Desktop) */}
+                            <div className="hidden md:block col-span-2">
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${board.status === 'PUBLISHED'
+                                    ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20'
+                                    : 'bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700/50'
+                                    }`}>
+                                    <span className={`w-1 h-1 rounded-full mr-1.5 ${board.status === 'PUBLISHED' ? 'bg-emerald-500' : 'bg-zinc-400'}`} />
+                                    {board.status || 'DRAFT'}
                                 </span>
                             </div>
 
-                            {/* Date (Desktop) */}
-                            <div className="hidden md:block col-span-3 text-sm text-zinc-500">
-                                {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
-                                <span className="text-zinc-400 text-xs ml-2">
-                                    {new Date(board.updatedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                            {/* Size (Desktop) */}
+                            <div className="hidden md:block col-span-1 text-sm text-zinc-500">
+                                <span className="font-mono text-zinc-600 dark:text-zinc-400 text-xs">
+                                    {(board?._count?.artboards || 1).toString().padStart(2, '0')}
                                 </span>
+                            </div>
+
+                            {/* Created Date (Desktop) */}
+                            <div className="hidden md:block col-span-2 text-xs text-zinc-400">
+                                {new Date(board.createdAt).toLocaleDateString('vi-VN')}
+                            </div>
+
+                            {/* Updated Date (Desktop) */}
+                            <div className="hidden md:block col-span-2 text-xs text-zinc-500 font-medium">
+                                <div className="text-zinc-900 dark:text-zinc-200">
+                                    {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                                </div>
+                                <div className="text-[10px] text-zinc-400 font-normal">
+                                    {new Date(board.updatedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                                </div>
                             </div>
 
                             {/* Actions */}
-                            <div className="col-span-6 md:col-span-2 flex items-center justify-end gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="col-span-6 md:col-span-1 flex items-center justify-end gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Button
                                     variant="ghost"
                                     size="icon"
