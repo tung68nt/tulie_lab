@@ -165,14 +165,14 @@ export default function WhiteboardDashboard() {
 
                                 {/* Status Badge Overlay */}
                                 <div className="absolute top-3 left-3">
-                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold backdrop-blur-md border ${board.status === 'PUBLISHED'
+                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium backdrop-blur-md border ${board.status === 'PUBLISHED'
                                         ? 'bg-emerald-500/80 text-white border-emerald-400/30'
                                         : board.status === 'ARCHIVED'
                                             ? 'bg-zinc-800/80 text-zinc-300 border-zinc-700/50'
                                             : 'bg-zinc-900/60 text-zinc-300 border-white/10'
                                         }`}>
                                         <span className={`w-1 h-1 rounded-full mr-1.5 ${board.status === 'PUBLISHED' ? 'bg-white' : 'bg-zinc-400'}`} />
-                                        {board.status === 'PUBLISHED' ? 'Published' : board.status === 'ARCHIVED' ? 'Archived' : 'Draft'}
+                                        {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Bản nháp'}
                                     </span>
                                 </div>
 
@@ -226,7 +226,7 @@ export default function WhiteboardDashboard() {
             ) : (
                 <div className="flex flex-col border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-card shadow-sm">
                     {/* Header Row */}
-                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
+                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-[11px] font-semibold text-zinc-400">
                         <div className="col-span-6 md:col-span-5">Tên bảng</div>
                         <div className="hidden md:block col-span-2">Trạng thái</div>
                         <div className="hidden md:block col-span-2">Ngày tạo</div>
@@ -267,14 +267,14 @@ export default function WhiteboardDashboard() {
                             {/* Status (Desktop) */}
                             <div className="hidden md:block col-span-2">
                                 <div className="relative group/status inline-block">
-                                    <button className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold transition-all border ${board.status === 'PUBLISHED'
+                                    <button className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium transition-all border ${board.status === 'PUBLISHED'
                                         ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
                                         : board.status === 'ARCHIVED'
                                             ? 'bg-zinc-100 text-zinc-500 border-zinc-200'
                                             : 'bg-zinc-50 text-zinc-400 border-zinc-100'
                                         }`}>
                                         <span className={`w-1 h-1 rounded-full ${board.status === 'PUBLISHED' ? 'bg-emerald-500' : 'bg-zinc-400'}`} />
-                                        {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                        {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Bản nháp'}
                                         <ChevronDown className="w-3 h-3 opacity-50 group-hover/status:opacity-100 transition-opacity" />
                                     </button>
 
@@ -285,11 +285,11 @@ export default function WhiteboardDashboard() {
                                                 <button
                                                     key={s}
                                                     onClick={(e) => handleStatusUpdate(board.id, s, e)}
-                                                    className={`w-full text-left px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${board.status === s
+                                                    className={`w-full text-left px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all ${board.status === s
                                                         ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100'
                                                         : 'text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-zinc-600'}`}
                                                 >
-                                                    {s === 'PUBLISHED' ? 'Công khai' : s === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                                    {s === 'PUBLISHED' ? 'Công khai' : s === 'ARCHIVED' ? 'Lưu trữ' : 'Bản nháp'}
                                                 </button>
                                             ))}
                                         </div>

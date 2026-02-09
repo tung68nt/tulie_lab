@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
-import { ChevronLeft, Cloud, Check, Home, Pencil, Grid3X3, Plus, ChevronRight, ChevronDown } from 'lucide-react';
+import { ChevronLeft, Cloud, Check, Home, Pencil, LayoutGrid, Plus, ChevronRight, ChevronDown } from 'lucide-react';
 import Script from 'next/script';
 import Link from 'next/link';
 import { SaveStatus } from './SaveStatusIndicator';
@@ -52,8 +52,8 @@ export default function WhiteboardHeader({
 
     return (
         <>
-            {/* Unified Top Header Bar - Moved to top to avoid overlap with Excalidraw footer */}
-            <div className="absolute top-4 left-4 z-50 sm:left-1/2 sm:-translate-x-1/2">
+            {/* Unified Bottom Header Bar - Reverted to bottom-center as requested */}
+            <div className="absolute bottom-4 left-4 z-50 sm:left-1/2 sm:-translate-x-1/2">
                 <div
                     className="bg-white/95 dark:bg-zinc-800/95 rounded-2xl h-[54px] p-1.5 flex items-center gap-3 shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-zinc-200/60 dark:border-zinc-700/60 backdrop-blur-md"
                 >
@@ -111,14 +111,14 @@ export default function WhiteboardHeader({
                         onClick={onToggleGrid}
                         title={gridEnabled ? "Hide Grid" : "Show Grid"}
                     >
-                        <Grid3X3 className="w-4 h-4" />
+                        <LayoutGrid className="w-4 h-4" />
                     </Button>
 
                     <div className="w-px h-6 bg-zinc-200 dark:bg-zinc-800 mx-1.5" />
 
                     {/* Status Type Selector - Updated to be a dropdown action box */}
                     <div className="relative group/status">
-                        <button className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all border shadow-sm ${status === 'PUBLISHED'
+                        <button className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-[11px] font-medium tracking-normal transition-all border shadow-sm ${status === 'PUBLISHED'
                             ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                             : status === 'ARCHIVED'
                                 ? 'bg-zinc-100 text-zinc-600 border-zinc-200'
@@ -130,13 +130,19 @@ export default function WhiteboardHeader({
                         </button>
 
                         {/* Dropdown Box with Backdrop shadow */}
-                        <div className="absolute top-full left-0 mt-2 opacity-0 group-hover/status:opacity-100 pointer-events-none group-hover/status:pointer-events-auto transition-all z-30 -translate-y-2 group-hover/status:translate-y-0">
-                            <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-2xl shadow-2xl p-1.5 min-w-[140px]">
+                        <div className="absolute bottom-full left-0 pb-4 opacity-0 group-hover/status:opacity-100 pointer-events-none group-hover/status:pointer-events-auto transition-all z-[70] translate-y-2 group-hover/status:translate-y-0">
+                            <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-2xl shadow-2xl p-1.5 min-w-[140px] drop-shadow-xl translate-y-2">
                                 {['DRAFT', 'PUBLISHED', 'ARCHIVED'].map((s) => (
                                     <button
                                         key={s}
-                                        onClick={() => onStatusChange?.(s)}
-                                        className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-bold transition-all ${status === s
+                                        type="button"
+                                        onMouseDown={(e) => {
+                                            // Use onMouseDown to trigger before any blur events or potential dropdown closures
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            onStatusChange?.(s);
+                                        }}
+                                        className={`w-full text-left px-3 py-2 rounded-xl text-[11px] font-medium tracking-normal transition-all ${status === s
                                             ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100'
                                             : 'text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-zinc-900'}`}
                                     >
