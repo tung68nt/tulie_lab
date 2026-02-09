@@ -9,7 +9,6 @@ import { Server } from 'socket.io';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import { loggerService } from './services/logger.service';
-import { WhiteboardGateway } from './modules/system/whiteboard/whiteboard.gateway';
 import redisService from './services/redis.service';
 
 // Lazy load prisma to avoid top-level crash
@@ -133,8 +132,18 @@ if (process.env.NODE_ENV !== 'test') {
     }
   });
 
-  // Initialize Whiteboard Socket Gateway
-  new WhiteboardGateway(io);
+  // Initialize Whiteboard Socket Gateway (Dynamic load to avoid top-level crash)
+  const initializeSockets = async () => {
+    try {
+      const { WhiteboardGateway } = await import('./modules/system/whiteboard/whiteboard.gateway');
+      new WhiteboardGateway(io);
+      loggerService.info('🎙️  Whiteboard Gateway initialized.');
+    } catch (err: any) {
+      loggerService.error('❌ Failed to initialize Whiteboard Gateway:', { error: err.message });
+    }
+  };
+
+  initializeSockets();
 
   // Pass io to app if needed for other modules
   app.set('io', io);
@@ -143,6 +152,18 @@ if (process.env.NODE_ENV !== 'test') {
 // --- Async App Initialization ---
 async function initializeApp() {
   try {
+    // --- Startup Diagnostics ---
+    const coreEnvVars = ['DATABASE_URL', 'JWT_SECRET', 'REDIS_URL', 'CLIENT_URL'];
+    loggerService.info('🔍 Environment Check:', {
+      vars: coreEnvVars.reduce((acc, v) => ({ ...acc, [v]: process.env[v] ? 'Present' : 'MISSING' }), {}),
+      nodeEnv: process.env.NODE_ENV,
+      cwd: process.cwd()
+    });
+
+    if (!process.env.DATABASE_URL) {
+      loggerService.warn('⚠️  CRITICAL: DATABASE_URL is not defined in environment!');
+    }
+
     // Import middleware
     const { requestId } = await import('./middleware/request-id.middleware');
     const { sanitize } = await import('./middleware/validation.middleware');

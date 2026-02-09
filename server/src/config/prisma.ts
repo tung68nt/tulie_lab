@@ -15,14 +15,26 @@ if (url && (url.includes(':6543') || url.includes('pgbouncer=true'))) {
     }
 }
 
-export const prisma = globalForPrisma.prisma || new PrismaClient({
-    datasources: {
-        db: {
-            url: url || ''
+// Safe instantiation of PrismaClient
+export const prisma = (() => {
+    try {
+        if (!url) {
+            console.warn('⚠️  Prisma URL is missing. Client will fail on first query.');
         }
+        return globalForPrisma.prisma || new PrismaClient({
+            datasources: {
+                db: {
+                    url: url || ''
+                }
+            },
+            log: process.env.NODE_ENV === 'production' ? ['error'] : ['query', 'info', 'warn', 'error'],
+        });
+    } catch (err) {
+        console.error('❌ Critical error during PrismaClient instantiation:', err);
+        return null as any;
     }
-});
+})();
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== 'production' && prisma) globalForPrisma.prisma = prisma;
 
 export default prisma;
