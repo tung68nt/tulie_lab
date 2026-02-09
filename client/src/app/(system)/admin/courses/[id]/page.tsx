@@ -161,16 +161,27 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
 
             if (data.lessons && Array.isArray(data.lessons)) {
                 const currentLessonIds = new Set(lessons.map(l => l.id));
+                const currentLessonSlugs = new Map(lessons.map(l => [l.slug, l.id]));
 
                 // Sequential processing to maintain order if creating
                 for (const lesson of data.lessons) {
                     try {
+                        let targetId = null;
+
+                        // Strategy 1: Match by ID
                         if (lesson.id && currentLessonIds.has(lesson.id)) {
+                            targetId = lesson.id;
+                        }
+                        // Strategy 2: Match by Slug (if ID not found or is placeholder)
+                        else if (lesson.slug && currentLessonSlugs.has(lesson.slug)) {
+                            targetId = currentLessonSlugs.get(lesson.slug);
+                        }
+
+                        if (targetId) {
                             // Update existing
-                            await api.admin.courses.updateLesson(lesson.id, lesson);
+                            await api.admin.courses.updateLesson(targetId, lesson);
                         } else {
                             // Create new lesson (strip ID from previous context if present)
-                            // Ensure chapter/section exists in structure?
                             const { id: _ignoreId, createdAt, updatedAt, ...lessonData } = lesson;
                             await api.admin.courses.addLesson(id, lessonData);
                         }

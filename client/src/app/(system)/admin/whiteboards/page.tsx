@@ -5,7 +5,8 @@ import { api } from '@/lib/api';
 import { Card } from '@/components/Card';
 import { Badge } from '@/components/Badge';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
-import { Palette, Monitor, Users, HardDrive, Layout, RefreshCcw } from 'lucide-react';
+import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { Palette, Monitor, Users, HardDrive, Layout, RefreshCcw, Presentation } from 'lucide-react';
 import { Button } from '@/components/Button';
 
 export default function AdminWhiteboardDashboard() {
@@ -39,16 +40,16 @@ export default function AdminWhiteboardDashboard() {
     if (isLoading) return <div className="flex items-center justify-center min-h-[400px] bg-white"><LoadingSpinner /></div>;
 
     return (
-        <div className="space-y-8 max-w-7xl mx-auto px-4 py-8">
-            <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-6">
-                <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Hệ thống Whiteboard</h1>
-                    <p className="text-zinc-500 dark:text-zinc-400 font-medium text-sm mt-1">Quản lý & Thống kê hệ thống</p>
-                </div>
-                <Button variant="outline" size="sm" onClick={fetchStats} className="gap-2 h-9">
-                    <RefreshCcw className="w-3.5 h-3.5" /> Làm mới dữ liệu
+        <div className="space-y-8">
+            <AdminPageHeader
+                title="Hệ thống Whiteboard"
+                subtitle="Quản lý & Thống kê hệ thống"
+                icon={<Presentation className="w-8 h-8" />}
+            >
+                <Button variant="outline" onClick={fetchStats} className="gap-2">
+                    <RefreshCcw className="w-4 h-4" /> Làm mới dữ liệu
                 </Button>
-            </div>
+            </AdminPageHeader>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <Card className="p-6">
