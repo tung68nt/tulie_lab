@@ -14,9 +14,15 @@ export class WhiteboardService {
 
     async getWhiteboard(id: string, requesterId: string) {
         const whiteboard = await this.whiteboardRepository.findById(id);
-        if (whiteboard && whiteboard.creatorId !== requesterId) {
-            throw new Error('Access denied: You do not own this whiteboard.');
+        if (!whiteboard) return null;
+
+        const isOwner = whiteboard.creatorId === requesterId;
+
+        // Access Control: Only owner or if board is PUBLISHED
+        if (!isOwner && whiteboard.status !== 'PUBLISHED') {
+            throw new Error('Access denied: This whiteboard is not public.');
         }
+
         return whiteboard;
     }
 

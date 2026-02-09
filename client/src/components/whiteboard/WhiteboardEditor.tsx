@@ -399,30 +399,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         setGridEnabled(!current);
     };
 
-    const handleAddArtboard = async () => {
-        if (!whiteboard) return;
-        setSaveStatus('saving');
-        try {
-            const newArtboard = await api.whiteboards.addArtboard(id, `Slide ${whiteboard.artboards.length + 1}`);
-            setWhiteboard((prev: any) => ({
-                ...prev,
-                artboards: [...prev.artboards, newArtboard]
-            }));
-            setActiveArtboardIndex(whiteboard.artboards.length);
-            // Clear current canvas for new artboard
-            excalidrawAPI?.updateScene({ elements: [], appState: { gridModeEnabled: true } });
-            setSaveStatus('saved');
-        } catch (error) {
-            console.error('Failed to add artboard:', error);
-            setSaveStatus('error');
-        }
-    };
-
-    const handleSwitchArtboard = (index: number) => {
-        if (!whiteboard || index < 0 || index >= whiteboard.artboards.length) return;
-        setActiveArtboardIndex(index);
-    };
-
     const handleStatusChange = async (status: string) => {
         if (!whiteboard) return;
         try {
@@ -458,8 +434,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     onToggleGrid={handleToggleGrid}
                     artboards={whiteboard?.artboards || []}
                     activeIndex={activeArtboardIndex}
-                    onAddArtboard={handleAddArtboard}
-                    onSwitchArtboard={handleSwitchArtboard}
                 />
             </div>
 
