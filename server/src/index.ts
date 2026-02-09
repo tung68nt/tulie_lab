@@ -28,20 +28,28 @@ const app = express();
 app.set('trust proxy', 1);
 const PORT = Number(process.env.PORT) || 5001;
 
+// Global startup error
+let startupError: string | null = null;
 let isAppReady = false;
 
 // --- CRITICAL: Register health check FIRST, before any blocking operations ---
 // This ensures Cloud Run's health check always passes.
 app.get('/api/health', async (req, res) => {
   const health: any = {
-    status: isAppReady ? 'ok' : 'initializing',
-    version: 'v1.1.2-audit-v1',
+    status: startupError ? 'error' : (isAppReady ? 'ok' : 'initializing'),
+    version: 'v1.1.3-debug',
     timestamp: new Date().toISOString(),
     checks: {
       uptime: process.uptime(),
       readiness: isAppReady
     }
   };
+
+  // Return error if startup failed
+  if (startupError) {
+    health.error = startupError;
+    return res.status(503).json(health);
+  }
 
   // Skip deep checks during initialization to satisfy startup probe immediately
   if (!isAppReady) {
@@ -392,13 +400,14 @@ async function initializeApp() {
       loggerService.info('🐘 Database Client initialized.');
     } catch (dbErr: any) {
       console.error('❌ Failed to initialize Prisma Client:', dbErr.message);
-      // Not necessarily fatal if health check handles it
+      startupError = `Prisma Init Failed: ${dbErr.message}`;
     }
 
     isAppReady = true;
     loggerService.info('🚀 SYSTEM READY');
   } catch (error: any) {
     console.error('❌ Fatal error during app initialization:', error);
+    startupError = `Fatal Init Error: ${(error as Error).message}`;
   }
 }
 
