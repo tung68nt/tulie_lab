@@ -80,10 +80,10 @@ export default function WhiteboardDashboard() {
                     <p className="text-muted-foreground mt-1 text-zinc-500">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700/50">
+                    <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700/50">
                         <button
                             onClick={() => setViewMode('grid')}
-                            className={`p-1.5 rounded transition-all duration-200 ${viewMode === 'grid'
+                            className={`p-1.5 rounded-lg transition-all duration-200 ${viewMode === 'grid'
                                 ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
                                 : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
                             title="Grid View"
@@ -92,7 +92,7 @@ export default function WhiteboardDashboard() {
                         </button>
                         <button
                             onClick={() => setViewMode('list')}
-                            className={`p-1.5 rounded transition-all duration-200 ${viewMode === 'list'
+                            className={`p-1.5 rounded-lg transition-all duration-200 ${viewMode === 'list'
                                 ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
                                 : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
                             title="List View"
