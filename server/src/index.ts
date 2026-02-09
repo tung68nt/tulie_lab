@@ -78,8 +78,12 @@ app.get('/api/check', (req, res) => {
   res.json({ message: 'Deployment Success', version: 'v1.1.2-audit-v1', time: new Date().toISOString() });
 });
 
-// Swagger documentation route
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Swagger documentation route (Safeguarded)
+try {
+  app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+} catch (err: any) {
+  console.error('⚠️ Failed to initialize Swagger:', err.message);
+}
 
 // --- WebSocket & Services Initialization ---
 let server: any;
