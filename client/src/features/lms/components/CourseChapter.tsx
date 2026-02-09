@@ -66,7 +66,7 @@ export function CourseChapter({
         <div className="border-b border-border/50 last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
-                className="bg-card px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                className="bg-card px-8 py-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
                 <h3 className="font-bold text-[16px] text-zinc-900 flex items-center gap-2 h-full m-0 leading-none py-1">
@@ -85,7 +85,7 @@ export function CourseChapter({
                 {Object.entries(lessonsBySection).map(([sectionName, sectionLessons]: [string, any], sIndex) => (
                     <div key={sectionName || sIndex} className="flex flex-col">
                         {sectionName && (
-                            <div className="pl-[52px] pr-5 pt-5 pb-1 bg-muted/20 border-t border-border/30">
+                            <div className="pl-[84px] pr-5 pt-5 pb-1 bg-muted/20 border-t border-border/30">
                                 <h4 className="text-[15px] font-bold text-zinc-900 leading-none">
                                     {sectionName}
                                 </h4>
@@ -99,7 +99,7 @@ export function CourseChapter({
                                 return (
                                     <div key={lesson.id} className="group flex flex-col transition-colors hover:bg-muted/30">
                                         <div
-                                            className="flex items-start pl-[52px] pr-3 py-3 gap-3 cursor-pointer"
+                                            className="flex items-start pl-[84px] pr-3 py-3 gap-3 cursor-pointer"
                                             onClick={() => toggleLesson(lesson.id)}
                                         >
                                             {/* Lesson Thumbnail */}
