@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { Plus, Layout, ArrowRight, Trash2, List } from 'lucide-react';
+import { Plus, Layout, ArrowRight, Trash2, List, ShieldAlert } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function WhiteboardDashboard() {
+    const { user, isAuthenticated, isLoading: authLoading } = useAuth();
     const [whiteboards, setWhiteboards] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isCreating, setIsCreating] = useState(false);
@@ -27,8 +29,14 @@ export default function WhiteboardDashboard() {
     };
 
     useEffect(() => {
-        fetchWhiteboards();
-    }, []);
+        if (!authLoading && !isAuthenticated) {
+            router.push('/login');
+            return;
+        }
+        if (isAuthenticated) {
+            fetchWhiteboards();
+        }
+    }, [isAuthenticated, authLoading]);
 
     const handleCreate = async () => {
         setIsCreating(true);
@@ -85,7 +93,7 @@ export default function WhiteboardDashboard() {
                         </button>
                         <button
                             onClick={() => setViewMode('list')}
-                            className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'list'
+                            className={`p-1.5 rounded transition-all duration-200 ${viewMode === 'list'
                                 ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
                                 : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
                             title="List View"
@@ -100,11 +108,22 @@ export default function WhiteboardDashboard() {
                 </div>
             </div>
 
-            {isLoading ? (
+            {authLoading || isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[1, 2, 3].map(i => (
                         <div key={i} className="h-48 rounded-xl bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
                     ))}
+                </div>
+            ) : !isAuthenticated ? (
+                <div className="flex flex-col items-center justify-center py-24 border border-dashed border-red-200 dark:border-red-900/30 rounded-3xl bg-red-50/30 dark:bg-red-900/10">
+                    <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mb-4">
+                        <ShieldAlert className="w-8 h-8 text-red-500" />
+                    </div>
+                    <h2 className="text-xl font-bold mb-2 text-zinc-900 dark:text-zinc-50">Yêu cầu đăng nhập</h2>
+                    <p className="text-zinc-500 mb-8 max-w-sm text-center">Bạn cần đăng nhập để truy cập vào bảng trắng cá nhân.</p>
+                    <Link href="/login">
+                        <Button className="gap-2">Đăng nhập ngay</Button>
+                    </Link>
                 </div>
             ) : whiteboards.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-24 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl bg-zinc-50/50 dark:bg-zinc-900/50">
@@ -165,7 +184,7 @@ export default function WhiteboardDashboard() {
                                             {(board?._count?.artboards || 1)} slide
                                         </span>
                                         <span>•</span>
-                                        <span>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
+                                        <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +228,7 @@ export default function WhiteboardDashboard() {
                                         #{board.id.split('-')[0]}
                                     </div>
                                     <div className="md:hidden text-[10px] text-zinc-400 mt-1 font-medium uppercase tracking-tighter">
-                                        {(board?._count?.artboards || 1)} slides • {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                                        {(board?._count?.artboards || 1)} slides • <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
                                     </div>
                                 </div>
                             </div>
@@ -233,16 +252,16 @@ export default function WhiteboardDashboard() {
                             </div>
 
                             {/* Created Date (Desktop) */}
-                            <div className="hidden md:block col-span-2 text-xs text-zinc-400">
+                            <div className="hidden md:block col-span-2 text-xs text-zinc-400" suppressHydrationWarning>
                                 {new Date(board.createdAt).toLocaleDateString('vi-VN')}
                             </div>
 
                             {/* Updated Date (Desktop) */}
                             <div className="hidden md:block col-span-2 text-xs text-zinc-500 font-medium">
-                                <div className="text-zinc-900 dark:text-zinc-200">
+                                <div className="text-zinc-900 dark:text-zinc-200" suppressHydrationWarning>
                                     {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
                                 </div>
-                                <div className="text-[10px] text-zinc-400 font-normal">
+                                <div className="text-[10px] text-zinc-400 font-normal" suppressHydrationWarning>
                                     {new Date(board.updatedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
                                 </div>
                             </div>
