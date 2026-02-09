@@ -76,50 +76,14 @@ async function initializeApp() {
     });
 
     app.use(helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.youtube.com", "https://s.ytimg.com"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", "data:", "https:", "blob:"],
-          connectSrc: ["'self'", "https:", "wss:"],
-          frameSrc: ["'self'", "https://www.youtube.com", "https://player.vimeo.com"],
-          mediaSrc: ["'self'", "https:", "blob:"],
-          objectSrc: ["'none'"],
-          upgradeInsecureRequests: [],
-        },
-      },
+      contentSecurityPolicy: false,
       crossOriginEmbedderPolicy: false,
-    })); // Security headers with CSP
+    })); // Temporarily relax CSP for diagnostic build
     app.use(compression()); // Gzip compression
     app.use(csrfProtection); // Custom header-based CSRF protection
     app.use('/api', apiLimiter); // Global rate limiting (only for /api routes)
     app.use(cors({
-      origin: (origin, callback) => {
-        if (!origin) { callback(null, true); return; }
-        const cleanOrigin = origin.replace(/\/$/, '');
-        const allowed = [
-          process.env.CLIENT_URL,
-          'https://academy.tulie.vn',
-          'https://www.academy.tulie.vn',
-          'https://thelab.tulie.vn',
-          'https://www.thelab.tulie.vn',
-          'https://beta.thelab.tulie.vn',
-          'https://academy-web-863772349164.asia-southeast1.run.app',
-          'https://academy-web-beta-863772349164.asia-southeast1.run.app',
-          'https://academy-api-863772349164.asia-southeast1.run.app',
-          'https://academy-api-beta-863772349164.asia-southeast1.run.app',
-          'https://the-tulie-lab.vercel.app',
-          'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'http://localhost:3003',
-          'http://127.0.0.1:3000'
-        ].filter((o): o is string => !!o).map(o => o.replace(/\/$/, ''));
-        if (allowed.includes(cleanOrigin) || cleanOrigin.endsWith('.run.app') || cleanOrigin.endsWith('.vercel.app')) {
-          callback(null, true);
-        } else {
-          console.warn(`[CORS] Blocked request from origin: ${origin}`);
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
+      origin: '*',
       credentials: true
     }));
     app.use(express.json());

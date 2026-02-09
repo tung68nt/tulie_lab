@@ -12,7 +12,6 @@ export const apiLimiter = rateLimit({
     message: { message: 'Too many requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
-    validate: { trustProxy: false },
 });
 
 // Auth endpoints - stricter limits (5 requests per 15 minutes)

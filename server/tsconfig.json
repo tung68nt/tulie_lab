@@ -44,7 +44,7 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "noImplicitAny": true,
-    "incremental": true
+    "incremental": false
   },
   "include": [
     "src/**/*"
