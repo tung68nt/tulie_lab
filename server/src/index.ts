@@ -75,7 +75,22 @@ async function initializeApp() {
       next();
     });
 
-    app.use(helmet()); // Security headers
+    app.use(helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.youtube.com", "https://s.ytimg.com"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          imgSrc: ["'self'", "data:", "https:", "blob:"],
+          connectSrc: ["'self'", "https:", "wss:"],
+          frameSrc: ["'self'", "https://www.youtube.com", "https://player.vimeo.com"],
+          mediaSrc: ["'self'", "https:", "blob:"],
+          objectSrc: ["'none'"],
+          upgradeInsecureRequests: [],
+        },
+      },
+      crossOriginEmbedderPolicy: false,
+    })); // Security headers with CSP
     app.use(compression()); // Gzip compression
     app.use(csrfProtection); // Custom header-based CSRF protection
     app.use('/api', apiLimiter); // Global rate limiting (only for /api routes)
@@ -116,7 +131,9 @@ async function initializeApp() {
       const start = Date.now();
       res.on('finish', () => {
         const duration = Date.now() - start;
-        console.log(`[${req.id}] ${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`);
+        if (process.env.NODE_ENV !== 'production') {
+          console.log(`[${req.id}] ${req.method} ${req.path} - ${res.statusCode} - ${duration}ms`);
+        }
       });
       next();
     });
@@ -132,7 +149,9 @@ async function initializeApp() {
 
       // 2. If missing, try proxying from R2
       try {
-        console.log(`[Proxy] File not found locally, trying R2: ${req.path}`);
+        if (process.env.NODE_ENV !== 'production') {
+          console.log(`[Proxy] File not found locally, trying R2: ${req.path}`);
+        }
 
         // Remove leading slash for key
         const key = req.path.startsWith('/') ? req.path.slice(1) : req.path;

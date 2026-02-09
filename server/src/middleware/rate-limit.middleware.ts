@@ -5,10 +5,10 @@ import rateLimit from 'express-rate-limit';
  * Using in-memory store for now (TODO: Add Redis store for production)
  */
 
-// General API rate limiting - 100 requests per 15 minutes
+// General API rate limiting - 300 requests per 5 minutes (more standard)
 export const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 1000,
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 300,
     message: { message: 'Too many requests, please try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
