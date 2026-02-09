@@ -41,4 +41,18 @@ const options: swaggerJsdoc.Options = {
     ], // Path to the API docs
 };
 
-export const swaggerSpec = swaggerJsdoc(options);
+// Safe swagger spec generation
+export const getSwaggerSpec = () => {
+    try {
+        return swaggerJsdoc(options);
+    } catch (err: any) {
+        console.error('⚠️  Failed to generate Swagger spec:', err.message);
+        return {
+            openapi: '3.0.0',
+            info: { title: 'Tulie Academy API (Error)', version: '1.0.0' },
+            paths: {}
+        };
+    }
+};
+
+export const swaggerSpec = getSwaggerSpec();
