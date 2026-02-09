@@ -6,7 +6,12 @@ import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import { Server } from 'socket.io';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
+import { loggerService } from './services/logger.service';
 import { WhiteboardGateway } from './modules/system/whiteboard/whiteboard.gateway';
+import { prisma } from './config/prisma';
+import redisService from './services/redis.service';
 
 // Set timezone to Vietnam (UTC+7) for consistent date/time display
 process.env.TZ = 'Asia/Ho_Chi_Minh';
@@ -19,39 +24,100 @@ const app = express();
 app.set('trust proxy', 1);
 const PORT = process.env.PORT || 5001;
 
+let isAppReady = false;
+
 // --- CRITICAL: Register health check FIRST, before any blocking operations ---
 // This ensures Cloud Run's health check always passes.
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok', version: 'v1.1.2-db-fix-v3', timestamp: new Date().toISOString() });
+app.get('/api/health', async (req, res) => {
+  const health: any = {
+    status: isAppReady ? 'ok' : 'initializing',
+    version: 'v1.1.2-audit-v1',
+    timestamp: new Date().toISOString(),
+    checks: {
+      uptime: process.uptime(),
+      readiness: isAppReady
+    }
+  };
+
+  try {
+    // 1. Check Database (Prisma)
+    await prisma.$queryRaw`SELECT 1`;
+    health.checks.database = 'connected';
+  } catch (error: any) {
+    health.status = 'error';
+    health.checks.database = `disconnected: ${error.message}`;
+  }
+
+  try {
+    // 2. Check Redis
+    if (redisService.getClient() && (redisService as any).isConnected) {
+      await redisService.getClient().ping();
+      health.checks.redis = 'connected';
+    } else {
+      health.checks.redis = 'disconnected (not initialized)';
+    }
+  } catch (error: any) {
+    health.checks.redis = `disconnected: ${error.message}`;
+  }
+
+  res.status(health.status === 'ok' ? 200 : 503).json(health);
 });
 
 app.get('/api/check', (req, res) => {
-  res.json({ message: 'Deployment Success', version: 'v1.1.2-db-fix-v3', time: new Date().toISOString() });
+  res.json({ message: 'Deployment Success', version: 'v1.1.2-audit-v1', time: new Date().toISOString() });
 });
 
-// --- START LISTENING IMMEDIATELY ---
-// This is the definitive fix for "Container failed to start".
-// We bind to the port first, then initialize heavy dependencies asynchronously.
-const server = app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}. Initializing services... [Reloaded: ${new Date().toISOString()}]`);
-  initializeApp();
-});
+// Swagger documentation route
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// --- WebSocket Initialization ---
-const io = new Server(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || '*',
-    methods: ['GET', 'POST'],
-    credentials: true
-  },
-  pingTimeout: 60000,
-});
+// --- WebSocket & Services Initialization ---
+let server: any;
+if (process.env.NODE_ENV !== 'test') {
+  // --- START LISTENING IMMEDIATELY ---
+  // This is the definitive fix for "Container failed to start".
+  server = app.listen(PORT, () => {
+    loggerService.info(`Server listening on port ${PORT}. Initializing services...`, { reloadedAt: new Date().toISOString() });
+    initializeApp();
+  });
 
-// Initialize Whiteboard Socket Gateway
-new WhiteboardGateway(io);
+  // --- WebSocket Initialization ---
+  const io = new Server(server, {
+    cors: {
+      origin: process.env.CLIENT_URL || '*',
+      methods: ['GET', 'POST'],
+      credentials: true
+    },
+    pingTimeout: 60000,
+  });
 
-// Pass io to app if needed for other modules
-app.set('io', io);
+  // Socket authentication middleware
+  io.use(async (socket, next) => {
+    try {
+      const token = (socket.handshake.auth.token || socket.handshake.headers['x-auth-token'] || socket.handshake.headers['token']) as string;
+      if (!token) return next(new Error('Authentication failed: No token provided'));
+
+      const jwt = await import('jsonwebtoken');
+      const secret = process.env.JWT_SECRET || 'temporary-secret-for-startup-safety';
+
+      try {
+        const decoded = jwt.default.verify(token, secret) as any;
+        if (!decoded || !decoded.id) return next(new Error('Authentication failed: Invalid token'));
+        socket.data.userId = decoded.id;
+        next();
+      } catch (err) {
+        return next(new Error('Authentication failed: Invalid token'));
+      }
+    } catch (err) {
+      next(new Error('Authentication internal error'));
+    }
+  });
+
+  // Initialize Whiteboard Socket Gateway
+  new WhiteboardGateway(io);
+
+  // Pass io to app if needed for other modules
+  app.set('io', io);
+}
 
 // --- Async App Initialization ---
 async function initializeApp() {
@@ -68,6 +134,20 @@ async function initializeApp() {
 
     // Middleware order is important!
     app.use(requestId); // Add request ID to all requests
+
+    // Recovery middleware: Return 503 while app is initializing
+    app.use((req, res, next) => {
+      const bypassPaths = ['/api/health', '/api/check', '/api/docs'];
+      if (!isAppReady && req.path.startsWith('/api') && !bypassPaths.includes(req.path)) {
+        return res.status(503).json({
+          status: 503,
+          message: 'Server is initializing, please try again in a few seconds.',
+          retryAfter: 5
+        });
+      }
+      next();
+    });
+
     app.use((req, res, next) => { globalRequestCount++; next(); });
     const { metrics } = await import('./metrics');
     app.use((req, res, next) => {
@@ -75,20 +155,34 @@ async function initializeApp() {
       next();
     });
 
-    app.use(helmet({
-      contentSecurityPolicy: false,
-      crossOriginEmbedderPolicy: false,
-    })); // Temporarily relax CSP for diagnostic build
+    // --- Security Middleware ---
+    app.use(helmet()); // Enable all standard security headers
+
+    // Strict CORS configuration
+    const allowedOrigins = process.env.ALLOWED_ORIGINS
+      ? process.env.ALLOWED_ORIGINS.split(',')
+      : ['http://localhost:3000', 'https://thelab.tulie.vn', 'https://academy_tulie.vn'];
+
+    app.use(cors({
+      origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      credentials: true
+    }));
+
     app.use(compression()); // Gzip compression
     app.use(csrfProtection); // Custom header-based CSRF protection
     app.use('/api', apiLimiter); // Global rate limiting (only for /api routes)
-    app.use(cors({
-      origin: '*',
-      credentials: true
-    }));
     app.use(express.json());
     app.use(cookieParser());
-    app.use(sanitize); // Sanitize input to prevent XSS
+    // Global sanitization removed in favor of targeted validation (Audit P1)
+    // app.use(sanitize()); 
 
     // Logging middleware with request ID
     app.use((req, res, next) => {
@@ -104,6 +198,12 @@ async function initializeApp() {
 
     // Custom Middleware to serve uploads from Local or Proxy R2
     app.use('/uploads', async (req, res, next) => {
+      // Security: Prevent path traversal
+      if (req.path.includes('..') || req.path.includes('//')) {
+        console.warn(`[Security] Blocked potential path traversal: ${req.path}`);
+        return res.status(403).json({ error: 'Security violation: Invalid path.' });
+      }
+
       // 1. Try serving from local filesystem first
       const filePath = path.join(__dirname, '../uploads', req.path);
 
@@ -139,24 +239,17 @@ async function initializeApp() {
       }
 
       // 3. Fallback to 404 handled by loop or next()
-      // If we call next(), it goes to the next middleware which might be 404 handler
-      // But express.static usually terminates. Here we want to terminate with 404 if R2 fails?
-      // Or let global 404 handle it.
       next();
     });
 
     // --- Initialize Dependency Injection ---
     try {
-      console.log('📦 Initializing Dependency Injection...');
-      /**
-       * Backend Entry Point
-       * Triggering redeploy for database schema sync
-       */
+      loggerService.info('📦 Initializing Dependency Injection...');
       const { bootstrapDI } = await import('./bootstrap');
-      bootstrapDI();
-      console.log('✅ Dependency Injection initialized.');
+      await bootstrapDI(); // Awaited now that it's async
+      loggerService.info('✅ Dependency Injection initialized.');
     } catch (error: any) {
-      console.error('❌ DI Initialization Failed:', error);
+      loggerService.error('❌ DI Initialization Failed:', { error });
     }
 
     // Capture mounting errors
@@ -229,18 +322,25 @@ async function initializeApp() {
     app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const isProd = process.env.NODE_ENV === 'production';
+      const reqId = (req as any).id;
 
-      console.error(`[Global Error] ${req.method} ${req.path}:`, err);
+      loggerService.error(`[Global Error] ${req.method} ${req.path}`, {
+        requestId: reqId,
+        status,
+        error: err.message,
+        stack: err.stack
+      });
 
       res.status(status).json({
         message: (status >= 500 && isProd) ? 'Internal Server Error' : (err.message || 'Internal Server Error'),
         error: (status >= 500 && isProd) ? 'Internal Server Error' : (err.message || 'Internal Server Error'),
         status,
-        requestId: (req as any).id
+        requestId: reqId
       });
     });
 
     console.log('🏁 Initialization sequence complete.');
+    isAppReady = true;
   } catch (error: any) {
     console.error('❌ Fatal error during app initialization:', error);
   }

@@ -7,6 +7,7 @@ import { Role } from '@prisma/client';
 import { VideoService } from './video.service';
 import { storageService } from '../../../services/storage.service';
 import { prisma } from '../../../config/prisma';
+import { loggerService } from '../../../services/logger.service';
 
 const router = express.Router();
 
@@ -283,6 +284,31 @@ router.post('/import-url', authenticate, authorize([Role.ADMIN]), async (req, re
 
         if (!url) {
             return res.status(400).json({ message: 'URL is required' });
+        }
+
+        // --- SSRF Protection (Audit Priority 2) ---
+        try {
+            const urlObj = new URL(url);
+            const hostname = urlObj.hostname.toLowerCase();
+
+            // Block direct local access
+            const blockedHosts = ['localhost', '127.0.0.1', '0.0.0.0', '::1', '[::1]'];
+            // Block private IP ranges (basic check)
+            const isPrivate = hostname.startsWith('10.') ||
+                hostname.startsWith('192.168.') ||
+                hostname.match(/^172\.(1[6-9]|2[0-9]|3[0-1])\./) ||
+                hostname.endsWith('.local') ||
+                hostname === 'internal';
+
+            if (blockedHosts.includes(hostname) || isPrivate) {
+                loggerService.warn(`SSRF attempt blocked for URL: ${url}`, {
+                    userId: (req as any).user?.id,
+                    requestId: (req as any).id
+                });
+                return res.status(403).json({ message: 'Access to internal or local URLs is prohibited' });
+            }
+        } catch (e) {
+            return res.status(400).json({ message: 'Invalid URL provided' });
         }
 
         let finalName = name;

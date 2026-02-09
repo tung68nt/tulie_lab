@@ -26,6 +26,7 @@ import { EventBus } from './core/event-bus';
 import { PrismaOrderRepository } from './modules/shop/payments/repositories/prisma-order.repository';
 import { PaymentService } from './modules/shop/payments/payments.service';
 import redisService from './services/redis.service';
+import { loggerService } from './services/logger.service';
 import { EventRepository } from './modules/lms/events/events.repository';
 import { EventService } from './modules/lms/events/events.service';
 import { TelegramEventSubscriber } from './modules/system/notifications/telegram-subscriber';
@@ -33,11 +34,15 @@ import { TelegramEventSubscriber } from './modules/system/notifications/telegram
 /**
  * Initializes all dependencies and registers them in the DI container.
  */
-export const bootstrapDI = () => {
+export const bootstrapDI = async () => {
+    // Ensure core services are connected
+    await redisService.connect();
+
     // Infrastructure
     const eventBus = EventBus.getInstance();
     container.register('EventBus', eventBus);
     container.register('CacheProvider', redisService);
+    container.register('Logger', loggerService);
 
     // Repositories
     const productRepository = new PrismaProductRepository();
@@ -84,7 +89,7 @@ export const bootstrapDI = () => {
     const productService = new ProductService(productRepository);
     container.register('ProductService', productService);
 
-    const courseService = new CourseService(courseRepository, lessonRepository, progressRepository, redisService);
+    const courseService = new CourseService(courseRepository, lessonRepository, progressRepository, redisService, loggerService);
     container.register('CourseService', courseService);
 
     const categoryService = new CategoryService(categoryRepository);
@@ -93,7 +98,7 @@ export const bootstrapDI = () => {
     const instructorService = new InstructorService(instructorRepository);
     container.register('InstructorService', instructorService);
 
-    const landingPageService = new LandingPageService(landingPageRepository, redisService);
+    const landingPageService = new LandingPageService(landingPageRepository, redisService, loggerService);
     container.register('LandingPageService', landingPageService);
 
     const authService = new AuthService(userRepository);

@@ -403,6 +403,7 @@ model OrderItem {
   @@index([courseId])
   @@index([productId])
   @@index([addOnId])
+  @@index([courseId, productId])
 }
 
 model Order {
@@ -508,6 +509,9 @@ model CouponUsage {
   discount Int
   usedAt   DateTime @default(now())
   coupon   Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+
+  @@index([couponId])
+  @@index([userId])
 }
 
 model ActivationCode {
@@ -583,6 +587,10 @@ model LandingPage {
   product         Product? @relation("LandingPageProduct", fields: [productId], references: [id])
   upsellCourse    Course?  @relation("LandingPageUpsell", fields: [upsellCourseId], references: [id])
   upsellProduct   Product? @relation("LandingPageUpsellProduct", fields: [upsellProductId], references: [id])
+
+  @@index([courseId])
+  @@index([productId])
+  @@index([type])
 }
 
 model Subscription {

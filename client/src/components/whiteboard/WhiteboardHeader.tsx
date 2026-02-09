@@ -53,7 +53,7 @@ export default function WhiteboardHeader({
         <>
             <>
                 {/* Unified Bottom Bar - Optimized for iPad/Mobile to avoid Top Toolbar overlap */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 max-w-[90vw] sm:max-w-none">
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 max-w-[90vw] sm:max-w-none">
                     <div
                         className="bg-white dark:bg-zinc-800 rounded-xl h-[50px] p-1 pr-3 pl-1 flex items-center gap-2 shadow-2xl border border-zinc-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
                         style={{ boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)' }}

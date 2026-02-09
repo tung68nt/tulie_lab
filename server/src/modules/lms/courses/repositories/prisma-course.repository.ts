@@ -29,20 +29,27 @@ export class PrismaCourseRepository implements ICourseRepository {
         });
     }
 
-    async findAll(params: any): Promise<{ data: Course[]; meta: any }> {
-        // Basic findAll for generic repo compliance
-        const courses = await prisma.course.findMany({
-            include: { category: true, instructor: true }
-        });
-        return { data: courses, meta: { total: courses.length } };
+    async findAll(params: { skip?: number; take?: number; where?: Prisma.CourseWhereInput } = {}): Promise<{ data: Course[]; meta: any }> {
+        const { skip, take, where } = params;
+        const [data, total] = await Promise.all([
+            prisma.course.findMany({
+                ...(where && { where }),
+                ...(skip !== undefined && { skip }),
+                ...(take !== undefined && { take }),
+                include: { category: true, instructor: true },
+                orderBy: { createdAt: 'desc' }
+            }),
+            prisma.course.count({ ...(where && { where }) })
+        ]);
+
+        return { data, meta: { total } };
     }
 
-    async findMany(options: {
-        where?: Prisma.CourseWhereInput;
-        select?: Prisma.CourseSelect;
-        include?: Prisma.CourseInclude;
-        orderBy?: Prisma.CourseOrderByWithRelationInput;
-    }): Promise<any[]> {
+    async findMany(options: Prisma.CourseFindManyArgs): Promise<Course[]> {
         return prisma.course.findMany(options);
+    }
+
+    async count(where?: Prisma.CourseWhereInput): Promise<number> {
+        return prisma.course.count({ ...(where && { where }) });
     }
 }

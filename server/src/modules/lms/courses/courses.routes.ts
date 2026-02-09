@@ -37,6 +37,23 @@ router.post('/:courseId/register-interest', (req, res) => courseController.handl
 router.put('/:id', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.update(req, res));
 router.delete('/:id', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.delete(req, res));
 router.post('/:id/lessons', authenticate, authorize([Role.ADMIN]), (req, res) => courseController.addLesson(req, res));
+/**
+ * @openapi
+ * /api/courses/{slug}:
+ *   get:
+ *     tags:
+ *       - Courses
+ *     summary: Get course details by slug
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Course details retrieved
+ */
 router.get('/:slug', (req, res) => courseController.getCourse(req, res));
 
 export default router;

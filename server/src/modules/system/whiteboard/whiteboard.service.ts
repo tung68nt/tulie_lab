@@ -12,27 +12,61 @@ export class WhiteboardService {
         return this.whiteboardRepository.create(data);
     }
 
-    async getWhiteboard(id: string) {
-        return this.whiteboardRepository.findById(id);
+    async getWhiteboard(id: string, requesterId: string) {
+        const whiteboard = await this.whiteboardRepository.findById(id);
+        if (whiteboard && whiteboard.creatorId !== requesterId) {
+            throw new Error('Access denied: You do not own this whiteboard.');
+        }
+        return whiteboard;
     }
 
     async getMyWhiteboards(creatorId: string) {
         return this.whiteboardRepository.findByCreatorId(creatorId);
     }
 
-    async updateWhiteboard(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus; thumbnail?: string }) {
-        return this.whiteboardRepository.update(id, data);
+    async updateWhiteboard(id: string, requesterId: string, data: { title?: string | undefined; description?: string | undefined; status?: WhiteboardStatus | undefined; thumbnail?: string | undefined }) {
+        const whiteboard = await this.whiteboardRepository.findById(id);
+        if (!whiteboard || whiteboard.creatorId !== requesterId) {
+            throw new Error('Access denied: You do not own this whiteboard.');
+        }
+
+        // Filter out undefined values to satisfy exactOptionalPropertyTypes
+        const updateData: any = {};
+        if (data.title !== undefined) updateData.title = data.title;
+        if (data.description !== undefined) updateData.description = data.description;
+        if (data.status !== undefined) updateData.status = data.status;
+        if (data.thumbnail !== undefined) updateData.thumbnail = data.thumbnail;
+
+        return this.whiteboardRepository.update(id, updateData);
     }
 
-    async deleteWhiteboard(id: string) {
+    async deleteWhiteboard(id: string, requesterId: string) {
+        const whiteboard = await this.whiteboardRepository.findById(id);
+        if (!whiteboard || whiteboard.creatorId !== requesterId) {
+            throw new Error('Access denied: You do not own this whiteboard.');
+        }
         return this.whiteboardRepository.delete(id);
     }
 
-    async saveArtboardState(artboardId: string, elements: any) {
+    async saveArtboardState(artboardId: string, elements: any, requesterId: string) {
+        const artboard = await (prisma as any).artboard.findUnique({
+            where: { id: artboardId },
+            include: { whiteboard: true }
+        });
+
+        if (!artboard || artboard.whiteboard.creatorId !== requesterId) {
+            throw new Error('Access denied: You do not own this whiteboard.');
+        }
+
         return this.whiteboardRepository.updateArtboard(artboardId, elements);
     }
 
-    async addArtboard(whiteboardId: string, name?: string) {
+    async addArtboard(whiteboardId: string, requesterId: string, name?: string) {
+        const whiteboard = await this.whiteboardRepository.findById(whiteboardId);
+        if (!whiteboard || whiteboard.creatorId !== requesterId) {
+            throw new Error('Access denied: You do not own this whiteboard.');
+        }
+
         const artboards = await this.whiteboardRepository.getArtboards(whiteboardId);
         const nextOrder = artboards.length;
         const data: { name?: string; order: number } = { order: nextOrder };
@@ -41,6 +75,11 @@ export class WhiteboardService {
     }
 
     async saveSnapshot(whiteboardId: string, artboardId: string, elements: any, userId: string) {
+        const whiteboard = await this.whiteboardRepository.findById(whiteboardId);
+        if (!whiteboard || whiteboard.creatorId !== userId) {
+            throw new Error('Access denied: You do not own this whiteboard.');
+        }
+
         return this.whiteboardRepository.createHistory({
             whiteboardId,
             artboardId,
@@ -59,15 +98,15 @@ export class WhiteboardService {
             })
         ]);
 
-        // Get storage estimation (elements size)
-        const storageUsage = await prisma.artboard.findMany({
-            select: { elements: true }
-        });
+        // Optimized Storage Calculation using Database Sum
+        // This avoids loading all elements into memory, which would crash the server
+        const storageUsage = await prisma.$queryRaw<{ total_size: number }[]>`
+            SELECT COALESCE(SUM(LENGTH(elements::text)), 0) as total_size 
+            FROM artboards 
+            WHERE elements IS NOT NULL
+        `;
 
-        const totalSize = storageUsage.reduce((acc, art) => {
-            if (!art.elements) return acc;
-            return acc + JSON.stringify(art.elements).length;
-        }, 0);
+        const totalSize = Number(storageUsage[0]?.total_size || 0);
 
         const topUsers = await Promise.all(
             usersWithBoards

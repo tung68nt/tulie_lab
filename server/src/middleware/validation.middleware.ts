@@ -1,124 +1,66 @@
 import { Request, Response, NextFunction } from 'express';
-import { z, ZodSchema } from 'zod';
-import sanitizeHtmlLib from 'sanitize-html';
+import { ZodSchema, ZodError } from 'zod';
+import sanitizeHtml from 'sanitize-html';
+import { loggerService } from '../services/logger.service';
 
 /**
- * Validation middleware factory
- * Validates request body, params, or query against a Zod schema
+ * Sanitize middleware to prevent XSS
  */
-export const validate = (schema: ZodSchema, source: 'body' | 'params' | 'query' = 'body') => {
+export const sanitize = (options: { allowedTags?: string[], allowedAttributes?: Record<string, string[]> } = { allowedTags: [], allowedAttributes: {} }) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const data = source === 'body' ? req.body : source === 'params' ? req.params : req.query;
-            const validated = schema.parse(data);
-
-            // Replace the original data with validated data
-            if (source === 'body') {
-                req.body = validated;
-            } else if (source === 'params') {
-                req.params = validated as any;
-            } else {
-                req.query = validated as any;
+        const sanitizeObject = (obj: any) => {
+            for (const key in obj) {
+                if (typeof obj[key] === 'string') {
+                    obj[key] = sanitizeHtml(obj[key], options);
+                } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                    sanitizeObject(obj[key]);
+                }
             }
+        };
 
-            next();
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                return res.status(400).json({
-                    message: 'Validation failed',
-                    errors: error.issues.map((err: z.ZodIssue) => ({
-                        path: err.path.join('.'),
-                        message: err.message
-                    }))
-                });
-            }
-            return res.status(500).json({ message: 'Internal validation error' });
-        }
+        if (req.body) sanitizeObject(req.body);
+        if (req.query) sanitizeObject(req.query);
+        if (req.params) sanitizeObject(req.params);
+
+        next();
     };
 };
 
 /**
- * Common validation schemas
+ * Generic validation middleware for Zod schemas
  */
+export const validate = (schema: ZodSchema) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const result = await schema.parseAsync({
+                body: req.body,
+                query: req.query,
+                params: req.params,
+            }) as any;
 
-// Pagination
-export const paginationSchema = z.object({
-    page: z.coerce.number().int().positive().default(1),
-    limit: z.coerce.number().int().positive().max(100).default(10),
-});
+            // Override with validated data
+            req.body = result.body;
+            req.query = result.query;
+            req.params = result.params;
 
-// ID validation
-export const idParamSchema = z.object({
-    id: z.string().min(1, 'ID is required'),
-});
+            return next();
+        } catch (error) {
+            if (error instanceof ZodError) {
+                loggerService.warn('Input validation failed', {
+                    path: req.path,
+                    errors: error.issues,
+                    requestId: (req as any).id
+                });
 
-// Email validation
-export const emailSchema = z.string().email('Invalid email format');
-
-// Password validation (min 8 chars, at least one letter and one number)
-export const passwordSchema = z.string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Za-z]/, 'Password must contain at least one letter')
-    .regex(/[0-9]/, 'Password must contain at least one number');
-
-// Phone number validation (Vietnamese format)
-export const phoneSchema = z.string()
-    .regex(/^(\+84|0)[0-9]{9,10}$/, 'Invalid phone number format');
-
-// Order code validation (10 alphanumeric characters)
-export const orderCodeSchema = z.string()
-    .regex(/^[A-Z0-9]{10}$/, 'Invalid order code format');
-
-/**
- * Sanitization helpers using sanitize-html
- */
-
-const sanitizeOptions = {
-    allowedTags: [
-        'b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li',
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'div'
-    ],
-    allowedAttributes: {
-        'a': ['href', 'target', 'rel'],
-        'span': ['style', 'class'],
-        'div': ['style', 'class'],
-        '*': ['title'] // Global attributes
-    },
-    allowedIframeHostnames: ['www.youtube.com', 'player.vimeo.com']
-};
-
-// Remove potentially dangerous HTML/script tags
-export const sanitizeHtml = (str: string): string => {
-    return sanitizeHtmlLib(str, sanitizeOptions).trim();
-};
-
-// Sanitize object by removing dangerous HTML from all string fields
-export const sanitizeObject = <T extends Record<string, any>>(obj: T): T => {
-    if (Array.isArray(obj)) {
-        return obj.map(item => {
-            if (typeof item === 'string') return sanitizeHtml(item);
-            if (typeof item === 'object' && item !== null) return sanitizeObject(item);
-            return item;
-        }) as any;
-    }
-
-    const sanitized = { ...obj };
-    for (const key in sanitized) {
-        if (typeof sanitized[key] === 'string') {
-            (sanitized as any)[key] = sanitizeHtml(sanitized[key]);
-        } else if (typeof sanitized[key] === 'object' && sanitized[key] !== null) {
-            (sanitized as any)[key] = sanitizeObject(sanitized[key]);
+                return res.status(400).json({
+                    message: 'Validation failed',
+                    errors: error.issues.map((err: any) => ({
+                        field: err.path.join('.'),
+                        message: err.message
+                    }))
+                });
+            }
+            return next(error);
         }
-    }
-    return sanitized;
-};
-
-/**
- * Middleware to sanitize request body
- */
-export const sanitize = (req: Request, res: Response, next: NextFunction) => {
-    if (req.body && typeof req.body === 'object') {
-        req.body = sanitizeObject(req.body);
-    }
-    next();
+    };
 };

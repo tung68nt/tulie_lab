@@ -1,12 +1,14 @@
 import { ILandingPageRepository } from './interfaces/landing-page.repository.interface';
 import { Prisma, LandingPage } from '@prisma/client';
+import { cacheService } from '../../../services/cache.service';
 
 export class LandingPageService {
     private CACHE_TTL = 3600; // 1 hour
 
     constructor(
         private landingPageRepository: ILandingPageRepository,
-        private cacheProvider?: any
+        private cacheProvider?: any,
+        private logger?: any
     ) { }
 
     async createLandingPage(data: any) {
@@ -73,35 +75,28 @@ export class LandingPageService {
         const normalizedSlug = (slug.startsWith('/') ? slug.slice(1) : slug) || 'home';
         const cacheKey = `landing_page:${normalizedSlug}`;
 
-        if (this.cacheProvider) {
-            const cached = await this.cacheProvider.getJson(cacheKey);
-            if (cached) return cached;
-        }
-
-        let page;
-        if (normalizedSlug === 'home' || normalizedSlug === 'homepage') {
-            // Find the page marked as homepage
-            page = await this.landingPageRepository.findFirst({ where: { isHomepage: true } });
-        } else {
-            page = await this.landingPageRepository.findBySlug(normalizedSlug);
-        }
-
-        if (!page) return null;
-
-        if (page && typeof page.sections === 'string') {
-            try {
-                (page as any).sections = JSON.parse(page.sections);
-            } catch (e) {
-                console.error('Failed to parse landing page sections', e);
-                (page as any).sections = [];
+        return cacheService.wrap(cacheKey, async () => {
+            let page;
+            if (normalizedSlug === 'home' || normalizedSlug === 'homepage') {
+                // Find the page marked as homepage
+                page = await this.landingPageRepository.findFirst({ where: { isHomepage: true } });
+            } else {
+                page = await this.landingPageRepository.findBySlug(normalizedSlug);
             }
-        }
 
-        if (this.cacheProvider) {
-            await this.cacheProvider.setJson(cacheKey, page, this.CACHE_TTL);
-        }
+            if (!page) return null;
 
-        return page;
+            if (page && typeof page.sections === 'string') {
+                try {
+                    (page as any).sections = JSON.parse(page.sections);
+                } catch (e) {
+                    if (this.logger) this.logger.error('Failed to parse landing page sections', { error: e, slug: normalizedSlug });
+                    (page as any).sections = [];
+                }
+            }
+
+            return page;
+        }, this.CACHE_TTL);
     }
 
     async getLandingPageById(id: string) {
@@ -110,7 +105,7 @@ export class LandingPageService {
             try {
                 (page as any).sections = JSON.parse(page.sections);
             } catch (e) {
-                console.error('Failed to parse landing page sections', e);
+                if (this.logger) this.logger.error('Failed to parse landing page sections (by ID)', { error: e, id });
                 (page as any).sections = [];
             }
         }

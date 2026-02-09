@@ -4,5 +4,6 @@ import { IBaseRepository } from '../../../../core/interfaces/repository.interfac
 export interface ICourseRepository extends IBaseRepository<Course, Prisma.CourseCreateInput, Prisma.CourseUpdateInput> {
     findBySlug(slug: string, include?: Prisma.CourseInclude): Promise<Course | null>;
     findById(id: string, include?: Prisma.CourseInclude): Promise<Course | null>;
-    findMany(options: any): Promise<any[]>;
+    findMany(options: Prisma.CourseFindManyArgs): Promise<Course[]>;
+    count(where?: Prisma.CourseWhereInput): Promise<number>;
 }

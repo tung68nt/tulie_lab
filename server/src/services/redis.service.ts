@@ -20,20 +20,28 @@ class RedisService {
             this.isConnected = true;
         });
 
+        this.client.on('ready', () => {
+            this.isConnected = true;
+        });
+
         this.client.on('error', (err) => {
             console.error('Redis error', err);
+            this.isConnected = false;
+        });
+
+        this.client.on('close', () => {
             this.isConnected = false;
         });
     }
 
     async connect() {
-        if (!this.isConnected) {
-            try {
-                await this.client.connect();
-            } catch (error) {
-                // Silently fail connection if Redis is optional, or log it
-                console.warn('Could not connect to Redis, caching will be skipped.');
-            }
+        if (this.isConnected) return;
+        try {
+            await this.client.connect();
+            this.isConnected = true;
+        } catch (error) {
+            console.warn('Could not connect to Redis, caching will be skipped.');
+            this.isConnected = false;
         }
     }
 
@@ -82,6 +90,10 @@ class RedisService {
     // Helper to set JSON
     async setJson(key: string, value: any, ttlSeconds?: number): Promise<void> {
         await this.set(key, JSON.stringify(value), ttlSeconds);
+    }
+
+    getClient() {
+        return this.client;
     }
 }
 

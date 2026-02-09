@@ -4,13 +4,15 @@ import { IProgressRepository } from './interfaces/progress.repository.interface'
 import { Prisma } from '@prisma/client';
 import { secureLessonContent } from '../../../services/video.service';
 import prisma from '../../../config/prisma';
+import { cacheService } from '../../../services/cache.service';
 
 export class CourseService {
     constructor(
         private courseRepository: ICourseRepository,
         private lessonRepository: ILessonRepository,
         private progressRepository: IProgressRepository,
-        private cacheProvider?: any // Optional Redis provider
+        private cacheProvider?: any, // Optional Redis provider
+        private logger?: any // LoggerService
     ) { }
 
     private parseCourse(course: any) {
@@ -37,7 +39,9 @@ export class CourseService {
     }
 
     async getAllCourses(options: any = {}) {
-        const { publishedOnly = true, categoryId, level, isFree, search } = options;
+        const { publishedOnly = true, categoryId, level, isFree, search, page = 1, limit = 10 } = options;
+        const skip = (Number(page) - 1) * Number(limit);
+        const take = Number(limit);
 
         const where: any = { isHidden: false };
         if (publishedOnly) where.isPublished = true;
@@ -54,68 +58,90 @@ export class CourseService {
             ];
         }
 
-        const courses = await this.courseRepository.findMany({
-            where,
-            include: {
-                lessons: {
-                    select: { id: true, title: true, slug: true, isFree: true, position: true, thumbnail: true, chapter: true, section: true, duration: true, guide: true }
+        const [courses, total] = await Promise.all([
+            this.courseRepository.findMany({
+                where,
+                include: {
+                    lessons: {
+                        select: { id: true, title: true, slug: true, isFree: true, position: true, thumbnail: true, chapter: true, section: true, duration: true, guide: true }
+                    },
+                    category: true,
+                    instructor: true,
+                    addOns: { select: { id: true, name: true, priceAddon: true } }
                 },
-                category: true,
-                instructor: true,
-                addOns: { select: { id: true, name: true, priceAddon: true } }
-            },
-            orderBy: { createdAt: 'desc' }
-        });
-        return courses.map(c => this.parseCourse(c));
+                orderBy: { createdAt: 'desc' },
+                skip,
+                take
+            }),
+            this.courseRepository.count(where)
+        ]);
+
+        return {
+            data: courses.map(c => this.parseCourse(c)),
+            meta: {
+                total,
+                page: Number(page),
+                limit: Number(limit),
+                totalPages: Math.ceil(total / Number(limit))
+            }
+        };
     }
 
     async getCourseListing(options: any = {}) {
         const cacheKey = `courses:listing:${JSON.stringify(options)}`;
 
-        if (this.cacheProvider) {
-            const cached = await this.cacheProvider.getJson(cacheKey);
-            if (cached) return cached;
-        }
+        return cacheService.wrap(cacheKey, async () => {
+            const { publishedOnly = true, categoryId, level, isFree, search, page = 1, limit = 12 } = options;
+            const skip = (Number(page) - 1) * Number(limit);
+            const take = Number(limit);
 
-        const { publishedOnly = true, categoryId, level, isFree, search } = options;
+            const where: any = { isHidden: false };
+            if (publishedOnly) where.isPublished = true;
+            if (categoryId) where.categoryId = categoryId;
+            if (level && level !== 'ALL') where.level = level;
+            if (isFree !== undefined) {
+                if (isFree) where.price = 0;
+                else where.price = { gt: 0 };
+            }
+            if (search) {
+                where.OR = [
+                    { title: { contains: search, mode: 'insensitive' } },
+                    { description: { contains: search, mode: 'insensitive' } }
+                ];
+            }
 
-        const where: any = { isHidden: false };
-        if (publishedOnly) where.isPublished = true;
-        if (categoryId) where.categoryId = categoryId;
-        if (level && level !== 'ALL') where.level = level;
-        if (isFree !== undefined) {
-            if (isFree) where.price = 0;
-            else where.price = { gt: 0 };
-        }
-        if (search) {
-            where.OR = [
-                { title: { contains: search, mode: 'insensitive' } },
-                { description: { contains: search, mode: 'insensitive' } }
-            ];
-        }
+            const [courses, total] = await Promise.all([
+                this.courseRepository.findMany({
+                    where,
+                    select: {
+                        id: true,
+                        title: true,
+                        slug: true,
+                        description: true,
+                        price: true,
+                        thumbnail: true,
+                        deploymentStatus: true,
+                        tag: true,
+                        compareAtPrice: true,
+                        category: { select: { id: true, name: true, slug: true } },
+                    },
+                    orderBy: { createdAt: 'desc' },
+                    skip,
+                    take
+                }),
+                this.courseRepository.count(where)
+            ]);
 
-        const courses = await this.courseRepository.findMany({
-            where,
-            select: {
-                id: true,
-                title: true,
-                slug: true,
-                description: true,
-                price: true,
-                thumbnail: true,
-                deploymentStatus: true,
-                tag: true,
-                compareAtPrice: true,
-                category: { select: { id: true, name: true, slug: true } },
-            },
-            orderBy: { createdAt: 'desc' }
-        });
-
-        if (this.cacheProvider) {
-            await this.cacheProvider.setJson(cacheKey, courses, 300);
-        }
-
-        return courses;
+            return {
+                data: courses.map(c => this.parseCourse(c)),
+                meta: {
+                    total,
+                    page: Number(page),
+                    limit: Number(limit),
+                    totalPages: Math.ceil(total / Number(limit))
+                }
+            };
+        }, 300);
     }
 
     async getCourseBySlug(slug: string) {

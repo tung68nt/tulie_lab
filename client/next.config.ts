@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: any = {
   typedRoutes: false,
   typescript: {
-    ignoreBuildErrors: true,
+    // ignoreBuildErrors: false, // Default is false, explicit for clarity that we are now enforcing it
   },
 
   images: {

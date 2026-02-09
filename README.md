@@ -4,13 +4,12 @@
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | Next.js 14 (App Router), React 18, Tailwind CSS |
-| **Backend** | NestJS, Prisma ORM |
-| **Database** | PostgreSQL (Supabase) |
-| **Storage** | Cloudflare R2 |
-| **Realtime** | Socket.io |
+- **Frontend:** Next.js (App Router), React, Tailwind CSS, ShadCN UI
+- **Backend:** Express.js (with Custom Dependency Injection Architecture), Prisma ORM
+- **Database:** PostgreSQL
+- **Real-time:** Socket.io
+- **Storage:** Cloudflare R2 / AWS S3
+- **Deployment:** Google Cloud Run
 
 ## 📁 Project Structure
 

@@ -11,24 +11,21 @@ export class CourseController {
     async listCourses(req: Request, res: Response) {
         try {
             res.set('Cache-Control', 'public, max-age=60'); // Cache for 60 seconds
-            const { category, level, price, search } = req.query;
+            const { category, level, price, search, page, limit } = req.query;
             let isFree: boolean | undefined = undefined;
             if (price === 'free') isFree = true;
             if (price === 'paid') isFree = false;
 
-            const courses = await this.courseService.getCourseListing({
+            const result = await this.courseService.getCourseListing({
                 publishedOnly: true,
                 categoryId: category ? String(category) : undefined,
                 level: level ? String(level) : undefined,
                 isFree,
-                search: search ? String(search) : undefined
+                search: search ? String(search) : undefined,
+                page: page ? Number(page) : 1,
+                limit: limit ? Number(limit) : 12
             });
-            res.json({
-                data: courses,
-                meta: {
-                    total: courses.length
-                }
-            });
+            res.json(result);
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
@@ -36,29 +33,22 @@ export class CourseController {
 
     async listAllCourses(req: Request, res: Response) {
         try {
-            // No cache for admin list or internal use list usually, but strict args here suggest public usage??
-            // usually listAllCourses is for admin. Let's check route usage.
-            // If it accepts 'published' query param, it might be admin.
-            // PROCEED with caution: only cache listCourses (public) and getCourse (public).
-            const { category, level, price, search, published } = req.query;
+            const { category, level, price, search, published, page, limit } = req.query;
             let isFree: boolean | undefined = undefined;
             if (price === 'free') isFree = true;
             if (price === 'paid') isFree = false;
             const publishedOnly = published !== undefined ? published === 'true' : false;
 
-            const courses = await this.courseService.getAllCourses({
+            const result = await this.courseService.getAllCourses({
                 publishedOnly,
                 categoryId: category ? String(category) : undefined,
                 level: level ? String(level) : undefined,
                 isFree,
-                search: search ? String(search) : undefined
+                search: search ? String(search) : undefined,
+                page: page ? Number(page) : 1,
+                limit: limit ? Number(limit) : 10
             });
-            res.json({
-                data: courses,
-                meta: {
-                    total: courses.length
-                }
-            });
+            res.json(result);
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
