@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { Plus, Grid3X3, Layout, ArrowRight, Trash2, List, ShieldAlert, Archive, Check } from 'lucide-react';
+import { Plus, LayoutGrid, Layout, ArrowRight, Trash2, List, ShieldAlert, Archive, Check, ChevronDown, MoreHorizontal, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -93,19 +93,19 @@ export default function WhiteboardDashboard() {
                     <p className="text-muted-foreground mt-1 text-zinc-500">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-xl border border-zinc-200 dark:border-zinc-700/50">
+                    <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-2xl border border-zinc-200 dark:border-zinc-700/50">
                         <button
                             onClick={() => setViewMode('grid')}
-                            className={`p-1.5 rounded-lg transition-all duration-200 ${viewMode === 'grid'
+                            className={`p-1.5 rounded-xl transition-all duration-200 ${viewMode === 'grid'
                                 ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
                                 : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
                             title="Grid View"
                         >
-                            <Grid3X3 className="w-4 h-4" />
+                            <LayoutGrid className="w-4 h-4" />
                         </button>
                         <button
                             onClick={() => setViewMode('list')}
-                            className={`p-1.5 rounded-lg transition-all duration-200 ${viewMode === 'list'
+                            className={`p-1.5 rounded-xl transition-all duration-200 ${viewMode === 'list'
                                 ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
                                 : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
                             title="List View"
@@ -113,7 +113,7 @@ export default function WhiteboardDashboard() {
                             <List className="w-4 h-4" />
                         </button>
                     </div>
-                    <Button onClick={handleCreate} disabled={isCreating} className="gap-2 shadow-lg shadow-primary/20">
+                    <Button onClick={handleCreate} disabled={isCreating} className="gap-2 shadow-lg shadow-zinc-200/50 dark:shadow-none bg-zinc-900 hover:bg-zinc-800 text-white border-none rounded-xl">
                         <Plus className="w-4 h-4" />
                         Tạo bảng mới
                     </Button>
@@ -216,10 +216,6 @@ export default function WhiteboardDashboard() {
                                 <p className="text-[10px] text-zinc-400 mt-0.5">ID: {board.id.split('-')[0]}</p>
                                 <div className="flex items-center justify-between mt-3 text-xs text-zinc-500">
                                     <div className="flex items-center gap-2">
-                                        <span className="bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded-full font-medium">
-                                            {(board?._count?.artboards || 1)} slide
-                                        </span>
-                                        <span>•</span>
                                         <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
                                     </div>
                                 </div>
@@ -230,10 +226,9 @@ export default function WhiteboardDashboard() {
             ) : (
                 <div className="flex flex-col border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-card shadow-sm">
                     {/* Header Row */}
-                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-[11px] font-semibold text-zinc-400">
-                        <div className="col-span-6 md:col-span-4">Tên bảng</div>
+                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
+                        <div className="col-span-6 md:col-span-5">Tên bảng</div>
                         <div className="hidden md:block col-span-2">Trạng thái</div>
-                        <div className="hidden md:block col-span-1">Slides</div>
                         <div className="hidden md:block col-span-2">Ngày tạo</div>
                         <div className="hidden md:block col-span-2">Cập nhật</div>
                         <div className="col-span-6 md:col-span-1 text-right">Thao tác</div>
@@ -245,10 +240,10 @@ export default function WhiteboardDashboard() {
                             className={`group grid grid-cols-12 gap-4 p-4 items-center hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${i !== whiteboards.length - 1 ? 'border-b border-zinc-100 dark:border-zinc-800' : ''}`}
                         >
                             {/* Title & Thumbnail */}
-                            <div className="col-span-6 md:col-span-4 flex items-center gap-4 min-w-0">
+                            <div className="col-span-6 md:col-span-5 flex items-center gap-4 min-w-0">
                                 <Link
                                     href={`/whiteboard/${board.id}`}
-                                    className="w-12 h-8 bg-zinc-100 dark:bg-zinc-800 rounded flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shrink-0 overflow-hidden group-hover:border-primary/30 transition-colors"
+                                    className="w-12 h-8 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shrink-0 overflow-hidden group-hover:border-zinc-400 transition-colors"
                                 >
                                     {board.thumbnail ? (
                                         <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
@@ -257,46 +252,51 @@ export default function WhiteboardDashboard() {
                                     )}
                                 </Link>
                                 <div className="min-w-0">
-                                    <Link href={`/whiteboard/${board.id}`} className="block font-medium text-sm text-zinc-900 dark:text-zinc-100 truncate hover:text-primary transition-colors">
+                                    <Link href={`/whiteboard/${board.id}`} className="block font-semibold text-sm text-zinc-900 dark:text-zinc-100 truncate hover:text-zinc-600 transition-colors">
                                         {board.title || 'Không tiêu đề'}
                                     </Link>
-                                    <div className="text-[10px] text-zinc-400 mt-0.5 leading-none">
+                                    <div className="text-[10px] text-zinc-400 mt-0.5 leading-none font-mono tracking-tight">
                                         #{board.id.split('-')[0]}
                                     </div>
                                     <div className="md:hidden text-[11px] text-zinc-400 mt-1 font-medium">
-                                        {(board?._count?.artboards || 1)} slides • <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
+                                        <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Status (Desktop) */}
                             <div className="hidden md:block col-span-2">
-                                <div className="flex items-center gap-1">
-                                    {['DRAFT', 'PUBLISHED', 'ARCHIVED'].map((s) => (
-                                        <button
-                                            key={s}
-                                            onClick={(e) => handleStatusUpdate(board.id, s, e)}
-                                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold transition-all border ${board.status === s
-                                                ? s === 'PUBLISHED'
-                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20'
-                                                    : s === 'ARCHIVED'
-                                                        ? 'bg-zinc-100 text-zinc-600 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'
-                                                        : 'bg-zinc-50 text-zinc-500 border-zinc-100 dark:bg-zinc-800/50 dark:text-zinc-400 dark:border-zinc-800'
-                                                : 'text-zinc-400 hover:text-zinc-500 border-transparent hover:bg-zinc-50 dark:text-zinc-500 dark:hover:text-zinc-400 opacity-0 group-hover:opacity-100'
-                                                } ${board.status === s ? 'opacity-100' : ''}`}
-                                        >
-                                            {s.charAt(0) + s.slice(1).toLowerCase()}
-                                        </button>
-                                    ))}
+                                <div className="relative group/status inline-block">
+                                    <button className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold transition-all border ${board.status === 'PUBLISHED'
+                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                        : board.status === 'ARCHIVED'
+                                            ? 'bg-zinc-100 text-zinc-500 border-zinc-200'
+                                            : 'bg-zinc-50 text-zinc-400 border-zinc-100'
+                                        }`}>
+                                        <span className={`w-1 h-1 rounded-full ${board.status === 'PUBLISHED' ? 'bg-emerald-500' : 'bg-zinc-400'}`} />
+                                        {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                        <ChevronDown className="w-3 h-3 opacity-50 group-hover/status:opacity-100 transition-opacity" />
+                                    </button>
+
+                                    {/* Action Dropdown on Hover */}
+                                    <div className="absolute left-0 top-full pt-1 opacity-0 group-hover/status:opacity-100 pointer-events-none group-hover/status:pointer-events-auto transition-all z-20">
+                                        <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-xl p-1 min-w-[120px]">
+                                            {['DRAFT', 'PUBLISHED', 'ARCHIVED'].map((s) => (
+                                                <button
+                                                    key={s}
+                                                    onClick={(e) => handleStatusUpdate(board.id, s, e)}
+                                                    className={`w-full text-left px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${board.status === s
+                                                        ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100'
+                                                        : 'text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-zinc-600'}`}
+                                                >
+                                                    {s === 'PUBLISHED' ? 'Công khai' : s === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Size (Desktop) */}
-                            <div className="hidden md:block col-span-1 text-sm text-zinc-500">
-                                <span className="text-zinc-600 dark:text-zinc-400 text-xs">
-                                    {(board?._count?.artboards || 1).toString().padStart(2, '0')}
-                                </span>
-                            </div>
 
                             {/* Created Date (Desktop) */}
                             <div className="hidden md:block col-span-2 text-xs text-zinc-400" suppressHydrationWarning>
@@ -318,11 +318,11 @@ export default function WhiteboardDashboard() {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100"
+                                    className="h-8 w-8 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg"
                                     onClick={(e) => copyLink(e, board.id)}
                                     title="Copy Link"
                                 >
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                    <Copy className="w-4 h-4" />
                                 </Button>
                                 <Button
                                     variant="ghost"

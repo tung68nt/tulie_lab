@@ -733,7 +733,7 @@ export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
         title: 'Nguyễn Thanh Tùng',
         subtitle: 'Tiên phong Vibe Coding tại Việt Nam',
         content: 'Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ.\n\n**10+ năm kinh nghiệm** trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp.\n\n**500+ học viên** đã được hướng dẫn từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.\n\n**Tiên phong** đưa phương pháp Vibe Coding vào Việt Nam từ 2024 - giúp những người không có background IT vẫn có thể xây dựng app chuyên nghiệp.\n\n*"Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai."*',
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop',
+        image: 'https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev/uploads/1769793139459-56946112.jpg',
         backgroundImage: '',
         backgroundTheme: 'light',
         overlayOpacity: 0.6
@@ -1145,7 +1145,7 @@ export const DEFAULT_VIBE_CODING_BEGINNER_COURSE: Section[] = [
         content: "Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ. 10+ năm kinh nghiệm trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp. Tiên phong đưa phương pháp Vibe Coding vào Việt Nam từ 2024, đã hướng dẫn 500+ học viên từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
         items: [
-            { title: "Nguyễn Thanh Tùng", subtitle: "Founder & Lead Instructor", description: "'Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.'", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop" }
+            { title: "Nguyễn Thanh Tùng", subtitle: "Founder & Lead Instructor", description: "'Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.'", image: "https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev/uploads/1769793139459-56946112.jpg" }
         ],
         isVisible: true,
         order: 8,
