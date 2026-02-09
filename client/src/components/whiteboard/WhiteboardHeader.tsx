@@ -192,20 +192,7 @@ export default function WhiteboardHeader({
                     --color-selection: rgba(24, 24, 27, 0.05) !important;
                     --button-hover-bg: #f4f4f5 !important;
                 }
-                .excalidraw .Island, .excalidraw .App-menu__panel, .excalidraw .sidebar {
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.02) !important;
-                    border-radius: 12px !important;
-                    background-color: #ffffff !important;
-                }
-                .excalidraw .dropdown-menu, .excalidraw .context-menu {
-                    background-color: #ffffff !important;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important;
-                    border-radius: 12px !important;
-                    border: 1px solid rgba(0,0,0,0.05) !important;
-                }
-                .excalidraw .layer-ui__wrapper .Island, .excalidraw .layer-ui__wrapper .App-menu__panel {
-                    background-color: #ffffff !important;
-                }
+                /* Resetting aggressive overrides to fix UI issues */
                 .excalidraw .ToolIcon__icon svg, .excalidraw .App-menu__button svg {
                     color: #27272a !important;
                 }

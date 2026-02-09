@@ -225,7 +225,8 @@ async function initializeApp() {
     app.use(compression()); // Gzip compression
     app.use(csrfProtection); // Custom header-based CSRF protection
     app.use('/api', apiLimiter); // Global rate limiting (only for /api routes)
-    app.use(express.json());
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ extended: true, limit: '50mb' }));
     app.use(cookieParser());
     // Global sanitization removed in favor of targeted validation (Audit P1)
     // app.use(sanitize()); 
