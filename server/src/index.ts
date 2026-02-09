@@ -60,7 +60,7 @@ app.get('/api/health', async (req, res) => {
     health.checks.redis = `disconnected: ${error.message}`;
   }
 
-  res.status(health.status === 'ok' ? 200 : 503).json(health);
+  res.status(health.status === 'error' ? 503 : 200).json(health);
 });
 
 app.get('/api/check', (req, res) => {
