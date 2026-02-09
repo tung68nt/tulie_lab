@@ -15,6 +15,7 @@ import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { PriceInput } from '@/components/PriceInput';
 import { MultiSelect } from '@/components/MultiSelect';
 import { AdminStickyFooter } from '@/components/system/admin/AdminStickyFooter';
+import { CourseJsonEditorModal } from '@/components/system/admin/CourseJsonEditorModal';
 import dynamic from 'next/dynamic';
 
 const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEditor'), {
@@ -72,76 +73,123 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
     });
     const [pendingAttachments, setPendingAttachments] = useState<{ name: string, url: string }[]>([]);
     const [newAttachment, setNewAttachment] = useState({ name: '', url: '' });
+    const [isJsonEditorOpen, setIsJsonEditorOpen] = useState(false);
+
+    const fetchCourse = async () => {
+        try {
+            setLoading(true);
+            // Execute requests in parallel to reduce load time
+            const [instructorsList, categoriesList, addOnsList, fullDetails]: [any, any, any, any] = await Promise.all([
+                api.instructors.list().catch(() => []),
+                api.categories.list().catch(() => []),
+                api.pricingAddOns.list().catch(() => []),
+                api.admin.courses.get(id).catch((e: any) => {
+                    console.error('Fetch course error for ID:', id, e);
+                    // Log specifically if it's a 404 or 500
+                    if (e instanceof Error && (e as any).status) {
+                        console.error('Status:', (e as any).status);
+                    }
+                    return null;
+                })
+            ]);
+
+            // Fix: Extract data from response object if needed
+            const instructorData = instructorsList?.data || (Array.isArray(instructorsList) ? instructorsList : []);
+            const categoryData = categoriesList?.data || (Array.isArray(categoriesList) ? categoriesList : []);
+            const addOnsData = addOnsList?.data || (Array.isArray(addOnsList) ? addOnsList : []);
+
+            setInstructors(Array.isArray(instructorData) ? instructorData : []);
+            setCategories(Array.isArray(categoryData) ? categoryData : []);
+            setAllAddOns(Array.isArray(addOnsData) ? addOnsData : []);
+
+            if (fullDetails) {
+                setCourse(fullDetails);
+                setLessons(fullDetails.lessons || []);
+                setCourseForm({
+                    title: fullDetails.title,
+                    slug: fullDetails.slug,
+                    description: fullDetails.description || '',
+                    price: fullDetails.price,
+                    isPublished: fullDetails.isPublished,
+                    instructorId: fullDetails.instructorId || '',
+                    categoryId: fullDetails.categoryId || '',
+                    level: fullDetails.level || 'ALL',
+                    thumbnail: fullDetails.thumbnail || '',
+                    introVideoUrl: fullDetails.introVideoUrl || '',
+                    learningOutcomes: typeof fullDetails.learningOutcomes === 'object'
+                        ? JSON.stringify(fullDetails.learningOutcomes, null, 2)
+                        : fullDetails.learningOutcomes || '',
+                    deploymentStatus: fullDetails.deploymentStatus || 'RELEASED',
+                    tag: fullDetails.tag || 'NONE',
+                    compareAtPrice: fullDetails.compareAtPrice || 0,
+                    addOnIds: (fullDetails.addOns || []).map((a: any) => a.id),
+                    structure: fullDetails.structure || [],
+                    infoInstructor: fullDetails.infoInstructor || '',
+                    infoDuration: fullDetails.infoDuration || '',
+                    infoLessons: fullDetails.infoLessons || ''
+                });
+                // Set next position
+                setNewLesson(prev => ({ ...prev, position: (fullDetails.lessons?.length || 0) + 1 }));
+            } else {
+                addToast('Không tìm thấy khóa học', 'error');
+                router.push('/admin/courses');
+            }
+        } catch (e) {
+            console.error(e);
+            addToast('Không thể tải thông tin khóa học', 'error');
+            router.push('/admin/courses');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchCourse = async () => {
-            try {
-                // Execute requests in parallel to reduce load time
-                const [instructorsList, categoriesList, addOnsList, fullDetails]: [any, any, any, any] = await Promise.all([
-                    api.instructors.list().catch(() => []),
-                    api.categories.list().catch(() => []),
-                    api.pricingAddOns.list().catch(() => []),
-                    api.admin.courses.get(id).catch((e: any) => {
-                        console.error('Fetch course error for ID:', id, e);
-                        // Log specifically if it's a 404 or 500
-                        if (e instanceof Error && (e as any).status) {
-                            console.error('Status:', (e as any).status);
-                        }
-                        return null;
-                    })
-                ]);
-
-                // Fix: Extract data from response object if needed
-                const instructorData = instructorsList?.data || (Array.isArray(instructorsList) ? instructorsList : []);
-                const categoryData = categoriesList?.data || (Array.isArray(categoriesList) ? categoriesList : []);
-                const addOnsData = addOnsList?.data || (Array.isArray(addOnsList) ? addOnsList : []);
-
-                setInstructors(Array.isArray(instructorData) ? instructorData : []);
-                setCategories(Array.isArray(categoryData) ? categoryData : []);
-                setAllAddOns(Array.isArray(addOnsData) ? addOnsData : []);
-
-                if (fullDetails) {
-                    setCourse(fullDetails);
-                    setLessons(fullDetails.lessons || []);
-                    setCourseForm({
-                        title: fullDetails.title,
-                        slug: fullDetails.slug,
-                        description: fullDetails.description || '',
-                        price: fullDetails.price,
-                        isPublished: fullDetails.isPublished,
-                        instructorId: fullDetails.instructorId || '',
-                        categoryId: fullDetails.categoryId || '',
-                        level: fullDetails.level || 'ALL',
-                        thumbnail: fullDetails.thumbnail || '',
-                        introVideoUrl: fullDetails.introVideoUrl || '',
-                        learningOutcomes: typeof fullDetails.learningOutcomes === 'object'
-                            ? JSON.stringify(fullDetails.learningOutcomes, null, 2)
-                            : fullDetails.learningOutcomes || '',
-                        deploymentStatus: fullDetails.deploymentStatus || 'RELEASED',
-                        tag: fullDetails.tag || 'NONE',
-                        compareAtPrice: fullDetails.compareAtPrice || 0,
-                        addOnIds: (fullDetails.addOns || []).map((a: any) => a.id),
-                        structure: fullDetails.structure || [],
-                        infoInstructor: fullDetails.infoInstructor || '',
-                        infoDuration: fullDetails.infoDuration || '',
-                        infoLessons: fullDetails.infoLessons || ''
-                    });
-                    // Set next position
-                    setNewLesson(prev => ({ ...prev, position: (fullDetails.lessons?.length || 0) + 1 }));
-                } else {
-                    addToast('Không tìm thấy khóa học', 'error');
-                    router.push('/admin/courses');
-                }
-            } catch (e) {
-                console.error(e);
-                addToast('Không thể tải thông tin khóa học', 'error');
-                router.push('/admin/courses');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchCourse();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, router, addToast]);
+
+    const handleJsonSave = async (data: { course: any, lessons: any[] }) => {
+        try {
+            setLoading(true);
+
+            // 1. Update Course Info
+            await api.admin.courses.update(id, data.course);
+
+            // 2. Handle Lessons (Create Only strategy for simplicity or advanced diff?)
+            // Strategy: Create new lessons if ID is missing. Update if ID matches.
+            // WARNING: This doesn't delete removed lessons automatically for safety.
+
+            if (data.lessons && Array.isArray(data.lessons)) {
+                const currentLessonIds = new Set(lessons.map(l => l.id));
+
+                // Sequential processing to maintain order if creating
+                for (const lesson of data.lessons) {
+                    try {
+                        if (lesson.id && currentLessonIds.has(lesson.id)) {
+                            // Update existing
+                            await api.admin.courses.updateLesson(lesson.id, lesson);
+                        } else {
+                            // Create new lesson (strip ID from previous context if present)
+                            // Ensure chapter/section exists in structure?
+                            const { id: _ignoreId, createdAt, updatedAt, ...lessonData } = lesson;
+                            await api.admin.courses.addLesson(id, lessonData);
+                        }
+                    } catch (err) {
+                        console.error('Failed to process lesson from JSON', lesson, err);
+                        // Continue processing others
+                    }
+                }
+            }
+
+            addToast('Đã cập nhật dữ liệu từ JSON', 'success');
+            // Refresh data
+            fetchCourse();
+        } catch (e: any) {
+            console.error(e);
+            addToast('Lỗi cập nhật JSON: ' + (e.message || 'Unknown error'), 'error');
+            setLoading(false);
+        }
+    };
 
     const handleUpdateCourse = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -251,10 +299,21 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 subtitle="Quản lý thông tin và nội dung khóa học"
                 backUrl="/admin/courses"
             >
+                <Button variant="outline" onClick={() => setIsJsonEditorOpen(true)} className="gap-2 mr-2">
+                    <span className="font-mono text-xs">{`{}`}</span> Edit JSON
+                </Button>
                 <Button variant="outline" onClick={() => window.open(`/courses/${courseForm.slug}`, '_blank')} className="gap-2">
                     <Eye className="h-4 w-4" /> Xem thực tế
                 </Button>
             </AdminPageHeader>
+
+            <CourseJsonEditorModal
+                isOpen={isJsonEditorOpen}
+                onClose={() => setIsJsonEditorOpen(false)}
+                onSave={handleJsonSave}
+                courseData={courseForm}
+                lessonsData={lessons}
+            />
 
             <div className="grid gap-8">
                 {/* Edit Course Form */}

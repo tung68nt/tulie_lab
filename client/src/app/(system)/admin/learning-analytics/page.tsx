@@ -116,8 +116,8 @@ export default function LearningAnalyticsPage() {
                                                 <div className="w-full bg-secondary h-1.5 rounded-full overflow-hidden">
                                                     <div
                                                         className={`h-full transition-all duration-500 rounded-full ${course.avgProgress > 70 ? 'bg-green-500' :
-                                                                course.avgProgress > 30 ? 'bg-blue-500' :
-                                                                    'bg-orange-500'
+                                                            course.avgProgress > 30 ? 'bg-blue-500' :
+                                                                'bg-orange-500'
                                                             }`}
                                                         style={{ width: `${course.avgProgress}%` }}
                                                     />
@@ -198,9 +198,11 @@ function InsightsCard({ title, icon, items }: any) {
     return (
         <Card>
             <CardHeader className="pb-3 border-b border-border/50">
-                <div className="flex items-center gap-2">
-                    {icon}
-                    <CardTitle className="text-base">{title}</CardTitle>
+                <div className="flex items-center gap-3">
+                    <div className="mt-1">
+                        {icon}
+                    </div>
+                    <CardTitle className="text-base font-bold">{title}</CardTitle>
                 </div>
             </CardHeader>
             <CardContent className="pt-4">
