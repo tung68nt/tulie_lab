@@ -187,7 +187,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             console.log('6. Is array?:', Array.isArray(elementsData));
 
             let finalElements: any[] = [];
-            let finalAppState = {};
+            let finalAppState: { gridModeEnabled?: boolean; viewBackgroundColor?: string; currentItemFontFamily?: number; currentItemFontSize?: number } = {};
 
             if (Array.isArray(elementsData)) {
                 // Recovery: Handle data saved during bug period (just array of elements)

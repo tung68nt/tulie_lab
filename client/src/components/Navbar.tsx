@@ -135,6 +135,7 @@ export function Navbar() {
         label: string;
         href: string;
         isExternal?: boolean;
+        icon?: React.ReactNode;
         children?: { label: string; href: string; isExternal?: boolean }[];
     }
 
