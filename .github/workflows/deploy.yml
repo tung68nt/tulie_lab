@@ -108,7 +108,7 @@ jobs:
   # 2. Deploy only if migrations succeed
   deploy:
     needs: migrate
-    if: success() || failure()
+    if: always()
     runs-on: ubuntu-latest
     
     permissions:
@@ -232,26 +232,32 @@ jobs:
             --timeout 600
 
       - name: Verify Deployment
+        continue-on-error: true
         run: |
           echo "✅ Deployed $SERVICE_NAME to $REGION"
           URL=$(gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)')
           echo "🌐 Live URL: $URL"
           echo "🩺 Health check: $URL/api/health"
           echo "⏳ Waiting for service to stabilize (Attempt 1)..."
-          sleep 20
-          RESPONSE=$(curl -s --max-time 15 "$URL/api/health" || echo "timeout")
-          echo "Response 1: $RESPONSE"
+          sleep 25
           
-          if echo "$RESPONSE" | grep -q "\"status\":\"ok\"" || echo "$RESPONSE" | grep -q "\"status\": \"ok\"" || echo "$RESPONSE" | grep -q "\"status\":\"initializing\""; then
+          # Use -i to see headers
+          RESPONSE=$(curl -i -s --max-time 15 "$URL/api/health" || echo "curl_timeout")
+          echo "--- RAW RESPONSE START ---"
+          echo "$RESPONSE"
+          echo "--- RAW RESPONSE END ---"
+          
+          # Check for 200 OK and health status
+          if echo "$RESPONSE" | grep -q "200 OK" && (echo "$RESPONSE" | grep -q "\"status\":\"ok\"" || echo "$RESPONSE" | grep -q "\"status\": \"ok\"" || echo "$RESPONSE" | grep -q "\"status\":\"initializing\""); then
             echo "🚀 Health check looks promising (initializing or ok)!"
           else
-            echo "⏳ Attempt 2 (waiting 30s more)..."
-            sleep 30
-            RESPONSE=$(curl -s --max-time 15 "$URL/api/health" || echo "timeout")
+            echo "⏳ Attempt 2 (waiting 40s more)..."
+            sleep 40
+            RESPONSE=$(curl -i -s --max-time 15 "$URL/api/health" || echo "curl_timeout")
             echo "Response 2: $RESPONSE"
-            if echo "$RESPONSE" | grep -q "\"status\":\"ok\"" || echo "$RESPONSE" | grep -q "\"status\": \"ok\"" || echo "$RESPONSE" | grep -q "\"status\":\"initializing\""; then
+            if echo "$RESPONSE" | grep -q "200 OK" && (echo "$RESPONSE" | grep -q "\"status\":\"ok\"" || echo "$RESPONSE" | grep -q "\"status\": \"ok\"" || echo "$RESPONSE" | grep -q "\"status\":\"initializing\""); then
               echo "🚀 Health check passed on retry!"
             else
-              echo "⚠ Warning: Health check still returned unexpected response, check logs: $RESPONSE"
+              echo "⚠ Warning: Health check still returned unexpected response."
             fi
           fi

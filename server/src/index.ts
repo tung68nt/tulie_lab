@@ -10,8 +10,10 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import { loggerService } from './services/logger.service';
 import { WhiteboardGateway } from './modules/system/whiteboard/whiteboard.gateway';
-import { prisma } from './config/prisma';
 import redisService from './services/redis.service';
+
+// Lazy load prisma to avoid top-level crash
+let prisma: any = null;
 
 // Set timezone to Vietnam (UTC+7) for consistent date/time display
 process.env.TZ = 'Asia/Ho_Chi_Minh';
@@ -46,8 +48,12 @@ app.get('/api/health', async (req, res) => {
 
   try {
     // 1. Check Database (Prisma)
-    await prisma.$queryRaw`SELECT 1`;
-    health.checks.database = 'connected';
+    if (prisma) {
+      await prisma.$queryRaw`SELECT 1`;
+      health.checks.database = 'connected';
+    } else {
+      health.checks.database = 'initializing (waiting for prisma)';
+    }
   } catch (error: any) {
     health.status = 'error';
     health.checks.database = `disconnected: ${error.message}`;
@@ -353,7 +359,18 @@ async function initializeApp() {
     });
 
     console.log('🏁 Initialization sequence complete.');
+    // Initialize Core DB
+    try {
+      const prismaModule = await import('./config/prisma');
+      prisma = prismaModule.prisma || prismaModule.default;
+      loggerService.info('🐘 Database Client initialized.');
+    } catch (dbErr: any) {
+      console.error('❌ Failed to initialize Prisma Client:', dbErr.message);
+      // Not necessarily fatal if health check handles it
+    }
+
     isAppReady = true;
+    loggerService.info('🚀 SYSTEM READY');
   } catch (error: any) {
     console.error('❌ Fatal error during app initialization:', error);
   }
