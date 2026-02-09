@@ -8,6 +8,12 @@ import redisService from '../services/redis.service';
  */
 
 const createRedisStore = () => {
+    // Only use Redis store if Redis is connected
+    if (!(redisService as any).isConnected) {
+        console.warn('Redis is not connected. Rate limiting will use memory store.');
+        return undefined; // Falls back to express-rate-limit's default MemoryStore
+    }
+
     return new RedisStore({
         // @ts-expect-error - ioredis client compatibility
         sendCommand: (...args: string[]) => redisService.getClient().call(...args),
