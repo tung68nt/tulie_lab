@@ -92,7 +92,9 @@ if (process.env.NODE_ENV !== 'test') {
   // This is the definitive fix for "Container failed to start".
   server = app.listen(PORT, () => {
     loggerService.info(`Server listening on port ${PORT}. Initializing services...`, { reloadedAt: new Date().toISOString() });
-    initializeApp();
+    initializeApp().catch(err => {
+      console.error('❌ CRITICAL: initializeApp failed to start:', err);
+    });
   });
 
   // --- WebSocket Initialization ---
