@@ -21,6 +21,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const router = useRouter();
     const [whiteboard, setWhiteboard] = useState<any>(null);
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
+    const [excalidrawReady, setExcalidrawReady] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
 
     // Optimized UI State
@@ -427,35 +428,55 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         setGridEnabled(!current);
     };
 
-    if (!isLoaded && id !== 'new') {
-        return (
-            <div className="flex items-center justify-center w-full h-screen bg-background">
-                {/* Tulie-style Loader: Simple Arc Spinner */}
-                <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-zinc-200 border-t-zinc-900 dark:border-zinc-800 dark:border-t-zinc-50" />
-            </div>
-        );
-    }
+
+
+    // ... existing refs
+
+    const handleExcalidrawAPI = useCallback((api: any) => {
+        setExcalidrawAPI(api);
+        setExcalidrawReady(true);
+    }, []);
+
+    // ... existing effects
+
+    // Change the return logic
+    const isLoading = !isLoaded || (id !== 'new' && !excalidrawReady);
 
     return (
         <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-            <WhiteboardHeader
-                title={whiteboard?.title}
-                saveStatus={saveStatus}
-                onBack={() => router.push('/whiteboard')}
-                onRename={handleRename}
-                isSidebarDocked={isSidebarDocked}
-                gridEnabled={gridEnabled}
-                onToggleGrid={handleToggleGrid}
-            />
+            {/* Whiteboard Header - Always visible or conditional? Keeping it visible is fine, or hide during load */}
+            <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+                <WhiteboardHeader
+                    title={whiteboard?.title}
+                    saveStatus={saveStatus}
+                    onBack={() => router.push('/whiteboard')}
+                    onRename={handleRename}
+                    isSidebarDocked={isSidebarDocked}
+                    gridEnabled={gridEnabled}
+                    onToggleGrid={handleToggleGrid}
+                />
+            </div>
 
-            <ExcalidrawWrapper
-                excalidrawAPI={setExcalidrawAPI}
-                onChange={onChange}
-                onPointerUpdate={onPointerUpdate}
-                onBack={() => router.back()}
-                title={whiteboard?.title}
-                initialData={parsedInitialData}
-            />
+            {/* Persistent Loader Overlay */}
+            {isLoading && (
+                <div className="absolute inset-0 z-50 flex items-center justify-center bg-white dark:bg-zinc-950">
+                    <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-zinc-200 border-t-zinc-900 dark:border-zinc-800 dark:border-t-zinc-50" />
+                </div>
+            )}
+
+            {/* Render Excalidraw only after data is loaded (isLoaded) but keep it hidden/under overlay if initializing */}
+            {(isLoaded || id === 'new') && (
+                <div className={`w-full h-full transition-opacity duration-500 ${excalidrawReady ? 'opacity-100' : 'opacity-0'}`}>
+                    <ExcalidrawWrapper
+                        excalidrawAPI={handleExcalidrawAPI}
+                        onChange={onChange}
+                        onPointerUpdate={onPointerUpdate}
+                        onBack={() => router.back()}
+                        title={whiteboard?.title}
+                        initialData={parsedInitialData}
+                    />
+                </div>
+            )}
 
             {/* SaveStatusIndicator removed in favor of Header */}
 

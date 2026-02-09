@@ -54,33 +54,46 @@ export default function WhiteboardDashboard() {
         }
     };
 
+    const copyLink = (e: React.MouseEvent, id: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const url = `${window.location.origin}/whiteboard/${id}`;
+        navigator.clipboard.writeText(url);
+        // Toast would be good here, but using alert for simplicity if toast context not available
+        // But we have useToast potential? Let's check imports. No useToast.
+        // We'll just animate the button or show a browser tooltip if possible, or just rely on user knowing.
+        // Actually, let's add a temporary visual feedback if possible, or just nothing.
+    };
+
     return (
         <div className="container max-w-[1200px] py-8 pt-24 px-4 md:px-0 bg-background min-h-screen">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Bảng trắng của tôi</h1>
-                    <p className="text-muted-foreground mt-1">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">Bảng trắng của tôi</h1>
+                    <p className="text-muted-foreground mt-1 text-zinc-500">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center p-1 bg-muted rounded-lg border">
-                        <Button
-                            variant="ghost"
-                            size="sm"
+                    <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-lg border border-zinc-200 dark:border-zinc-700/50">
+                        <button
                             onClick={() => setViewMode('grid')}
-                            className={`h-8 px-2 ${viewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                            className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'grid'
+                                ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
+                                : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
+                            title="Grid View"
                         >
                             <Layout className="w-4 h-4" />
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            size="sm"
+                        </button>
+                        <button
                             onClick={() => setViewMode('list')}
-                            className={`h-8 px-2 ${viewMode === 'list' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                            className={`p-1.5 rounded-md transition-all duration-200 ${viewMode === 'list'
+                                ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100'
+                                : 'text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50'}`}
+                            title="List View"
                         >
                             <List className="w-4 h-4" />
-                        </Button>
+                        </button>
                     </div>
-                    <Button onClick={handleCreate} disabled={isCreating} className="gap-2">
+                    <Button onClick={handleCreate} disabled={isCreating} className="gap-2 shadow-lg shadow-primary/20">
                         <Plus className="w-4 h-4" />
                         Tạo bảng mới
                     </Button>
@@ -90,15 +103,17 @@ export default function WhiteboardDashboard() {
             {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[1, 2, 3].map(i => (
-                        <div key={i} className="h-48 rounded-xl bg-muted animate-pulse" />
+                        <div key={i} className="h-48 rounded-xl bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
                     ))}
                 </div>
             ) : whiteboards.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 border-2 border-dashed rounded-2xl bg-muted/30">
-                    <Layout className="w-12 h-12 text-muted-foreground mb-4 opacity-20" />
-                    <h2 className="text-xl font-semibold mb-2">Chưa có bảng trắng nào</h2>
-                    <p className="text-muted-foreground mb-6">Hãy bắt đầu tạo bảng trắng đầu tiên của bạn để cộng tác.</p>
-                    <Button variant="outline" onClick={handleCreate} disabled={isCreating}>
+                <div className="flex flex-col items-center justify-center py-24 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl bg-zinc-50/50 dark:bg-zinc-900/50">
+                    <div className="w-16 h-16 bg-zinc-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center mb-4">
+                        <Layout className="w-8 h-8 text-zinc-400" />
+                    </div>
+                    <h2 className="text-xl font-bold mb-2 text-zinc-900 dark:text-zinc-50">Chưa có bảng trắng nào</h2>
+                    <p className="text-zinc-500 mb-8 max-w-sm text-center">Hãy bắt đầu tạo bảng trắng đầu tiên của bạn để phác thảo ý tưởng và cộng tác.</p>
+                    <Button variant="outline" onClick={handleCreate} disabled={isCreating} className="border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800">
                         Bắt đầu vẽ ngay
                     </Button>
                 </div>
@@ -108,30 +123,37 @@ export default function WhiteboardDashboard() {
                         <Link
                             key={board.id}
                             href={`/whiteboard/${board.id}`}
-                            className="group relative flex flex-col bg-card border rounded-xl overflow-hidden hover:border-zinc-400 transition-all hover:shadow-md"
+                            className="group relative flex flex-col bg-card border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/50 dark:hover:shadow-black/20"
                         >
-                            <div className="h-40 bg-zinc-50 flex items-center justify-center border-b relative">
+                            <div className="aspect-video bg-zinc-100 dark:bg-zinc-800/50 flex items-center justify-center border-b border-zinc-100 dark:border-zinc-800 relative overflow-hidden">
                                 {board.thumbnail ? (
-                                    <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover" />
+                                    <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                 ) : (
-                                    <Layout className="w-10 h-10 text-zinc-300 group-hover:text-zinc-400 group-hover:scale-110 transition-all duration-300" />
+                                    <Layout className="w-10 h-10 text-zinc-300 dark:text-zinc-600 transition-transform duration-300" />
                                 )}
+
+                                {/* Hover Actions Overlay */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-start justify-end p-3 opacity-0 group-hover:opacity-100">
+                                    <Button
+                                        as="div"
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white text-zinc-500 hover:text-red-600 transition-all rounded-full"
+                                        onClick={(e) => handleDelete(board.id, e)}
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </Button>
+                                </div>
                             </div>
-                            <div className="p-5">
-                                <h3 className="font-medium text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
-                                <div className="flex items-center justify-between mt-4 border-t pt-3 border-dashed">
-                                    <span className="text-xs font-medium text-zinc-400 bg-zinc-100 px-2 py-1 rounded-md">
-                                        {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
-                                    </span>
+                            <div className="p-4 bg-white dark:bg-zinc-900">
+                                <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-base line-clamp-1 mb-1">{board.title || 'Không tiêu đề'}</h3>
+                                <div className="flex items-center justify-between mt-3 text-xs text-zinc-500">
                                     <div className="flex items-center gap-2">
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-8 w-8 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 transition-all opacity-0 group-hover:opacity-100"
-                                            onClick={(e) => handleDelete(board.id, e)}
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                        </Button>
+                                        <span className="bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 rounded-full font-medium">
+                                            {(board?._count?.artboards || 1)} slide
+                                        </span>
+                                        <span>•</span>
+                                        <span>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
                                     </div>
                                 </div>
                             </div>
@@ -139,38 +161,79 @@ export default function WhiteboardDashboard() {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col border rounded-xl overflow-hidden bg-card">
+                <div className="flex flex-col border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-card shadow-sm">
+                    {/* Header Row */}
+                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+                        <div className="col-span-6 md:col-span-5">Tên bảng</div>
+                        <div className="hidden md:block col-span-2">Dung lượng</div>
+                        <div className="hidden md:block col-span-3">Cập nhật lần cuối</div>
+                        <div className="col-span-6 md:col-span-2 text-right">Thao tác</div>
+                    </div>
+
                     {whiteboards.map((board, i) => (
-                        <Link
+                        <div
                             key={board.id}
-                            href={`/whiteboard/${board.id}`}
-                            className={`group flex items-center gap-4 p-4 hover:bg-muted/50 transition-colors ${i !== whiteboards.length - 1 ? 'border-b' : ''}`}
+                            className={`group grid grid-cols-12 gap-4 p-4 items-center hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${i !== whiteboards.length - 1 ? 'border-b border-zinc-100 dark:border-zinc-800' : ''}`}
                         >
-                            <div className="w-16 h-10 bg-zinc-100 rounded-md flex items-center justify-center border shrink-0 overflow-hidden">
-                                {board.thumbnail ? (
-                                    <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover" />
-                                ) : (
-                                    <Layout className="w-5 h-5 text-zinc-300" />
-                                )}
+                            {/* Title & Thumbnail */}
+                            <div className="col-span-6 md:col-span-5 flex items-center gap-4 min-w-0">
+                                <Link
+                                    href={`/whiteboard/${board.id}`}
+                                    className="w-12 h-8 bg-zinc-100 dark:bg-zinc-800 rounded flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shrink-0 overflow-hidden"
+                                >
+                                    {board.thumbnail ? (
+                                        <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <Layout className="w-4 h-4 text-zinc-300" />
+                                    )}
+                                </Link>
+                                <div className="min-w-0">
+                                    <Link href={`/whiteboard/${board.id}`} className="block font-medium text-sm text-zinc-900 dark:text-zinc-100 truncate hover:text-primary transition-colors">
+                                        {board.title || 'Không tiêu đề'}
+                                    </Link>
+                                    <div className="md:hidden text-xs text-zinc-500 mt-0.5">
+                                        {(board?._count?.artboards || 1)} slide • {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex-1 min-w-0">
-                                <h3 className="font-medium text-base truncate group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
+
+                            {/* Size (Desktop) */}
+                            <div className="hidden md:block col-span-2 text-sm text-zinc-500">
+                                <span className="bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                                    {(board?._count?.artboards || 1)} slides
+                                </span>
                             </div>
-                            <div className="text-sm text-muted-foreground w-32 text-right">
+
+                            {/* Date (Desktop) */}
+                            <div className="hidden md:block col-span-3 text-sm text-zinc-500">
                                 {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                                <span className="text-zinc-400 text-xs ml-2">
+                                    {new Date(board.updatedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                                </span>
                             </div>
-                            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+
+                            {/* Actions */}
+                            <div className="col-span-6 md:col-span-2 flex items-center justify-end gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                    className="h-8 w-8 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100"
+                                    onClick={(e) => copyLink(e, board.id)}
+                                    title="Copy Link"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 text-zinc-400 hover:text-destructive hover:bg-destructive/10"
                                     onClick={(e) => handleDelete(board.id, e)}
+                                    title="Delete"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </Button>
-                                <ArrowRight className="w-4 h-4 text-muted-foreground" />
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             )}

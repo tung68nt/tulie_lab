@@ -35,7 +35,12 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
     async findByCreatorId(creatorId: string): Promise<Whiteboard[]> {
         return prisma.whiteboard.findMany({
             where: { creatorId, deletedAt: null },
-            orderBy: { updatedAt: 'desc' }
+            orderBy: { updatedAt: 'desc' },
+            include: {
+                _count: {
+                    select: { artboards: true }
+                }
+            }
         });
     }
 

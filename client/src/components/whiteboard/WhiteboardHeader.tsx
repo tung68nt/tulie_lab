@@ -62,12 +62,12 @@ export default function WhiteboardHeader({
                             <ChevronLeft className="w-5 h-5" />
                         </Button>
 
-                        <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-700 mx-1" />
-
                         {/* Logo (Icon Only) */}
                         <div className="flex items-center">
                             <Logo showText={false} height="h-6" />
                         </div>
+
+                        <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-700 mx-1" />
 
                         {/* Title Section */}
                         <div className="flex items-center gap-2 ml-4">
