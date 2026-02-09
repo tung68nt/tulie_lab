@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
-import { ChevronLeft, Cloud, Check, Home, Pencil, Grid3X3 } from 'lucide-react';
+import { ChevronLeft, Cloud, Check, Home, Pencil, Grid3X3, Plus, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { SaveStatus } from './SaveStatusIndicator';
 import { Logo } from '@/components/Logo';
@@ -13,11 +13,16 @@ interface WhiteboardHeaderProps {
     isSidebarDocked?: boolean;
     gridEnabled?: boolean;
     onToggleGrid?: () => void;
+    artboards: any[];
+    activeIndex: number;
+    onAddArtboard: () => void;
+    onSwitchArtboard: (index: number) => void;
 }
 
 export default function WhiteboardHeader({
     title, saveStatus, onBack, onRename, isSidebarDocked,
-    gridEnabled = true, onToggleGrid
+    gridEnabled = true, onToggleGrid,
+    artboards = [], activeIndex = 0, onAddArtboard, onSwitchArtboard
 }: WhiteboardHeaderProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(title || 'Untitled Whiteboard');
@@ -92,6 +97,47 @@ export default function WhiteboardHeader({
                                     <Pencil className="w-3 h-3 text-zinc-400 opacity-50 hover:opacity-100 transition-opacity" />
                                 </h1>
                             )}
+                        </div>
+
+                        {/* Slide Navigation */}
+                        <div className="flex items-center gap-0.5 bg-zinc-100/50 dark:bg-zinc-900/30 p-0.5 rounded-lg border border-zinc-200/30 dark:border-zinc-700/30 ml-2">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 rounded-md text-zinc-500 hover:bg-white dark:hover:bg-zinc-700 disabled:opacity-30"
+                                onClick={() => onSwitchArtboard(activeIndex - 1)}
+                                disabled={activeIndex === 0}
+                                title="Previous Slide"
+                            >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                            </Button>
+
+                            <div className="px-2 text-[12px] font-bold text-zinc-700 dark:text-zinc-300 min-w-[70px] text-center">
+                                Slide {activeIndex + 1} / {artboards.length}
+                            </div>
+
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 rounded-md text-zinc-500 hover:bg-white dark:hover:bg-zinc-700 disabled:opacity-30"
+                                onClick={() => onSwitchArtboard(activeIndex + 1)}
+                                disabled={activeIndex === artboards.length - 1}
+                                title="Next Slide"
+                            >
+                                <ChevronRight className="w-3.5 h-3.5" />
+                            </Button>
+
+                            <div className="w-px h-4 bg-zinc-200 dark:bg-zinc-700 mx-0.5" />
+
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 rounded-md text-zinc-600 dark:text-zinc-400 hover:bg-white dark:hover:bg-zinc-700 hover:text-primary transition-colors"
+                                onClick={onAddArtboard}
+                                title="Add New Slide"
+                            >
+                                <Plus className="w-3.5 h-3.5" />
+                            </Button>
                         </div>
 
                         {/* Grid Toggle */}

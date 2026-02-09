@@ -20,6 +20,7 @@ interface WhiteboardEditorProps {
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const router = useRouter();
     const [whiteboard, setWhiteboard] = useState<any>(null);
+    const [activeArtboardIndex, setActiveArtboardIndex] = useState(0);
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
     const [excalidrawReady, setExcalidrawReady] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -72,8 +73,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 const data = await api.whiteboards.get(id);
                 setWhiteboard(data);
 
-                // Parse initial data for Excalidraw
-                const rawElements = data.artboards?.[0]?.elements;
+                // Parse initial data for Excalidraw from active artboard
+                const currentArtboard = data.artboards?.[activeArtboardIndex] || data.artboards?.[0];
+                const rawElements = currentArtboard?.elements;
                 console.log('=== PARSING INITIAL DATA ===');
                 console.log('Raw elements:', rawElements);
 
@@ -163,9 +165,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     // Handle initial data for Excalidraw
     useEffect(() => {
-        if (!excalidrawAPI || !whiteboard?.artboards?.[0]) return;
+        if (!excalidrawAPI || !whiteboard?.artboards?.[activeArtboardIndex]) return;
 
-        const rawElements = whiteboard.artboards[0].elements;
+        const rawElements = whiteboard.artboards[activeArtboardIndex].elements;
         console.log('=== DEBUG: Data Loading ===');
         console.log('1. Raw elements from API:', rawElements);
         console.log('2. Type of rawElements:', typeof rawElements);
@@ -331,7 +333,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
             // AUTO-SAVE to API
             const currentWhiteboard = whiteboardRef.current;
-            if (currentWhiteboard?.artboards?.[0]?.id) {
+            const currentArtboard = currentWhiteboard?.artboards?.[activeArtboardIndex];
+            if (currentArtboard?.id) {
                 // Guard: Don't save if empty (prevents overwriting with blank state on load)
                 if (!elements || elements.length === 0) {
                     console.log('Skipping auto-save: No elements to save');
@@ -379,7 +382,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         await api.whiteboards.update(currentWhiteboard.id, { thumbnail: base64data as string });
                     }
 
-                    await api.whiteboards.saveArtboard(currentWhiteboard.artboards[0].id, snapshot);
+                    await api.whiteboards.saveArtboard(currentArtboard.id, snapshot);
                     setSaveStatus('saved');
                 } catch (err: any) {
                     console.error('Auto-save failed:', err);
@@ -428,6 +431,32 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         setGridEnabled(!current);
     };
 
+    const handleAddArtboard = async () => {
+        if (!whiteboard) return;
+        setSaveStatus('saving');
+        try {
+            const newArtboard = await api.whiteboards.addArtboard(id, `Slide ${whiteboard.artboards.length + 1}`);
+            setWhiteboard((prev: any) => ({
+                ...prev,
+                artboards: [...prev.artboards, newArtboard]
+            }));
+            setActiveArtboardIndex(whiteboard.artboards.length);
+            // Clear current canvas for new artboard
+            excalidrawAPI.updateScene({ elements: [], appState: { gridModeEnabled: true } });
+            setSaveStatus('saved');
+        } catch (error) {
+            console.error('Failed to add artboard:', error);
+            setSaveStatus('error');
+        }
+    };
+
+    const handleSwitchArtboard = (index: number) => {
+        if (!whiteboard || index < 0 || index >= whiteboard.artboards.length) return;
+        // Save current first? Auto-save should handle it, but maybe force?
+        setActiveArtboardIndex(index);
+        // Data loading effect will handle the scene update
+    };
+
 
 
     // ... existing refs
@@ -454,6 +483,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     isSidebarDocked={isSidebarDocked}
                     gridEnabled={gridEnabled}
                     onToggleGrid={handleToggleGrid}
+                    artboards={whiteboard?.artboards || []}
+                    activeIndex={activeArtboardIndex}
+                    onAddArtboard={handleAddArtboard}
+                    onSwitchArtboard={handleSwitchArtboard}
                 />
             </div>
 
