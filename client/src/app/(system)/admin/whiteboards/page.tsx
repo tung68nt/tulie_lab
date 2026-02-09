@@ -196,5 +196,6 @@ export default function AdminWhiteboardDashboard() {
                     </div>
                 </div>
             </div>
-            );
+        </div>
+    );
 }
