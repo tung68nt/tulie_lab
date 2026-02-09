@@ -69,6 +69,20 @@ const upload = multer({
     }
 });
 
+// Generate Presigned URL
+router.get('/sign', authenticate, async (req, res) => {
+    try {
+        const key = req.query.key as string;
+        if (!key) return res.status(400).json({ message: 'Key is required' });
+
+        const url = await storageService.getSignedUrl(key);
+        res.json({ success: true, url });
+    } catch (error: any) {
+        console.error('Sign URL Error:', error);
+        res.status(500).json({ message: 'Failed to sign URL', error: error.message });
+    }
+});
+
 // List all files (Admin only) - FROM DB
 router.get('/', authenticate, authorize([Role.ADMIN]), async (req, res) => {
     try {

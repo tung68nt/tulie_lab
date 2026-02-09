@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import dynamic from 'next/dynamic';
 
+import { api } from '@/lib/api';
+
 type VideoType = 'YOUTUBE' | 'VIMEO' | 'CLOUDFLARE_STREAM' | 'SELF_HOSTED' | 'EXTERNAL';
 
 interface VideoPlayerProps {
@@ -25,6 +27,46 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
 
     // Auto-detect type if not provided
     const videoType = type || detectVideoType(url);
+    const [resolvedUrl, setResolvedUrl] = useState(url);
+    const [isResolving, setIsResolving] = useState(false);
+
+    // Fetch Signed URL for R2/Self-hosted content
+    useEffect(() => {
+        const fetchSignedUrl = async () => {
+            // Only sign if it looks like an R2/Upload URL and not already signed (check for signature param)
+            const needsSigning = (videoType === 'CLOUDFLARE_STREAM' || videoType === 'SELF_HOSTED') &&
+                (url.includes('/uploads/') || url.includes('r2.dev')) &&
+                !url.includes('X-Amz-Signature');
+
+            if (needsSigning && user) {
+                try {
+                    setIsResolving(true);
+                    // Extract key from URL
+                    let key = url;
+                    if (url.includes('/uploads/')) {
+                        key = url.split('/uploads/')[1];
+                        if (!key.startsWith('uploads/')) key = 'uploads/' + key;
+                    } else if (url.includes('r2.dev')) {
+                        const parts = url.split('.r2.dev/');
+                        if (parts.length > 1) key = parts[1];
+                    }
+
+                    const res = await api.media.getSignedUrl(key) as any;
+                    if (res.success && res.url) {
+                        setResolvedUrl(res.url);
+                    }
+                } catch (e) {
+                    console.error('Failed to sign video URL', e);
+                } finally {
+                    setIsResolving(false);
+                }
+            } else {
+                setResolvedUrl(url);
+            }
+        };
+
+        fetchSignedUrl();
+    }, [url, videoType, user]);
 
     const renderContent = () => {
         if (error) {
@@ -77,7 +119,13 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
         if (videoType === 'CLOUDFLARE_STREAM' || url.includes('.m3u8')) {
             return (
                 <div className="relative w-full h-full">
-                    <HLSPlayer src={url} title={title} thumbnail={thumbnail} onError={() => setError(true)} />
+                    {isResolving ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded-lg">
+                            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                    ) : (
+                        <HLSPlayer src={resolvedUrl} title={title} thumbnail={thumbnail} onError={() => setError(true)} />
+                    )}
                     <Watermark user={user} />
                 </div>
             );
@@ -90,7 +138,7 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
                     {(containerRef, isFullscreen, toggleFullscreen) => (
                         <>
                             <video
-                                src={url}
+                                src={resolvedUrl}
                                 className="w-full h-full object-contain bg-black"
                                 controls
                                 controlsList="nodownload nofullscreen"

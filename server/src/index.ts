@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import compression from 'compression';
 import dotenv from 'dotenv';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -75,6 +76,7 @@ async function initializeApp() {
     });
 
     app.use(helmet()); // Security headers
+    app.use(compression()); // Gzip compression
     app.use(csrfProtection); // Custom header-based CSRF protection
     app.use('/api', apiLimiter); // Global rate limiting (only for /api routes)
     app.use(cors({

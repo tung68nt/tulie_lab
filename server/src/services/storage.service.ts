@@ -1,5 +1,6 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command, GetObjectCommand } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
+import { getSignedUrl as getPresignedUrl } from '@aws-sdk/s3-request-presigner';
 import path from 'path';
 import fs from 'fs';
 import mime from 'mime-types';
@@ -196,6 +197,37 @@ export class StorageService {
             console.error('[Storage] List R2 Files Fatal Error:', error.message);
             // Return empty array instead of throwing to prevent UI crash
             return [];
+        }
+    }
+    async getSignedUrl(key: string, expiresInSeconds: number = 3600): Promise<string> {
+        try {
+            // Extract key from URL if needed
+            if (key.startsWith('http')) {
+                const urlObj = new URL(key);
+                key = urlObj.pathname.startsWith('/') ? urlObj.pathname.slice(1) : urlObj.pathname;
+            }
+            // Handle /uploads/ prefix if passed
+            if (key.startsWith('/uploads/')) {
+                key = `uploads/${key.replace('/uploads/', '')}`;
+            } else if (key.startsWith('uploads/')) {
+                // already correct
+            } else if (!key.includes('/')) {
+                // assume uploads folder if just filename
+                key = `uploads/${key}`;
+            }
+
+            const command = new GetObjectCommand({
+                Bucket: this.bucket,
+                Key: key
+            });
+
+            // Sign the URL
+            const url = await getPresignedUrl(this.client, command, { expiresIn: expiresInSeconds });
+            return url;
+        } catch (error) {
+            console.error('Get Signed URL Error:', error);
+            // Fallback to public URL or empty string
+            return '';
         }
     }
 }
