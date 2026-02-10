@@ -621,3 +621,41 @@ body {
 .excalidraw .ToolIcon_type_radio:hover {
   background-color: transparent !important;
 }
+
+/* --- FIXES FOR USER FEEDBACK --- */
+
+/* 1. Fix "2 box nền" (Double background/shadow) on Popovers */
+/* Excalidraw uses .popover but our global .popover style conflicts */
+.excalidraw .popover {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Ensure the actual content box (Island) has correct styling */
+.excalidraw .Island,
+.excalidraw .popover .Island {
+  box-shadow: var(--shadow-xl) !important;
+  background-color: var(--color-surface-high) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+  /* Ensures border-radius clips content */
+}
+
+/* 2. Fix "chữ canvas sát vào lề" (Canvas text too close to edge) */
+/* This targets labels inside the popover/island, typically for Background, Grid, etc. */
+.excalidraw .Island .Island__content {
+  padding: 16px !important;
+  /* Increase padding from default */
+}
+
+.excalidraw label {
+  margin-bottom: 6px !important;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.excalidraw .properties-content {
+  padding: 8px !important;
+}
