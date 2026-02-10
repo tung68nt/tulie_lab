@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
-import { ChevronDown, Lock, Play, FileText, BadgeCheck } from 'lucide-react';
+import { ChevronDown, Lock, Play, FileText, BadgeCheck, Check } from 'lucide-react';
 
 interface Lesson {
     id: string;
@@ -85,7 +85,7 @@ export function CourseChapter({
                 {Object.entries(lessonsBySection).map(([sectionName, sectionLessons]: [string, any], sIndex) => (
                     <div key={sectionName || sIndex} className="flex flex-col">
                         {sectionName && (
-                            <div className="pl-5 pr-5 pt-8 pb-1 bg-muted/20 border-t border-border/30">
+                            <div className="pl-5 pr-5 pt-6 pb-1 bg-muted/20 border-t border-border/30">
                                 <h4 className="text-[15px] font-bold text-zinc-900 leading-none">
                                     {sectionName}
                                 </h4>
@@ -99,7 +99,7 @@ export function CourseChapter({
                                 return (
                                     <div key={lesson.id} className="group flex flex-col transition-colors hover:bg-muted/30">
                                         <div
-                                            className="flex items-start pl-5 pr-3 py-3 gap-3 cursor-pointer"
+                                            className="flex items-start pl-5 pr-3 py-5 gap-3 cursor-pointer"
                                             onClick={() => toggleLesson(lesson.id)}
                                         >
                                             {/* Lesson Thumbnail */}
@@ -203,9 +203,11 @@ export function CourseChapter({
                                                                         .map(o => o.trim())
                                                                         .filter(o => o && o !== '-' && o !== '•')
                                                                         .map((line, i) => (
-                                                                            <div key={i} className="flex gap-2">
-                                                                                <span className="text-emerald-500 shrink-0 mt-0.5 font-bold">✓</span>
-                                                                                <span>{line.replace(/^[-\u2022]\s*/, '')}</span>
+                                                                            <div key={i} className="flex gap-2 items-start">
+                                                                                <div className="shrink-0 w-4 h-4 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
+                                                                                    <Check className="w-2.5 h-2.5 text-emerald-600" strokeWidth={2.5} />
+                                                                                </div>
+                                                                                <span className="text-[14px] leading-relaxed text-zinc-600">{line.replace(/^[-\u2022]\s*/, '')}</span>
                                                                             </div>
                                                                         ));
                                                                 })()}

@@ -691,7 +691,9 @@ export default function CoursePage({ params }: { params: any }) {
                                             <ul className="space-y-4">
                                                 {filteredOutcomes.map((line: string, i: number) => (
                                                     <li key={i} className="flex gap-3 items-start text-sm text-zinc-600">
-                                                        <Check className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                                                        <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
+                                                            <Check className="w-3 h-3 text-emerald-600" strokeWidth={2.5} />
+                                                        </div>
                                                         <span className="leading-relaxed">{line.replace(/^- /, '')}</span>
                                                     </li>
                                                 ))}
