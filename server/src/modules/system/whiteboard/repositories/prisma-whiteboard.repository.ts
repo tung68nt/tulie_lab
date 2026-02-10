@@ -33,7 +33,7 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
     }
 
     async findByCreatorId(creatorId: string): Promise<Whiteboard[]> {
-        return prisma.whiteboard.findMany({
+        const boards = await prisma.whiteboard.findMany({
             where: { creatorId, deletedAt: null },
             orderBy: { updatedAt: 'desc' },
             include: {
@@ -42,6 +42,8 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
                 }
             }
         });
+        console.log(`[PrismaWhiteboardRepository] findByCreatorId(${creatorId}): found ${boards.length} boards`);
+        return boards;
     }
 
     async update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus; thumbnail?: string }): Promise<Whiteboard> {
@@ -75,10 +77,22 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
 
         // Prisma handles JSON serialization automatically for Json types
         // We pass the object/array directly
-        return prisma.artboard.update({
+
+        // CRITICAL: We also need to update the parent Whiteboard's updatedAt field
+        // so that it moves to the top of the list.
+        const artboard = await prisma.artboard.update({
             where: { id },
-            data: { elements }
+            data: {
+                elements,
+                whiteboard: {
+                    update: {
+                        updatedAt: new Date()
+                    }
+                }
+            }
         });
+
+        return artboard;
     }
 
     async getArtboards(whiteboardId: string): Promise<any[]> {
