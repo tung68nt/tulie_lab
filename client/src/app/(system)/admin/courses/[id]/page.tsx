@@ -911,15 +911,14 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                             return (
                                                 <div key={chapterName || cIndex} className="bg-muted/5 rounded-xl border border-border/50 p-4">
                                                     <div className="flex items-center gap-3 mb-4">
-                                                        {/* Expand/Collapse logic could be added here if needed */}
                                                         {chapterName !== 'Chưa phân loại' && (
                                                             <div className="h-8 w-8 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
                                                                 <span className="text-zinc-700 font-bold text-sm">{cIndex + 1}</span>
                                                             </div>
                                                         )}
-                                                        <h3 className="text-lg font-bold text-foreground leading-none pb-0.5">
+                                                        <div className="text-lg font-bold text-foreground leading-none pb-1">
                                                             {chapterName}
-                                                        </h3>
+                                                        </div>
                                                         <span className="text-xs text-muted-foreground bg-muted px-2.5 py-1 rounded-full ml-auto font-medium">
                                                             {chapterLessons.length} bài học
                                                         </span>
