@@ -12,7 +12,7 @@ export class WhiteboardController {
 
     create = async (req: Request, res: Response) => {
         try {
-            console.log('[WhiteboardController] create called by user:', req.user.id);
+            console.log('[WhiteboardController] create called by user:', (req as any).user?.id);
             console.log('[WhiteboardController] payload:', req.body);
             const validation = createWhiteboardSchema.safeParse(req.body);
             if (!validation.success) {
@@ -48,7 +48,7 @@ export class WhiteboardController {
 
     getMyWhiteboards = async (req: Request, res: Response) => {
         try {
-            const creatorId = req.user.id;
+            const creatorId = (req as any).user?.id;
             console.log('[WhiteboardController] getMyWhiteboards for user:', creatorId);
             const whiteboards = await this.whiteboardService.getMyWhiteboards(creatorId);
             console.log('[WhiteboardController] found whiteboards count:', whiteboards.length);
