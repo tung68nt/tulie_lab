@@ -68,19 +68,16 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
     }
 
     async updateArtboard(id: string, elements: any): Promise<any> {
-        // Validation: Prevent corrupted data from being saved
-        if (elements === '[object Object]') {
-            console.error('CRITICAL: Attempted to save [object Object] to artboard', id);
-            throw new Error('Invalid data payload (serialization error)');
+        // Validation: Prevent corrupted data from being saved (simple check)
+        if (!elements) {
+            throw new Error('Invalid data payload: elements are missing');
         }
 
-        // Defensive Serialization: Ensure we store a valid JSON string
-        // This prevents implicit .toString() issues if the DB column type is mismatched/text
-        const payload = typeof elements === 'string' ? elements : JSON.stringify(elements);
-
+        // Prisma handles JSON serialization automatically for Json types
+        // We pass the object/array directly
         return prisma.artboard.update({
             where: { id },
-            data: { elements: payload }
+            data: { elements }
         });
     }
 
