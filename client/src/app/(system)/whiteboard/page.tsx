@@ -201,68 +201,51 @@ export default function WhiteboardDashboard() {
                             href={`/whiteboard/${board.id}`}
                             className="group relative flex flex-col bg-card border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/50 dark:hover:shadow-black/20"
                         >
-                            <div className="aspect-video bg-zinc-100 dark:bg-zinc-800/50 flex items-center justify-center border-b border-zinc-100 dark:border-zinc-800 relative overflow-hidden">
+                            <div className="aspect-[4/3] bg-zinc-100 dark:bg-zinc-800/50 flex items-center justify-center border-b border-zinc-100 dark:border-zinc-800 relative overflow-hidden">
                                 {board.thumbnail ? (
                                     <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                 ) : (
-                                    <Layout className="w-10 h-10 text-zinc-300 dark:text-zinc-600 transition-transform duration-300" />
+                                    <Layout className="w-12 h-12 text-zinc-300 dark:text-zinc-600 transition-transform duration-300" strokeWidth={1} />
                                 )}
 
                                 {/* Status Badge Overlay */}
                                 <div className="absolute top-3 left-3">
-                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium backdrop-blur-md border ${board.status === 'PUBLISHED'
-                                        ? 'bg-emerald-500/80 text-white border-emerald-400/30'
+                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-medium backdrop-blur-md border shadow-sm ${board.status === 'PUBLISHED'
+                                        ? 'bg-emerald-500/90 text-white border-emerald-400/30'
                                         : board.status === 'ARCHIVED'
-                                            ? 'bg-zinc-800/80 text-zinc-300 border-zinc-700/50'
-                                            : 'bg-zinc-900/60 text-zinc-300 border-white/10'
+                                            ? 'bg-zinc-800/90 text-zinc-300 border-zinc-700/50'
+                                            : 'bg-white/90 text-zinc-600 border-zinc-200/50 dark:bg-zinc-900/90 dark:text-zinc-300 dark:border-white/10'
                                         }`}>
-                                        <span className={`w-1 h-1 rounded-full mr-1.5 ${board.status === 'PUBLISHED' ? 'bg-white' : 'bg-zinc-400'}`} />
                                         {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Bản nháp'}
                                     </span>
                                 </div>
 
-                                {/* Status Toggle Overlay (Quick Change) */}
-                                <div className="absolute top-3 right-3 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                {/* Floating Actions (Visible on Hover) */}
+                                <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0">
                                     <button
-                                        onClick={(e) => handleStatusUpdate(board.id, 'PUBLISHED', e)}
-                                        className={`p-1.5 rounded-lg backdrop-blur-md shadow-sm transition-all ${board.status === 'PUBLISHED'
-                                            ? 'bg-emerald-500 text-white'
-                                            : 'bg-white/80 text-zinc-500 hover:bg-white hover:text-emerald-600'}`}
-                                        title="Mark as Published"
+                                        onClick={(e) => handleStatusUpdate(board.id, board.status === 'ARCHIVED' ? 'DRAFT' : 'ARCHIVED', e)}
+                                        className="p-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 shadow-sm border border-zinc-200 dark:border-zinc-700 hover:bg-white dark:hover:bg-zinc-800 transition-colors"
+                                        title={board.status === 'ARCHIVED' ? 'Khôi phục' : 'Lưu trữ'}
                                     >
-                                        <Check className="w-3.5 h-3.5" />
+                                        <Archive className="w-4 h-4" />
                                     </button>
                                     <button
-                                        onClick={(e) => handleStatusUpdate(board.id, 'ARCHIVED', e)}
-                                        className={`p-1.5 rounded-lg backdrop-blur-md shadow-sm transition-all ${board.status === 'ARCHIVED'
-                                            ? 'bg-zinc-800 text-white'
-                                            : 'bg-white/80 text-zinc-500 hover:bg-white hover:text-zinc-800'}`}
-                                        title="Move to Archive"
-                                    >
-                                        <Archive className="w-3.5 h-3.5" />
-                                    </button>
-                                </div>
-
-                                {/* Hover Actions Overlay */}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors flex items-start justify-end p-3 opacity-0 group-hover:opacity-100">
-                                    <Button
-                                        as="div"
-                                        variant="ghost"
-                                        size="icon"
-                                        className="h-8 w-8 bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white text-zinc-500 hover:text-red-600 transition-all rounded-full"
                                         onClick={(e) => handleDelete(board.id, e)}
+                                        className="p-2 rounded-xl bg-white/90 dark:bg-zinc-900/90 text-rose-500 hover:text-rose-600 shadow-sm border border-zinc-200 dark:border-zinc-700 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors"
+                                        title="Xóa"
                                     >
                                         <Trash2 className="w-4 h-4" />
-                                    </Button>
+                                    </button>
                                 </div>
                             </div>
-                            <div className="p-4 bg-white dark:bg-zinc-900">
-                                <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-base line-clamp-1">{board.title || 'Không tiêu đề'}</h3>
-                                <p className="text-[10px] text-zinc-400 mt-0.5">ID: {board.id.split('-')[0]}</p>
-                                <div className="flex items-center justify-between mt-3 text-xs text-zinc-500">
-                                    <div className="flex items-center gap-2">
-                                        <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
-                                    </div>
+                            <div className="p-4 bg-white dark:bg-zinc-900 flex flex-col gap-1">
+                                <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-base truncate pr-2">
+                                    {board.title || 'Untitled Whiteboard'}
+                                </h3>
+                                <div className="flex items-center gap-2 text-xs text-zinc-500 font-medium">
+                                    <span>ID: {board.id.split('-')[0]}</span>
+                                    <span>•</span>
+                                    <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
                                 </div>
                             </div>
                         </Link>
