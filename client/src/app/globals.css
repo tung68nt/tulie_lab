@@ -646,16 +646,35 @@ body {
 /* 2. Fix "chữ canvas sát vào lề" (Canvas text too close to edge) */
 /* This targets labels inside the popover/island, typically for Background, Grid, etc. */
 .excalidraw .Island .Island__content {
-  padding: 16px !important;
+  padding: 20px !important;
   /* Increase padding from default */
 }
 
 .excalidraw label {
-  margin-bottom: 6px !important;
+  margin-bottom: 8px !important;
+  margin-top: 4px !important;
   display: inline-block;
   font-weight: 500;
 }
 
 .excalidraw .properties-content {
-  padding: 8px !important;
+  padding: 12px !important;
+}
+
+/* Context Menu & Dropdown Styling (Tulie Style) */
+.excalidraw .context-menu,
+.excalidraw .dropdown-menu,
+.excalidraw .dropdown-menu-container .dropdown-menu {
+  background-color: var(--color-surface-high) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-xl) !important;
+  padding: 4px !important;
+  border-radius: var(--radius) !important;
+}
+
+.excalidraw .dropdown-menu-container {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
 }
