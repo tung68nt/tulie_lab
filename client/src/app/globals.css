@@ -660,15 +660,15 @@ body {
 
 /* --- PURPLE REMOVAL & GRAYSCALE ENFORCEMENT --- */
 
-/* Fix Transparency: Ensure Menu Background is Solid */
+/* Fix Transparency: Ensure Menu Background is Solid and ON TOP */
 .excalidraw .dropdown-menu,
 .excalidraw .dropdown-menu-container .dropdown-menu,
 .excalidraw .App-menu__left {
   background-color: var(--color-surface-high) !important;
   box-shadow: var(--shadow-xl) !important;
   border: 1px solid var(--border) !important;
-  z-index: 1000 !important;
-  /* Ensure it's on top */
+  z-index: 99999 !important;
+  /* Force on top of everything */
 }
 
 /* Force active states to use Zinc-200/300 instead of Purple */
@@ -679,7 +679,9 @@ body {
 .excalidraw .App-menu_top .buttonList .ToolIcon__icon.active,
 .excalidraw .Sidebar .ToolIcon__icon.active,
 .excalidraw .main-menu-trigger.active,
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon {
+.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
+.excalidraw .Stack .ToolIcon__icon[aria-selected="true"],
+.excalidraw .Stack .ToolIcon_type_radio:checked+.ToolIcon__icon {
   background-color: #f4f4f5 !important;
   /* Zinc-100 */
   border: 1px solid #18181b !important;
