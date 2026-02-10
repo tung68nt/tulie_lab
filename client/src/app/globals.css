@@ -622,6 +622,55 @@ body {
   background-color: transparent !important;
 }
 
+/* --- PURPLE REMOVAL & GRAYSCALE ENFORCEMENT --- */
+/* Force active states to use Zinc-200/300 instead of Purple */
+.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
+.excalidraw .ToolIcon__icon.active {
+  background-color: #e4e4e7 !important;
+  /* Zinc-200 */
+  border: 1px solid #d4d4d8 !important;
+  /* Zinc-300 */
+}
+
+/* Force hover states */
+.excalidraw .ToolIcon__icon:hover {
+  background-color: #f4f4f5 !important;
+  /* Zinc-100 */
+  border-color: #e4e4e7 !important;
+}
+
+/* Fix Sliders (Opacity, etc.) - Remove Purple Track */
+.excalidraw input[type="range"] {
+  accent-color: #18181b !important;
+  /* Zinc-900 */
+}
+
+.excalidraw input[type="range"]::-webkit-slider-thumb {
+  background: #18181b !important;
+  border: 1px solid #18181b !important;
+}
+
+.excalidraw input[type="range"]::-webkit-slider-runnable-track {
+  background: #e4e4e7 !important;
+  /* Gray track */
+}
+
+.dark .excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
+.dark .excalidraw .ToolIcon__icon.active {
+  background-color: #3f3f46 !important;
+  /* Zinc-700 */
+  border-color: #52525b !important;
+  color: white !important;
+}
+
+.dark .excalidraw input[type="range"] {
+  accent-color: #fafafa !important;
+}
+
+.dark .excalidraw input[type="range"]::-webkit-slider-runnable-track {
+  background: #3f3f46 !important;
+}
+
 /* --- FIXES FOR USER FEEDBACK --- */
 
 /* 1. Fix "2 box nền" (Double background/shadow) on Popovers */
@@ -676,5 +725,4 @@ body {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
-}
 }
