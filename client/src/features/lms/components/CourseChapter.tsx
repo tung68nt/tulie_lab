@@ -85,7 +85,7 @@ export function CourseChapter({
                 {Object.entries(lessonsBySection).map(([sectionName, sectionLessons]: [string, any], sIndex) => (
                     <div key={sectionName || sIndex} className="flex flex-col">
                         {sectionName && (
-                            <div className="pl-5 pr-5 pt-5 pb-1 bg-muted/20 border-t border-border/30">
+                            <div className="pl-5 pr-5 pt-8 pb-1 bg-muted/20 border-t border-border/30">
                                 <h4 className="text-[15px] font-bold text-zinc-900 leading-none">
                                     {sectionName}
                                 </h4>
@@ -190,7 +190,7 @@ export function CourseChapter({
                                                 {/* Expandable Content - Outcomes */}
                                                 <div className={`transition-all duration-300 overflow-hidden ${isExpanded && lesson.learningOutcomes ? 'max-h-[500px] mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
                                                     {lesson.learningOutcomes && (
-                                                        <div className="bg-muted/10 rounded-xl p-3 border border-border/20">
+                                                        <div className="mt-3 pl-1">
                                                             <p className="text-[14px] font-medium text-zinc-900 mb-2">Bạn sẽ học được gì:</p>
                                                             <div className="text-[14px] font-medium text-zinc-900 space-y-2">
                                                                 {(() => {

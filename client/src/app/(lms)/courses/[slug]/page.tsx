@@ -529,7 +529,7 @@ export default function CoursePage({ params }: { params: any }) {
                     <div className="md:col-span-2">
                         {/* Course Curriculum */}
                         <section className="mb-12">
-                            <h2 className="mb-10 text-2xl font-bold">Nội dung khóa học</h2>
+                            <h2 className="mb-6 text-2xl font-bold">Nội dung khóa học</h2>
                             <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <div className="">
