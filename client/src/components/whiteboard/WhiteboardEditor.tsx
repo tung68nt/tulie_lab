@@ -413,6 +413,25 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     };
 
+    const handleAddArtboard = async () => {
+        if (!whiteboard) return;
+        try {
+            const newArtboard = await api.whiteboards.addArtboard(whiteboard.id);
+            setWhiteboard((prev: any) => ({
+                ...prev,
+                artboards: [...(prev.artboards || []), newArtboard]
+            }));
+            // Set index to the new last element (current length is the index of the next item)
+            setActiveArtboardIndex((whiteboard.artboards?.length || 0));
+        } catch (error) {
+            console.error('Failed to add artboard:', error);
+        }
+    };
+
+    const handleSwitchArtboard = (index: number) => {
+        setActiveArtboardIndex(index);
+    };
+
     const handleExcalidrawAPI = useCallback((api: ExcalidrawImperativeAPI) => {
         setExcalidrawAPI(api);
         setExcalidrawReady(true);
@@ -420,21 +439,31 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
     const isLoading = !isLoaded || (id !== 'new' && !excalidrawReady);
 
+    if (!isLoaded) {
+        return (
+            <div className="flex items-center justify-center w-full h-screen bg-background">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            </div>
+        );
+    }
+
     return (
         <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
             <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
                 <WhiteboardHeader
                     title={whiteboard?.title}
+                    status={whiteboard?.status || 'DRAFT'} // Pass status
+                    onStatusChange={handleStatusChange}    // Pass handler
                     saveStatus={saveStatus}
-                    status={whiteboard?.status}
-                    onStatusChange={handleStatusChange}
                     onBack={() => router.push('/whiteboard')}
                     onRename={handleRename}
                     isSidebarDocked={isSidebarDocked}
                     gridEnabled={gridEnabled}
-                    onToggleGrid={handleToggleGrid}
+                    onToggleGrid={() => setGridEnabled(!gridEnabled)}
                     artboards={whiteboard?.artboards || []}
                     activeIndex={activeArtboardIndex}
+                    onAddArtboard={handleAddArtboard}
+                    onSwitchArtboard={handleSwitchArtboard}
                 />
             </div>
 

@@ -182,33 +182,6 @@ export default function WhiteboardHeader({
                 window.EXCALIDRAW_ASSET_PATH = "/excalidraw-assets/";
             `}
             </Script>
-            <style id="excalidraw-overrides">
-                {`
-                .excalidraw {
-                    --color-primary: #18181b !important;
-                    --color-primary-hover: #27272a !important;
-                    --color-primary-light: #f4f4f5 !important;
-                    --color-selection-border: #a1a1aa !important;
-                    --color-selection: rgba(24, 24, 27, 0.05) !important;
-                    --button-hover-bg: #f4f4f5 !important;
-                }
-                /* Resetting aggressive overrides to fix UI issues */
-                .excalidraw .ToolIcon__icon svg, .excalidraw .App-menu__button svg {
-                    color: #27272a !important;
-                }
-                .excalidraw .ToolIcon_type_button:hover, .excalidraw .ToolIcon_type_radio:hover {
-                    background-color: #f4f4f5 !important;
-                }
-                .excalidraw .ToolIcon_type_button:active, .excalidraw .ToolIcon_type_radio:active {
-                    background-color: #e4e4e7 !important;
-                }
-                .excalidraw-kbd {
-                    background: #f4f4f5 !important;
-                    border-color: #e4e4e7 !important;
-                    color: #71717a !important;
-                }
-            `}
-            </style>
         </>
     );
 }

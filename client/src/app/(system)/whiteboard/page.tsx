@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { Plus, LayoutGrid, Layout, ArrowRight, Trash2, List, ShieldAlert, Archive, Check, ChevronDown, MoreHorizontal, Copy } from 'lucide-react';
+import { Plus, LayoutGrid, Layout, ArrowRight, Trash2, List, ShieldAlert, Archive, Check, ChevronDown, MoreHorizontal, Copy, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
@@ -29,6 +29,10 @@ export default function WhiteboardDashboard() {
             const data = await api.whiteboards.list(`?t=${Date.now()}`);
             console.log('[WhiteboardDashboard] fetched count:', data?.length);
             setWhiteboards(data || []);
+            // TODO: Remove this debug toast after fixing the issue
+            if (data?.length === 0) {
+                addToast('Danh sách trống (0 bảng). Hãy thử tạo mới!', 'info');
+            }
         } catch (error) {
             console.error('Failed to fetch whiteboards:', error);
             // Don't clear whiteboards on error to show stale data at least? 
@@ -123,6 +127,17 @@ export default function WhiteboardDashboard() {
                     <p className="text-muted-foreground mt-1 text-zinc-500">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
                 <div className="flex items-center gap-3">
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={fetchWhiteboards}
+                        disabled={isLoading}
+                        className="h-10 w-10 border-zinc-200 dark:border-zinc-700 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl"
+                        title="Reload List"
+                    >
+                        <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+                        {/* Using ArrowRight as Refresh icon substitute if RefreshCw not imported, or just import RefreshCw */}
+                    </Button>
                     <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800/50 rounded-2xl border border-zinc-200 dark:border-zinc-700/50">
                         <button
                             onClick={() => setViewMode('grid')}
