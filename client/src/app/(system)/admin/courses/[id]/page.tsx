@@ -864,31 +864,100 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             {lessons.length === 0 ? (
                                 <p className="text-muted-foreground text-sm">Chưa có bài học nào.</p>
                             ) : (
-                                <div className="space-y-2">
-                                    {lessons.sort((a, b) => a.position - b.position).map((lesson, index) => (
-                                        <LessonItem
-                                            key={lesson.id}
-                                            lesson={lesson}
-                                            index={index}
-                                            totalLessons={lessons.length}
-                                            structure={courseForm.structure}
-                                            onDelete={handleDeleteLesson}
-                                            onUpdateLesson={handleUpdateLesson}
-                                            onMoveLesson={handleMoveLesson}
-                                            onAddAttachment={async (lessonId, data) => {
-                                                try {
-                                                    const attach = await api.admin.courses.addAttachment(lessonId, data);
-                                                    setLessons(prev => prev.map(l => l.id === lessonId ? {
-                                                        ...l,
-                                                        attachments: [...(l.attachments || []), attach]
-                                                    } : l));
-                                                    addToast('Đã thêm tài liệu đính kèm', 'success');
-                                                } catch (e) {
-                                                    addToast('Thêm tài liệu đính kèm thất bại', 'error');
-                                                }
-                                            }}
-                                        />
-                                    ))}
+                                <div className="space-y-6">
+                                    {(() => {
+                                        const sorted = [...lessons].sort((a, b) => a.position - b.position);
+                                        const chapters = Array.from(new Set(sorted.map(l => l.chapter || 'Chưa phân loại')));
+
+                                        if (chapters.length === 1 && chapters[0] === 'Chưa phân loại') {
+                                            return (
+                                                <div className="space-y-2">
+                                                    {sorted.map((lesson, index) => (
+                                                        <LessonItem
+                                                            key={lesson.id}
+                                                            lesson={lesson}
+                                                            index={index}
+                                                            totalLessons={sorted.length}
+                                                            structure={courseForm.structure}
+                                                            onDelete={handleDeleteLesson}
+                                                            onUpdateLesson={handleUpdateLesson}
+                                                            onMoveLesson={handleMoveLesson}
+                                                            onAddAttachment={async (lessonId, data) => {
+                                                                try {
+                                                                    const attach = await api.admin.courses.addAttachment(lessonId, data);
+                                                                    setLessons(prev => prev.map(l => l.id === lessonId ? {
+                                                                        ...l,
+                                                                        attachments: [...(l.attachments || []), attach]
+                                                                    } : l));
+                                                                    addToast('Đã thêm tài liệu đính kèm', 'success');
+                                                                } catch (e) {
+                                                                    addToast('Thêm tài liệu đính kèm thất bại', 'error');
+                                                                }
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            );
+                                        }
+
+                                        return chapters.map((chapterName, cIndex) => {
+                                            const chapterLessons = sorted.filter(l => (l.chapter || 'Chưa phân loại') === chapterName);
+
+                                            // Find the global start index for this chapter in the sorted array
+                                            // Note: finding first occurrence isn't 100% accurate if chapters are interleaved, 
+                                            // but standard LMS usually keeps chapters contiguous.
+                                            // To be safe, we find index of each lesson individually.
+
+                                            return (
+                                                <div key={chapterName || cIndex} className="bg-muted/5 rounded-xl border border-border/50 p-4">
+                                                    <div className="flex items-center gap-2 mb-4">
+                                                        {/* Expand/Collapse logic could be added here if needed */}
+                                                        {chapterName !== 'Chưa phân loại' && (
+                                                            <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                                                                <span className="text-primary font-bold text-sm">{cIndex + 1}</span>
+                                                            </div>
+                                                        )}
+                                                        <h3 className="text-lg font-bold text-foreground">
+                                                            {chapterName}
+                                                        </h3>
+                                                        <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full ml-auto">
+                                                            {chapterLessons.length} bài học
+                                                        </span>
+                                                    </div>
+
+                                                    <div className="space-y-2 pl-2 border-l-2 border-primary/20 ml-3">
+                                                        {chapterLessons.map(lesson => {
+                                                            const globalIndex = sorted.findIndex(l => l.id === lesson.id);
+                                                            return (
+                                                                <LessonItem
+                                                                    key={lesson.id}
+                                                                    lesson={lesson}
+                                                                    index={globalIndex}
+                                                                    totalLessons={sorted.length}
+                                                                    structure={courseForm.structure}
+                                                                    onDelete={handleDeleteLesson}
+                                                                    onUpdateLesson={handleUpdateLesson}
+                                                                    onMoveLesson={handleMoveLesson}
+                                                                    onAddAttachment={async (lessonId, data) => {
+                                                                        try {
+                                                                            const attach = await api.admin.courses.addAttachment(lessonId, data);
+                                                                            setLessons(prev => prev.map(l => l.id === lessonId ? {
+                                                                                ...l,
+                                                                                attachments: [...(l.attachments || []), attach]
+                                                                            } : l));
+                                                                            addToast('Đã thêm tài liệu đính kèm', 'success');
+                                                                        } catch (e) {
+                                                                            addToast('Thêm tài liệu đính kèm thất bại', 'error');
+                                                                        }
+                                                                    }}
+                                                                />
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            );
+                                        });
+                                    })()}
                                 </div>
                             )}
                         </CardContent>
@@ -1037,7 +1106,7 @@ function LessonItem({
                 <div className="flex-1 min-w-0" onClick={() => setExpanded(!expanded)}>
                     <p className="font-semibold text-sm truncate">{lesson.title}</p>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground mt-0.5 flex-wrap">
-                        {lesson.chapter && <span className="bg-muted px-1.5 py-0.5 rounded font-medium">{lesson.chapter}</span>}
+
                         {lesson.section && <span className="text-muted-foreground">• {lesson.section}</span>}
                         <span className="flex items-center gap-1">
                             {lesson.isFree ? (
