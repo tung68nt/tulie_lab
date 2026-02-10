@@ -24,8 +24,11 @@ export class WhiteboardController {
 
             const { title, description } = validation.data;
             const creatorId = req.user.id;
+            console.log(`[WhiteboardController] CREATE Request - UserID: ${creatorId}, Title: ${title}`);
+
             const whiteboard = await this.whiteboardService.createWhiteboard(creatorId, title, description);
-            console.log('[WhiteboardController] created whiteboard:', whiteboard.id);
+
+            console.log(`[WhiteboardController] CREATE Success - New Board ID: ${whiteboard.id}`);
             res.status(201).json(whiteboard);
         } catch (error: any) {
             console.error('[WhiteboardController] create error:', error);
@@ -49,9 +52,11 @@ export class WhiteboardController {
     getMyWhiteboards = async (req: Request, res: Response) => {
         try {
             const creatorId = (req as any).user?.id;
-            console.log('[WhiteboardController] getMyWhiteboards for user:', creatorId);
+            console.log(`[WhiteboardController] LIST Request - UserID: ${creatorId}`);
+
             const whiteboards = await this.whiteboardService.getMyWhiteboards(creatorId);
-            console.log('[WhiteboardController] found whiteboards count:', whiteboards.length);
+
+            console.log(`[WhiteboardController] LIST Success - Found ${whiteboards.length} boards for UserID: ${creatorId}`);
             res.json(whiteboards);
         } catch (error: any) {
             console.error('[WhiteboardController] getMyWhiteboards error:', error);
