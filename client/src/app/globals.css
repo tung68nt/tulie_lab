@@ -597,68 +597,15 @@ body {
 }
 
 /* Ensure the checkmark icon (likely a pseudo-element or SVG) is positioned correctly */
-/* --- EXCALIDRAW THEME OVERRIDES --- */
-.excalidraw.excalidraw-container,
+/* --- EXCALIDRAW THEME OVERRIDES */
+/* Only overriding font to match system */
 .excalidraw {
-  --color-primary: #18181b !important;
-  /* Zinc-900 */
-  --color-primary-hover: #27272a !important;
-  /* Zinc-800 */
-  --color-primary-light: #f4f4f5 !important;
-  /* Zinc-100 */
-  --color-primary-dark: #000000 !important;
-  --color-secondary: #71717a !important;
-  --color-brand: #18181b !important;
-  --color-brand-hover: #27272a !important;
-  --color-brand-active: #3f3f46 !important;
-  --color-selection-border: #a1a1aa !important;
-  --color-selection: rgba(24, 24, 27, 0.05) !important;
-  --button-hover-bg: #f4f4f5 !important;
-  --color-surface-low: #ffffff !important;
-  --color-surface-mid: #f4f4f5 !important;
-  --color-surface-high: #ffffff !important;
-  --color-on-primary: #ffffff !important;
-  --color-on-secondary: #18181b !important;
+  font-family: var(--font-sans), system-ui, sans-serif !important;
 }
 
-.excalidraw.theme--dark {
-  --color-primary: #ffffff !important;
-  --color-primary-hover: #e4e4e7 !important;
-  --color-primary-light: #3f3f46 !important;
-  --color-brand: #ffffff !important;
-  --color-brand-hover: #e4e4e7 !important;
-  --color-surface-low: #18181b !important;
-  --color-surface-mid: #27272a !important;
-  --color-surface-high: #27272a !important;
-  --color-on-primary: #000000 !important;
+.excalidraw .virgil {
+  font-family: "Virgil", sans-serif !important;
 }
-
-.excalidraw .context-menu-item.checkmark svg,
-.excalidraw .context-menu-item.checkmark::before {
-  left: 10px !important;
-  position: absolute !important;
-}
-
-.excalidraw.theme--dark .context-menu-item-separator,
-.excalidraw.theme--dark .dropdown-menu-container>div[style*="height: 1px"] {
-  border-bottom-color: #27272a !important;
-  /* Zinc-800 */
-  background-color: #27272a !important;
-}
-
-/* Override Library View Toggle (Grid/List) */
-.excalidraw .library-menu-items-container__header .excalidraw-button,
-.excalidraw .ToolIcon_type_radio,
-.excalidraw .ToolIcon_type_radio input+.ToolIcon__icon {
-  border-radius: 0.5rem !important;
-}
-
-.excalidraw .library-menu-items-container__header .excalidraw-button:hover,
-.excalidraw .ToolIcon_type_radio:hover {
-  background-color: transparent !important;
-}
-
-/* --- PURPLE REMOVAL & GRAYSCALE ENFORCEMENT --- */
 
 /* Fix Transparency: Ensure Menu Background is Solid and ON TOP */
 .excalidraw .dropdown-menu,
@@ -671,43 +618,6 @@ body {
   /* Force on top of everything */
 }
 
-/* Force active states to use Zinc-200/300 instead of Purple */
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.excalidraw .ToolIcon__icon.active,
-.excalidraw .buttonList label.active .ToolIcon__icon,
-.excalidraw .Shape:checked+.ToolIcon__icon,
-.excalidraw .App-menu_top .buttonList .ToolIcon__icon.active,
-.excalidraw .Sidebar .ToolIcon__icon.active,
-.excalidraw .main-menu-trigger.active,
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.excalidraw .Stack .ToolIcon__icon[aria-selected="true"],
-.excalidraw .Stack .ToolIcon_type_radio:checked+.ToolIcon__icon {
-  background-color: #f4f4f5 !important;
-  /* Zinc-100 */
-  border: 1px solid #18181b !important;
-  /* DARKER BORDER */
-  color: #18181b !important;
-}
-
-/* Fix Purple Outlines on Focus/Active */
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.excalidraw .ToolIcon_type_checkbox:checked+.ToolIcon__icon {
-  --color-primary: #18181b !important;
-  --color-primary-light: #f4f4f5 !important;
-}
-
-/* Force dark mode active states */
-.dark .excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.dark .excalidraw .ToolIcon__icon.active,
-.dark .excalidraw .buttonList label.active .ToolIcon__icon,
-.dark .excalidraw .Shape:checked+.ToolIcon__icon,
-.dark .excalidraw .App-menu_top .buttonList .ToolIcon__icon.active,
-.dark .excalidraw .Sidebar .ToolIcon__icon.active {
-  background-color: #3f3f46 !important;
-  /* Zinc-700 */
-  border-color: #ffffff !important;
-  color: white !important;
-}
 
 /* Specific fixing for Property Panel interactions (Stroke, Background, etc) */
 /* This targets the internal SVG icons to ensure they don't stay purple */
