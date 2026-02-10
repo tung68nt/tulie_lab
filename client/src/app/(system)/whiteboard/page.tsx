@@ -9,9 +9,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { useRouter } from 'next/navigation';
 
+import { useConfirm } from '@/components/ConfirmDialog';
+
 export default function WhiteboardDashboard() {
     const { user, isAuthenticated, isLoading: authLoading } = useAuth();
     const { addToast } = useToast();
+    const confirm = useConfirm(); // Initialize hook
     const [whiteboards, setWhiteboards] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isCreating, setIsCreating] = useState(false);
@@ -29,7 +32,6 @@ export default function WhiteboardDashboard() {
             setIsLoading(false);
         }
     };
-
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
             router.push('/login');
@@ -68,12 +70,24 @@ export default function WhiteboardDashboard() {
 
     const handleDelete = async (id: string, e: React.MouseEvent) => {
         e.preventDefault();
-        if (!confirm('Bạn có chắc chắn muốn xóa bảng trắng này?')) return;
+
+        const isConfirmed = await confirm({
+            title: 'Xóa bảng trắng',
+            message: 'Bạn có chắc chắn muốn xóa bảng trắng này? Hành động này không thể hoàn tác.',
+            confirmText: 'Xóa vĩnh viễn',
+            cancelText: 'Hủy bỏ',
+            variant: 'danger'
+        });
+
+        if (!isConfirmed) return;
+
         try {
             await api.whiteboards.delete(id);
             setWhiteboards(whiteboards.filter(b => b.id !== id));
+            addToast('Đã xóa bảng trắng thành công', 'success');
         } catch (error) {
             console.error('Failed to delete whiteboard:', error);
+            addToast('Có lỗi xảy ra khi xóa bảng trắng', 'error');
         }
     };
 
