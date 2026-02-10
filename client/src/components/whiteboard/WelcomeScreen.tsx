@@ -56,38 +56,38 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             {/* Instructional Arrows (Hidden on mobile) */}
             <div className="absolute inset-0 pointer-events-none z-20 hidden lg:block overflow-hidden">
                 {/* 1. Menu Arrow (Top Left) - Points to Menu Button */}
-                <div className="absolute top-24 left-24 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl -rotate-2">
-                    <span className="block absolute w-60 left-8 top-12 text-left leading-tight">
-                        Menu & Options
+                <div className="absolute top-24 left-16 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl -rotate-2">
+                    <span className="block absolute w-60 left-12 top-16 text-left leading-tight">
+                        Main menu
                     </span>
-                    <svg width="100" height="100" viewBox="0 0 100 100" className="opacity-60 absolute -top-12 -left-12">
-                        {/* Simple curved arrow pointing to top-left corner */}
-                        <path d="M50,60 Q20,50 5,5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        <path d="M5,15 L5,5 L15,5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg width="100" height="100" viewBox="0 0 100 100" className="opacity-60 absolute -top-16 -left-8">
+                        {/* Curve pointing to the hamburger menu at top-left */}
+                        <path d="M70,80 Q40,60 10,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d="M10,25 L10,10 L25,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
 
                 {/* 2. Tools Arrow (Top Center) - Points to Toolbar */}
-                <div className="absolute top-36 left-1/2 -translate-x-1/2 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl">
-                    <span className="block absolute w-60 -left-[5rem] top-12 text-center leading-tight">
-                        Toolbar
+                <div className="absolute top-28 left-1/2 -translate-x-1/2 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl">
+                    <span className="block absolute w-60 -left-[16rem] top-4 text-right leading-tight italic">
+                        Select a tool to start...
                     </span>
-                    <svg width="40" height="60" viewBox="0 0 40 60" className="opacity-60 absolute left-1/2 -translate-x-1/2 -top-12">
-                        {/* Simple up arrow */}
-                        <path d="M20,50 L20,5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        <path d="M10,15 L20,5 L30,15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg width="60" height="60" viewBox="0 0 60 60" className="opacity-60 absolute left-4 -top-12 rotate-[120deg]">
+                        {/* Curved arrow pointing up to center toolbar */}
+                        <path d="M10,50 Q20,20 50,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d="M35,10 L50,10 L50,25" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
 
-                {/* 3. Help Arrow (Bottom Right) - Points to Help/Shortcuts */}
-                <div className="absolute bottom-20 right-24 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl">
-                    <span className="block absolute w-40 -left-32 top-0 text-right leading-tight">
-                        Shortcuts
+                {/* 3. Tulie Controls Arrow (Bottom Center) - Points to Bottom Header */}
+                <div className="absolute bottom-24 left-1/2 -translate-x-1/2 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl">
+                    <span className="block absolute w-80 left-[8rem] -top-4 text-left leading-tight">
+                        Grid, Status & Artboards
                     </span>
-                    <svg width="80" height="60" viewBox="0 0 80 60" className="opacity-60 absolute -right-6 top-2">
-                        {/* Curve down-right */}
-                        <path d="M10,20 Q40,30 70,50" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        <path d="M60,50 L70,50 L70,40" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg width="120" height="80" viewBox="0 0 120 80" className="opacity-60 absolute -left-16 top-4 scale-y-[-1]">
+                        {/* Curve down-right to the bottom header bar */}
+                        <path d="M10,20 Q40,30 110,60" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        <path d="M95,60 L110,60 L110,45" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
             </div>

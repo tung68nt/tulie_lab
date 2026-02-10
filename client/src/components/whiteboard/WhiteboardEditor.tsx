@@ -439,6 +439,27 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     };
 
+    const handleManualSave = async () => {
+        const currentWhiteboard = whiteboard;
+        const currentArtboard = currentWhiteboard?.artboards?.[activeArtboardIndex];
+        const elements = currentElementsRef.current;
+
+        if (!currentArtboard?.id || !elements || elements.length === 0) return;
+
+        setSaveStatus('saving');
+        try {
+            const snapshot = {
+                elements,
+                appState: excalidrawAPI?.getAppState() || {}
+            };
+            await api.whiteboards.saveArtboard(currentArtboard.id, snapshot);
+            setSaveStatus('saved');
+        } catch (err) {
+            console.error('Manual save failed:', err);
+            setSaveStatus('error');
+        }
+    };
+
     const handleSwitchArtboard = (index: number) => {
         setActiveArtboardIndex(index);
     };
@@ -466,11 +487,20 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     status={whiteboard?.status || 'DRAFT'} // Pass status
                     onStatusChange={handleStatusChange}    // Pass handler
                     saveStatus={saveStatus}
-                    onBack={() => router.push('/whiteboard')}
+                    onBack={async () => {
+                        // Force a final save if not saved
+                        if (saveStatus === 'saving' || saveStatus === 'unsaved') {
+                            setSaveStatus('saving');
+                            // Small delay to ensure any pending timeout has a chance (though mostly the button handles it)
+                            await new Promise(r => setTimeout(r, 200));
+                        }
+                        router.push('/whiteboard');
+                    }}
+                    onSave={handleManualSave}
                     onRename={handleRename}
                     isSidebarDocked={isSidebarDocked}
                     gridEnabled={gridEnabled}
-                    onToggleGrid={() => setGridEnabled(!gridEnabled)}
+                    onToggleGrid={handleToggleGrid}
                     artboards={whiteboard?.artboards || []}
                     activeIndex={activeArtboardIndex}
                     onAddArtboard={handleAddArtboard}

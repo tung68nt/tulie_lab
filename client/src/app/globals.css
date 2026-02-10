@@ -871,14 +871,15 @@ body {
 }
 
 /* FIX: more tools (shapes) icon misalignment in toolbar */
-.excalidraw .App-toolbar-content .Stack {
-  align-items: center !important;
-}
-
-.excalidraw .App-toolbar-content>.Stack>.Stack {
-  display: flex !important;
+.excalidraw .App-toolbar-content {
   align-items: center !important;
   justify-content: center !important;
+}
+
+.excalidraw .App-toolbar-content .Stack {
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 2px !important;
 }
 
 /* Normalize all ToolIcons to prevent one being higher than others */
@@ -886,17 +887,22 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
+  margin: 0 !important;
   vertical-align: middle !important;
+  width: 36px !important;
+  height: 36px !important;
 }
 
 /* Specifically target the shapes/library button if it's offset */
 .excalidraw .ShapeButtons .ToolIcon__icon,
-.excalidraw .ToolIcon_type_button[aria-label="More tools"] {
+.excalidraw .ToolIcon_type_button[aria-label="More tools"],
+.excalidraw .ToolIcon_type_button[aria-label="Library"] {
   padding: 0 !important;
   margin: 0 !important;
   transform: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* Add some spacing/margin around the main menu hamburger to make it feel "on top" */

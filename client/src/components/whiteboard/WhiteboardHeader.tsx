@@ -20,12 +20,13 @@ interface WhiteboardHeaderProps {
     activeIndex: number;
     onAddArtboard?: () => void;
     onSwitchArtboard?: (index: number) => void;
+    onSave?: () => Promise<void>;
 }
 
 export default function WhiteboardHeader({
     title, saveStatus, status = 'DRAFT', onStatusChange, onBack, onRename, isSidebarDocked,
     gridEnabled = true, onToggleGrid,
-    artboards = [], activeIndex = 0, onAddArtboard, onSwitchArtboard
+    artboards = [], activeIndex = 0, onAddArtboard, onSwitchArtboard, onSave
 }: WhiteboardHeaderProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(title || 'Untitled Whiteboard');
@@ -153,7 +154,7 @@ export default function WhiteboardHeader({
                         </div>
                     </div>
 
-                    {/* Status Badge */}
+                    {/* Status Badge & Manual Save */}
                     <div className="hidden sm:flex items-center gap-1.5 bg-zinc-50 dark:bg-zinc-700/50 px-2 py-0.5 rounded-full border border-zinc-100 dark:border-zinc-700 ml-1">
                         {saveStatus === 'saving' && (
                             <>
@@ -162,16 +163,24 @@ export default function WhiteboardHeader({
                             </>
                         )}
                         {saveStatus === 'saved' && (
-                            <>
-                                <Cloud className="w-3 h-3 text-zinc-400" />
+                            <button
+                                onClick={onSave}
+                                className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+                                title="Click to force save"
+                            >
+                                <Cloud className="w-3 h-3 text-emerald-500" />
                                 <span className="text-[10px] text-zinc-400 font-medium">Saved</span>
-                            </>
+                            </button>
                         )}
                         {saveStatus === 'error' && (
-                            <>
+                            <button
+                                onClick={onSave}
+                                className="flex items-center gap-1.5"
+                                title="Retry save"
+                            >
                                 <div className="w-2 h-2 bg-red-500 rounded-full" />
-                                <span className="text-[10px] text-red-500 font-medium">Error</span>
-                            </>
+                                <span className="text-[10px] text-red-500 font-medium">Retry</span>
+                            </button>
                         )}
                     </div>
                 </div>
