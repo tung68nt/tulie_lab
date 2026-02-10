@@ -56,37 +56,37 @@ export default function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             {/* Instructional Arrows (Hidden on mobile) */}
             <div className="absolute inset-0 pointer-events-none z-20 hidden lg:block overflow-hidden">
                 {/* 1. Menu Arrow (Top Left) - Points to Menu Button */}
-                <div className="absolute top-12 left-12 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl -rotate-6">
-                    <svg width="120" height="120" viewBox="0 0 100 100" className="opacity-70">
-                        {/* Pointing to (10,10) relative to this box. Box is at 3rem,3rem. Button is at ~1rem,1rem. So (10,10) is good. */}
-                        <path d="M60,80 Q25,60 5,15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        <path d="M5,25 L5,15 L15,12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <div className="absolute top-16 left-16 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl -rotate-6">
+                    <svg width="150" height="150" viewBox="0 0 100 100" className="opacity-70">
+                        {/* Curve starting lower and further right to avoid text */}
+                        <path d="M80,80 Q40,70 10,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d="M10,20 L10,10 L20,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span className="block absolute w-60 left-8 top-20 text-center leading-tight">
+                    <span className="block absolute w-60 left-10 top-24 text-center leading-tight">
                         Export, preferences, languages, ...
                     </span>
                 </div>
 
                 {/* 2. Tools Arrow (Top Center) - Points to Toolbar */}
                 <div className="absolute top-24 left-1/2 -translate-x-1/2 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl">
-                    <svg width="120" height="120" viewBox="0 0 100 100" className="opacity-70">
-                        {/* Point straight up */}
-                        <path d="M55,90 Q50,55 50,5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        <path d="M42,15 L50,5 L58,15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <svg width="120" height="150" viewBox="0 0 100 100" className="opacity-70">
+                        {/* More natural upward curve */}
+                        <path d="M50,90 Q55,50 50,10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d="M42,20 L50,10 L58,20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                    <span className="block absolute w-56 -left-12 top-24 text-center leading-tight -rotate-3">
+                    <span className="block absolute w-72 -left-20 top-28 text-center leading-tight -rotate-2">
                         Pick a tool &<br />Start drawing!
                     </span>
                 </div>
 
                 {/* 3. Help Arrow (Bottom Right) - Points to Help/Shortcuts */}
-                <div className="absolute bottom-10 right-14 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl">
-                    <span className="block absolute w-40 -left-40 top-0 text-right leading-tight rotate-3">
+                <div className="absolute bottom-12 right-16 text-zinc-400 dark:text-zinc-500 font-['Virgil'] text-xl">
+                    <span className="block absolute w-40 -left-32 -top-6 text-right leading-tight rotate-3">
                         Shortcuts & help
                     </span>
                     <svg width="100" height="100" viewBox="0 0 100 100" className="opacity-70">
                         {/* Point to bottom right */}
-                        <path d="M20,30 Q60,50 90,85" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        <path d="M30,30 Q60,50 90,85" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                         <path d="M80,85 L90,85 L85,73" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
