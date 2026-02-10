@@ -339,83 +339,121 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-/* Push main menu dropdown lower to avoid overlapping with custom logo header */
-.excalidraw .App-menu_top .dropdown-menu-container {
-  margin-top: 16px !important;
-}
-
-/* --- THEME CUSTOMIZATION: GRAYSCALE OVERRIDES --- */
 .excalidraw {
+  /* Use Inter for UI, but keep Excalifont/Virgil available for canvas elements if needed */
+  --font-family: "Inter", "Excalifont", "Virgil", sans-serif !important;
+
   /* Force Override Default Purple Theme (#6965db) to Tulie Zinc/Black Theme */
   --color-primary: #18181b !important;
+  /* Icon/Text Color (Zinc-900) */
   --color-primary-dark: #09090b !important;
   --color-primary-darker: #09090b !important;
   --color-primary-light: #f4f4f5 !important;
-  /* Selection colors */
-  --color-selection: rgba(24, 24, 27, 0.1) !important;
+  --color-primary-light-darker: #e4e4e7 !important;
+
+  /* Buttons & Active States */
+  --button-primary-bg: #f4f4f5 !important;
+  /* Light Bg (Zinc-100) - Contrast with Primary Icon */
+  --button-hover-bg: #e4e4e7 !important;
+  /* darker hover */
+  --button-primary-hover: #e4e4e7 !important;
+  --button-active-bg: #18181b !important;
+  /* Active = Dark */
+  --button-active-color: #ffffff !important;
+  /* Active Icon = White */
+
+  /* Focus rings and checks */
+  --color-brand: #18181b !important;
+  --color-brand-hover: #09090b !important;
+  --color-brand-active: #09090b !important;
+
+  /* Selection & Accents */
+  --color-focus-ring: #18181b !important;
+  --color-selection: #a1a1aa !important;
+
+  /* Surface Colors */
+  --color-surface-high: #ffffff !important;
+  /* Pure White */
+  --color-surface-mid: #fafafa !important;
+  --color-surface-low: #f4f4f5 !important;
+  --color-surface-lowest: #e4e4e7 !important;
+
+  /* Borders */
+  --default-border-color: #e4e4e7 !important;
+  --sidebar-border-color: #e4e4e7 !important;
+  --input-border-color: #d4d4d8 !important;
+
+  /* Input/TextField backgrounds */
+  --ExcTextField--background: #f4f4f5 !important;
+  --ExcTextField--readonly--background: #fafafa !important;
+
+  /* Radio buttons */
+  --RadioGroup-border: #e4e4e7 !important;
+  --RadioGroup-choice-background-off-active: #e4e4e7 !important;
 }
 
 .excalidraw.theme--dark {
   --color-primary: #fafafa !important;
+  /* Icon/Text (Zinc-50) */
   --color-primary-dark: #ffffff !important;
   --color-primary-darker: #ffffff !important;
   --color-primary-light: #27272a !important;
-  --color-selection: rgba(250, 250, 250, 0.1) !important;
+  /* Zinc-800 */
+
+  --button-primary-bg: #27272a !important;
+  /* Dark Bg (Zinc-800) - Contrast with Primary Icon */
+  --button-hover-bg: #3f3f46 !important;
+  /* Lighter hover (Zinc-700) */
+
+  --button-active-bg: #fafafa !important;
+  /* Active = Light */
+  --button-active-color: #18181b !important;
+  /* Active Icon = Dark */
+
+  --color-brand: #fafafa !important;
+  --color-brand-hover: #ffffff !important;
+
+  --color-surface-high: #18181b !important;
+  /* Zinc-900 */
+  --color-surface-mid: #27272a !important;
+  --color-surface-low: #3f3f46 !important;
 }
 
-/* Target specific icons that stay purple */
+/* Force specific elements that might escape variables */
 .excalidraw .ToolIcon__icon.active,
 .excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-primary) !important;
   --icon-fill-color: var(--color-primary) !important;
-  --keybinding-color: var(--color-primary) !important;
 }
 
-/* --- TOOLBAR LAYOUT FIX --- */
-/* Ensure toolbar icons are correctly aligned and don't wrap strangely */
-.excalidraw .App-bottom-bar {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-  bottom: 20px !important;
+.excalidraw .ToolIcon__icon:hover {
+  background-color: var(--color-primary-light) !important;
 }
 
-.excalidraw .App-toolbar {
-  position: static !important;
-  box-shadow: none !important;
+.excalidraw .App-menu_top .buttonList .ToolIcon__icon.active {
+  background-color: var(--color-primary) !important;
+  color: white !important;
 }
 
-.excalidraw .App-toolbar-content {
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 2px !important;
-  align-items: center !important;
-  padding: 4px !important;
-  background-color: var(--color-surface-high) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  box-shadow: var(--shadow-lg) !important;
+/* Hide Excalidraw external links in Help dialog */
+/* Hide external resource buttons (Documentation, Blog, YouTube, Submit) */
+.excalidraw .HelpDialog__btn {
+  display: none !important;
 }
 
-/* Fix specific icon positioning if they are pushed out */
-.excalidraw .App-toolbar-content>.Stack {
-  flex-direction: row !important;
-  gap: 2px !important;
-  align-items: center !important;
+/* Hide "Excalidraw links" footer section */
+.excalidraw .HelpDialog__footer,
+.excalidraw .HelpDialog a[href*="github.com/excalidraw"],
+.excalidraw .HelpDialog a[href*="twitter.com"],
+.excalidraw .HelpDialog a[href*="discord"] {
+  display: none !important;
 }
 
-/* Ensure the divider (separator) is vertical and correctly spaced */
-.excalidraw .App-toolbar-separator {
-  height: 24px !important;
-  width: 1px !important;
-  background-color: var(--border) !important;
-  margin: 0 4px !important;
+/* Push main menu dropdown lower to avoid overlapping with custom logo header */
+.excalidraw .App-menu_top .dropdown-menu-container {
+  margin-top: 16px !important;
 }
-
-.excalidraw .HintViewer {
-  margin-bottom: 70px !important;
-}
-
 
 /* Hide Excalidraw links section in main menu and the separator above it */
 .excalidraw .dropdown-menu-container .dropdown-menu-group:has(a[href*="github.com"]),
@@ -559,15 +597,68 @@ body {
 }
 
 /* Ensure the checkmark icon (likely a pseudo-element or SVG) is positioned correctly */
-/* --- EXCALIDRAW THEME OVERRIDES */
-/* Only overriding font to match system */
+/* --- EXCALIDRAW THEME OVERRIDES --- */
+.excalidraw.excalidraw-container,
 .excalidraw {
-  font-family: var(--font-sans), system-ui, sans-serif !important;
+  --color-primary: #18181b !important;
+  /* Zinc-900 */
+  --color-primary-hover: #27272a !important;
+  /* Zinc-800 */
+  --color-primary-light: #f4f4f5 !important;
+  /* Zinc-100 */
+  --color-primary-dark: #000000 !important;
+  --color-secondary: #71717a !important;
+  --color-brand: #18181b !important;
+  --color-brand-hover: #27272a !important;
+  --color-brand-active: #3f3f46 !important;
+  --color-selection-border: #a1a1aa !important;
+  --color-selection: rgba(24, 24, 27, 0.05) !important;
+  --button-hover-bg: #f4f4f5 !important;
+  --color-surface-low: #ffffff !important;
+  --color-surface-mid: #f4f4f5 !important;
+  --color-surface-high: #ffffff !important;
+  --color-on-primary: #ffffff !important;
+  --color-on-secondary: #18181b !important;
 }
 
-.excalidraw .virgil {
-  font-family: "Virgil", sans-serif !important;
+.excalidraw.theme--dark {
+  --color-primary: #ffffff !important;
+  --color-primary-hover: #e4e4e7 !important;
+  --color-primary-light: #3f3f46 !important;
+  --color-brand: #ffffff !important;
+  --color-brand-hover: #e4e4e7 !important;
+  --color-surface-low: #18181b !important;
+  --color-surface-mid: #27272a !important;
+  --color-surface-high: #27272a !important;
+  --color-on-primary: #000000 !important;
 }
+
+.excalidraw .context-menu-item.checkmark svg,
+.excalidraw .context-menu-item.checkmark::before {
+  left: 10px !important;
+  position: absolute !important;
+}
+
+.excalidraw.theme--dark .context-menu-item-separator,
+.excalidraw.theme--dark .dropdown-menu-container>div[style*="height: 1px"] {
+  border-bottom-color: #27272a !important;
+  /* Zinc-800 */
+  background-color: #27272a !important;
+}
+
+/* Override Library View Toggle (Grid/List) */
+.excalidraw .library-menu-items-container__header .excalidraw-button,
+.excalidraw .ToolIcon_type_radio,
+.excalidraw .ToolIcon_type_radio input+.ToolIcon__icon {
+  border-radius: 0.5rem !important;
+}
+
+.excalidraw .library-menu-items-container__header .excalidraw-button:hover,
+.excalidraw .ToolIcon_type_radio:hover {
+  background-color: transparent !important;
+}
+
+/* --- PURPLE REMOVAL & GRAYSCALE ENFORCEMENT --- */
 
 /* Fix Transparency: Ensure Menu Background is Solid and ON TOP */
 .excalidraw .dropdown-menu,
@@ -580,6 +671,43 @@ body {
   /* Force on top of everything */
 }
 
+/* Force active states to use Zinc-200/300 instead of Purple */
+.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
+.excalidraw .ToolIcon__icon.active,
+.excalidraw .buttonList label.active .ToolIcon__icon,
+.excalidraw .Shape:checked+.ToolIcon__icon,
+.excalidraw .App-menu_top .buttonList .ToolIcon__icon.active,
+.excalidraw .Sidebar .ToolIcon__icon.active,
+.excalidraw .main-menu-trigger.active,
+.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
+.excalidraw .Stack .ToolIcon__icon[aria-selected="true"],
+.excalidraw .Stack .ToolIcon_type_radio:checked+.ToolIcon__icon {
+  background-color: #f4f4f5 !important;
+  /* Zinc-100 */
+  border: 1px solid #18181b !important;
+  /* DARKER BORDER */
+  color: #18181b !important;
+}
+
+/* Fix Purple Outlines on Focus/Active */
+.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
+.excalidraw .ToolIcon_type_checkbox:checked+.ToolIcon__icon {
+  --color-primary: #18181b !important;
+  --color-primary-light: #f4f4f5 !important;
+}
+
+/* Force dark mode active states */
+.dark .excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
+.dark .excalidraw .ToolIcon__icon.active,
+.dark .excalidraw .buttonList label.active .ToolIcon__icon,
+.dark .excalidraw .Shape:checked+.ToolIcon__icon,
+.dark .excalidraw .App-menu_top .buttonList .ToolIcon__icon.active,
+.dark .excalidraw .Sidebar .ToolIcon__icon.active {
+  background-color: #3f3f46 !important;
+  /* Zinc-700 */
+  border-color: #ffffff !important;
+  color: white !important;
+}
 
 /* Specific fixing for Property Panel interactions (Stroke, Background, etc) */
 /* This targets the internal SVG icons to ensure they don't stay purple */

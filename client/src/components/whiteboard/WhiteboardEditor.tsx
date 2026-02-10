@@ -104,18 +104,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         if (elements.length > 0) {
                             setParsedInitialData({
                                 elements,
-                                appState: {
-                                    ...appState as WhiteboardAppState,
-                                    gridModeEnabled: true,
-                                    theme: 'light' // Default to light theme for consistency
-                                }
+                                appState: { ...appState as WhiteboardAppState, gridModeEnabled: true }
                             });
                             currentElementsRef.current = elements;
                             setShowWelcome(false); // Explicitly hide if we have elements
                         } else {
                             setParsedInitialData({
                                 elements: [],
-                                appState: { gridModeEnabled: true, theme: 'light' } as WhiteboardAppState
+                                appState: { gridModeEnabled: true } as WhiteboardAppState
                             });
                             setShowWelcome(true); // Explicitly show if empty
                         }
