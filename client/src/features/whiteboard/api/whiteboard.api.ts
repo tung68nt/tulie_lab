@@ -1,7 +1,7 @@
 import { request } from '@/lib/api-client';
 
 export const whiteboardApi = {
-    list: () => request<any[]>('/whiteboards/my'),
+    list: (query = '') => request<any[]>(`/whiteboards/my${query}`),
     get: (id: string) => request<any>(`/whiteboards/${id}`),
     create: (data: { title?: string; description?: string }) => request<any>('/whiteboards', { method: 'POST', body: JSON.stringify(data) }),
     update: (id: string, data: any) => request<any>(`/whiteboards/${id}`, { method: 'PUT', body: JSON.stringify(data) }),

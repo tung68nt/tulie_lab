@@ -24,14 +24,21 @@ export default function WhiteboardDashboard() {
 
     const fetchWhiteboards = async () => {
         try {
-            const data = await api.whiteboards.list();
-            setWhiteboards(data);
+            console.log('[WhiteboardDashboard] fetching whiteboards...');
+            // Add timestamp to prevent caching
+            const data = await api.whiteboards.list(`?t=${Date.now()}`);
+            console.log('[WhiteboardDashboard] fetched count:', data?.length);
+            setWhiteboards(data || []);
         } catch (error) {
             console.error('Failed to fetch whiteboards:', error);
+            // Don't clear whiteboards on error to show stale data at least? 
+            // Or maybe current behavior is fine.
         } finally {
             setIsLoading(false);
         }
     };
+
+    // Force refetch on mount and when auth ready
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
             router.push('/login');
@@ -41,6 +48,15 @@ export default function WhiteboardDashboard() {
             fetchWhiteboards();
         }
     }, [isAuthenticated, authLoading]);
+
+    // Check if we need to Refetch on focus (e.g. coming back from tab or another page)
+    useEffect(() => {
+        const onFocus = () => {
+            if (isAuthenticated) fetchWhiteboards();
+        };
+        window.addEventListener('focus', onFocus);
+        return () => window.removeEventListener('focus', onFocus);
+    }, [isAuthenticated]);
 
     const handleCreate = async () => {
         setIsCreating(true);
