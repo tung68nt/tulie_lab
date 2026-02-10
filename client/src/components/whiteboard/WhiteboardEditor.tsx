@@ -1,19 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
 import { exportToBlob } from '@excalidraw/excalidraw';
 
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
+// import SaveStatusIndicator, { SaveStatus } from './SaveStatusIndicator'; // Kept for type import if needed
 import { SaveStatus } from './SaveStatusIndicator';
 import WhiteboardHeader from './WhiteboardHeader';
 import WelcomeScreen from './WelcomeScreen';
-import { WhiteboardElement, WhiteboardAppState, WhiteboardData } from '@/features/whiteboard/types';
-
-// Excalidraw API type is not easily exported, using any to match ExcalidrawWrapper
-type ExcalidrawImperativeAPI = any;
 
 interface WhiteboardEditorProps {
     id: string;
@@ -21,10 +19,8 @@ interface WhiteboardEditorProps {
 
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const router = useRouter();
-    const [whiteboard, setWhiteboard] = useState<any>(null); // Keep any for full whiteboard object for now as it comes from API
-    const [activeArtboardIndex, setActiveArtboardIndex] = useState(0);
-    const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawImperativeAPI | null>(null);
-    const [excalidrawReady, setExcalidrawReady] = useState(false);
+    const [whiteboard, setWhiteboard] = useState<any>(null);
+    const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
     const [isLoaded, setIsLoaded] = useState(false);
 
     // Optimized UI State
@@ -32,17 +28,16 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [showWelcome, setShowWelcome] = useState(false);
     const [isSidebarDocked, setIsSidebarDocked] = useState(false);
     const [gridEnabled, setGridEnabled] = useState(true); // Default true
-    const [parsedInitialData, setParsedInitialData] = useState<WhiteboardData | undefined>(undefined);
+    const [parsedInitialData, setParsedInitialData] = useState<{ elements?: any[]; appState?: any } | undefined>(undefined);
 
     // Refs for performance (avoid state updates during drawing)
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const lastEmitTimeRef = useRef<number>(0);
     const lastPointerUpdateRef = useRef<number>(0);
-    const lastThumbnailTimeRef = useRef<number>(0); // Throttle thumbnail generation
-    const socketRef = useRef<Socket | null>(null);
+    const socketRef = useRef<any>(null);
     const creatingRef = useRef(false);
     const whiteboardRef = useRef<any>(null);
-    const currentElementsRef = useRef<readonly WhiteboardElement[]>([]);
+    const currentElementsRef = useRef<readonly any[]>([]);
 
     // Keep ref in sync
     useEffect(() => {
@@ -76,54 +71,46 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 const data = await api.whiteboards.get(id);
                 setWhiteboard(data);
 
-                // Parse initial data for Excalidraw from active artboard
-                const currentArtboard = data.artboards?.[activeArtboardIndex] || data.artboards?.[0];
-                const rawElements = currentArtboard?.elements;
+                // Parse initial data for Excalidraw
+                const rawElements = data.artboards?.[0]?.elements;
+                console.log('=== PARSING INITIAL DATA ===');
+                console.log('Raw elements:', rawElements);
 
                 if (rawElements) {
                     try {
-                        // Strict parsing logic - expecting correct structure
                         const parsed = typeof rawElements === 'string'
                             ? JSON.parse(rawElements)
                             : rawElements;
 
-                        let elements: WhiteboardElement[] = [];
-                        let appState: Partial<WhiteboardAppState> = {};
+                        console.log('Parsed data:', parsed);
 
-                        if (parsed && parsed.elements && Array.isArray(parsed.elements)) {
-                            // Standard format
+                        let elements: any[] = [];
+                        let appState = {};
+
+                        if (Array.isArray(parsed)) {
+                            // Legacy format: just array of elements
+                            elements = parsed;
+                        } else if (parsed && parsed.elements) {
+                            // Correct format: { elements, appState }
                             elements = parsed.elements;
                             appState = parsed.appState || {};
-                        } else if (Array.isArray(parsed)) {
-                            // Deprecated: Legacy array support (to be removed in v2)
-                            // We keep it strictly as fallback but log warning
-                            console.warn('Legacy whiteboard data format detected');
-                            elements = parsed;
                         }
 
+                        console.log('Final elements count:', elements.length);
+
                         if (elements.length > 0) {
-                            setParsedInitialData({
-                                elements,
-                                appState: { ...appState as WhiteboardAppState, gridModeEnabled: true }
-                            });
+                            setParsedInitialData({ elements, appState: { ...appState, gridModeEnabled: true } });
                             currentElementsRef.current = elements;
-                            setShowWelcome(false); // Explicitly hide if we have elements
                         } else {
-                            setParsedInitialData({
-                                elements: [],
-                                appState: { gridModeEnabled: true } as WhiteboardAppState
-                            });
-                            setShowWelcome(true); // Explicitly show if empty
+                            setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
+                            setShowWelcome(true);
                         }
                     } catch (e) {
                         console.error('Failed to parse elements:', e);
                         setShowWelcome(true);
                     }
                 } else {
-                    setParsedInitialData({
-                        elements: [],
-                        appState: { gridModeEnabled: true } as WhiteboardAppState
-                    });
+                    setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
                     setShowWelcome(true);
                 }
             } catch (error) {
@@ -155,8 +142,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             console.log('Socket connected:', socket.id);
         });
 
-        socket.on('draw_synced', (data: { elements: WhiteboardElement[] }) => {
+        socket.on('draw_synced', (data: any) => {
             if (excalidrawAPI && data.elements) {
+                // Update scene from remote
+                // Check if we have active changes to avoid conflict? Use versioning ideally.
+                // For now, straightforward update
                 excalidrawAPI.updateScene({
                     elements: data.elements,
                     commitToHistory: false
@@ -170,48 +160,76 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         };
     }, [id, excalidrawAPI]);
 
-    // Handle active artboard switching
+    // Handle initial data for Excalidraw
     useEffect(() => {
-        if (!excalidrawAPI || !whiteboard?.artboards?.[activeArtboardIndex]) return;
+        if (!excalidrawAPI || !whiteboard?.artboards?.[0]) return;
 
-        const rawElements = whiteboard.artboards[activeArtboardIndex].elements;
+        const rawElements = whiteboard.artboards[0].elements;
+        console.log('=== DEBUG: Data Loading ===');
+        console.log('1. Raw elements from API:', rawElements);
+        console.log('2. Type of rawElements:', typeof rawElements);
 
         if (!rawElements) {
-            // Reset canvas if empty
-            excalidrawAPI.updateScene({ elements: [], appState: { gridModeEnabled: true } });
+            console.log('3. No elements found, skipping load');
             return;
         }
+
+        console.log('Loading data into Excalidraw', whiteboard.title);
 
         try {
             const elementsData = typeof rawElements === 'string'
                 ? JSON.parse(rawElements)
                 : rawElements;
 
-            let finalElements: WhiteboardElement[] = [];
-            let finalAppState: Partial<WhiteboardAppState> = {};
+            console.log('4. Parsed elementsData:', elementsData);
+            console.log('5. elementsData type:', typeof elementsData);
+            console.log('6. Is array?:', Array.isArray(elementsData));
 
-            if (elementsData && elementsData.elements) {
+            let finalElements: any[] = [];
+            let finalAppState = {};
+
+            if (Array.isArray(elementsData)) {
+                // Recovery: Handle data saved during bug period (just array of elements)
+                console.warn('7. Recovering legacy array data format');
+                finalElements = elementsData;
+            } else if (elementsData && elementsData.elements) {
+                // Correct format: { elements: [...], appState: {...} }
+                console.log('7. Using correct format with elements key');
                 finalElements = elementsData.elements;
                 finalAppState = elementsData.appState || {};
-            } else if (Array.isArray(elementsData)) {
-                finalElements = elementsData;
+            } else if (elementsData && typeof elementsData === 'object') {
+                // Maybe double-stringified?
+                console.warn('7. Unknown format, trying to extract elements:', Object.keys(elementsData));
             }
 
-            excalidrawAPI.updateScene({
-                elements: finalElements,
-                appState: {
-                    ...finalAppState,
-                    gridModeEnabled: finalAppState.gridModeEnabled !== undefined ? finalAppState.gridModeEnabled : true,
-                    viewBackgroundColor: finalAppState.viewBackgroundColor || '#f9f9f9'
-                }
-            });
-            currentElementsRef.current = finalElements;
+            console.log('8. Final elements count:', finalElements?.length);
+            console.log('9. Sample element:', finalElements?.[0]);
 
+            if (finalElements && finalElements.length > 0) {
+                console.log('10. Calling updateScene with', finalElements.length, 'elements');
+                excalidrawAPI.updateScene({
+                    elements: finalElements,
+                    appState: {
+                        ...finalAppState,
+                        gridModeEnabled: finalAppState.gridModeEnabled !== undefined ? finalAppState.gridModeEnabled : true,
+                        viewBackgroundColor: finalAppState.viewBackgroundColor || '#f9f9f9'
+                    }
+                });
+                currentElementsRef.current = finalElements;
+                console.log('11. updateScene called successfully');
+            } else {
+                console.warn('10. No elements to load');
+                // Ensure grid and background are set even if no elements
+                excalidrawAPI.updateScene({
+                    appState: { ...finalAppState, gridModeEnabled: true, viewBackgroundColor: '#f9f9f9' }
+                });
+            }
         } catch (e) {
-            console.error('Failed to parse whiteboard elements on switch:', e);
+            console.error('Failed to parse whiteboard elements:', e);
+            console.error('Raw data was:', rawElements);
         }
 
-    }, [excalidrawAPI, whiteboard, activeArtboardIndex]);
+    }, [excalidrawAPI, whiteboard]);
 
     // Style HintViewer text with kbd tags (Layout fixes only)
     useEffect(() => {
@@ -220,6 +238,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             if (!hintViewer || hintViewer.querySelector('kbd')) return;
 
             const text = hintViewer.textContent || '';
+            // Regex to match keys: Modifiers, named keys, or single uppercase letters (A-Z) and numbers (0-9)
+            // Avoid matching common words unless they are specifically capitalised key names like 'Space'
             const keyRegex = /\b(Scroll wheel|Space|Option|Cmd|Ctrl|Alt|Shift|Enter|Delete|Backspace|Esc|Tab|Return|PgUp|PgDn|End|Home|Ins|Del|Arrow [A-Za-z]+|[A-Z0-9])\b/g;
 
             let styledText = text
@@ -232,14 +252,14 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 hintViewer.innerHTML = styledText;
             }
 
+            // Layout fix: Ensure margin bottom for hint viewer (Reduced from 40px as requested)
             const hintViewerEl = document.querySelector('.excalidraw .HintViewer');
             if (hintViewerEl) {
-                // WhiteboardHeader is at bottom-2 (8px) and has ~50px height = 58px.
-                // We place HintViewer at 70px to be safely above it.
-                (hintViewerEl as HTMLElement).style.marginBottom = '70px';
+                (hintViewerEl as HTMLElement).style.marginBottom = '24px';
             }
         };
 
+        // Observer to watch for HintViewer changes
         const observer = new MutationObserver(() => {
             styleHintViewer();
         });
@@ -249,6 +269,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             subtree: true,
         });
 
+        // Initial run
         styleHintViewer();
 
         return () => observer.disconnect();
@@ -261,16 +282,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     }, []);
 
     const onChange = useCallback((elements: readonly any[], appState: any) => {
-        // Cast to our Types
-        const typedElements = elements as WhiteboardElement[];
-        const typedAppState = appState as WhiteboardAppState;
-
         // Fast path: Update ref immediately
-        currentElementsRef.current = typedElements;
+        currentElementsRef.current = elements;
 
         // Sync grid state for UI toggle
-        if (typedAppState.gridModeEnabled !== gridEnabled) {
-            setGridEnabled(!!typedAppState.gridModeEnabled);
+        if (appState.gridModeEnabled !== gridEnabled) {
+            setGridEnabled(appState.gridModeEnabled);
         }
 
         // Debounce Network Operations (Save & Sync)
@@ -279,7 +296,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
 
         // Hide welcome screen if elements exist
-        if (typedElements.length > 0) {
+        // check ref to avoid dependency
+        if (elements.length > 0) {
             setShowWelcome((prev) => {
                 if (prev) return false;
                 return prev;
@@ -295,9 +313,9 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     socketRef.current.emit('draw_change', {
                         whiteboardId: id,
                         changes: {
-                            elements: typedElements,
+                            elements: elements,
                             appState: {
-                                viewBackgroundColor: typedAppState.viewBackgroundColor
+                                viewBackgroundColor: appState.viewBackgroundColor
                             }
                         }
                     });
@@ -306,75 +324,72 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
 
 
             // Update Sidebar State
-            if (typedAppState.isSidebarDocked !== isSidebarDocked) {
-                setIsSidebarDocked(!!typedAppState.isSidebarDocked);
+            if (appState.isSidebarDocked !== isSidebarDocked) {
+                setIsSidebarDocked(!!appState.isSidebarDocked);
             }
 
             // AUTO-SAVE to API
             const currentWhiteboard = whiteboardRef.current;
-            const currentArtboard = currentWhiteboard?.artboards?.[activeArtboardIndex];
-            if (currentArtboard?.id) {
+            if (currentWhiteboard?.artboards?.[0]?.id) {
                 // Guard: Don't save if empty (prevents overwriting with blank state on load)
-                if (!typedElements || typedElements.length === 0) {
+                if (!elements || elements.length === 0) {
+                    console.log('Skipping auto-save: No elements to save');
                     return;
+                }
+
+                // Check if we have only deleted elements (optional, depends on behavior)
+                const hasNonDeleted = elements.some((el: any) => !el.isDeleted);
+                if (!hasNonDeleted && elements.length > 0) {
+                    // We allow saving "all deleted" if the user actually deleted everything.
+                    // But strictly speaking, on initial load, it might be empty.
                 }
 
                 setSaveStatus('saving');
 
                 const snapshot = {
-                    elements: typedElements,
+                    elements: elements,
                     appState: {
-                        viewBackgroundColor: typedAppState.viewBackgroundColor,
-                        gridModeEnabled: typedAppState.gridModeEnabled,
-                        currentItemFontFamily: typedAppState.currentItemFontFamily,
-                        currentItemFontSize: typedAppState.currentItemFontSize,
+                        viewBackgroundColor: appState.viewBackgroundColor,
+                        gridModeEnabled: appState.gridModeEnabled, // Persist grid state
+                        currentItemFontFamily: appState.currentItemFontFamily,
+                        currentItemFontSize: appState.currentItemFontSize,
+                        // Add other necessary appState props
                     }
                 };
 
                 try {
-                    // Generate Thumbnail - THROTTLED to 30 seconds
-                    const thumbnailNow = Date.now();
-                    if (excalidrawAPI && (thumbnailNow - lastThumbnailTimeRef.current > 30000)) {
-                        lastThumbnailTimeRef.current = thumbnailNow;
-                        try {
-                            const blob = await exportToBlob({
-                                elements: typedElements,
-                                mimeType: 'image/jpeg',
-                                appState: {
-                                    ...typedAppState,
-                                    viewBackgroundColor: typedAppState.viewBackgroundColor || '#ffffff',
-                                },
-                                files: excalidrawAPI.getFiles(),
-                                quality: 0.5,
-                            });
+                    // Generate Thumbnail
+                    const blob = await exportToBlob({
+                        elements,
+                        mimeType: 'image/jpeg',
+                        appState: {
+                            ...appState,
+                            viewBackgroundColor: appState.viewBackgroundColor || '#ffffff',
+                        },
+                        files: excalidrawAPI.getFiles(),
+                        quality: 0.5, // Low quality for thumbnail
+                    });
 
-                            const reader = new FileReader();
-                            reader.readAsDataURL(blob);
-                            reader.onloadend = async () => {
-                                const base64data = reader.result;
-                                await api.whiteboards.update(currentWhiteboard.id, { thumbnail: base64data as string });
-                            }
-                        } catch (thumbErr) {
-                            console.warn('Thumbnail generation failed (non-critical):', thumbErr);
-                        }
+                    // Convert blob to base64
+                    const reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = async () => {
+                        const base64data = reader.result;
+                        await api.whiteboards.update(currentWhiteboard.id, { thumbnail: base64data as string });
                     }
 
-                    await api.whiteboards.saveArtboard(currentArtboard.id, snapshot);
+                    await api.whiteboards.saveArtboard(currentWhiteboard.artboards[0].id, snapshot);
                     setSaveStatus('saved');
                 } catch (err: any) {
                     console.error('Auto-save failed:', err);
-                    // Provide more detailed error logging if available
-                    if (err.message) console.error('Error message:', err.message);
-                    if (err.response) console.error('API Response:', err.response);
-
                     setSaveStatus('error');
                 }
             }
 
-        }, 500);
-    }, [id, excalidrawAPI, activeArtboardIndex, gridEnabled, isSidebarDocked]);
+        }, 500); // Increased debounce to 500ms for better perf
+    }, [id, excalidrawAPI]); // REMOVED whiteboard, showWelcome dependence
 
-    // Throttle: 200ms
+    // Throttle: 200ms (Reduced frequency)
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
         const now = Date.now();
         if (now - lastPointerUpdateRef.current > 200) {
@@ -399,6 +414,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             await api.whiteboards.update(id, { title: newTitle });
         } catch (error) {
             console.error('Failed to rename whiteboard:', error);
+            // Revert on error (optional, or just show toast)
         }
     };
 
@@ -411,121 +427,37 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         setGridEnabled(!current);
     };
 
-    const handleStatusChange = async (status: string) => {
-        if (!whiteboard) return;
-        try {
-            setSaveStatus('saving');
-            await api.whiteboards.update(id, { status });
-            setWhiteboard((prev: any) => ({ ...prev, status }));
-            setSaveStatus('saved');
-        } catch (error) {
-            console.error('Failed to update status:', error);
-            setSaveStatus('error');
-        }
-    };
-
-    const handleAddArtboard = async () => {
-        if (!whiteboard) return;
-        try {
-            const newArtboard = await api.whiteboards.addArtboard(whiteboard.id);
-            setWhiteboard((prev: any) => ({
-                ...prev,
-                artboards: [...(prev.artboards || []), newArtboard]
-            }));
-            // Set index to the new last element (current length is the index of the next item)
-            setActiveArtboardIndex((whiteboard.artboards?.length || 0));
-        } catch (error) {
-            console.error('Failed to add artboard:', error);
-        }
-    };
-
-    const handleManualSave = async () => {
-        const currentWhiteboard = whiteboard;
-        const currentArtboard = currentWhiteboard?.artboards?.[activeArtboardIndex];
-        const elements = currentElementsRef.current;
-
-        if (!currentArtboard?.id || !elements || elements.length === 0) return;
-
-        setSaveStatus('saving');
-        try {
-            const snapshot = {
-                elements,
-                appState: excalidrawAPI?.getAppState() || {}
-            };
-            await api.whiteboards.saveArtboard(currentArtboard.id, snapshot);
-            setSaveStatus('saved');
-        } catch (err) {
-            console.error('Manual save failed:', err);
-            setSaveStatus('error');
-        }
-    };
-
-    const handleSwitchArtboard = (index: number) => {
-        setActiveArtboardIndex(index);
-    };
-
-    const handleExcalidrawAPI = useCallback((api: ExcalidrawImperativeAPI) => {
-        setExcalidrawAPI(api);
-        setExcalidrawReady(true);
-    }, []);
-
-    const isLoading = !isLoaded || (id !== 'new' && !excalidrawReady);
-
-    if (!isLoaded) {
+    if (!isLoaded && id !== 'new') {
         return (
             <div className="flex items-center justify-center w-full h-screen bg-background">
-                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                {/* Tulie-style Loader: Simple Arc Spinner */}
+                <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-zinc-200 border-t-zinc-900 dark:border-zinc-800 dark:border-t-zinc-50" />
             </div>
         );
     }
 
     return (
         <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-            <div className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
-                <WhiteboardHeader
-                    title={whiteboard?.title}
-                    status={whiteboard?.status || 'DRAFT'} // Pass status
-                    onStatusChange={handleStatusChange}    // Pass handler
-                    saveStatus={saveStatus}
-                    onBack={async () => {
-                        // Force a final save if not saved
-                        if (saveStatus === 'saving' || saveStatus === 'unsaved') {
-                            setSaveStatus('saving');
-                            // Small delay to ensure any pending timeout has a chance (though mostly the button handles it)
-                            await new Promise(r => setTimeout(r, 200));
-                        }
-                        router.push('/whiteboard');
-                    }}
-                    onSave={handleManualSave}
-                    onRename={handleRename}
-                    isSidebarDocked={isSidebarDocked}
-                    gridEnabled={gridEnabled}
-                    onToggleGrid={handleToggleGrid}
-                    artboards={whiteboard?.artboards || []}
-                    activeIndex={activeArtboardIndex}
-                    onAddArtboard={handleAddArtboard}
-                    onSwitchArtboard={handleSwitchArtboard}
-                />
-            </div>
+            <WhiteboardHeader
+                title={whiteboard?.title}
+                saveStatus={saveStatus}
+                onBack={() => router.push('/whiteboard')}
+                onRename={handleRename}
+                isSidebarDocked={isSidebarDocked}
+                gridEnabled={gridEnabled}
+                onToggleGrid={handleToggleGrid}
+            />
 
-            {isLoading && (
-                <div className="absolute inset-0 z-50 flex items-center justify-center bg-white dark:bg-zinc-950">
-                    <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-zinc-200 border-t-zinc-900 dark:border-zinc-800 dark:border-t-zinc-50" />
-                </div>
-            )}
+            <ExcalidrawWrapper
+                excalidrawAPI={setExcalidrawAPI}
+                onChange={onChange}
+                onPointerUpdate={onPointerUpdate}
+                onBack={() => router.back()}
+                title={whiteboard?.title}
+                initialData={parsedInitialData}
+            />
 
-            {(isLoaded || id === 'new') && (
-                <div className={`w-full h-full transition-opacity duration-500 ${excalidrawReady ? 'opacity-100' : 'opacity-0'}`}>
-                    <ExcalidrawWrapper
-                        excalidrawAPI={handleExcalidrawAPI}
-                        onChange={onChange}
-                        onPointerUpdate={onPointerUpdate}
-                        onBack={() => router.back()}
-                        title={whiteboard?.title}
-                        initialData={parsedInitialData}
-                    />
-                </div>
-            )}
+            {/* SaveStatusIndicator removed in favor of Header */}
 
             {showWelcome && (
                 <WelcomeScreen onStart={handleStartDrawing} />

@@ -33,17 +33,10 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
     }
 
     async findByCreatorId(creatorId: string): Promise<Whiteboard[]> {
-        const boards = await prisma.whiteboard.findMany({
+        return prisma.whiteboard.findMany({
             where: { creatorId, deletedAt: null },
-            orderBy: { updatedAt: 'desc' },
-            include: {
-                _count: {
-                    select: { artboards: true }
-                }
-            }
+            orderBy: { updatedAt: 'desc' }
         });
-        console.log(`[PrismaWhiteboardRepository] findByCreatorId(${creatorId}): found ${boards.length} boards`);
-        return boards;
     }
 
     async update(id: string, data: { title?: string; description?: string; status?: WhiteboardStatus; thumbnail?: string }): Promise<Whiteboard> {
@@ -70,29 +63,20 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
     }
 
     async updateArtboard(id: string, elements: any): Promise<any> {
-        // Validation: Prevent corrupted data from being saved (simple check)
-        if (!elements) {
-            throw new Error('Invalid data payload: elements are missing');
+        // Validation: Prevent corrupted data from being saved
+        if (elements === '[object Object]') {
+            console.error('CRITICAL: Attempted to save [object Object] to artboard', id);
+            throw new Error('Invalid data payload (serialization error)');
         }
 
-        // Prisma handles JSON serialization automatically for Json types
-        // We pass the object/array directly
+        // Defensive Serialization: Ensure we store a valid JSON string
+        // This prevents implicit .toString() issues if the DB column type is mismatched/text
+        const payload = typeof elements === 'string' ? elements : JSON.stringify(elements);
 
-        // CRITICAL: We also need to update the parent Whiteboard's updatedAt field
-        // so that it moves to the top of the list.
-        const artboard = await prisma.artboard.update({
+        return prisma.artboard.update({
             where: { id },
-            data: {
-                elements,
-                whiteboard: {
-                    update: {
-                        updatedAt: new Date()
-                    }
-                }
-            }
+            data: { elements: payload }
         });
-
-        return artboard;
     }
 
     async getArtboards(whiteboardId: string): Promise<any[]> {

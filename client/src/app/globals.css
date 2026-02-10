@@ -510,14 +510,14 @@ body {
 }
 
 /* Context Menu & Dropdown Styling (Tulie Style) */
-/* Context Menu & Dropdown Styling (Tulie Style) */
 .excalidraw .context-menu,
-.excalidraw .dropdown-menu,
-.excalidraw .dropdown-menu-container {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
+.excalidraw .dropdown-menu {
+  background-color: white !important;
+  border: 1px solid #e4e4e7 !important;
+  /* zinc-200 */
+  border-radius: 0.75rem !important;
+  box-shadow: var(--shadow-xl) !important;
+  padding: 0.5rem !important;
 }
 
 .excalidraw.theme--dark .context-menu,
@@ -576,371 +576,25 @@ body {
 }
 
 /* Separators */
-.excalidraw .context-menu-item-separator,
-.excalidraw hr,
-.excalidraw .dropdown-menu-container>div[style*="height: 1px"] {
-  display: none !important;
+.excalidraw .context-menu-item-separator {
+  border-bottom: 1px solid #e4e4e7 !important;
+  margin: 4px 0 !important;
 }
 
-/* Hide adjacent separators */
-.excalidraw .context-menu-item-separator+.context-menu-item-separator,
-.excalidraw .dropdown-menu-container>div[style*="height: 1px"]+div[style*="height: 1px"] {
-  display: none !important;
-}
-
-
-/* Fix Checkmark Overlap in "Toggle grid" and others */
-.excalidraw .context-menu-item.checkmark {
-  padding-left: 36px !important;
-  /* Space for checkmark */
-  position: relative;
-}
-
-/* Ensure the checkmark icon (likely a pseudo-element or SVG) is positioned correctly */
-/* --- EXCALIDRAW THEME OVERRIDES --- */
-.excalidraw.excalidraw-container,
-.excalidraw {
-  --color-primary: #18181b !important;
-  /* Zinc-900 */
-  --color-primary-hover: #27272a !important;
-  /* Zinc-800 */
-  --color-primary-light: #f4f4f5 !important;
-  /* Zinc-100 */
-  --color-primary-dark: #000000 !important;
-  --color-secondary: #71717a !important;
-  --color-brand: #18181b !important;
-  --color-brand-hover: #27272a !important;
-  --color-brand-active: #3f3f46 !important;
-  --color-selection-border: #a1a1aa !important;
-  --color-selection: rgba(24, 24, 27, 0.05) !important;
-  --button-hover-bg: #f4f4f5 !important;
-  --color-surface-low: #ffffff !important;
-  --color-surface-mid: #f4f4f5 !important;
-  --color-surface-high: #ffffff !important;
-  --color-on-primary: #ffffff !important;
-  --color-on-secondary: #18181b !important;
-}
-
-.excalidraw.theme--dark {
-  --color-primary: #ffffff !important;
-  --color-primary-hover: #e4e4e7 !important;
-  --color-primary-light: #3f3f46 !important;
-  --color-brand: #ffffff !important;
-  --color-brand-hover: #e4e4e7 !important;
-  --color-surface-low: #18181b !important;
-  --color-surface-mid: #27272a !important;
-  --color-surface-high: #27272a !important;
-  --color-on-primary: #000000 !important;
-}
-
-.excalidraw .context-menu-item.checkmark svg,
-.excalidraw .context-menu-item.checkmark::before {
-  left: 10px !important;
-  position: absolute !important;
-}
-
-.excalidraw.theme--dark .context-menu-item-separator,
-.excalidraw.theme--dark .dropdown-menu-container>div[style*="height: 1px"] {
+.excalidraw.theme--dark .context-menu-item-separator {
   border-bottom-color: #27272a !important;
-  /* Zinc-800 */
-  background-color: #27272a !important;
-}
 
-/* Override Library View Toggle (Grid/List) */
-.excalidraw .library-menu-items-container__header .excalidraw-button,
-.excalidraw .ToolIcon_type_radio,
-.excalidraw .ToolIcon_type_radio input+.ToolIcon__icon {
-  border-radius: 0.5rem !important;
-}
+  /* Override Library View Toggle (Grid/List) */
+  .excalidraw .library-menu-items-container__header .excalidraw-button,
+  .excalidraw .ToolIcon_type_radio,
+  .excalidraw .ToolIcon_type_radio input+.ToolIcon__icon {
+    border-radius: 0.5rem !important;
+  }
 
-.excalidraw .library-menu-items-container__header .excalidraw-button:hover,
-.excalidraw .ToolIcon_type_radio:hover {
-  background-color: transparent !important;
-}
+  .excalidraw .library-menu-items-container__header .excalidraw-button:hover,
+  .excalidraw .ToolIcon_type_radio:hover {
+    background-color: transparent !important;
+  }
 
-/* --- PURPLE REMOVAL & GRAYSCALE ENFORCEMENT --- */
-
-/* Fix Transparency: Ensure Menu Background is Solid and ON TOP */
-.excalidraw .dropdown-menu,
-.excalidraw .dropdown-menu-container .dropdown-menu,
-.excalidraw .App-menu__left {
-  background-color: var(--color-surface-high) !important;
-  box-shadow: var(--shadow-xl) !important;
-  border: 1px solid var(--border) !important;
-  z-index: 99999 !important;
-  /* Force on top of everything */
-}
-
-/* Force active states to use Zinc-200/300 instead of Purple */
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.excalidraw .ToolIcon__icon.active,
-.excalidraw .buttonList label.active .ToolIcon__icon,
-.excalidraw .Shape:checked+.ToolIcon__icon,
-.excalidraw .App-menu_top .buttonList .ToolIcon__icon.active,
-.excalidraw .Sidebar .ToolIcon__icon.active,
-.excalidraw .main-menu-trigger.active,
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.excalidraw .Stack .ToolIcon__icon[aria-selected="true"],
-.excalidraw .Stack .ToolIcon_type_radio:checked+.ToolIcon__icon {
-  background-color: #f4f4f5 !important;
-  /* Zinc-100 */
-  border: 1px solid #18181b !important;
-  /* DARKER BORDER */
-  color: #18181b !important;
-}
-
-/* Fix Purple Outlines on Focus/Active */
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.excalidraw .ToolIcon_type_checkbox:checked+.ToolIcon__icon {
-  --color-primary: #18181b !important;
-  --color-primary-light: #f4f4f5 !important;
-}
-
-/* Force dark mode active states */
-.dark .excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.dark .excalidraw .ToolIcon__icon.active,
-.dark .excalidraw .buttonList label.active .ToolIcon__icon,
-.dark .excalidraw .Shape:checked+.ToolIcon__icon,
-.dark .excalidraw .App-menu_top .buttonList .ToolIcon__icon.active,
-.dark .excalidraw .Sidebar .ToolIcon__icon.active {
-  background-color: #3f3f46 !important;
-  /* Zinc-700 */
-  border-color: #ffffff !important;
-  color: white !important;
-}
-
-/* Specific fixing for Property Panel interactions (Stroke, Background, etc) */
-/* This targets the internal SVG icons to ensure they don't stay purple */
-.excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon svg,
-.excalidraw .ToolIcon__icon.active svg {
-  fill: #18181b !important;
-  stroke: #18181b !important;
-}
-
-.dark .excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon svg,
-.dark .excalidraw .ToolIcon__icon.active svg {
-  fill: white !important;
-  stroke: white !important;
-}
-
-/* Force hover states */
-.excalidraw .ToolIcon__icon:hover {
-  background-color: #f4f4f5 !important;
-  /* Zinc-100 */
-  border-color: #e4e4e7 !important;
-}
-
-/* Fix "Canvas background" label being too close to edge */
-.excalidraw label {
-  margin-bottom: 8px !important;
-  margin-top: 4px !important;
-  margin-left: 4px !important;
-  /* Add left margin */
-  display: inline-block;
-  font-weight: 500;
-}
-
-/* Fix Color Picker Active Swatch Border (Purple -> Black) */
-.excalidraw .ColorPicker__swatch[aria-selected="true"] {
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #18181b !important;
-}
-
-.excalidraw.theme--dark .ColorPicker__swatch[aria-selected="true"] {
-  box-shadow: 0 0 0 2px #18181b, 0 0 0 4px #ffffff !important;
-}
-
-/* Fix Sliders (Opacity, etc.) - Remove Purple Track */
-.excalidraw input[type="range"] {
-  accent-color: #18181b !important;
-  /* Zinc-900 */
-}
-
-.excalidraw input[type="range"]::-webkit-slider-thumb {
-  background: #18181b !important;
-  border: 1px solid #18181b !important;
-}
-
-.excalidraw input[type="range"]::-webkit-slider-runnable-track {
-  background: #e4e4e7 !important;
-  /* Gray track */
-}
-
-.dark .excalidraw .ToolIcon_type_radio:checked+.ToolIcon__icon,
-.dark .excalidraw .ToolIcon__icon.active {
-  background-color: #3f3f46 !important;
-  /* Zinc-700 */
-  border-color: #52525b !important;
-  color: white !important;
-}
-
-.dark .excalidraw input[type="range"] {
-  accent-color: #fafafa !important;
-}
-
-.dark .excalidraw input[type="range"]::-webkit-slider-runnable-track {
-  background: #3f3f46 !important;
-}
-
-/* --- FIXES FOR USER FEEDBACK --- */
-
-/* 1. Fix "2 box nền" (Double background/shadow) on Popovers */
-/* Excalidraw uses .popover but our global .popover style conflicts */
-.excalidraw .popover {
-  box-shadow: none !important;
-  border: none !important;
-  background: transparent !important;
-}
-
-/* Ensure the actual content box (Island) has correct styling */
-.excalidraw .Island,
-.excalidraw .popover .Island {
-  box-shadow: var(--shadow-xl) !important;
-  background-color: var(--color-surface-high) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  overflow: hidden;
-  /* Ensures border-radius clips content */
-}
-
-/* 2. Fix "chữ canvas sát vào lề" (Canvas text too close to edge) */
-/* This targets labels inside the popover/island, typically for Background, Grid, etc. */
-.excalidraw .Island .Island__content {
-  padding: 24px !important;
-  /* Increase padding further */
-}
-
-.excalidraw .Stack {
-  padding: 0 4px !important;
-  /* Add internal padding for stacks */
-}
-
-.excalidraw label {
-  margin-bottom: 8px !important;
-  margin-top: 4px !important;
-  display: inline-block;
-  font-weight: 500;
-}
-
-.excalidraw .properties-content {
-  padding: 12px !important;
-}
-
-/* Context Menu & Dropdown Styling (Tulie Style) */
-.excalidraw .context-menu,
-.excalidraw .dropdown-menu,
-.excalidraw .dropdown-menu-container .dropdown-menu,
-.excalidraw .App-menu__left {
-  background-color: var(--color-surface-high) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: var(--shadow-xl) !important;
-  padding: 4px !important;
-  border-radius: var(--radius) !important;
-}
-
-/* Force active states to be grayscale - Specifically for properties panel width/style/sloppiness */
-.excalidraw .buttonList label.active,
-.excalidraw .buttonList label:has(input:checked),
-.excalidraw .buttonList label.active .ToolIcon__icon,
-.excalidraw .buttonList label:has(input:checked) .ToolIcon__icon {
-  background-color: #f4f4f5 !important;
-  /* Zinc-100 */
-  color: #18181b !important;
-}
-
-/* Fix properties panel active icon color */
-.excalidraw .buttonList label.active .ToolIcon__icon svg,
-.excalidraw .buttonList label:has(input:checked) .ToolIcon__icon svg {
-  fill: #18181b !important;
-  stroke: #18181b !important;
-}
-
-/* DARK MODE: properties panel active states */
-.dark .excalidraw .buttonList label.active,
-.dark .excalidraw .buttonList label:has(input:checked),
-.dark .excalidraw .buttonList label.active .ToolIcon__icon,
-.dark .excalidraw .buttonList label:has(input:checked) .ToolIcon__icon {
-  background-color: #3f3f46 !important;
-  /* Zinc-700 */
-  color: #fafafa !important;
-}
-
-.dark .excalidraw .buttonList label.active .ToolIcon__icon svg,
-.dark .excalidraw .buttonList label:has(input:checked) .ToolIcon__icon svg {
-  fill: #fafafa !important;
-  stroke: #fafafa !important;
-}
-
-/* FIX: more tools (shapes) icon misalignment in toolbar */
-.excalidraw .App-toolbar-content {
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.excalidraw .App-toolbar-content .Stack {
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 2px !important;
-}
-
-/* Normalize all ToolIcons to prevent one being higher than others */
-.excalidraw .ToolIcon__icon {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin: 0 !important;
-  vertical-align: middle !important;
-  width: 36px !important;
-  height: 36px !important;
-}
-
-/* Specifically target the shapes/library button if it's offset */
-.excalidraw .ShapeButtons .ToolIcon__icon,
-.excalidraw .ToolIcon_type_button[aria-label="More tools"],
-.excalidraw .ToolIcon_type_button[aria-label="Library"] {
-  padding: 0 !important;
-  margin: 0 !important;
-  transform: none !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Add some spacing/margin around the main menu hamburger to make it feel "on top" */
-.excalidraw .main-menu-trigger {
-  margin: 8px !important;
-  color: var(--color-primary) !important;
-}
-
-.excalidraw .main-menu-trigger:hover {
-  background-color: var(--color-primary-light) !important;
-}
-
-/* Fix Zoom Control Border Gap */
-.excalidraw .App-bottom-bar .Stack>div {
-  border: 1px solid #e4e4e7 !important;
-  /* Zinc-200 */
-  border-radius: 0.5rem !important;
-  overflow: hidden;
-}
-
-.excalidraw.theme--dark .App-bottom-bar .Stack>div {
-  border: 1px solid #27272a !important;
-  /* Zinc-800 */
-}
-
-/* Fix individual zoom buttons to match */
-.excalidraw .App-bottom-bar .Stack>div button {
-  border: none !important;
-  background-color: var(--color-surface-high) !important;
-}
-
-.excalidraw .dropdown-menu-container {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-/* Ensure the hint viewer is low enough to not overlap center UI but above bottom header */
-.excalidraw .HintViewer {
-  margin-bottom: 72px !important;
+  /* Ensure active state remains visible if needed, relies on Excalidraw's active class usually */
 }

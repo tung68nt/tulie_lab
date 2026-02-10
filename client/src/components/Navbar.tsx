@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from './Button';
-import { Sun, Moon, Rocket, BookOpen, Package, User, Key, FileText, LogOut, Palette, Home } from 'lucide-react';
+import { Sun, Moon, Rocket, BookOpen, Package, User, Key, FileText, LogOut, Palette } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import { api } from '@/lib/api';
 import { Logo } from '@/components/Logo';
@@ -135,13 +135,12 @@ export function Navbar() {
         label: string;
         href: string;
         isExternal?: boolean;
-        icon?: React.ReactNode;
         children?: { label: string; href: string; isExternal?: boolean }[];
     }
 
     // Default fallback menu
     const DEFAULT_NAV_LINKS: NavLinkItem[] = [
-        { label: 'Trang chủ', href: '/', icon: <Home className="w-5 h-5" /> },
+        { label: 'Trang chủ', href: '/' },
         {
             label: 'Ứng dụng',
             href: '#',
@@ -257,9 +256,8 @@ export function Navbar() {
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
                                     className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                                    title={link.label}
                                 >
-                                    {(link as any).icon ? (link as any).icon : link.label}
+                                    {link.label}
                                 </Link>
                             );
                         })}
