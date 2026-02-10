@@ -38,6 +38,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const lastEmitTimeRef = useRef<number>(0);
     const lastPointerUpdateRef = useRef<number>(0);
+    const lastThumbnailTimeRef = useRef<number>(0); // Throttle thumbnail generation
     const socketRef = useRef<Socket | null>(null);
     const creatingRef = useRef(false);
     const whiteboardRef = useRef<any>(null);
@@ -103,14 +104,18 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                         if (elements.length > 0) {
                             setParsedInitialData({
                                 elements,
-                                appState: { ...appState as WhiteboardAppState, gridModeEnabled: true }
+                                appState: {
+                                    ...appState as WhiteboardAppState,
+                                    gridModeEnabled: true,
+                                    theme: 'light' // Default to light theme for consistency
+                                }
                             });
                             currentElementsRef.current = elements;
                             setShowWelcome(false); // Explicitly hide if we have elements
                         } else {
                             setParsedInitialData({
                                 elements: [],
-                                appState: { gridModeEnabled: true } as WhiteboardAppState
+                                appState: { gridModeEnabled: true, theme: 'light' } as WhiteboardAppState
                             });
                             setShowWelcome(true); // Explicitly show if empty
                         }
@@ -331,24 +336,30 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 };
 
                 try {
-                    // Generate Thumbnail
-                    if (excalidrawAPI) {
-                        const blob = await exportToBlob({
-                            elements: typedElements,
-                            mimeType: 'image/jpeg',
-                            appState: {
-                                ...typedAppState,
-                                viewBackgroundColor: typedAppState.viewBackgroundColor || '#ffffff',
-                            },
-                            files: excalidrawAPI.getFiles(),
-                            quality: 0.5,
-                        });
+                    // Generate Thumbnail - THROTTLED to 30 seconds
+                    const thumbnailNow = Date.now();
+                    if (excalidrawAPI && (thumbnailNow - lastThumbnailTimeRef.current > 30000)) {
+                        lastThumbnailTimeRef.current = thumbnailNow;
+                        try {
+                            const blob = await exportToBlob({
+                                elements: typedElements,
+                                mimeType: 'image/jpeg',
+                                appState: {
+                                    ...typedAppState,
+                                    viewBackgroundColor: typedAppState.viewBackgroundColor || '#ffffff',
+                                },
+                                files: excalidrawAPI.getFiles(),
+                                quality: 0.5,
+                            });
 
-                        const reader = new FileReader();
-                        reader.readAsDataURL(blob);
-                        reader.onloadend = async () => {
-                            const base64data = reader.result;
-                            await api.whiteboards.update(currentWhiteboard.id, { thumbnail: base64data as string });
+                            const reader = new FileReader();
+                            reader.readAsDataURL(blob);
+                            reader.onloadend = async () => {
+                                const base64data = reader.result;
+                                await api.whiteboards.update(currentWhiteboard.id, { thumbnail: base64data as string });
+                            }
+                        } catch (thumbErr) {
+                            console.warn('Thumbnail generation failed (non-critical):', thumbErr);
                         }
                     }
 
@@ -356,6 +367,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     setSaveStatus('saved');
                 } catch (err: any) {
                     console.error('Auto-save failed:', err);
+                    // Provide more detailed error logging if available
+                    if (err.message) console.error('Error message:', err.message);
+                    if (err.response) console.error('API Response:', err.response);
+
                     setSaveStatus('error');
                 }
             }
