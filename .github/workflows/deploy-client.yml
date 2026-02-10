@@ -1,4 +1,4 @@
-# Trigger: 6
+# Trigger: 7
 name: Deploy Front-End to Cloud Run
 
 on:

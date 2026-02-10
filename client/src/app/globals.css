@@ -837,9 +837,76 @@ body {
   border-radius: var(--radius) !important;
 }
 
-/* Ensure the container doesn't block clicks but doesn't have a background itself if it's just a wrapper */
-.excalidraw .dropdown-menu-container {
-  /* We removed the transparency override here to be safe, or we target specific children */
+/* Force active states to be grayscale - Specifically for properties panel width/style/sloppiness */
+.excalidraw .buttonList label.active,
+.excalidraw .buttonList label:has(input:checked),
+.excalidraw .buttonList label.active .ToolIcon__icon,
+.excalidraw .buttonList label:has(input:checked) .ToolIcon__icon {
+  background-color: #f4f4f5 !important;
+  /* Zinc-100 */
+  color: #18181b !important;
+}
+
+/* Fix properties panel active icon color */
+.excalidraw .buttonList label.active .ToolIcon__icon svg,
+.excalidraw .buttonList label:has(input:checked) .ToolIcon__icon svg {
+  fill: #18181b !important;
+  stroke: #18181b !important;
+}
+
+/* DARK MODE: properties panel active states */
+.dark .excalidraw .buttonList label.active,
+.dark .excalidraw .buttonList label:has(input:checked),
+.dark .excalidraw .buttonList label.active .ToolIcon__icon,
+.dark .excalidraw .buttonList label:has(input:checked) .ToolIcon__icon {
+  background-color: #3f3f46 !important;
+  /* Zinc-700 */
+  color: #fafafa !important;
+}
+
+.dark .excalidraw .buttonList label.active .ToolIcon__icon svg,
+.dark .excalidraw .buttonList label:has(input:checked) .ToolIcon__icon svg {
+  fill: #fafafa !important;
+  stroke: #fafafa !important;
+}
+
+/* FIX: more tools (shapes) icon misalignment in toolbar */
+.excalidraw .App-toolbar-content .Stack {
+  align-items: center !important;
+}
+
+.excalidraw .App-toolbar-content>.Stack>.Stack {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Normalize all ToolIcons to prevent one being higher than others */
+.excalidraw .ToolIcon__icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  vertical-align: middle !important;
+}
+
+/* Specifically target the shapes/library button if it's offset */
+.excalidraw .ShapeButtons .ToolIcon__icon,
+.excalidraw .ToolIcon_type_button[aria-label="More tools"] {
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+}
+
+/* Add some spacing/margin around the main menu hamburger to make it feel "on top" */
+.excalidraw .main-menu-trigger {
+  margin: 8px !important;
+  color: var(--color-primary) !important;
+}
+
+.excalidraw .main-menu-trigger:hover {
+  background-color: var(--color-primary-light) !important;
 }
 
 /* Fix Zoom Control Border Gap */
@@ -865,4 +932,9 @@ body {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
+}
+
+/* Ensure the hint viewer is low enough to not overlap center UI but above bottom header */
+.excalidraw .HintViewer {
+  margin-bottom: 72px !important;
 }
