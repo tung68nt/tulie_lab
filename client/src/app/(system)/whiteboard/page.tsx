@@ -252,101 +252,46 @@ export default function WhiteboardDashboard() {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-card shadow-sm">
-                    {/* Header Row */}
-                    <div className="grid grid-cols-12 gap-4 p-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 text-[11px] font-semibold text-zinc-400">
-                        <div className="col-span-6 md:col-span-5">Tên bảng</div>
-                        <div className="hidden md:block col-span-2">Trạng thái</div>
-                        <div className="hidden md:block col-span-2">Ngày tạo</div>
-                        <div className="hidden md:block col-span-2">Cập nhật</div>
-                        <div className="col-span-6 md:col-span-1 text-right">Thao tác</div>
-                    </div>
-
-                    {whiteboards.map((board, i) => (
+                <div className="flex flex-col gap-3">
+                    {whiteboards.map((board) => (
                         <div
                             key={board.id}
-                            className={`group grid grid-cols-12 gap-4 p-4 items-center hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors ${i !== whiteboards.length - 1 ? 'border-b border-zinc-100 dark:border-zinc-800' : ''}`}
+                            className="group flex items-center justify-between p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl hover:border-zinc-300 dark:hover:border-zinc-700 transition-all shadow-sm hover:shadow-md"
                         >
-                            {/* Title & Thumbnail */}
-                            <div className="col-span-6 md:col-span-5 flex items-center gap-4 min-w-0">
-                                <Link
-                                    href={`/whiteboard/${board.id}`}
-                                    className="w-12 h-8 bg-zinc-100 dark:bg-zinc-800 rounded-lg flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shrink-0 overflow-hidden group-hover:border-zinc-400 transition-colors"
-                                >
+                            <Link href={`/whiteboard/${board.id}`} className="flex items-center gap-4 flex-1 min-w-0">
+                                <div className="w-16 h-12 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center justify-center border border-zinc-200 dark:border-zinc-700 shrink-0 overflow-hidden">
                                     {board.thumbnail ? (
                                         <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
                                     ) : (
-                                        <Layout className="w-4 h-4 text-zinc-300" />
+                                        <Layout className="w-6 h-6 text-zinc-300" strokeWidth={1} />
                                     )}
-                                </Link>
+                                </div>
                                 <div className="min-w-0">
-                                    <Link href={`/whiteboard/${board.id}`} className="block font-semibold text-sm text-zinc-900 dark:text-zinc-100 truncate hover:text-zinc-600 transition-colors">
+                                    <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-base truncate">
                                         {board.title || 'Không tiêu đề'}
-                                    </Link>
-                                    <div className="text-[10px] text-zinc-400 mt-0.5 leading-none font-mono tracking-tight">
-                                        #{board.id.split('-')[0]}
-                                    </div>
-                                    <div className="md:hidden text-[11px] text-zinc-400 mt-1 font-medium">
-                                        <span suppressHydrationWarning>{new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Status (Desktop) */}
-                            <div className="hidden md:block col-span-2">
-                                <div className="relative group/status inline-block">
-                                    <button className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-medium transition-all border ${board.status === 'PUBLISHED'
-                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                        : board.status === 'ARCHIVED'
-                                            ? 'bg-zinc-100 text-zinc-500 border-zinc-200'
-                                            : 'bg-zinc-50 text-zinc-400 border-zinc-100'
-                                        }`}>
-                                        <span className={`w-1 h-1 rounded-full ${board.status === 'PUBLISHED' ? 'bg-emerald-500' : 'bg-zinc-400'}`} />
-                                        {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Bản nháp'}
-                                        <ChevronDown className="w-3 h-3 opacity-50 group-hover/status:opacity-100 transition-opacity" />
-                                    </button>
-
-                                    {/* Action Dropdown on Hover */}
-                                    <div className="absolute left-0 top-full pt-1 opacity-0 group-hover/status:opacity-100 pointer-events-none group-hover/status:pointer-events-auto transition-all z-20">
-                                        <div className="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-xl p-1 min-w-[120px]">
-                                            {['DRAFT', 'PUBLISHED', 'ARCHIVED'].map((s) => (
-                                                <button
-                                                    key={s}
-                                                    onClick={(e) => handleStatusUpdate(board.id, s, e)}
-                                                    className={`w-full text-left px-3 py-1.5 rounded-lg text-[10px] font-medium transition-all ${board.status === s
-                                                        ? 'bg-zinc-100 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-100'
-                                                        : 'text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-zinc-600'}`}
-                                                >
-                                                    {s === 'PUBLISHED' ? 'Công khai' : s === 'ARCHIVED' ? 'Lưu trữ' : 'Bản nháp'}
-                                                </button>
-                                            ))}
-                                        </div>
+                                    </h3>
+                                    <div className="flex items-center gap-2 mt-0.5 text-xs text-zinc-500 font-medium">
+                                        <span className="font-mono text-[10px] tracking-tight text-zinc-400">#{board.id.split('-')[0]}</span>
+                                        <span>•</span>
+                                        <span suppressHydrationWarning>Cập nhật: {new Date(board.updatedAt).toLocaleDateString('vi-VN')}</span>
+                                        {board.status !== 'DRAFT' && (
+                                            <>
+                                                <span>•</span>
+                                                <span className={`px-1.5 py-0.5 rounded-md text-[9px] ${board.status === 'PUBLISHED' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-zinc-100 text-zinc-500'
+                                                    }`}>
+                                                    {board.status === 'PUBLISHED' ? 'Công khai' : 'Lưu trữ'}
+                                                </span>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
 
-
-                            {/* Created Date (Desktop) */}
-                            <div className="hidden md:block col-span-2 text-xs text-zinc-400" suppressHydrationWarning>
-                                {new Date(board.createdAt).toLocaleDateString('vi-VN')}
-                            </div>
-
-                            {/* Updated Date (Desktop) */}
-                            <div className="hidden md:block col-span-2 text-xs text-zinc-500 font-medium">
-                                <div className="text-zinc-900 dark:text-zinc-200" suppressHydrationWarning>
-                                    {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
-                                </div>
-                                <div className="text-[10px] text-zinc-400 font-normal" suppressHydrationWarning>
-                                    {new Date(board.updatedAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
-                                </div>
-                            </div>
-
-                            {/* Actions */}
-                            <div className="col-span-6 md:col-span-1 flex items-center justify-end gap-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div className="flex items-center gap-2 ml-4">
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg"
+                                    className="h-9 w-9 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-xl transition-colors"
                                     onClick={(e) => copyLink(e, board.id)}
                                     title="Copy Link"
                                 >
@@ -355,12 +300,15 @@ export default function WhiteboardDashboard() {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-zinc-400 hover:text-destructive hover:bg-destructive/10"
+                                    className="h-9 w-9 text-zinc-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/10 rounded-xl transition-colors"
                                     onClick={(e) => handleDelete(board.id, e)}
                                     title="Delete"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </Button>
+                                <Link href={`/whiteboard/${board.id}`} className="h-9 w-9 flex items-center justify-center text-zinc-300 hover:text-zinc-900 transition-colors">
+                                    <ArrowRight className="w-5 h-5" />
+                                </Link>
                             </div>
                         </div>
                     ))}
