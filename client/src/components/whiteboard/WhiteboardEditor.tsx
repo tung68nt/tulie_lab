@@ -106,12 +106,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                 appState: { ...appState as WhiteboardAppState, gridModeEnabled: true }
                             });
                             currentElementsRef.current = elements;
+                            setShowWelcome(false); // Explicitly hide if we have elements
                         } else {
                             setParsedInitialData({
                                 elements: [],
                                 appState: { gridModeEnabled: true } as WhiteboardAppState
                             });
-                            setShowWelcome(true);
+                            setShowWelcome(true); // Explicitly show if empty
                         }
                     } catch (e) {
                         console.error('Failed to parse elements:', e);

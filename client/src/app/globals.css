@@ -755,6 +755,25 @@ body {
   border-radius: var(--radius) !important;
 }
 
+/* Fix Zoom Control Border Gap */
+.excalidraw .App-bottom-bar .Stack>div {
+  border: 1px solid #e4e4e7 !important;
+  /* Zinc-200 */
+  border-radius: 0.5rem !important;
+  overflow: hidden;
+}
+
+.excalidraw.theme--dark .App-bottom-bar .Stack>div {
+  border: 1px solid #27272a !important;
+  /* Zinc-800 */
+}
+
+/* Fix individual zoom buttons to match */
+.excalidraw .App-bottom-bar .Stack>div button {
+  border: none !important;
+  background-color: var(--color-surface-high) !important;
+}
+
 .excalidraw .dropdown-menu-container {
   background: transparent !important;
   box-shadow: none !important;
