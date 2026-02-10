@@ -418,6 +418,26 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     };
 
+    const handleManualSave = async () => {
+        const currentArtboard = whiteboard?.artboards?.[0]; // Current implementation only supports 1 artboard in stable version
+        const elements = currentElementsRef.current;
+
+        if (!currentArtboard?.id || !elements) return;
+
+        setSaveStatus('saving');
+        try {
+            const snapshot = {
+                elements,
+                appState: excalidrawAPI?.getAppState() || {}
+            };
+            await api.whiteboards.saveArtboard(currentArtboard.id, snapshot);
+            setSaveStatus('saved');
+        } catch (err) {
+            console.error('Manual save failed:', err);
+            setSaveStatus('error');
+        }
+    };
+
     const handleToggleGrid = () => {
         if (!excalidrawAPI) return;
         const current = excalidrawAPI.getAppState().gridModeEnabled;
@@ -443,6 +463,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 saveStatus={saveStatus}
                 onBack={() => router.push('/whiteboard')}
                 onRename={handleRename}
+                onSave={handleManualSave}
                 isSidebarDocked={isSidebarDocked}
                 gridEnabled={gridEnabled}
                 onToggleGrid={handleToggleGrid}

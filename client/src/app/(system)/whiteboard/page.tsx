@@ -118,16 +118,28 @@ export default function WhiteboardDashboard() {
                                 )}
                             </div>
                             <div className="p-5">
-                                <h3 className="font-medium text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
+                                <div className="flex items-center justify-between mb-1">
+                                    <h3 className="font-medium text-lg line-clamp-1 group-hover:text-primary transition-colors">
+                                        {board.title || 'Không tiêu đề'}
+                                    </h3>
+                                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${board.status === 'PUBLISHED'
+                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                        : board.status === 'ARCHIVED'
+                                            ? 'bg-zinc-100 text-zinc-500 border-zinc-200'
+                                            : 'bg-blue-50 text-blue-600 border-blue-100'
+                                        }`}>
+                                        {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                    </span>
+                                </div>
                                 <div className="flex items-center justify-between mt-4 border-t pt-3 border-dashed">
-                                    <span className="text-xs font-medium text-zinc-400 bg-zinc-100 px-2 py-1 rounded-md">
-                                        {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                                    <span className="text-xs font-medium text-zinc-400 bg-zinc-50 px-2 py-1 rounded-md border border-zinc-100" suppressHydrationWarning>
+                                        Cập nhật: {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
                                     </span>
                                     <div className="flex items-center gap-2">
                                         <Button
                                             variant="ghost"
                                             size="icon"
-                                            className="h-8 w-8 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 transition-all opacity-0 group-hover:opacity-100"
+                                            className="h-8 w-8 text-zinc-400 hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
                                             onClick={(e) => handleDelete(board.id, e)}
                                         >
                                             <Trash2 className="w-4 h-4" />
@@ -153,11 +165,19 @@ export default function WhiteboardDashboard() {
                                     <Layout className="w-5 h-5 text-zinc-300" />
                                 )}
                             </div>
-                            <div className="flex-1 min-w-0">
+                            <div className="flex-1 min-w-0 flex items-center gap-3">
                                 <h3 className="font-medium text-base truncate group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
+                                <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-medium border ${board.status === 'PUBLISHED'
+                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                        : board.status === 'ARCHIVED'
+                                            ? 'bg-zinc-100 text-zinc-500 border-zinc-200'
+                                            : 'bg-blue-50 text-blue-600 border-blue-100'
+                                    }`}>
+                                    {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                </span>
                             </div>
-                            <div className="text-sm text-muted-foreground w-32 text-right">
-                                {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
+                            <div className="text-xs text-muted-foreground w-40 text-right opacity-60 group-hover:opacity-100 transition-opacity" suppressHydrationWarning>
+                                Cập nhật: {new Date(board.updatedAt).toLocaleDateString('vi-VN')}
                             </div>
                             <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Button

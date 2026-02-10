@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
-import { ChevronLeft, Cloud, Check, Home, Pencil, Grid3X3 } from 'lucide-react';
+import { ChevronLeft, Cloud, Check, Home, Pencil, LayoutGrid } from 'lucide-react';
 import Link from 'next/link';
 import { SaveStatus } from './SaveStatusIndicator';
 import { Logo } from '@/components/Logo';
@@ -13,11 +13,12 @@ interface WhiteboardHeaderProps {
     isSidebarDocked?: boolean;
     gridEnabled?: boolean;
     onToggleGrid?: () => void;
+    onSave?: () => Promise<void>;
 }
 
 export default function WhiteboardHeader({
     title, saveStatus, onBack, onRename, isSidebarDocked,
-    gridEnabled = true, onToggleGrid
+    gridEnabled = true, onToggleGrid, onSave
 }: WhiteboardHeaderProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(title || 'Untitled Whiteboard');
@@ -105,10 +106,10 @@ export default function WhiteboardHeader({
                             onClick={onToggleGrid}
                             title={gridEnabled ? "Hide Grid" : "Show Grid"}
                         >
-                            <Grid3X3 className="w-4 h-4" />
+                            <LayoutGrid className="w-4 h-4" />
                         </Button>
 
-                        {/* Status Badge */}
+                        {/* Status Badge & Manual Save */}
                         <div className="hidden sm:flex items-center gap-1.5 bg-zinc-50 dark:bg-zinc-700/50 px-2 py-0.5 rounded-full border border-zinc-100 dark:border-zinc-700 ml-1">
                             {saveStatus === 'saving' && (
                                 <>
@@ -117,16 +118,24 @@ export default function WhiteboardHeader({
                                 </>
                             )}
                             {saveStatus === 'saved' && (
-                                <>
-                                    <Cloud className="w-3 h-3 text-zinc-400" />
+                                <button
+                                    onClick={onSave}
+                                    className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+                                    title="Click to force save"
+                                >
+                                    <Cloud className="w-3 h-3 text-emerald-500" />
                                     <span className="text-[10px] text-zinc-400 font-medium">Saved</span>
-                                </>
+                                </button>
                             )}
                             {saveStatus === 'error' && (
-                                <>
+                                <button
+                                    onClick={onSave}
+                                    className="flex items-center gap-1.5"
+                                    title="Retry save"
+                                >
                                     <div className="w-2 h-2 bg-red-500 rounded-full" />
-                                    <span className="text-[10px] text-red-500 font-medium">Error</span>
-                                </>
+                                    <span className="text-[10px] text-red-500 font-medium">Retry</span>
+                                </button>
                             )}
                         </div>
                     </div>
