@@ -416,39 +416,6 @@ body {
   margin-bottom: 70px !important;
 }
 
-/* --- ZOOM & HISTORY CONTROLS FIX --- */
-.excalidraw .zoom-actions,
-.excalidraw .history-actions {
-  background-color: var(--color-surface-high) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  box-shadow: var(--shadow-sm) !important;
-  padding: 4px !important;
-}
-
-.excalidraw .zoom-actions .Stack,
-.excalidraw .history-actions .Stack {
-  gap: 4px !important;
-  align-items: center !important;
-}
-
-/* Reset zoom button (100% text) */
-.excalidraw .zoom-actions .ToolIcon__icon[aria-label="Reset zoom"],
-.excalidraw .zoom-actions button:not(.ToolIcon_type_button) {
-  background-color: transparent !important;
-  border-radius: var(--radius-sm) !important;
-  padding: 0 8px !important;
-  height: 32px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-weight: 500 !important;
-  font-size: 14px !important;
-}
-
-.excalidraw .zoom-actions .ToolIcon__icon[aria-label="Reset zoom"]:hover {
-  background-color: var(--color-primary-light) !important;
-}
 
 /* Hide Excalidraw links section in main menu and the separator above it */
 .excalidraw .dropdown-menu-container .dropdown-menu-group:has(a[href*="github.com"]),
