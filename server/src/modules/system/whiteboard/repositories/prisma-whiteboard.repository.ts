@@ -1,7 +1,6 @@
-import { PrismaClient, Whiteboard, Artboard, WhiteboardStatus } from '@prisma/client';
+import { Whiteboard, Artboard, WhiteboardStatus } from '@prisma/client';
 import { IWhiteboardRepository } from '../interfaces/whiteboard.repository.interface';
-
-const prisma = new PrismaClient();
+import prisma from '../../../../config/prisma';
 
 export class PrismaWhiteboardRepository implements IWhiteboardRepository {
     async create(data: { creatorId: string; title?: string; description?: string }): Promise<Whiteboard> {

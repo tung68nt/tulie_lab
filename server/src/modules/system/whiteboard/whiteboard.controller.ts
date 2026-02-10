@@ -12,10 +12,17 @@ export class WhiteboardController {
 
     create = async (req: Request, res: Response) => {
         try {
-            console.log('[WhiteboardController] create called by user:', (req as any).user?.id);
-            console.log('[WhiteboardController] payload:', req.body);
+            const creatorId = (req as any).user?.id;
+            console.log(`[DEBUG] CREATE Request - UserID: ${creatorId}, Body:`, JSON.stringify(req.body));
+
+            if (!creatorId) {
+                console.warn('[DEBUG] No creatorId found in request user');
+                return res.status(401).json({ message: 'User ID missing' });
+            }
+
             const validation = createWhiteboardSchema.safeParse(req.body);
             if (!validation.success) {
+                console.warn('[DEBUG] Create validation failed:', validation.error.format());
                 return res.status(400).json({
                     message: 'Validation failed',
                     errors: validation.error.format()
@@ -23,15 +30,12 @@ export class WhiteboardController {
             }
 
             const { title, description } = validation.data;
-            const creatorId = req.user.id;
-            console.log(`[WhiteboardController] CREATE Request - UserID: ${creatorId}, Title: ${title}`);
-
             const whiteboard = await this.whiteboardService.createWhiteboard(creatorId, title, description);
 
-            console.log(`[WhiteboardController] CREATE Success - New Board ID: ${whiteboard.id}`);
+            console.log(`[DEBUG] CREATE Success - New Board ID: ${whiteboard.id}`);
             res.status(201).json(whiteboard);
         } catch (error: any) {
-            console.error('[WhiteboardController] create error:', error);
+            console.error('[DEBUG] create error:', error);
             res.status(500).json({ message: error.message });
         }
     };
@@ -52,14 +56,19 @@ export class WhiteboardController {
     getMyWhiteboards = async (req: Request, res: Response) => {
         try {
             const creatorId = (req as any).user?.id;
-            console.log(`[WhiteboardController] LIST Request - UserID: ${creatorId}`);
+            console.log(`[DEBUG] LIST Request - UserID: ${creatorId}`);
+
+            if (!creatorId) {
+                console.warn('[DEBUG] No creatorId found in request user');
+                return res.status(401).json({ message: 'User ID missing' });
+            }
 
             const whiteboards = await this.whiteboardService.getMyWhiteboards(creatorId);
 
-            console.log(`[WhiteboardController] LIST Success - Found ${whiteboards.length} boards for UserID: ${creatorId}`);
+            console.log(`[DEBUG] LIST Success - Found ${whiteboards.length} boards for UserID: ${creatorId}`);
             res.json(whiteboards);
         } catch (error: any) {
-            console.error('[WhiteboardController] getMyWhiteboards error:', error);
+            console.error('[DEBUG] getMyWhiteboards error:', error);
             res.status(500).json({ message: error.message });
         }
     };

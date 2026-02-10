@@ -387,7 +387,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             }
 
         }, 500); // Increased debounce to 500ms for better perf
-    }, [id, excalidrawAPI]); // REMOVED whiteboard, showWelcome dependence
+    }, [id, excalidrawAPI, whiteboard]); // Added whiteboard back to fix stale closure bug
 
     // Throttle: 200ms (Reduced frequency)
     const onPointerUpdate = useCallback((activeTool: any, pointerData: any) => {
