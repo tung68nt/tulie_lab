@@ -229,7 +229,7 @@ export default function CoursePage({ params }: { params: any }) {
                             </h1>
                             <MarkdownRenderer
                                 content={course.description || ''}
-                                className="prose-invert text-zinc-100 prose-p:text-zinc-100 prose-li:text-zinc-100"
+                                className="prose-invert text-zinc-300 prose-p:text-zinc-300 prose-li:text-zinc-300 prose-strong:text-zinc-50 prose-headings:text-zinc-50"
                             />
                             <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-medium text-zinc-400">
                                 <div className="flex items-center gap-2">
@@ -345,15 +345,23 @@ export default function CoursePage({ params }: { params: any }) {
                                                         : 'border-zinc-800 hover:border-zinc-700'
                                                         }`}
                                                 >
-                                                    <input
-                                                        type="radio"
-                                                        name="addOn"
-                                                        checked={!selectedAddOnId}
-                                                        onChange={() => setSelectedAddOnId(null)}
-                                                        className="w-4 h-4 accent-white"
-                                                    />
+                                                    <div className="relative flex items-center justify-center">
+                                                        <input
+                                                            type="radio"
+                                                            name="addOn"
+                                                            checked={!selectedAddOnId}
+                                                            onChange={() => setSelectedAddOnId(null)}
+                                                            className="sr-only"
+                                                        />
+                                                        <div className={`w-4 h-4 rounded-full border transition-all flex items-center justify-center ${!selectedAddOnId
+                                                            ? 'border-white bg-white'
+                                                            : 'border-zinc-700 bg-transparent'}`}
+                                                        >
+                                                            {!selectedAddOnId && <div className="w-2 h-2 rounded-full bg-black" />}
+                                                        </div>
+                                                    </div>
                                                     <div className="flex-1">
-                                                        <span className={`text-sm transition-colors ${!selectedAddOnId ? 'text-white' : 'text-zinc-400'}`}>Chỉ E-learning</span>
+                                                        <span className={`text-sm transition-colors ${!selectedAddOnId ? 'text-white font-medium' : 'text-zinc-500'}`}>Chỉ E-learning</span>
                                                     </div>
                                                     <span className="text-sm text-zinc-400">+0đ</span>
                                                 </label>
@@ -367,15 +375,23 @@ export default function CoursePage({ params }: { params: any }) {
                                                             : 'border-zinc-800 hover:border-zinc-700'
                                                             }`}
                                                     >
-                                                        <input
-                                                            type="radio"
-                                                            name="addOn"
-                                                            checked={selectedAddOnId === addOn.id}
-                                                            onChange={() => setSelectedAddOnId(addOn.id)}
-                                                            className="w-4 h-4 accent-white mt-0.5"
-                                                        />
+                                                        <div className="relative flex items-center justify-center mt-0.5">
+                                                            <input
+                                                                type="radio"
+                                                                name="addOn"
+                                                                checked={selectedAddOnId === addOn.id}
+                                                                onChange={() => setSelectedAddOnId(addOn.id)}
+                                                                className="sr-only"
+                                                            />
+                                                            <div className={`w-4 h-4 rounded-full border transition-all flex items-center justify-center ${selectedAddOnId === addOn.id
+                                                                ? 'border-white bg-white'
+                                                                : 'border-zinc-700 bg-transparent'}`}
+                                                            >
+                                                                {selectedAddOnId === addOn.id && <div className="w-2 h-2 rounded-full bg-black" />}
+                                                            </div>
+                                                        </div>
                                                         <div className="flex-1">
-                                                            <span className={`text-sm transition-colors ${selectedAddOnId === addOn.id ? 'text-white' : 'text-zinc-400'}`}>{addOn.name}</span>
+                                                            <span className={`text-sm transition-colors ${selectedAddOnId === addOn.id ? 'text-white font-medium' : 'text-zinc-500'}`}>{addOn.name}</span>
                                                             {addOn.features?.length > 0 && (
                                                                 <ul className="mt-1 space-y-0.5">
                                                                     {addOn.features.slice(0, 2).map((f: string, i: number) => (
