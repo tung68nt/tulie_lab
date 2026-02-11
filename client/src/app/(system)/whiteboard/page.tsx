@@ -7,9 +7,11 @@ import { Plus, Layout, ArrowRight, Trash2, List } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useConfirm } from '@/components/ConfirmDialog';
+import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 
 export default function WhiteboardDashboard() {
+    const { isAuthenticated } = useAuth();
     const [whiteboards, setWhiteboards] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isCreating, setIsCreating] = useState(false);
@@ -35,6 +37,13 @@ export default function WhiteboardDashboard() {
     }, []);
 
     const handleCreate = async () => {
+        if (!isAuthenticated) {
+            addToast('Vui lòng đăng nhập để tạo bảng trắng mới', 'info');
+            const returnUrl = encodeURIComponent('/whiteboard');
+            router.push(`/login?returnUrl=${returnUrl}`);
+            return;
+        }
+
         setIsCreating(true);
         try {
             const newBoard = await api.whiteboards.create({
