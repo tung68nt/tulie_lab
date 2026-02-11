@@ -120,11 +120,11 @@ export default function WhiteboardHeader({
                     >
                         <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all duration-300 ${status === 'PRIVATE' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400'}`}>
                             <Lock className="w-3 h-3" />
-                            <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:inline">Private</span>
+                            <span className="text-[11px] font-medium hidden sm:inline">Private</span>
                         </div>
                         <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all duration-300 ${status === 'PUBLIC' ? 'bg-emerald-500 shadow-sm text-white' : 'text-zinc-400'}`}>
                             <Globe className="w-3 h-3" />
-                            <span className="text-[10px] font-bold uppercase tracking-wider hidden sm:inline">Public</span>
+                            <span className="text-[11px] font-medium hidden sm:inline">Public</span>
                         </div>
                     </div>
 
@@ -149,7 +149,7 @@ export default function WhiteboardHeader({
                         {saveStatus === 'saving' && (
                             <>
                                 <div className="w-2 h-2 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
-                                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Saving</span>
+                                <span className="text-[11px] text-zinc-500 font-medium">Saving</span>
                             </>
                         )}
                         {saveStatus === 'saved' && (
@@ -159,7 +159,7 @@ export default function WhiteboardHeader({
                                 title="Click to force save"
                             >
                                 <Cloud className="w-3.5 h-3.5 text-emerald-500" />
-                                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Saved</span>
+                                <span className="text-[11px] text-zinc-500 font-medium">Saved</span>
                             </button>
                         )}
                         {saveStatus === 'error' && (
@@ -169,7 +169,7 @@ export default function WhiteboardHeader({
                                 title="Retry save"
                             >
                                 <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                                <span className="text-[10px] text-red-500 font-bold uppercase tracking-wider">Retry</span>
+                                <span className="text-[11px] text-red-500 font-medium">Retry</span>
                             </button>
                         )}
                     </div>
