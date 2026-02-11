@@ -105,8 +105,8 @@ export function CourseJsonEditorModal({
             <div className="bg-white dark:bg-zinc-900 w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl flex flex-col border border-zinc-200 dark:border-zinc-800 overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-                    <div className="flex items-center gap-4">
-                        <div className="text-zinc-900 dark:text-zinc-100 shrink-0">
+                    <div className="flex items-start gap-4">
+                        <div className="text-zinc-900 dark:text-zinc-100 shrink-0 mt-[3px]">
                             <FileJson className="w-6 h-6" />
                         </div>
                         <div className="flex flex-col gap-0.5">
