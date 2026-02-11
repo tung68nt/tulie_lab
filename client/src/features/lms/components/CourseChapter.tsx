@@ -1,35 +1,22 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
+import React, { useState } from 'react';
+import { ChevronDown, Play, Lock, FileText, Check } from 'lucide-react';
 import { Button } from '@/components/Button';
-import { ChevronDown, Lock, Play, FileText, BadgeCheck, Check } from 'lucide-react';
+import Link from 'next/link';
 
 interface Lesson {
     id: string;
-    slug: string;
     title: string;
+    slug: string;
     description?: string;
-    learningOutcomes?: string | string[];
-    thumbnail?: string;
+    content?: string;
     duration?: string;
-    isFree?: boolean;
     videoUrl?: string;
-    type?: 'VIDEO' | 'QUIZ' | 'TEXT';
+    thumbnail?: string;
+    isFree?: boolean;
     section?: string;
-}
-
-function getVideoThumbnail(url?: string): string | null {
-    if (!url) return null;
-
-    // YouTube
-    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-    const youtubeMatch = url.match(youtubeRegex);
-    if (youtubeMatch && youtubeMatch[1]) {
-        return `https://img.youtube.com/vi/${youtubeMatch[1]}/mqdefault.jpg`;
-    }
-
-    return null;
+    learningOutcomes?: string | string[];
 }
 
 interface CourseChapterProps {
@@ -40,13 +27,22 @@ interface CourseChapterProps {
     isEnrolled: boolean;
 }
 
-export function CourseChapter({
+const getVideoThumbnail = (url?: string) => {
+    if (!url) return null;
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+        const id = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
+        return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+    }
+    return null;
+};
+
+export const CourseChapter: React.FC<CourseChapterProps> = ({
     chapterName,
     chapterLessons,
     chapterIndex,
     courseSlug,
     isEnrolled
-}: CourseChapterProps) {
+}) => {
     const [isChapterOpen, setIsChapterOpen] = useState(chapterIndex === 0);
     const [expandedLessonId, setExpandedLessonId] = useState<string | null>(null);
 
@@ -159,59 +155,63 @@ export function CourseChapter({
                                                     </div>
                                                     <div className="flex flex-col items-end gap-2 shrink-0">
                                                         {lesson.isFree && (
-                                                            <div className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold border border-emerald-500/20 whitespace-nowrap shadow-[0_0_8px_rgba(16,185,129,0.1)]">
-                                                                Học thử miễn phí
-                                                            </div>
+                                                            <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
+                                                                <div className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold border border-emerald-500/20 whitespace-nowrap shadow-[0_0_8px_rgba(16,185,129,0.1)] hover:bg-emerald-500/20 transition-colors">
+                                                                    Học thử miễn phí
+                                                                </div>
+                                                            </Link>
                                                         )}
                                                         {isLocked ? (
                                                             <span className="text-zinc-400 dark:text-zinc-600"><Lock className="w-3.5 h-3.5" /></span>
                                                         ) : (
-                                                            <Button size="sm" className="h-[38px] text-[13px] font-bold shadow-sm px-5 flex items-center gap-2 rounded-xl">
-                                                                <Play size={15} />
-                                                                Vào học
-                                                            </Button>
+                                                            <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
+                                                                <Button size="sm" className="h-[38px] text-[13px] font-bold shadow-sm px-5 flex items-center gap-2 rounded-xl">
+                                                                    <Play size={15} />
+                                                                    Vào học
+                                                                </Button>
                                                             </Link>
                                                         )}
-                                                </div>
-                                            </div>
-
-                                            {/* Expandable Content - Outcomes */}
-                                            <div className={`transition-all duration-300 overflow-hidden ${isExpanded && lesson.learningOutcomes ? 'max-h-[500px] mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
-                                                {lesson.learningOutcomes && (
-                                                    <div className="mt-3 pl-1">
-                                                        <p className="text-[14px] font-medium text-zinc-100 mb-2">Bạn sẽ học được gì:</p>
-                                                        <div className="text-[14px] font-medium text-zinc-100 space-y-2">
-                                                            {(() => {
-                                                                let outcomes: string[] = [];
-                                                                const raw = lesson.learningOutcomes;
-                                                                if (typeof raw === 'string') outcomes = raw.split('\n');
-                                                                else if (Array.isArray(raw)) outcomes = raw.map(String);
-
-                                                                return outcomes
-                                                                    .map(o => o.trim())
-                                                                    .filter(o => o && o !== '-' && o !== '•')
-                                                                    .map((line, i) => (
-                                                                        <div key={i} className="flex gap-2 items-start">
-                                                                            <div className="shrink-0 w-4 h-4 rounded-full bg-emerald-500/10 flex items-center justify-center mt-0.5">
-                                                                                <Check className="w-2.5 h-2.5 text-emerald-400" strokeWidth={2.5} />
-                                                                            </div>
-                                                                            <span className="text-[14px] leading-relaxed text-zinc-400">{line.replace(/^[-\u2022]\s*/, '')}</span>
-                                                                        </div>
-                                                                    ));
-                                                            })()}
-                                                        </div>
                                                     </div>
-                                                )}
+                                                </div>
+
+                                                {/* Expandable Content - Outcomes */}
+                                                <div className={`transition-all duration-300 overflow-hidden ${isExpanded ? 'max-h-[500px] mt-4 opacity-100' : 'max-h-0 opacity-0'}`}>
+                                                    {lesson.learningOutcomes && (
+                                                        <div className="bg-zinc-50 dark:bg-white/5 rounded-lg p-4 border border-zinc-100 dark:border-white/5">
+                                                            <p className="text-[13px] font-bold text-zinc-900 dark:text-zinc-100 mb-3 flex items-center gap-2">
+                                                                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                                                                Bạn sẽ học được gì
+                                                            </p>
+                                                            <div className="space-y-2">
+                                                                {(() => {
+                                                                    let outcomes: string[] = [];
+                                                                    const raw = lesson.learningOutcomes;
+                                                                    if (typeof raw === 'string') outcomes = raw.split('\n');
+                                                                    else if (Array.isArray(raw)) outcomes = raw.map(String);
+
+                                                                    return outcomes
+                                                                        .map(o => o.trim())
+                                                                        .filter(o => o && o !== '-' && o !== '•')
+                                                                        .map((line, i) => (
+                                                                            <div key={i} className="flex gap-2 items-start">
+                                                                                <div className="shrink-0 w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5" />
+                                                                                <span className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">{line.replace(/^[-\u2022]\s*/, '')}</span>
+                                                                            </div>
+                                                                        ));
+                                                                })()}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    </div>
-                        );
+                                );
                             })}
-                    </div>
+                        </div>
                     </div>
                 ))}
+            </div>
         </div>
-        </div >
     );
-}
+};
