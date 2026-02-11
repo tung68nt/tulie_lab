@@ -554,8 +554,8 @@ export default function CoursePage({ params }: { params: any }) {
                     <div className="md:col-span-2">
                         {/* Course Curriculum */}
                         <section className="mb-12">
-                            <h2 className="mb-6 text-2xl font-bold">Nội dung khóa học</h2>
-                            <div className="rounded-xl border border-white/10 bg-zinc-900 overflow-hidden divide-y divide-white/5 shadow-2xl">
+                            <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Nội dung khóa học</h2>
+                            <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 backdrop-blur-sm overflow-hidden divide-y divide-zinc-100 dark:divide-white/5 shadow-sm">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <>
                                         {/* Check if course has structure defined */}
@@ -566,12 +566,12 @@ export default function CoursePage({ params }: { params: any }) {
                                             // If no structure and no chapters, show flat list
                                             if (!hasStructure && !hasChapters) {
                                                 return (
-                                                    <div className="divide-y divide-white/5">
+                                                    <div className="divide-y divide-zinc-100 dark:divide-white/5">
                                                         {course.lessons.map((lesson: any, index: number) => {
                                                             if (!lesson) return null;
                                                             const isExpanded = expandedLessonId === lesson.id;
                                                             return (
-                                                                <div key={lesson.id || index} className="group flex flex-col transition-colors hover:bg-white/5">
+                                                                <div key={lesson.id || index} className="group flex flex-col transition-colors hover:bg-zinc-50 dark:hover:bg-white/5">
                                                                     <div
                                                                         className="flex items-start p-4 gap-3 cursor-pointer"
                                                                         onClick={() => setExpandedLessonId(isExpanded ? null : (lesson.id || String(index)))}
@@ -598,143 +598,101 @@ export default function CoursePage({ params }: { params: any }) {
                                                                         </div>
                                                                         <div className="shrink-0 flex items-center gap-3" onClick={e => e.stopPropagation()}>
                                                                             {lesson.isFree ? (
-                                                                                <Link href={`/learn/${course.slug}/${lesson.slug}`}>
-                                                                                    <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[13px] font-bold text-emerald-400 whitespace-nowrap shadow-[0_0_10px_-2px_rgba(16,185,129,0.1)]">
-                                                                                        Học thử miễn phí
-                                                                                    </span>
-                                                                                </Link>
-                                                                            ) : !isEnrolled ? (
-                                                                                <span className="text-[10px] text-zinc-400 flex items-center gap-1 bg-white/10 px-2 py-1 rounded border border-white/10 font-bold">
-                                                                                    <Lock size={12} className="opacity-60" /> Khóa
-                                                                                </span>
-                                                                            ) : (
-                                                                                <Link href={`/learn/${course.slug}/${lesson.slug}`}>
-                                                                                    <Button as="div" size="sm" className="h-8 text-xs">Vào học</Button>
-                                                                                </Link>
-                                                                            )}
+                                                                                chapterIndex = { chapterIndex }
+                                                    courseSlug={course.slug}
+                                                                            isEnrolled={isEnrolled}
+                                                />
+                                                                            ));
+                                        })()}
+                                                                        </>
+                                                                        ) : (
+                                                                        <div className="p-8 text-center text-muted-foreground">
+                                                                            Nội dung đang được cập nhật.
+                                                                        </div>
+                                )}
+                                                                    </div>
+                                                                </section>
+
+                        {/* Instructor Section */ }
+                                                            <section>
+                                                                <h2 className="mb-8 text-2xl font-bold">Giảng viên</h2>
+                                                                <Link
+                                                                    href={course.instructor?.slug ? `/instructors/${course.instructor.slug}` : '/instructors'}
+                                                                    className="block rounded-xl border bg-card overflow-hidden hover:border-foreground/20 transition-colors"
+                                                                >
+                                                                    <div className="p-6">
+                                                                        <div className="flex items-center gap-4">
+                                                                            {/* Avatar */}
+                                                                            <div className="shrink-0">
+                                                                                {course.instructor?.avatar ? (
+                                                                                    <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-border">
+                                                                                        <img
+                                                                                            src={course.instructor.avatar}
+                                                                                            alt={course.instructor.name}
+                                                                                            className="w-full h-full object-cover"
+                                                                                        />
+                                                                                    </div>
+                                                                                ) : (
+                                                                                    <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 text-primary text-xl font-bold ring-2 ring-border">
+                                                                                        {(course.instructor?.name || 'T').charAt(0)}
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+
+                                                                            {/* Name & Title only */}
+                                                                            <div className="flex-1 min-w-0">
+                                                                                <h3 className="font-semibold text-base">{course.instructor?.name || 'Tulie Academy Team'}</h3>
+                                                                                <p className="text-sm text-muted-foreground">{course.instructor?.title || ''}</p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    {/* Expandable Description */}
-                                                                    {isExpanded && lesson.description && (
-                                                                        <div className="px-4 pb-4 pt-0 pl-14">
-                                                                            <p className="text-xs text-zinc-400 font-medium leading-relaxed">
-                                                                                {lesson.description}
-                                                                            </p>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                );
-                                            }
-
-                                            // Show grouped by chapters
-                                            return Object.entries((course.lessons || []).filter((l: any) => l).reduce((acc: any, lesson: any) => {
-                                                const chapter = lesson.chapter || 'Chưa phân loại';
-                                                if (!acc[chapter]) acc[chapter] = [];
-                                                acc[chapter].push(lesson);
-                                                return acc;
-                                            }, {})).map(([chapterName, chapterLessons]: [string, any], chapterIndex: number) => (
-                                                <CourseChapter
-                                                    key={chapterName}
-                                                    chapterName={chapterName}
-                                                    chapterLessons={chapterLessons}
-                                                    chapterIndex={chapterIndex}
-                                                    courseSlug={course.slug}
-                                                    isEnrolled={isEnrolled}
-                                                />
-                                            ));
-                                        })()}
-                                    </>
-                                ) : (
-                                    <div className="p-8 text-center text-muted-foreground">
-                                        Nội dung đang được cập nhật.
-                                    </div>
-                                )}
-                            </div>
-                        </section>
-
-                        {/* Instructor Section */}
-                        <section>
-                            <h2 className="mb-8 text-2xl font-bold">Giảng viên</h2>
-                            <Link
-                                href={course.instructor?.slug ? `/instructors/${course.instructor.slug}` : '/instructors'}
-                                className="block rounded-xl border bg-card overflow-hidden hover:border-foreground/20 transition-colors"
-                            >
-                                <div className="p-6">
-                                    <div className="flex items-center gap-4">
-                                        {/* Avatar */}
-                                        <div className="shrink-0">
-                                            {course.instructor?.avatar ? (
-                                                <div className="w-14 h-14 rounded-full overflow-hidden ring-2 ring-border">
-                                                    <img
-                                                        src={course.instructor.avatar}
-                                                        alt={course.instructor.name}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                </div>
-                                            ) : (
-                                                <div className="w-14 h-14 flex items-center justify-center rounded-full bg-primary/10 text-primary text-xl font-bold ring-2 ring-border">
-                                                    {(course.instructor?.name || 'T').charAt(0)}
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Name & Title only */}
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="font-semibold text-base">{course.instructor?.name || 'Tulie Academy Team'}</h3>
-                                            <p className="text-sm text-muted-foreground">{course.instructor?.title || ''}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        </section>
+                                                                </Link>
+                                                            </section>
                     </div>
 
-                    {/* Sidebar / Sticky (Desktop) */}
-                    <div className="hidden md:block">
-                        <div className="sticky top-24 space-y-6">
-                            <div>
-                                <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Bạn sẽ học được gì</h2>
-                                <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 backdrop-blur-sm p-6 shadow-sm">
-                                    {(() => {
-                                        let outcomes: string[] = [];
-                                        try {
-                                            if (typeof course.learningOutcomes === 'string') {
-                                                outcomes = course.learningOutcomes.split('\n');
-                                            } else if (Array.isArray(course.learningOutcomes)) {
-                                                outcomes = course.learningOutcomes.map(String);
-                                            }
-                                        } catch (e) {
-                                            console.error('Error parsing learning outcomes', e);
-                                        }
+                    {/* Sidebar / Sticky (Desktop) */ }
+                                                <div className="hidden md:block">
+                                                    <div className="sticky top-24 space-y-6">
+                                                        <div>
+                                                            <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Bạn sẽ học được gì</h2>
+                                                            <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 backdrop-blur-sm p-6 shadow-sm">
+                                                                {(() => {
+                                                                    let outcomes: string[] = [];
+                                                                    try {
+                                                                        if (typeof course.learningOutcomes === 'string') {
+                                                                            outcomes = course.learningOutcomes.split('\n');
+                                                                        } else if (Array.isArray(course.learningOutcomes)) {
+                                                                            outcomes = course.learningOutcomes.map(String);
+                                                                        }
+                                                                    } catch (e) {
+                                                                        console.error('Error parsing learning outcomes', e);
+                                                                    }
 
-                                        const filteredOutcomes = outcomes.filter(line => line && line.trim() && line.toLowerCase() !== 'null');
+                                                                    const filteredOutcomes = outcomes.filter(line => line && line.trim() && line.toLowerCase() !== 'null');
 
-                                        return filteredOutcomes.length > 0 ? (
-                                            <ul className="space-y-4">
-                                                {filteredOutcomes.map((line: string, i: number) => (
-                                                    <li key={i} className="flex gap-3 items-start text-sm text-zinc-900 dark:text-zinc-100 font-medium">
-                                                        <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
-                                                            <Check className="w-3 h-3 text-emerald-500" strokeWidth={3} />
+                                                                    return filteredOutcomes.length > 0 ? (
+                                                                        <ul className="space-y-4">
+                                                                            {filteredOutcomes.map((line: string, i: number) => (
+                                                                                <li key={i} className="flex gap-3 items-start text-sm text-zinc-900 dark:text-zinc-100 font-medium">
+                                                                                    <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
+                                                                                        <Check className="w-3 h-3 text-emerald-500" strokeWidth={3} />
+                                                                                    </div>
+                                                                                    <span className="leading-relaxed">{line.replace(/^- /, '')}</span>
+                                                                                </li>
+                                                                            ))}
+                                                                        </ul>
+                                                                    ) : (
+                                                                        <p className="text-sm text-muted-foreground italic opacity-50">Nội dung đang cập nhật...</p>
+                                                                    );
+                                                                })()}
+                                                            </div>
                                                         </div>
-                                                        <span className="leading-relaxed">{line.replace(/^- /, '')}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p className="text-sm text-muted-foreground italic opacity-50">Nội dung đang cập nhật...</p>
-                                        );
-                                    })()}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                                    </div>
+                                                </div>
                 </div>
-            </div>
-            {/* Quick Edit for Admins */}
-            {course && <QuickEdit editUrl={`/admin/courses/${course.id}`} />}
-        </div>
-    );
+                            </div>
+                            {/* Quick Edit for Admins */}
+                            {course && <QuickEdit editUrl={`/admin/courses/${course.id}`} />}
+                    </div>
+                    );
 }
