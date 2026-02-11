@@ -66,11 +66,11 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
             <div className="bg-white dark:bg-zinc-900 w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl flex flex-col border border-zinc-200 dark:border-zinc-800 overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-                    <div className="flex items-center gap-3">
-                        <div className="text-zinc-900 dark:text-zinc-100">
+                    <div className="flex items-start gap-4">
+                        <div className="text-zinc-900 dark:text-zinc-100 shrink-0 mt-1">
                             <FileJson className="w-6 h-6" />
                         </div>
-                        <div className="flex flex-col -mt-0.5">
+                        <div className="flex flex-col gap-0.5">
                             <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 leading-tight">Course JSON Editor</h2>
                             <p className="text-xs text-zinc-500 leading-tight">Edit entire course structure and content via JSON.</p>
                         </div>
