@@ -53,13 +53,13 @@ export default function WhiteboardHeader({
         <>
             {/* TOP LEFT BRANDING GROUP */}
             <div className="absolute top-4 left-[60px] z-30">
-                <div className="flex items-center gap-3 px-3 h-10 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm">
-                    <Logo showText={false} height="h-6" />
+                <div className="flex items-center gap-3 px-3 h-[40px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm box-border">
+                    <Logo showText={false} height="h-7" />
                     <div className="flex flex-col justify-center leading-none">
-                        <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
+                        <span className="text-base font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
                             Tulie
                         </span>
-                        <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 -mt-0.5" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
+                        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400 -mt-0.5" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
                             Whiteboard
                         </span>
                     </div>
