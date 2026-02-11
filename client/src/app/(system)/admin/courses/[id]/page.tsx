@@ -391,11 +391,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Mô tả</label>
-                                <textarea
-                                    className="flex min-h-[150px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
-                                    value={courseForm.description}
-                                    onChange={e => setCourseForm({ ...courseForm, description: e.target.value })}
-                                    placeholder="Mô tả chi tiết về khóa học..."
+                                <BlockNoteEditor
+                                    initialContent={courseForm.description}
+                                    onChange={content => setCourseForm({ ...courseForm, description: content })}
+                                    minHeight="300px"
                                 />
                             </div>
 

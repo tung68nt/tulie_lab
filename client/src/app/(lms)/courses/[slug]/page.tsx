@@ -16,6 +16,7 @@ import { Sparkles, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
 import { SectionTag } from '@/components/SectionTag';
 import { QuickEdit } from '@/components/admin/QuickEdit';
+import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 
 // Helper function to parse duration string to seconds
 function parseDurationToSeconds(duration: string): number {
@@ -226,9 +227,9 @@ export default function CoursePage({ params }: { params: any }) {
                             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                                 {course.title}
                             </h1>
-                            <p className="text-sm text-zinc-400 leading-relaxed max-w-[600px] whitespace-pre-line">
-                                {course.description}
-                            </p>
+                            <div className="text-sm text-zinc-400 leading-relaxed max-w-[600px] marker-description">
+                                <MarkdownRenderer content={course.description || ''} />
+                            </div>
                             <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-medium text-zinc-500">
                                 <div className="flex items-center gap-2">
                                     <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
