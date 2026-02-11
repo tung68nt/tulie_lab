@@ -70,7 +70,7 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
                         <div className="text-zinc-900 dark:text-zinc-100">
                             <FileJson className="w-6 h-6" />
                         </div>
-                        <div className="flex flex-col justify-center">
+                        <div className="flex flex-col -mt-0.5">
                             <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 leading-tight">Course JSON Editor</h2>
                             <p className="text-xs text-zinc-500 leading-tight">Edit entire course structure and content via JSON.</p>
                         </div>
