@@ -408,8 +408,6 @@ async function initializeApp() {
           BEGIN
             -- 1. Check if we need to sync the enum
             IF EXISTS (SELECT 1 FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid WHERE t.typname = 'WhiteboardStatus' AND e.enumlabel = 'DRAFT') THEN
-                loggerService.info('🔄 DB SYNC: Found legacy WhiteboardStatus, performing emergency transition...');
-                
                 -- Rename old type
                 ALTER TYPE "WhiteboardStatus" RENAME TO "WhiteboardStatus_old";
                 CREATE TYPE "WhiteboardStatus" AS ENUM ('PUBLIC', 'PRIVATE');
@@ -425,11 +423,12 @@ async function initializeApp() {
                     ALTER TABLE "Whiteboard" ALTER COLUMN status SET DEFAULT 'PRIVATE';
                 END IF;
 
-                -- Update Artboard elements if they are still stored as text/invalid
-                -- No-op for now as Prisma handles this, but here for completeness
-
                 DROP TYPE "WhiteboardStatus_old";
-                loggerService.info('✅ DB SYNC: WhiteboardStatus transition complete.');
+            END IF;
+
+            -- 2. Cleanup failed migrations to unblock future deployments
+            IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = '_prisma_migrations') THEN
+                DELETE FROM "_prisma_migrations" WHERE status = 'failed';
             END IF;
           END $$;
         `);
