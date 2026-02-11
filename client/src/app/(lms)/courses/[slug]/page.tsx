@@ -7,12 +7,11 @@ import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
-import { Clock, ChevronDown, ChevronUp, Lock, Check } from 'lucide-react';
+import { Clock, ChevronDown, ChevronUp, Lock, Check, PlayCircle, Sparkles, CheckCircle2, Users, BarChart } from 'lucide-react';
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
 import { CourseChapter } from '@/features/lms/components/CourseChapter';
 import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
-import { Sparkles, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
 import { SectionTag } from '@/components/SectionTag';
 import { QuickEdit } from '@/components/admin/QuickEdit';
@@ -231,25 +230,24 @@ export default function CoursePage({ params }: { params: any }) {
                                 content={course.description || ''}
                                 className="prose-invert text-zinc-300 prose-p:text-zinc-300 prose-li:text-zinc-300 prose-strong:text-zinc-50 prose-headings:text-zinc-50"
                             />
-                            <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-medium text-zinc-400">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-                                        <CheckCircle2 className="w-4 h-4 text-white" />
+                            <div className="space-y-4 pt-4">
+                                {/* Key Benefits Row */}
+                                <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-zinc-400">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                                            <CheckCircle2 className="w-4 h-4 text-white" />
+                                        </div>
+                                        <span className="text-zinc-200">{course.infoInstructor || "Giảng viên Chuyên nghiệp"}</span>
                                     </div>
-                                    <span className="text-zinc-200">{course.infoInstructor || "Giảng viên Chuyên nghiệp"}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-                                        <CheckCircle2 className="w-4 h-4 text-white" />
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                                            <CheckCircle2 className="w-4 h-4 text-white" />
+                                        </div>
+                                        <span className="text-zinc-200">{course.infoDuration || "Truy cập trọn đời"}</span>
                                     </div>
-                                    <span className="text-zinc-200">{course.infoDuration || "Truy cập trọn đời"}</span>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-                                        <CheckCircle2 className="w-4 h-4 text-white" />
-                                    </div>
-                                    <span className="text-zinc-200">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
-                                </div>
+
+                                {/* Stats Pill Row */}
                                 {(() => {
                                     try {
                                         const lessons = Array.isArray(course?.lessons) ? course.lessons : [];
@@ -259,12 +257,21 @@ export default function CoursePage({ params }: { params: any }) {
                                                 const d = parseDurationToSeconds(lesson.duration);
                                                 return acc + (isNaN(d) ? 0 : d);
                                             }, 0);
-                                        return totalSeconds > 0 ? (
-                                            <div className="flex items-center gap-2">
-                                                <Clock className="h-4 w-4 text-zinc-400" />
-                                                <span className="text-zinc-300">{formatTotalDuration(totalSeconds)}</span>
+
+                                        return (
+                                            <div className="inline-flex items-center gap-4 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-medium">
+                                                <div className="flex items-center gap-2 border-r border-white/10 pr-4">
+                                                    <PlayCircle className="w-4 h-4 text-zinc-400" />
+                                                    <span className="text-zinc-100">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
+                                                </div>
+                                                {totalSeconds > 0 && (
+                                                    <div className="flex items-center gap-2">
+                                                        <Clock className="w-4 h-4 text-zinc-400" />
+                                                        <span className="text-zinc-100">{formatTotalDuration(totalSeconds)}</span>
+                                                    </div>
+                                                )}
                                             </div>
-                                        ) : null;
+                                        );
                                     } catch (e) {
                                         return null;
                                     }
