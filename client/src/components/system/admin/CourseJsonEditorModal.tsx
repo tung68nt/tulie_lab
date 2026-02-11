@@ -140,32 +140,32 @@ export function CourseJsonEditorModal({
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-900/50">
-                    <div className="text-xs text-zinc-500 max-w-sm">
+                <div className="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div className="text-xs text-zinc-500 max-w-[280px] shrink-0">
                         <span className="font-medium text-amber-600 dark:text-amber-500 flex items-center gap-1.5 mb-0.5">
                             <AlertTriangle className="w-3.5 h-3.5" /> Warning
                         </span>
                         Changes to structure and lessons will attempt to sync. New lessons (without IDs) will be created.
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap sm:flex-nowrap gap-2 items-center w-full sm:w-auto justify-end">
                         <Button
                             variant="ghost"
                             type="button"
                             onClick={handleReset}
-                            className="text-zinc-500 hover:text-blue-600"
+                            className="text-zinc-500 hover:text-blue-600 text-xs whitespace-nowrap px-2"
                         >
-                            Reset to Standard JSON
+                            Reset JSON
                         </Button>
                         <Button
                             variant="ghost"
                             type="button"
                             onClick={handleCopy}
-                            className="text-zinc-500 hover:text-blue-600"
+                            className="text-zinc-500 hover:text-blue-600 text-xs whitespace-nowrap px-2"
                         >
                             <Copy className="w-4 h-4 mr-2" /> Copy JSON
                         </Button>
-                        <Button variant="outline" onClick={onClose}>Cancel</Button>
-                        <Button onClick={handleSave} className="gap-2 min-w-[140px]">
+                        <Button variant="outline" onClick={onClose} className="text-xs px-3">Cancel</Button>
+                        <Button onClick={handleSave} className="gap-2 min-w-[120px] text-xs">
                             <Save className="w-4 h-4" /> Save Changes
                         </Button>
                     </div>
