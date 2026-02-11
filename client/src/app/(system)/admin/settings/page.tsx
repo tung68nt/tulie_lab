@@ -10,10 +10,12 @@ import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings } from 'lu
 import { Switch } from '@/components/Switch';
 import { useSettings } from '@/contexts/SettingsContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
+import { useConfirm } from '@/components/ConfirmDialog';
 
 export default function AdminSettingsPage() {
     const { addToast } = useToast();
     const { updateSettings: globalUpdateSettings } = useSettings();
+    const confirm = useConfirm();
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(true);
     const [settings, setSettings] = useState<any>({});
@@ -43,7 +45,14 @@ export default function AdminSettingsPage() {
     };
 
     const handleRegenerateKey = async () => {
-        if (!confirm('Tạo lại API Key? Key cũ sẽ không còn hiệu lực.')) return;
+        const confirmed = await confirm({
+            title: 'Tạo lại API Key?',
+            message: 'API Key cũ sẽ không còn hiệu lực. Các ứng dụng đang sử dụng key cũ sẽ bị ngắt kết nối.',
+            variant: 'danger',
+            confirmText: 'Tạo mới',
+            cancelText: 'Hủy'
+        });
+        if (!confirmed) return;
         setRegenerating(true);
         try {
             const res = await api.admin.settings.regenerateApiKey();

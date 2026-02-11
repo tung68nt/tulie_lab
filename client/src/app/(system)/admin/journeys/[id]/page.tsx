@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/Checkbox';
 import { Plus, Trash2, GripVertical, Save, ArrowLeft, Route } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
+import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { PriceInput } from '@/components/PriceInput';
 
@@ -56,6 +57,7 @@ export default function JourneyEditorPage() {
     const [loading, setLoading] = useState(!isNew);
     const [saving, setSaving] = useState(false);
     const { addToast } = useToast();
+    const confirm = useConfirm();
 
     useEffect(() => {
         loadCourses();
@@ -193,7 +195,16 @@ export default function JourneyEditorPage() {
 
     const removeStep = async (index: number) => {
         const step = steps[index];
-        if (step.id && !confirm('Bạn có chắc muốn xóa bước này?')) return;
+        if (step.id) {
+            const confirmed = await confirm({
+                title: 'Xóa bước này?',
+                message: 'Bạn có chắc muốn xóa bước này? Dữ liệu đã lưu sẽ bị mất.',
+                variant: 'danger',
+                confirmText: 'Xóa',
+                cancelText: 'Hủy'
+            });
+            if (!confirmed) return;
+        }
 
         if (step.id) {
             try {

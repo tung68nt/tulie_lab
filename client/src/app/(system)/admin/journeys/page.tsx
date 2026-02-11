@@ -7,7 +7,7 @@ import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { Plus, Edit2, Trash2, Users, BookOpen, Eye, EyeOff, Route } from 'lucide-react';
 import Link from 'next/link';
-import { useToast } from '@/contexts/ToastContext';
+import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface Journey {
@@ -29,6 +29,7 @@ export default function JourneyListPage() {
     const [journeys, setJourneys] = useState<Journey[]>([]);
     const [loading, setLoading] = useState(true);
     const { addToast } = useToast();
+    const confirm = useConfirm();
 
     const fetchJourneys = async () => {
         try {
@@ -48,7 +49,15 @@ export default function JourneyListPage() {
     }, []);
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Bạn có chắc muốn xóa lộ trình này?')) return;
+        const confirmed = await confirm({
+            title: 'Xóa lộ trình?',
+            message: 'Bạn có chắc muốn xóa lộ trình này? Hành động này không thể hoàn tác.',
+            variant: 'danger',
+            confirmText: 'Xóa',
+            cancelText: 'Hủy'
+        });
+
+        if (!confirmed) return;
 
         try {
             await api.journeys.admin.delete(id);
