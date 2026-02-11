@@ -7,6 +7,7 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
         return prisma.whiteboard.create({
             data: {
                 ...data,
+                status: 'PRIVATE', // Explicitly set default status for enum safety
                 artboards: {
                     create: {
                         order: 0,

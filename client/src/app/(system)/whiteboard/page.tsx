@@ -80,12 +80,12 @@ export default function WhiteboardDashboard() {
                     <p className="text-muted-foreground mt-1">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center p-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-2xl border border-zinc-200/50 dark:border-zinc-700/50">
+                    <div className="flex items-center h-11 p-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-2xl border border-zinc-200/50 dark:border-zinc-700/50">
                         <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('grid')}
-                            className={`h-8 w-11 px-0 rounded-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
+                            className={`h-full w-11 px-0 rounded-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
                         >
                             <Layout className="w-4 h-4" />
                         </Button>
@@ -93,12 +93,12 @@ export default function WhiteboardDashboard() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('list')}
-                            className={`h-8 w-11 px-0 rounded-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
+                            className={`h-full w-11 px-0 rounded-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
                         >
                             <List className="w-4 h-4" />
                         </Button>
                     </div>
-                    <Button onClick={handleCreate} disabled={isCreating} className="gap-2">
+                    <Button onClick={handleCreate} disabled={isCreating} className="gap-2 rounded-2xl h-11">
                         <Plus className="w-4 h-4" />
                         Tạo bảng mới
                     </Button>
