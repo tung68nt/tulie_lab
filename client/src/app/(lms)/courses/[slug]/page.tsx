@@ -283,9 +283,9 @@ export default function CoursePage({ params }: { params: any }) {
                                                         return total === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
                                                     })()}
                                                 </div>
-                                                {(course.originalPrice || course.oldPrice) && (Number(course.originalPrice || course.oldPrice) > Number(course.price)) && (
+                                                {course.compareAtPrice && Number(course.compareAtPrice) > Number(course.price) && (
                                                     <div className="text-sm text-zinc-500 line-through">
-                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.originalPrice || course.oldPrice))}
+                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.compareAtPrice))}
                                                     </div>
                                                 )}
                                             </div>
