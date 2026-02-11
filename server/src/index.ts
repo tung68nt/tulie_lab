@@ -404,36 +404,60 @@ async function initializeApp() {
       // This ensures the Whiteboard enum is updated even if migrations fail
       const syncDB = async () => {
         try {
-          // 1. Check if legacy 'DRAFT' exists
-          // typname matches exactly since it was created with quotes "WhiteboardStatus"
-          const check: any[] = await prisma.$queryRawUnsafe(`
-            SELECT 1 FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid 
-            WHERE t.typname = 'WhiteboardStatus' AND e.enumlabel = 'DRAFT'
+          // 1. Identify which tables/columns still use the old type
+          const oldColumns: any[] = await prisma.$queryRawUnsafe(`
+            SELECT table_name, column_name 
+            FROM information_schema.columns 
+            WHERE udt_name = 'WhiteboardStatus_old'
+            AND table_schema = 'public'
           `);
 
-          if (check && check.length > 0) {
-            loggerService.info('🔄 DB SYNC: Found legacy WhiteboardStatus, performing emergency transition...');
+          if (oldColumns && oldColumns.length > 0) {
+            loggerService.info(`🔄 DB SYNC: Found ${oldColumns.length} columns using legacy WhiteboardStatus_old. Converting...`);
 
-            // Individual DDL commands (some cannot be in transactions, or are better separate)
-            await prisma.$executeRawUnsafe(`ALTER TYPE "WhiteboardStatus" RENAME TO "WhiteboardStatus_old"`);
-            await prisma.$executeRawUnsafe(`CREATE TYPE "WhiteboardStatus" AS ENUM ('PUBLIC', 'PRIVATE')`);
+            // Ensure the new type exists
+            const typeExists: any[] = await prisma.$queryRawUnsafe(`
+              SELECT 1 FROM pg_type WHERE typname = 'WhiteboardStatus'
+            `);
+            if (!typeExists || typeExists.length === 0) {
+              await prisma.$executeRawUnsafe(`CREATE TYPE "WhiteboardStatus" AS ENUM ('PUBLIC', 'PRIVATE')`);
+            }
 
-            // Update the table column to the new type
-            await prisma.$executeRawUnsafe(`
-              ALTER TABLE "Whiteboard" ALTER COLUMN status DROP DEFAULT;
-              ALTER TABLE "Whiteboard" ALTER COLUMN status TYPE "WhiteboardStatus" USING 
-                CASE 
-                  WHEN status::text = 'PUBLISHED' THEN 'PUBLIC'::"WhiteboardStatus"
-                  ELSE 'PRIVATE'::"WhiteboardStatus"
-                END;
-              ALTER TABLE "Whiteboard" ALTER COLUMN status SET DEFAULT 'PRIVATE';
+            for (const col of oldColumns) {
+              const table = col.table_name;
+              const column = col.column_name;
+
+              loggerService.info(`   - Converting "${table}"."${column}" to new WhiteboardStatus...`);
+
+              await prisma.$executeRawUnsafe(`ALTER TABLE "${table}" ALTER COLUMN "${column}" DROP DEFAULT`);
+              await prisma.$executeRawUnsafe(`
+                  ALTER TABLE "${table}" ALTER COLUMN "${column}" TYPE "WhiteboardStatus" USING 
+                    CASE 
+                      WHEN "${column}"::text = 'PUBLISHED' THEN 'PUBLIC'::"WhiteboardStatus"
+                      ELSE 'PRIVATE'::"WhiteboardStatus"
+                    END
+                `);
+              await prisma.$executeRawUnsafe(`ALTER TABLE "${table}" ALTER COLUMN "${column}" SET DEFAULT 'PRIVATE'`);
+            }
+
+            await prisma.$executeRawUnsafe(`DROP TYPE IF EXISTS "WhiteboardStatus_old"`);
+            loggerService.info('✅ DB SYNC: Column conversion complete.');
+          } else {
+            // Also check if legacy labels exist in the current type
+            const draftExists: any[] = await prisma.$queryRawUnsafe(`
+              SELECT 1 FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid 
+              WHERE t.typname = 'WhiteboardStatus' AND e.enumlabel = 'DRAFT'
             `);
 
-            await prisma.$executeRawUnsafe(`DROP TYPE "WhiteboardStatus_old"`);
-            loggerService.info('✅ DB SYNC: WhiteboardStatus transition complete.');
+            if (draftExists && draftExists.length > 0) {
+              loggerService.info('🔄 DB SYNC: Found legacy DRAFT label, performing transition...');
+              await prisma.$executeRawUnsafe(`ALTER TYPE "WhiteboardStatus" RENAME TO "WhiteboardStatus_old"`);
+              await syncDB(); // Recurse to handle the renamed type
+              return;
+            }
           }
 
-          // 2. Unblock Prisma Migrations (allow future deploys to succeed)
+          // 2. Unblock Prisma Migrations
           await prisma.$executeRawUnsafe(`DELETE FROM "_prisma_migrations" WHERE status = 'failed'`);
 
         } catch (syncErr: any) {
