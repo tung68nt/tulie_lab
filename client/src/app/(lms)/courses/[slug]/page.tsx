@@ -348,70 +348,40 @@ export default function CoursePage({ params }: { params: any }) {
                                                 {/* Base option - no add-on */}
                                                 <label
                                                     className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${!selectedAddOnId
-                                                        ? 'bg-white/10 border-white/30'
-                                                        : 'border-zinc-800 hover:border-zinc-700'
+                                                        ? 'border-primary/50 bg-primary/5 shadow-[0_0_10px_-3px_rgba(var(--primary),0.1)]'
+                                                        : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'
                                                         }`}
+                                                    onClick={() => setSelectedAddOnId(null)}
                                                 >
-                                                    <div className="relative flex items-center justify-center">
-                                                        <input
-                                                            type="radio"
-                                                            name="addOn"
-                                                            checked={!selectedAddOnId}
-                                                            onChange={() => setSelectedAddOnId(null)}
-                                                            className="sr-only"
-                                                        />
-                                                        <div className={`w-4 h-4 rounded-full border transition-all flex items-center justify-center ${!selectedAddOnId
-                                                            ? 'border-white bg-white'
-                                                            : 'border-zinc-700 bg-transparent'}`}
-                                                        >
-                                                            {!selectedAddOnId && <div className="w-2 h-2 rounded-full bg-black" />}
-                                                        </div>
+                                                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${!selectedAddOnId ? 'border-primary bg-primary' : 'border-zinc-700 bg-transparent'}`}>
+                                                        {!selectedAddOnId && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                                                     </div>
                                                     <div className="flex-1">
-                                                        <span className={`text-sm transition-colors ${!selectedAddOnId ? 'text-white font-medium' : 'text-zinc-500'}`}>Chỉ E-learning</span>
+                                                        <p className="text-sm font-bold text-white leading-none">Gói cơ bản</p>
+                                                        <p className="text-[10px] text-zinc-400 mt-1">Truy cập toàn bộ bài học & tài liệu</p>
                                                     </div>
-                                                    <span className="text-sm text-zinc-400">+0đ</span>
+                                                    <div className="text-xs font-bold text-zinc-300"> +0đ </div>
                                                 </label>
 
-                                                {/* Add-on options */}
-                                                {pricingAddOns.map((addOn) => (
+                                                {pricingAddOns.map((addon) => (
                                                     <label
-                                                        key={addOn.id}
-                                                        className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedAddOnId === addOn.id
-                                                            ? 'bg-white/10 border-white/30'
-                                                            : 'border-zinc-800 hover:border-zinc-700'
+                                                        key={addon.id}
+                                                        className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedAddOnId === addon.id
+                                                            ? 'border-primary/50 bg-primary/5 shadow-[0_0_10px_-3px_rgba(var(--primary),0.1)]'
+                                                            : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'
                                                             }`}
+                                                        onClick={() => setSelectedAddOnId(addon.id)}
                                                     >
-                                                        <div className="relative flex items-center justify-center mt-0.5">
-                                                            <input
-                                                                type="radio"
-                                                                name="addOn"
-                                                                checked={selectedAddOnId === addOn.id}
-                                                                onChange={() => setSelectedAddOnId(addOn.id)}
-                                                                className="sr-only"
-                                                            />
-                                                            <div className={`w-4 h-4 rounded-full border transition-all flex items-center justify-center ${selectedAddOnId === addOn.id
-                                                                ? 'border-white bg-white'
-                                                                : 'border-zinc-700 bg-transparent'}`}
-                                                            >
-                                                                {selectedAddOnId === addOn.id && <div className="w-2 h-2 rounded-full bg-black" />}
-                                                            </div>
+                                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${selectedAddOnId === addon.id ? 'border-primary bg-primary' : 'border-zinc-700 bg-transparent'}`}>
+                                                            {selectedAddOnId === addon.id && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                                                         </div>
                                                         <div className="flex-1">
-                                                            <span className={`text-sm transition-colors ${selectedAddOnId === addOn.id ? 'text-white font-medium' : 'text-zinc-500'}`}>{addOn.name}</span>
-                                                            {addOn.features?.length > 0 && (
-                                                                <ul className="mt-1 space-y-0.5">
-                                                                    {addOn.features.slice(0, 2).map((f: string, i: number) => (
-                                                                        <li key={i} className="text-xs text-zinc-500">• {f}</li>
-                                                                    ))}
-                                                                </ul>
-                                                            )}
+                                                            <p className="text-sm font-bold text-white leading-none">{addon.nameAddon}</p>
+                                                            {addon.descriptionAddon && <p className="text-[10px] text-zinc-400 mt-1">{addon.descriptionAddon}</p>}
                                                         </div>
-                                                        <span className="text-sm text-zinc-400 shrink-0">
-                                                            {Number(addOn.priceAddon) > 0
-                                                                ? `+${new Intl.NumberFormat('vi-VN').format(Number(addOn.priceAddon))}đ`
-                                                                : 'Miễn phí'}
-                                                        </span>
+                                                        <div className="text-xs font-bold text-zinc-200">
+                                                            +{new Intl.NumberFormat('vi-VN').format(addon.priceAddon)}đ
+                                                        </div>
                                                     </label>
                                                 ))}
                                             </div>
@@ -554,8 +524,8 @@ export default function CoursePage({ params }: { params: any }) {
                     <div className="md:col-span-2">
                         {/* Course Curriculum */}
                         <section className="mb-12">
-                            <h2 className="mb-6 text-2xl font-bold">Nội dung khóa học</h2>
-                            <div className="rounded-xl border border-white/10 bg-zinc-900 overflow-hidden divide-y divide-white/5 shadow-2xl">
+                            <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-zinc-100">Nội dung khóa học</h2>
+                            <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-900 overflow-hidden divide-y divide-zinc-200 dark:divide-white/5 shadow-2xl">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <>
                                         {/* Check if course has structure defined */}
@@ -566,12 +536,12 @@ export default function CoursePage({ params }: { params: any }) {
                                             // If no structure and no chapters, show flat list
                                             if (!hasStructure && !hasChapters) {
                                                 return (
-                                                    <div className="divide-y divide-white/5">
+                                                    <div className="divide-y divide-zinc-200 dark:divide-white/5">
                                                         {course.lessons.map((lesson: any, index: number) => {
                                                             if (!lesson) return null;
                                                             const isExpanded = expandedLessonId === lesson.id;
                                                             return (
-                                                                <div key={lesson.id || index} className="group flex flex-col transition-colors hover:bg-white/5">
+                                                                <div key={lesson.id || index} className="group flex flex-col transition-colors hover:bg-zinc-50 dark:hover:bg-white/5">
                                                                     <div
                                                                         className="flex items-start p-4 gap-3 cursor-pointer"
                                                                         onClick={() => setExpandedLessonId(isExpanded ? null : (lesson.id || String(index)))}
@@ -583,13 +553,13 @@ export default function CoursePage({ params }: { params: any }) {
                                                                                 </span>
                                                                                 <div className="flex-1">
                                                                                     <div className="flex items-center gap-2">
-                                                                                        <h4 className="font-bold text-sm text-zinc-100">{lesson.title}</h4>
-                                                                                        <span className="text-zinc-400">
+                                                                                        <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{lesson.title}</h4>
+                                                                                        <span className="text-zinc-500">
                                                                                             {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                                                                                         </span>
                                                                                     </div>
                                                                                     {lesson.duration && (
-                                                                                        <p className="text-[10px] text-zinc-400 mt-0.5 font-medium">
+                                                                                        <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-0.5 font-medium">
                                                                                             {lesson.duration}
                                                                                         </p>
                                                                                     )}
@@ -599,12 +569,12 @@ export default function CoursePage({ params }: { params: any }) {
                                                                         <div className="shrink-0 flex items-center gap-3" onClick={e => e.stopPropagation()}>
                                                                             {lesson.isFree ? (
                                                                                 <Link href={`/learn/${course.slug}/${lesson.slug}`}>
-                                                                                    <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[13px] font-bold text-emerald-400 whitespace-nowrap shadow-[0_0_10px_-2px_rgba(16,185,129,0.1)]">
+                                                                                    <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[13px] font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap shadow-[0_0_10px_-2px_rgba(16,185,129,0.1)]">
                                                                                         Học thử miễn phí
                                                                                     </span>
                                                                                 </Link>
                                                                             ) : !isEnrolled ? (
-                                                                                <span className="text-[10px] text-zinc-400 flex items-center gap-1 bg-white/10 px-2 py-1 rounded border border-white/10 font-bold">
+                                                                                <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1 bg-zinc-100 dark:bg-white/10 px-2 py-1 rounded border border-zinc-200 dark:border-white/10 font-bold">
                                                                                     <Lock size={12} className="opacity-60" /> Khóa
                                                                                 </span>
                                                                             ) : (
@@ -617,7 +587,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                                     {/* Expandable Description */}
                                                                     {isExpanded && lesson.description && (
                                                                         <div className="px-4 pb-4 pt-0 pl-14">
-                                                                            <p className="text-xs text-zinc-400 font-medium leading-relaxed">
+                                                                            <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed">
                                                                                 {lesson.description}
                                                                             </p>
                                                                         </div>
