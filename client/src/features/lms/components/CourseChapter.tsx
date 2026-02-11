@@ -62,7 +62,7 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
         <div className="border-b border-zinc-200 dark:border-white/5 last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
-                className="bg-zinc-50 dark:bg-zinc-900/50 px-8 py-5 flex items-center justify-between cursor-pointer hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors border-b border-zinc-100 dark:border-white/5"
+                className="bg-zinc-50 dark:bg-zinc-900/50 px-8 py-5 flex items-center justify-between cursor-pointer hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
                 <h3 className="font-bold text-[16px] text-zinc-900 dark:text-zinc-100 flex items-center gap-2 h-full m-0 leading-none">
@@ -81,8 +81,8 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                 {Object.entries(lessonsBySection).map(([sectionName, sectionLessons]: [string, any], sIndex) => (
                     <div key={sectionName || sIndex} className="flex flex-col">
                         {sectionName && (
-                            <div className="pl-8 pr-5 pt-8 pb-3 bg-zinc-100/30 dark:bg-white/5 border-t border-zinc-100 dark:border-white/5 mb-1">
-                                <h4 className="text-[14px] font-bold text-zinc-500 dark:text-zinc-400">
+                            <div className="pl-8 pr-5 pt-3 pb-3 bg-zinc-100/30 dark:bg-white/5 border-t border-zinc-100 dark:border-white/5 mb-1">
+                                <h4 className="text-[14px] font-bold text-zinc-900 dark:text-white">
                                     {sectionName}
                                 </h4>
                             </div>

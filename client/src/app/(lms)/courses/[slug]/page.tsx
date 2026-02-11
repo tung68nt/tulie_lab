@@ -228,14 +228,14 @@ export default function CoursePage({ params }: { params: any }) {
                                             }, 0);
 
                                         return (
-                                            <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold shadow-[0_0_15px_-3px_rgba(var(--primary),0.1)] backdrop-blur-sm">
+                                            <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-white/10 border border-white/20 text-xs font-semibold shadow-[0_0_15px_-3px_rgba(255,255,255,0.1)] backdrop-blur-md">
                                                 <div className="flex items-center gap-2.5 border-r border-white/10 pr-4">
-                                                    <PlayCircle className="w-4 h-4 text-primary" />
+                                                    <PlayCircle className="w-4 h-4 text-white" />
                                                     <span className="text-zinc-50">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
                                                 </div>
                                                 {totalSeconds > 0 && (
                                                     <div className="flex items-center gap-2.5 pl-1">
-                                                        <Clock className="w-4 h-4 text-primary" />
+                                                        <Clock className="w-4 h-4 text-white" />
                                                         <span className="text-zinc-50">{formatTotalDuration(totalSeconds)}</span>
                                                     </div>
                                                 )}
@@ -272,15 +272,22 @@ export default function CoursePage({ params }: { params: any }) {
                                     <div className="flex items-end justify-between">
                                         <div>
                                             <p className="text-xs text-zinc-400 mb-1">Học phí</p>
-                                            <div className="text-2xl font-bold text-white">
-                                                {(() => {
-                                                    const basePrice = Number(course.price) || 0;
-                                                    const addOnPrice = selectedAddOnId
-                                                        ? Number(pricingAddOns.find(a => a.id === selectedAddOnId)?.priceAddon || 0)
-                                                        : 0;
-                                                    const total = basePrice + addOnPrice;
-                                                    return total === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
-                                                })()}
+                                            <div className="flex items-baseline gap-2">
+                                                <div className="text-2xl font-bold text-white">
+                                                    {(() => {
+                                                        const basePrice = Number(course.price) || 0;
+                                                        const addOnPrice = selectedAddOnId
+                                                            ? Number(pricingAddOns.find(a => a.id === selectedAddOnId)?.priceAddon || 0)
+                                                            : 0;
+                                                        const total = basePrice + addOnPrice;
+                                                        return total === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
+                                                    })()}
+                                                </div>
+                                                {(course.originalPrice || course.oldPrice) && (Number(course.originalPrice || course.oldPrice) > Number(course.price)) && (
+                                                    <div className="text-sm text-zinc-500 line-through">
+                                                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(course.originalPrice || course.oldPrice))}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
