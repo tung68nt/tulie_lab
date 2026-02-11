@@ -229,7 +229,7 @@ export default function CoursePage({ params }: { params: any }) {
                             </h1>
                             <MarkdownRenderer
                                 content={course.description || ''}
-                                className="prose-invert text-zinc-200"
+                                className="prose-invert text-zinc-50"
                             />
                             <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-medium text-zinc-500">
                                 <div className="flex items-center gap-2">
@@ -342,7 +342,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                 <label
                                                     className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${!selectedAddOnId
                                                         ? 'bg-white/10 border-white/30'
-                                                        : 'border-zinc-700 hover:border-zinc-600'
+                                                        : 'border-zinc-800 hover:border-zinc-700'
                                                         }`}
                                                 >
                                                     <input
@@ -353,7 +353,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                         className="w-4 h-4 accent-white"
                                                     />
                                                     <div className="flex-1">
-                                                        <span className="text-sm text-white">Chỉ E-learning</span>
+                                                        <span className={`text-sm transition-colors ${!selectedAddOnId ? 'text-white' : 'text-zinc-400'}`}>Chỉ E-learning</span>
                                                     </div>
                                                     <span className="text-sm text-zinc-400">+0đ</span>
                                                 </label>
@@ -364,7 +364,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                         key={addOn.id}
                                                         className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedAddOnId === addOn.id
                                                             ? 'bg-white/10 border-white/30'
-                                                            : 'border-zinc-700 hover:border-zinc-600'
+                                                            : 'border-zinc-800 hover:border-zinc-700'
                                                             }`}
                                                     >
                                                         <input
@@ -375,7 +375,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                             className="w-4 h-4 accent-white mt-0.5"
                                                         />
                                                         <div className="flex-1">
-                                                            <span className="text-sm text-white">{addOn.name}</span>
+                                                            <span className={`text-sm transition-colors ${selectedAddOnId === addOn.id ? 'text-white' : 'text-zinc-400'}`}>{addOn.name}</span>
                                                             {addOn.features?.length > 0 && (
                                                                 <ul className="mt-1 space-y-0.5">
                                                                     {addOn.features.slice(0, 2).map((f: string, i: number) => (
