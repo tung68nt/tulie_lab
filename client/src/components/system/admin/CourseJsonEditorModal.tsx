@@ -70,9 +70,9 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
                         <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                             <FileJson className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
-                        <div>
-                            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Course JSON Editor</h2>
-                            <p className="text-xs text-zinc-500">Edit entire course structure and content via JSON.</p>
+                        <div className="flex flex-col justify-center">
+                            <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 leading-tight">Course JSON Editor</h2>
+                            <p className="text-xs text-zinc-500 leading-tight">Edit entire course structure and content via JSON.</p>
                         </div>
                     </div>
                     <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800">
@@ -109,6 +109,18 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
                         Changes to structure and lessons will attempt to sync. New lessons (without IDs) will be created.
                     </div>
                     <div className="flex gap-3">
+                        <Button
+                            variant="ghost"
+                            type="button"
+                            onClick={() => {
+                                if (confirm("Bạn có chắc chắn muốn reset về cấu trúc JSON chuẩn? Toàn bộ nội dung hiện tại sẽ bị xóa.")) {
+                                    setJsonValue(JSON.stringify(STANDARD_TEMPLATE, null, 2));
+                                }
+                            }}
+                            className="text-zinc-500 hover:text-blue-600"
+                        >
+                            Reset to Standard JSON
+                        </Button>
                         <Button variant="outline" onClick={onClose}>Cancel</Button>
                         <Button onClick={handleSave} className="gap-2 min-w-[140px]">
                             <Save className="w-4 h-4" /> Save Changes
@@ -120,6 +132,49 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
         document.body
     );
 }
+
+const STANDARD_TEMPLATE = {
+    course: {
+        title: "Course Title",
+        slug: "course-slug",
+        description: "",
+        price: 0,
+        isPublished: true,
+        instructorId: "",
+        categoryId: "",
+        level: "ALL",
+        thumbnail: "",
+        introVideoUrl: "",
+        learningOutcomes: "",
+        deploymentStatus: "RELEASED",
+        tag: "HOT",
+        compareAtPrice: 0,
+        addOnIds: [],
+        structure: [
+            {
+                title: "Chương 1: ...",
+                sections: ["Phần 1: ..."]
+            }
+        ]
+    },
+    lessons: [
+        {
+            title: "Bài 1: ...",
+            slug: "bai-1",
+            description: "",
+            learningOutcomes: "",
+            videoUrl: "",
+            duration: "",
+            content: "",
+            guide: "",
+            isFree: false,
+            position: 1,
+            chapter: "Chương 1: ...",
+            section: "Phần 1: ...",
+            thumbnail: ""
+        }
+    ]
+};
 
 // Helper to check if we are in browser environment for portal
 const models = typeof document !== 'undefined';

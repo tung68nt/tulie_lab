@@ -97,9 +97,16 @@ export class WhiteboardService {
     async getAdminStats() {
         const [totalBoards, totalArtboards, usersWithBoards] = await Promise.all([
             prisma.whiteboard.count({ where: { deletedAt: null } }),
-            prisma.artboard.count(),
+            prisma.artboard.count({
+                where: {
+                    whiteboard: {
+                        deletedAt: null
+                    }
+                }
+            }),
             prisma.whiteboard.groupBy({
                 by: ['creatorId'],
+                where: { deletedAt: null },
                 _count: { id: true },
             })
         ]);
@@ -107,9 +114,10 @@ export class WhiteboardService {
         // Optimized Storage Calculation using Database Sum
         // This avoids loading all elements into memory, which would crash the server
         const storageUsage = await prisma.$queryRaw<{ total_size: number }[]>`
-            SELECT COALESCE(SUM(LENGTH(elements::text)), 0) as total_size 
-            FROM "Artboard"
-            WHERE elements IS NOT NULL
+            SELECT COALESCE(SUM(LENGTH(a.elements::text)), 0) as total_size 
+            FROM "Artboard" a
+            INNER JOIN "Whiteboard" w ON a."whiteboardId" = w.id
+            WHERE a.elements IS NOT NULL AND w."deletedAt" IS NULL
         `;
 
         const totalSize = Number(storageUsage[0]?.total_size || 0);

@@ -177,12 +177,28 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             targetId = currentLessonSlugs.get(lesson.slug);
                         }
 
+                        // Explicitly map fields to ensure completeness
+                        const lessonData = {
+                            title: lesson.title,
+                            slug: lesson.slug,
+                            description: lesson.description || '',
+                            learningOutcomes: lesson.learningOutcomes || '',
+                            videoUrl: lesson.videoUrl || '',
+                            duration: lesson.duration || '',
+                            content: lesson.content || '',
+                            guide: lesson.guide || '',
+                            isFree: !!lesson.isFree,
+                            position: parseInt(String(lesson.position)) || 0,
+                            chapter: lesson.chapter || '',
+                            section: lesson.section || '',
+                            thumbnail: lesson.thumbnail || ''
+                        };
+
                         if (targetId) {
                             // Update existing
-                            await api.admin.courses.updateLesson(targetId, lesson);
+                            await api.admin.courses.updateLesson(targetId, lessonData);
                         } else {
-                            // Create new lesson (strip ID from previous context if present)
-                            const { id: _ignoreId, createdAt, updatedAt, ...lessonData } = lesson;
+                            // Create new lesson
                             await api.admin.courses.addLesson(id, lessonData);
                         }
                     } catch (err) {
