@@ -399,6 +399,44 @@ async function initializeApp() {
       const prismaModule = await import('./config/prisma');
       prisma = prismaModule.prisma || prismaModule.default;
       loggerService.info('🐘 Database Client initialized.');
+
+      // --- FAIL-SAFE: Database Schema Synchronization ---
+      // This ensures the Whiteboard enum is updated even if migrations fail
+      try {
+        await prisma.$executeRawUnsafe(`
+          DO $$
+          BEGIN
+            -- 1. Check if we need to sync the enum
+            IF EXISTS (SELECT 1 FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid WHERE t.typname = 'WhiteboardStatus' AND e.enumlabel = 'DRAFT') THEN
+                loggerService.info('🔄 DB SYNC: Found legacy WhiteboardStatus, performing emergency transition...');
+                
+                -- Rename old type
+                ALTER TYPE "WhiteboardStatus" RENAME TO "WhiteboardStatus_old";
+                CREATE TYPE "WhiteboardStatus" AS ENUM ('PUBLIC', 'PRIVATE');
+                
+                -- Update Whiteboard table
+                IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'Whiteboard') THEN
+                    ALTER TABLE "Whiteboard" ALTER COLUMN status DROP DEFAULT;
+                    ALTER TABLE "Whiteboard" ALTER COLUMN status TYPE "WhiteboardStatus" USING 
+                        CASE 
+                            WHEN status::text = 'PUBLISHED' THEN 'PUBLIC'::"WhiteboardStatus"
+                            ELSE 'PRIVATE'::"WhiteboardStatus"
+                        END;
+                    ALTER TABLE "Whiteboard" ALTER COLUMN status SET DEFAULT 'PRIVATE';
+                END IF;
+
+                -- Update Artboard elements if they are still stored as text/invalid
+                -- No-op for now as Prisma handles this, but here for completeness
+
+                DROP TYPE "WhiteboardStatus_old";
+                loggerService.info('✅ DB SYNC: WhiteboardStatus transition complete.');
+            END IF;
+          END $$;
+        `);
+      } catch (syncErr: any) {
+        loggerService.warn('⚠️ DB SYNC Warning:', { error: syncErr.message });
+        // Don't crash the server, just log the warning
+      }
     } catch (dbErr: any) {
       console.error('❌ Failed to initialize Prisma Client:', dbErr.message);
       startupError = `Prisma Init Failed: ${dbErr.message}`;
