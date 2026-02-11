@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Save, AlertTriangle, FileJson, Copy } from 'lucide-react';
+import { X, Save, AlertTriangle, FileJson, Copy, Trash2 } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { useToast } from '@/contexts/ToastContext';
@@ -11,6 +11,7 @@ interface CourseJsonEditorModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSave: (data: { course: any, lessons: any[] }) => void;
+    onClearLessons?: () => void;
     courseData: any;
     lessonsData: any[];
     instructors?: any[];
@@ -24,6 +25,7 @@ export function CourseJsonEditorModal({
     onSave,
     courseData,
     lessonsData,
+    onClearLessons,
     instructors = [],
     categories = [],
     allAddOns = []
@@ -164,6 +166,16 @@ export function CourseJsonEditorModal({
                         >
                             <Copy className="w-4 h-4 mr-2" /> Copy JSON
                         </Button>
+                        {onClearLessons && (
+                            <Button
+                                variant="ghost"
+                                type="button"
+                                onClick={onClearLessons}
+                                className="text-red-500 hover:text-red-600 text-xs whitespace-nowrap px-2"
+                            >
+                                <Trash2 className="w-4 h-4 mr-2" /> Clear Lessons
+                            </Button>
+                        )}
                         <Button variant="outline" onClick={onClose} className="text-xs px-3">Cancel</Button>
                         <Button onClick={handleSave} className="gap-2 min-w-[120px] text-xs">
                             <Save className="w-4 h-4" /> Save Changes

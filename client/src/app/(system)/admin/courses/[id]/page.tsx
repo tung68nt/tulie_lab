@@ -218,6 +218,33 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
         }
     };
 
+    const handleClearLessons = async () => {
+        const confirmed = await confirm({
+            title: "Xóa toàn bộ bài học?",
+            message: "Bạn có chắc chắn muốn xóa TOÀN BỘ bài học của khóa học này? Hành động này không thể hoàn tác.",
+            variant: 'danger',
+            confirmText: 'Xóa sạch bài học',
+            cancelText: 'Hủy'
+        });
+
+        if (!confirmed) return;
+
+        try {
+            setLoading(true);
+            // Sequential deletion is safer for UI stability
+            for (const lesson of lessons) {
+                await api.admin.courses.deleteLesson(lesson.id);
+            }
+            setLessons([]);
+            addToast('Đã xóa toàn bộ bài học', 'success');
+        } catch (e: any) {
+            console.error(e);
+            addToast('Lỗi xóa bài học: ' + (e.message || 'Unknown error'), 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleUpdateCourse = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
@@ -338,6 +365,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 isOpen={isJsonEditorOpen}
                 onClose={() => setIsJsonEditorOpen(false)}
                 onSave={handleJsonSave}
+                onClearLessons={handleClearLessons}
                 courseData={courseForm}
                 lessonsData={lessons}
                 instructors={instructors}
