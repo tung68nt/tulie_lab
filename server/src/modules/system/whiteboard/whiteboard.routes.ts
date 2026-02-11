@@ -9,20 +9,23 @@ const repository = new PrismaWhiteboardRepository();
 const service = new WhiteboardService(repository);
 const controller = new WhiteboardController(service);
 
-// Public / Optional Auth routes
+// 1. Specific Routes (Must come before /:id)
+// authenticated routes
+router.get('/my', authenticate, controller.getMyWhiteboards);
+
+// 2. Admin routes
+import { authorize } from '../../../middleware/auth.middleware';
+import { Role } from '@prisma/client';
+router.get('/admin/stats', authenticate, authorize([Role.ADMIN]), controller.getAdminStats);
+
+// 3. Generic ID Routes (Public/Optional) - This matches /:id, so it must be after specific paths
 import { authenticateOptional } from '../../../middleware/auth.middleware';
 router.get('/:id', authenticateOptional, controller.getOne);
 
-// All other whiteboard routes require strict authentication
+// 4. Authenticated Actions
 router.use(authenticate);
-
-// Admin routes (Must be before generic :id routes if they conflicted, but here they are specific)
-import { authorize } from '../../../middleware/auth.middleware';
-import { Role } from '@prisma/client';
-router.get('/admin/stats', authorize([Role.ADMIN]), controller.getAdminStats);
-
 router.post('/', controller.create);
-router.get('/my', controller.getMyWhiteboards);
+// router.get('/my', controller.getMyWhiteboards); // Moved up
 // router.get('/:id', controller.getOne); // Moved up
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);
