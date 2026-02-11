@@ -340,6 +340,9 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                 onSave={handleJsonSave}
                 courseData={courseForm}
                 lessonsData={lessons}
+                instructors={instructors}
+                categories={categories}
+                allAddOns={allAddOns}
             />
 
             <div className="grid gap-8">

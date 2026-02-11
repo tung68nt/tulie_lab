@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Save, AlertTriangle, FileJson } from 'lucide-react';
 import { Button } from '@/components/Button';
+import { useConfirm } from '@/components/ConfirmDialog';
+import { useToast } from '@/contexts/ToastContext';
 
 interface CourseJsonEditorModalProps {
     isOpen: boolean;
@@ -11,9 +13,23 @@ interface CourseJsonEditorModalProps {
     onSave: (data: { course: any, lessons: any[] }) => void;
     courseData: any;
     lessonsData: any[];
+    instructors?: any[];
+    categories?: any[];
+    allAddOns?: any[];
 }
 
-export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, lessonsData }: CourseJsonEditorModalProps) {
+export function CourseJsonEditorModal({
+    isOpen,
+    onClose,
+    onSave,
+    courseData,
+    lessonsData,
+    instructors = [],
+    categories = [],
+    allAddOns = []
+}: CourseJsonEditorModalProps) {
+    const confirm = useConfirm();
+    const { addToast } = useToast();
     const [mounted, setMounted] = useState(false);
     const [jsonValue, setJsonValue] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -55,9 +71,27 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
 
             // Prepare data for save
             onSave(parsed);
+            addToast("Cập nhật cấu trúc JSON thành công", "success");
             onClose();
         } catch (e: any) {
-            setError(e.message || "Invalid JSON format");
+            const msg = e.message || "Invalid JSON format";
+            setError(msg);
+            addToast(msg, "error");
+        }
+    };
+
+    const handleReset = async () => {
+        const isConfirmed = await confirm({
+            title: "Reset cấu trúc JSON",
+            message: "Bạn có chắc chắn muốn reset về cấu trúc JSON chuẩn? Toàn bộ nội dung hiện tại sẽ bị xóa và không thể khôi phục.",
+            variant: 'warning',
+            confirmText: 'Reset ngay',
+            cancelText: 'Hủy'
+        });
+
+        if (isConfirmed) {
+            setJsonValue(JSON.stringify(generateStandardTemplate(instructors, categories, allAddOns), null, 2));
+            addToast("Đã reset về cấu trúc JSON chuẩn", "info");
         }
     };
 
@@ -112,11 +146,7 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
                         <Button
                             variant="ghost"
                             type="button"
-                            onClick={() => {
-                                if (confirm("Bạn có chắc chắn muốn reset về cấu trúc JSON chuẩn? Toàn bộ nội dung hiện tại sẽ bị xóa.")) {
-                                    setJsonValue(JSON.stringify(STANDARD_TEMPLATE, null, 2));
-                                }
-                            }}
+                            onClick={handleReset}
                             className="text-zinc-500 hover:text-blue-600"
                         >
                             Reset to Standard JSON
@@ -133,47 +163,61 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
     );
 }
 
-const STANDARD_TEMPLATE = {
-    course: {
-        title: "Course Title",
-        slug: "course-slug",
-        description: "",
-        price: 0,
-        isPublished: true,
-        instructorId: "",
-        categoryId: "",
-        level: "ALL",
-        thumbnail: "",
-        introVideoUrl: "",
-        learningOutcomes: "",
-        deploymentStatus: "RELEASED",
-        tag: "HOT",
-        compareAtPrice: 0,
-        addOnIds: [],
-        structure: [
+const generateStandardTemplate = (instructors: any[], categories: any[], allAddOns: any[]) => {
+    return {
+        __TEMPLATE_GUIDE__: {
+            instructions: "Use this JSON to update or create course content. Fields with specific options are listed below.",
+            options: {
+                level: ["ALL", "BEGINNER", "INTERMEDIATE", "ADVANCED"],
+                deploymentStatus: ["RELEASED", "COMING_SOON", "UPDATING"],
+                tag: ["NONE", "BEST_SELLER", "HOT", "NEW", "DISCOUNT"],
+                categories: categories.map(c => ({ id: c.id, name: c.name })),
+                instructors: instructors.map(i => ({ id: i.id, name: i.name })),
+                availableAddOns: allAddOns.map(a => ({ id: a.id, name: a.name, price: a.priceAddon }))
+            },
+            notes: "Adding a lesson without an 'id' will create a new lesson. Existing 'id' or 'slug' will update existing lessons."
+        },
+        course: {
+            title: "Course Title",
+            slug: "course-slug",
+            description: "Detailed course description...",
+            price: 299000,
+            compareAtPrice: 500000,
+            isPublished: false,
+            instructorId: instructors[0]?.id || "instructor-uuid",
+            categoryId: categories[0]?.id || "category-uuid",
+            level: "ALL",
+            thumbnail: "https://example.com/thumb.jpg",
+            introVideoUrl: "https://youtube.com/watch?v=...",
+            learningOutcomes: "- Outcome 1\n- Outcome 2",
+            deploymentStatus: "RELEASED",
+            tag: "NEW",
+            addOnIds: [],
+            structure: [
+                {
+                    title: "Chương 1: Giới thiệu",
+                    sections: ["Phần 1: Tổng quan"]
+                }
+            ]
+        },
+        lessons: [
             {
-                title: "Chương 1: ...",
-                sections: ["Phần 1: ..."]
+                title: "Bài 1: Chào mừng",
+                slug: "bai-1-chao-mung",
+                description: "Mô tả bài học",
+                learningOutcomes: "Kết quả đạt được",
+                videoUrl: "https://vimeo.com/...",
+                duration: "10:00",
+                content: "Nội dung bài học (Markdown/HTML supported)",
+                guide: "Hướng dẫn thực hành",
+                isFree: true,
+                position: 1,
+                chapter: "Chương 1: Giới thiệu",
+                section: "Phần 1: Tổng quan",
+                thumbnail: ""
             }
         ]
-    },
-    lessons: [
-        {
-            title: "Bài 1: ...",
-            slug: "bai-1",
-            description: "",
-            learningOutcomes: "",
-            videoUrl: "",
-            duration: "",
-            content: "",
-            guide: "",
-            isFree: false,
-            position: 1,
-            chapter: "Chương 1: ...",
-            section: "Phần 1: ...",
-            thumbnail: ""
-        }
-    ]
+    };
 };
 
 // Helper to check if we are in browser environment for portal
