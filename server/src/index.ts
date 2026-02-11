@@ -402,40 +402,45 @@ async function initializeApp() {
 
       // --- FAIL-SAFE: Database Schema Synchronization ---
       // This ensures the Whiteboard enum is updated even if migrations fail
-      try {
-        await prisma.$executeRawUnsafe(`
-          DO $$
-          BEGIN
-            -- 1. Check if we need to sync the enum
-            IF EXISTS (SELECT 1 FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid WHERE t.typname = 'WhiteboardStatus' AND e.enumlabel = 'DRAFT') THEN
-                -- Rename old type
-                ALTER TYPE "WhiteboardStatus" RENAME TO "WhiteboardStatus_old";
-                CREATE TYPE "WhiteboardStatus" AS ENUM ('PUBLIC', 'PRIVATE');
-                
-                -- Update Whiteboard table
-                IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'Whiteboard') THEN
-                    ALTER TABLE "Whiteboard" ALTER COLUMN status DROP DEFAULT;
-                    ALTER TABLE "Whiteboard" ALTER COLUMN status TYPE "WhiteboardStatus" USING 
-                        CASE 
-                            WHEN status::text = 'PUBLISHED' THEN 'PUBLIC'::"WhiteboardStatus"
-                            ELSE 'PRIVATE'::"WhiteboardStatus"
-                        END;
-                    ALTER TABLE "Whiteboard" ALTER COLUMN status SET DEFAULT 'PRIVATE';
-                END IF;
+      const syncDB = async () => {
+        try {
+          // 1. Check if legacy 'DRAFT' exists
+          // typname matches exactly since it was created with quotes "WhiteboardStatus"
+          const check: any[] = await prisma.$queryRawUnsafe(`
+            SELECT 1 FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid 
+            WHERE t.typname = 'WhiteboardStatus' AND e.enumlabel = 'DRAFT'
+          `);
 
-                DROP TYPE "WhiteboardStatus_old";
-            END IF;
+          if (check && check.length > 0) {
+            loggerService.info('🔄 DB SYNC: Found legacy WhiteboardStatus, performing emergency transition...');
 
-            -- 2. Cleanup failed migrations to unblock future deployments
-            IF EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = '_prisma_migrations') THEN
-                DELETE FROM "_prisma_migrations" WHERE status = 'failed';
-            END IF;
-          END $$;
-        `);
-      } catch (syncErr: any) {
-        loggerService.warn('⚠️ DB SYNC Warning:', { error: syncErr.message });
-        // Don't crash the server, just log the warning
-      }
+            // Individual DDL commands (some cannot be in transactions, or are better separate)
+            await prisma.$executeRawUnsafe(`ALTER TYPE "WhiteboardStatus" RENAME TO "WhiteboardStatus_old"`);
+            await prisma.$executeRawUnsafe(`CREATE TYPE "WhiteboardStatus" AS ENUM ('PUBLIC', 'PRIVATE')`);
+
+            // Update the table column to the new type
+            await prisma.$executeRawUnsafe(`
+              ALTER TABLE "Whiteboard" ALTER COLUMN status DROP DEFAULT;
+              ALTER TABLE "Whiteboard" ALTER COLUMN status TYPE "WhiteboardStatus" USING 
+                CASE 
+                  WHEN status::text = 'PUBLISHED' THEN 'PUBLIC'::"WhiteboardStatus"
+                  ELSE 'PRIVATE'::"WhiteboardStatus"
+                END;
+              ALTER TABLE "Whiteboard" ALTER COLUMN status SET DEFAULT 'PRIVATE';
+            `);
+
+            await prisma.$executeRawUnsafe(`DROP TYPE "WhiteboardStatus_old"`);
+            loggerService.info('✅ DB SYNC: WhiteboardStatus transition complete.');
+          }
+
+          // 2. Unblock Prisma Migrations (allow future deploys to succeed)
+          await prisma.$executeRawUnsafe(`DELETE FROM "_prisma_migrations" WHERE status = 'failed'`);
+
+        } catch (syncErr: any) {
+          loggerService.warn('⚠️ DB SYNC Warning:', { error: syncErr.message });
+        }
+      };
+      await syncDB();
     } catch (dbErr: any) {
       console.error('❌ Failed to initialize Prisma Client:', dbErr.message);
       startupError = `Prisma Init Failed: ${dbErr.message}`;
