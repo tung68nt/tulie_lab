@@ -114,19 +114,19 @@ export default function WhiteboardHeader({
                     <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-0.5" />
 
                     {/* Visibility Switch */}
-                    <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl border border-zinc-200/50 dark:border-zinc-700/50">
+                    <div className="flex items-center p-1.5 bg-zinc-100 dark:bg-zinc-800 rounded-2xl border border-zinc-200/50 dark:border-zinc-700/50">
                         <div
-                            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all duration-300 cursor-pointer ${status === 'PRIVATE' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600'}`}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all duration-300 cursor-pointer ${status === 'PRIVATE' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600'}`}
                             onClick={() => onStatusChange?.('PRIVATE')}
                         >
-                            <Lock className="w-3 h-3" />
+                            <Lock className="w-3.5 h-3.5" />
                             <span className="text-[11px] font-medium hidden sm:inline">Private</span>
                         </div>
                         <div
-                            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all duration-300 cursor-pointer ${status === 'PUBLIC' ? 'bg-emerald-500 shadow-sm text-white' : 'text-zinc-400 hover:text-zinc-600'}`}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition-all duration-300 cursor-pointer ${status === 'PUBLIC' ? 'bg-emerald-500 shadow-sm text-white' : 'text-zinc-400 hover:text-zinc-600'}`}
                             onClick={() => onStatusChange?.('PUBLIC')}
                         >
-                            <Globe className="w-3 h-3" />
+                            <Globe className="w-3.5 h-3.5" />
                             <span className="text-[11px] font-medium hidden sm:inline">Public</span>
                         </div>
                     </div>
