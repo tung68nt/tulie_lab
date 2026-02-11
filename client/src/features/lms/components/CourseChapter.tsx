@@ -66,15 +66,15 @@ export function CourseChapter({
         <div className="border-b border-border/50 last:border-0">
             {/* Chapter Header - Click to Toggle */}
             <div
-                className="bg-card px-8 py-4 flex items-center justify-between cursor-pointer hover:bg-muted/50 transition-colors"
+                className="bg-card px-8 py-4 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
-                <h3 className="font-bold text-[16px] text-zinc-900 flex items-center gap-2 h-full m-0 leading-none py-1">
-                    <span className="text-zinc-900/40 transition-transform duration-200 shrink-0 flex items-center justify-center p-0.5" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
+                <h3 className="font-bold text-[16px] text-zinc-100 flex items-center gap-2 h-full m-0 leading-none py-1">
+                    <span className="text-zinc-400 transition-transform duration-200 shrink-0 flex items-center justify-center p-0.5" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
                         <ChevronDown className="w-3.5 h-3.5" />
                     </span>
                     <span className="flex items-center">{chapterName}</span>
-                    <span className="text-[14px] font-medium text-zinc-900 ml-2 flex items-center">
+                    <span className="text-[14px] font-medium text-zinc-400 ml-2 flex items-center">
                         ({chapterLessons.length} bài học)
                     </span>
                 </h3>
@@ -85,8 +85,8 @@ export function CourseChapter({
                 {Object.entries(lessonsBySection).map(([sectionName, sectionLessons]: [string, any], sIndex) => (
                     <div key={sectionName || sIndex} className="flex flex-col">
                         {sectionName && (
-                            <div className="pl-5 pr-5 pt-6 pb-1 bg-muted/20 border-t border-border/30">
-                                <h4 className="text-[15px] font-bold text-zinc-900 leading-none">
+                            <div className="pl-5 pr-5 pt-6 pb-1 bg-white/5 border-t border-white/10">
+                                <h4 className="text-[15px] font-bold text-zinc-100 leading-none">
                                     {sectionName}
                                 </h4>
                             </div>
@@ -150,15 +150,15 @@ export function CourseChapter({
                                                 <div className="flex items-start justify-between gap-2">
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-3 mb-1 flex-wrap">
-                                                            <h4 className={`text-[15px] font-bold leading-tight ${isLocked ? 'text-zinc-900' : 'text-zinc-900 group-hover:text-primary transition-colors'}`}>
+                                                            <h4 className={`text-[15px] font-bold leading-tight ${isLocked ? 'text-zinc-100' : 'text-zinc-100 group-hover:text-primary transition-colors'}`}>
                                                                 {lesson.title}
                                                             </h4>
-                                                            <span className="text-zinc-900/40 transition-transform duration-200 shrink-0" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+                                                            <span className="text-zinc-400 transition-transform duration-200 shrink-0" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                                                                 <ChevronDown className="w-3 h-3" />
                                                             </span>
                                                         </div>
                                                         {lesson.description && (
-                                                            <div className="text-[14px] font-medium text-zinc-900 mb-1 leading-relaxed line-clamp-1 group-hover:line-clamp-none">
+                                                            <div className="text-[14px] font-medium text-zinc-400 mb-1 leading-relaxed line-clamp-1 group-hover:line-clamp-none">
                                                                 {lesson.description}
                                                             </div>
                                                         )}
@@ -191,8 +191,8 @@ export function CourseChapter({
                                                 <div className={`transition-all duration-300 overflow-hidden ${isExpanded && lesson.learningOutcomes ? 'max-h-[500px] mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
                                                     {lesson.learningOutcomes && (
                                                         <div className="mt-3 pl-1">
-                                                            <p className="text-[14px] font-medium text-zinc-900 mb-2">Bạn sẽ học được gì:</p>
-                                                            <div className="text-[14px] font-medium text-zinc-900 space-y-2">
+                                                            <p className="text-[14px] font-medium text-zinc-100 mb-2">Bạn sẽ học được gì:</p>
+                                                            <div className="text-[14px] font-medium text-zinc-100 space-y-2">
                                                                 {(() => {
                                                                     let outcomes: string[] = [];
                                                                     const raw = lesson.learningOutcomes;
@@ -204,10 +204,10 @@ export function CourseChapter({
                                                                         .filter(o => o && o !== '-' && o !== '•')
                                                                         .map((line, i) => (
                                                                             <div key={i} className="flex gap-2 items-start">
-                                                                                <div className="shrink-0 w-4 h-4 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
-                                                                                    <Check className="w-2.5 h-2.5 text-emerald-600" strokeWidth={2.5} />
+                                                                                <div className="shrink-0 w-4 h-4 rounded-full bg-emerald-500/10 flex items-center justify-center mt-0.5">
+                                                                                    <Check className="w-2.5 h-2.5 text-emerald-500" strokeWidth={2.5} />
                                                                                 </div>
-                                                                                <span className="text-[14px] leading-relaxed text-zinc-600">{line.replace(/^[-\u2022]\s*/, '')}</span>
+                                                                                <span className="text-[14px] leading-relaxed text-zinc-400">{line.replace(/^[-\u2022]\s*/, '')}</span>
                                                                             </div>
                                                                         ));
                                                                 })()}

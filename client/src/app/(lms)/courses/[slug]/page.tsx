@@ -259,15 +259,15 @@ export default function CoursePage({ params }: { params: any }) {
                                             }, 0);
 
                                         return (
-                                            <div className="inline-flex items-center gap-4 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-medium">
-                                                <div className="flex items-center gap-2 border-r border-white/10 pr-4">
-                                                    <PlayCircle className="w-4 h-4 text-zinc-400" />
-                                                    <span className="text-zinc-100">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
+                                            <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-primary/5 border border-primary/20 text-xs font-semibold shadow-[0_0_15px_-3px_rgba(var(--primary),0.1)] backdrop-blur-sm">
+                                                <div className="flex items-center gap-2.5 border-r border-white/10 pr-4">
+                                                    <PlayCircle className="w-4 h-4 text-primary" />
+                                                    <span className="text-zinc-50">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
                                                 </div>
                                                 {totalSeconds > 0 && (
-                                                    <div className="flex items-center gap-2">
-                                                        <Clock className="w-4 h-4 text-zinc-400" />
-                                                        <span className="text-zinc-100">{formatTotalDuration(totalSeconds)}</span>
+                                                    <div className="flex items-center gap-2.5 pl-1">
+                                                        <Clock className="w-4 h-4 text-primary" />
+                                                        <span className="text-zinc-50">{formatTotalDuration(totalSeconds)}</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -583,13 +583,13 @@ export default function CoursePage({ params }: { params: any }) {
                                                                                 </span>
                                                                                 <div className="flex-1">
                                                                                     <div className="flex items-center gap-2">
-                                                                                        <h4 className="font-medium text-sm">{lesson.title}</h4>
-                                                                                        <span className="text-muted-foreground">
+                                                                                        <h4 className="font-bold text-sm text-zinc-100">{lesson.title}</h4>
+                                                                                        <span className="text-zinc-400">
                                                                                             {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                                                                                         </span>
                                                                                     </div>
                                                                                     {lesson.duration && (
-                                                                                        <p className="text-[10px] text-muted-foreground mt-0.5">
+                                                                                        <p className="text-[10px] text-zinc-400 mt-0.5 font-medium">
                                                                                             {lesson.duration}
                                                                                         </p>
                                                                                     )}
@@ -604,7 +604,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                                                     </Button>
                                                                                 </Link>
                                                                             ) : !isEnrolled ? (
-                                                                                <span className="text-[10px] text-muted-foreground flex items-center gap-1 bg-muted px-2 py-1 rounded">
+                                                                                <span className="text-[10px] text-zinc-400 flex items-center gap-1 bg-white/5 px-2 py-1 rounded border border-white/10 font-bold">
                                                                                     <Lock size={12} className="opacity-60" /> Khóa
                                                                                 </span>
                                                                             ) : (
@@ -617,7 +617,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                                     {/* Expandable Description */}
                                                                     {isExpanded && lesson.description && (
                                                                         <div className="px-4 pb-4 pt-0 pl-14">
-                                                                            <p className="text-xs text-muted-foreground leading-relaxed">
+                                                                            <p className="text-xs text-zinc-400 font-medium leading-relaxed">
                                                                                 {lesson.description}
                                                                             </p>
                                                                         </div>
@@ -697,7 +697,7 @@ export default function CoursePage({ params }: { params: any }) {
                         <div className="sticky top-24 space-y-6">
                             <div>
                                 <h2 className="mb-6 text-2xl font-bold">Bạn sẽ học được gì</h2>
-                                <div className="rounded-xl border bg-card p-6 shadow-sm">
+                                <div className="rounded-xl border border-white/10 bg-zinc-900/50 backdrop-blur-sm p-6 shadow-sm">
                                     {(() => {
                                         let outcomes: string[] = [];
                                         try {
@@ -715,9 +715,9 @@ export default function CoursePage({ params }: { params: any }) {
                                         return filteredOutcomes.length > 0 ? (
                                             <ul className="space-y-4">
                                                 {filteredOutcomes.map((line: string, i: number) => (
-                                                    <li key={i} className="flex gap-3 items-start text-sm text-zinc-600">
-                                                        <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
-                                                            <Check className="w-3 h-3 text-emerald-600" strokeWidth={2.5} />
+                                                    <li key={i} className="flex gap-3 items-start text-sm text-zinc-100 font-medium">
+                                                        <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
+                                                            <Check className="w-3 h-3 text-emerald-500" strokeWidth={3} />
                                                         </div>
                                                         <span className="leading-relaxed">{line.replace(/^- /, '')}</span>
                                                     </li>
