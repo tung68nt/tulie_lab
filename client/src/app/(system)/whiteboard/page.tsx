@@ -85,7 +85,7 @@ export default function WhiteboardDashboard() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('grid')}
-                            className={`h-full w-14 px-0 rounded-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
+                            className={`h-full w-14 px-0 rounded-xl transition-all duration-300 ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400'}`}
                         >
                             <Layout className="w-4 h-4" />
                         </Button>
@@ -93,7 +93,7 @@ export default function WhiteboardDashboard() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('list')}
-                            className={`h-full w-14 px-0 rounded-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
+                            className={`h-full w-14 px-0 rounded-xl transition-all duration-300 ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400'}`}
                         >
                             <List className="w-4 h-4" />
                         </Button>
