@@ -8,6 +8,7 @@ import { Badge } from '@/components/Badge';
 import { Plus, Edit2, Trash2, Users, BookOpen, Eye, EyeOff, Route } from 'lucide-react';
 import Link from 'next/link';
 import { useConfirm } from '@/components/ConfirmDialog';
+import { useToast } from '@/contexts/ToastContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 interface Journey {

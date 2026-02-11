@@ -5,9 +5,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
 import { exportToBlob } from '@excalidraw/excalidraw';
-import { useAuth } from '@/contexts/AuthContext'; // Added
-import { Button } from '@/components/Button'; // Added for error UI
-import { Lock, FileX } from 'lucide-react'; // Added for icons
+import { useAuth } from '@/contexts/AuthContext';
+import { Button } from '@/components/Button';
+import { Lock, FileX } from 'lucide-react';
 
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
@@ -21,7 +21,7 @@ interface WhiteboardEditorProps {
 
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const router = useRouter();
-    const { user } = useAuth(); // Added
+    const { user } = useAuth();
     const [whiteboard, setWhiteboard] = useState<any>(null);
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -66,22 +66,19 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 // Check if we have a saved draft from a previous session (e.g. before login redirect)
                 // We only restore if we are on 'new' route.
                 const savedDraft = localStorage.getItem('tulie_guest_draft');
+                let restoredElements: any[] = [];
+                let restoredAppState: any = {};
+
                 if (savedDraft) {
                     try {
                         console.log('Restoring guest draft...');
                         const draftData = JSON.parse(savedDraft);
+                        restoredElements = draftData.elements || [];
+                        restoredAppState = draftData.appState || {};
+
                         setParsedInitialData(draftData);
-                        currentElementsRef.current = draftData.elements || [];
-
-                        // If user is now logged in, we might want to auto-save this draft to a real board immediately?
-                        // Or just let them continue editing. Let's let them continue.
-                        // We clear the draft so it doesn't persist forever if they discard it.
-                        // BUT: If they refresh without saving, they lose it. 
-                        // Maybe keep it until successful save? 
-                        // Let's keep it for now, clear it on successful save.
-
+                        currentElementsRef.current = restoredElements;
                         setIsLoaded(true);
-                        return;
                     } catch (e) {
                         console.error('Failed to restore draft:', e);
                         localStorage.removeItem('tulie_guest_draft');
@@ -92,6 +89,18 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 console.log('Attempting to create new whiteboard...');
                 try {
                     const newWhiteboard = await api.whiteboards.create({ title: 'Untitled Whiteboard' });
+
+                    // If we have a restored draft, save it to the new board immediately!
+                    if (restoredElements.length > 0 && newWhiteboard.artboards?.[0]?.id) {
+                        console.log('Saving restored draft to new board...');
+                        await api.whiteboards.saveArtboard(newWhiteboard.artboards[0].id, {
+                            elements: restoredElements,
+                            appState: restoredAppState
+                        });
+                        // Clear draft after successful save
+                        localStorage.removeItem('tulie_guest_draft');
+                    }
+
                     setWhiteboard(newWhiteboard);
                     router.replace(`/whiteboard/${newWhiteboard.id}`);
                     return;
@@ -99,12 +108,12 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     console.error('Failed to create new whiteboard:', error);
                     creatingRef.current = false;
                     // If 401 (guest), allow them to draw in "draft" mode without a backend ID yet.
-                    // However, our Editor expects an ID for sockets etc.
-                    // If we want to support true guest drawing without DB, we need to handle "offline" mode.
-                    // For now, if create fails (401), we can simulate a "local" board.
                     if (error.status === 401) {
                         console.log('Guest mode: Starting local session');
-                        setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
+                        // Only clear/init if we didn't just restore it
+                        if (!savedDraft) {
+                            setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
+                        }
                         setIsLoaded(true);
                         return;
                     }
