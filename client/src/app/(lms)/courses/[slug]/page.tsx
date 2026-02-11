@@ -233,20 +233,20 @@ export default function CoursePage({ params }: { params: any }) {
                             />
                             <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-medium text-zinc-400">
                                 <div className="flex items-center gap-2">
-                                    <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
-                                        <CheckCircle2 className="w-3 h-3 text-white" />
+                                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                                        <CheckCircle2 className="w-4 h-4 text-white" />
                                     </div>
                                     <span className="text-zinc-200">{course.infoInstructor || "Giảng viên Chuyên nghiệp"}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
-                                        <CheckCircle2 className="w-3 h-3 text-white" />
+                                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                                        <CheckCircle2 className="w-4 h-4 text-white" />
                                     </div>
                                     <span className="text-zinc-200">{course.infoDuration || "Truy cập trọn đời"}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
-                                        <CheckCircle2 className="w-3 h-3 text-white" />
+                                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                                        <CheckCircle2 className="w-4 h-4 text-white" />
                                     </div>
                                     <span className="text-zinc-200">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
                                 </div>
