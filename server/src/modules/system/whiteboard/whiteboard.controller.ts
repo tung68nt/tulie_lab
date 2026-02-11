@@ -43,10 +43,20 @@ export class WhiteboardController {
     getOne = async (req: Request, res: Response) => {
         try {
             const id = req.params.id as string;
-            const requesterId = req.user.id;
+            // User might be undefined for public access
+            const requesterId = (req as any).user?.id || null;
+
             const whiteboard = await this.whiteboardService.getWhiteboard(id, requesterId);
             if (!whiteboard) return res.status(404).json({ message: 'Whiteboard not found' });
-            res.json(whiteboard);
+
+            // Add isReadOnly flag to response for frontend convenience
+            const isOwner = requesterId && whiteboard.creatorId === requesterId;
+            const responseData = {
+                ...whiteboard,
+                isReadOnly: !isOwner
+            };
+
+            res.json(responseData);
         } catch (error: any) {
             if (error.message.includes('Access denied')) return res.status(403).json({ message: error.message });
             res.status(500).json({ message: error.message });

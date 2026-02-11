@@ -5,6 +5,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
 import { exportToBlob } from '@excalidraw/excalidraw';
+import { useAuth } from '@/contexts/AuthContext'; // Added
+import { Button } from '@/components/Button'; // Added for error UI
+import { Lock, FileX } from 'lucide-react'; // Added for icons
 
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
@@ -18,6 +21,7 @@ interface WhiteboardEditorProps {
 
 export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const router = useRouter();
+    const { user } = useAuth(); // Added
     const [whiteboard, setWhiteboard] = useState<any>(null);
     const [excalidrawAPI, setExcalidrawAPI] = useState<any>(null);
     const [isLoaded, setIsLoaded] = useState(false);
@@ -28,6 +32,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const [isSidebarDocked, setIsSidebarDocked] = useState(false);
     const [gridEnabled, setGridEnabled] = useState(true); // Default true
     const [parsedInitialData, setParsedInitialData] = useState<{ elements?: any[]; appState?: any } | undefined>(undefined);
+
+    // Access Control State
+    const [accessError, setAccessError] = useState<'PRIVATE' | 'NOT_FOUND' | null>(null);
+    const [isReadOnly, setIsReadOnly] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false); // Guest Save Prompt
 
     // Refs for performance (avoid state updates during drawing)
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -48,19 +57,57 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         console.log('WhiteboardEditor mounted with ID:', id);
 
         const loadWhiteboard = async () => {
+            setAccessError(null);
+
             if (id === 'new') {
                 if (creatingRef.current) return;
-                creatingRef.current = true;
 
+                // GUEST RESTORATION LOGIC
+                // Check if we have a saved draft from a previous session (e.g. before login redirect)
+                // We only restore if we are on 'new' route.
+                const savedDraft = localStorage.getItem('tulie_guest_draft');
+                if (savedDraft) {
+                    try {
+                        console.log('Restoring guest draft...');
+                        const draftData = JSON.parse(savedDraft);
+                        setParsedInitialData(draftData);
+                        currentElementsRef.current = draftData.elements || [];
+
+                        // If user is now logged in, we might want to auto-save this draft to a real board immediately?
+                        // Or just let them continue editing. Let's let them continue.
+                        // We clear the draft so it doesn't persist forever if they discard it.
+                        // BUT: If they refresh without saving, they lose it. 
+                        // Maybe keep it until successful save? 
+                        // Let's keep it for now, clear it on successful save.
+
+                        setIsLoaded(true);
+                        return;
+                    } catch (e) {
+                        console.error('Failed to restore draft:', e);
+                        localStorage.removeItem('tulie_guest_draft');
+                    }
+                }
+
+                creatingRef.current = true;
                 console.log('Attempting to create new whiteboard...');
                 try {
                     const newWhiteboard = await api.whiteboards.create({ title: 'Untitled Whiteboard' });
                     setWhiteboard(newWhiteboard);
                     router.replace(`/whiteboard/${newWhiteboard.id}`);
                     return;
-                } catch (error) {
+                } catch (error: any) {
                     console.error('Failed to create new whiteboard:', error);
                     creatingRef.current = false;
+                    // If 401 (guest), allow them to draw in "draft" mode without a backend ID yet.
+                    // However, our Editor expects an ID for sockets etc.
+                    // If we want to support true guest drawing without DB, we need to handle "offline" mode.
+                    // For now, if create fails (401), we can simulate a "local" board.
+                    if (error.status === 401) {
+                        console.log('Guest mode: Starting local session');
+                        setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
+                        setIsLoaded(true);
+                        return;
+                    }
                 }
             } else {
                 console.log('Loading existing whiteboard:', id);
@@ -69,11 +116,11 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             try {
                 const data = await api.whiteboards.get(id);
                 setWhiteboard(data);
+                setIsReadOnly(!!data.isReadOnly);
 
                 // Parse initial data for Excalidraw
                 const rawElements = data.artboards?.[0]?.elements;
                 console.log('=== PARSING INITIAL DATA ===');
-                console.log('Raw elements:', rawElements);
 
                 if (rawElements) {
                     try {
@@ -81,21 +128,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                             ? JSON.parse(rawElements)
                             : rawElements;
 
-                        console.log('Parsed data:', parsed);
-
                         let elements: any[] = [];
                         let appState = {};
 
                         if (Array.isArray(parsed)) {
-                            // Legacy format: just array of elements
-                            elements = parsed;
+                            elements = parsed; // Legacy
                         } else if (parsed && parsed.elements) {
-                            // Correct format: { elements, appState }
                             elements = parsed.elements;
                             appState = parsed.appState || {};
                         }
-
-                        console.log('Final elements count:', elements.length);
 
                         if (elements.length > 0) {
                             setParsedInitialData({ elements, appState: { ...appState, gridModeEnabled: true } });
@@ -112,8 +153,13 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                     setParsedInitialData({ elements: [], appState: { gridModeEnabled: true } });
                     setShowWelcome(true);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Failed to load whiteboard:', error);
+                if (error.status === 403 || error.message?.includes('Access denied') || error.message?.includes('private')) {
+                    setAccessError('PRIVATE');
+                } else if (error.status === 404) {
+                    setAccessError('NOT_FOUND');
+                }
             } finally {
                 setIsLoaded(true);
             }
@@ -418,7 +464,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     };
 
     const handleStatusChange = async (newStatus: 'PUBLIC' | 'PRIVATE') => {
-        if (!whiteboard) return;
+        if (!whiteboard || isReadOnly) return; // Guard against read-only
 
         // Optimistic update
         setWhiteboard((prev: any) => ({ ...prev, status: newStatus }));
@@ -432,22 +478,78 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     };
 
+    const handleMakeCopy = async () => {
+        if (!user) {
+            // Redirect to login with return URL
+            const returnUrl = encodeURIComponent(window.location.href);
+            router.push(`/auth/login?returnUrl=${returnUrl}`);
+            return;
+        }
+
+        const elements = currentElementsRef.current;
+        if (!elements || elements.length === 0) return;
+
+        setSaveStatus('saving');
+        try {
+            const newBoard = await api.whiteboards.create({
+                title: `${whiteboard?.title || 'Untitled'} (Copy)`
+            });
+
+            // Wait for creation to propagate if needed, then save content
+            if (newBoard?.artboards?.[0]?.id) {
+                await api.whiteboards.saveArtboard(newBoard.artboards[0].id, {
+                    elements,
+                    appState: excalidrawAPI?.getAppState() || {}
+                });
+                router.push(`/whiteboard/${newBoard.id}`);
+            }
+        } catch (error) {
+            console.error('Failed to copy whiteboard:', error);
+            setSaveStatus('error');
+        }
+    };
+
     const handleManualSave = async () => {
         const currentArtboard = whiteboard?.artboards?.[0]; // Current implementation only supports 1 artboard in stable version
         const elements = currentElementsRef.current;
 
-        if (!currentArtboard?.id || !elements) return;
+        // Validating minimal requirements for save
+        if (!elements) return;
 
         setSaveStatus('saving');
         try {
+            // Guest check: If id='new' and we don't have a real board ID yet
+            if (id === 'new' && !currentArtboard?.id) {
+                const error: any = new Error('Unauthorized');
+                error.status = 401;
+                throw error;
+            }
+
+            if (!currentArtboard?.id) return;
+
             const snapshot = {
                 elements,
                 appState: excalidrawAPI?.getAppState() || {}
             };
             await api.whiteboards.saveArtboard(currentArtboard.id, snapshot);
             setSaveStatus('saved');
-        } catch (err) {
+
+            // Clear draft if successful
+            localStorage.removeItem('tulie_guest_draft');
+        } catch (err: any) {
             console.error('Manual save failed:', err);
+
+            if (err.status === 401 || err.message === 'Unauthorized') {
+                // Guest Save Logic
+                localStorage.setItem('tulie_guest_draft', JSON.stringify({
+                    elements,
+                    appState: excalidrawAPI?.getAppState() || {}
+                }));
+                setSaveStatus('saved'); // Pretend it saved locally
+                setShowLoginModal(true);
+                return;
+            }
+
             setSaveStatus('error');
         }
     };
@@ -460,6 +562,44 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         });
         setGridEnabled(!current);
     };
+
+    if (accessError === 'PRIVATE') {
+        return (
+            <div className="flex flex-col items-center justify-center w-full h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-4">
+                <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl shadow-xl border border-zinc-200 dark:border-zinc-800 text-center max-w-md">
+                    <div className="w-16 h-16 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Lock className="w-8 h-8 text-zinc-400" />
+                    </div>
+                    <h1 className="text-2xl font-bold mb-3">Private Whiteboard</h1>
+                    <p className="text-zinc-500 dark:text-zinc-400 mb-8">
+                        This whiteboard is set to private. Please contact the owner if you believe you should have access.
+                    </p>
+                    <Button onClick={() => router.push('/dashboard')}>
+                        Return to Dashboard
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
+    if (accessError === 'NOT_FOUND') {
+        return (
+            <div className="flex flex-col items-center justify-center w-full h-screen bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 p-4">
+                <div className="text-center">
+                    <div className="w-20 h-20 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <FileX className="w-10 h-10 text-zinc-400" />
+                    </div>
+                    <h1 className="text-2xl font-bold mb-2">Whiteboard Not Found</h1>
+                    <p className="text-zinc-500 dark:text-zinc-400 mb-8 max-w-sm mx-auto">
+                        The whiteboard you are looking for does not exist or has been deleted.
+                    </p>
+                    <Button onClick={() => router.push('/dashboard')}>
+                        Return to Dashboard
+                    </Button>
+                </div>
+            </div>
+        );
+    }
 
     if (!isLoaded && id !== 'new') {
         return (
@@ -476,13 +616,15 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 title={whiteboard?.title}
                 saveStatus={saveStatus}
                 onBack={() => router.push('/whiteboard')}
-                onRename={handleRename}
-                onSave={handleManualSave}
+                onRename={!isReadOnly ? handleRename : undefined}
+                onSave={!isReadOnly ? handleManualSave : undefined}
                 isSidebarDocked={isSidebarDocked}
                 gridEnabled={gridEnabled}
                 onToggleGrid={handleToggleGrid}
                 status={whiteboard?.status}
-                onStatusChange={handleStatusChange}
+                onStatusChange={!isReadOnly ? handleStatusChange : undefined}
+                isReadOnly={isReadOnly}
+                onMakeCopy={isReadOnly ? handleMakeCopy : undefined}
             />
 
             <ExcalidrawWrapper
@@ -492,9 +634,42 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 onBack={() => router.back()}
                 title={whiteboard?.title}
                 initialData={parsedInitialData}
+                viewModeEnabled={isReadOnly}
             />
 
-            {/* SaveStatusIndicator removed in favor of Header */}
+            {/* Login Modal for Guest Save */}
+            {showLoginModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-2xl max-w-sm w-full border border-zinc-200 dark:border-zinc-800 text-center">
+                        <h2 className="text-xl font-bold mb-2 text-zinc-900 dark:text-zinc-100">Login to Save</h2>
+                        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">
+                            You need to be logged in to save your whiteboard. Your work has been saved locally and will be restored after you log in.
+                        </p>
+                        <div className="flex flex-col gap-3">
+                            <Button
+                                className="w-full"
+                                onClick={() => {
+                                    // Redirect to login with return URL
+                                    // We need to pass a query param to know to look for local storage restoration?
+                                    // Actually we just check `localStorage` on mount of `id='new'`
+                                    // But if we are redirected to `id='new'`, it works.
+                                    const returnUrl = encodeURIComponent('/whiteboard/new');
+                                    router.push(`/auth/login?returnUrl=${returnUrl}`);
+                                }}
+                            >
+                                Login / Register
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                className="w-full"
+                                onClick={() => setShowLoginModal(false)}
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

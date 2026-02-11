@@ -14,32 +14,51 @@ interface ExcalidrawWrapperProps {
         elements?: readonly any[];
         appState?: any;
     };
+    viewModeEnabled?: boolean;
 }
 
 const ExcalidrawWrapper = React.memo(({
     excalidrawAPI,
     onChange,
     onPointerUpdate,
-    initialData
+    initialData,
+    viewModeEnabled = false
 }: ExcalidrawWrapperProps) => {
+    // Capture API locally to handle UI events
+    const [localAPI, setLocalAPI] = React.useState<any>(null);
+
+    const handleAPI = React.useCallback((api: any) => {
+        setLocalAPI(api);
+        excalidrawAPI(api);
+    }, [excalidrawAPI]);
+
+    // Force close menu when clicking on canvas
+    const handlePointerDown = React.useCallback(() => {
+        if (localAPI && localAPI.getAppState().openMenu) {
+            localAPI.updateScene({ appState: { openMenu: null } });
+        }
+    }, [localAPI]);
+
     console.log('=== ExcalidrawWrapper render ===');
     console.log('initialData:', initialData?.elements?.length, 'elements');
 
     return (
         <Excalidraw
-            excalidrawAPI={excalidrawAPI}
+            excalidrawAPI={handleAPI}
             onChange={onChange}
             onPointerUpdate={onPointerUpdate as any}
+            onPointerDown={handlePointerDown}
             initialData={initialData}
+            viewModeEnabled={viewModeEnabled}
             UIOptions={{
                 canvasActions: {
                     toggleTheme: true,
                     changeViewBackgroundColor: true,
-                    clearCanvas: true,
+                    clearCanvas: !viewModeEnabled,
                     saveAsImage: true,
                     export: { saveFileToDisk: true },
-                    loadScene: true,
-                    saveToActiveFile: true,
+                    loadScene: !viewModeEnabled,
+                    saveToActiveFile: !viewModeEnabled,
                 },
             }}
         >

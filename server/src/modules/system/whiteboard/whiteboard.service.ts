@@ -12,11 +12,11 @@ export class WhiteboardService {
         return this.whiteboardRepository.create(data);
     }
 
-    async getWhiteboard(id: string, requesterId: string) {
+    async getWhiteboard(id: string, requesterId: string | null) {
         const whiteboard = await this.whiteboardRepository.findById(id);
         if (!whiteboard) return null;
 
-        const isOwner = whiteboard.creatorId === requesterId;
+        const isOwner = requesterId && whiteboard.creatorId === requesterId;
 
         // Access Control: Only owner or if board is PUBLIC
         if (!isOwner && whiteboard.status !== 'PUBLIC') {
