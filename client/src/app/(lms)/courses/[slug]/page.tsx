@@ -555,9 +555,9 @@ export default function CoursePage({ params }: { params: any }) {
                         {/* Course Curriculum */}
                         <section className="mb-12">
                             <h2 className="mb-6 text-2xl font-bold">Nội dung khóa học</h2>
-                            <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
+                            <div className="rounded-xl border border-white/10 bg-zinc-900 overflow-hidden divide-y divide-white/5 shadow-2xl">
                                 {course.lessons && course.lessons.length > 0 ? (
-                                    <div className="">
+                                    <>
                                         {/* Check if course has structure defined */}
                                         {(() => {
                                             const hasStructure = course.structure && Array.isArray(course.structure) && course.structure.length > 0;
@@ -566,12 +566,12 @@ export default function CoursePage({ params }: { params: any }) {
                                             // If no structure and no chapters, show flat list
                                             if (!hasStructure && !hasChapters) {
                                                 return (
-                                                    <div className="divide-y">
+                                                    <div className="divide-y divide-white/5">
                                                         {course.lessons.map((lesson: any, index: number) => {
                                                             if (!lesson) return null;
                                                             const isExpanded = expandedLessonId === lesson.id;
                                                             return (
-                                                                <div key={lesson.id || index} className="group flex flex-col transition-colors border-t border-border/50 first:border-t-0 hover:bg-muted/10">
+                                                                <div key={lesson.id || index} className="group flex flex-col transition-colors hover:bg-white/5">
                                                                     <div
                                                                         className="flex items-start p-4 gap-3 cursor-pointer"
                                                                         onClick={() => setExpandedLessonId(isExpanded ? null : (lesson.id || String(index)))}
@@ -583,13 +583,13 @@ export default function CoursePage({ params }: { params: any }) {
                                                                                 </span>
                                                                                 <div className="flex-1">
                                                                                     <div className="flex items-center gap-2">
-                                                                                        <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100">{lesson.title}</h4>
+                                                                                        <h4 className="font-bold text-sm text-zinc-100">{lesson.title}</h4>
                                                                                         <span className="text-zinc-400">
                                                                                             {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                                                                                         </span>
                                                                                     </div>
                                                                                     {lesson.duration && (
-                                                                                        <p className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-0.5 font-medium">
+                                                                                        <p className="text-[10px] text-zinc-400 mt-0.5 font-medium">
                                                                                             {lesson.duration}
                                                                                         </p>
                                                                                     )}
@@ -599,12 +599,12 @@ export default function CoursePage({ params }: { params: any }) {
                                                                         <div className="shrink-0 flex items-center gap-3" onClick={e => e.stopPropagation()}>
                                                                             {lesson.isFree ? (
                                                                                 <Link href={`/learn/${course.slug}/${lesson.slug}`}>
-                                                                                    <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[13px] font-bold text-emerald-600 dark:text-emerald-400 whitespace-nowrap shadow-[0_0_10px_-2px_rgba(16,185,129,0.1)]">
+                                                                                    <span className="inline-flex items-center rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[13px] font-bold text-emerald-400 whitespace-nowrap shadow-[0_0_10px_-2px_rgba(16,185,129,0.1)]">
                                                                                         Học thử miễn phí
                                                                                     </span>
                                                                                 </Link>
                                                                             ) : !isEnrolled ? (
-                                                                                <span className="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1 bg-muted dark:bg-white/5 px-2 py-1 rounded border border-border dark:border-white/10 font-bold">
+                                                                                <span className="text-[10px] text-zinc-400 flex items-center gap-1 bg-white/10 px-2 py-1 rounded border border-white/10 font-bold">
                                                                                     <Lock size={12} className="opacity-60" /> Khóa
                                                                                 </span>
                                                                             ) : (
@@ -617,7 +617,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                                     {/* Expandable Description */}
                                                                     {isExpanded && lesson.description && (
                                                                         <div className="px-4 pb-4 pt-0 pl-14">
-                                                                            <p className="text-xs text-zinc-600 dark:text-zinc-400 font-medium leading-relaxed">
+                                                                            <p className="text-xs text-zinc-400 font-medium leading-relaxed">
                                                                                 {lesson.description}
                                                                             </p>
                                                                         </div>
@@ -646,7 +646,7 @@ export default function CoursePage({ params }: { params: any }) {
                                                 />
                                             ));
                                         })()}
-                                    </div>
+                                    </>
                                 ) : (
                                     <div className="p-8 text-center text-muted-foreground">
                                         Nội dung đang được cập nhật.
