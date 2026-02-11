@@ -52,25 +52,41 @@ export default function WhiteboardHeader({
     return (
         <>
             {/* TOP LEFT BRANDING GROUP */}
-            <div className="absolute top-4 left-4 z-30 flex items-center gap-2">
-                {/* Back Button */}
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-10 w-10 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800 shadow-sm transition-all active:scale-95"
-                    onClick={onBack}
-                    title="Back to Dashboard"
+            <div className="absolute top-4 left-[60px] z-30">
+                <div className="flex items-center gap-3 px-3 py-1.5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm">
+                    <Logo showText={false} height="h-8" />
+                    <div className="flex flex-col justify-center">
+                        <span className="text-[13px] font-bold leading-none text-zinc-900 dark:text-zinc-100" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
+                            Tulie
+                        </span>
+                        <span className="text-[10px] font-medium leading-none text-zinc-500 dark:text-zinc-400 mt-0.5" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
+                            Whiteboard
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {/* BOTTOM CENTER CONTROLS GROUP */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 max-w-[95vw] sm:max-w-none">
+                <div
+                    className="bg-white/95 dark:bg-zinc-900/95 rounded-2xl h-[52px] p-1 px-2 flex items-center gap-1.5 shadow-2xl border border-zinc-200/50 dark:border-zinc-800/50 backdrop-blur-md"
+                    style={{ boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)' }}
                 >
-                    <ChevronLeft className="w-5 h-5" />
-                </Button>
+                    {/* Back Button */}
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-10 w-10 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-500 transition-all active:scale-95"
+                        onClick={onBack}
+                        title="Back to Dashboard"
+                    >
+                        <ChevronLeft className="w-5 h-5" />
+                    </Button>
 
-                {/* Logo & Title Box */}
-                <div className="flex items-center gap-3 px-1 pl-2 pr-4 h-10 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm">
-                    <Logo showText={false} height="h-5" />
+                    <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1" />
 
-                    <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800 mx-1" />
-
-                    <div className="flex items-center gap-2">
+                    {/* Title Input */}
+                    <div className="flex items-center gap-2 px-2">
                         {isEditing && !isReadOnly ? (
                             <input
                                 autoFocus
@@ -93,15 +109,9 @@ export default function WhiteboardHeader({
                             </h1>
                         )}
                     </div>
-                </div>
-            </div>
 
-            {/* BOTTOM CENTER CONTROLS GROUP */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 max-w-[95vw] sm:max-w-none">
-                <div
-                    className="bg-white/95 dark:bg-zinc-900/95 rounded-2xl h-[52px] p-1 px-2 flex items-center gap-1.5 shadow-2xl border border-zinc-200/50 dark:border-zinc-800/50 backdrop-blur-md"
-                    style={{ boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)' }}
-                >
+                    <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1" />
+
                     {/* Read Only Indicator / Make Copy */}
                     {isReadOnly && (
                         <>
