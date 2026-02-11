@@ -53,13 +53,13 @@ export default function WhiteboardHeader({
         <>
             {/* TOP LEFT BRANDING GROUP */}
             <div className="absolute top-4 left-[60px] z-30">
-                <div className="flex items-center gap-3 px-3 py-1.5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm">
-                    <Logo showText={false} height="h-8" />
-                    <div className="flex flex-col justify-center">
-                        <span className="text-[13px] font-bold leading-none text-zinc-900 dark:text-zinc-100" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
+                <div className="flex items-center gap-3 px-3 h-10 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm">
+                    <Logo showText={false} height="h-6" />
+                    <div className="flex flex-col justify-center leading-none">
+                        <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
                             Tulie
                         </span>
-                        <span className="text-[10px] font-medium leading-none text-zinc-500 dark:text-zinc-400 mt-0.5" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
+                        <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 -mt-0.5" style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}>
                             Whiteboard
                         </span>
                     </div>
@@ -76,7 +76,7 @@ export default function WhiteboardHeader({
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="h-10 w-10 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-500 transition-all active:scale-95"
+                        className="h-9 w-9 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-500 transition-all active:scale-95"
                         onClick={onBack}
                         title="Back to Dashboard"
                     >
