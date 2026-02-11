@@ -41,7 +41,7 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
         }
     }, [isOpen, courseData, lessonsData]);
 
-    if (!models || !isOpen) return null;
+    if (!mounted || !isOpen) return null;
 
     // Use createPortal to render modal at document body level
     if (typeof document === 'undefined') return null;
@@ -67,8 +67,8 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                            <FileJson className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        <div className="text-zinc-900 dark:text-zinc-100">
+                            <FileJson className="w-6 h-6" />
                         </div>
                         <div className="flex flex-col justify-center">
                             <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 leading-tight">Course JSON Editor</h2>
@@ -76,7 +76,7 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
                         </div>
                     </div>
                     <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800">
-                        <X className="w-5 h-5" />
+                        <X className="w-4 h-4 text-zinc-500" />
                     </Button>
                 </div>
 
@@ -101,8 +101,8 @@ export function CourseJsonEditorModal({ isOpen, onClose, onSave, courseData, les
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex justify-between items-center">
-                    <div className="text-xs text-zinc-500 max-w-lg">
+                <div className="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 flex justify-between items-center bg-zinc-50/50 dark:bg-zinc-900/50">
+                    <div className="text-xs text-zinc-500 max-w-sm">
                         <span className="font-medium text-amber-600 dark:text-amber-500 flex items-center gap-1.5 mb-0.5">
                             <AlertTriangle className="w-3.5 h-3.5" /> Warning
                         </span>
