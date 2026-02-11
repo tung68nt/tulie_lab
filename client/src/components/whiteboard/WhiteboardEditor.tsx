@@ -481,8 +481,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 isSidebarDocked={isSidebarDocked}
                 gridEnabled={gridEnabled}
                 onToggleGrid={handleToggleGrid}
-                onUndo={() => excalidrawAPI?.history.undo()}
-                onRedo={() => excalidrawAPI?.history.redo()}
                 status={whiteboard?.status}
                 onStatusChange={handleStatusChange}
             />

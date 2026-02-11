@@ -60,7 +60,17 @@ const ExcalidrawWrapper = React.memo(({
                 <WelcomeScreen.Hints.HelpHint />
                 <WelcomeScreen.Center>
                     <WelcomeScreen.Center.Heading>
-                        Tulie Whiteboard
+                        <span
+                            className="text-zinc-900 dark:text-zinc-100 font-bold tracking-tight"
+                            style={{
+                                fontSize: '42px',
+                                fontFamily: '"Virgil", "Excalifont", sans-serif',
+                                display: 'block',
+                                marginBottom: '8px'
+                            }}
+                        >
+                            Tulie Whiteboard
+                        </span>
                     </WelcomeScreen.Center.Heading>
                     <WelcomeScreen.Center.Menu>
                         <WelcomeScreen.Center.MenuItemLoadScene />
