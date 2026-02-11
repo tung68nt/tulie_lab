@@ -6,6 +6,7 @@ import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { Trash2 } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
+import { useConfirm } from '@/components/ConfirmDialog';
 import { SectionBackground } from '@/components/info/SectionBackground';
 
 export default function OrdersPage() {
@@ -13,11 +14,18 @@ export default function OrdersPage() {
     const [loading, setLoading] = useState(true);
     const [deletingOrder, setDeletingOrder] = useState<string | null>(null);
     const { addToast } = useToast();
+    const confirm = useConfirm();
 
     const handleDeleteOrder = async (orderId: string, orderCode: string) => {
-        if (!confirm(`Bạn có chắc muốn xóa đơn hàng ${orderCode}? Hành động này không thể hoàn tác.`)) {
-            return;
-        }
+        const confirmed = await confirm({
+            title: 'Xóa đơn hàng',
+            message: `Bạn có chắc chắn muốn xóa đơn hàng ${orderCode}? Hành động này không thể hoàn tác.`,
+            variant: 'danger',
+            confirmText: 'Xóa ngay',
+            cancelText: 'Hủy'
+        });
+
+        if (!confirmed) return;
 
         setDeletingOrder(orderId);
         try {

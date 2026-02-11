@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
-import { ChevronLeft, Cloud, Check, Home, Pencil, LayoutGrid } from 'lucide-react';
-import Link from 'next/link';
+import { ChevronLeft, Cloud, Pencil, LayoutGrid, Undo2, Redo2, Globe, Lock } from 'lucide-react';
 import { SaveStatus } from './SaveStatusIndicator';
 import { Logo } from '@/components/Logo';
 
@@ -14,11 +13,16 @@ interface WhiteboardHeaderProps {
     gridEnabled?: boolean;
     onToggleGrid?: () => void;
     onSave?: () => Promise<void>;
+    onUndo?: () => void;
+    onRedo?: () => void;
+    status?: 'PUBLIC' | 'PRIVATE';
+    onStatusChange?: (newStatus: 'PUBLIC' | 'PRIVATE') => void;
 }
 
 export default function WhiteboardHeader({
     title, saveStatus, onBack, onRename, isSidebarDocked,
-    gridEnabled = true, onToggleGrid, onSave
+    gridEnabled = true, onToggleGrid, onSave,
+    onUndo, onRedo, status = 'PRIVATE', onStatusChange
 }: WhiteboardHeaderProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(title || 'Untitled Whiteboard');
@@ -44,103 +48,145 @@ export default function WhiteboardHeader({
     };
 
     return (
-        <>
-            <>
-                {/* Unified Bottom Bar - Optimized for iPad/Mobile to avoid Top Toolbar overlap */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 max-w-[90vw] sm:max-w-none">
-                    <div
-                        className="bg-white dark:bg-zinc-800 rounded-xl h-[50px] p-1 pr-3 pl-1 flex items-center gap-2 shadow-2xl border border-zinc-200/50 dark:border-zinc-700/50 backdrop-blur-sm"
-                        style={{ boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)' }}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 max-w-[95vw] sm:max-w-none">
+            <div
+                className="bg-white/95 dark:bg-zinc-900/95 rounded-2xl h-[52px] p-1 pr-3 flex items-center gap-1.5 shadow-2xl border border-zinc-200/50 dark:border-zinc-800/50 backdrop-blur-md"
+                style={{ boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)' }}
+            >
+                {/* Navigation Group: Back, Undo, Redo (3 Arrows) */}
+                <div className="flex items-center gap-1">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-11 w-11 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-500 transition-all active:scale-95"
+                        onClick={onBack}
+                        title="Back to Dashboard"
                     >
-                        {/* Back Button */}
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-10 w-10 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg text-zinc-500"
-                            onClick={onBack}
-                            title="Back to Dashboard"
-                        >
-                            <ChevronLeft className="w-5 h-5" />
-                        </Button>
+                        <ChevronLeft className="w-5 h-5" />
+                    </Button>
 
-                        <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-700 mx-1" />
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-11 w-11 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-500 transition-all active:scale-95"
+                        onClick={onUndo}
+                        title="Undo"
+                    >
+                        <Undo2 className="w-5 h-5" />
+                    </Button>
 
-                        {/* Logo (Icon Only) */}
-                        <div className="flex items-center">
-                            <Logo showText={false} height="h-6" />
-                        </div>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-11 w-11 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-500 transition-all active:scale-95"
+                        onClick={onRedo}
+                        title="Redo"
+                    >
+                        <Redo2 className="w-5 h-5" />
+                    </Button>
+                </div>
 
-                        {/* Title Section */}
-                        <div className="flex items-center gap-2 ml-4">
-                            {isEditing ? (
-                                <input
-                                    autoFocus
-                                    value={tempTitle}
-                                    onChange={(e) => setTempTitle(e.target.value)}
-                                    onKeyDown={handleKeyDown}
-                                    onBlur={handleBlur}
-                                    className="text-sm font-medium text-zinc-900 dark:text-zinc-100 bg-transparent border-none outline-none min-w-[100px] max-w-[150px]"
-                                    style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
-                                />
-                            ) : (
-                                <h1
-                                    className="text-sm font-medium text-zinc-900 dark:text-zinc-100 max-w-[120px] sm:max-w-[200px] truncate cursor-pointer hover:underline decoration-zinc-400 underline-offset-4 flex items-center gap-2"
-                                    style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
-                                    onClick={() => setIsEditing(true)}
-                                    title="Click to rename"
-                                >
-                                    {title || 'Untitled Whiteboard'}
-                                    <Pencil className="w-3 h-3 text-zinc-400 opacity-50 hover:opacity-100 transition-opacity" />
-                                </h1>
-                            )}
-                        </div>
+                <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1" />
 
-                        {/* Grid Toggle */}
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className={`h-8 w-8 ml-2 rounded-lg transition-colors ${gridEnabled
-                                ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100'
-                                : 'text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300'
-                                }`}
-                            onClick={onToggleGrid}
-                            title={gridEnabled ? "Hide Grid" : "Show Grid"}
-                        >
-                            <LayoutGrid className="w-4 h-4" />
-                        </Button>
+                {/* Logo & Title */}
+                <div className="flex items-center gap-3 pl-1">
+                    <Logo showText={false} height="h-6" />
 
-                        {/* Status Badge & Manual Save */}
-                        <div className="hidden sm:flex items-center gap-1.5 bg-zinc-50 dark:bg-zinc-700/50 px-2 py-0.5 rounded-full border border-zinc-100 dark:border-zinc-700 ml-1">
-                            {saveStatus === 'saving' && (
-                                <>
-                                    <div className="w-2 h-2 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
-                                    <span className="text-[10px] text-zinc-500 font-medium">Saving</span>
-                                </>
-                            )}
-                            {saveStatus === 'saved' && (
-                                <button
-                                    onClick={onSave}
-                                    className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
-                                    title="Click to force save"
-                                >
-                                    <Cloud className="w-3 h-3 text-emerald-500" />
-                                    <span className="text-[10px] text-zinc-400 font-medium">Saved</span>
-                                </button>
-                            )}
-                            {saveStatus === 'error' && (
-                                <button
-                                    onClick={onSave}
-                                    className="flex items-center gap-1.5"
-                                    title="Retry save"
-                                >
-                                    <div className="w-2 h-2 bg-red-500 rounded-full" />
-                                    <span className="text-[10px] text-red-500 font-medium">Retry</span>
-                                </button>
-                            )}
-                        </div>
+                    <div className="flex items-center gap-2">
+                        {isEditing ? (
+                            <input
+                                autoFocus
+                                value={tempTitle}
+                                onChange={(e) => setTempTitle(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                onBlur={handleBlur}
+                                className="text-[13px] font-medium text-zinc-900 dark:text-zinc-100 bg-transparent border-none outline-none min-w-[100px] max-w-[150px]"
+                                style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
+                            />
+                        ) : (
+                            <h1
+                                className="text-[13px] font-medium text-zinc-900 dark:text-zinc-100 max-w-[100px] sm:max-w-[180px] truncate cursor-pointer hover:text-primary transition-colors flex items-center gap-1.5"
+                                style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
+                                onClick={() => setIsEditing(true)}
+                                title="Click to rename"
+                            >
+                                {title || 'Untitled Whiteboard'}
+                                <Pencil className="w-3 h-3 text-zinc-400 opacity-50" />
+                            </h1>
+                        )}
                     </div>
                 </div>
-            </>
-        </>
+
+                {/* Right Group: Grid & Status */}
+                <div className="flex items-center gap-2 ml-2">
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className={`h-9 w-9 rounded-xl transition-all ${gridEnabled
+                            ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100 shadow-sm'
+                            : 'text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300'
+                            }`}
+                        onClick={onToggleGrid}
+                        title={gridEnabled ? "Hide Grid" : "Show Grid"}
+                    >
+                        <LayoutGrid className="w-4 h-4" />
+                    </Button>
+
+                    <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-0.5" />
+
+                    {/* Visibility Toggle */}
+                    <Button
+                        variant="ghost"
+                        className={`h-9 px-3 gap-2 rounded-xl transition-all ${status === 'PUBLIC'
+                            ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400'
+                            : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 shadow-sm'
+                            }`}
+                        onClick={() => onStatusChange?.(status === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC')}
+                        title={status === 'PUBLIC' ? "Public - Anyone can view" : "Private - Only you can view"}
+                    >
+                        {status === 'PUBLIC' ? (
+                            <>
+                                <Globe className="w-3.5 h-3.5" />
+                                <span className="text-[11px] font-bold uppercase tracking-wider hidden sm:inline">Public</span>
+                            </>
+                        ) : (
+                            <>
+                                <Lock className="w-3.5 h-3.5" />
+                                <span className="text-[11px] font-bold uppercase tracking-wider hidden sm:inline">Private</span>
+                            </>
+                        )}
+                    </Button>
+
+                    <div className="hidden sm:flex items-center gap-2 bg-zinc-50 dark:bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-100 dark:border-zinc-800">
+                        {saveStatus === 'saving' && (
+                            <>
+                                <div className="w-2 h-2 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
+                                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Saving</span>
+                            </>
+                        )}
+                        {saveStatus === 'saved' && (
+                            <button
+                                onClick={onSave}
+                                className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+                                title="Click to force save"
+                            >
+                                <Cloud className="w-3.5 h-3.5 text-emerald-500" />
+                                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Saved</span>
+                            </button>
+                        )}
+                        {saveStatus === 'error' && (
+                            <button
+                                onClick={onSave}
+                                className="flex items-center gap-1.5"
+                                title="Retry save"
+                            >
+                                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                                <span className="text-[10px] text-red-500 font-bold uppercase tracking-wider">Retry</span>
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

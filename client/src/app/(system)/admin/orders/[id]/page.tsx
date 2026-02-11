@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, Clock, XCircle, Mail, User, CreditCard, Calendar, Package } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { OrderInvoice } from '@/components/shop/OrderInvoice';
+import { useConfirm } from '@/components/ConfirmDialog';
 
 interface OrderDetail {
     id: string;
@@ -45,6 +46,7 @@ interface OrderDetail {
 export default function AdminOrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const { addToast } = useToast();
+    const confirm = useConfirm();
     const [order, setOrder] = useState<OrderDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
@@ -65,7 +67,15 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
     }, [id, addToast]);
 
     const updateStatus = async (newStatus: 'PAID' | 'CANCELLED') => {
-        if (!confirm(`Bạn có chắc muốn chuyển trạng thái đơn hàng sang ${newStatus}?`)) return;
+        const confirmed = await confirm({
+            title: 'Cập nhật trạng thái',
+            message: `Bạn có chắc muốn chuyển trạng thái đơn hàng sang ${newStatus === 'PAID' ? 'Đã thanh toán' : 'Đã hủy'}?`,
+            variant: newStatus === 'PAID' ? 'success' : 'danger',
+            confirmText: 'Xác nhận',
+            cancelText: 'Hủy'
+        });
+
+        if (!confirmed) return;
         try {
             setUpdating(true);
             await api.admin.orders.updateStatus(id, newStatus);

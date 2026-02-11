@@ -18,8 +18,8 @@ export class WhiteboardService {
 
         const isOwner = whiteboard.creatorId === requesterId;
 
-        // Access Control: Only owner or if board is PUBLISHED
-        if (!isOwner && whiteboard.status !== 'PUBLISHED') {
+        // Access Control: Only owner or if board is PUBLIC
+        if (!isOwner && whiteboard.status !== 'PUBLIC') {
             throw new Error('Access denied: This whiteboard is not public.');
         }
 

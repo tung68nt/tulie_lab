@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Excalidraw } from '@excalidraw/excalidraw';
+import { Excalidraw, MainMenu, WelcomeScreen } from '@excalidraw/excalidraw';
 import '@excalidraw/excalidraw/index.css';
 
 interface ExcalidrawWrapperProps {
@@ -31,8 +31,6 @@ const ExcalidrawWrapper = React.memo(({
             onChange={onChange}
             onPointerUpdate={onPointerUpdate as any}
             initialData={initialData}
-            // langCode="vi-VN" // Localization reverted to English
-            // theme="light" // Removed to allow toggle
             UIOptions={{
                 canvasActions: {
                     toggleTheme: true,
@@ -44,8 +42,33 @@ const ExcalidrawWrapper = React.memo(({
                     saveToActiveFile: true,
                 },
             }}
-
-        />
+        >
+            <MainMenu>
+                <MainMenu.DefaultItems.LoadScene />
+                <MainMenu.DefaultItems.SaveToActiveFile />
+                <MainMenu.DefaultItems.Export />
+                <MainMenu.DefaultItems.SaveAsImage />
+                <MainMenu.DefaultItems.Help />
+                <MainMenu.DefaultItems.ClearCanvas />
+                <MainMenu.Separator />
+                <MainMenu.DefaultItems.ToggleTheme />
+                <MainMenu.DefaultItems.ChangeCanvasBackground />
+            </MainMenu>
+            <WelcomeScreen>
+                <WelcomeScreen.Hints.MenuHint />
+                <WelcomeScreen.Hints.ToolbarHint />
+                <WelcomeScreen.Hints.HelpHint />
+                <WelcomeScreen.Center>
+                    <WelcomeScreen.Center.Heading>
+                        Tulie Whiteboard
+                    </WelcomeScreen.Center.Heading>
+                    <WelcomeScreen.Center.Menu>
+                        <WelcomeScreen.Center.MenuItemLoadScene />
+                        <WelcomeScreen.Center.MenuItemHelp />
+                    </WelcomeScreen.Center.Menu>
+                </WelcomeScreen.Center>
+            </WelcomeScreen>
+        </Excalidraw>
     );
 }, (prev, next) => {
     // IMPORTANT: Must compare initialData to reload when data changes

@@ -21,12 +21,16 @@ import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import { ShortLink } from '@/types/api';
 import { Portal } from '@/components/Portal';
+import { useConfirm } from '@/components/ConfirmDialog';
+import { useToast } from '@/contexts/ToastContext';
 
 export default function AdminShortLinksPage() {
     const [links, setLinks] = useState<ShortLink[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const confirm = useConfirm();
+    const { addToast } = useToast();
 
     // New Link Form
     const [newLink, setNewLink] = useState({
@@ -63,19 +67,29 @@ export default function AdminShortLinksPage() {
             fetchLinks();
         } catch (error: unknown) {
             const message = error instanceof Error ? error.message : 'Failed to create link';
-            alert(message);
+            addToast(message, 'error');
         } finally {
             setIsSubmitting(false);
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm('Bạn có chắc chắn muốn xóa liên kết này?')) return;
+        const confirmed = await confirm({
+            title: 'Xóa liên kết rút gọn',
+            message: 'Bạn có chắc chắn muốn xóa liên kết này? Hành động này không thể hoàn tác.',
+            variant: 'danger',
+            confirmText: 'Xóa ngay',
+            cancelText: 'Hủy'
+        });
+
+        if (!confirmed) return;
+
         try {
             await api.shortLinks.delete(id);
             fetchLinks();
+            addToast('Đã xóa liên kết thành công', 'success');
         } catch {
-            alert('Xóa thất bại');
+            addToast('Xóa thất bại', 'error');
         }
     };
 

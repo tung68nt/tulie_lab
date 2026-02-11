@@ -6,12 +6,16 @@ import { Button } from '@/components/Button';
 import { Plus, Layout, ArrowRight, Trash2, List } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useConfirm } from '@/components/ConfirmDialog';
+import { useToast } from '@/contexts/ToastContext';
 
 export default function WhiteboardDashboard() {
     const [whiteboards, setWhiteboards] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isCreating, setIsCreating] = useState(false);
     const router = useRouter();
+    const confirm = useConfirm();
+    const { addToast } = useToast();
 
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
@@ -40,17 +44,31 @@ export default function WhiteboardDashboard() {
         } catch (error) {
             console.error('Failed to create whiteboard:', error);
             setIsCreating(false);
+            addToast('Không thể tạo bảng trắng mới', 'error');
         }
     };
 
     const handleDelete = async (id: string, e: React.MouseEvent) => {
         e.preventDefault();
-        if (!confirm('Bạn có chắc chắn muốn xóa bảng trắng này?')) return;
+        e.stopPropagation();
+
+        const confirmed = await confirm({
+            title: 'Xóa bảng trắng',
+            message: 'Bạn có chắc chắn muốn xóa bảng trắng này? Hành động này không thể hoàn tác.',
+            variant: 'danger',
+            confirmText: 'Xóa ngay',
+            cancelText: 'Hủy'
+        });
+
+        if (!confirmed) return;
+
         try {
             await api.whiteboards.delete(id);
             setWhiteboards(whiteboards.filter(b => b.id !== id));
+            addToast('Đã xóa bảng trắng thành công', 'success');
         } catch (error) {
             console.error('Failed to delete whiteboard:', error);
+            addToast('Xóa bảng trắng thất bại', 'error');
         }
     };
 
@@ -62,12 +80,12 @@ export default function WhiteboardDashboard() {
                     <p className="text-muted-foreground mt-1">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center p-1 bg-muted rounded-lg border">
+                    <div className="flex items-center p-1 bg-muted rounded-xl border border-border/50">
                         <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('grid')}
-                            className={`h-8 px-2 ${viewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                            className={`h-8 px-2 transition-all ${viewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
                         >
                             <Layout className="w-4 h-4" />
                         </Button>
@@ -75,7 +93,7 @@ export default function WhiteboardDashboard() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('list')}
-                            className={`h-8 px-2 ${viewMode === 'list' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                            className={`h-8 px-2 transition-all ${viewMode === 'list' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
                         >
                             <List className="w-4 h-4" />
                         </Button>
@@ -90,7 +108,7 @@ export default function WhiteboardDashboard() {
             {isLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[1, 2, 3].map(i => (
-                        <div key={i} className="h-48 rounded-xl bg-muted animate-pulse" />
+                        <div key={i} className="h-48 rounded-2xl bg-muted animate-pulse" />
                     ))}
                 </div>
             ) : whiteboards.length === 0 ? (
@@ -108,13 +126,13 @@ export default function WhiteboardDashboard() {
                         <Link
                             key={board.id}
                             href={`/whiteboard/${board.id}`}
-                            className="group relative flex flex-col bg-card border rounded-xl overflow-hidden hover:border-zinc-400 transition-all hover:shadow-md"
+                            className="group relative flex flex-col bg-card border rounded-2xl overflow-hidden hover:border-zinc-400 transition-all hover:shadow-xl hover:-translate-y-1"
                         >
-                            <div className="h-40 bg-zinc-50 flex items-center justify-center border-b relative">
+                            <div className="h-44 bg-zinc-50 flex items-center justify-center border-b border-zinc-100 relative overflow-hidden">
                                 {board.thumbnail ? (
-                                    <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover" />
+                                    <img src={board.thumbnail} alt={board.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                 ) : (
-                                    <Layout className="w-10 h-10 text-zinc-300 group-hover:text-zinc-400 group-hover:scale-110 transition-all duration-300" />
+                                    <Layout className="w-12 h-12 text-zinc-200 group-hover:text-zinc-300 group-hover:rotate-6 transition-all duration-300" strokeWidth={1.5} />
                                 )}
                             </div>
                             <div className="p-5">
@@ -122,13 +140,11 @@ export default function WhiteboardDashboard() {
                                     <h3 className="font-medium text-lg line-clamp-1 group-hover:text-primary transition-colors">
                                         {board.title || 'Không tiêu đề'}
                                     </h3>
-                                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${board.status === 'PUBLISHED'
+                                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${board.status === 'PUBLIC'
                                         ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                        : board.status === 'ARCHIVED'
-                                            ? 'bg-zinc-100 text-zinc-500 border-zinc-200'
-                                            : 'bg-blue-50 text-blue-600 border-blue-100'
+                                        : 'bg-zinc-100 text-zinc-500 border-zinc-200'
                                         }`}>
-                                        {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                        {board.status === 'PUBLIC' ? 'Public' : 'Private'}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between mt-4 border-t pt-3 border-dashed">
@@ -151,7 +167,7 @@ export default function WhiteboardDashboard() {
                     ))}
                 </div>
             ) : (
-                <div className="flex flex-col border rounded-xl overflow-hidden bg-card">
+                <div className="flex flex-col border rounded-2xl overflow-hidden bg-card shadow-sm">
                     {whiteboards.map((board, i) => (
                         <Link
                             key={board.id}
@@ -167,13 +183,11 @@ export default function WhiteboardDashboard() {
                             </div>
                             <div className="flex-1 min-w-0 flex items-center gap-3">
                                 <h3 className="font-medium text-base truncate group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
-                                <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-medium border ${board.status === 'PUBLISHED'
-                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                        : board.status === 'ARCHIVED'
-                                            ? 'bg-zinc-100 text-zinc-500 border-zinc-200'
-                                            : 'bg-blue-50 text-blue-600 border-blue-100'
+                                <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-medium border ${board.status === 'PUBLIC'
+                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                    : 'bg-zinc-100 text-zinc-500 border-zinc-200'
                                     }`}>
-                                    {board.status === 'PUBLISHED' ? 'Công khai' : board.status === 'ARCHIVED' ? 'Lưu trữ' : 'Nháp'}
+                                    {board.status === 'PUBLIC' ? 'Public' : 'Private'}
                                 </span>
                             </div>
                             <div className="text-xs text-muted-foreground w-40 text-right opacity-60 group-hover:opacity-100 transition-opacity" suppressHydrationWarning>

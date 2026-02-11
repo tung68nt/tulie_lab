@@ -11,7 +11,6 @@ import { api } from '@/lib/api';
 // import SaveStatusIndicator, { SaveStatus } from './SaveStatusIndicator'; // Kept for type import if needed
 import { SaveStatus } from './SaveStatusIndicator';
 import WhiteboardHeader from './WhiteboardHeader';
-import WelcomeScreen from './WelcomeScreen';
 
 interface WhiteboardEditorProps {
     id: string;
@@ -418,6 +417,21 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         }
     };
 
+    const handleStatusChange = async (newStatus: 'PUBLIC' | 'PRIVATE') => {
+        if (!whiteboard) return;
+
+        // Optimistic update
+        setWhiteboard((prev: any) => ({ ...prev, status: newStatus }));
+
+        try {
+            await api.whiteboards.update(id, { status: newStatus });
+        } catch (error) {
+            console.error('Failed to update whiteboard status:', error);
+            // Revert on error
+            setWhiteboard((prev: any) => ({ ...prev, status: whiteboard.status }));
+        }
+    };
+
     const handleManualSave = async () => {
         const currentArtboard = whiteboard?.artboards?.[0]; // Current implementation only supports 1 artboard in stable version
         const elements = currentElementsRef.current;
@@ -467,6 +481,10 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                 isSidebarDocked={isSidebarDocked}
                 gridEnabled={gridEnabled}
                 onToggleGrid={handleToggleGrid}
+                onUndo={() => excalidrawAPI?.history.undo()}
+                onRedo={() => excalidrawAPI?.history.redo()}
+                status={whiteboard?.status}
+                onStatusChange={handleStatusChange}
             />
 
             <ExcalidrawWrapper
@@ -479,10 +497,6 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             />
 
             {/* SaveStatusIndicator removed in favor of Header */}
-
-            {showWelcome && (
-                <WelcomeScreen onStart={handleStartDrawing} />
-            )}
         </div>
     );
 }

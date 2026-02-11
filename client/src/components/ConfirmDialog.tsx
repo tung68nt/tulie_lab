@@ -102,7 +102,7 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
                     />
 
                     {/* Dialog Box */}
-                    <div className="relative bg-background border rounded-lg shadow-xl max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-200">
+                    <div className="relative bg-background border rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-in fade-in zoom-in-95 duration-300 overflow-hidden">
                         {/* Close Button */}
                         <button
                             onClick={handleCancel}

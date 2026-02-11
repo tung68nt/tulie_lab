@@ -1043,7 +1043,7 @@ model Whiteboard {
   title       String?
   description String?
   thumbnail   String?    @db.Text
-  status      WhiteboardStatus @default(DRAFT)
+  status      WhiteboardStatus @default(PRIVATE)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   deletedAt   DateTime?
@@ -1148,9 +1148,8 @@ model ShortLink {
 }
 
 enum WhiteboardStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
+  PUBLIC
+  PRIVATE
 }
 
 enum WhiteboardPermission {
