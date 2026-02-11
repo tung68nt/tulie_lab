@@ -227,9 +227,10 @@ export default function CoursePage({ params }: { params: any }) {
                             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
                                 {course.title}
                             </h1>
-                            <div className="text-sm text-zinc-300 leading-relaxed max-w-[600px] marker-description">
-                                <MarkdownRenderer content={course.description || ''} />
-                            </div>
+                            <MarkdownRenderer
+                                content={course.description || ''}
+                                className="prose-invert text-zinc-200"
+                            />
                             <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-medium text-zinc-500">
                                 <div className="flex items-center gap-2">
                                     <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center">
