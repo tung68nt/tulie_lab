@@ -88,11 +88,19 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     margin-bottom: 1rem !important; /* mb-4 */
                 }
 
-                /* Paragraphs */
-                .bn-block[data-type="paragraph"] .bn-inline-content {
+                /* Paragraphs & Lists */
+                .bn-block[data-type="paragraph"] .bn-inline-content,
+                .bn-block[data-type="bulletListItem"] .bn-inline-content,
+                .bn-block[data-type="numberedListItem"] .bn-inline-content {
                     line-height: 1.75rem !important; /* leading-7 */
                     margin-top: 1.5rem !important; /* mt-6 */
                     margin-bottom: 0 !important;
+                    color: #18181b !important; /* text-zinc-900 */
+                }
+                .dark .bn-block[data-type="paragraph"] .bn-inline-content,
+                .dark .bn-block[data-type="bulletListItem"] .bn-inline-content,
+                .dark .bn-block[data-type="numberedListItem"] .bn-inline-content {
+                    color: #d4d4d8 !important; /* text-zinc-300 */
                 }
                 .bn-block[data-type="paragraph"]:first-child .bn-inline-content {
                     margin-top: 0 !important;
