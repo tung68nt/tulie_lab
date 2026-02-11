@@ -490,8 +490,8 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
     const handleMakeCopy = async () => {
         if (!user) {
             // Redirect to login with return URL
-            const returnUrl = encodeURIComponent(window.location.href);
-            router.push(`/auth/login?returnUrl=${returnUrl}`);
+            const returnUrl = encodeURIComponent(window.location.pathname);
+            router.push(`/login?returnUrl=${returnUrl}`);
             return;
         }
 
@@ -663,7 +663,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
                                     // Actually we just check `localStorage` on mount of `id='new'`
                                     // But if we are redirected to `id='new'`, it works.
                                     const returnUrl = encodeURIComponent('/whiteboard/new');
-                                    router.push(`/auth/login?returnUrl=${returnUrl}`);
+                                    router.push(`/login?returnUrl=${returnUrl}`);
                                 }}
                             >
                                 Login / Register

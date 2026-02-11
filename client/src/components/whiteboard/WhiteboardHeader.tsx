@@ -50,29 +50,25 @@ export default function WhiteboardHeader({
     };
 
     return (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 max-w-[95vw] sm:max-w-none">
-            <div
-                className="bg-white/95 dark:bg-zinc-900/95 rounded-2xl h-[52px] p-1 pr-3 flex items-center gap-1.5 shadow-2xl border border-zinc-200/50 dark:border-zinc-800/50 backdrop-blur-md"
-                style={{ boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)' }}
-            >
-                {/* Navigation Group: Back */}
-                <div className="flex items-center">
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-11 w-11 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-500 transition-all active:scale-95"
-                        onClick={onBack}
-                        title="Back to Dashboard"
-                    >
-                        <ChevronLeft className="w-5 h-5" />
-                    </Button>
-                </div>
+        <>
+            {/* TOP LEFT BRANDING GROUP */}
+            <div className="absolute top-4 left-4 z-30 flex items-center gap-2">
+                {/* Back Button */}
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-10 w-10 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-800 shadow-sm transition-all active:scale-95"
+                    onClick={onBack}
+                    title="Back to Dashboard"
+                >
+                    <ChevronLeft className="w-5 h-5" />
+                </Button>
 
-                <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-1" />
+                {/* Logo & Title Box */}
+                <div className="flex items-center gap-3 px-1 pl-2 pr-4 h-10 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-sm">
+                    <Logo showText={false} height="h-5" />
 
-                {/* Logo & Title */}
-                <div className="flex items-center gap-3 pl-1">
-                    <Logo showText={false} height="h-6" />
+                    <div className="h-4 w-px bg-zinc-200 dark:bg-zinc-800 mx-1" />
 
                     <div className="flex items-center gap-2">
                         {isEditing && !isReadOnly ? (
@@ -82,12 +78,12 @@ export default function WhiteboardHeader({
                                 onChange={(e) => setTempTitle(e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 onBlur={handleBlur}
-                                className="text-[13px] font-medium text-zinc-900 dark:text-zinc-100 bg-transparent border-none outline-none min-w-[100px] max-w-[150px]"
+                                className="text-[13px] font-medium text-zinc-900 dark:text-zinc-100 bg-transparent border-none outline-none min-w-[100px] max-w-[200px]"
                                 style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
                             />
                         ) : (
                             <h1
-                                className={`text-[13px] font-medium text-zinc-900 dark:text-zinc-100 max-w-[100px] sm:max-w-[180px] truncate flex items-center gap-1.5 ${!isReadOnly ? 'cursor-pointer hover:text-primary transition-colors' : ''}`}
+                                className={`text-[13px] font-medium text-zinc-900 dark:text-zinc-100 max-w-[150px] sm:max-w-[300px] truncate flex items-center gap-2 ${!isReadOnly ? 'cursor-pointer hover:text-primary transition-colors' : ''}`}
                                 style={{ fontFamily: '"Virgil", "Excalifont", sans-serif' }}
                                 onClick={() => !isReadOnly && setIsEditing(true)}
                                 title={!isReadOnly ? "Click to rename" : title}
@@ -98,9 +94,14 @@ export default function WhiteboardHeader({
                         )}
                     </div>
                 </div>
+            </div>
 
-                {/* Right Group: Grid & Status */}
-                <div className="flex items-center gap-2 ml-2">
+            {/* BOTTOM CENTER CONTROLS GROUP */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 max-w-[95vw] sm:max-w-none">
+                <div
+                    className="bg-white/95 dark:bg-zinc-900/95 rounded-2xl h-[52px] p-1 px-2 flex items-center gap-1.5 shadow-2xl border border-zinc-200/50 dark:border-zinc-800/50 backdrop-blur-md"
+                    style={{ boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)' }}
+                >
                     {/* Read Only Indicator / Make Copy */}
                     {isReadOnly && (
                         <>
@@ -118,6 +119,7 @@ export default function WhiteboardHeader({
                                     Make a copy
                                 </Button>
                             )}
+                            <div className="h-6 w-px bg-zinc-200 dark:bg-zinc-800 mx-0.5" />
                         </>
                     )}
 
@@ -155,10 +157,6 @@ export default function WhiteboardHeader({
                             </div>
                         </div>
                     ) : (
-                        // If Read-only, show simple status badge if needed, or nothing (implied public)
-                        // Actually, if it's read-only, it's public.
-                        // We can show a simple 'Public' badge or just hide it.
-                        // Let's show nothing to keep it clean, or maybe the Link icon is enough.
                         <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-500 border border-emerald-100 dark:border-emerald-800/50">
                             <Globe className="w-3.5 h-3.5" />
                             <span className="text-[11px] font-medium">Public</span>
@@ -183,7 +181,7 @@ export default function WhiteboardHeader({
                     </Button>
 
                     {!isReadOnly && (
-                        <div className="hidden sm:flex items-center gap-2 bg-zinc-50 dark:bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-100 dark:border-zinc-800">
+                        <div className="hidden sm:flex items-center gap-2 bg-zinc-50 dark:bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-100 dark:border-zinc-800 ml-1">
                             {saveStatus === 'saving' && (
                                 <>
                                     <div className="w-2 h-2 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
@@ -214,6 +212,6 @@ export default function WhiteboardHeader({
                     )}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
