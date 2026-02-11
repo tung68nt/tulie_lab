@@ -14,6 +14,9 @@ export class PrismaWhiteboardRepository implements IWhiteboardRepository {
                         name: 'Artboard 1',
                     }
                 }
+            },
+            include: {
+                artboards: true
             }
         });
     }
