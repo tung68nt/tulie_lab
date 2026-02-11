@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Save, AlertTriangle, FileJson } from 'lucide-react';
+import { X, Save, AlertTriangle, FileJson, Copy } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { useToast } from '@/contexts/ToastContext';
@@ -95,6 +95,11 @@ export function CourseJsonEditorModal({
         }
     };
 
+    const handleCopy = () => {
+        navigator.clipboard.writeText(jsonValue);
+        addToast("Đã sao chép JSON vào bộ nhớ tạm", "success");
+    };
+
     return createPortal(
         <div className="fixed inset-0 z-[15000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
             <div className="bg-white dark:bg-zinc-900 w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl flex flex-col border border-zinc-200 dark:border-zinc-800 overflow-hidden">
@@ -150,6 +155,14 @@ export function CourseJsonEditorModal({
                             className="text-zinc-500 hover:text-blue-600"
                         >
                             Reset to Standard JSON
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            type="button"
+                            onClick={handleCopy}
+                            className="text-zinc-500 hover:text-blue-600"
+                        >
+                            <Copy className="w-4 h-4 mr-2" /> Copy JSON
                         </Button>
                         <Button variant="outline" onClick={onClose}>Cancel</Button>
                         <Button onClick={handleSave} className="gap-2 min-w-[140px]">
