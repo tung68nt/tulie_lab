@@ -80,12 +80,12 @@ export default function WhiteboardDashboard() {
                     <p className="text-muted-foreground mt-1">Quản lý và cộng tác trên các bảng vẽ của bạn.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center p-1 bg-muted rounded-xl border border-border/50">
+                    <div className="flex items-center p-1 bg-zinc-100 dark:bg-zinc-800 rounded-xl border border-zinc-200/50 dark:border-zinc-700/50">
                         <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('grid')}
-                            className={`h-8 px-2 transition-all ${viewMode === 'grid' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                            className={`h-8 w-10 px-0 transition-all duration-300 ${viewMode === 'grid' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
                         >
                             <Layout className="w-4 h-4" />
                         </Button>
@@ -93,7 +93,7 @@ export default function WhiteboardDashboard() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setViewMode('list')}
-                            className={`h-8 px-2 transition-all ${viewMode === 'list' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground hover:bg-transparent'}`}
+                            className={`h-8 w-10 px-0 transition-all duration-300 ${viewMode === 'list' ? 'bg-white dark:bg-zinc-700 shadow-sm text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600 hover:bg-transparent'}`}
                         >
                             <List className="w-4 h-4" />
                         </Button>
@@ -140,9 +140,9 @@ export default function WhiteboardDashboard() {
                                     <h3 className="font-medium text-lg line-clamp-1 group-hover:text-primary transition-colors">
                                         {board.title || 'Không tiêu đề'}
                                     </h3>
-                                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${board.status === 'PUBLIC'
-                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                        : 'bg-zinc-100 text-zinc-500 border-zinc-200'
+                                    <span className={`text-[11px] px-2.5 py-1 rounded-lg font-medium border transition-colors ${board.status === 'PUBLIC'
+                                        ? 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20'
+                                        : 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'
                                         }`}>
                                         {board.status === 'PUBLIC' ? 'Public' : 'Private'}
                                     </span>
@@ -183,9 +183,9 @@ export default function WhiteboardDashboard() {
                             </div>
                             <div className="flex-1 min-w-0 flex items-center gap-3">
                                 <h3 className="font-medium text-base truncate group-hover:text-primary transition-colors">{board.title || 'Không tiêu đề'}</h3>
-                                <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-medium border ${board.status === 'PUBLIC'
-                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                    : 'bg-zinc-100 text-zinc-500 border-zinc-200'
+                                <span className={`text-[11px] px-2 py-0.5 rounded-lg font-medium border ${board.status === 'PUBLIC'
+                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20'
+                                    : 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'
                                     }`}>
                                     {board.status === 'PUBLIC' ? 'Public' : 'Private'}
                                 </span>
