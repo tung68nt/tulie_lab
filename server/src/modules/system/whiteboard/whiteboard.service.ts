@@ -108,7 +108,7 @@ export class WhiteboardService {
         // This avoids loading all elements into memory, which would crash the server
         const storageUsage = await prisma.$queryRaw<{ total_size: number }[]>`
             SELECT COALESCE(SUM(LENGTH(elements::text)), 0) as total_size 
-            FROM artboards 
+            FROM "Artboard"
             WHERE elements IS NOT NULL
         `;
 
