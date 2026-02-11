@@ -259,15 +259,15 @@ export default function CoursePage({ params }: { params: any }) {
                                             }, 0);
 
                                         return (
-                                            <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-primary/10 dark:bg-primary/5 border border-primary/20 text-xs font-semibold shadow-[0_0_15px_-3px_rgba(var(--primary),0.1)] backdrop-blur-sm">
-                                                <div className="flex items-center gap-2.5 border-r border-zinc-200 dark:border-white/10 pr-4">
+                                            <div className="inline-flex items-center gap-4 px-5 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-semibold shadow-[0_0_15px_-3px_rgba(var(--primary),0.1)] backdrop-blur-sm">
+                                                <div className="flex items-center gap-2.5 border-r border-white/10 pr-4">
                                                     <PlayCircle className="w-4 h-4 text-primary" />
-                                                    <span className="text-zinc-900 dark:text-zinc-50">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
+                                                    <span className="text-zinc-50">{course.infoLessons || `${course.lessons?.length || 0} Bài học`}</span>
                                                 </div>
                                                 {totalSeconds > 0 && (
                                                     <div className="flex items-center gap-2.5 pl-1">
                                                         <Clock className="w-4 h-4 text-primary" />
-                                                        <span className="text-zinc-900 dark:text-zinc-50">{formatTotalDuration(totalSeconds)}</span>
+                                                        <span className="text-zinc-50">{formatTotalDuration(totalSeconds)}</span>
                                                     </div>
                                                 )}
                                             </div>
