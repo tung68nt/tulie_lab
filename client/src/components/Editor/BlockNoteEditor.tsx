@@ -95,12 +95,14 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     line-height: 1.75rem !important; /* leading-7 */
                     margin-top: 1.5rem !important; /* mt-6 */
                     margin-bottom: 0 !important;
-                    color: #09090b !important; /* Zinc-950 - Stronger text */
+                    color: #000000 !important; /* Pure black */
+                    font-weight: 500 !important; /* Bolder as requested */
                 }
                 .dark .bn-block[data-type="paragraph"] .bn-inline-content,
                 .dark .bn-block[data-type="bulletListItem"] .bn-inline-content,
                 .dark .bn-block[data-type="numberedListItem"] .bn-inline-content {
-                    color: #ffffff !important; /* Pure white - much brighter in dark mode */
+                    color: #ffffff !important; /* Pure white */
+                    font-weight: 500 !important;
                 }
                 .bn-block[data-type="paragraph"]:first-child .bn-inline-content {
                     margin-top: 0 !important;
@@ -124,10 +126,11 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                 .bn-block[data-type="table"] td {
                     padding: 12px 16px !important;
                     border: 1px solid #eaeaea !important;
-                    color: #09090b !important;
+                    color: #000000 !important;
+                    font-weight: 500 !important;
                 }
                 .dark .bn-block[data-type="table"] th { background-color: #111 !important; border-color: #333 !important; color: #ffffff !important; }
-                .dark .bn-block[data-type="table"] td { border-color: #333 !important; color: #fafafa !important; }
+                .dark .bn-block[data-type="table"] td { border-color: #333 !important; color: #ffffff !important; font-weight: 500 !important; }
 
                 /* Code Block - Container */
                 .bn-block[data-type="codeBlock"] {
