@@ -50,5 +50,6 @@ export const marketingAdsApi = {
     },
     syncInsights: (datePreset?: string) => request<any>('/marketing/sync', { method: 'POST', body: JSON.stringify({ datePreset }) }),
     syncAudience: (audienceId: string, userEmails: string[]) => request<any>('/marketing/sync-audience', { method: 'POST', body: JSON.stringify({ audienceId, userEmails }) }),
+    getCampaigns: (accountId: string, accessToken: string) => request<any[]>(`/marketing/campaigns?accountId=${accountId}&accessToken=${accessToken}`),
     classify: () => request<any>('/marketing/classify', { method: 'POST' }),
 };

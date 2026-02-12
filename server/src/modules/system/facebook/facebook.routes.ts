@@ -38,6 +38,15 @@ router.post('/sync-audience', (req, res) => facebookController.syncAudience(req,
 
 /**
  * @swagger
+ * /api/marketing/campaigns:
+ *   get:
+ *     summary: Get Facebook campaigns for an ad account
+ *     tags: [Marketing]
+ */
+router.get('/campaigns', (req, res) => facebookController.getCampaigns(req, res));
+
+/**
+ * @swagger
  * /api/marketing/classify:
  *   post:
  *     summary: Classify leads and update tags

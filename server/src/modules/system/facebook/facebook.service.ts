@@ -19,8 +19,21 @@ export class FacebookService {
         // Sync insights every 12 hours
         setInterval(async () => {
             try {
-                console.log('[FacebookService] Starting scheduled insights sync...');
-                await this.syncDailyInsights('yesterday');
+                console.log('[FacebookService] Starting scheduled multi-account insights sync...');
+                const res = await this.settingService.getSettings(['MARKETING_CONFIGS']);
+                const configs = res['MARKETING_CONFIGS'] ? JSON.parse(res['MARKETING_CONFIGS']) : [];
+
+                if (Array.isArray(configs)) {
+                    for (const config of configs) {
+                        if (config.active !== false) {
+                            try {
+                                await this.syncDailyInsightsForConfig(config, 'yesterday');
+                            } catch (err) {
+                                console.error(`[FacebookService] Sync failed for account ${config.name}:`, err);
+                            }
+                        }
+                    }
+                }
             } catch (err) {
                 console.error('[FacebookService] Scheduled sync failed:', err);
             }
@@ -32,12 +45,21 @@ export class FacebookService {
      */
     async sendConversionEvent(order: Order & { user: User, items: any[] }, eventName: 'Purchase' | 'Lead' | 'InitiateCheckout', userData?: any) {
         try {
-            const settings = await this.settingService.getSettings(['FB_PIXEL_ID', 'FB_CAPI_ACCESS_TOKEN']);
-            const pixelId = settings['FB_PIXEL_ID'];
-            const accessToken = settings['FB_CAPI_ACCESS_TOKEN'];
+            const res = await this.settingService.getSettings(['MARKETING_CONFIGS']);
+            const configs = res['MARKETING_CONFIGS'] ? JSON.parse(res['MARKETING_CONFIGS']) : [];
+
+            // For CAPI, we need to find the config that matches the lead platform/account if possible
+            // For now, we'll try to find a pixelId that matches or use the first active one
+            let pixelId, accessToken;
+            const activeConfig = Array.isArray(configs) ? configs.find(c => c.active !== false && c.FB_PIXEL_ID) : null;
+
+            if (activeConfig) {
+                pixelId = activeConfig.FB_PIXEL_ID;
+                accessToken = activeConfig.FB_CAPI_ACCESS_TOKEN;
+            }
 
             if (!pixelId || !accessToken) {
-                console.warn('[FacebookService] CAPI disabled: Pixel ID or Access Token missing');
+                console.warn('[FacebookService] CAPI disabled: Pixel ID or Access Token missing from configs');
                 return;
             }
 
@@ -77,29 +99,61 @@ export class FacebookService {
     }
 
     /**
-     * Fetches ad performance data from the Facebook Marketing API.
+     * Fetches ad performance data from the Facebook Marketing API for a specific config if provided,
+     * otherwise loops through all saved configs.
      */
     async getAdAccountInsights(params: { date_preset?: string, time_range?: { since: string, until: string } }) {
-        try {
-            const settings = await this.settingService.getSettings(['FB_AD_ACCOUNT_ID', 'FB_CAPI_ACCESS_TOKEN']);
-            const accountId = settings['FB_AD_ACCOUNT_ID'];
-            const accessToken = settings['FB_CAPI_ACCESS_TOKEN'];
+        const res = await this.settingService.getSettings(['MARKETING_CONFIGS']);
+        const configs = res['MARKETING_CONFIGS'] ? JSON.parse(res['MARKETING_CONFIGS']) : [];
 
-            if (!accountId || !accessToken) {
-                throw new Error('Ad Account ID or Access Token missing');
+        if (!Array.isArray(configs) || configs.length === 0) {
+            throw new Error('No marketing configurations found');
+        }
+
+        const allInsights = [];
+        for (const config of configs) {
+            if (config.active === false || !config.FB_AD_ACCOUNT_ID || !config.FB_CAPI_ACCESS_TOKEN) continue;
+
+            try {
+                const response = await axios.get(`${this.BASE_URL}/${this.API_VERSION}/act_${config.FB_AD_ACCOUNT_ID}/insights`, {
+                    params: {
+                        ...params,
+                        fields: 'campaign_name,campaign_id,adset_name,adset_id,spend,impressions,clicks,actions,cost_per_action_type',
+                        access_token: config.FB_CAPI_ACCESS_TOKEN
+                    }
+                });
+
+                let insights = response.data.data;
+
+                // Filter by specific campaign IDs if configured
+                if (config.monitoredCampaigns && config.monitoredCampaigns.length > 0) {
+                    insights = insights.filter((item: any) => config.monitoredCampaigns.includes(item.campaign_id));
+                }
+
+                allInsights.push(...insights.map((item: any) => ({ ...item, platform_account: config.name || 'default' })));
+            } catch (error: any) {
+                console.error(`[FacebookService] Error fetching insights for ${config.name}:`, error.response?.data || error.message);
             }
+        }
 
-            const response = await axios.get(`${this.BASE_URL}/${this.API_VERSION}/act_${accountId}/insights`, {
+        return allInsights;
+    }
+
+    /**
+     * New method to fetch all campaigns for an ad account (used for selection in UI)
+     */
+    async getAdAccountCampaigns(accountId: string, accessToken: string) {
+        try {
+            const response = await axios.get(`${this.BASE_URL}/${this.API_VERSION}/act_${accountId}/campaigns`, {
                 params: {
-                    ...params,
-                    fields: 'campaign_name,campaign_id,adset_name,adset_id,spend,impressions,clicks,actions,cost_per_action_type',
+                    fields: 'name,id,status,objective',
+                    limit: 100,
                     access_token: accessToken
                 }
             });
-
             return response.data.data;
         } catch (error: any) {
-            console.error('[FacebookService] Marketing API Error:', error.response?.data || error.message);
+            console.error('[FacebookService] Get Campaigns Error:', error.response?.data || error.message);
             throw error;
         }
     }
@@ -108,65 +162,82 @@ export class FacebookService {
      * Fetches ad performance data from the Facebook Marketing API and stores it in the database.
      */
     async syncDailyInsights(datePreset: string = 'yesterday') {
-        try {
-            const settings = await this.settingService.getSettings(['FB_AD_ACCOUNT_ID', 'FB_CAPI_ACCESS_TOKEN']);
-            const accountId = settings['FB_AD_ACCOUNT_ID'];
-            const accessToken = settings['FB_CAPI_ACCESS_TOKEN'];
+        const res = await this.settingService.getSettings(['MARKETING_CONFIGS']);
+        const configs = res['MARKETING_CONFIGS'] ? JSON.parse(res['MARKETING_CONFIGS']) : [];
 
-            if (!accountId || !accessToken) {
-                console.warn('[FacebookService] Marketing API disabled: Account ID or Access Token missing');
-                return;
-            }
+        if (!Array.isArray(configs) || configs.length === 0) {
+            return { message: 'No configurations to sync' };
+        }
 
-            const response = await axios.get(`${this.BASE_URL}/${this.API_VERSION}/act_${accountId}/insights`, {
-                params: {
-                    date_preset: datePreset,
-                    fields: 'campaign_name,campaign_id,adset_name,adset_id,spend,impressions,clicks,actions,cost_per_action_type',
-                    access_token: accessToken
+        let totalSynced = 0;
+        for (const config of configs) {
+            if (config.active !== false) {
+                try {
+                    const insights = await this.syncDailyInsightsForConfig(config, datePreset);
+                    totalSynced += insights.length;
+                } catch (err) {
+                    console.error(`[FacebookService] Sync failed for ${config.name}:`, err);
                 }
-            });
+            }
+        }
+        return { totalSynced };
+    }
 
-            const insights = response.data.data;
+    private async syncDailyInsightsForConfig(config: any, datePreset: string) {
+        const accountId = config.FB_AD_ACCOUNT_ID;
+        const accessToken = config.FB_CAPI_ACCESS_TOKEN;
 
-            for (const item of insights) {
-                await prisma.adInsights.upsert({
-                    where: {
-                        platform_campaignId_date: {
-                            platform: 'facebook',
-                            campaignId: item.campaign_id,
-                            date: new Date(item.date_start)
-                        }
-                    },
-                    update: {
-                        campaignName: item.campaign_name,
-                        adsetId: item.adset_id,
-                        adsetName: item.adset_name,
-                        spend: parseFloat(item.spend),
-                        impressions: parseInt(item.impressions),
-                        clicks: parseInt(item.clicks),
-                        actions: item.actions || {}
-                    },
-                    create: {
+        if (!accountId || !accessToken) return [];
+
+        const response = await axios.get(`${this.BASE_URL}/${this.API_VERSION}/act_${accountId}/insights`, {
+            params: {
+                date_preset: datePreset,
+                fields: 'campaign_name,campaign_id,adset_name,adset_id,spend,impressions,clicks,actions,cost_per_action_type',
+                access_token: accessToken
+            }
+        });
+
+        let insights = response.data.data;
+
+        // Filter by specific campaign IDs if configured
+        if (config.monitoredCampaigns && config.monitoredCampaigns.length > 0) {
+            insights = insights.filter((item: any) => config.monitoredCampaigns.includes(item.campaign_id));
+        }
+
+        for (const item of insights) {
+            await prisma.adInsights.upsert({
+                where: {
+                    platform_campaignId_date: {
                         platform: 'facebook',
                         campaignId: item.campaign_id,
-                        campaignName: item.campaign_name,
-                        adsetId: item.adset_id,
-                        adsetName: item.adset_name,
-                        date: new Date(item.date_start),
-                        spend: parseFloat(item.spend),
-                        impressions: parseInt(item.impressions),
-                        clicks: parseInt(item.clicks),
-                        actions: item.actions || {}
+                        date: new Date(item.date_start)
                     }
-                });
-            }
-
-            console.log(`[FacebookService] Synced ${insights.length} campaign insights for ${datePreset}`);
-            return insights;
-        } catch (error: any) {
-            console.error('[FacebookService] Sync Insights Error:', error.response?.data || error.message);
-            throw error;
+                },
+                update: {
+                    campaignName: item.campaign_name,
+                    adsetId: item.adset_id,
+                    adsetName: item.adset_name,
+                    spend: parseFloat(item.spend),
+                    impressions: parseInt(item.impressions),
+                    clicks: parseInt(item.clicks),
+                    actions: item.actions || {}
+                },
+                create: {
+                    platform: 'facebook',
+                    campaignId: item.campaign_id,
+                    campaignName: item.campaign_name,
+                    adsetId: item.adset_id,
+                    adsetName: item.adset_name,
+                    date: new Date(item.date_start),
+                    spend: parseFloat(item.spend),
+                    impressions: parseInt(item.impressions),
+                    clicks: parseInt(item.clicks),
+                    actions: item.actions || {}
+                }
+            });
         }
+
+        return insights;
     }
 
     /**

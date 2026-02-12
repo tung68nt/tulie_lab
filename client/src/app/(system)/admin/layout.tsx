@@ -67,7 +67,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             title: 'Marketing (Tiếp thị)',
             icon: Megaphone,
             items: [
-                { href: '/admin/marketing', label: 'Quản lý Marketing' },
+                { href: '/admin/marketing', label: 'Tổng quan' },
+                { href: '/admin/marketing/settings', label: 'Cấu hình API' },
+                { href: '/admin/marketing/campaigns', label: 'Danh sách Chiến dịch' },
             ]
         },
         {

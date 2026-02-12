@@ -52,6 +52,22 @@ export class FacebookController {
         }
     }
 
+    async getCampaigns(req: Request, res: Response) {
+        try {
+            const { accountId, accessToken } = req.query;
+            if (!accountId || !accessToken) {
+                return res.status(400).json({ message: 'Missing accountId or accessToken' });
+            }
+            const data = await this.facebookService.getAdAccountCampaigns(
+                accountId as string,
+                accessToken as string
+            );
+            res.json(data);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async classify(req: Request, res: Response) {
         try {
             await this.facebookService.classifyLeads();
