@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { RefreshCw, TrendingUp, DollarSign, Target, BarChart3, Plus, Trash2, Tag, Calendar, Filter } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -14,13 +14,13 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/components/Select"
 
 export default function MarketingOverviewPage() {
     const [roiData, setRoiData] = useState<any[]>([]);
     const [loadingRoi, setLoadingRoi] = useState(true);
     const [syncing, setSyncing] = useState(false);
-    const { showToast } = useToast();
+    const { addToast } = useToast();
 
     // Fetch ROI Data
     const fetchROI = async () => {
@@ -30,7 +30,7 @@ export default function MarketingOverviewPage() {
             setRoiData(data);
         } catch (error) {
             console.error('Fetch ROI Error:', error);
-            showToast('Lỗi khi tải dữ liệu hiệu quả', 'error');
+            addToast('Lỗi khi tải dữ liệu hiệu quả', 'error');
         } finally {
             setLoadingRoi(false);
         }
@@ -44,10 +44,10 @@ export default function MarketingOverviewPage() {
         setSyncing(true);
         try {
             await api.marketingAds.syncInsights();
-            showToast('Đã bắt đầu đồng bộ dữ liệu', 'success');
+            addToast('Đã bắt đầu đồng bộ dữ liệu', 'success');
             setTimeout(fetchROI, 2000); // Wait a bit for sync to process
         } catch (error) {
-            showToast('Lỗi khi đồng bộ dữ liệu', 'error');
+            addToast('Lỗi khi đồng bộ dữ liệu', 'error');
         } finally {
             setSyncing(false);
         }
@@ -56,9 +56,9 @@ export default function MarketingOverviewPage() {
     const handleClassify = async () => {
         try {
             await api.marketingAds.classify();
-            showToast('Đã phân loại leads và cập nhật tags thành công', 'success');
+            addToast('Đã phân loại leads và cập nhật tags thành công', 'success');
         } catch (error: any) {
-            showToast('Phân loại thất bại: ' + (error.message || 'Lỗi API'), 'error');
+            addToast('Phân loại thất bại: ' + (error.message || 'Lỗi API'), 'error');
         }
     };
 

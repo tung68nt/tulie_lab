@@ -1,22 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { RefreshCw, Filter, CheckSquare, Square, Search } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/Input';
+import { Badge } from '@/components/Badge';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
-import { Checkbox } from '@/components/ui/checkbox';
+} from "@/components/Select"
+import { Checkbox } from '@/components/Checkbox';
 
 interface Campaign {
     id: string;
@@ -42,7 +42,7 @@ export default function MarketingCampaignsPage() {
     const [loadingConfigs, setLoadingConfigs] = useState(true);
     const [loadingCampaigns, setLoadingCampaigns] = useState(false);
     const [saving, setSaving] = useState(false);
-    const { showToast } = useToast();
+    const { addToast } = useToast();
 
     // Fetch Configurations
     const fetchConfigs = async () => {
@@ -56,7 +56,7 @@ export default function MarketingCampaignsPage() {
             }
         } catch (error) {
             console.error('Fetch Configs Error:', error);
-            showToast('Lỗi khi tải cấu hình', 'error');
+            addToast('Lỗi khi tải cấu hình', 'error');
         } finally {
             setLoadingConfigs(false);
         }
@@ -86,7 +86,7 @@ export default function MarketingCampaignsPage() {
             setCampaigns(data);
         } catch (error) {
             console.error('Fetch Campaigns Error:', error);
-            showToast('Lỗi khi tải danh sách chiến dịch', 'error');
+            addToast('Lỗi khi tải danh sách chiến dịch', 'error');
             setCampaigns([]);
         } finally {
             setLoadingCampaigns(false);
@@ -115,10 +115,10 @@ export default function MarketingCampaignsPage() {
             await api.settings.update({
                 MARKETING_CONFIGS: JSON.stringify(configs)
             });
-            showToast('Đã lưu cấu hình chiến dịch thành công', 'success');
+            addToast('Đã lưu cấu hình chiến dịch thành công', 'success');
         } catch (error) {
             console.error('Update Configs Error:', error);
-            showToast('Lỗi khi lưu cấu hình', 'error');
+            addToast('Lỗi khi lưu cấu hình', 'error');
         } finally {
             setSaving(false);
         }

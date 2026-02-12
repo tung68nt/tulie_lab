@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { RefreshCw, Plus, Trash2, Save, Check, X, ChevronDown, ChevronRight, Settings } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/Input';
+import { Label } from '@/components/Label';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/Collapsible';
+import { Badge } from '@/components/Badge';
+import { Switch } from '@/components/Switch';
 
 interface MarketingAccountConfig {
     id: string;
@@ -28,7 +28,7 @@ export default function MarketingSettingsPage() {
     const [loadingConfigs, setLoadingConfigs] = useState(true);
     const [savingConfigs, setSavingConfigs] = useState(false);
     const [expandedIds, setExpandedIds] = useState<string[]>([]);
-    const { showToast } = useToast();
+    const { addToast } = useToast();
 
     // Fetch Configurations
     const fetchConfigs = async () => {
@@ -57,7 +57,7 @@ export default function MarketingSettingsPage() {
             }
         } catch (error) {
             console.error('Fetch Configs Error:', error);
-            showToast('Lỗi khi tải cấu hình', 'error');
+            addToast('Lỗi khi tải cấu hình', 'error');
         } finally {
             setLoadingConfigs(false);
         }
@@ -73,10 +73,10 @@ export default function MarketingSettingsPage() {
             await api.settings.update({
                 MARKETING_CONFIGS: JSON.stringify(configs)
             });
-            showToast('Đã lưu cấu hình thành công', 'success');
+            addToast('Đã lưu cấu hình thành công', 'success');
         } catch (error) {
             console.error('Update Configs Error:', error);
-            showToast('Lỗi khi lưu cấu hình', 'error');
+            addToast('Lỗi khi lưu cấu hình', 'error');
         } finally {
             setSavingConfigs(false);
         }
@@ -101,7 +101,7 @@ export default function MarketingSettingsPage() {
             if (configs.length > 1) {
                 setConfigs(configs.filter(c => c.id !== id));
             } else {
-                showToast('Phải có ít nhất một cấu hình', 'error');
+                addToast('Phải có ít nhất một cấu hình', 'error');
             }
         }
     };

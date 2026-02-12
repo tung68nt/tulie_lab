@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { DotPatternBackground } from '@/components/DotPatternBackground';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { FadeIn } from '@/components/animations/FadeIn';

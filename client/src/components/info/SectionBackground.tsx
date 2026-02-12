@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { DotPatternBackground } from '@/components/DotPatternBackground';
 
 interface SectionBackgroundProps {
     backgroundImage?: string;

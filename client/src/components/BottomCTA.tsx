@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { DotPatternBackground } from '@/components/DotPatternBackground';
 import { Button } from '@/components/Button';
 
 interface BottomCTAProps {

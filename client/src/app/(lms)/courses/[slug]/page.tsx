@@ -11,7 +11,7 @@ import { Clock, ChevronDown, ChevronUp, Lock, Check, PlayCircle, CheckCircle2 } 
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
 import { CourseChapter } from '@/features/lms/components/CourseChapter';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { DotPatternBackground } from '@/components/DotPatternBackground';
 import { SectionTag } from '@/components/SectionTag';
 import { QuickEdit } from '@/components/admin/QuickEdit';
 import { MarkdownRenderer } from '@/components/MarkdownRenderer';

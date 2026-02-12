@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
 import { Loader2 } from 'lucide-react';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { DotPatternBackground } from '@/components/DotPatternBackground';
 import { useTheme } from 'next-themes';
 
 export default function ContactPage() {

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
 import { SectionTag } from '@/components/SectionTag';
 import { Button } from '@/components/Button';
-import { DotPatternBackground } from '@/components/ui/DotPatternBackground';
+import { DotPatternBackground } from '@/components/DotPatternBackground';
 import { Clock, BookOpen, CheckCircle2, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
