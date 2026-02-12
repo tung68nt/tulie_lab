@@ -18,7 +18,10 @@ async function getSettings() {
   try {
     const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
     const baseUrl = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl;
-    const res = await fetch(`${baseUrl}/api/settings/public`, { next: { revalidate: 60 } }); // Cache for 1 min
+    const res = await fetch(`${baseUrl}/api/settings/public`, {
+      next: { revalidate: 60 },
+      signal: AbortSignal.timeout(5000), // Fail fast during Docker build
+    });
     if (!res.ok) return undefined;
     return res.json();
   } catch (e) {

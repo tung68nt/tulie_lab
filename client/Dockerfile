@@ -27,7 +27,9 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Build argument for API URL - must be set at build time for Next.js
-ARG NEXT_PUBLIC_API_URL=http://localhost:5001
+# Use 127.0.0.1:1 during build so fetch fails fast (connection refused)
+# Runtime URL is set via docker-compose environment
+ARG NEXT_PUBLIC_API_URL=http://127.0.0.1:1
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 RUN npm run build
