@@ -11,14 +11,15 @@ const SelectRoot = SelectPrimitive.Root
 interface SimpleSelectProps extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root> {
   onChange?: (value: string) => void;
   options?: { value: string; label: string }[];
+  className?: string;
 }
 
 const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
-  ({ onChange, onValueChange, options, children, ...props }, ref) => {
+  ({ onChange, onValueChange, options, children, className, ...props }, ref) => {
     if (options) {
       return (
         <SelectRoot onValueChange={onValueChange || onChange} {...props}>
-          <SelectTrigger ref={ref}>
+          <SelectTrigger ref={ref} className={className}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

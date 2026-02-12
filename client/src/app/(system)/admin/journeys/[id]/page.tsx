@@ -348,7 +348,7 @@ export default function JourneyEditorPage() {
                                                             <label className="flex items-center gap-2 text-sm font-medium cursor-pointer">
                                                                 <Checkbox
                                                                     checked={step.isRequired}
-                                                                    onCheckedChange={(checked) => updateStep(index, { isRequired: checked })}
+                                                                    onCheckedChange={(checked) => updateStep(index, { isRequired: !!checked })}
                                                                 />
                                                                 <span>Bắt buộc</span>
                                                             </label>
@@ -403,7 +403,7 @@ export default function JourneyEditorPage() {
                                     </label>
                                     <Checkbox
                                         checked={form.isAddOn}
-                                        onCheckedChange={(checked) => setForm(prev => ({ ...prev, isAddOn: checked }))}
+                                        onCheckedChange={(checked) => setForm(prev => ({ ...prev, isAddOn: !!checked }))}
                                     />
                                 </div>
                                 <div className="flex items-center justify-between py-2 border-t">
@@ -412,7 +412,7 @@ export default function JourneyEditorPage() {
                                     </label>
                                     <Checkbox
                                         checked={form.isPublished}
-                                        onCheckedChange={(checked) => setForm(prev => ({ ...prev, isPublished: checked }))}
+                                        onCheckedChange={(checked) => setForm(prev => ({ ...prev, isPublished: !!checked }))}
                                     />
                                 </div>
                             </div>
