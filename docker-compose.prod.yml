@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: tulie_postgres
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-tulie}
@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - tulie-network
+      - app-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tulie} -d ${POSTGRES_DB:-academy_tulie}" ]
       interval: 10s
@@ -19,13 +19,13 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: tulie_redis
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_redis
     restart: always
     command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
     volumes:
       - redis_data:/data
     networks:
-      - tulie-network
+      - app-network
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -36,8 +36,10 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: tulie_server
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_server
     restart: always
+    ports:
+      - "${SERVER_PORT:-5001}:8080"
     environment:
       - NODE_ENV=production
       - PORT=8080
@@ -71,7 +73,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - tulie-network
+      - app-network
 
   client:
     build:
@@ -79,51 +81,24 @@ services:
       dockerfile: Dockerfile
       args:
         - NEXT_PUBLIC_API_URL=http://server:8080
-    container_name: tulie_client
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_client
     restart: always
+    ports:
+      - "${CLIENT_PORT:-3001}:3000"
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=http://server:8080
     depends_on:
       - server
     networks:
-      - tulie-network
-
-  nginx:
-    image: nginx:alpine
-    container_name: tulie_nginx
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
-      - certbot_data:/etc/letsencrypt:ro
-      - certbot_www:/var/www/certbot:ro
-    depends_on:
-      - client
-      - server
-    networks:
-      - tulie-network
-
-  # Certbot for SSL renewal (runs periodically)
-  certbot:
-    image: certbot/certbot
-    container_name: tulie_certbot
-    volumes:
-      - certbot_data:/etc/letsencrypt
-      - certbot_www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+      - app-network
 
 volumes:
   postgres_data:
   redis_data:
   uploads_data:
-  certbot_data:
-  certbot_www:
 
 
 networks:
-  tulie-network:
+  app-network:
     driver: bridge
