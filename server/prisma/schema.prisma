@@ -167,12 +167,31 @@ model MarketingLead {
   term      String?
   content   String?
   fbc       String?
+  fbp       String?
   gclid     String?
   clickId   String?
+  tags      String[] @default([])
   createdAt DateTime @default(now())
   userId    String?
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   user      User?    @relation(fields: [userId], references: [id])
+}
+
+model AdInsights {
+  id            String   @id @default(uuid())
+  campaignId    String
+  campaignName  String
+  adsetId       String?
+  adsetName     String?
+  date          DateTime
+  spend         Float
+  impressions   Int?
+  clicks        Int?
+  actions       Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([campaignId, date])
 }
 
 model Category {

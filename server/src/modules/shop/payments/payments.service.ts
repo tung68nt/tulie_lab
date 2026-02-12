@@ -204,7 +204,21 @@ export class PaymentService {
             },
             metadata: metadata || undefined,
             promoCodeId: promoCodeId || null,
-            invoiceProfile: invoiceProfileId ? { connect: { id: invoiceProfileId } } : undefined
+            invoiceProfile: invoiceProfileId ? { connect: { id: invoiceProfileId } } : undefined,
+            marketingLead: marketing ? {
+                create: {
+                    source: marketing.source,
+                    medium: marketing.medium,
+                    campaign: marketing.campaign,
+                    term: marketing.term,
+                    content: marketing.content,
+                    fbc: marketing.fbc,
+                    fbp: marketing.fbp,
+                    gclid: marketing.gclid,
+                    clickId: marketing.clickId,
+                    userId: finalUserId
+                }
+            } : undefined
         });
 
         // 4. Publish Event (Instead of direct logic)

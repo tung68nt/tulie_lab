@@ -4,6 +4,7 @@ import { IActivationCodeRepository } from '../../activation-codes/interfaces/act
 import { ICourseRepository } from '../../../lms/courses/interfaces/course.repository.interface';
 import { IUserRepository } from '../../../system/users/interfaces/user.repository.interface';
 import { ProductType } from '@prisma/client';
+import { FacebookService } from '../../../system/facebook/facebook.service';
 
 export class OrderPaidListener {
     constructor(
@@ -11,7 +12,8 @@ export class OrderPaidListener {
         private orderRepository: IOrderRepository,
         private activationCodeRepository: IActivationCodeRepository,
         private courseRepository: ICourseRepository,
-        private userRepository: IUserRepository
+        private userRepository: IUserRepository,
+        private facebookService: FacebookService
     ) {
         this.subscribe();
     }
@@ -119,6 +121,17 @@ export class OrderPaidListener {
                     console.log(`[OrderPaidListener] Created subscription for user ${user.email} and deactivated old ones.`);
                 }
             }
+        }
+
+        // 3. Send Facebook CAPI Event
+        try {
+            await this.facebookService.sendConversionEvent(order, 'Purchase', {
+                userAgent: payload.userAgent, // Should be passed in payload if available
+                ip: payload.ip,
+                sourceUrl: payload.sourceUrl
+            });
+        } catch (err) {
+            console.error('[OrderPaidListener] Failed to send CAPI event:', err);
         }
     }
 }

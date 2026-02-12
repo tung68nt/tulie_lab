@@ -30,6 +30,8 @@ import { loggerService } from './services/logger.service';
 import { EventRepository } from './modules/lms/events/events.repository';
 import { EventService } from './modules/lms/events/events.service';
 import { TelegramEventSubscriber } from './modules/system/notifications/telegram-subscriber';
+import { PrismaMarketingLeadRepository } from './modules/system/facebook/repositories/prisma-marketing-lead.repository';
+import { FacebookService } from './modules/system/facebook/facebook.service';
 
 /**
  * Initializes all dependencies and registers them in the DI container.
@@ -85,6 +87,9 @@ export const bootstrapDI = async () => {
     const eventRepository = new EventRepository();
     container.register('EventRepository', eventRepository);
 
+    const marketingLeadRepository = new PrismaMarketingLeadRepository();
+    container.register('IMarketingLeadRepository', marketingLeadRepository);
+
     // Services
     const productService = new ProductService(productRepository);
     container.register('ProductService', productService);
@@ -132,6 +137,9 @@ export const bootstrapDI = async () => {
     const eventService = new EventService(eventRepository);
     container.register('EventService', eventService);
 
+    const facebookService = new FacebookService(marketingLeadRepository, settingService);
+    container.register('FacebookService', facebookService);
+
     // Listeners
     const { OrderPaidListener } = require('./modules/shop/payments/listeners/order-paid.listener');
     new OrderPaidListener(
@@ -139,7 +147,8 @@ export const bootstrapDI = async () => {
         orderRepository,
         activationCodeRepository,
         courseRepository,
-        userRepository
+        userRepository,
+        facebookService
     );
 
     // Telegram Notifications
