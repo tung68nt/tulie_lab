@@ -66,12 +66,31 @@ jobs:
             set -e
             echo "🚀 Starting deployment..."
 
+            # Ensure deployment directory exists and is a git repo
+            if [ ! -d "/srv/thelab.tulie.vn" ]; then
+              echo "📁 Creating directory /srv/thelab.tulie.vn..."
+              sudo mkdir -p /srv/thelab.tulie.vn
+              sudo chown ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /srv/thelab.tulie.vn
+            fi
+
             cd /srv/thelab.tulie.vn
+
+            if [ ! -d ".git" ]; then
+              echo "📦 Initializing git repository..."
+              git init
+              git remote add origin https://github.com/tung68nt/tulie_lab.git || git remote set-url origin https://github.com/tung68nt/tulie_lab.git
+            fi
 
             # Pull latest code
             echo "📥 Pulling latest code..."
             git fetch origin main
             git reset --hard origin/main
+
+            # Check if .env.production exists
+            if [ ! -f ".env.production" ]; then
+              echo "⚠️ .env.production is MISSING! Deployment might fail."
+              # You might want to copy an example or alert the user
+            fi
 
             # Build and deploy with Docker Compose
             echo "🏗️ Building and deploying..."
@@ -80,6 +99,7 @@ jobs:
 
             # Run database migrations
             echo "🗄️ Running database migrations..."
+            # Try to run migration, but don't fail the whole script if it warns
             docker compose -f docker-compose.prod.yml --env-file .env.production exec -T server npx prisma migrate deploy || echo "⚠️ Migration warning"
 
             # Clean up old images
@@ -90,13 +110,19 @@ jobs:
             echo "🩺 Checking health..."
             for i in {1..12}; do
               echo "Attempt $i..."
-              if curl -sf http://localhost:5001/api/health | grep -q '"status":"ok"'; then
-                echo "✅ Health Check Passed!"
+              # Check API health through Nginx
+              API_HEALTH=$(curl -sf http://localhost/api/health | grep -q '"status":"ok"' && echo "API_OK" || echo "API_FAIL")
+              # Check Frontend health through Nginx
+              WEB_HEALTH=$(curl -sf http://localhost | grep -q '<body' && echo "WEB_OK" || echo "WEB_FAIL")
+              
+              if [ "$API_HEALTH" = "API_OK" ] && [ "$WEB_HEALTH" = "WEB_OK" ]; then
+                echo "✅ Health Check Passed (API & Web)!"
                 exit 0
               fi
+              echo "Status: API=$API_HEALTH, Web=$WEB_HEALTH"
               sleep 10
             done
 
             echo "❌ Health Check failed after 2 minutes."
-            docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail 50
+            docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail 100
             exit 1
