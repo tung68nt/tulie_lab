@@ -131,7 +131,8 @@ export class FacebookService {
             for (const item of insights) {
                 await prisma.adInsights.upsert({
                     where: {
-                        campaignId_date: {
+                        platform_campaignId_date: {
+                            platform: 'facebook',
                             campaignId: item.campaign_id,
                             date: new Date(item.date_start)
                         }
@@ -146,6 +147,7 @@ export class FacebookService {
                         actions: item.actions || {}
                     },
                     create: {
+                        platform: 'facebook',
                         campaignId: item.campaign_id,
                         campaignName: item.campaign_name,
                         adsetId: item.adset_id,
@@ -210,10 +212,14 @@ export class FacebookService {
         return allCampaigns.map(name => {
             const revenue = revenueByCampaign[name] || 0;
             const spend = spendByCampaign[name] || 0;
+            // Find platform from spendData if available
+            const platform = spendData.find((s: any) => s.campaignName === name)?.platform || 'facebook';
+
             return {
                 campaign: name,
                 revenue,
                 spend,
+                platform,
                 roi: spend > 0 ? ((revenue - spend) / spend) * 100 : 0,
                 roas: spend > 0 ? revenue / spend : 0
             };

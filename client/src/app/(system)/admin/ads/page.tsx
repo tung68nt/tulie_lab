@@ -26,7 +26,7 @@ export default function FacebookROIPage() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const data = await api.facebook.getROI();
+            const data = await api.ads.getROI();
             setRoiData(data);
         } catch (error: any) {
             console.error('Failed to fetch ROI data:', error);
@@ -43,7 +43,7 @@ export default function FacebookROIPage() {
     const handleSync = async () => {
         setSyncing(true);
         try {
-            await api.facebook.syncInsights('yesterday');
+            await api.ads.syncInsights('yesterday');
             addToast('Đã bắt đầu đồng bộ dữ liệu quảng cáo từ Facebook', 'success');
             fetchData();
         } catch (error: any) {
@@ -55,7 +55,7 @@ export default function FacebookROIPage() {
 
     const handleClassify = async () => {
         try {
-            await api.facebook.classify();
+            await api.ads.classify();
             addToast('Đã phân loại leads và cập nhật tags thành công', 'success');
         } catch (error: any) {
             addToast('Phân loại thất bại: ' + (error.message || 'Lỗi API'), 'error');
@@ -147,6 +147,7 @@ export default function FacebookROIPage() {
                         <table className="w-full caption-bottom text-sm text-left">
                             <thead className="[&_tr]:border-b">
                                 <tr className="border-b transition-colors hover:bg-muted/50">
+                                    <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Nền tảng</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground">Chiến dịch (UTM Campaign)</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Chi phí</th>
                                     <th className="h-12 px-4 align-middle font-medium text-muted-foreground text-right">Doanh thu</th>
@@ -157,6 +158,11 @@ export default function FacebookROIPage() {
                             <tbody className="[&_tr:last-child]:border-0 text-foreground font-medium">
                                 {roiData.length > 0 ? roiData.map((item, idx) => (
                                     <tr key={idx} className="border-b transition-colors hover:bg-muted/50">
+                                        <td className="p-4 align-middle">
+                                            <span className="px-2 py-0.5 rounded bg-blue-50 text-blue-700 text-[10px] font-bold uppercase tracking-wider border border-blue-100">
+                                                {item.platform || 'Facebook'}
+                                            </span>
+                                        </td>
                                         <td className="p-4 align-middle">
                                             <div className="flex flex-col">
                                                 <span className="font-bold">{item.campaign}</span>

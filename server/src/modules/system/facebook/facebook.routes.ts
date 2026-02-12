@@ -11,37 +11,37 @@ const facebookController = new FacebookController(facebookService);
 
 /**
  * @swagger
- * /api/facebook/roi:
+ * /api/ads/roi:
  *   get:
  *     summary: Get Marketing ROI data
- *     tags: [Facebook]
+ *     tags: [Ads]
  */
 router.get('/roi', (req, res) => facebookController.getROI(req, res));
 
 /**
  * @swagger
- * /api/facebook/sync:
+ * /api/ads/sync:
  *   post:
- *     summary: Manually sync Facebook Ad Insights
- *     tags: [Facebook]
+ *     summary: Manually sync Ad Insights
+ *     tags: [Ads]
  */
 router.post('/sync', (req, res) => facebookController.syncInsights(req, res));
 
 /**
  * @swagger
- * /api/facebook/sync-audience:
+ * /api/ads/sync-audience:
  *   post:
  *     summary: Sync users to Custom Audience
- *     tags: [Facebook]
+ *     tags: [Ads]
  */
 router.post('/sync-audience', (req, res) => facebookController.syncAudience(req, res));
 
 /**
  * @swagger
- * /api/facebook/classify:
+ * /api/ads/classify:
  *   post:
  *     summary: Classify leads and update tags
- *     tags: [Facebook]
+ *     tags: [Ads]
  */
 router.post('/classify', (req, res) => facebookController.classify(req, res));
 
