@@ -11,6 +11,10 @@ import { DynamicFavicon } from '@/components/DynamicFavicon';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/system/analytics/UtmTracker';
 
+// Force dynamic rendering — prevents Next.js from fetching during Docker build
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'default-no-store';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
