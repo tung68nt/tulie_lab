@@ -9,11 +9,10 @@ on:
       - 'client/**'
       - 'prisma/**'
       - 'docker-compose.prod.yml'
-      - 'nginx/**'
       - '.github/workflows/deploy.yml'
 
 env:
-  DEPLOY_DIR: /opt/academy-tulie
+  DEPLOY_DIR: /srv/thelab.tulie.vn
 
 jobs:
   test:
@@ -67,7 +66,7 @@ jobs:
             set -e
             echo "🚀 Starting deployment..."
 
-            cd ${{ env.DEPLOY_DIR }}
+            cd /srv/thelab.tulie.vn
 
             # Pull latest code
             echo "📥 Pulling latest code..."
@@ -76,12 +75,12 @@ jobs:
 
             # Build and deploy with Docker Compose
             echo "🏗️ Building and deploying..."
-            docker compose -f docker-compose.prod.yml build --no-cache
-            docker compose -f docker-compose.prod.yml up -d
+            docker compose -f docker-compose.prod.yml --env-file .env.production build --no-cache
+            docker compose -f docker-compose.prod.yml --env-file .env.production up -d
 
             # Run database migrations
             echo "🗄️ Running database migrations..."
-            docker compose -f docker-compose.prod.yml exec -T server npx prisma migrate deploy || echo "⚠️ Migration warning"
+            docker compose -f docker-compose.prod.yml --env-file .env.production exec -T server npx prisma migrate deploy || echo "⚠️ Migration warning"
 
             # Clean up old images
             echo "🧹 Cleaning up..."
@@ -91,7 +90,7 @@ jobs:
             echo "🩺 Checking health..."
             for i in {1..12}; do
               echo "Attempt $i..."
-              if curl -sf http://localhost/api/health | grep -q '"status":"ok"'; then
+              if curl -sf http://localhost:5001/api/health | grep -q '"status":"ok"'; then
                 echo "✅ Health Check Passed!"
                 exit 0
               fi
@@ -99,5 +98,5 @@ jobs:
             done
 
             echo "❌ Health Check failed after 2 minutes."
-            docker compose -f docker-compose.prod.yml logs --tail 50
+            docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail 50
             exit 1
