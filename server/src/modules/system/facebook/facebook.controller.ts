@@ -6,10 +6,16 @@ export class FacebookController {
 
     async getROI(req: Request, res: Response) {
         try {
-            const { startDate, endDate } = req.query;
+            let { startDate, endDate } = req.query;
 
+            // Default to last 30 days if dates are missing
             if (!startDate || !endDate) {
-                return res.status(400).json({ message: 'Missing startDate or endDate' });
+                const now = new Date();
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(now.getDate() - 30);
+
+                startDate = thirtyDaysAgo.toISOString();
+                endDate = now.toISOString();
             }
 
             const data = await this.facebookService.getMarketingROI(
