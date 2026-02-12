@@ -26,7 +26,7 @@ export default function FacebookROIPage() {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const data = await api.ads.getROI();
+            const data = await api.marketingAds.getROI();
             setRoiData(data);
         } catch (error: any) {
             console.error('Failed to fetch ROI data:', error);
@@ -43,7 +43,7 @@ export default function FacebookROIPage() {
     const handleSync = async () => {
         setSyncing(true);
         try {
-            await api.ads.syncInsights('yesterday');
+            await api.marketingAds.syncInsights('yesterday');
             addToast('Đã bắt đầu đồng bộ dữ liệu quảng cáo từ Facebook', 'success');
             fetchData();
         } catch (error: any) {
@@ -55,7 +55,7 @@ export default function FacebookROIPage() {
 
     const handleClassify = async () => {
         try {
-            await api.ads.classify();
+            await api.marketingAds.classify();
             addToast('Đã phân loại leads và cập nhật tags thành công', 'success');
         } catch (error: any) {
             addToast('Phân loại thất bại: ' + (error.message || 'Lỗi API'), 'error');
