@@ -42,3 +42,13 @@ export const activationCodesApi = {
     delete: (id: string) => request<void>(`/activation-codes/admin/${id}`, { method: 'DELETE' }),
     redeem: (code: string) => request<void>('/activation-codes/redeem', { method: 'POST', body: JSON.stringify({ code }) }),
 };
+
+export const facebookApi = {
+    getROI: (startDate?: string, endDate?: string) => {
+        const query = startDate && endDate ? `?startDate=${startDate}&endDate=${endDate}` : '';
+        return request<any[]>(`/facebook/roi${query}`);
+    },
+    syncInsights: (datePreset?: string) => request<any>('/facebook/sync', { method: 'POST', body: JSON.stringify({ datePreset }) }),
+    syncAudience: (audienceId: string, userEmails: string[]) => request<any>('/facebook/sync-audience', { method: 'POST', body: JSON.stringify({ audienceId, userEmails }) }),
+    classify: () => request<any>('/facebook/classify', { method: 'POST' }),
+};

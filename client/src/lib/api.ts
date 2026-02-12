@@ -23,7 +23,7 @@ import { cmsApi, blogApi } from '@/features/system/api/content.api';
 import { settingsApi, securityApi, activityApi, systemApi as sysApi } from '@/features/system/api/settings.api';
 import { notificationsApi, contactApi, newsletterApi } from '@/features/system/api/communication.api';
 import { mediaApi, uploadApi } from '@/features/system/api/media.api';
-import { landingPagesApi, eventsApi, shortLinksApi, activationCodesApi } from '@/features/system/api/marketing.api';
+import { landingPagesApi, eventsApi, shortLinksApi, activationCodesApi, facebookApi } from '@/features/system/api/marketing.api';
 import { request } from './api-client';
 
 // Helper for 'post' generic
@@ -87,4 +87,5 @@ export const api: any = {
     mentoring: mentoringApi,
     whiteboards: whiteboardApi,
     shortLinks: shortLinksApi,
+    facebook: facebookApi,
 };

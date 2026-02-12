@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/Button';
 import { AdminGuard } from '@/components/AdminGuard';
-import { ChevronDown, ChevronRight, LayoutDashboard, ScrollText, ShoppingBag, Settings, BookOpen, Palette } from 'lucide-react';
+import { ChevronDown, ChevronRight, LayoutDashboard, ScrollText, ShoppingBag, Settings, BookOpen, Palette, Megaphone } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -61,6 +61,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/orders', label: 'Đơn hàng' },
                 { href: '/admin/payments', label: 'Lịch sử giao dịch' },
                 { href: '/admin/webhooks', label: 'Cổng thanh toán' },
+            ]
+        },
+        {
+            title: 'Marketing (Tiếp thị)',
+            icon: Megaphone,
+            items: [
+                { href: '/admin/facebook', label: 'Facebook Ads ROI' },
             ]
         },
         {
