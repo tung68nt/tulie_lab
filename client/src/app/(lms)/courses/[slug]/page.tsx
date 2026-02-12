@@ -194,13 +194,15 @@ export default function CoursePage({ params }: { params: any }) {
                                     : course.deploymentStatus === 'UPDATING' ? 'Đang nâng cấp'
                                         : 'Chính thức'}
                             </SectionTag>
-                            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-                                {course.title}
-                            </h1>
-                            <MarkdownRenderer
-                                content={course.description || ''}
-                                className="prose-invert text-zinc-300 prose-p:text-zinc-300 prose-li:text-zinc-300 prose-strong:text-zinc-50 prose-headings:text-zinc-50"
-                            />
+                            <div className="md:max-w-[90%]">
+                                <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                                    {course.title}
+                                </h1>
+                                <MarkdownRenderer
+                                    content={course.description || ''}
+                                    className="prose-invert text-zinc-300 prose-p:text-zinc-300 prose-li:text-zinc-300 prose-strong:text-zinc-50 prose-headings:text-zinc-50 text-[14px] md:text-base leading-relaxed"
+                                />
+                            </div>
                             <div className="space-y-4 pt-4">
                                 <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-zinc-400">
                                     <div className="flex items-center gap-2">
@@ -342,11 +344,35 @@ export default function CoursePage({ params }: { params: any }) {
             </div>
 
             {/* Content Section */}
-            <div className="container py-6 mt-8 md:mt-12 relative">
+            <div className="container py-6 mt-6 md:mt-12 relative">
                 <div className="grid gap-8 md:gap-12 md:grid-cols-3">
-                    <div className="md:col-span-2">
-                        <section className="mb-12">
-                            <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Nội dung khóa học</h2>
+                    <div className="md:col-span-2 space-y-12">
+                        {/* mobile outcomes */}
+                        <section className="md:hidden">
+                            <h2 className="mb-6 text-xl font-bold text-zinc-900 dark:text-white">Bạn sẽ học được gì</h2>
+                            <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 p-5 shadow-sm">
+                                {(() => {
+                                    const outcomes = Array.isArray(course.learningOutcomes) ? course.learningOutcomes : (course.learningOutcomes || '').split('\n').filter((l: string) => l.trim());
+                                    return outcomes.length > 0 ? (
+                                        <ul className="grid gap-3 sm:grid-cols-2">
+                                            {outcomes.map((line: string, i: number) => (
+                                                <li key={i} className="flex gap-3 items-start text-sm text-zinc-900 dark:text-zinc-100">
+                                                    <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
+                                                        <Check className="w-3 h-3 text-emerald-500" strokeWidth={3} />
+                                                    </div>
+                                                    <span>{line.replace(/^- /, '')}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className="text-sm text-zinc-500 italic">Nội dung đang cập nhật...</p>
+                                    );
+                                })()}
+                            </div>
+                        </section>
+
+                        <section>
+                            <h2 className="mb-6 text-xl md:text-2xl font-bold text-zinc-900 dark:text-white">Nội dung khóa học</h2>
                             <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 overflow-hidden divide-y divide-zinc-100 dark:divide-white/5 shadow-sm">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <>

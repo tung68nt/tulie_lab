@@ -99,7 +99,7 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                                             onClick={() => toggleLesson(lesson.id)}
                                         >
                                             {/* Lesson Thumbnail */}
-                                            <div className="shrink-0 w-24 h-16 bg-zinc-100 dark:bg-white/5 rounded-md overflow-hidden relative border border-zinc-200 dark:border-white/10">
+                                            <div className="shrink-0 w-20 h-14 sm:w-24 sm:h-16 bg-zinc-100 dark:bg-white/5 rounded-md overflow-hidden relative border border-zinc-200 dark:border-white/10 mt-1 sm:mt-0">
                                                 {(() => {
                                                     const thumb = lesson.thumbnail || getVideoThumbnail(lesson.videoUrl);
                                                     const hasVideo = !!lesson.videoUrl;
@@ -110,8 +110,8 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                                                                 <img src={thumb} alt={lesson.title} className="w-full h-full object-cover" />
                                                                 {hasVideo && (
                                                                     <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                                                        <div className="w-6 h-6 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-sm">
-                                                                            <svg className="w-3 h-3 text-white fill-current translate-x-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                                                        <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-sm">
+                                                                            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white fill-current translate-x-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                                                                         </div>
                                                                     </div>
                                                                 )}
@@ -122,20 +122,20 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                                                     if (hasVideo) {
                                                         return (
                                                             <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-white/5 text-zinc-400">
-                                                                <svg className="w-8 h-8 fill-current text-zinc-300 dark:text-white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                                                                <svg className="w-6 h-6 sm:w-8 sm:h-8 fill-current text-zinc-300 dark:text-white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                                                             </div>
                                                         );
                                                     }
 
                                                     return (
                                                         <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-white/5 text-zinc-300">
-                                                            <FileText className="w-8 h-8 text-zinc-300 dark:text-white opacity-40" strokeWidth={1.5} />
+                                                            <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-zinc-300 dark:text-white opacity-40" strokeWidth={1.5} />
                                                         </div>
                                                     );
                                                 })()}
 
                                                 {lesson.duration && (
-                                                    <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] font-medium px-1 rounded-[2px] border border-white/10">
+                                                    <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[8px] sm:text-[9px] font-medium px-1 rounded-[2px] border border-white/10">
                                                         {lesson.duration}
                                                     </div>
                                                 )}
@@ -143,9 +143,9 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
 
                                             {/* Lesson Info */}
                                             <div className="flex-1 min-w-0">
-                                                <div className="flex items-start justify-between gap-2">
-                                                    <div>
-                                                        <h5 className={`text-[14px] font-bold line-clamp-1 transition-colors ${isExpanded ? 'text-primary' : 'text-zinc-900 dark:text-zinc-100'}`}>
+                                                <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
+                                                    <div className="min-w-0 flex-1">
+                                                        <h5 className={`text-[14px] font-bold transition-colors ${isExpanded ? 'text-primary' : 'text-zinc-900 dark:text-zinc-100'}`}>
                                                             {lesson.title}
                                                             <ChevronDown className={`inline-block ml-1 w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
                                                         </h5>
@@ -153,7 +153,7 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                                                             {lesson.description || 'Không có mô tả cho bài học này'}
                                                         </p>
                                                     </div>
-                                                    <div className="flex flex-col items-end gap-2 shrink-0">
+                                                    <div className="flex flex-row sm:flex-col items-center sm:items-end gap-2 shrink-0 w-full sm:w-auto">
                                                         {lesson.isFree && (
                                                             <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
                                                                 <div className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold border border-emerald-500/20 whitespace-nowrap shadow-[0_0_8px_rgba(16,185,129,0.1)] hover:bg-emerald-500/20 transition-colors">
@@ -164,9 +164,9 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                                                         {isLocked ? (
                                                             <span className="text-zinc-400 dark:text-zinc-600"><Lock className="w-3.5 h-3.5" /></span>
                                                         ) : (
-                                                            <Link href={`/learn/${courseSlug}/${lesson.slug}`}>
-                                                                <Button size="sm" className="h-[38px] text-[13px] font-bold shadow-sm px-5 flex items-center gap-2 rounded-xl">
-                                                                    <Play size={15} />
+                                                            <Link href={`/learn/${courseSlug}/${lesson.slug}`} className="w-full sm:w-auto">
+                                                                <Button size="sm" className="h-[34px] sm:h-[38px] text-[12px] sm:text-[13px] font-bold shadow-sm px-4 sm:px-5 flex items-center justify-center gap-2 rounded-xl w-full sm:auto">
+                                                                    <Play size={14} />
                                                                     Vào học
                                                                 </Button>
                                                             </Link>
