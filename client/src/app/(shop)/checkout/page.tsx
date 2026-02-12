@@ -486,7 +486,7 @@ function CheckoutContent() {
                                         </div>
                                         <Switch
                                             checked={requestInvoice}
-                                            onChange={setRequestInvoice}
+                                            onCheckedChange={setRequestInvoice}
                                             className={requestInvoice ? "" : "!bg-zinc-200 dark:!bg-zinc-700"}
                                         />
                                     </div>
