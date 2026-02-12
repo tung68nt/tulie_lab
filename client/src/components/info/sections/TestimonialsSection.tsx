@@ -124,7 +124,7 @@ export const TestimonialsSection = ({ section }: { section: Section }) => {
                                     <div className="flex-1 min-h-[140px]">
                                         {testimonial.content ? (
                                             <p className="text-base text-foreground/80 dark:text-zinc-300 font-medium">
-                                                "{testimonial.content}"
+                                                &ldquo;{testimonial.content}&rdquo;
                                             </p>
                                         ) : null}
                                     </div>
