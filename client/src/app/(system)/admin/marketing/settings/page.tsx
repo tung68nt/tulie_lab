@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/Button';
 import { RefreshCw, Plus, Trash2, Save, Check, X, ChevronDown, ChevronRight, Settings } from 'lucide-react';
-import { AdminPageHeader } from '@/components/admin/AdminPageHeader';
+import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
 import { Input } from '@/components/ui/input';
