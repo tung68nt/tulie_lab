@@ -399,13 +399,13 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Bạn sẽ học được gì (Mỗi ý 1 dòng)</label>
-                                <textarea
-                                    className="flex min-h-[150px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
-                                    value={courseForm.learningOutcomes || ''}
-                                    onChange={e => setCourseForm({ ...courseForm, learningOutcomes: e.target.value })}
-                                    placeholder="- Hiểu rõ về...\n- Thực hành..."
+                                <label className="text-sm font-medium">Bạn sẽ học được gì (Rich Text)</label>
+                                <BlockNoteEditor
+                                    initialContent={courseForm.learningOutcomes}
+                                    onChange={content => setCourseForm({ ...courseForm, learningOutcomes: content })}
+                                    minHeight="250px"
                                 />
+                                <p className="text-xs text-muted-foreground mt-1">Dùng Markdown hoặc thanh format để tạo danh sách thu hút hơn.</p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">

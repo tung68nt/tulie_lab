@@ -12,6 +12,13 @@ import { Select } from '@/components/Select';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { PriceInput } from '@/components/PriceInput';
 import { MultiSelect } from '@/components/MultiSelect';
+import dynamic from 'next/dynamic';
+
+const BlockNoteEditor = dynamic(() => import('@/components/Editor/BlockNoteEditor'), {
+    ssr: false,
+    loading: () => <div className="h-[250px] w-full bg-muted animate-pulse rounded-md" />
+});
+
 export default function CreateCoursePage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -146,13 +153,13 @@ export default function CreateCoursePage() {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Bạn sẽ học được gì (Mỗi ý 1 dòng)</label>
-                                <textarea
-                                    className="flex min-h-[150px] w-full rounded-md border border-input bg-transparent px-4 py-3 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring resize-y"
-                                    value={formData.learningOutcomes}
-                                    onChange={e => setFormData({ ...formData, learningOutcomes: e.target.value })}
-                                    placeholder="- Hiểu rõ về...\n- Thực hành..."
+                                <label className="text-sm font-medium">Bạn sẽ học được gì (Rich Text)</label>
+                                <BlockNoteEditor
+                                    initialContent={formData.learningOutcomes}
+                                    onChange={content => setFormData({ ...formData, learningOutcomes: content })}
+                                    minHeight="250px"
                                 />
+                                <p className="text-xs text-muted-foreground mt-1">Dùng Markdown hoặc thanh format để tạo danh sách thu hút hơn.</p>
                             </div>
 
                             <div className="space-y-2">
