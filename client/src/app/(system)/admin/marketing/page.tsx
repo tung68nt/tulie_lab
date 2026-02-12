@@ -62,8 +62,8 @@ export default function MarketingOverviewPage() {
         }
     };
 
-    const totalSpend = roiData.reduce((acc, curr) => acc + (curr.spend || 0), 0);
-    const totalRevenue = roiData.reduce((acc, curr) => acc + (curr.revenue || 0), 0);
+    const totalSpend = roiData.reduce((acc: number, curr: any) => acc + (curr.spend || 0), 0);
+    const totalRevenue = roiData.reduce((acc: number, curr: any) => acc + (curr.revenue || 0), 0);
     const avgROAS = totalSpend > 0 ? totalRevenue / totalSpend : 0;
     const avgROI = totalSpend > 0 ? ((totalRevenue - totalSpend) / totalSpend) * 100 : 0;
 
