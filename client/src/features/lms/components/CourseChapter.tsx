@@ -65,7 +65,7 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                 className="bg-zinc-50 dark:bg-zinc-900/50 px-8 py-5 flex items-center justify-between cursor-pointer hover:bg-zinc-100 dark:hover:bg-white/5 transition-colors"
                 onClick={() => setIsChapterOpen(!isChapterOpen)}
             >
-                <h3 className="font-bold text-[16px] text-zinc-900 dark:text-zinc-100 flex items-center gap-2 h-full m-0 leading-none">
+                <h3 className="font-bold text-[16px] text-zinc-900 dark:text-zinc-100 flex items-center gap-2 h-full m-0 leading-snug">
                     <span className="text-zinc-400 dark:text-zinc-500 transition-transform duration-200 shrink-0" style={{ transform: isChapterOpen ? 'rotate(0deg)' : 'rotate(-90deg)' }}>
                         <ChevronDown className="w-4 h-4" />
                     </span>
@@ -149,7 +149,7 @@ export const CourseChapter: React.FC<CourseChapterProps> = ({
                                                             {lesson.title}
                                                             <ChevronDown className={`inline-block ml-1 w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
                                                         </h5>
-                                                        <p className="text-[12px] text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">
+                                                        <p className="text-[12px] text-zinc-500 dark:text-zinc-400 mt-0.5 whitespace-pre-line">
                                                             {lesson.description || 'Không có mô tả cho bài học này'}
                                                         </p>
                                                     </div>
