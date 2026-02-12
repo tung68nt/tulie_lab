@@ -33,9 +33,7 @@ services:
       retries: 5
 
   server:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: ghcr.io/tung68nt/tulie_server:latest
     container_name: ${COMPOSE_PROJECT_NAME:-tulie}_server
     restart: always
     ports:
@@ -76,11 +74,7 @@ services:
       - app-network
 
   client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=http://server:8080
+    image: ghcr.io/tung68nt/tulie_client:latest
     container_name: ${COMPOSE_PROJECT_NAME:-tulie}_client
     restart: always
     expose:
@@ -89,14 +83,14 @@ services:
       - "${CLIENT_PORT:-3001}:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=http://server:8080
+      - NEXT_PUBLIC_API_URL=https://thelab.tulie.vn/api
     depends_on:
       - server
     networks:
       - app-network
 
   nginx:
-    image: nginx:stable-alpine
+    image: ghcr.io/tung68nt/tulie_nginx:latest
     container_name: ${COMPOSE_PROJECT_NAME:-tulie}_nginx
     restart: always
     ports:
