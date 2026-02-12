@@ -153,9 +153,9 @@ export default function MarketingSettingsPage() {
                                     <div className="flex items-center gap-3">
                                         <span className="font-semibold text-sm">{config.name}</span>
                                         {config.active ? (
-                                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-[10px]">Đang hoạt động</Badge>
+                                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs font-normal">Đang hoạt động</Badge>
                                         ) : (
-                                            <Badge variant="outline" className="bg-slate-100 text-slate-500 border-slate-200 text-[10px]">Đã tắt</Badge>
+                                            <Badge variant="outline" className="bg-slate-100 text-slate-500 border-slate-200 text-xs font-normal">Đã tắt</Badge>
                                         )}
                                     </div>
                                 </div>
@@ -180,7 +180,7 @@ export default function MarketingSettingsPage() {
                             <div className="p-6 space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <Label className="text-xs font-semibold">Tên gợi nhớ</Label>
+                                        <Label className="text-sm font-medium">Tên gợi nhớ</Label>
                                         <Input
                                             value={config.name}
                                             onChange={(e) => updateConfig(config.id, 'name', e.target.value)}
@@ -189,7 +189,7 @@ export default function MarketingSettingsPage() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label className="text-xs font-semibold">Ad Account ID</Label>
+                                        <Label className="text-sm font-medium">Ad Account ID</Label>
                                         <Input
                                             value={config.FB_AD_ACCOUNT_ID}
                                             onChange={(e) => updateConfig(config.id, 'FB_AD_ACCOUNT_ID', e.target.value)}
@@ -200,18 +200,18 @@ export default function MarketingSettingsPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-xs font-semibold">FB CAPI Access Token</Label>
+                                    <Label className="text-sm font-medium">FB CAPI Access Token</Label>
                                     <textarea
                                         rows={3}
                                         value={config.FB_CAPI_ACCESS_TOKEN}
                                         onChange={(e) => updateConfig(config.id, 'FB_CAPI_ACCESS_TOKEN', e.target.value)}
-                                        className="w-full p-3 bg-white border border-slate-200 rounded-md focus:outline-none focus:border-black transition-all font-mono text-xs break-all"
+                                        className="w-full p-3 bg-white border border-slate-200 rounded-md focus:outline-none focus:border-black transition-all font-mono text-sm break-all"
                                         placeholder="EAA..."
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label className="text-xs font-semibold">Facebook Pixel ID</Label>
+                                    <Label className="text-sm font-medium">Facebook Pixel ID</Label>
                                     <Input
                                         value={config.FB_PIXEL_ID}
                                         onChange={(e) => updateConfig(config.id, 'FB_PIXEL_ID', e.target.value)}

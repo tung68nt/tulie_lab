@@ -88,19 +88,19 @@ export default function MarketingOverviewPage() {
                 {/* Metrics Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <MetricCard
-                        title="TỔNG CHI PHÍ ADS"
+                        title="Tổng chi phí Ads"
                         value={formatCurrency(totalSpend)}
-                        trend="CHI PHÍ THỰC TẾ TỪ MARKETING API"
+                        trend="Chi phí thực tế từ Marketing API"
                         icon={<DollarSign className="w-4 h-4 text-muted-foreground" />}
                     />
                     <MetricCard
-                        title="DOANH THU QUY ĐỔI"
+                        title="Doanh thu quy đổi"
                         value={formatCurrency(totalRevenue)}
-                        trend="DOANH THU KHỚP THEO UTM CAMPAIGN"
+                        trend="Doanh thu khớp theo UTM Campaign"
                         icon={<TrendingUp className="w-4 h-4 text-muted-foreground" />}
                     />
                     <MetricCard
-                        title="ROAS TRUNG BÌNH"
+                        title="ROAS trung bình"
                         value={`${avgROAS.toFixed(2)}x`}
                         icon={<Target className="w-4 h-4 text-muted-foreground" />}
                     />
@@ -126,22 +126,22 @@ export default function MarketingOverviewPage() {
                                 <table className="w-full text-sm text-left">
                                     <thead>
                                         <tr className="border-b border-slate-100">
-                                            <th className="h-12 px-4 font-semibold text-[10px] text-muted-foreground">Nền tảng</th>
-                                            <th className="h-12 px-4 font-semibold text-[10px] text-muted-foreground">Chiến dịch</th>
-                                            <th className="h-12 px-4 font-semibold text-[10px] text-muted-foreground text-right border-x border-slate-50">Chi phí</th>
-                                            <th className="h-12 px-4 font-semibold text-[10px] text-muted-foreground text-right border-r border-slate-50">Doanh thu</th>
-                                            <th className="h-12 px-4 font-semibold text-[10px] text-muted-foreground text-center">ROAS</th>
-                                            <th className="h-12 px-4 font-semibold text-[10px] text-muted-foreground text-right">ROI</th>
+                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground">Nền tảng</th>
+                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground">Chiến dịch</th>
+                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-right border-x border-slate-50">Chi phí</th>
+                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-right border-r border-slate-50">Doanh thu</th>
+                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-center">ROAS</th>
+                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-right">ROI</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {roiData.length > 0 ? (
                                             roiData.map((item, idx) => (
                                                 <tr key={idx} className="border-b border-slate-50 transition-colors hover:bg-slate-50/50">
-                                                    <td className="p-4"><span className="px-2 py-0.5 rounded bg-slate-100 text-[9px] font-bold border border-slate-200">{item.platform}</span></td>
-                                                    <td className="p-4 font-semibold">{item.campaign}</td>
-                                                    <td className="p-4 text-right font-medium text-slate-500 border-x border-slate-50/50">{formatCurrency(item.spend)}</td>
-                                                    <td className="p-4 text-right font-bold text-slate-900 border-r border-slate-50/50">{formatCurrency(item.revenue)}</td>
+                                                    <td className="p-4"><span className="px-2 py-0.5 rounded bg-slate-100 text-[10px] font-semibold border border-slate-200 text-slate-600">{item.platform}</span></td>
+                                                    <td className="p-4 font-medium text-sm">{item.campaign}</td>
+                                                    <td className="p-4 text-right font-medium text-slate-600 border-x border-slate-50">{formatCurrency(item.spend)}</td>
+                                                    <td className="p-4 text-right font-semibold text-slate-900 border-r border-slate-50">{formatCurrency(item.revenue)}</td>
                                                     <td className="p-4 text-center"><span className="px-2 py-1 rounded text-[11px] font-bold bg-slate-100">{item.roas.toFixed(2)}x</span></td>
                                                     <td className={`p-4 text-right font-bold ${item.roi > 0 ? 'text-green-600' : 'text-slate-400'}`}>{item.roi.toFixed(1)}%</td>
                                                 </tr>
@@ -164,14 +164,14 @@ function MetricCard({ title, value, icon, trend, highlight }: any) {
     return (
         <Card className="hover:shadow-lg transition-all duration-200 border-slate-200 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-[11px] font-semibold text-muted-foreground group-hover:text-foreground transition-colors">{title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{title}</CardTitle>
                 <div className="p-2 rounded-full bg-slate-50 border border-slate-100 group-hover:bg-white group-hover:border-slate-200 transition-all">
                     {icon}
                 </div>
             </CardHeader>
             <CardContent>
                 <div className={`text-2xl font-bold ${highlight || 'text-foreground'}`}>{value}</div>
-                {trend && <p className="text-[9px] text-muted-foreground mt-1 font-semibold leading-relaxed">{trend}</p>}
+                {trend && <p className="text-xs text-muted-foreground mt-1 font-medium">{trend}</p>}
             </CardContent>
         </Card>
     );

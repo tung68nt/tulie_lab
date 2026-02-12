@@ -151,12 +151,12 @@ export default function MarketingCampaignsPage() {
                                 key={config.id}
                                 onClick={() => setSelectedConfigId(config.id)}
                                 className={`w-full text-left px-3 py-2 rounded-md text-xs font-medium transition-colors ${selectedConfigId === config.id
-                                        ? 'bg-black text-white shadow-sm'
-                                        : 'text-muted-foreground hover:bg-slate-100'
+                                    ? 'bg-black text-white shadow-sm'
+                                    : 'text-muted-foreground hover:bg-slate-100'
                                     }`}
                             >
                                 <div className="truncate">{config.name}</div>
-                                <div className={`text-[10px] mt-0.5 opacity-80 truncate font-mono`}>ID: {config.FB_AD_ACCOUNT_ID}</div>
+                                <div className={`text-xs mt-0.5 opacity-80 truncate font-mono`}>ID: {config.FB_AD_ACCOUNT_ID}</div>
                             </button>
                         ))}
                     </CardContent>
@@ -205,16 +205,16 @@ export default function MarketingCampaignsPage() {
                                                 />
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex items-center gap-2 mb-1">
-                                                        <span className="text-sm font-semibold truncate">{campaign.name}</span>
-                                                        <Badge variant="outline" className={`text-[10px] h-5 ${campaign.status === 'ACTIVE'
-                                                                ? 'bg-green-50 text-green-700 border-green-200'
-                                                                : 'bg-slate-100 text-slate-500'
+                                                        <span className="text-sm font-medium truncate">{campaign.name}</span>
+                                                        <Badge variant="outline" className={`text-xs font-normal h-5 ${campaign.status === 'ACTIVE'
+                                                            ? 'bg-green-50 text-green-700 border-green-200'
+                                                            : 'bg-slate-100 text-slate-500'
                                                             }`}>
                                                             {campaign.status}
                                                         </Badge>
                                                     </div>
-                                                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                                                        <span className="font-mono bg-slate-100 px-1.5 py-0.5 rounded">ID: {campaign.id}</span>
+                                                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                                        <span className="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-xs">ID: {campaign.id}</span>
                                                         <span>Objective: {campaign.objective}</span>
                                                     </div>
                                                 </div>
