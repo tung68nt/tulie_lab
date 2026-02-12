@@ -1536,7 +1536,7 @@ function LessonItem({
                                 {lesson.attachments.map((att: any) => (
                                     <li key={att.id} className="flex items-center justify-between text-sm bg-background p-2 rounded border">
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded uppercase">{att.type}</span>
+                                            <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded">{att.type}</span>
                                             <a href={att.url} target="_blank" rel="noreferrer" className="hover:underline">{att.name}</a>
                                         </div>
                                     </li>

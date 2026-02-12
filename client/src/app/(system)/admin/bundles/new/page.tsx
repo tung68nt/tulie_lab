@@ -262,7 +262,7 @@ export default function NewBundlePage() {
                     <CardContent className="space-y-6">
                         {/* Selected Courses with Ordering */}
                         <div className="space-y-3">
-                            <h3 className="text-sm font-semibold text-muted-foreground tracking-wider">Thứ tự bài học/khóa học</h3>
+                            <h3 className="text-sm font-semibold text-muted-foreground">Thứ tự bài học/khóa học</h3>
                             {selectedCourses.length === 0 ? (
                                 <div className="border-2 border-dashed rounded-xl p-8 text-center bg-muted/20">
                                     <p className="text-muted-foreground">Chưa có khóa học nào trong lộ trình. Hãy chọn từ danh sách bên dưới.</p>

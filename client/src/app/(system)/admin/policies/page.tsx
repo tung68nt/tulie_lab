@@ -116,7 +116,7 @@ export default function AdminPoliciesPage() {
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center">
                                         <label className="text-sm font-medium text-zinc-700">Nội dung (Markdown)</label>
-                                        <span className="text-[10px] text-zinc-400 font-mono tracking-wider">Hỗ trợ Markdown</span>
+                                        <span className="text-[10px] text-zinc-400 font-mono">Hỗ trợ Markdown</span>
                                     </div>
                                     <textarea
                                         value={contents[currentPolicy.key] || ''}

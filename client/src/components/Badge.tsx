@@ -49,7 +49,7 @@ function Badge({ className, variant, showDot = true, dotColor, animate = true, b
             {...props}
         >
             {showDot && <StatusDot color={finalDotColor as any} className={size === 'lg' ? "w-2 h-2" : "w-1 h-1"} animate={animate} />}
-            <span className="first-letter:uppercase leading-none">{children}</span>
+            <span className="first-letter:leading-none">{children}</span>
         </div>
     )
 }

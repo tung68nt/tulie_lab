@@ -488,7 +488,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {/* Lesson Description Box */}
                     <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans tracking-wider uppercase">Mô tả chương trình</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans">Mô tả chương trình</h3>
                         <div className="text-[13px] text-muted-foreground leading-relaxed">
                             {currentLesson.description ? (
                                 <p>{currentLesson.description}</p>
@@ -500,7 +500,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {/* What You'll Learn Box */}
                     <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans tracking-wider uppercase">Bạn sẽ học được gì</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans">Bạn sẽ học được gì</h3>
                         <div className="text-[13px] text-muted-foreground leading-relaxed">
                             {(() => {
                                 let outcomes: string[] = [];
@@ -549,7 +549,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
 
                     {/* Lesson Materials Box */}
                     <div className="bg-muted/5 rounded-xl border border-border/50 p-5 mb-6">
-                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans tracking-wider uppercase">Tài liệu bài học</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-3 font-sans">Tài liệu bài học</h3>
                         {currentLesson.attachments && currentLesson.attachments.length > 0 ? (
                             <div className="space-y-2">
                                 {currentLesson.attachments.map((att: any) => (
@@ -597,7 +597,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                             <div className="lg:hidden mb-6">
                                                 <details className="group rounded-2xl border border-border/50 bg-muted/20 overflow-hidden">
                                                     <summary className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/30 transition-colors list-none">
-                                                        <div className="flex items-center gap-2 text-sm font-bold tracking-widest text-primary/80">
+                                                        <div className="flex items-center gap-2 text-sm font-bold text-primary/80">
                                                             <FileText className="w-4 h-4" />
                                                             Mục lục
                                                         </div>
@@ -621,7 +621,7 @@ export function LearnClient({ course, lessonSlug, courseSlug }: LearnClientProps
                                 !loadingSecure && (
                                     <div className="text-center py-4 px-6">
                                         <p className="text-muted-foreground text-sm font-medium">Nội dung bài học đang được cập nhật hoặc không thể tải.</p>
-                                        <p className="text-[10px] text-muted-foreground/40 mt-2 font-mono uppercase tracking-tighter">
+                                        <p className="text-[10px] text-muted-foreground/40 mt-2 font-mono tracking-tighter">
                                             Status: No Content | Auth: {typeof window !== 'undefined' ? (localStorage.getItem('token') ? 'Active' : 'Missing') : 'SSR'} | User: {user?.role || 'Guest'}
                                         </p>
                                         <Button variant="ghost" size="sm" className="mt-2 text-xs" onClick={() => window.location.reload()}>

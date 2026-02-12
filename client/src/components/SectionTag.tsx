@@ -59,7 +59,7 @@ export const SectionTag: React.FC<SectionTagProps> = ({
         )}>
             {showDot && <StatusDot color={resolvedDotColor as any} animate={shouldAnimate} />}
             <span className={cn(
-                "relative top-[0.5px] first-letter:uppercase leading-snug py-1",
+                "relative top-[0.5px] first-letter:leading-snug py-1",
             )}>
                 {children}
             </span>

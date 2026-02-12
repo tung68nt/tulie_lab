@@ -255,7 +255,7 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
 
                         return (
                             <div className={cn("my-6 border-l-4 p-4 rounded-r-lg", borderClass)}>
-                                <div className="flex items-center gap-2 mb-2 font-bold text-sm uppercase tracking-wider">
+                                <div className="flex items-center gap-2 mb-2 font-bold text-sm">
                                     {icon}
                                     <span>{title}</span>
                                 </div>

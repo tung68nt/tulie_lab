@@ -50,7 +50,7 @@ export function CountdownTimer({ targetDate, title = "Ưu đãi kết thúc sau:
 
     return (
         <div className="flex flex-col items-center p-4 bg-primary/10 rounded-xl border border-primary/20 animate-pulse-slow">
-            {title && <p className="text-sm font-semibold text-primary mb-2 tracking-wider">{title}</p>}
+            {title && <p className="text-sm font-semibold text-primary mb-2">{title}</p>}
             <div className="flex items-center gap-3 text-foreground">
                 <div className="flex flex-col items-center">
                     <span className="text-2xl md:text-3xl font-bold bg-background px-2 py-1 rounded shadow-sm min-w-[2ch]">{String(timeLeft.days).padStart(2, '0')}</span>

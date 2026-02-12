@@ -442,7 +442,7 @@ export default function MediaManagerPage() {
                                     <div className="w-20 h-20 rounded-[2rem] bg-white flex items-center justify-center text-zinc-300">
                                         {getFileIcon(selectedFile)}
                                     </div>
-                                    <span className="text-zinc-400 text-xs font-medium tracking-wider">No Preview Available</span>
+                                    <span className="text-zinc-400 text-xs font-medium">No Preview Available</span>
                                 </div>
                             )}
                         </div>
@@ -455,10 +455,10 @@ export default function MediaManagerPage() {
                                         {selectedFile.name || selectedFile.key.split('/').pop()}
                                     </h2>
                                     <div className="flex gap-2">
-                                        <Badge variant="outline" className="text-[9px] font-medium border-zinc-100 text-zinc-400 bg-zinc-50 tracking-wider">
+                                        <Badge variant="outline" className="text-[9px] font-medium border-zinc-100 text-zinc-400 bg-zinc-50">
                                             {selectedFile.mimeType?.split('/').pop() || 'FILE'}
                                         </Badge>
-                                        <Badge variant="outline" className="text-[9px] font-medium border-zinc-100 text-zinc-400 bg-zinc-50 tracking-wider">
+                                        <Badge variant="outline" className="text-[9px] font-medium border-zinc-100 text-zinc-400 bg-zinc-50">
                                             {formatSize(selectedFile.size)}
                                         </Badge>
                                     </div>

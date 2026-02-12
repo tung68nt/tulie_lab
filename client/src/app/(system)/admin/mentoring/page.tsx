@@ -130,7 +130,7 @@ export default function MentoringSchedulePage() {
                 {/* Header Row */}
                 {days.map((day, i) => (
                     <div key={i} className="bg-neutral-50 p-4 text-center">
-                        <div className="text-xs font-semibold uppercase text-neutral-500 mb-1">
+                        <div className="text-xs font-semibold text-neutral-500 mb-1">
                             {format(day, 'EEEE', { locale: vi })}
                         </div>
                         <div className={`text-lg font-bold ${isSameDay(day, new Date()) ? 'text-primary' : 'text-neutral-900'}`}>

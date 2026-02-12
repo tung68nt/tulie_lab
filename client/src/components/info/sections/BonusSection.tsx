@@ -142,7 +142,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                             {/* Solid Red Strike-through */}
                                             <div className="absolute top-[55%] left-[-5%] right-[-5%] h-[4px] bg-[#FF0000] opacity-100 rounded-full shadow-[0_0_10px_rgba(255,0,0,0.5)]" />
                                         </div>
-                                        <span className="bg-[#FF0000] text-white text-[10px] md:text-xs px-4 py-2 rounded-full font-bold shadow-lg shadow-red-500/30 tracking-wider flex items-center gap-1">
+                                        <span className="bg-[#FF0000] text-white text-[10px] md:text-xs px-4 py-2 rounded-full font-bold shadow-lg shadow-red-500/30 flex items-center gap-1">
                                             TIẾT KIỆM {totalValue.toLocaleString('vi-VN')}<sup className="text-[10px]">đ</sup>
                                         </span>
                                     </div>

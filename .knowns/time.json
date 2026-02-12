@@ -20,6 +20,13 @@
       "startedAt": "2026-02-10T17:34:04.919Z",
       "pausedAt": null,
       "totalPausedMs": 0
+    },
+    {
+      "taskId": "lhpsmx",
+      "taskTitle": "Rà soát toàn bộ UI/UX - Tuân thủ Vercel Design Guideline",
+      "startedAt": "2026-02-12T12:00:04.991Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
     }
   ]
 }

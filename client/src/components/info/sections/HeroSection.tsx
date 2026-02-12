@@ -130,7 +130,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             </Link>
                         </div>
 
-                        {/* Trust indicators - removed uppercase */}
+                        {/* Trust indicators - removed */}
                         <div className={cn(
                             "flex flex-wrap items-center sm:items-start gap-2 md:gap-3 pt-6 text-sm font-medium w-full sm:justify-start justify-center",
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
@@ -172,7 +172,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
 
-                                        {/* Status Badge - No uppercase */}
+                                        {/* Status Badge - No */}
                                         <div className="absolute top-6 left-6 z-10">
                                             <SectionTag
                                                 variant="black-pill"

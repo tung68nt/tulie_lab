@@ -166,7 +166,7 @@ export default function BlogPostPage() {
 
                             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground mb-8">
                                 {post.category && (
-                                    <div className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold tracking-wider rounded-lg">
+                                    <div className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-lg">
                                         {post.category.name}
                                     </div>
                                 )}
@@ -353,7 +353,7 @@ export default function BlogPostPage() {
                                             <div className="space-y-2">
                                                 <h3 className="font-bold group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
                                                 <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
-                                                <div className="pt-2 flex items-center gap-2 text-xs font-medium text-primary tracking-wider">
+                                                <div className="pt-2 flex items-center gap-2 text-xs font-medium text-primary">
                                                     Đọc thêm <ChevronRight size={12} />
                                                 </div>
                                             </div>

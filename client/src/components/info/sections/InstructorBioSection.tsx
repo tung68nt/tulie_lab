@@ -82,7 +82,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
 
                 {/* Section Header */}
                 <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-                    <div className="inline-flex items-center px-3 py-1 mb-6 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-[10px] uppercase font-bold tracking-widest">
+                    <div className="inline-flex items-center px-3 py-1 mb-6 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-[10px] font-bold">
                         Instructor
                     </div>
                     <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
@@ -125,7 +125,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
                                 <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2 tracking-tight">
                                     {String(instructor.name || 'Instructor Name')}
                                 </h3>
-                                <p className="text-primary font-semibold text-sm uppercase tracking-widest">
+                                <p className="text-primary font-semibold text-sm">
                                     {String(instructor.title || 'Expert Instructor')}
                                 </p>
                             </div>
@@ -146,7 +146,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
 
                         {/* Info Box */}
                         <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 border border-zinc-100 dark:border-zinc-800 shadow-sm">
-                            <div className="flex items-center gap-2 mb-6 text-xs font-bold uppercase tracking-widest text-zinc-400">
+                            <div className="flex items-center gap-2 mb-6 text-xs font-bold text-zinc-400">
                                 <Info size={14} />
                                 <span>Thông tin</span>
                             </div>
@@ -249,7 +249,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
 
                                                     {/* Badge Overlay */}
                                                     <div className="absolute top-4 left-4">
-                                                        <span className="bg-white/90 dark:bg-black/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
+                                                        <span className="bg-white/90 dark:bg-black/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-primary shadow-sm">
                                                             Phổ biến
                                                         </span>
                                                     </div>

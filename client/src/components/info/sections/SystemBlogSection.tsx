@@ -218,7 +218,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                                                     )}
                                                     {post.category && (
                                                         <div className="absolute top-4 left-4">
-                                                            <span className="px-4 py-1.5 bg-background/90 backdrop-blur-xl text-[10px] font-bold tracking-wider rounded-lg shadow-sm border border-white/10">
+                                                            <span className="px-4 py-1.5 bg-background/90 backdrop-blur-xl text-[10px] font-bold rounded-lg shadow-sm border border-white/10">
                                                                 {post.category.name}
                                                             </span>
                                                         </div>

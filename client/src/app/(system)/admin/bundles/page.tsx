@@ -106,7 +106,7 @@ export default function AdminBundlesPage() {
 
                                     {/* Courses list preview */}
                                     <div className="mt-4 pt-4 border-t">
-                                        <p className="text-xs font-semibold text-muted-foreground mb-3 flex items-center gap-1.5 tracking-wider">
+                                        <p className="text-xs font-semibold text-muted-foreground mb-3 flex items-center gap-1.5">
                                             <BookOpen className="w-3.5 h-3.5" />
                                             Gồm {bundle.courses?.length || 0} khóa học trong lộ trình:
                                         </p>

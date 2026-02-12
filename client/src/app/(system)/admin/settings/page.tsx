@@ -335,7 +335,7 @@ export default function AdminSettingsPage() {
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Tên miền (Host)</label>
+                                                    <label className="text-[10px] font-bold text-muted-foreground">Tên miền (Host)</label>
                                                     <Input
                                                         value={db.domain}
                                                         onChange={(e) => {
@@ -358,7 +358,7 @@ export default function AdminSettingsPage() {
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Tên hiển thị</label>
+                                                    <label className="text-[10px] font-bold text-muted-foreground">Tên hiển thị</label>
                                                     <Input
                                                         value={db.site_name}
                                                         onChange={(e) => {
@@ -373,7 +373,7 @@ export default function AdminSettingsPage() {
                                             </div>
 
                                             <div className="space-y-2">
-                                                <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Logo URL</label>
+                                                <label className="text-[10px] font-bold text-muted-foreground">Logo URL</label>
                                                 <div className="flex gap-2">
                                                     <Input
                                                         value={db.logo_url}
@@ -575,7 +575,7 @@ export default function AdminSettingsPage() {
                             </div>
 
                             <div className="space-y-4 pt-2">
-                                <h4 className="text-xs font-bold tracking-wider text-muted-foreground">Các loại thông báo</h4>
+                                <h4 className="text-xs font-bold text-muted-foreground">Các loại thông báo</h4>
                                 <div className="grid gap-4 sm:grid-cols-2">
                                     <div className="p-4 border rounded-xl space-y-4 flex flex-col">
                                         <div className="flex items-center justify-between gap-4">
@@ -650,7 +650,7 @@ export default function AdminSettingsPage() {
                                         {settings.telegram_notify_reports === 'true' && (
                                             <div className="grid grid-cols-2 gap-4 pt-2 border-t border-dashed">
                                                 <div className="space-y-1">
-                                                    <label className="text-[10px] font-bold uppercase text-muted-foreground">Tần suất (Giờ)</label>
+                                                    <label className="text-[10px] font-bold text-muted-foreground">Tần suất (Giờ)</label>
                                                     <Input
                                                         type="number"
                                                         value={settings.telegram_report_frequency || '12'}
@@ -659,7 +659,7 @@ export default function AdminSettingsPage() {
                                                     />
                                                 </div>
                                                 <div className="space-y-1">
-                                                    <label className="text-[10px] font-bold uppercase text-muted-foreground">Giờ gửi (HH:mm)</label>
+                                                    <label className="text-[10px] font-bold text-muted-foreground">Giờ gửi (HH:mm)</label>
                                                     <Input
                                                         type="text"
                                                         value={settings.telegram_report_time || ''}

@@ -292,7 +292,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
             if (!hintViewer || hintViewer.querySelector('kbd')) return;
 
             const text = hintViewer.textContent || '';
-            // Regex to match keys: Modifiers, named keys, or single uppercase letters (A-Z) and numbers (0-9)
+            // Regex to match keys: Modifiers, named keys, or single letters (A-Z) and numbers (0-9)
             // Avoid matching common words unless they are specifically capitalised key names like 'Space'
             const keyRegex = /\b(Scroll wheel|Space|Option|Cmd|Ctrl|Alt|Shift|Enter|Delete|Backspace|Esc|Tab|Return|PgUp|PgDn|End|Home|Ins|Del|Arrow [A-Za-z]+|[A-Z0-9])\b/g;
 

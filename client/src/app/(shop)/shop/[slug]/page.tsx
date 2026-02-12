@@ -262,7 +262,7 @@ export default function ProductDetailPage() {
                                 <div className="space-y-8">
                                     {/* Row 1: Single Purchase - Retail Block */}
                                     <div className="group relative p-6 rounded-3xl border border-zinc-200 bg-white flex flex-col transition-all duration-300 hover:border-zinc-900 hover:shadow-lg w-full">
-                                        <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-bold tracking-wider whitespace-nowrap shadow-sm">
+                                        <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-bold whitespace-nowrap shadow-sm">
                                             Mua lẻ (Single)
                                         </div>
                                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-4">
@@ -318,7 +318,7 @@ export default function ProductDetailPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {/* Membership - Gói Cơ Bản */}
                                         <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-300 hover:bg-white hover:shadow-md">
-                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-white text-zinc-400 text-[9px] font-bold tracking-wider border border-zinc-100 whitespace-nowrap shadow-sm">
+                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-white text-zinc-400 text-[9px] font-bold border border-zinc-100 whitespace-nowrap shadow-sm">
                                                 Phổ biến
                                             </div>
                                             <div className="mb-6 mt-4">
@@ -352,7 +352,7 @@ export default function ProductDetailPage() {
 
                                         {/* Membership - Gói Premium */}
                                         <div className="group relative p-6 rounded-3xl border border-zinc-100 bg-zinc-50 flex flex-col h-full transition-all duration-300 hover:border-zinc-900 hover:bg-white hover:shadow-md">
-                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-950 text-white text-[9px] font-bold tracking-wider shadow-lg whitespace-nowrap">
+                                            <div className="absolute -top-4 left-6 px-3 py-1 rounded-full bg-zinc-950 text-white text-[9px] font-bold shadow-lg whitespace-nowrap">
                                                 Best Value
                                             </div>
                                             <div className="mb-6 mt-4">

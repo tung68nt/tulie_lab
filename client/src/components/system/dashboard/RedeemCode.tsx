@@ -58,7 +58,7 @@ export function RedeemCode() {
                 </div>
                 <div className="flex gap-2 w-full md:w-auto">
                     <input
-                        className="flex-1 md:w-64 h-11 rounded-xl border border-input bg-background px-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none uppercase font-semibold tracking-wider"
+                        className="flex-1 md:w-64 h-11 rounded-xl border border-input bg-background px-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none font-semibold"
                         placeholder="VD: ACT-XXXX-XXXX"
                         value={code}
                         onChange={(e) => setCode(e.target.value)}

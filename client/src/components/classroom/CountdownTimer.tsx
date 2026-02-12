@@ -58,7 +58,7 @@ export function CountdownTimer({ targetDate, onComplete, className }: CountdownT
             <div className="bg-background text-foreground border-2 border-primary/20 rounded-xl w-16 h-16 md:w-20 md:h-20 flex items-center justify-center text-2xl md:text-3xl font-bold shadow-sm">
                 {value < 10 ? `0${value}` : value}
             </div>
-            <span className="text-xs uppercase tracking-wide text-muted-foreground mt-2 font-medium">
+            <span className="text-xs tracking-wide text-muted-foreground mt-2 font-medium">
                 {label}
             </span>
         </div>

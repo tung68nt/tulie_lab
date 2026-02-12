@@ -242,7 +242,7 @@ export default function AdminProductClassificationsPage() {
                             <CardContent className="pt-6">
                                 <form onSubmit={handleSave} className="space-y-5">
                                     <div>
-                                        <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Tên hiển thị</label>
+                                        <label className="text-xs font-semibold text-neutral-500 mb-2 block">Tên hiển thị</label>
                                         <Input
                                             value={currentClassification.name || ''}
                                             onChange={e => setCurrentClassification({ ...currentClassification, name: e.target.value })}
@@ -255,7 +255,7 @@ export default function AdminProductClassificationsPage() {
 
                                     {/* Icon Picker */}
                                     <div>
-                                        <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Biểu tượng</label>
+                                        <label className="text-xs font-semibold text-neutral-500 mb-2 block">Biểu tượng</label>
                                         <div className="grid grid-cols-6 gap-2 p-3 border border-neutral-200 rounded-lg max-h-40 overflow-y-auto">
                                             {AVAILABLE_ICONS.map((iconItem) => {
                                                 const IconComp = iconItem.icon;

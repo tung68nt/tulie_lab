@@ -100,7 +100,7 @@ export default function ActivatePage() {
                                     </label>
                                     <Input
                                         placeholder="ABCD 1234"
-                                        className="text-2xl font-mono uppercase text-center tracking-[0.2em] h-16 rounded-2xl border-zinc-300 focus:border-zinc-900 focus:ring-4 focus:ring-zinc-100 transition-all bg-white shadow-inner"
+                                        className="text-2xl font-mono text-center tracking-[0.2em] h-16 rounded-2xl border-zinc-300 focus:border-zinc-900 focus:ring-4 focus:ring-zinc-100 transition-all bg-white shadow-inner"
                                         value={code}
                                         onChange={(e) => setCode(e.target.value)}
                                         autoFocus
@@ -119,7 +119,7 @@ export default function ActivatePage() {
 
                             <div className="mt-12 pt-8 border-t border-zinc-100">
                                 <div className="space-y-6">
-                                    <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400">
+                                    <h3 className="text-[11px] font-bold tracking-[0.2em] text-zinc-400">
                                         Hướng dẫn
                                     </h3>
                                     <ul className="text-xs text-zinc-500 space-y-4 pl-4 leading-relaxed list-disc">

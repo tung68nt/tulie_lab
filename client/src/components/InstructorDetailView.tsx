@@ -269,7 +269,7 @@ export function InstructorDetailView({ instructor, courses }: InstructorDetailVi
 
                                                     {/* Badge Overlay */}
                                                     <div className="absolute top-4 left-4">
-                                                        <span className="bg-white/90 dark:bg-black/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-primary shadow-sm">
+                                                        <span className="bg-white/90 dark:bg-black/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-primary shadow-sm">
                                                             Phổ biến
                                                         </span>
                                                     </div>

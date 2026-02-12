@@ -388,7 +388,7 @@ function CheckoutContent() {
                                             {item.description}
                                         </p>
                                         <div className="flex items-center gap-3 pt-2">
-                                            <span className="text-2xl font-extrabold text-foreground">
+                                            <span className="text-2xl font-bold text-foreground">
                                                 {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item?.price || 0)}
                                             </span>
                                             {Number(item.compareAtPrice) > Number(item.price) && (
@@ -396,7 +396,7 @@ function CheckoutContent() {
                                                     <span className="text-sm text-muted-foreground line-through">
                                                         {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.compareAtPrice)}
                                                     </span>
-                                                    <span className="text-sm font-extrabold text-background bg-foreground px-2.5 py-1 rounded-md">
+                                                    <span className="text-sm font-bold text-background bg-foreground px-2.5 py-1 rounded-md">
                                                         -{Math.round((1 - Number(item.price) / Number(item.compareAtPrice)) * 100)}%
                                                     </span>
                                                 </>
@@ -496,7 +496,7 @@ function CheckoutContent() {
                                     <CardContent className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
                                         {invoiceProfiles.length > 0 && (
                                             <div className="space-y-2">
-                                                <label className="text-[10px] font-bold text-zinc-400 tracking-wider">Chọn hồ sơ đã lưu</label>
+                                                <label className="text-[10px] font-bold text-zinc-400">Chọn hồ sơ đã lưu</label>
                                                 <select
                                                     className="w-full text-sm border rounded-lg px-3 h-10 bg-white dark:bg-zinc-900"
                                                     value={selectedInvoiceProfile}
@@ -687,7 +687,7 @@ function CheckoutContent() {
 
                                     <div className="pt-4 border-t flex justify-between items-end">
                                         <span className="font-bold">Tổng cộng</span>
-                                        <span className="text-2xl font-extrabold text-foreground">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalAmount)}</span>
+                                        <span className="text-2xl font-bold text-foreground">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalAmount)}</span>
                                     </div>
                                 </div>
 

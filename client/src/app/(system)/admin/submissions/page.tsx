@@ -207,7 +207,7 @@ export default function SubmissionsPage() {
                                 {/* Student & Context Info */}
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="p-4 rounded-lg border bg-zinc-50/50 space-y-3">
-                                        <h4 className="text-xs font-bold uppercase text-muted-foreground tracking-wider">Học viên</h4>
+                                        <h4 className="text-xs font-bold text-muted-foreground">Học viên</h4>
                                         <div className="flex items-center gap-3">
                                             {selectedSubmission.enrollment.user.profile?.avatar ? (
                                                 <img
@@ -228,7 +228,7 @@ export default function SubmissionsPage() {
                                     </div>
 
                                     <div className="p-4 rounded-lg border bg-zinc-50/50 space-y-3">
-                                        <h4 className="text-xs font-bold uppercase text-muted-foreground tracking-wider">Bài tập</h4>
+                                        <h4 className="text-xs font-bold text-muted-foreground">Bài tập</h4>
                                         <div>
                                             <p className="font-semibold text-sm line-clamp-1">{selectedSubmission.enrollment.journey.title}</p>
                                             <div className="flex items-center gap-2 mt-1">

@@ -172,7 +172,7 @@ export default function OrderPage({ params }: { params: any }) {
                             </div>
                             <div className="flex justify-between items-start">
                                 <span className="text-sm text-zinc-500">Ngân hàng</span>
-                                <span className="text-sm font-medium text-zinc-900 text-right uppercase">{transaction.bankName}</span>
+                                <span className="text-sm font-medium text-zinc-900 text-right">{transaction.bankName}</span>
                             </div>
                             <div className="flex justify-between items-start">
                                 <span className="text-sm text-zinc-500">Số tiền</span>

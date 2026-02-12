@@ -404,7 +404,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                                     {order.metadata?.isGift && (
                                         <div className="flex justify-start md:justify-end items-center gap-2">
                                             <span className="text-zinc-500">Ghi chú:</span>
-                                            <span className="font-extrabold text-red-600 bg-red-50 px-2 py-0.5 rounded">Mua làm quà tặng</span>
+                                            <span className="font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">Mua làm quà tặng</span>
                                         </div>
                                     )}
                                     {order.metadata?.requireVAT && (

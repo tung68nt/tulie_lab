@@ -178,7 +178,7 @@ export default function PricingAddOnsPage() {
                                                     <div className="flex flex-col gap-1">
                                                         <div className="flex items-center gap-2">
                                                             <span className="text-base font-semibold text-foreground">{addOn.name}</span>
-                                                            <span className="text-[10px] uppercase bg-muted text-muted-foreground px-2 py-0.5 rounded border border-border font-bold tracking-wider">
+                                                            <span className="text-[10px] bg-muted text-muted-foreground px-2 py-0.5 rounded border border-border font-bold">
                                                                 {addOn.type || 'OTHER'}
                                                             </span>
                                                         </div>
@@ -229,7 +229,7 @@ export default function PricingAddOnsPage() {
                                 <form onSubmit={handleSave} className="space-y-5">
                                     <div className="grid gap-4 md:grid-cols-2">
                                         <div className="md:col-span-2">
-                                            <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Tên gói *</label>
+                                            <label className="text-xs font-semibold text-neutral-500 mb-2 block">Tên gói *</label>
                                             <Input
                                                 value={currentAddOn.name || ''}
                                                 onChange={e => setCurrentAddOn({ ...currentAddOn, name: e.target.value })}
@@ -240,7 +240,7 @@ export default function PricingAddOnsPage() {
                                             />
                                         </div>
                                         <div className="md:col-span-2">
-                                            <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Mô tả ngắn</label>
+                                            <label className="text-xs font-semibold text-neutral-500 mb-2 block">Mô tả ngắn</label>
                                             <Input
                                                 value={currentAddOn.description || ''}
                                                 onChange={e => setCurrentAddOn({ ...currentAddOn, description: e.target.value })}
@@ -249,7 +249,7 @@ export default function PricingAddOnsPage() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Loại hình</label>
+                                            <label className="text-xs font-semibold text-neutral-500 mb-2 block">Loại hình</label>
                                             <select
                                                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                                 value={currentAddOn.type || 'OTHER'}
@@ -262,7 +262,7 @@ export default function PricingAddOnsPage() {
                                             </select>
                                         </div>
                                         <div>
-                                            <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Hiển thị</label>
+                                            <label className="text-xs font-semibold text-neutral-500 mb-2 block">Hiển thị</label>
                                             <div className="flex items-center h-10">
                                                 <Switch
                                                     checked={currentAddOn.isActive || false}
@@ -272,7 +272,7 @@ export default function PricingAddOnsPage() {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Giá cộng thêm (VND)</label>
+                                            <label className="text-xs font-semibold text-neutral-500 mb-2 block">Giá cộng thêm (VND)</label>
                                             <div className="relative">
                                                 <Input
                                                     type="text"
@@ -288,7 +288,7 @@ export default function PricingAddOnsPage() {
                                             </div>
                                         </div>
                                         <div>
-                                            <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Giá gốc để gạch</label>
+                                            <label className="text-xs font-semibold text-neutral-500 mb-2 block">Giá gốc để gạch</label>
                                             <div className="relative">
                                                 <Input
                                                     type="text"
@@ -311,7 +311,7 @@ export default function PricingAddOnsPage() {
                                             <h4 className="text-sm font-bold text-primary mb-3">Cấu hình Mentoring</h4>
                                             <div className="grid gap-4 md:grid-cols-2 mb-4">
                                                 <div>
-                                                    <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Số buổi/lượt</label>
+                                                    <label className="text-xs font-semibold text-neutral-500 mb-2 block">Số buổi/lượt</label>
                                                     <Input
                                                         type="number"
                                                         value={currentAddOn.sessionCount || ''}
@@ -321,7 +321,7 @@ export default function PricingAddOnsPage() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Thời lượng (phút/buổi)</label>
+                                                    <label className="text-xs font-semibold text-neutral-500 mb-2 block">Thời lượng (phút/buổi)</label>
                                                     <Input
                                                         type="number"
                                                         value={currentAddOn.sessionDuration || ''}
@@ -332,7 +332,7 @@ export default function PricingAddOnsPage() {
                                                 </div>
                                             </div>
                                             <div>
-                                                <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Nội dung chi tiết từng buổi (mỗi dòng 1 buổi)</label>
+                                                <label className="text-xs font-semibold text-neutral-500 mb-2 block">Nội dung chi tiết từng buổi (mỗi dòng 1 buổi)</label>
                                                 <textarea
                                                     value={(currentAddOn.curriculum || []).join('\n')}
                                                     onChange={e => setCurrentAddOn({ ...currentAddOn, curriculum: e.target.value.split('\n') })}
@@ -346,7 +346,7 @@ export default function PricingAddOnsPage() {
                                     )}
 
                                     <div>
-                                        <label className="text-xs font-semibold tracking-wider text-neutral-500 mb-2 block">Các đặc quyền khác (Hiển thị trang bán hàng)</label>
+                                        <label className="text-xs font-semibold text-neutral-500 mb-2 block">Các đặc quyền khác (Hiển thị trang bán hàng)</label>
                                         <textarea
                                             value={(currentAddOn.features || []).join('\n')}
                                             onChange={e => setCurrentAddOn({ ...currentAddOn, features: e.target.value.split('\n').filter(Boolean) })}

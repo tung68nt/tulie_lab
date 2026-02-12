@@ -1,0 +1,187 @@
+{
+  "taskId": "lhpsmx",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "lhpsmx",
+      "version": 1,
+      "timestamp": "2026-02-12T11:49:37.546Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Tất cả font-weight không vượt quá 700 (bold)"
+            },
+            {
+              "completed": false,
+              "text": "Không có text uppercase trên toàn hệ thống"
+            },
+            {
+              "completed": false,
+              "text": "Không có letter-spacing trên toàn hệ thống"
+            },
+            {
+              "completed": false,
+              "text": "Tone màu đen trắng nhất quán theo Vercel/Geist design"
+            },
+            {
+              "completed": false,
+              "text": "Tất cả các trang đều hoạt động đúng chức năng"
+            },
+            {
+              "completed": false,
+              "text": "Không có trang/chức năng bị thiếu hoặc broken"
+            },
+            {
+              "completed": false,
+              "text": "Đánh giá tổng thể hoàn tất, đưa ra khuyến nghị upgrade tech stack"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Tất cả font-weight không vượt quá 700 (bold)"
+            },
+            {
+              "completed": false,
+              "text": "Không có text uppercase trên toàn hệ thống"
+            },
+            {
+              "completed": false,
+              "text": "Không có letter-spacing trên toàn hệ thống"
+            },
+            {
+              "completed": false,
+              "text": "Tone màu đen trắng nhất quán theo Vercel/Geist design"
+            },
+            {
+              "completed": false,
+              "text": "Tất cả các trang đều hoạt động đúng chức năng"
+            },
+            {
+              "completed": false,
+              "text": "Không có trang/chức năng bị thiếu hoặc broken"
+            },
+            {
+              "completed": false,
+              "text": "Đánh giá tổng thể hoàn tất, đưa ra khuyến nghị upgrade tech stack"
+            },
+            {
+              "text": "Push git main thành công cả backend và frontend, triển khai lên Cloud Run",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Rà soát toàn bộ UI/UX - Tuân thủ Vercel Design Guideline",
+        "description": "Kiểm tra toàn bộ hệ thống giao diện có tuân thủ UI guideline: tone đen trắng, style hiện đại, clean theo phong cách Vercel/Geist. Rà soát các trang/chức năng còn thiếu hoặc chưa hoạt động. Sau khi đánh giá tổng thể mới xem xét upgrade tech stack.",
+        "status": "todo",
+        "priority": "high",
+        "labels": [
+          "ui",
+          "audit"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tất cả font-weight không vượt quá 700 (bold)"
+          },
+          {
+            "completed": false,
+            "text": "Không có text uppercase trên toàn hệ thống"
+          },
+          {
+            "completed": false,
+            "text": "Không có letter-spacing trên toàn hệ thống"
+          },
+          {
+            "completed": false,
+            "text": "Tone màu đen trắng nhất quán theo Vercel/Geist design"
+          },
+          {
+            "completed": false,
+            "text": "Tất cả các trang đều hoạt động đúng chức năng"
+          },
+          {
+            "completed": false,
+            "text": "Không có trang/chức năng bị thiếu hoặc broken"
+          },
+          {
+            "completed": false,
+            "text": "Đánh giá tổng thể hoàn tất, đưa ra khuyến nghị upgrade tech stack"
+          },
+          {
+            "text": "Push git main thành công cả backend và frontend, triển khai lên Cloud Run",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "lhpsmx",
+      "version": 2,
+      "timestamp": "2026-02-12T12:00:04.622Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Rà soát toàn bộ UI/UX - Tuân thủ Vercel Design Guideline",
+        "description": "Kiểm tra toàn bộ hệ thống giao diện có tuân thủ UI guideline: tone đen trắng, style hiện đại, clean theo phong cách Vercel/Geist. Rà soát các trang/chức năng còn thiếu hoặc chưa hoạt động. Sau khi đánh giá tổng thể mới xem xét upgrade tech stack.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "ui",
+          "audit"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tất cả font-weight không vượt quá 700 (bold)"
+          },
+          {
+            "completed": false,
+            "text": "Không có text uppercase trên toàn hệ thống"
+          },
+          {
+            "completed": false,
+            "text": "Không có letter-spacing trên toàn hệ thống"
+          },
+          {
+            "completed": false,
+            "text": "Tone màu đen trắng nhất quán theo Vercel/Geist design"
+          },
+          {
+            "completed": false,
+            "text": "Tất cả các trang đều hoạt động đúng chức năng"
+          },
+          {
+            "completed": false,
+            "text": "Không có trang/chức năng bị thiếu hoặc broken"
+          },
+          {
+            "completed": false,
+            "text": "Đánh giá tổng thể hoàn tất, đưa ra khuyến nghị upgrade tech stack"
+          },
+          {
+            "completed": false,
+            "text": "Push git main thành công cả backend và frontend, triển khai lên Cloud Run"
+          }
+        ]
+      }
+    }
+  ]
+}

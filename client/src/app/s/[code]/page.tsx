@@ -38,7 +38,7 @@ export default function RedirectPage() {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-background p-6">
                 <div className="max-w-md w-full text-center space-y-6">
-                    <div className="text-6xl font-black text-zinc-100 uppercase tracking-tighter">404</div>
+                    <div className="text-6xl font-bold text-zinc-100 tracking-tighter">404</div>
                     <h1 className="text-2xl font-bold text-zinc-900 tracking-tight">Không tìm thấy liên kết</h1>
                     <p className="text-zinc-500 text-sm leading-relaxed">
                         {error} Vui lòng kiểm tra lại đường dẫn hoặc liên hệ với chúng tôi để được hỗ trợ.
@@ -67,7 +67,7 @@ export default function RedirectPage() {
                 </div>
                 <div className="space-y-2">
                     <h2 className="text-lg font-bold text-zinc-900 tracking-tight">Đang chuyển hướng...</h2>
-                    <p className="text-xs text-zinc-400 font-medium uppercase tracking-widest">vui lòng chờ trong giây lát</p>
+                    <p className="text-xs text-zinc-400 font-medium">vui lòng chờ trong giây lát</p>
                 </div>
             </div>
         </div>

@@ -354,7 +354,7 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                     <div className="flex-1 bg-neutral-100 dark:bg-black overflow-y-auto relative flex flex-col">
                         <div className="sticky top-0 z-10 bg-white/80 dark:bg-black/80 backdrop-blur px-4 py-2 border-b border-neutral-200 dark:border-neutral-800 flex justify-between items-center gap-4">
                             <div className="flex items-center gap-4">
-                                <span className="text-xs font-bold tracking-wider text-neutral-500 whitespace-nowrap">Live view</span>
+                                <span className="text-xs font-bold text-neutral-500 whitespace-nowrap">Live view</span>
                             </div>
 
                             <div className="flex items-center gap-4">
