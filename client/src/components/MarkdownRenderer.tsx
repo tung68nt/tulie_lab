@@ -24,7 +24,7 @@ const extractText = (children: any): string => {
 
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
     return (
-        <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:tracking-tight prose-p:text-black dark:prose-p:text-white prose-li:text-black dark:prose-li:text-white prose-p:font-medium prose-li:font-medium", className)}>
+        <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:tracking-tight text-black dark:text-white prose-p:text-black dark:prose-p:text-white prose-li:text-black dark:prose-li:text-white prose-p:font-medium prose-li:font-medium", className)}>
             <style jsx global>{`
                 .prose table {
                     width: 100%;

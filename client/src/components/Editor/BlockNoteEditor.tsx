@@ -57,6 +57,11 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     font-family: var(--font-sans) !important;
                     max-width: 100% !important; /* Full width */
                     margin: 0 !important;
+                    color: #000000 !important; /* Pure black as base */
+                    font-weight: 500 !important;
+                }
+                .dark .bn-editor {
+                    color: #ffffff !important; /* Pure white as base */
                 }
                 
                 /* Headings - matching MarkdownRenderer prose-premium */
@@ -68,6 +73,7 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     margin-bottom: 2rem !important; /* mb-8 */
                     margin-top: 0 !important;
                     padding-top: 0.25rem !important;
+                    color: inherit !important;
                 }
                 .bn-block[data-type="heading"][data-level="2"] .bn-inline-content {
                     font-size: 1.875rem !important; /* text-3xl */
@@ -78,6 +84,7 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     margin-bottom: 1rem !important; /* mb-4 */
                     padding-bottom: 0.5rem !important; /* pb-2 */
                     border-bottom: 1px solid #eaeaea !important; /* match table border */
+                    color: inherit !important;
                 }
                 .bn-block[data-type="heading"][data-level="3"] .bn-inline-content {
                     font-size: 1.5rem !important; /* text-2xl */
@@ -86,6 +93,7 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     letter-spacing: -0.025em !important;
                     margin-top: 2rem !important; /* mt-8 */
                     margin-bottom: 1rem !important; /* mb-4 */
+                    color: inherit !important;
                 }
 
                 /* Paragraphs & Lists */
@@ -228,6 +236,7 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     padding-left: 1rem !important;
                     font-style: italic !important;
                     margin: 1.5rem 0 !important;
+                    color: inherit !important;
                 }
 
                 /* Lists */
