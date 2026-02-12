@@ -16,26 +16,33 @@ function AuthCallbackContent() {
 
         const handleCallback = async () => {
             try {
-                // Supabase returns auth data in the hash/fragment: #access_token=...&refresh_token=...
-                const hash = window.location.hash;
-                const params = new URLSearchParams(hash.substring(1)); // remove #
-                const accessToken = params.get('access_token');
-
-                // Also check query params just in case of different config
+                // Google OAuth2 returns authorization code as query parameter: ?code=...&state=...
                 const queryParams = new URLSearchParams(window.location.search);
-                const queryToken = queryParams.get('access_token');
+                const code = queryParams.get('code');
 
-                const token = accessToken || queryToken;
+                // Also check hash fragment for backward compatibility
+                const hash = window.location.hash;
+                const hashParams = new URLSearchParams(hash.substring(1));
+                const hashToken = hashParams.get('access_token');
 
-                if (!token) {
-                    console.error('No access token found in URL');
-                    addToast('Đăng nhập thất bại: Không tìm thấy mã xác thực.', 'error');
+                const tokenOrCode = code || hashToken;
+
+                if (!tokenOrCode) {
+                    // Check for error from Google
+                    const error = queryParams.get('error');
+                    if (error) {
+                        console.error('Google OAuth error:', error);
+                        addToast(`Đăng nhập thất bại: ${error}`, 'error');
+                    } else {
+                        console.error('No authorization code found in URL');
+                        addToast('Đăng nhập thất bại: Không tìm thấy mã xác thực.', 'error');
+                    }
                     router.push('/login');
                     return;
                 }
 
                 setProcessed(true);
-                await verifyGoogleToken(token);
+                await verifyGoogleToken(tokenOrCode);
 
                 // Dispatch event for other components to update
                 window.dispatchEvent(new Event('auth-change'));

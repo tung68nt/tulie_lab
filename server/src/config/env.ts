@@ -36,9 +36,9 @@ const envSchema = z.object({
     SEPAY_API_KEY: z.string().optional(),
     SEPAY_SECRET_KEY: z.string().optional(),
 
-    // Supabase Auth (optional)
-    SUPABASE_URL: z.string().url().or(z.literal('')).optional(),
-    SUPABASE_ANON_KEY: z.string().optional(),
+    // Google OAuth (optional)
+    GOOGLE_CLIENT_ID: z.string().optional(),
+    GOOGLE_CLIENT_SECRET: z.string().optional(),
 
     // AI Proxy (optional)
     ANTHROPIC_BASE_URL: z.string().url().or(z.literal('')).optional(),

@@ -141,36 +141,52 @@ export class AuthService {
     }
 
     async getGoogleAuthUrl() {
-        const supabaseUrl = process.env.SUPABASE_URL;
-        if (!supabaseUrl) throw new Error('SUPABASE_URL is not defined');
+        const clientId = process.env.GOOGLE_CLIENT_ID;
+        if (!clientId) throw new Error('GOOGLE_CLIENT_ID is not defined');
 
-        // This is the URL to trigger Supabase OAuth redirect to Google
-        // Frontend will then receive code/token and send back to us to verify
-        const url = `${supabaseUrl}/auth/v1/authorize?provider=google&redirect_to=${process.env.CLIENT_URL}/auth/callback`;
+        const redirectUri = `${process.env.CLIENT_URL}/auth/callback`;
+        const scope = encodeURIComponent('openid email profile');
+        const state = jwt.sign({ ts: Date.now() }, JWT_SECRET, { expiresIn: '10m' });
+
+        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${scope}&access_type=offline&prompt=consent&state=${state}`;
+
         return { url };
     }
 
-    async verifyGoogleToken(token: string) {
-        const supabaseUrl = process.env.SUPABASE_URL;
-        const supabaseKey = process.env.SUPABASE_ANON_KEY;
-        if (!supabaseUrl || !supabaseKey) throw new Error('Supabase configuration missing');
+    async verifyGoogleCode(code: string) {
+        const clientId = process.env.GOOGLE_CLIENT_ID;
+        const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+        if (!clientId || !clientSecret) throw new Error('Google OAuth configuration missing');
+
+        const redirectUri = `${process.env.CLIENT_URL}/auth/callback`;
 
         try {
-            // 1. Verify token with Supabase GET /auth/v1/user
-            const response = await axios.get(`${supabaseUrl}/auth/v1/user`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'apikey': supabaseKey
-                }
+            // 1. Exchange authorization code for tokens
+            const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
+                code,
+                client_id: clientId,
+                client_secret: clientSecret,
+                redirect_uri: redirectUri,
+                grant_type: 'authorization_code'
             });
 
-            const supabaseUser = response.data;
-            if (!supabaseUser || !supabaseUser.email) {
-                throw new Error('Failed to get user data from Supabase');
+            const { access_token } = tokenResponse.data;
+            if (!access_token) {
+                throw new Error('Failed to get access token from Google');
             }
 
-            // 2. Sync with Prisma
-            let user = await this.userRepository.findByEmail(supabaseUser.email);
+            // 2. Get user info from Google
+            const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: { Authorization: `Bearer ${access_token}` }
+            });
+
+            const googleUser = userInfoResponse.data;
+            if (!googleUser || !googleUser.email) {
+                throw new Error('Failed to get user data from Google');
+            }
+
+            // 3. Sync with Prisma database
+            let user = await this.userRepository.findByEmail(googleUser.email);
 
             if (!user) {
                 // Create user if not exists
@@ -178,13 +194,13 @@ export class AuthService {
                 const hashedPassword = await bcrypt.hash(randomPassword, SALT_ROUNDS);
 
                 user = await this.userRepository.create({
-                    email: supabaseUser.email,
+                    email: googleUser.email,
                     password: hashedPassword,
                     role: Role.USER,
                     profile: {
                         create: {
-                            name: supabaseUser.user_metadata?.full_name || supabaseUser.email.split('@')[0],
-                            avatar: supabaseUser.user_metadata?.avatar_url || null
+                            name: googleUser.name || googleUser.email.split('@')[0],
+                            avatar: googleUser.picture || null
                         }
                     }
                 });
@@ -193,8 +209,13 @@ export class AuthService {
             return this.getAuthenticatedUserResponse(user);
 
         } catch (error: any) {
-            console.error('Supabase verification error:', error.response?.data || error.message);
+            console.error('Google OAuth error:', error.response?.data || error.message);
             throw new Error('Google authentication failed');
         }
+    }
+
+    // Keep backward compatibility - alias for the old method name
+    async verifyGoogleToken(tokenOrCode: string) {
+        return this.verifyGoogleCode(tokenOrCode);
     }
 }

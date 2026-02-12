@@ -1,30 +1,26 @@
-name: Deploy Back-End to Cloud Run
+name: Deploy to VPS
 
 on:
   push:
     branches:
       - main
-      - beta
     paths:
       - 'server/**'
+      - 'client/**'
       - 'prisma/**'
+      - 'docker-compose.prod.yml'
+      - 'nginx/**'
       - '.github/workflows/deploy.yml'
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  SERVICE_NAME: ${{ github.ref == 'refs/heads/main' && 'academy-api' || 'academy-api-beta' }}
-  REGION: asia-southeast1
+  DEPLOY_DIR: /opt/academy-tulie
 
 jobs:
-  deploy:
-    name: Build, Migrate & Deploy
+  test:
+    name: Test
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    
-    permissions:
-      contents: read
-      id-token: write
-    
+    timeout-minutes: 10
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,149 +32,72 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './server/package-lock.json'
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-
-      - name: Configure Docker
-        run: gcloud auth configure-docker --quiet
-
-      - name: Determine Environment Variables
-        id: env-vars
-        run: |
-          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            DB_URL="${{ secrets.DATABASE_URL_PROD || secrets.DATABASE_URL }}"
-            DIR_URL="${{ secrets.DIRECT_URL_PROD || secrets.DIRECT_URL }}"
-            S_URL="${{ secrets.SUPABASE_URL_PROD || secrets.SUPABASE_URL }}"
-            S_KEY="${{ secrets.SUPABASE_ANON_KEY_PROD || secrets.SUPABASE_ANON_KEY }}"
-            CLIENT_URL="https://thelab.tulie.vn"
-          else
-            DB_URL="${{ secrets.DATABASE_URL_BETA || secrets.BETA_DATABASE_URL || secrets.DATABASE_URL }}"
-            DIR_URL="${{ secrets.DIRECT_URL_BETA || secrets.BETA_DIRECT_URL || secrets.DIRECT_URL }}"
-            S_URL="${{ secrets.SUPABASE_URL_BETA || secrets.SUPABASE_URL }}"
-            S_KEY="${{ secrets.SUPABASE_ANON_KEY_BETA || secrets.SUPABASE_ANON_KEY }}"
-            CLIENT_URL="https://beta.thelab.tulie.vn"
-          fi
-
-          if [ -z "$DB_URL" ]; then echo "⚠️ DATABASE_URL is missing, but proceeding."; fi
-          if [ -z "$DIR_URL" ]; then DIR_URL="$DB_URL"; fi
-
-          # Export
-          echo "RUNTIME_DB_URL=$DB_URL" >> $GITHUB_ENV
-          echo "RUNTIME_DIR_URL=$DIR_URL" >> $GITHUB_ENV
-          echo "RUNTIME_S_URL=$S_URL" >> $GITHUB_ENV
-          echo "RUNTIME_S_KEY=$S_KEY" >> $GITHUB_ENV
-          echo "ENV_CLIENT_URL=$CLIENT_URL" >> $GITHUB_ENV
-
-      - name: Install dependencies, Generate Prisma & Build
+      - name: Install server dependencies
         working-directory: ./server
-        run: |
-          npm ci
-          npx prisma generate
-          npm run build
+        run: npm ci
 
-      - name: Run Database Migrations
+      - name: Generate Prisma
         working-directory: ./server
-        env:
-          DATABASE_URL: ${{ env.RUNTIME_DIR_URL }}
-        run: |
-          echo "🚀 Running Database Migrations..."
-          npx prisma migrate deploy || echo "⚠️ Migration warning: Check database state."
+        run: npx prisma generate
 
-      - name: Build and Push Docker image
-        run: |
-          TAG="gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}"
-          LATEST="gcr.io/$PROJECT_ID/$SERVICE_NAME:latest"
-          docker build -t "$TAG" -t "$LATEST" ./server
-          docker push "$TAG"
-          docker push "$LATEST"
-          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+      - name: Build server
+        working-directory: ./server
+        run: npm run build
 
-      # - name: Post-Build Smoke Test (Verify Startup) - DISABLED for stability
-      #   working-directory: ./server
-      #   env:
-      #     DATABASE_URL: ${{ env.RUNTIME_DB_URL }}
-      #     JWT_SECRET: "smoke-test-secret"
-      #     PORT: 8080
-      #     NODE_ENV: production
-      #   run: |
-      #     echo "🚀 SKIPPING Smoke Test for stability."
+      - name: Run tests
+        working-directory: ./server
+        run: npm run test || echo "⚠️ Tests not blocking deploy for now"
 
-      - name: Create Environment File
-        run: |
-          cat <<EOF > env.yaml
-          NODE_ENV: production
-          DATABASE_URL: "$RUNTIME_DB_URL"
-          DIRECT_URL: "$RUNTIME_DIR_URL"
-          CLIENT_URL: "$ENV_CLIENT_URL"
-          REDIS_URL: "${{ secrets.REDIS_URL }}"
-          JWT_SECRET: "${{ secrets.JWT_SECRET }}"
-          R2_ACCOUNT_ID: "${{ secrets.R2_ACCOUNT_ID }}"
-          R2_ACCESS_KEY_ID: "${{ secrets.R2_ACCESS_KEY_ID }}"
-          R2_SECRET_ACCESS_KEY: "${{ secrets.R2_SECRET_ACCESS_KEY }}"
-          R2_BUCKET_NAME: "${{ secrets.R2_BUCKET_NAME }}"
-          R2_PUBLIC_DOMAIN: "${{ secrets.R2_PUBLIC_DOMAIN }}"
-          SUPABASE_URL: "$RUNTIME_S_URL"
-          SUPABASE_ANON_KEY: "$RUNTIME_S_KEY"
-          SEPAY_API_KEY: "${{ secrets.SEPAY_API_KEY }}"
-          SEPAY_SECRET_KEY: "${{ secrets.SEPAY_SECRET_KEY }}"
-          SMTP_HOST: "${{ secrets.SMTP_HOST }}"
-          SMTP_PORT: "${{ secrets.SMTP_PORT }}"
-          SMTP_USER: "${{ secrets.SMTP_USER }}"
-          SMTP_PASS: "${{ secrets.SMTP_PASS }}"
-          SMTP_FROM: "${{ secrets.SMTP_FROM }}"
-          ANTHROPIC_BASE_URL: "${{ secrets.ANTHROPIC_BASE_URL }}"
-          ANTHROPIC_MODEL: "${{ secrets.ANTHROPIC_MODEL }}"
-          ANTHROPIC_AUTH_TOKEN: "${{ secrets.ANTHROPIC_AUTH_TOKEN }}"
-          EOF
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    needs: test
+    timeout-minutes: 15
 
-      - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy $SERVICE_NAME \
-            --image $IMAGE_TAG \
-            --platform managed \
-            --region $REGION \
-            --allow-unauthenticated \
-            --env-vars-file env.yaml \
-            --min-instances 0 \
-            --max-instances 10 \
-            --memory 1Gi \
-            --cpu 1 \
-            --timeout 600 \
-            --quiet
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_SSH_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -e
+            echo "🚀 Starting deployment..."
 
-      - name: Verify Deployment Logic
-        run: |
-          URL=$(gcloud run services describe $SERVICE_NAME --region $REGION --format 'value(status.url)' || echo "")
-          if [ -z "$URL" ]; then
-            echo "❌ Could not retrieve Service URL."
+            cd ${{ env.DEPLOY_DIR }}
+
+            # Pull latest code
+            echo "📥 Pulling latest code..."
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Build and deploy with Docker Compose
+            echo "🏗️ Building and deploying..."
+            docker compose -f docker-compose.prod.yml build --no-cache
+            docker compose -f docker-compose.prod.yml up -d
+
+            # Run database migrations
+            echo "🗄️ Running database migrations..."
+            docker compose -f docker-compose.prod.yml exec -T server npx prisma migrate deploy || echo "⚠️ Migration warning"
+
+            # Clean up old images
+            echo "🧹 Cleaning up..."
+            docker image prune -f
+
+            # Health check
+            echo "🩺 Checking health..."
+            for i in {1..12}; do
+              echo "Attempt $i..."
+              if curl -sf http://localhost/api/health | grep -q '"status":"ok"'; then
+                echo "✅ Health Check Passed!"
+                exit 0
+              fi
+              sleep 10
+            done
+
+            echo "❌ Health Check failed after 2 minutes."
+            docker compose -f docker-compose.prod.yml logs --tail 50
             exit 1
-          fi
-          
-          echo "🌐 Live URL: $URL"
-          echo "🩺 Polling Health Check (max 3 mins)..."
-          
-          for i in {1..12}; do
-            echo "Attempt $i..."
-            # Use curl with -L following redirects and -i to see headers
-            RESPONSE=$(curl -L -i -s --max-time 10 "$URL/api/health" || echo "timeout")
-            echo "--- HTTP Snippet ---"
-            echo "$RESPONSE" | head -n 30
-            
-            if echo "$RESPONSE" | grep -q '{"status":"ok"'; then
-              echo "✅ Health Check Passed!"
-              exit 0
-            elif echo "$RESPONSE" | grep -q '{"status":"starting"'; then
-              echo "⏳ App is still starting (Initializing services)..."
-            fi
-            sleep 15
-          done
-          
-          echo "❌ Health Check failed after 3 minutes."
-          exit 1

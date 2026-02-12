@@ -15,11 +15,11 @@ const nextConfig: any = {
       },
       {
         protocol: 'https',
-        hostname: 'academy-api-863772349164.asia-southeast1.run.app',
+        hostname: 'thelab.tulie.vn',
       },
       {
         protocol: 'https',
-        hostname: 'academy-api-beta-863772349164.asia-southeast1.run.app',
+        hostname: 'beta.thelab.tulie.vn',
       },
       {
         protocol: 'https',
@@ -28,14 +28,6 @@ const nextConfig: any = {
       {
         protocol: 'https',
         hostname: 'pub-84306d90a5714d098ed77c04f4c85df2.r2.dev',
-      },
-      {
-        protocol: 'https',
-        hostname: 'thelab.tulie.vn',
-      },
-      {
-        protocol: 'https',
-        hostname: 'beta.thelab.tulie.vn',
       },
       {
         protocol: 'https',
@@ -59,11 +51,11 @@ const nextConfig: any = {
     ],
   },
   async rewrites() {
-    // Proxy /api to backend (Cloud Run or Localhost)
+    // Proxy /api to backend
+    // In production on VPS, Nginx handles this. In dev, proxy to local backend.
     let apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 
     // Defensive: strip /api if it was accidentally included in the env var
-    // Standardize: Remove trailing slashes and /api suffix
     apiUrl = apiUrl.replace(/\/+$/, '').replace(/\/api$/, '');
 
     return [
@@ -85,4 +77,3 @@ const nextConfig: any = {
 };
 
 export default nextConfig;
-
