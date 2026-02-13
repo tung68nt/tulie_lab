@@ -8,7 +8,6 @@ on:
       - 'server/**'
       - 'client/**'
       - 'prisma/**'
-      - 'nginx/**'
       - 'docker-compose.prod.yml'
       - '.github/workflows/deploy.yml'
 
@@ -58,15 +57,6 @@ jobs:
           build-args: |
             NEXT_PUBLIC_API_URL=https://thelab.tulie.vn/api
 
-      - name: Build and push Nginx
-        uses: docker/build-push-action@v5
-        with:
-          context: ./nginx
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_PREFIX }}_nginx:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
   deploy:
     name: Deploy to VPS
     runs-on: ubuntu-latest
@@ -89,13 +79,12 @@ jobs:
             if [ ! -d "/srv/thelab.tulie.vn" ]; then
               echo "📁 Creating directory /srv/thelab.tulie.vn..."
               sudo mkdir -p /srv/thelab.tulie.vn
-              sudo chown ${{ secrets.VPS_USER }}:${{ secrets.VPS_USER }} /srv/thelab.tulie.vn
+              sudo chown $(whoami):$(whoami) /srv/thelab.tulie.vn
             fi
 
             cd /srv/thelab.tulie.vn
 
-            # Download docker-compose.prod.yml if it changed (or just keep it updated via git if needed)
-            # Standard way: we still use git to pull the compose file and nginx configs
+            # Pull latest config via git
             if [ ! -d ".git" ]; then
               echo "📦 Initializing git repository..."
               git init
@@ -106,29 +95,30 @@ jobs:
             git fetch origin main
             git reset --hard origin/main
 
-            # Log in to GHCR on VPS
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+            # Log in to GHCR on VPS using PAT
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             # Pull images and deploy
             echo "🏗️ Pulling images and deploying..."
-            docker compose -f docker-compose.prod.yml --env-file .env.production pull
-            docker compose -f docker-compose.prod.yml --env-file .env.production up -d
+            docker compose -f docker-compose.prod.yml --env-file .env.production pull server client
+            docker compose -f docker-compose.prod.yml --env-file .env.production up -d --force-recreate
 
             # Run database migrations
             echo "🗄️ Running database migrations..."
+            sleep 10
             docker compose -f docker-compose.prod.yml --env-file .env.production exec -T server npx prisma migrate deploy || echo "⚠️ Migration warning"
 
             # Clean up old images
             echo "🧹 Cleaning up..."
             docker image prune -f
 
-            # Health check
+            # Health check (check internal ports since aaPanel Nginx handles port 80)
             echo "🩺 Checking health..."
             for i in {1..12}; do
               echo "Attempt $i..."
-              API_HEALTH=$(curl -sf http://localhost/api/health | grep -q '"status":"ok"' && echo "API_OK" || echo "API_FAIL")
-              WEB_HEALTH=$(curl -sf http://localhost | grep -q '<body' && echo "WEB_OK" || echo "WEB_FAIL")
-              
+              API_HEALTH=$(curl -sf http://localhost:5001/api/health | grep -q '"status":"ok"' && echo "API_OK" || echo "API_FAIL")
+              WEB_HEALTH=$(curl -sf http://localhost:3001 | grep -q '<' && echo "WEB_OK" || echo "WEB_FAIL")
+
               if [ "$API_HEALTH" = "API_OK" ] && [ "$WEB_HEALTH" = "WEB_OK" ]; then
                 echo "✅ Health Check Passed (API & Web)!"
                 exit 0
@@ -140,3 +130,4 @@ jobs:
             echo "❌ Health Check failed after 2 minutes."
             docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail 100
             exit 1
+
