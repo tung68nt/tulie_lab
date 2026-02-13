@@ -51,3 +51,5 @@ server/uploads/*
 # Diagnostic scripts
 scripts/check-db.ts
 scripts/get-api-key.ts
+github_actions_key
+github_actions_key.pub

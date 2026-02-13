@@ -1,13 +1,6 @@
 {
   "active": [
     {
-      "taskId": "3t0a79",
-      "taskTitle": "Develop URL Shortener Tool",
-      "startedAt": "2026-02-05T15:59:43.484Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
-    },
-    {
       "taskId": "bnwehz",
       "taskTitle": "Fix Whiteboard Critical Bugs - DOM Testing & Auto Loop Fix",
       "startedAt": "2026-02-07T17:52:19.515Z",
