@@ -1,4 +1,4 @@
-import { icons } from 'lucide-react';
+import * as icons from 'lucide-react';
 import { LucideProps } from 'lucide-react';
 
 interface DynamicIconProps extends LucideProps {
