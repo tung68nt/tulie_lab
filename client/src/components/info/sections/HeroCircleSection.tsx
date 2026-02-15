@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Play } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Section } from "@/types/sections";
+import { DynamicIcon } from "@/components/DynamicIcon";
 
 interface HeroCircleSectionProps {
     section?: Partial<Section>;
@@ -13,8 +13,11 @@ interface HeroCircleSectionProps {
 export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
     const title = section?.title || "Institute of Medical Technology";
     const subtitle = section?.subtitle || "Viện Ứng dụng Công nghệ Y tế";
-    const circularText = section?.tag || "Institute of Medical Technology Applications • Viện Ứng dụng Công nghệ Y tế • ";
+    const baseText = section?.tag || "Institute of Medical Technology Applications • Viện Ứng dụng Công nghệ Y tế • ";
+    // Repeat text to ensure it covers the circle better
+    const circularText = baseText.repeat(2);
     const isDark = section?.backgroundTheme === 'dark';
+    const iconName = section?.icon || "Play";
 
     return (
         <div className={cn(
@@ -35,34 +38,34 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
                     <motion.div
                         className="absolute inset-0 flex items-center justify-center pointer-events-none"
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                     >
                         <svg
                             viewBox="0 0 300 300"
                             width="300"
                             height="300"
-                            className="h-[280px] w-[280px] sm:h-[360px] sm:w-[360px]"
+                            className="h-[280px] w-[280px] sm:h-[400px] sm:w-[400px]"
                         >
                             <defs>
                                 <path
                                     id="circlePath"
-                                    d="M 150, 150 m -100, 0 a 100,100 0 1,1 200,0 a 100,100 0 1,1 -200,0"
+                                    d="M 150, 150 m -120, 0 a 120,120 0 1,1 240,0 a 120,120 0 1,1 -240,0"
                                 />
                             </defs>
                             <text
                                 fill={isDark ? "white" : "black"}
-                                fontSize="14"
+                                fontSize="12"
                                 fontWeight="600"
-                                className="tracking-[4px] uppercase opacity-70"
+                                className="tracking-[2px] uppercase opacity-70"
                             >
-                                <textPath xlinkHref="#circlePath">
+                                <textPath href="#circlePath">
                                     {circularText}
                                 </textPath>
                             </text>
                         </svg>
                     </motion.div>
 
-                    {/* Center Play Button */}
+                    {/* Center Button */}
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -70,7 +73,7 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
                             "group relative z-20 flex h-24 w-24 items-center justify-center rounded-full shadow-2xl transition-all sm:h-32 sm:w-32",
                             isDark ? "bg-white text-black" : "bg-black text-white"
                         )}
-                        aria-label="Play Video"
+                        aria-label="Action Button"
                     >
                         {/* Glow effect on hover */}
                         <div className={cn(
@@ -78,10 +81,15 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
                             isDark ? "bg-white" : "bg-black"
                         )} />
 
-                        <Play className={cn(
-                            "ml-1 h-10 w-10 transition-transform group-hover:scale-110 sm:h-12 sm:w-12",
-                            isDark ? "fill-black" : "fill-white"
-                        )} />
+                        <DynamicIcon
+                            name={iconName}
+                            className={cn(
+                                "h-10 w-10 transition-transform group-hover:scale-110 sm:h-12 sm:w-12",
+                                isDark ? "text-black" : "text-white"
+                            )}
+                            strokeWidth={2}
+                            fill={isDark ? "currentColor" : "currentColor"}
+                        />
                     </motion.button>
                 </div>
 
