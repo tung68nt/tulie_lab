@@ -13,7 +13,7 @@ interface HeroCircleSectionProps {
 export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
     const title = section?.title || "Institute of Medical Technology Applications";
     const subtitle = section?.subtitle || "Viện Ứng dụng Công nghệ Y tế";
-    const tag = section?.description || "Liên Hiệp các Hội Khoa học và Kỹ thuật Việt Nam";
+    const tag = section?.tag || "Liên Hiệp các Hội Khoa học và Kỹ thuật Việt Nam";
     const baseText = (section?.tag || "#InstituteofMedicalTechnologyApplication #Vechungtoi #Aboutus #VienungdungCongngheYte ") + " ";
     const circularText = baseText.repeat(2);
     const isDark = section?.backgroundTheme === 'dark';
