@@ -13,7 +13,7 @@ interface HeroCircleSectionProps {
 export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
     const title = section?.title || "Institute of Medical Technology";
     const subtitle = section?.subtitle || "Viện Ứng dụng Công nghệ Y tế";
-    const baseText = section?.tag || "Institute of Medical Technology Applications • Viện Ứng dụng Công nghệ Y tế • ";
+    const baseText = (section?.tag || "Institute of Medical Technology Applications • Viện Ứng dụng Công nghệ Y tế • ") + " ";
     // Repeat text to ensure it covers the circle better
     const circularText = baseText.repeat(2);
     const isDark = section?.backgroundTheme === 'dark';
@@ -31,9 +31,9 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
             )}></div>
 
             {/* Main Content Container */}
-            <div className="relative z-10 flex flex-col items-center gap-8 md:gap-12">
-                {/* Rotating Circular Text Container */}
-                <div className="relative flex items-center justify-center">
+            <div className="relative z-10 flex flex-col items-center gap-8 md:gap-12 w-full">
+                {/* Rotating Circular Text Container - FIXED: Added explicit dimensions */}
+                <div className="relative flex items-center justify-center h-[280px] w-[280px] sm:h-[400px] sm:w-[400px]">
                     {/* Animated SVG Text with Framer Motion */}
                     <motion.div
                         className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -42,14 +42,12 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
                     >
                         <svg
                             viewBox="0 0 300 300"
-                            width="300"
-                            height="300"
-                            className="h-[280px] w-[280px] sm:h-[400px] sm:w-[400px]"
+                            className="w-full h-full"
                         >
                             <defs>
                                 <path
                                     id="circlePath"
-                                    d="M 150, 150 m -120, 0 a 120,120 0 1,1 240,0 a 120,120 0 1,1 -240,0"
+                                    d="M 150, 150 m -115, 0 a 115,115 0 1,1 230,0 a 115,115 0 1,1 -230,0"
                                 />
                             </defs>
                             <text
@@ -58,7 +56,7 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
                                 fontWeight="600"
                                 className="tracking-[2px] uppercase opacity-70"
                             >
-                                <textPath href="#circlePath">
+                                <textPath href="#circlePath" xlinkHref="#circlePath">
                                     {circularText}
                                 </textPath>
                             </text>
@@ -94,7 +92,7 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
                 </div>
 
                 {/* Hero Title (Below the circle) */}
-                <div className="text-center space-y-4 md:space-y-6 max-w-3xl px-6">
+                <div className="text-center space-y-4 md:space-y-6 max-w-4xl px-6">
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
