@@ -17,7 +17,7 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
     const items = section.items || [];
 
     return (
-        <section className="py-6 md:py-10 relative overflow-hidden transition-colors duration-300">
+        <section className="py-6 md:py-10 pb-16 relative overflow-x-clip transition-colors duration-300">
             <SectionBackground
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}

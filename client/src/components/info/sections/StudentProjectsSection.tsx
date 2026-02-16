@@ -10,7 +10,7 @@ export const StudentProjectsSection = ({ section }: { section: Section }) => {
     return (
         <section
             className={cn(
-                "py-12 md:py-20 relative overflow-hidden transition-colors duration-300",
+                "py-12 md:py-20 relative overflow-x-clip transition-colors duration-300",
                 section.backgroundTheme === 'dark'
                     ? "bg-[#050505] text-white"
                     : section.backgroundTheme === 'light'

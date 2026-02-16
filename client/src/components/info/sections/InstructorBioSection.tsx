@@ -72,7 +72,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
     ];
 
     return (
-        <section className="py-16 md:py-24 bg-background relative overflow-hidden">
+        <section className="py-16 md:py-24 bg-background relative overflow-x-clip">
             {/* Background Pattern - Subtle */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#333_1px,transparent_1px)] [background-size:24px_24px] opacity-70" />
