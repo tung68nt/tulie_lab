@@ -34,6 +34,28 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
         }
     },
     {
+        id: 'hero-circle',
+        name: 'Circular Text Hero',
+        category: 'Hero',
+        description: 'Premium circular text hero with animated central button.',
+        previewImage: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'hero-circle-1',
+            type: 'hero',
+            name: 'Circular Text Hero',
+            tag: 'Liên Hiệp các Hội Khoa học và Kỹ thuật Việt Nam',
+            title: 'Institute of Medical Technology Applications',
+            subtitle: 'Viện Ứng dụng Công nghệ Y tế',
+            ctaText: 'Tìm hiểu thêm',
+            ctaLink: '/about',
+            icon: 'Play',
+            showDotPattern: true,
+            backgroundTheme: 'light',
+            overlayOpacity: 0.6,
+            glowVariant: 0
+        }
+    },
+    {
         id: 'stats-modern',
         name: 'Modern Stats Grid',
         category: 'Social Proof',

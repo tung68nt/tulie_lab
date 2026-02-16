@@ -27,9 +27,8 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
             <div className="container relative z-10 mx-auto px-4">
                 <StandardSectionHeader
                     section={section}
-                    tagOverride={section.subtitle || "KẾT QUẢ THỰC TẾ"}
-                    subtitleOverride="Những câu chuyện thành công từ học viên đã áp dụng kiến thức vào thực tế."
-                    tagProps={{ dotColor: 'black', animate: true }}
+                    subtitleOverride={section.subtitle}
+                    tagProps={{ dotColor: 'primary', animate: true }}
                 />
 
                 <FadeIn direction="up" delay={0.4}>
