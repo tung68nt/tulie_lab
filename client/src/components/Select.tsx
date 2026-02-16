@@ -15,15 +15,38 @@ interface SimpleSelectProps extends React.ComponentPropsWithoutRef<typeof Select
 }
 
 const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
-  ({ onChange, onValueChange, options, children, className, ...props }, ref) => {
+  ({ onChange, onValueChange, options, value, defaultValue, children, className, ...props }, ref) => {
+    // Handle options: replace empty string value with placeholder
+    const safeOptions = options?.map((opt) => ({
+      ...opt,
+      value: opt.value === "" ? "__NO_SELECTION__" : opt.value,
+    }));
+
+    // Handle value: map empty string to placeholder
+    const safeValue = value === "" ? "__NO_SELECTION__" : value;
+    const safeDefaultValue = defaultValue === "" ? "__NO_SELECTION__" : defaultValue;
+
+    // Handle change: map placeholder back to empty string
+    const handleValueChange = (newValue: string) => {
+      const callback = onValueChange || onChange;
+      if (callback) {
+        callback(newValue === "__NO_SELECTION__" ? "" : newValue);
+      }
+    };
+
     if (options) {
       return (
-        <SelectRoot onValueChange={onValueChange || onChange} {...props}>
+        <SelectRoot
+          onValueChange={handleValueChange}
+          value={safeValue}
+          defaultValue={safeDefaultValue}
+          {...props}
+        >
           <SelectTrigger ref={ref} className={className}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {options.map((opt) => (
+            {safeOptions?.map((opt) => (
               <SelectItem key={opt.value} value={opt.value}>
                 {opt.label}
               </SelectItem>
@@ -33,7 +56,12 @@ const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
       );
     }
     return (
-      <SelectRoot onValueChange={onValueChange || onChange} {...props}>
+      <SelectRoot
+        onValueChange={handleValueChange}
+        value={safeValue}
+        defaultValue={safeDefaultValue}
+        {...props}
+      >
         {children}
       </SelectRoot>
     );
