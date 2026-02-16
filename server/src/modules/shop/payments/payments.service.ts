@@ -541,10 +541,10 @@ export class PaymentService {
                 if (gateway.type === 'SEPAY') {
                     const res = await this.syncSePay({
                         apiKey: gateway.config.apiKey,
-                        accountNumber: gateway.config.accountNumber || params.accountNumber,
-                        limit: params.limit,
-                        dateMin: params.dateMin,
-                        dateMax: params.dateMax
+                        accountNumber: gateway.config.accountNumber || params.accountNumber || "",
+                        limit: params.limit ?? 100,
+                        dateMin: params.dateMin ?? "",
+                        dateMax: params.dateMax ?? ""
                     });
                     results.total += res.total;
                     results.processed += res.processed;
