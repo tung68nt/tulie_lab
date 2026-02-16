@@ -6,7 +6,7 @@ import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { api, getMediaUrl } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings } from 'lucide-react';
+import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings, Plus, Trash2, Edit2, CreditCard } from 'lucide-react';
 import { Switch } from '@/components/Switch';
 import { useSettings } from '@/contexts/SettingsContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -29,6 +29,7 @@ export default function AdminSettingsPage() {
     const [regenerating, setRegenerating] = useState(false);
     const [domainBranding, setDomainBranding] = useState<any[]>([]);
     const [uploadingDomainLogo, setUploadingDomainLogo] = useState<number | null>(null);
+    const [paymentGateways, setPaymentGateways] = useState<any[]>([]);
 
     useEffect(() => {
         loadSettings();
@@ -83,6 +84,25 @@ export default function AdminSettingsPage() {
                     setDomainBranding([]);
                 }
             }
+            if (res.payment_gateways) {
+                try {
+                    setPaymentGateways(JSON.parse(res.payment_gateways));
+                } catch (e) {
+                    setPaymentGateways([]);
+                }
+            } else if (res.SEPAY_API_KEY) {
+                // Auto-migrate if SEPAY_API_KEY exists but payment_gateways doesn't
+                setPaymentGateways([{
+                    id: 'default-sepay',
+                    name: 'SePay',
+                    type: 'SEPAY',
+                    isActive: true,
+                    config: {
+                        apiKey: res.SEPAY_API_KEY,
+                        accountNumber: res.bank_account_no || ''
+                    }
+                }]);
+            }
         } catch (error) {
             console.error('Failed to load settings', error);
             addToast("Không thể tải cài đặt hệ thống.", 'error');
@@ -97,7 +117,8 @@ export default function AdminSettingsPage() {
         try {
             const finalSettings = {
                 ...settings,
-                domain_branding: JSON.stringify(domainBranding)
+                domain_branding: JSON.stringify(domainBranding),
+                payment_gateways: JSON.stringify(paymentGateways)
             };
             await api.admin.settings.update(finalSettings);
             // Refresh global settings context so navbar updates
@@ -108,6 +129,33 @@ export default function AdminSettingsPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleAddGateway = (type: string) => {
+        const newGateway = {
+            id: Math.random().toString(36).substring(2, 9),
+            name: type === 'SEPAY' ? 'SePay' : type === 'VNPAY' ? 'VNPay' : type === 'CASSO' ? 'Casso' : 'Cổng khác',
+            type,
+            isActive: true,
+            config: {}
+        };
+        setPaymentGateways([...paymentGateways, newGateway]);
+    };
+
+    const handleUpdateGateway = (index: number, updates: any) => {
+        const newGateways = [...paymentGateways];
+        newGateways[index] = { ...newGateways[index], ...updates };
+        setPaymentGateways(newGateways);
+    };
+
+    const handleUpdateGatewayConfig = (index: number, key: string, value: string) => {
+        const newGateways = [...paymentGateways];
+        newGateways[index].config = { ...newGateways[index].config, [key]: value };
+        setPaymentGateways(newGateways);
+    };
+
+    const handleRemoveGateway = (index: number) => {
+        setPaymentGateways(paymentGateways.filter((_, i) => i !== index));
     };
 
     const handleChange = (key: string, value: string) => {
@@ -505,27 +553,116 @@ export default function AdminSettingsPage() {
                             <hr className="my-4" />
 
                             <div className="space-y-4">
-                                <label className="text-sm font-medium">Cấu hình SePay (Đồng bộ giao dịch)</label>
-                                <div className="grid gap-4 md:grid-cols-2">
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium">SePay API Key</label>
-                                        <Input
-                                            type="password"
-                                            value={settings.SEPAY_API_KEY || ''}
-                                            onChange={(e) => handleChange('SEPAY_API_KEY', e.target.value)}
-                                            placeholder="Lấy từ sepay.vn -> Cài đặt API"
-                                        />
-                                        <p className="text-[10px] text-muted-foreground">Key này dùng để gọi API đồng bộ giao dịch thủ công.</p>
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <label className="text-sm font-semibold">Cổng thanh toán</label>
+                                        <p className="text-xs text-muted-foreground">Cấu hình đồng bộ giao dịch tự động.</p>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm font-medium">Số tài khoản ngân hàng</label>
-                                        <Input
-                                            value={settings.bank_account_no || ''}
-                                            onChange={(e) => handleChange('bank_account_no', e.target.value)}
-                                            placeholder="Ví dụ: 104002106705"
-                                        />
-                                        <p className="text-[10px] text-muted-foreground">Số tài khoản dùng để lọc giao dịch khi đồng bộ.</p>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => handleAddGateway('SEPAY')}
+                                            className="h-8 text-xs gap-1"
+                                        >
+                                            <Plus size={14} /> SePay
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => handleAddGateway('VNPAY')}
+                                            className="h-8 text-xs gap-1"
+                                        >
+                                            <Plus size={14} /> VNPay
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => handleAddGateway('CASSO')}
+                                            className="h-8 text-xs gap-1"
+                                        >
+                                            <Plus size={14} /> Casso
+                                        </Button>
                                     </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    {paymentGateways.map((gw, idx) => (
+                                        <div key={gw.id || idx} className="p-4 border rounded-xl bg-muted/20 space-y-4 relative group">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="p-2 bg-background rounded-lg border">
+                                                        <CreditCard size={16} className="text-muted-foreground" />
+                                                    </div>
+                                                    <div>
+                                                        <Input
+                                                            value={gw.name}
+                                                            onChange={(e) => handleUpdateGateway(idx, { name: e.target.value })}
+                                                            className="h-7 text-sm font-bold bg-transparent border-none p-0 focus-visible:ring-0 w-auto"
+                                                        />
+                                                        <p className="text-[10px] text-muted-foreground uppercase font-semibold">Loại: {gw.type}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-3">
+                                                    <Switch
+                                                        checked={gw.isActive}
+                                                        onCheckedChange={(checked) => handleUpdateGateway(idx, { isActive: checked })}
+                                                    />
+                                                    <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        variant="ghost"
+                                                        className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                                        onClick={() => handleRemoveGateway(idx)}
+                                                    >
+                                                        <Trash2 size={14} />
+                                                    </Button>
+                                                </div>
+                                            </div>
+
+                                            <div className="grid gap-4 md:grid-cols-2 pt-2 border-t border-dashed">
+                                                {gw.type === 'SEPAY' && (
+                                                    <>
+                                                        <div className="space-y-2">
+                                                            <label className="text-[10px] font-bold text-muted-foreground uppercase">SePay API Key</label>
+                                                            <Input
+                                                                type="password"
+                                                                value={gw.config.apiKey || ''}
+                                                                onChange={(e) => handleUpdateGatewayConfig(idx, 'apiKey', e.target.value)}
+                                                                placeholder="Lấy từ sepay.vn"
+                                                                className="bg-background h-9 text-sm"
+                                                            />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <label className="text-[10px] font-bold text-muted-foreground uppercase">Số tài khoản</label>
+                                                            <Input
+                                                                value={gw.config.accountNumber || ''}
+                                                                onChange={(e) => handleUpdateGatewayConfig(idx, 'accountNumber', e.target.value)}
+                                                                placeholder="VD: 10400210..."
+                                                                className="bg-background h-9 text-sm"
+                                                            />
+                                                        </div>
+                                                    </>
+                                                )}
+                                                {(gw.type === 'VNPAY' || gw.type === 'CASSO') && (
+                                                    <div className="col-span-2 py-4 text-center border border-dashed rounded-lg bg-background/50">
+                                                        <p className="text-xs text-muted-foreground">
+                                                            Cổng {gw.type} đang được phát triển. Vui lòng quay lại sau.
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+
+                                    {paymentGateways.length === 0 && (
+                                        <div className="text-center py-8 border border-dashed rounded-xl text-muted-foreground text-sm">
+                                            Chưa có cổng thanh toán nào được cấu hình.
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </CardContent>

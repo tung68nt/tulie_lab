@@ -206,7 +206,7 @@ export function Navbar() {
 
     return (
         <>
-            <nav className="sticky top-[var(--countdown-height,0px)] inset-x-0 z-50 w-full border-b bg-background/80 backdrop-blur-md transition-[top] duration-300">
+            <nav className="sticky top-[var(--countdown-height,0px)] inset-x-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
                 <div className="container flex h-20 items-center">
                     <div className="mr-8">
                         <Logo />
@@ -238,6 +238,7 @@ export function Navbar() {
                                                         href={child.href}
                                                         target={child.isExternal ? '_blank' : undefined}
                                                         rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                                                        prefetch={false}
                                                         className={`block px-3 py-2 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
                                                             }`}
                                                     >
@@ -256,6 +257,7 @@ export function Navbar() {
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                                    prefetch={false}
                                     className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                                     title={link.label}
                                 >

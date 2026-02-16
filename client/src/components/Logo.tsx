@@ -71,9 +71,11 @@ export function Logo({ className = "", showText = true, height = "h-8" }: LogoPr
     // Final logo and name logic with fallback
     // If imgError is true, we force fallback to default settings even if currentBranding exists
     const displayLogo = (!imgError && currentBranding?.logo_url) || settings.site_logo;
-    const displayName = currentBranding?.site_name || settings.site_name;
+    const displayName = currentBranding?.site_name || settings.site_name || 'Tulie Academy';
 
-    const shouldShowText = showText && settings.show_site_name === 'true';
+    // Robust toggle check: string "true" or boolean true
+    const isShowTextEnabled = settings.show_site_name === 'true' || (settings.show_site_name as any) === true;
+    const shouldShowText = showText && isShowTextEnabled;
     const isDark = mounted && (theme === 'dark' || resolvedTheme === 'dark');
 
     // Reset error state if hostname changes or settings change

@@ -64,16 +64,31 @@ export function SalesCountdownSection({ section }: { section: Section }) {
 
         // Measure height and set global CSS variable
         const updateHeight = () => {
-            const h = document.getElementById('sales-countdown-section')?.offsetHeight || 0;
-            document.documentElement.style.setProperty('--countdown-height', `${h}px`);
+            const h = document.getElementById('sales-countdown-section')?.offsetHeight;
+            if (h && h > 0) {
+                document.documentElement.style.setProperty('--countdown-height', `${h}px`);
+                // Mark that we set it
+                (window as any).__countdownHeightSet = true;
+            }
         };
 
+        // Initial set
         updateHeight();
+        // Add listener
         window.addEventListener('resize', updateHeight);
 
         return () => {
             window.removeEventListener('resize', updateHeight);
-            document.documentElement.style.setProperty('--countdown-height', '0px');
+            // Only reset if we were the ones who set it (and we are unmounting)
+            // But actually, for smooth navigation, we might want to reset it immediately on unmount
+            // The issue is if the next page DOESN'T have a countdown, we want the navbar to jump to top 0
+            // but WITHOUT transition.
+
+            // Clean up
+            if ((window as any).__countdownHeightSet) {
+                document.documentElement.style.setProperty('--countdown-height', '0px');
+                delete (window as any).__countdownHeightSet;
+            }
         };
     }, []);
 

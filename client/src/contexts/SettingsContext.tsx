@@ -40,7 +40,7 @@ export interface DomainBranding {
 }
 
 const defaultSettings: Settings = {
-    site_name: 'The Tulie Lab',
+    site_name: 'Tulie Academy',
     site_logo: '',
     site_favicon: '',
     show_site_name: 'true',

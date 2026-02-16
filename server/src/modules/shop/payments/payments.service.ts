@@ -499,23 +499,76 @@ export class PaymentService {
         dateMin?: string;
         dateMax?: string;
     } = {}) {
-        const { accountNumber, limit = 100, dateMin, dateMax } = params;
-        let apiKey = env.SEPAY_API_KEY;
+        let gateways: any[] = [];
+        const settingService = container.resolve<SettingService>('SettingService');
 
-        if (!apiKey) {
+        try {
+            const settings = await settingService.getSettings(['payment_gateways', 'SEPAY_API_KEY', 'bank_account_no']);
+            if (settings.payment_gateways) {
+                gateways = JSON.parse(settings.payment_gateways);
+            }
+
+            // Fallback for legacy SePay config if no gateways are defined
+            if (gateways.length === 0) {
+                const legacyKey = settings.SEPAY_API_KEY || env.SEPAY_API_KEY;
+                if (legacyKey) {
+                    gateways.push({
+                        id: 'legacy-sepay',
+                        name: 'SePay (Legacy)',
+                        type: 'SEPAY',
+                        isActive: true,
+                        config: {
+                            apiKey: legacyKey,
+                            accountNumber: settings.bank_account_no
+                        }
+                    });
+                }
+            }
+        } catch (err) {
+            console.warn('[PaymentService] Failed to load payment gateways from settings:', err);
+        }
+
+        const results = {
+            total: 0,
+            processed: 0,
+            errors: 0
+        };
+
+        for (const gateway of gateways) {
+            if (!gateway.isActive) continue;
+
             try {
-                // Fallback to Settings Service - check for SEPAY_API_KEY
-                const settingService = container.resolve<SettingService>('SettingService');
-                const settings = await settingService.getSettings(['SEPAY_API_KEY']);
-                apiKey = settings.SEPAY_API_KEY || undefined;
-            } catch (err) {
-                console.warn('Could not resolve SettingService for API Key:', err);
+                if (gateway.type === 'SEPAY') {
+                    const res = await this.syncSePay({
+                        apiKey: gateway.config.apiKey,
+                        accountNumber: gateway.config.accountNumber || params.accountNumber,
+                        limit: params.limit,
+                        dateMin: params.dateMin,
+                        dateMax: params.dateMax
+                    });
+                    results.total += res.total;
+                    results.processed += res.processed;
+                    results.errors += res.errors;
+                } else {
+                    console.log(`[PaymentService] Sync not implemented for gateway type: ${gateway.type}`);
+                }
+            } catch (err: any) {
+                console.error(`[PaymentService] Failed to sync gateway ${gateway.name || gateway.id}:`, err.message);
+                results.errors++;
             }
         }
 
-        if (!apiKey) {
-            throw new Error('Cấu hình SePay API Key chưa hoàn tất. Vui lòng thêm SEPAY_API_KEY trong .env hoặc Cài đặt hệ thống.');
-        }
+        return results;
+    }
+
+    private async syncSePay(params: {
+        apiKey: string;
+        accountNumber?: string;
+        limit?: number;
+        dateMin?: string;
+        dateMax?: string;
+    }) {
+        const { apiKey, accountNumber, limit = 100, dateMin, dateMax } = params;
 
         let url = `https://my.sepay.vn/userapi/transactions/list`;
         const queryParams = new URLSearchParams();
@@ -560,8 +613,6 @@ export class PaymentService {
                         };
 
                         // Extract order code from content if it matches pattern
-                        // Look for DH[A-Z0-9] pattern anywhere in the content. 
-                        // If multiple DH prefixes exist (like SEVQRDHDH...), it will find the first DH and take the code.
                         const orderCodePattern = /DH[A-Z0-9]{6,12}/i;
                         const match = webhookData.content.match(orderCodePattern);
                         if (match) {
@@ -575,14 +626,13 @@ export class PaymentService {
                         if (tx.reference_number) webhookData.referenceCode = tx.reference_number;
                         if (tx.description) webhookData.description = tx.description;
 
-                        // Upsert transaction to ensure we update code if regex was improved
+                        // Upsert transaction
                         await prisma.paymentTransaction.upsert({
                             where: { id: webhookData.transactionId },
                             update: {
                                 code: webhookData.code ?? null,
                                 content: webhookData.content ?? null,
                                 description: webhookData.description ?? null,
-                                // Don't overwrite other fields if not necessary, but code is critical
                             },
                             create: {
                                 gateway: webhookData.gateway ?? null,
@@ -623,7 +673,7 @@ export class PaymentService {
                 url: url
             });
             if (error.response?.status === 401) {
-                throw new Error('Lỗi xác thực SePay (401). Vui lòng kiểm tra lại API Key (đã tự động loại bỏ khoảng trắng/dấu ngoặc).');
+                throw new Error('Lỗi xác thực SePay (401). Vui lòng kiểm tra lại API Key.');
             }
             throw new Error(`Lỗi đồng bộ SePay: ${error.message}`);
         }

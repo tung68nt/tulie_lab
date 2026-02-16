@@ -12,7 +12,7 @@ export class SettingService {
         }, {});
     }
 
-    async updateSettings(settings: Record<string, string>) {
+    async updateSettings(settings: Record<string, any>) {
         const updateData = Object.entries(settings).map(([key, value]) => ({
             key,
             value: typeof value === 'object' ? JSON.stringify(value) : String(value)
