@@ -12,12 +12,17 @@ interface SimpleSelectProps extends React.ComponentPropsWithoutRef<typeof Select
   onChange?: (value: string) => void;
   options?: { value: string; label: string }[];
   className?: string;
+  // These are actually parts of SelectPrimitive.Root props but explicitly defining them avoids lint issues
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  children?: React.ReactNode;
 }
 
 const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
   ({ onChange, onValueChange, options, value, defaultValue, children, className, ...props }, ref) => {
-    // Handle value mapping: "" <-> "__EMPTY_VALUE__"
-    const mapToSafe = (v: any) => v === "" ? "__EMPTY_VALUE__" : v;
+    // Handle value mapping: ""/undefined/null <-> "__EMPTY_VALUE__"
+    const mapToSafe = (v: any) => (v === "" || v === undefined || v === null) ? "__EMPTY_VALUE__" : String(v);
     const mapFromSafe = (v: string) => v === "__EMPTY_VALUE__" ? "" : v;
 
     const safeValue = value !== undefined ? mapToSafe(value) : undefined;
@@ -42,8 +47,11 @@ const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {options.map((opt) => (
-              <SelectItem key={opt.value} value={mapToSafe(opt.value)}>
+            {options.map((opt, idx) => (
+              <SelectItem
+                key={`${opt.value}-${idx}`}
+                value={mapToSafe(opt.value)}
+              >
                 {opt.label}
               </SelectItem>
             ))}
@@ -173,7 +181,8 @@ const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, value, ...props }, ref) => {
-  const safeValue = value === "" ? "__EMPTY_VALUE__" : value;
+  // Ensure value is always a non-empty string for Radix
+  const safeValue = (value === "" || value === undefined || value === null) ? "__EMPTY_VALUE__" : String(value);
 
   return (
     <SelectPrimitive.Item
