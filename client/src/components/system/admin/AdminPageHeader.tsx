@@ -33,7 +33,7 @@ export function AdminPageHeader({ title, subtitle, backUrl, children, className,
                                 {title}
                             </h1>
                             {subtitle && (
-                                <p className="text-muted-foreground text-base">
+                                <p className="text-muted-foreground text-sm">
                                     {subtitle}
                                 </p>
                             )}

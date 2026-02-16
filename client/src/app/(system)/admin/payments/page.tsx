@@ -93,7 +93,7 @@ export default function AdminPaymentsPage() {
         const date = new Date(dateStr);
         return (
             <div className="flex flex-col text-[10px] leading-tight text-muted-foreground">
-                <span className="font-bold text-zinc-900 text-xs">
+                <span className="font-semibold text-foreground text-xs">
                     {date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
                 </span>
                 <span>
@@ -115,7 +115,7 @@ export default function AdminPaymentsPage() {
                 <div className="flex gap-2">
                     <div className="flex items-center gap-1 border rounded-lg bg-white overflow-hidden shadow-sm">
                         <select
-                            className="text-xs font-bold px-2 py-1.5 bg-transparent border-0 focus:outline-none focus:ring-0 cursor-pointer"
+                            className="text-xs font-semibold px-2 py-1.5 bg-transparent border-0 focus:outline-none focus:ring-0 cursor-pointer"
                             value={syncLimit}
                             onChange={(e) => setSyncLimit(Number(e.target.value))}
                             disabled={syncing}
@@ -192,7 +192,7 @@ export default function AdminPaymentsPage() {
                                 }}
                             />
                         </div>
-                        <span className="text-sm font-bold bg-zinc-100 px-2 py-1 rounded text-zinc-600 border">
+                        <span className="text-sm font-semibold bg-muted px-2 py-1 rounded text-foreground border border-border">
                             {total}
                         </span>
                     </div>
@@ -208,7 +208,7 @@ export default function AdminPaymentsPage() {
                                 <History size={48} className="mx-auto opacity-20" />
                             </div>
                             <p>Không tìm thấy giao dịch nào khớp với điều kiện lọc</p>
-                            <Button variant="link" onClick={() => { setSearch(''); setStartDate(''); setEndDate(''); }} className="mt-2 text-primary font-bold">
+                            <Button variant="link" onClick={() => { setSearch(''); setStartDate(''); setEndDate(''); }} className="mt-2 text-primary font-semibold">
                                 Xóa bộ lọc
                             </Button>
                         </div>
@@ -218,11 +218,11 @@ export default function AdminPaymentsPage() {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b bg-muted/50">
-                                            <th className="text-left py-3 px-4 font-bold text-xs">Thời gian</th>
-                                            <th className="text-left py-3 px-4 font-bold text-xs">Ngân hàng</th>
-                                            <th className="text-left py-3 px-4 font-bold text-xs">Nội dung</th>
-                                            <th className="text-right py-3 px-4 font-bold text-xs">Số tiền</th>
-                                            <th className="text-center py-3 px-4 font-bold text-xs text-nowrap">Mã đơn</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Thời gian</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Ngân hàng</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Nội dung</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-xs text-muted-foreground/70">Số tiền</th>
+                                            <th className="text-center py-3 px-4 font-semibold text-xs text-muted-foreground/70 text-nowrap">Mã đơn</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y relative">
@@ -237,7 +237,7 @@ export default function AdminPaymentsPage() {
                                                     {renderDate(tx.transactionDate || tx.createdAt)}
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <div className="font-bold text-zinc-900">{tx.gateway}</div>
+                                                    <div className="font-semibold text-foreground text-xs">{tx.gateway}</div>
                                                     <div className="text-[10px] text-muted-foreground font-mono">{tx.accountNumber}</div>
                                                 </td>
                                                 <td className="py-3 px-4 min-w-[200px] max-w-[400px]">
@@ -245,14 +245,14 @@ export default function AdminPaymentsPage() {
                                                         {tx.content || tx.description || 'N/A'}
                                                     </div>
                                                 </td>
-                                                <td className="py-3 px-4 text-right font-bold text-zinc-900 text-sm">
+                                                <td className="py-3 px-4 text-right font-semibold text-foreground text-xs">
                                                     {formatCurrency(tx.amountIn)}
                                                 </td>
                                                 <td className="py-3 px-4 text-center">
                                                     {tx.code ? (
                                                         <Link href={tx.orderId ? `/admin/orders/${tx.orderId}` : `/admin/orders?search=${tx.code}`}>
                                                             <div className="group flex items-center justify-center gap-1.5 cursor-pointer">
-                                                                <span className="text-[11px] bg-zinc-900 text-zinc-100 px-3 py-1 rounded-full font-mono font-bold whitespace-nowrap group-hover:bg-zinc-700 transition-colors shadow-sm">
+                                                                <span className="text-[10px] bg-foreground text-background px-3 py-1 rounded-full font-mono font-semibold whitespace-nowrap group-hover:bg-primary/80 transition-colors shadow-sm">
                                                                     {tx.code}
                                                                 </span>
                                                                 {tx.orderId && <ExternalLink size={10} className="text-zinc-400 group-hover:text-zinc-900 transition-colors" />}

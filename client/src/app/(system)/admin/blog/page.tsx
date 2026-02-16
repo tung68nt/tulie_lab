@@ -227,7 +227,7 @@ export default function AdminBlogPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-20">
-                <div className="w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -277,7 +277,7 @@ export default function AdminBlogPage() {
                                 <select
                                     value={formData.categoryId}
                                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                                    className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                    className="flex h-10 w-full items-center justify-between rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 font-medium"
                                 >
                                     <option value="">-- Chọn chuyên mục --</option>
                                     {categories.map((cat) => (
@@ -436,13 +436,13 @@ export default function AdminBlogPage() {
                     ) : (
                         <div className="border rounded-lg overflow-hidden">
                             <table className="w-full">
-                                <thead className="bg-muted/50">
-                                    <tr className="text-left text-sm">
-                                        <th className="px-4 py-3 font-medium">Tiêu đề</th>
-                                        <th className="px-4 py-3 font-medium">Slug</th>
-                                        <th className="px-4 py-3 font-medium text-center">Status</th>
-                                        <th className="px-4 py-3 font-medium">Ngày tạo</th>
-                                        <th className="px-4 py-3 font-medium text-right">Thao tác</th>
+                                <thead className="bg-muted/50 border-b border-border">
+                                    <tr className="text-left text-xs text-muted-foreground">
+                                        <th className="px-4 py-3 font-semibold">Tiêu đề</th>
+                                        <th className="px-4 py-3 font-semibold">Slug</th>
+                                        <th className="px-4 py-3 font-semibold text-center">Status</th>
+                                        <th className="px-4 py-3 font-semibold">Ngày tạo</th>
+                                        <th className="px-4 py-3 font-semibold text-right">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y">
@@ -457,8 +457,8 @@ export default function AdminBlogPage() {
                                             <td className="px-4 py-3 text-center">
                                                 <button
                                                     onClick={() => togglePublish(post)}
-                                                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium cursor-pointer
-                                                        ${post.isPublished ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}
+                                                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold cursor-pointer border
+                                                        ${post.isPublished ? 'bg-foreground text-background border-foreground' : 'bg-muted text-muted-foreground border-border'}
                                                     `}
                                                 >
                                                     {post.isPublished ? 'Live' : 'Draft'}

@@ -144,7 +144,7 @@ export default function AdminProductsPage() {
                                             </div>
                                         </td>
                                         <td className="p-4 align-middle">
-                                            <span className="text-xs border border-neutral-200 text-neutral-600 px-2 py-0.5 rounded whitespace-nowrap">
+                                            <span className="text-[10px] bg-muted text-muted-foreground px-2 py-0.5 rounded font-semibold border border-border whitespace-nowrap">
                                                 {product.type?.toLowerCase() || 'unknown'}
                                             </span>
                                         </td>
@@ -160,9 +160,9 @@ export default function AdminProductsPage() {
                                         </td>
                                         <td className="p-4 align-middle">
                                             {product.isPublished ? (
-                                                <span className="text-xs border border-neutral-300 text-neutral-700 px-2 py-0.5 rounded whitespace-nowrap">Published</span>
+                                                <span className="text-[10px] bg-foreground text-background px-2 py-0.5 rounded font-semibold whitespace-nowrap">Published</span>
                                             ) : (
-                                                <span className="text-xs border border-neutral-200 text-neutral-400 px-2 py-0.5 rounded whitespace-nowrap">Draft</span>
+                                                <span className="text-[10px] bg-muted text-muted-foreground/60 px-2 py-0.5 rounded border border-border font-semibold whitespace-nowrap">Draft</span>
                                             )}
                                         </td>
                                         <td className="p-4 align-middle text-right">

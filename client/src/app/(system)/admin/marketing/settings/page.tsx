@@ -125,10 +125,10 @@ export default function MarketingSettingsPage() {
             />
 
             <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={addConfig} className="gap-2">
+                <Button variant="outline" onClick={addConfig} className="gap-2 border-border">
                     <Plus className="w-4 h-4" /> Thêm tài khoản
                 </Button>
-                <Button onClick={handleSaveConfigs} disabled={savingConfigs} className="gap-2 bg-black text-white">
+                <Button onClick={handleSaveConfigs} disabled={savingConfigs} className="gap-2">
                     {savingConfigs ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                     Lưu tất cả cấu hình
                 </Button>
@@ -140,9 +140,9 @@ export default function MarketingSettingsPage() {
                         key={config.id}
                         open={expandedIds.includes(config.id)}
                         onOpenChange={() => toggleExpand(config.id)}
-                        className="border border-slate-200 rounded-xl bg-white overflow-hidden transition-all duration-200"
+                        className="border border-border rounded-xl bg-card overflow-hidden transition-all duration-200"
                     >
-                        <div className="flex items-center justify-between p-4 bg-slate-50/50 border-b border-white select-none">
+                        <div className="flex items-center justify-between p-4 bg-muted/30 border-b border-border/50 select-none">
                             <CollapsibleTrigger asChild>
                                 <div className="flex items-center gap-3 cursor-pointer flex-1">
                                     {expandedIds.includes(config.id) ? (
@@ -151,11 +151,11 @@ export default function MarketingSettingsPage() {
                                         <ChevronRight className="w-5 h-5 text-muted-foreground" />
                                     )}
                                     <div className="flex items-center gap-3">
-                                        <span className="font-semibold text-sm">{config.name}</span>
+                                        <span className="font-semibold text-sm text-foreground">{config.name}</span>
                                         {config.active ? (
-                                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs font-normal">Đang hoạt động</Badge>
+                                            <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20 text-[10px] font-semibold">Đang hoạt động</Badge>
                                         ) : (
-                                            <Badge variant="outline" className="bg-slate-100 text-slate-500 border-slate-200 text-xs font-normal">Đã tắt</Badge>
+                                            <Badge variant="outline" className="bg-muted text-muted-foreground border-border text-[10px] font-semibold">Đã tắt</Badge>
                                         )}
                                     </div>
                                 </div>
@@ -205,7 +205,7 @@ export default function MarketingSettingsPage() {
                                         rows={3}
                                         value={config.FB_CAPI_ACCESS_TOKEN}
                                         onChange={(e) => updateConfig(config.id, 'FB_CAPI_ACCESS_TOKEN', e.target.value)}
-                                        className="w-full p-3 bg-white border border-slate-200 rounded-md focus:outline-none focus:border-black transition-all font-mono text-sm break-all"
+                                        className="w-full p-3 bg-background border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-ring transition-all font-mono text-sm break-all"
                                         placeholder="EAA..."
                                     />
                                 </div>
@@ -225,9 +225,9 @@ export default function MarketingSettingsPage() {
                 ))}
             </div>
 
-            <Card className="bg-slate-50 border-slate-200 shadow-none">
+            <Card className="bg-muted/30 border-border shadow-none">
                 <CardHeader>
-                    <CardTitle className="text-sm font-bold">Hướng dẫn cấu hình</CardTitle>
+                    <CardTitle className="text-sm font-semibold">Hướng dẫn cấu hình</CardTitle>
                 </CardHeader>
                 <CardContent className="text-xs space-y-4 text-muted-foreground leading-relaxed">
                     <p>Hệ thống hỗ trợ kết nối nhiều tài khoản quảng cáo cùng lúc. Dữ liệu từ tất cả các tài khoản hoạt động sẽ được tổng hợp lại trong trang Tổng quan.</p>

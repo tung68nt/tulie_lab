@@ -127,8 +127,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 <div className="sticky top-16 flex flex-col h-[calc(100vh-64px)]">
                                     <div className="px-6 pt-14 pb-6 border-b bg-muted/20">
                                         <div className="flex flex-col gap-1">
-                                            <span className="text-sm text-muted-foreground leading-none">Quản lý</span>
-                                            <span className="text-xl font-bold text-foreground tracking-tight">Hệ thống Tulie</span>
+                                            <span className="text-sm text-muted-foreground leading-none font-medium">Quản lý</span>
+                                            <span className="text-xl font-semibold text-foreground tracking-tight">Hệ thống Tulie</span>
                                         </div>
                                     </div>
                                     <nav className="flex-1 px-4 py-6 flex flex-col min-h-0 overflow-y-auto">
@@ -186,8 +186,8 @@ function CollapsibleGroup({
                         key={link.href}
                         href={link.href}
                         className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-300 w-full ${isActive(link.href, link.exact)
-                            ? 'bg-foreground text-background font-medium shadow-sm'
-                            : 'text-muted-foreground hover:bg-muted hover:text-foreground font-medium'
+                            ? 'bg-foreground text-background font-semibold shadow-sm'
+                            : 'text-muted-foreground hover:bg-muted hover:text-foreground font-semibold'
                             }`}
                     >
                         <LayoutDashboard className="h-4 w-4" />
@@ -223,8 +223,8 @@ function CollapsibleGroup({
                             key={link.href}
                             href={link.href}
                             className={`flex items-center px-3 py-1.5 rounded-md text-sm transition-all duration-500 w-full ${isActive(link.href, link.exact)
-                                ? 'bg-secondary text-secondary-foreground font-medium'
-                                : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                                ? 'bg-secondary text-secondary-foreground font-semibold'
+                                : 'text-muted-foreground hover:bg-muted hover:text-foreground font-semibold'
                                 }`}
                         >
                             {link.label}

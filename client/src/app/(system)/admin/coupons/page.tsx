@@ -75,21 +75,21 @@ export default function CouponsPage() {
                 ) : (
                     <div className="border rounded-lg overflow-hidden bg-background">
                         <table className="w-full text-sm">
-                            <thead className="bg-muted/50 border-b">
-                                <tr>
-                                    <th className="px-4 py-4 text-left font-medium">Mã Code</th>
-                                    <th className="px-4 py-4 text-left font-medium">Giảm giá</th>
-                                    <th className="px-4 py-4 text-left font-medium">Đơn tối thiểu</th>
-                                    <th className="px-4 py-4 text-left font-medium">Hiệu lực</th>
-                                    <th className="px-4 py-4 text-left font-medium">Lượt dùng</th>
-                                    <th className="px-4 py-4 text-left font-medium">Trạng thái</th>
-                                    <th className="px-4 py-4 text-right font-medium">Thao tác</th>
+                            <thead className="bg-muted/50 border-b border-border">
+                                <tr className="text-xs text-muted-foreground">
+                                    <th className="px-4 py-4 text-left font-semibold">Mã Code</th>
+                                    <th className="px-4 py-4 text-left font-semibold">Giảm giá</th>
+                                    <th className="px-4 py-4 text-left font-semibold">Đơn tối thiểu</th>
+                                    <th className="px-4 py-4 text-left font-semibold">Hiệu lực</th>
+                                    <th className="px-4 py-4 text-left font-semibold">Lượt dùng</th>
+                                    <th className="px-4 py-4 text-left font-semibold">Trạng thái</th>
+                                    <th className="px-4 py-4 text-right font-semibold">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y">
                                 {coupons.map((coupon) => (
                                     <tr key={coupon.id} className="hover:bg-muted/30">
-                                        <td className="px-4 py-4 font-medium">{coupon.code}</td>
+                                        <td className="px-4 py-4 font-semibold text-foreground">{coupon.code}</td>
                                         <td className="px-4 py-4">
                                             {coupon.discountType === 'PERCENT'
                                                 ? `${coupon.discountValue}% (Max ${coupon.maxDiscount?.toLocaleString() || '∞'}đ)`
@@ -108,7 +108,7 @@ export default function CouponsPage() {
                                             {coupon._count?.usages || 0} / {coupon.usageLimit || '∞'}
                                         </td>
                                         <td className="px-4 py-4">
-                                            <span className={`px-2 py-0.5 rounded text-xs font-semibold ${coupon.isActive ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>
+                                            <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${coupon.isActive ? 'bg-foreground text-background border-foreground' : 'bg-muted text-muted-foreground border-border'}`}>
                                                 {coupon.isActive ? 'Active' : 'Hidden'}
                                             </span>
                                         </td>

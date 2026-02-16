@@ -89,7 +89,7 @@ export default function ActivationCodesPage() {
             />
 
             <div className="bg-muted/30 p-6 rounded-xl border">
-                <h3 className="text-lg font-bold mb-4">Tạo mã kích hoạt thủ công</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-4">Tạo mã kích hoạt thủ công</h3>
                 <form onSubmit={handleCreate} className="flex flex-wrap gap-4 items-end">
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Loại sản phẩm</label>
@@ -145,50 +145,50 @@ export default function ActivationCodesPage() {
 
             <div className="border rounded-lg overflow-hidden bg-background shadow-sm overflow-x-auto">
                 <table className="w-full text-sm">
-                    <thead className="bg-muted/50 border-b text-muted-foreground">
-                        <tr>
-                            <th className="px-4 py-4 text-left font-medium">Mã kích hoạt</th>
-                            <th className="px-4 py-4 text-left font-medium">Sản phẩm / Khoá học</th>
-                            <th className="px-4 py-4 text-left font-medium">Loại</th>
-                            <th className="px-4 py-4 text-left font-medium">Ngày tạo</th>
-                            <th className="px-4 py-4 text-left font-medium">Người mua</th>
-                            <th className="px-4 py-4 text-left font-medium">Trạng thái</th>
-                            <th className="px-4 py-4 text-left font-medium">Người sử dụng</th>
-                            <th className="px-4 py-4 text-right font-medium">Thao tác</th>
+                    <thead className="bg-muted/50 border-b border-border text-muted-foreground">
+                        <tr className="text-xs">
+                            <th className="px-4 py-4 text-left font-semibold">Mã kích hoạt</th>
+                            <th className="px-4 py-4 text-left font-semibold">Sản phẩm / Khoá học</th>
+                            <th className="px-4 py-4 text-left font-semibold">Loại</th>
+                            <th className="px-4 py-4 text-left font-semibold">Ngày tạo</th>
+                            <th className="px-4 py-4 text-left font-semibold">Người mua</th>
+                            <th className="px-4 py-4 text-left font-semibold">Trạng thái</th>
+                            <th className="px-4 py-4 text-left font-semibold">Người sử dụng</th>
+                            <th className="px-4 py-4 text-right font-semibold">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y">
                         {codes.map((code) => (
-                            <tr key={code.id} className="hover:bg-muted/5 transition-colors">
-                                <td className="px-4 py-4 font-mono font-bold text-primary select-all">{code.code}</td>
-                                <td className="px-4 py-4 max-w-[200px] truncate font-medium">
+                            <tr key={code.id} className="hover:bg-muted/30 transition-colors">
+                                <td className="px-4 py-4 font-mono font-semibold text-primary select-all">{code.code}</td>
+                                <td className="px-4 py-4 max-w-[200px] truncate font-semibold text-foreground">
                                     {code.course?.title || code.product?.title || 'Unknown'}
                                 </td>
                                 <td className="px-4 py-4">
-                                    <span className="text-[10px] border border-neutral-200 text-neutral-600 px-1.5 py-0.5 rounded">
+                                    <span className="text-[10px] border border-border bg-muted text-muted-foreground px-1.5 py-0.5 rounded font-semibold">
                                         {code.courseId ? 'Course' : 'Product'}
                                     </span>
                                 </td>
                                 <td className="px-4 py-4">
-                                    <div className="flex flex-col text-xs">
-                                        <span className="text-neutral-900">{new Date(code.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</span>
-                                        <span className="text-neutral-400">{new Date(code.createdAt).toLocaleDateString('vi-VN')}</span>
+                                    <div className="flex flex-col text-[10px] leading-tight">
+                                        <span className="text-foreground font-semibold">{new Date(code.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</span>
+                                        <span className="text-muted-foreground">{new Date(code.createdAt).toLocaleDateString('vi-VN')}</span>
                                     </div>
                                 </td>
                                 <td className="px-4 py-4">
                                     {code.buyer ? (
                                         <div className="flex flex-col">
-                                            <span className="font-medium text-xs truncate max-w-[120px]">{code.buyer.profile?.name || 'User'}</span>
+                                            <span className="font-semibold text-xs text-foreground truncate max-w-[120px]">{code.buyer.profile?.name || 'User'}</span>
                                             <span className="text-[10px] text-muted-foreground truncate max-w-[120px]">{code.buyer.email}</span>
                                         </div>
                                     ) : (
-                                        <span className="text-[10px] text-muted-foreground bg-muted px-2 py-0.5 rounded">Admin</span>
+                                        <span className="text-[10px] text-muted-foreground bg-muted border border-border px-2 py-0.5 rounded font-semibold">Admin</span>
                                     )}
                                 </td>
                                 <td className="px-4 py-4">
                                     <span className={cn(
-                                        "text-[10px] px-1.5 py-0.5 rounded border",
-                                        code.status === 'ACTIVE' ? "border-neutral-300 text-neutral-700" : "border-neutral-200 text-neutral-400"
+                                        "text-[10px] px-1.5 py-0.5 rounded border font-semibold",
+                                        code.status === 'ACTIVE' ? "bg-foreground text-background border-foreground" : "bg-muted text-muted-foreground border-border"
                                     )}>
                                         {code.status === 'ACTIVE' ? 'Active' : 'Used'}
                                     </span>

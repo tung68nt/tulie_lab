@@ -112,7 +112,7 @@ function BarChart({ data }: { data: { month: string; value: number; date?: Date 
                                     key={i}
                                     className="flex-1 relative min-w-0"
                                 >
-                                    <span className={`absolute left-1/2 whitespace-nowrap text-[10px] ${!weekend ? 'text-foreground font-bold' : ''} 
+                                    <span className={`absolute left-1/2 whitespace-nowrap text-[10px] ${!weekend ? 'text-foreground font-semibold' : ''} 
                                     transform origin-top-right -rotate-45 -translate-x-full`}>
                                         {d.month}
                                     </span>
@@ -381,7 +381,7 @@ export default function AdminDashboardPage() {
         const date = new Date(dateStr);
         return (
             <div className="flex flex-col text-[10px] leading-tight text-muted-foreground">
-                <span className="font-bold text-foreground text-xs">
+                <span className="font-semibold text-foreground text-xs">
                     {date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
                 </span>
                 <span>
@@ -540,8 +540,8 @@ export default function AdminDashboardPage() {
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 <Card className="border shadow-sm">
                     <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <CircleDollarSign className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                        <div className="p-3 rounded-full bg-muted">
+                            <CircleDollarSign className="w-5 h-5 text-foreground" strokeWidth={2} />
                         </div>
                         <div className="space-y-1">
                             <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
@@ -559,8 +559,8 @@ export default function AdminDashboardPage() {
 
                 <Card className="border shadow-sm">
                     <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <ShoppingBag className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                        <div className="p-3 rounded-full bg-muted">
+                            <ShoppingBag className="w-5 h-5 text-foreground" strokeWidth={2} />
                         </div>
                         <div className="space-y-1">
                             <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
@@ -576,8 +576,8 @@ export default function AdminDashboardPage() {
 
                 <Card className="border shadow-sm">
                     <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <Hourglass className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                        <div className="p-3 rounded-full bg-muted">
+                            <Hourglass className="w-5 h-5 text-foreground" strokeWidth={2} />
                         </div>
                         <div className="space-y-1">
                             <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
@@ -593,8 +593,8 @@ export default function AdminDashboardPage() {
 
                 <Card className="border shadow-sm">
                     <CardContent className="pt-7 pb-6 px-4 flex flex-col items-center justify-center text-center space-y-2">
-                        <div className="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <UsersRound className="w-5 h-5 text-zinc-900 dark:text-zinc-100" strokeWidth={2} />
+                        <div className="p-3 rounded-full bg-muted">
+                            <UsersRound className="w-5 h-5 text-foreground" strokeWidth={2} />
                         </div>
                         <div className="space-y-1">
                             <div className="text-2xl font-bold tracking-tight text-foreground leading-none">
@@ -667,25 +667,25 @@ export default function AdminDashboardPage() {
                                 <table className="w-full text-sm">
                                     <thead className="bg-muted/50">
                                         <tr className="border-b">
-                                            <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Mã đơn</th>
-                                            <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Member</th>
-                                            <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Số tiền</th>
-                                            <th className="text-center py-3 px-4 font-bold text-xs text-muted-foreground/70">Trạng thái</th>
-                                            <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Thời gian</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Mã đơn</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Member</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-xs text-muted-foreground/70">Số tiền</th>
+                                            <th className="text-center py-3 px-4 font-semibold text-xs text-muted-foreground/70">Trạng thái</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-xs text-muted-foreground/70">Thời gian</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-border">
                                         {data.recentOrders.map(order => (
                                             <tr key={order.id} className="hover:bg-muted/30 transition-colors">
                                                 <td className="py-3 px-4">
-                                                    <span className="text-xs bg-muted px-2 py-1 rounded font-mono font-bold">
+                                                    <span className="text-xs bg-muted px-2 py-1 rounded font-mono font-medium">
                                                         {order.code}
                                                     </span>
                                                 </td>
                                                 <td className="py-3 px-4 text-xs font-medium">{order.userName}</td>
                                                 <td className="py-3 px-4 text-right font-medium text-foreground">{formatCurrency(order.amount)}</td>
                                                 <td className="py-3 px-4 text-center">
-                                                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-bold ${order.status === 'PAID' || order.status === 'COMPLETED'
+                                                    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-semibold ${order.status === 'PAID' || order.status === 'COMPLETED'
                                                         ? 'bg-foreground text-background'
                                                         : 'bg-muted text-muted-foreground'
                                                         }`}>
@@ -719,11 +719,11 @@ export default function AdminDashboardPage() {
                             <table className="w-full text-sm">
                                 <thead className="bg-muted/50">
                                     <tr className="border-b">
-                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Thời gian</th>
-                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Ngân hàng</th>
-                                        <th className="text-left py-3 px-4 font-bold text-xs text-muted-foreground/70">Nội dung</th>
-                                        <th className="text-right py-3 px-4 font-bold text-xs text-muted-foreground/70">Số tiền</th>
-                                        <th className="text-center py-3 px-4 font-bold text-xs text-muted-foreground/70 text-nowrap">Mã đơn</th>
+                                        <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Thời gian</th>
+                                        <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Ngân hàng</th>
+                                        <th className="text-left py-3 px-4 font-semibold text-xs text-muted-foreground/70">Nội dung</th>
+                                        <th className="text-right py-3 px-4 font-semibold text-xs text-muted-foreground/70">Số tiền</th>
+                                        <th className="text-center py-3 px-4 font-semibold text-xs text-muted-foreground/70 text-nowrap">Mã đơn</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-border">
@@ -734,7 +734,7 @@ export default function AdminDashboardPage() {
                                                     {renderTransactionDate(tx.transactionDate || tx.createdAt)}
                                                 </td>
                                                 <td className="py-3 px-4">
-                                                    <div className="font-bold text-foreground text-xs">{tx.gateway}</div>
+                                                    <div className="font-semibold text-foreground text-xs">{tx.gateway}</div>
                                                     <div className="text-[10px] text-muted-foreground font-mono">{tx.accountNumber}</div>
                                                 </td>
                                                 <td className="py-3 px-4 min-w-[200px] max-w-[350px]">
@@ -749,7 +749,7 @@ export default function AdminDashboardPage() {
                                                     {tx.code ? (
                                                         <Link href={tx.orderId ? `/admin/orders/${tx.orderId}` : `/admin/orders?search=${tx.code}`}>
                                                             <div className="group flex items-center justify-center gap-1.5 cursor-pointer">
-                                                                <span className="text-[10px] bg-foreground text-background px-2 py-0.5 rounded-full font-mono font-bold whitespace-nowrap group-hover:bg-primary/80 transition-colors shadow-sm">
+                                                                <span className="text-[10px] bg-foreground text-background px-2 py-0.5 rounded-full font-mono font-semibold whitespace-nowrap group-hover:bg-primary/80 transition-colors shadow-sm">
                                                                     {tx.code}
                                                                 </span>
                                                             </div>

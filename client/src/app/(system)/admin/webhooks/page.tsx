@@ -186,9 +186,9 @@ export default function AdminWebhooksPage() {
                             Dùng <code className="bg-muted px-1 rounded">{`{{code}}`}</code> để thay bằng mã đơn (VD: ORD-123).
                             Ví dụ: <code className="bg-muted px-1 rounded">DH {`{{code}}`}</code> → Kết quả: <strong>DH ORD-12345</strong>
                         </p>
-                        <div className="p-3 bg-muted rounded text-sm">
+                        <div className="p-3 bg-muted rounded text-sm border border-border/50">
                             <span className="text-muted-foreground mr-2">Xem trước:</span>
-                            <span className="font-semibold">
+                            <span className="font-semibold text-foreground">
                                 {(bankConfig.payment_transfer_syntax || '{{code}}').replace('{{code}}', 'ORD-123456')}
                             </span>
                         </div>
@@ -312,11 +312,11 @@ export default function AdminWebhooksPage() {
                                     crossOrigin="anonymous"
                                 />
                                 <div className="text-center text-xs mt-4 space-y-1">
-                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Ngân hàng:</span> <strong className="font-bold">{bankConfig.bank_name || 'N/A'}</strong></p>
-                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">STK:</span> <strong className="font-bold font-mono text-sm">{bankConfig.bank_account_no}</strong></p>
-                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Chủ TK:</span> <strong className="font-bold">{bankConfig.bank_account_name || 'Unknown'}</strong></p>
-                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Số tiền:</span> <strong className="font-bold text-lg">{formatVND(Number(qrAmount) || 0)}</strong></p>
-                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Nội dung:</span> <strong className="font-bold font-mono">{qrDescription || 'Thanh toan'}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Ngân hàng:</span> <strong className="font-semibold">{bankConfig.bank_name || 'N/A'}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">STK:</span> <strong className="font-semibold font-mono text-sm">{bankConfig.bank_account_no}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Chủ TK:</span> <strong className="font-semibold">{bankConfig.bank_account_name || 'Unknown'}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Số tiền:</span> <strong className="font-semibold text-lg">{formatVND(Number(qrAmount) || 0)}</strong></p>
+                                    <p className=" whitespace-nowrap"><span className="text-muted-foreground w-20 inline-block text-right mr-2">Nội dung:</span> <strong className="font-semibold font-mono">{qrDescription || 'Thanh toan'}</strong></p>
                                 </div>
                             </div>
 
@@ -334,7 +334,7 @@ export default function AdminWebhooksPage() {
                                 </Button>
                                 <Button
                                     size="sm"
-                                    className="bg-sky-600 hover:bg-sky-700 text-white"
+                                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
                                     onClick={async () => {
                                         try {
                                             const canvas = document.createElement('canvas');
@@ -370,23 +370,25 @@ export default function AdminWebhooksPage() {
                                             ctx.drawImage(img, qrX, 60, qrSize, qrSize);
 
                                             // Draw Text
-                                            ctx.fillStyle = '#18181b'; // zinc-900
+                                            ctx.fillStyle = '#09090b'; // text-foreground (dark)
                                             ctx.textAlign = 'center';
+                                            const fontStack = 'Inter, sans-serif';
+                                            const monoStack = 'Inter, monospace';
 
-                                            ctx.font = 'bold 20px Inter, sans-serif';
+                                            ctx.font = `600 20px ${fontStack}`;
                                             ctx.fillText(bankConfig.bank_name || 'NGAN HANG', width / 2, 360);
 
-                                            ctx.font = 'bold 28px Inter, monospace';
+                                            ctx.font = `600 28px ${monoStack}`;
                                             ctx.fillText(bankConfig.bank_account_no || '0000000000', width / 2, 400);
 
-                                            ctx.font = 'bold 20px Inter, sans-serif';
+                                            ctx.font = `600 20px ${fontStack}`;
                                             ctx.fillText(bankConfig.bank_account_name || '', width / 2, 440);
 
-                                            ctx.font = 'bold 36px Inter, sans-serif';
+                                            ctx.font = `600 36px ${fontStack}`;
                                             ctx.fillText(formatVND(Number(qrAmount) || 0), width / 2, 500);
 
-                                            ctx.font = '18px Inter, sans-serif';
-                                            ctx.fillStyle = '#52525b'; // zinc-600
+                                            ctx.font = `500 18px ${fontStack}`;
+                                            ctx.fillStyle = '#71717a'; // text-muted-foreground
                                             ctx.fillText(qrDescription || 'Noi dung', width / 2, 540);
 
                                             canvas.toBlob(blob => {
@@ -410,7 +412,7 @@ export default function AdminWebhooksPage() {
                         </div>
                     )}
                     {!bankConfig.bank_account_no && (
-                        <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-zinc-600 flex items-center gap-2">
+                        <div className="p-4 bg-muted/30 border border-border rounded-lg text-sm text-muted-foreground flex items-center gap-2">
                             <CircleAlert className="h-4 w-4 shrink-0" />
                             Vui lòng cấu hình thông tin tài khoản nhận tiền ở trên trước khi tạo mã QR.
                         </div>

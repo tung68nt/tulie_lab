@@ -83,7 +83,7 @@ export default function AdminBundlesPage() {
                                             <h3 className="text-xl font-semibold">{bundle.name}</h3>
                                             <p className="text-sm text-muted-foreground">/{bundle.slug}</p>
                                         </div>
-                                        <div className={`px-2 py-1 rounded text-xs font-semibold ${bundle.isActive ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>
+                                        <div className={`px-2 py-0.5 rounded text-[10px] font-semibold ${bundle.isActive ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>
                                             {bundle.isActive ? 'Live' : 'Draft'}
                                         </div>
                                     </div>
@@ -94,7 +94,7 @@ export default function AdminBundlesPage() {
                                             <span className="text-muted-foreground">Giá gốc: </span>
                                             <span className="line-through">{bundle.originalPrice?.toLocaleString()}đ</span>
                                         </div>
-                                        <div className="text-lg font-bold text-primary">
+                                        <div className="text-lg font-semibold text-primary">
                                             {bundle.salePrice?.toLocaleString()}đ
                                         </div>
                                         {bundle.discountPercent && (
@@ -113,7 +113,7 @@ export default function AdminBundlesPage() {
                                         <div className="space-y-2">
                                             {bundle.courses?.map((bc: any, idx: number) => (
                                                 <div key={bc.course.id} className="flex items-center gap-3 group/item">
-                                                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center border border-primary/20">
+                                                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/10 text-primary text-[10px] font-semibold flex items-center justify-center border border-primary/20">
                                                         {idx + 1}
                                                     </div>
                                                     <div className="flex-1 min-w-0">

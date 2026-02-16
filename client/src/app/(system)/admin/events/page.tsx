@@ -152,7 +152,7 @@ export default function AdminEventsPage() {
             {showForm && (
                 <Card>
                     <CardContent className="p-6 pt-8">
-                        <h3 className="font-bold text-lg mb-4">
+                        <h3 className="font-semibold text-lg mb-4 text-foreground">
                             {editingEvent ? 'Chỉnh sửa sự kiện' : 'Tạo sự kiện mới'}
                         </h3>
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -231,9 +231,9 @@ export default function AdminEventsPage() {
                                 <label className="flex items-center gap-3 cursor-pointer">
                                     <Switch
                                         checked={formData.isActive}
-                                        onChange={(checked) => setFormData({ ...formData, isActive: checked })}
+                                        onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked })}
                                     />
-                                    <span className="text-sm font-medium select-none">Hiển thị sự kiện</span>
+                                    <span className="text-sm font-semibold select-none text-foreground">Hiển thị sự kiện</span>
                                 </label>
                             </div>
 
@@ -256,9 +256,9 @@ export default function AdminEventsPage() {
                         <CardContent className="p-6 pt-6 flex items-start justify-between">
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="font-bold text-lg">{event.title}</h3>
+                                    <h3 className="font-semibold text-lg text-foreground">{event.title}</h3>
                                     {!event.isActive && (
-                                        <span className="bg-muted px-2 py-0.5 rounded text-xs text-muted-foreground">
+                                        <span className="bg-muted px-2 py-0.5 rounded text-[10px] font-semibold text-muted-foreground border border-border">
                                             Đã ẩn
                                         </span>
                                     )}
@@ -275,7 +275,7 @@ export default function AdminEventsPage() {
                                         </>
                                     )}
                                     <span>•</span>
-                                    <span className="bg-muted px-2 py-0.5 rounded text-xs">
+                                    <span className="bg-muted px-2 py-0.5 rounded text-[10px] font-semibold border border-border">
                                         {EVENT_TYPES.find(t => t.value === event.type)?.label}
                                     </span>
                                     {event.link && (

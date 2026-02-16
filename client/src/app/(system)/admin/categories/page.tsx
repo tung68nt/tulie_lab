@@ -126,10 +126,10 @@ export default function AdminCategoriesPage() {
                                     <table className="w-full text-[13px] border-collapse">
                                         <thead>
                                             <tr className="bg-muted/50 border-b border-border">
-                                                <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-6 w-[250px]">Tên danh mục</th>
-                                                <th className="text-left font-bold text-muted-foreground py-3 px-4">Slug / Khóa học</th>
-                                                <th className="text-center font-bold text-muted-foreground py-3 px-4 w-[120px]">Trạng thái</th>
-                                                <th className="text-right font-bold text-muted-foreground py-3 px-6 w-[100px]"></th>
+                                                <th className="text-left font-semibold text-muted-foreground py-3 px-6 pl-6 w-[250px]">Tên danh mục</th>
+                                                <th className="text-left font-semibold text-muted-foreground py-3 px-4">Slug / Khóa học</th>
+                                                <th className="text-center font-semibold text-muted-foreground py-3 px-4 w-[120px]">Trạng thái</th>
+                                                <th className="text-right font-semibold text-muted-foreground py-3 px-6 w-[100px]"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -146,9 +146,9 @@ export default function AdminCategoriesPage() {
                                                     </td>
                                                     <td className="py-4 px-4 text-center">
                                                         {!cat.isActive ? (
-                                                            <span className="text-[10px] bg-neutral-50 text-neutral-400 px-2 py-0.5 rounded border border-neutral-100 font-bold">Ẩn</span>
+                                                            <span className="text-[10px] bg-muted text-muted-foreground/60 px-2 py-0.5 rounded border border-border font-semibold">Ẩn</span>
                                                         ) : (
-                                                            <span className="text-[10px] bg-neutral-100 text-neutral-900 px-2 py-0.5 rounded border border-neutral-200 font-bold">Hiện</span>
+                                                            <span className="text-[10px] bg-foreground text-background px-2 py-0.5 rounded border border-transparent font-semibold">Hiện</span>
                                                         )}
                                                     </td>
                                                     <td className="py-4 px-6 text-right">

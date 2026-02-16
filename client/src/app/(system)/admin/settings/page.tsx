@@ -195,13 +195,13 @@ export default function AdminSettingsPage() {
                         <CardContent className="space-y-6">
                             {/* Logo Section */}
                             <div className="space-y-3">
-                                <label className="text-sm font-medium">Logo Website (Mặc định)</label>
+                                <label className="text-sm font-semibold text-foreground">Logo Website (Mặc định)</label>
                                 <div className="flex gap-2">
                                     <Input
                                         value={settings.site_logo || ''}
                                         onChange={(e) => handleChange('site_logo', e.target.value)}
                                         placeholder="Nhập URL hoặc tải file lên"
-                                        className="flex-1"
+                                        className="flex-1 bg-background"
                                     />
                                     <input
                                         ref={logoInputRef}
@@ -223,8 +223,8 @@ export default function AdminSettingsPage() {
                                     Khuyến nghị PNG, kích thước 200x60px
                                 </p>
                                 {settings.site_logo && (
-                                    <div className="p-4 border rounded-lg bg-[url('/bg-check.png')] bg-zinc-950/50">
-                                        <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+                                    <div className="p-4 border border-border rounded-lg bg-[url('/bg-check.png')] bg-muted/20">
+                                        <p className="text-[10px] text-muted-foreground mb-2 font-semibold">Preview:</p>
                                         <img
                                             src={settings.site_logo}
                                             alt="Logo preview"
@@ -239,17 +239,18 @@ export default function AdminSettingsPage() {
 
                             {/* Site Name */}
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Tên Website (Mặc định)</label>
+                                <label className="text-sm font-semibold text-foreground">Tên Website (Mặc định)</label>
                                 <Input
                                     value={settings.site_name || ''}
                                     onChange={(e) => handleChange('site_name', e.target.value)}
                                     placeholder="Tulie Academy"
+                                    className="bg-background"
                                 />
-                                <div className="flex items-center gap-2 mt-2">
+                                <div className="flex items-center gap-2 mt-2 font-semibold">
                                     <Switch
                                         id="show_site_name"
                                         checked={settings.show_site_name === 'true'}
-                                        onChange={(checked) => handleChange('show_site_name', checked ? 'true' : 'false')}
+                                        onCheckedChange={(checked) => handleChange('show_site_name', checked ? 'true' : 'false')}
                                     />
                                     <label htmlFor="show_site_name" className="text-sm cursor-pointer select-none">
                                         Hiển thị tên website cạnh Logo
@@ -287,8 +288,8 @@ export default function AdminSettingsPage() {
                                     Khuyến nghị ICO hoặc PNG, kích thước 32x32px
                                 </p>
                                 {settings.site_favicon && (
-                                    <div className="p-4 border rounded-lg inline-flex items-center gap-2 bg-[url('/bg-check.png')] bg-zinc-950/50">
-                                        <p className="text-xs text-muted-foreground">Preview:</p>
+                                    <div className="p-4 border border-border rounded-lg inline-flex items-center gap-2 bg-[url('/bg-check.png')] bg-muted/20">
+                                        <p className="text-[10px] text-muted-foreground font-semibold">Preview:</p>
                                         <img
                                             src={settings.site_favicon}
                                             alt="Favicon preview"
@@ -307,13 +308,14 @@ export default function AdminSettingsPage() {
                             <div className="space-y-6">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <label className="text-sm font-medium">Cấu hình Đa tên miền</label>
+                                        <label className="text-sm font-semibold text-foreground">Cấu hình Đa tên miền</label>
                                         <p className="text-xs text-muted-foreground">Tự động đổi Logo & Tên theo tên miền truy cập.</p>
                                     </div>
                                     <Button
                                         type="button"
                                         size="sm"
                                         variant="outline"
+                                        className="border-border font-semibold"
                                         onClick={() => setDomainBranding([...domainBranding, { domain: '', logo_url: '', site_name: '' }])}
                                     >
                                         Thêm tên miền
@@ -420,8 +422,8 @@ export default function AdminSettingsPage() {
                                                 </div>
 
                                                 {db.logo_url && (
-                                                    <div className="mt-2 p-3 border rounded-lg bg-[url('/bg-check.png')] bg-black/40 inline-flex items-center gap-3">
-                                                        <span className="text-[10px] text-muted-foreground tracking-tight">Preview:</span>
+                                                    <div className="mt-2 p-3 border border-border rounded-lg bg-[url('/bg-check.png')] bg-muted/20 inline-flex items-center gap-3">
+                                                        <span className="text-[10px] text-muted-foreground tracking-tight font-semibold">Preview:</span>
                                                         <div className="p-1.5 rounded overflow-hidden">
                                                             <img
                                                                 src={db.logo_url}
@@ -600,12 +602,12 @@ export default function AdminSettingsPage() {
                                     <div className="p-4 border rounded-xl space-y-4 flex flex-col">
                                         <div className="flex items-center justify-between gap-4">
                                             <div className="space-y-0.5 min-w-0">
-                                                <label className="text-sm font-bold block truncate">Đăng ký thành viên</label>
+                                                <label className="text-sm font-semibold text-foreground block truncate">Đăng ký thành viên</label>
                                                 <p className="text-[10px] text-muted-foreground">Thông báo khi có tài khoản mới đăng ký.</p>
                                             </div>
                                             <Switch
                                                 checked={settings.telegram_notify_registrations === 'true'}
-                                                onChange={(checked) => handleChange('telegram_notify_registrations', checked ? 'true' : 'false')}
+                                                onCheckedChange={(checked) => handleChange('telegram_notify_registrations', checked ? 'true' : 'false')}
                                             />
                                         </div>
                                         <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
@@ -619,12 +621,12 @@ export default function AdminSettingsPage() {
                                     <div className="p-4 border rounded-xl space-y-4 flex flex-col">
                                         <div className="flex items-center justify-between gap-4">
                                             <div className="space-y-0.5 min-w-0">
-                                                <label className="text-sm font-bold block truncate">Cảnh báo bảo mật</label>
+                                                <label className="text-sm font-semibold text-foreground block truncate">Cảnh báo bảo mật</label>
                                                 <p className="text-[10px] text-muted-foreground">Thông báo đăng nhập lỗi hoặc truy cập lạ.</p>
                                             </div>
                                             <Switch
                                                 checked={settings.telegram_notify_security === 'true'}
-                                                onChange={(checked) => handleChange('telegram_notify_security', checked ? 'true' : 'false')}
+                                                onCheckedChange={(checked) => handleChange('telegram_notify_security', checked ? 'true' : 'false')}
                                             />
                                         </div>
                                         <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
@@ -638,12 +640,12 @@ export default function AdminSettingsPage() {
                                     <div className="p-4 border rounded-xl space-y-4 flex flex-col">
                                         <div className="flex items-center justify-between gap-4">
                                             <div className="space-y-0.5 min-w-0">
-                                                <label className="text-sm font-bold block truncate">Báo cáo & Nhắc nhở</label>
+                                                <label className="text-sm font-semibold text-foreground block truncate">Báo cáo & Nhắc nhở</label>
                                                 <p className="text-[10px] text-muted-foreground">Cảnh báo đơn pending và học viên "ngủ đông".</p>
                                             </div>
                                             <Switch
                                                 checked={settings.telegram_notify_reports === 'true'}
-                                                onChange={(checked) => handleChange('telegram_notify_reports', checked ? 'true' : 'false')}
+                                                onCheckedChange={(checked) => handleChange('telegram_notify_reports', checked ? 'true' : 'false')}
                                             />
                                         </div>
 
@@ -712,7 +714,7 @@ export default function AdminSettingsPage() {
                                         <button
                                             type="button"
                                             onClick={copyToClipboard}
-                                            className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-900"
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                                         >
                                             {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
                                         </button>

@@ -100,14 +100,14 @@ export default function AdminUsersPage() {
     };
 
     const getStatusLabels = (user: any) => {
-        if (user.role === 'ADMIN') return <span className="px-2 py-0.5 rounded bg-zinc-950 text-white text-[10px] font-bold">ADMIN</span>;
+        if (user.role === 'ADMIN') return <span className="px-2 py-0.5 rounded bg-foreground text-background text-[10px] font-semibold">ADMIN</span>;
 
         const sub = user.subscriptions?.[0];
         if (sub) {
             const days = getRemainingDays(sub.endDate);
             return (
                 <div className="flex flex-col gap-1 items-start">
-                    <span className="px-2 py-0.5 rounded bg-zinc-100 text-zinc-900 text-[10px] font-bold border border-zinc-200">
+                    <span className="px-2 py-0.5 rounded bg-muted text-foreground text-[10px] font-semibold border border-border">
                         {sub.product?.title?.replace(' Membership', '') || 'PREMIUM'}
                     </span>
                     {days !== null && days > 0 && (
@@ -122,7 +122,7 @@ export default function AdminUsersPage() {
             );
         }
 
-        return <span className="px-2 py-0.5 rounded bg-zinc-50 text-muted-foreground text-[10px] font-bold border border-zinc-100">FREE</span>;
+        return <span className="px-2 py-0.5 rounded bg-muted/40 text-muted-foreground text-[10px] font-semibold border border-border/50">FREE</span>;
     };
 
     return (
@@ -196,7 +196,7 @@ export default function AdminUsersPage() {
             {/* Members Table */}
             <Card className="border shadow-none bg-card border-border">
                 <CardHeader className="border-b border-border bg-muted/20 py-4 px-6 flex flex-row items-center justify-between">
-                    <CardTitle className="text-base font-bold text-foreground">
+                    <CardTitle className="text-base font-semibold text-foreground">
                         Danh sách kết quả ({loading ? '...' : total})
                     </CardTitle>
                 </CardHeader>
@@ -212,12 +212,12 @@ export default function AdminUsersPage() {
                     ) : (
                         <div className="overflow-x-auto overflow-y-hidden">
                             <table className="w-full text-[13px] border-collapse">
-                                <thead>
-                                    <tr className="bg-muted/50 border-b border-border">
-                                        <th className="text-left font-bold text-muted-foreground py-3 px-6 w-[250px]">Thành viên</th>
-                                        <th className="text-center font-bold text-muted-foreground py-3 px-4">Quyền hạn / Gói cước</th>
-                                        <th className="text-right font-bold text-muted-foreground py-3 px-4">Ngày gia nhập</th>
-                                        <th className="text-right font-bold text-muted-foreground py-3 px-4">Hoạt động cuối</th>
+                                <thead className="bg-muted/50 border-b border-border">
+                                    <tr className="border-b">
+                                        <th className="text-left font-semibold text-muted-foreground py-3 px-6 w-[250px]">Thành viên</th>
+                                        <th className="text-center font-semibold text-muted-foreground py-3 px-4">Quyền hạn / Gói cước</th>
+                                        <th className="text-right font-semibold text-muted-foreground py-3 px-4">Ngày gia nhập</th>
+                                        <th className="text-right font-semibold text-muted-foreground py-3 px-4">Hoạt động cuối</th>
                                         <th className="text-center py-3 px-6"></th>
                                     </tr>
                                 </thead>
@@ -230,11 +230,11 @@ export default function AdminUsersPage() {
                                         >
                                             <td className="py-4 px-6">
                                                 <div className="flex items-center gap-3 min-w-0">
-                                                    <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground border border-border shrink-0">
+                                                    <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center font-semibold text-muted-foreground border border-border shrink-0">
                                                         {user.profile?.name?.charAt(0)?.toUpperCase() || user.email.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <div className="font-bold text-foreground truncate">{user.profile?.name || 'Chưa đặt tên'}</div>
+                                                        <div className="font-semibold text-foreground truncate">{user.profile?.name || 'Chưa đặt tên'}</div>
                                                         <div className="text-[11px] text-muted-foreground truncate">{user.email}</div>
                                                     </div>
                                                 </div>

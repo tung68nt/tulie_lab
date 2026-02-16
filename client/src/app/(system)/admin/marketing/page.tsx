@@ -77,10 +77,10 @@ export default function MarketingOverviewPage() {
 
             <div className="space-y-8 animate-in fade-in duration-500">
                 <div className="flex justify-end gap-2">
-                    <Button variant="outline" size="sm" onClick={handleClassify} className="gap-2 border-slate-200">
+                    <Button variant="outline" size="sm" onClick={handleClassify} className="gap-2 border-border">
                         <Tag className="w-4 h-4" /> Phân loại Leads
                     </Button>
-                    <Button variant="default" size="sm" onClick={handleSyncNow} disabled={syncing} className="gap-2 bg-black text-white">
+                    <Button variant="default" size="sm" onClick={handleSyncNow} disabled={syncing} className="gap-2">
                         <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin' : ''}`} /> Đồng bộ Spend
                     </Button>
                 </div>
@@ -125,25 +125,25 @@ export default function MarketingOverviewPage() {
                             <div className="relative w-full overflow-auto text-foreground">
                                 <table className="w-full text-sm text-left">
                                     <thead>
-                                        <tr className="border-b border-slate-100">
-                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground">Nền tảng</th>
-                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground">Chiến dịch</th>
-                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-right border-x border-slate-50">Chi phí</th>
-                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-right border-r border-slate-50">Doanh thu</th>
-                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-center">ROAS</th>
-                                            <th className="h-12 px-4 font-medium text-xs text-muted-foreground text-right">ROI</th>
+                                        <tr className="border-b border-border/50">
+                                            <th className="h-12 px-4 font-semibold text-xs text-muted-foreground">Nền tảng</th>
+                                            <th className="h-12 px-4 font-semibold text-xs text-muted-foreground">Chiến dịch</th>
+                                            <th className="h-12 px-4 font-semibold text-xs text-muted-foreground text-right border-x border-border/10">Chi phí</th>
+                                            <th className="h-12 px-4 font-semibold text-xs text-muted-foreground text-right border-r border-border/10">Doanh thu</th>
+                                            <th className="h-12 px-4 font-semibold text-xs text-muted-foreground text-center">ROAS</th>
+                                            <th className="h-12 px-4 font-semibold text-xs text-muted-foreground text-right">ROI</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {roiData.length > 0 ? (
                                             roiData.map((item, idx) => (
-                                                <tr key={idx} className="border-b border-slate-50 transition-colors hover:bg-slate-50/50">
-                                                    <td className="p-4"><span className="px-2 py-0.5 rounded bg-slate-100 text-[10px] font-semibold border border-slate-200 text-slate-600">{item.platform}</span></td>
-                                                    <td className="p-4 font-medium text-sm">{item.campaign}</td>
-                                                    <td className="p-4 text-right font-medium text-slate-600 border-x border-slate-50">{formatCurrency(item.spend)}</td>
-                                                    <td className="p-4 text-right font-semibold text-slate-900 border-r border-slate-50">{formatCurrency(item.revenue)}</td>
-                                                    <td className="p-4 text-center"><span className="px-2 py-1 rounded text-[11px] font-bold bg-slate-100">{item.roas.toFixed(2)}x</span></td>
-                                                    <td className={`p-4 text-right font-bold ${item.roi > 0 ? 'text-green-600' : 'text-slate-400'}`}>{item.roi.toFixed(1)}%</td>
+                                                <tr key={idx} className="border-b border-border/10 transition-colors hover:bg-muted/30">
+                                                    <td className="p-4"><span className="px-2 py-0.5 rounded bg-muted text-[10px] font-semibold border border-border text-foreground">{item.platform}</span></td>
+                                                    <td className="p-4 font-semibold text-sm">{item.campaign}</td>
+                                                    <td className="p-4 text-right font-semibold text-muted-foreground border-x border-border/10">{formatCurrency(item.spend)}</td>
+                                                    <td className="p-4 text-right font-semibold text-foreground border-r border-border/10">{formatCurrency(item.revenue)}</td>
+                                                    <td className="p-4 text-center"><span className="px-2 py-1 rounded text-[11px] font-semibold bg-muted">{item.roas.toFixed(2)}x</span></td>
+                                                    <td className={`p-4 text-right font-semibold ${item.roi > 0 ? 'text-green-600' : 'text-muted-foreground'}`}>{item.roi.toFixed(1)}%</td>
                                                 </tr>
                                             ))
                                         ) : (

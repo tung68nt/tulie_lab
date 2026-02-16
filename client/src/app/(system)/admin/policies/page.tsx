@@ -82,7 +82,7 @@ export default function AdminPoliciesPage() {
                 subtitle="Quản lý các trang chính sách (Privacy, Terms, Refund...)"
                 icon={<FileText className="w-8 h-8" />}
             >
-                <Button onClick={handleSave} disabled={saving} className="bg-zinc-950 text-white hover:bg-zinc-800">
+                <Button onClick={handleSave} disabled={saving} className="font-semibold">
                     {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
                 </Button>
             </AdminPageHeader>
@@ -94,9 +94,9 @@ export default function AdminPoliciesPage() {
                         <button
                             key={policy.id}
                             onClick={() => setActiveTab(policy.id)}
-                            className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${activeTab === policy.id
-                                ? 'bg-zinc-100 text-zinc-950 border border-zinc-200 shadow-sm'
-                                : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-700'
+                            className={`w-full text-left px-4 py-3 rounded-lg text-sm font-semibold transition-colors ${activeTab === policy.id
+                                ? 'bg-muted text-foreground border border-border/50 shadow-sm'
+                                : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
                                 }`}
                         >
                             {policy.title}
@@ -115,16 +115,16 @@ export default function AdminPoliciesPage() {
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center">
-                                        <label className="text-sm font-medium text-zinc-700">Nội dung (Markdown)</label>
-                                        <span className="text-[10px] text-zinc-400 font-mono">Hỗ trợ Markdown</span>
+                                        <label className="text-sm font-semibold text-foreground">Nội dung (Markdown)</label>
+                                        <span className="text-[10px] text-muted-foreground font-mono">Hỗ trợ Markdown</span>
                                     </div>
                                     <textarea
                                         value={contents[currentPolicy.key] || ''}
                                         onChange={(e) => setContents({ ...contents, [currentPolicy.key]: e.target.value })}
                                         placeholder={`Nhập nội dung ${currentPolicy.title.toLowerCase()} tại đây...`}
-                                        className="w-full min-h-[500px] p-4 text-sm font-mono border rounded-xl focus:outline-none focus:ring-2 focus:ring-zinc-950 bg-zinc-50/50 resize-y"
+                                        className="w-full min-h-[500px] p-4 text-sm font-mono border border-border rounded-xl focus:outline-none focus:ring-1 focus:ring-ring bg-muted/20 resize-y"
                                     />
-                                    <p className="text-[11px] text-zinc-500">
+                                    <p className="text-[11px] text-muted-foreground">
                                         * Bạn có thể sử dụng các ký tự Markdown như # H1, ## H2, - Danh sách, **Chữ đậm**, v.v.
                                     </p>
                                 </div>

@@ -75,19 +75,19 @@ export default function AdminCoursesPage() {
 
             <Card className="border border-border shadow-none bg-card">
                 <CardHeader className="border-b border-border bg-muted/20 py-4 px-6 flex flex-row items-center justify-between">
-                    <CardTitle className="text-lg font-bold text-foreground">Danh sách khóa học ({courses.length})</CardTitle>
+                    <CardTitle className="text-lg font-semibold text-foreground">Danh sách khóa học ({courses.length})</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
                     <div className="relative w-full overflow-auto">
                         <table className="w-full text-[13px] border-collapse">
                             <thead>
                                 <tr className="bg-muted/50 border-b border-border">
-                                    <th className="text-left font-bold text-muted-foreground py-3 px-6 pl-6">Tên khóa học</th>
-                                    <th className="text-left font-bold text-muted-foreground py-3 px-4 w-[180px]">Combo / Lộ trình</th>
-                                    <th className="text-left font-bold text-muted-foreground py-3 px-4 w-[150px]">Đường dẫn (Slug)</th>
-                                    <th className="text-right font-bold text-muted-foreground py-3 px-4">Giá</th>
-                                    <th className="text-center font-bold text-muted-foreground py-3 px-4">Status</th>
-                                    <th className="text-right font-bold text-muted-foreground py-3 px-6">Thao tác</th>
+                                    <th className="text-left font-semibold text-muted-foreground py-3 px-6 pl-6">Tên khóa học</th>
+                                    <th className="text-left font-semibold text-muted-foreground py-3 px-4 w-[180px]">Combo / Lộ trình</th>
+                                    <th className="text-left font-semibold text-muted-foreground py-3 px-4 w-[150px]">Đường dẫn (Slug)</th>
+                                    <th className="text-right font-semibold text-muted-foreground py-3 px-4">Giá</th>
+                                    <th className="text-center font-semibold text-muted-foreground py-3 px-4">Status</th>
+                                    <th className="text-right font-semibold text-muted-foreground py-3 px-6">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,7 +114,7 @@ export default function AdminCoursesPage() {
                                             {course.price === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
                                         </td>
                                         <td className="py-4 px-4 align-middle text-center">
-                                            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${course.isPublished ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>
+                                            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none ${course.isPublished ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>
                                                 {course.isPublished ? 'Live' : 'Draft'}
                                             </span>
                                         </td>

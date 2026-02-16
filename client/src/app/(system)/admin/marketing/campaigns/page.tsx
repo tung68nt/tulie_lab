@@ -137,9 +137,9 @@ export default function MarketingCampaignsPage() {
 
             <div className="flex flex-col md:flex-row gap-6 h-full min-h-0">
                 {/* Sidebar: Account Selection */}
-                <Card className="w-full md:w-64 flex-shrink-0 border-slate-200 shadow-none h-fit">
+                <Card className="w-full md:w-64 flex-shrink-0 border-border shadow-none h-fit">
                     <CardHeader className="pb-3">
-                        <CardTitle className="text-sm font-bold">Tài khoản</CardTitle>
+                        <CardTitle className="text-sm font-semibold text-muted-foreground">Tài khoản</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-1">
                         {loadingConfigs ? (
@@ -150,13 +150,13 @@ export default function MarketingCampaignsPage() {
                             <button
                                 key={config.id}
                                 onClick={() => setSelectedConfigId(config.id)}
-                                className={`w-full text-left px-3 py-2 rounded-md text-xs font-medium transition-colors ${selectedConfigId === config.id
-                                    ? 'bg-black text-white shadow-sm'
-                                    : 'text-muted-foreground hover:bg-slate-100'
+                                className={`w-full text-left px-3 py-2 rounded-md text-xs font-semibold transition-colors ${selectedConfigId === config.id
+                                    ? 'bg-foreground text-background shadow-sm'
+                                    : 'text-muted-foreground hover:bg-muted'
                                     }`}
                             >
                                 <div className="truncate">{config.name}</div>
-                                <div className={`text-xs mt-0.5 opacity-80 truncate font-mono`}>ID: {config.FB_AD_ACCOUNT_ID}</div>
+                                <div className={`text-[10px] mt-0.5 opacity-80 truncate font-mono font-medium`}>ID: {config.FB_AD_ACCOUNT_ID}</div>
                             </button>
                         ))}
                     </CardContent>
@@ -164,16 +164,16 @@ export default function MarketingCampaignsPage() {
 
                 {/* Main Content: Campaign List */}
                 <div className="flex-1 space-y-4">
-                    <div className="flex justify-between items-center bg-white p-4 rounded-xl border border-slate-200">
+                    <div className="flex justify-between items-center bg-card p-4 rounded-xl border border-border">
                         <div>
-                            <h3 className="text-sm font-bold">{selectedConfig?.name}</h3>
+                            <h3 className="text-sm font-semibold">{selectedConfig?.name}</h3>
                             <p className="text-xs text-muted-foreground mt-1">
                                 {monitoredCount === 0
                                     ? 'Đang theo dõi TẤT CẢ chiến dịch (Mặc định)'
                                     : `Đang theo dõi ${monitoredCount} chiến dịch được chọn`}
                             </p>
                         </div>
-                        <Button onClick={handleSave} disabled={saving} className="bg-black text-white gap-2">
+                        <Button onClick={handleSave} disabled={saving} className="gap-2">
                             {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckSquare className="w-4 h-4" />}
                             Lưu thay đổi
                         </Button>
@@ -205,17 +205,17 @@ export default function MarketingCampaignsPage() {
                                                 />
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex items-center gap-2 mb-1">
-                                                        <span className="text-sm font-medium truncate">{campaign.name}</span>
-                                                        <Badge variant="outline" className={`text-xs font-normal h-5 ${campaign.status === 'ACTIVE'
-                                                            ? 'bg-green-50 text-green-700 border-green-200'
-                                                            : 'bg-slate-100 text-slate-500'
+                                                        <span className="text-sm font-semibold truncate">{campaign.name}</span>
+                                                        <Badge variant="outline" className={`text-[10px] font-semibold h-5 px-1.5 ${campaign.status === 'ACTIVE'
+                                                            ? 'bg-green-500/10 text-green-600 border-green-500/20'
+                                                            : 'bg-muted text-muted-foreground'
                                                             }`}>
                                                             {campaign.status}
                                                         </Badge>
                                                     </div>
-                                                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                        <span className="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-xs">ID: {campaign.id}</span>
-                                                        <span>Objective: {campaign.objective}</span>
+                                                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                                                        <span className="font-mono bg-muted px-1.5 py-0.5 rounded text-[10px] font-semibold">ID: {campaign.id}</span>
+                                                        <span className="font-medium">Objective: {campaign.objective}</span>
                                                     </div>
                                                 </div>
                                             </div>
