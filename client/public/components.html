@@ -1,521 +1,1371 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tulie Design System — Components</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* === CSS Variables (mirrors globals.css) === */
-:root {
-  --background: 0 0% 100%; --foreground: 0 0% 5%;
-  --card: 0 0% 100%; --card-foreground: 0 0% 5%;
-  --popover: 0 0% 100%; --popover-foreground: 0 0% 5%;
-  --primary: 0 0% 9%; --primary-foreground: 0 0% 98%;
-  --secondary: 0 0% 96%; --secondary-foreground: 0 0% 9%;
-  --muted: 0 0% 96%; --muted-foreground: 0 0% 35%;
-  --accent: 0 0% 96%; --accent-foreground: 0 0% 9%;
-  --destructive: 0 84% 60%; --destructive-foreground: 0 0% 98%;
-  --success: 142 76% 36%; --success-foreground: 0 0% 98%;
-  --border: 0 0% 90%; --input: 0 0% 90%; --ring: 0 0% 5%;
-  --radius: 0.75rem;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-.dark {
-  --background: 0 0% 4%; --foreground: 0 0% 98%;
-  --card: 0 0% 7%; --card-foreground: 0 0% 98%;
-  --popover: 0 0% 7%; --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%; --primary-foreground: 0 0% 9%;
-  --secondary: 0 0% 15%; --secondary-foreground: 0 0% 98%;
-  --muted: 0 0% 15%; --muted-foreground: 0 0% 64%;
-  --accent: 0 0% 15%; --accent-foreground: 0 0% 9%;
-  --destructive: 0 62% 50%; --destructive-foreground: 0 0% 98%;
-  --success: 142 76% 36%; --success-foreground: 0 0% 98%;
-  --border: 0 0% 18%; --input: 0 0% 18%; --ring: 0 0% 83%;
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tulie Design System — Components</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* === CSS Variables (mirrors globals.css) === */
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 0 0% 5%;
+      --card: 0 0% 100%;
+      --card-foreground: 0 0% 5%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 0 0% 5%;
+      --primary: 0 0% 9%;
+      --primary-foreground: 0 0% 98%;
+      --secondary: 0 0% 96%;
+      --secondary-foreground: 0 0% 9%;
+      --muted: 0 0% 96%;
+      --muted-foreground: 0 0% 35%;
+      --accent: 0 0% 96%;
+      --accent-foreground: 0 0% 9%;
+      --destructive: 0 84% 60%;
+      --destructive-foreground: 0 0% 98%;
+      --success: 142 76% 36%;
+      --success-foreground: 0 0% 98%;
+      --border: 0 0% 90%;
+      --input: 0 0% 90%;
+      --ring: 0 0% 5%;
+      --radius: 0.75rem;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
 
-/* === Base === */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: hsl(var(--background)); color: hsl(var(--foreground)); line-height: 1.6; transition: background 0.3s, color 0.3s; }
+    .dark {
+      --background: 0 0% 4%;
+      --foreground: 0 0% 98%;
+      --card: 0 0% 7%;
+      --card-foreground: 0 0% 98%;
+      --popover: 0 0% 7%;
+      --popover-foreground: 0 0% 98%;
+      --primary: 0 0% 98%;
+      --primary-foreground: 0 0% 9%;
+      --secondary: 0 0% 15%;
+      --secondary-foreground: 0 0% 98%;
+      --muted: 0 0% 15%;
+      --muted-foreground: 0 0% 64%;
+      --accent: 0 0% 15%;
+      --accent-foreground: 0 0% 9%;
+      --destructive: 0 62% 50%;
+      --destructive-foreground: 0 0% 98%;
+      --success: 142 76% 36%;
+      --success-foreground: 0 0% 98%;
+      --border: 0 0% 18%;
+      --input: 0 0% 18%;
+      --ring: 0 0% 83%;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    }
 
-/* === Layout === */
-.page { display: flex; min-height: 100vh; }
-.sidebar { position: fixed; top: 0; left: 0; width: 260px; height: 100vh; overflow-y: auto; border-right: 1px solid hsl(var(--border)); background: hsl(var(--card)); padding: 24px 16px; z-index: 10; }
-.sidebar h2 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.05em; }
-.sidebar h2:first-child { margin-top: 0; }
-.sidebar a { display: block; padding: 6px 12px; border-radius: 8px; text-decoration: none; font-size: 13px; color: hsl(var(--foreground)); transition: background 0.2s; }
-.sidebar a:hover { background: hsl(var(--muted)); }
-.main { margin-left: 260px; flex: 1; padding: 48px 48px 120px; max-width: 1000px; }
+    /* === Base === */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* === Section === */
-.ds-section { margin-bottom: 64px; }
-.ds-section > h2 { font-size: 24px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.02em; }
-.ds-section > p.desc { font-size: 14px; color: hsl(var(--muted-foreground)); margin-bottom: 24px; }
-.ds-section h3 { font-size: 16px; font-weight: 600; margin: 24px 0 12px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+    }
 
-/* === Component Grid === */
-.comp-grid { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
-.comp-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 12px; }
-.comp-label { font-size: 11px; font-weight: 500; color: hsl(var(--muted-foreground)); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
-.comp-box { padding: 24px; border: 1px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--card)); }
+    /* === Dot Pattern Background with corner fade === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: radial-gradient(circle, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 72%);
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 72%);
+    }
 
-/* === Color Swatches === */
-.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.swatch { border-radius: 12px; overflow: hidden; border: 1px solid hsl(var(--border)); }
-.swatch-color { height: 64px; }
-.swatch-info { padding: 8px 12px; background: hsl(var(--card)); font-size: 12px; }
-.swatch-info strong { display: block; font-size: 13px; margin-bottom: 2px; }
+    /* === Layout === */
+    .page {
+      display: flex;
+      min-height: 100vh;
+    }
 
-/* === Buttons === */
-.btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 500; font-family: inherit; cursor: pointer; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); border: none; font-size: 14px; height: 44px; padding: 0 20px; }
-.btn:active { transform: scale(0.97); }
-.btn-default { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
-.btn-default:hover { opacity: 0.9; }
-.btn-destructive { background: hsl(var(--destructive)); color: white; }
-.btn-secondary { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); border: 1px solid hsl(var(--border)); }
-.btn-outline { background: transparent; border: 1px solid hsl(var(--border)); color: hsl(var(--foreground)); }
-.btn-outline:hover { background: hsl(var(--muted)); }
-.btn-ghost { background: transparent; color: hsl(var(--foreground)); }
-.btn-ghost:hover { background: hsl(var(--muted)); }
-.btn-link { background: none; color: hsl(var(--primary)); text-decoration: underline; text-underline-offset: 4px; }
-.btn-sm { height: 36px; padding: 0 14px; font-size: 13px; border-radius: 8px; }
-.btn-lg { height: 48px; padding: 0 32px; font-size: 16px; }
-.btn-icon { height: 44px; width: 44px; padding: 0; }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid hsl(var(--border));
+      background: hsl(var(--card) / 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 24px 16px;
+      z-index: 10;
+    }
 
-/* === Card === */
-.card { border-radius: 12px; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); color: hsl(var(--card-foreground)); box-shadow: var(--shadow-sm); overflow: hidden; }
-.card-header { padding: 32px 32px 0; }
-.card-title { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
-.card-desc { font-size: 14px; color: hsl(var(--muted-foreground)); margin-top: 4px; }
-.card-content { padding: 24px 32px 32px; }
-.card-footer { padding: 0 32px 32px; display: flex; gap: 12px; }
+    .sidebar h2 {
+      font-size: 11px;
+      font-weight: 600;
+      margin: 20px 0 8px;
+      color: hsl(var(--muted-foreground));
+      letter-spacing: 0.05em;
+    }
 
-/* === Badge === */
-.badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; font-weight: 500; border: 1px solid transparent; white-space: nowrap; }
-.badge-sm { height: 22px; font-size: 10px; padding: 0 8px; }
-.badge-md { height: 28px; font-size: 12px; padding: 0 10px; }
-.badge-lg { height: 32px; font-size: 14px; padding: 0 14px; }
-.badge-default { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
-.badge-secondary { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); }
-.badge-destructive { background: hsl(var(--destructive)); color: white; }
-.badge-outline { border-color: hsl(var(--border)); color: hsl(var(--foreground)); background: hsl(var(--background)); }
-.badge-yellow { background: #eab308; color: white; }
-.badge-success { background: hsl(var(--success)); color: white; }
+    .sidebar h2:first-child {
+      margin-top: 0;
+    }
 
-/* === Status Dot === */
-.status-dot { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 8px; height: 8px; }
-.status-dot .core { width: 6px; height: 6px; border-radius: 50%; position: relative; z-index: 1; }
-.status-dot .ping { position: absolute; inset: 0; border-radius: 50%; animation: ping 1.5s cubic-bezier(0,0,0.2,1) infinite; opacity: 0.75; }
-@keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
-.dot-white .core, .dot-white .ping { background: white; }
-.dot-black .core, .dot-black .ping { background: hsl(var(--foreground)); }
-.dot-green .core, .dot-green .ping { background: #10b981; }
-.dot-red .core, .dot-red .ping { background: #f43f5e; }
-.dot-blue .core, .dot-blue .ping { background: #3b82f6; }
-.dot-yellow .core, .dot-yellow .ping { background: #f59e0b; }
+    .sidebar a {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      color: hsl(var(--foreground));
+      transition: background 0.2s;
+    }
 
-/* === Form Controls === */
-.input, .textarea { width: 100%; max-width: 320px; padding: 8px 16px; border: 1px solid hsl(var(--input)); border-radius: 6px; background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 14px; font-family: inherit; transition: all 0.2s; outline: none; }
-.input { height: 36px; }
-.textarea { min-height: 80px; resize: vertical; }
-.input:focus, .textarea:focus { border-color: hsl(var(--ring)); box-shadow: 0 0 0 2px hsl(var(--ring) / 0.15); }
-.input::placeholder, .textarea::placeholder { color: hsl(var(--muted-foreground)); }
+    .sidebar a:hover {
+      background: hsl(var(--muted));
+    }
 
-.form-label { font-size: 14px; font-weight: 500; display: block; margin-bottom: 6px; }
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 48px 48px 120px;
+      max-width: 1000px;
+      position: relative;
+      z-index: 1;
+    }
 
-/* Switch & Checkbox */
-.switch { width: 44px; height: 24px; border-radius: 12px; background: hsl(var(--input)); position: relative; cursor: pointer; transition: background 0.2s; border: none; }
-.switch.active { background: hsl(var(--primary)); }
-.switch .thumb { width: 20px; height: 20px; border-radius: 50%; background: hsl(var(--background)); box-shadow: var(--shadow-sm); position: absolute; top: 2px; left: 2px; transition: transform 0.2s; }
-.switch.active .thumb { transform: translateX(20px); }
+    /* === Section === */
+    .ds-section {
+      margin-bottom: 64px;
+    }
 
-.checkbox { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid hsl(var(--primary)); background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; }
-.checkbox.checked { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
-.checkbox svg { width: 12px; height: 12px; }
+    .ds-section>h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
 
-/* === Spacing Reference === */
-.spacing-demo { display: flex; flex-direction: column; gap: 8px; }
-.spacing-row { display: flex; align-items: center; gap: 12px; }
-.spacing-bar { height: 24px; background: hsl(var(--primary) / 0.15); border: 1px solid hsl(var(--primary) / 0.3); border-radius: 4px; }
-.spacing-label { font-size: 12px; font-weight: 500; color: hsl(var(--muted-foreground)); min-width: 100px; }
+    .ds-section>p.desc {
+      font-size: 14px;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 24px;
+    }
 
-/* === Effects === */
-.glass-demo { background: hsl(var(--background) / 0.75); backdrop-filter: blur(16px); border: 1px solid hsl(var(--border) / 0.4); border-radius: 12px; padding: 24px; }
-.gradient-text-demo { background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--muted-foreground)) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 32px; font-weight: 700; }
-.card-hover-demo { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); cursor: pointer; }
-.card-hover-demo:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--shadow-xl); }
-.border-premium-demo { border: 1px solid hsl(var(--primary) / 0.05); background: hsl(var(--background) / 0.4); backdrop-filter: blur(40px); box-shadow: var(--shadow-sm); border-radius: 12px; padding: 24px; }
+    .ds-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 24px 0 12px;
+    }
 
-/* === Shadows === */
-.shadow-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-.shadow-box { height: 80px; border-radius: 12px; background: hsl(var(--card)); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: hsl(var(--muted-foreground)); }
+    /* === Component Grid === */
+    .comp-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
+    }
 
-/* === Radius === */
-.radius-grid { display: flex; gap: 16px; flex-wrap: wrap; }
-.radius-box { width: 80px; height: 80px; background: hsl(var(--primary) / 0.1); border: 1px solid hsl(var(--border)); display: flex; align-items: center; justify-content: center; font-size: 11px; color: hsl(var(--muted-foreground)); }
+    .comp-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
 
-/* === Dialog Preview === */
-.dialog-preview { background: hsl(var(--background)); border: 1px solid hsl(var(--border)); border-radius: 16px; box-shadow: var(--shadow-xl); max-width: 400px; overflow: hidden; }
-.dialog-body { padding: 24px; display: flex; gap: 16px; }
-.dialog-icon { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; }
-.dialog-actions { padding: 0 24px 24px; display: flex; gap: 12px; justify-content: flex-end; }
+    .comp-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: hsl(var(--muted-foreground));
+      margin-bottom: 6px;
+      letter-spacing: 0.03em;
+    }
 
-/* === Tabs Preview === */
-.tabs-list { display: flex; border-bottom: 1px solid hsl(var(--border)); margin-bottom: 16px; }
-.tab-trigger { padding: 8px 16px; font-size: 14px; font-weight: 500; background: none; border: none; cursor: pointer; color: hsl(var(--muted-foreground)); border-bottom: 2px solid transparent; font-family: inherit; transition: all 0.2s; }
-.tab-trigger.active { color: hsl(var(--primary)); border-bottom-color: hsl(var(--primary)); }
-.tab-trigger:hover { color: hsl(var(--foreground)); }
+    .comp-box {
+      padding: 32px;
+      border: 1px solid hsl(var(--border));
+      border-radius: 12px;
+      background: hsl(var(--card));
+      box-shadow: 0 0 0 1px hsl(var(--border) / 0.5);
+    }
 
-/* === Dark Mode Toggle === */
-.theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 100; width: 40px; height: 40px; border-radius: 10px; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.3s; box-shadow: var(--shadow-sm); }
-.theme-toggle:hover { background: hsl(var(--muted)); }
+    /* === Color Swatches === */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
 
-/* === Responsive === */
-@media (max-width: 768px) {
-  .sidebar { display: none; }
-  .main { margin-left: 0; padding: 24px 16px 80px; }
-  .shadow-grid { grid-template-columns: repeat(2, 1fr); }
-  .swatch-grid { grid-template-columns: repeat(2, 1fr); }
-}
+    .swatch {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid hsl(var(--border));
+    }
 
-/* === Loading Spinner === */
-.spinner { width: 48px; height: 48px; border: 4px solid hsl(var(--muted)); border-top-color: hsl(var(--primary)); border-radius: 50%; animation: spin 0.8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+    .swatch-color {
+      height: 64px;
+    }
 
-/* === Pagination === */
-.pagination { display: flex; align-items: center; gap: 8px; }
-.page-btn { width: 48px; height: 48px; border-radius: 8px; border: 1px solid hsl(var(--border)); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: hsl(var(--foreground)); transition: all 0.2s; font-family: inherit; }
-.page-btn:hover { background: hsl(var(--muted)); }
-.page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.page-info { font-size: 14px; font-weight: 500; color: hsl(var(--muted-foreground)); }
-</style>
+    .swatch-info {
+      padding: 8px 12px;
+      background: hsl(var(--card));
+      font-size: 12px;
+    }
+
+    .swatch-info strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    /* === Buttons === */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      font-size: 14px;
+      height: 44px;
+      padding: 0 20px;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-default {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+
+    .btn-default:hover {
+      opacity: 0.9;
+    }
+
+    .btn-destructive {
+      background: hsl(var(--destructive));
+      color: white;
+    }
+
+    .btn-secondary {
+      background: hsl(var(--secondary));
+      color: hsl(var(--secondary-foreground));
+      border: 1px solid hsl(var(--border));
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid hsl(var(--border));
+      color: hsl(var(--foreground));
+    }
+
+    .btn-outline:hover {
+      background: hsl(var(--muted));
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: hsl(var(--foreground));
+    }
+
+    .btn-ghost:hover {
+      background: hsl(var(--muted));
+    }
+
+    .btn-link {
+      background: none;
+      color: hsl(var(--primary));
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .btn-sm {
+      height: 36px;
+      padding: 0 14px;
+      font-size: 13px;
+      border-radius: 8px;
+    }
+
+    .btn-lg {
+      height: 48px;
+      padding: 0 32px;
+      font-size: 16px;
+    }
+
+    .btn-icon {
+      height: 44px;
+      width: 44px;
+      padding: 0;
+    }
+
+    /* === Card === */
+    .card {
+      border-radius: 12px;
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
+      color: hsl(var(--card-foreground));
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 32px 32px 0;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: hsl(var(--muted-foreground));
+      margin-top: 4px;
+    }
+
+    .card-content {
+      padding: 24px 32px 32px;
+    }
+
+    .card-footer {
+      padding: 0 32px 32px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* === Badge === */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 9999px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .badge-sm {
+      height: 22px;
+      font-size: 10px;
+      padding: 0 8px;
+    }
+
+    .badge-md {
+      height: 28px;
+      font-size: 12px;
+      padding: 0 10px;
+    }
+
+    .badge-lg {
+      height: 32px;
+      font-size: 14px;
+      padding: 0 14px;
+    }
+
+    .badge-default {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+
+    .badge-secondary {
+      background: hsl(var(--secondary));
+      color: hsl(var(--secondary-foreground));
+    }
+
+    .badge-destructive {
+      background: hsl(var(--destructive));
+      color: white;
+    }
+
+    .badge-outline {
+      border-color: hsl(var(--border));
+      color: hsl(var(--foreground));
+      background: hsl(var(--background));
+    }
+
+    .badge-yellow {
+      background: #eab308;
+      color: white;
+    }
+
+    .badge-success {
+      background: hsl(var(--success));
+      color: white;
+    }
+
+    /* === Status Dot === */
+    .status-dot {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+    }
+
+    .status-dot .core {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .status-dot .ping {
+      position: absolute;
+      inset: -1px;
+      border-radius: 50%;
+      animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+      opacity: 0.75;
+    }
+
+    @keyframes ping {
+
+      75%,
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    .dot-white .core,
+    .dot-white .ping {
+      background: white;
+    }
+
+    .dot-black .core,
+    .dot-black .ping {
+      background: hsl(var(--foreground));
+    }
+
+    .dot-green .core,
+    .dot-green .ping {
+      background: #10b981;
+    }
+
+    .dot-red .core,
+    .dot-red .ping {
+      background: #f43f5e;
+    }
+
+    .dot-blue .core,
+    .dot-blue .ping {
+      background: #3b82f6;
+    }
+
+    .dot-yellow .core,
+    .dot-yellow .ping {
+      background: #f59e0b;
+    }
+
+    /* Blink dot tag — SectionTag with animated StatusDot */
+    .blink-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 9999px;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
+      transition: all 0.2s;
+    }
+
+    .blink-tag:hover {
+      background: hsl(var(--muted));
+    }
+
+    .blink-tag.tag-dark {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+      border-color: transparent;
+    }
+
+    .blink-tag.tag-yellow {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    .blink-tag.tag-red {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fecaca;
+    }
+
+    .blink-tag.tag-primary {
+      background: hsl(var(--primary) / 0.1);
+      color: hsl(var(--primary));
+      border-color: hsl(var(--primary) / 0.2);
+    }
+
+    /* === Form Controls === */
+    .input,
+    .textarea {
+      width: 100%;
+      max-width: 320px;
+      padding: 8px 16px;
+      border: 1px solid hsl(var(--input));
+      border-radius: 6px;
+      background: hsl(var(--background));
+      color: hsl(var(--foreground));
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .input {
+      height: 36px;
+    }
+
+    .textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .input:focus,
+    .textarea:focus {
+      border-color: hsl(var(--ring));
+      box-shadow: 0 0 0 2px hsl(var(--ring) / 0.15);
+    }
+
+    .input::placeholder,
+    .textarea::placeholder {
+      color: hsl(var(--muted-foreground));
+    }
+
+    .form-label {
+      font-size: 14px;
+      font-weight: 500;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* Switch & Checkbox */
+    .switch {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: hsl(var(--input));
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: none;
+    }
+
+    .switch.active {
+      background: hsl(var(--primary));
+    }
+
+    .switch .thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: hsl(var(--background));
+      box-shadow: var(--shadow-sm);
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.2s;
+    }
+
+    .switch.active .thumb {
+      transform: translateX(20px);
+    }
+
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      border: 1.5px solid hsl(var(--primary));
+      background: transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .checkbox.checked {
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
+    }
+
+    .checkbox svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* === Spacing Reference === */
+    .spacing-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .spacing-bar {
+      height: 24px;
+      background: hsl(var(--primary) / 0.15);
+      border: 1px solid hsl(var(--primary) / 0.3);
+      border-radius: 4px;
+    }
+
+    .spacing-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: hsl(var(--muted-foreground));
+      min-width: 100px;
+    }
+
+    /* === Effects === */
+    .glass-demo {
+      background: hsl(var(--background) / 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid hsl(var(--border) / 0.4);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .gradient-text-demo {
+      background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--muted-foreground)) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .card-hover-demo {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .card-hover-demo:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .border-premium-demo {
+      border: 1px solid hsl(var(--primary) / 0.05);
+      background: hsl(var(--background) / 0.4);
+      backdrop-filter: blur(40px);
+      box-shadow: var(--shadow-sm);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    /* === Shadows === */
+    .shadow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .shadow-box {
+      height: 80px;
+      border-radius: 12px;
+      background: hsl(var(--card));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: hsl(var(--muted-foreground));
+    }
+
+    /* === Radius === */
+    .radius-grid {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .radius-box {
+      width: 80px;
+      height: 80px;
+      background: hsl(var(--primary) / 0.1);
+      border: 1px solid hsl(var(--border));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: hsl(var(--muted-foreground));
+    }
+
+    /* === Dialog Preview === */
+    .dialog-preview {
+      background: hsl(var(--background));
+      border: 1px solid hsl(var(--border));
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl);
+      max-width: 400px;
+      overflow: hidden;
+    }
+
+    .dialog-body {
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .dialog-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dialog-actions {
+      padding: 0 24px 24px;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    /* === Tabs Preview === */
+    .tabs-list {
+      display: flex;
+      border-bottom: 1px solid hsl(var(--border));
+      margin-bottom: 16px;
+    }
+
+    .tab-trigger {
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: hsl(var(--muted-foreground));
+      border-bottom: 2px solid transparent;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .tab-trigger.active {
+      color: hsl(var(--primary));
+      border-bottom-color: hsl(var(--primary));
+    }
+
+    .tab-trigger:hover {
+      color: hsl(var(--foreground));
+    }
+
+    /* === Dark Mode Toggle === */
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid hsl(var(--border));
+      background: hsl(var(--card));
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.3s;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .theme-toggle:hover {
+      background: hsl(var(--muted));
+    }
+
+    /* === Responsive === */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 24px 16px 80px;
+      }
+
+      .shadow-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .swatch-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* === Loading Spinner === */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid hsl(var(--muted));
+      border-top-color: hsl(var(--primary));
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* === Pagination === */
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      border: 1px solid hsl(var(--border));
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: hsl(var(--foreground));
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .page-btn:hover {
+      background: hsl(var(--muted));
+    }
+
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-size: 14px;
+      font-weight: 500;
+      color: hsl(var(--muted-foreground));
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Theme Toggle -->
-<button class="theme-toggle" onclick="document.body.classList.toggle('dark'); this.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';" title="Toggle dark mode">🌙</button>
+  <!-- Theme Toggle -->
+  <button class="theme-toggle"
+    onclick="document.body.classList.toggle('dark'); this.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';"
+    title="Toggle dark mode">🌙</button>
 
-<!-- Sidebar -->
-<div class="page">
-<nav class="sidebar">
-  <h2>Foundation</h2>
-  <a href="#colors">Colors</a>
-  <a href="#typography">Typography</a>
-  <a href="#spacing">Spacing</a>
-  <a href="#radius">Border Radius</a>
-  <a href="#shadows">Shadows</a>
-  <h2>Components</h2>
-  <a href="#buttons">Buttons</a>
-  <a href="#cards">Cards</a>
-  <a href="#badges">Badges & Tags</a>
-  <a href="#forms">Form Controls</a>
-  <a href="#tabs">Tabs</a>
-  <a href="#pagination">Pagination</a>
-  <a href="#feedback">Feedback</a>
-  <a href="#dialogs">Dialogs</a>
-  <h2>Effects</h2>
-  <a href="#effects">Utilities & Effects</a>
-</nav>
+  <!-- Sidebar -->
+  <div class="page">
+    <nav class="sidebar">
+      <h2>Foundation</h2>
+      <a href="#colors">Colors</a>
+      <a href="#typography">Typography</a>
+      <a href="#spacing">Spacing</a>
+      <a href="#radius">Border Radius</a>
+      <a href="#shadows">Shadows</a>
+      <h2>Components</h2>
+      <a href="#buttons">Buttons</a>
+      <a href="#cards">Cards</a>
+      <a href="#badges">Badges & Tags</a>
+      <a href="#forms">Form Controls</a>
+      <a href="#tabs">Tabs</a>
+      <a href="#pagination">Pagination</a>
+      <a href="#feedback">Feedback</a>
+      <a href="#dialogs">Dialogs</a>
+      <h2>Effects</h2>
+      <a href="#effects">Utilities & Effects</a>
+      <div style="margin-top:auto; padding-top:24px; border-top:1px solid hsl(var(--border)); margin-top:32px;">
+        <p style="font-size:11px; color:hsl(var(--muted-foreground)); line-height:1.5;">Tulie Design
+          System<br>shadcn-inspired · B&W</p>
+      </div>
+    </nav>
 
-<!-- Main Content -->
-<main class="main">
+    <!-- Main Content -->
+    <main class="main">
 
-<h1 style="font-size:32px; font-weight:700; letter-spacing:-0.03em; margin-bottom:4px;">Tulie Design System</h1>
-<p style="color:hsl(var(--muted-foreground)); margin-bottom:48px;">Component showcase — Visual reference for all tokens and components</p>
+      <h1 style="font-size:32px; font-weight:700; letter-spacing:-0.03em; margin-bottom:4px;">Tulie Design System</h1>
+      <p style="color:hsl(var(--muted-foreground)); margin-bottom:48px;">Component showcase — Visual reference for all
+        tokens and components</p>
 
-<!-- COLORS -->
-<section class="ds-section" id="colors">
-<h2>Color Tokens</h2>
-<p class="desc">All colors use CSS variables in HSL format. Light and dark mode supported.</p>
-<div class="swatch-grid">
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--primary))"></div><div class="swatch-info"><strong>Primary</strong>--primary</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--primary-foreground))"></div><div class="swatch-info"><strong>Primary FG</strong>--primary-foreground</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--secondary))"></div><div class="swatch-info"><strong>Secondary</strong>--secondary</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--muted))"></div><div class="swatch-info"><strong>Muted</strong>--muted</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--muted-foreground))"></div><div class="swatch-info"><strong>Muted FG</strong>--muted-foreground</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--accent))"></div><div class="swatch-info"><strong>Accent</strong>--accent</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--destructive))"></div><div class="swatch-info"><strong>Destructive</strong>--destructive</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--success))"></div><div class="swatch-info"><strong>Success</strong>--success</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--card))"></div><div class="swatch-info"><strong>Card</strong>--card</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--background))"></div><div class="swatch-info"><strong>Background</strong>--background</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--border))"></div><div class="swatch-info"><strong>Border</strong>--border</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--input))"></div><div class="swatch-info"><strong>Input</strong>--input</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--ring))"></div><div class="swatch-info"><strong>Ring</strong>--ring</div></div>
-  <div class="swatch"><div class="swatch-color" style="background:hsl(var(--foreground))"></div><div class="swatch-info"><strong>Foreground</strong>--foreground</div></div>
-</div>
-</section>
+      <!-- COLORS -->
+      <section class="ds-section" id="colors">
+        <h2>Color Tokens</h2>
+        <p class="desc">All colors use CSS variables in HSL format. Light and dark mode supported.</p>
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--primary))"></div>
+            <div class="swatch-info"><strong>Primary</strong>--primary</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--primary-foreground))"></div>
+            <div class="swatch-info"><strong>Primary FG</strong>--primary-foreground</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--secondary))"></div>
+            <div class="swatch-info"><strong>Secondary</strong>--secondary</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--muted))"></div>
+            <div class="swatch-info"><strong>Muted</strong>--muted</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--muted-foreground))"></div>
+            <div class="swatch-info"><strong>Muted FG</strong>--muted-foreground</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--accent))"></div>
+            <div class="swatch-info"><strong>Accent</strong>--accent</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--destructive))"></div>
+            <div class="swatch-info"><strong>Destructive</strong>--destructive</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--success))"></div>
+            <div class="swatch-info"><strong>Success</strong>--success</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--card))"></div>
+            <div class="swatch-info"><strong>Card</strong>--card</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--background))"></div>
+            <div class="swatch-info"><strong>Background</strong>--background</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--border))"></div>
+            <div class="swatch-info"><strong>Border</strong>--border</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--input))"></div>
+            <div class="swatch-info"><strong>Input</strong>--input</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--ring))"></div>
+            <div class="swatch-info"><strong>Ring</strong>--ring</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background:hsl(var(--foreground))"></div>
+            <div class="swatch-info"><strong>Foreground</strong>--foreground</div>
+          </div>
+        </div>
+      </section>
 
-<!-- TYPOGRAPHY -->
-<section class="ds-section" id="typography">
-<h2>Typography</h2>
-<p class="desc">Font: Inter. No uppercase or letter-spacing on headings.</p>
-<div class="comp-box">
-  <h1 style="font-size:2.25rem; font-weight:600; letter-spacing:-0.02em; line-height:1.3; margin-bottom:16px;">Heading 1 — 2.25rem / 600</h1>
-  <h2 style="font-size:1.875rem; font-weight:600; letter-spacing:-0.02em; line-height:1.4; margin-bottom:16px;">Heading 2 — 1.875rem / 600</h2>
-  <h3 style="font-size:1.5rem; font-weight:600; letter-spacing:-0.02em; line-height:1.4; margin-bottom:16px;">Heading 3 — 1.5rem / 600</h3>
-  <h4 style="font-size:1.25rem; font-weight:700; letter-spacing:-0.01em; margin-bottom:16px;">Heading 4 — 1.25rem / 700</h4>
-  <p style="color:hsl(var(--muted-foreground)); margin-bottom:8px;">Body text — 1rem / 400 / text-muted-foreground / leading-relaxed</p>
-  <p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-bottom:8px;">Small text — 0.875rem / text-sm</p>
-  <div class="gradient-text-demo" style="margin-top:16px;">Gradient Text Effect</div>
-</div>
-</section>
+      <!-- TYPOGRAPHY -->
+      <section class="ds-section" id="typography">
+        <h2>Typography</h2>
+        <p class="desc">Font: Inter. No uppercase or letter-spacing on headings.</p>
+        <div class="comp-box">
+          <h1 style="font-size:2.25rem; font-weight:600; letter-spacing:-0.02em; line-height:1.3; margin-bottom:16px;">
+            Heading 1 — 2.25rem / 600</h1>
+          <h2 style="font-size:1.875rem; font-weight:600; letter-spacing:-0.02em; line-height:1.4; margin-bottom:16px;">
+            Heading 2 — 1.875rem / 600</h2>
+          <h3 style="font-size:1.5rem; font-weight:600; letter-spacing:-0.02em; line-height:1.4; margin-bottom:16px;">
+            Heading 3 — 1.5rem / 600</h3>
+          <h4 style="font-size:1.25rem; font-weight:700; letter-spacing:-0.01em; margin-bottom:16px;">Heading 4 —
+            1.25rem / 700</h4>
+          <p style="color:hsl(var(--muted-foreground)); margin-bottom:8px;">Body text — 1rem / 400 /
+            text-muted-foreground / leading-relaxed</p>
+          <p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-bottom:8px;">Small text — 0.875rem /
+            text-sm</p>
+          <div class="gradient-text-demo" style="margin-top:16px;">Gradient Text Effect</div>
+        </div>
+      </section>
 
-<!-- SPACING -->
-<section class="ds-section" id="spacing">
-<h2>Spacing Reference</h2>
-<p class="desc">Consistent spacing values used across all components.</p>
-<div class="comp-box">
-<div class="spacing-demo">
-  <div class="spacing-row"><span class="spacing-label">4px — gap-1</span><div class="spacing-bar" style="width:16px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">8px — gap-2, p-2</span><div class="spacing-bar" style="width:32px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">12px — gap-3, p-3</span><div class="spacing-bar" style="width:48px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">16px — gap-4, p-4</span><div class="spacing-bar" style="width:64px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">24px — gap-6, p-6</span><div class="spacing-bar" style="width:96px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">32px — gap-8, p-8</span><div class="spacing-bar" style="width:128px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">48px — gap-12</span><div class="spacing-bar" style="width:192px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">56px — section (mobile)</span><div class="spacing-bar" style="width:224px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">80px — section (tablet)</span><div class="spacing-bar" style="width:320px"></div></div>
-  <div class="spacing-row"><span class="spacing-label">112px — section (desktop)</span><div class="spacing-bar" style="width:448px"></div></div>
-</div>
-</div>
-</section>
+      <!-- SPACING -->
+      <section class="ds-section" id="spacing">
+        <h2>Spacing Reference</h2>
+        <p class="desc">Consistent spacing values used across all components.</p>
+        <div class="comp-box">
+          <div class="spacing-demo">
+            <div class="spacing-row"><span class="spacing-label">4px — gap-1</span>
+              <div class="spacing-bar" style="width:16px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">8px — gap-2, p-2</span>
+              <div class="spacing-bar" style="width:32px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">12px — gap-3, p-3</span>
+              <div class="spacing-bar" style="width:48px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">16px — gap-4, p-4</span>
+              <div class="spacing-bar" style="width:64px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">24px — gap-6, p-6</span>
+              <div class="spacing-bar" style="width:96px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">32px — gap-8, p-8</span>
+              <div class="spacing-bar" style="width:128px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">48px — gap-12</span>
+              <div class="spacing-bar" style="width:192px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">56px — section (mobile)</span>
+              <div class="spacing-bar" style="width:224px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">80px — section (tablet)</span>
+              <div class="spacing-bar" style="width:320px"></div>
+            </div>
+            <div class="spacing-row"><span class="spacing-label">112px — section (desktop)</span>
+              <div class="spacing-bar" style="width:448px"></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-<!-- RADIUS -->
-<section class="ds-section" id="radius">
-<h2>Border Radius</h2>
-<p class="desc">Base: --radius = 0.75rem (12px)</p>
-<div class="radius-grid">
-  <div class="radius-box" style="border-radius:4px;">4px<br>rounded-sm</div>
-  <div class="radius-box" style="border-radius:6px;">6px<br>rounded-md</div>
-  <div class="radius-box" style="border-radius:8px;">8px<br>rounded-lg</div>
-  <div class="radius-box" style="border-radius:12px;">12px<br>rounded-xl</div>
-  <div class="radius-box" style="border-radius:16px;">16px<br>rounded-2xl</div>
-  <div class="radius-box" style="border-radius:9999px;">full<br>rounded-full</div>
-</div>
-</section>
+      <!-- RADIUS -->
+      <section class="ds-section" id="radius">
+        <h2>Border Radius</h2>
+        <p class="desc">Base: --radius = 0.75rem (12px)</p>
+        <div class="radius-grid">
+          <div class="radius-box" style="border-radius:4px;">4px<br>rounded-sm</div>
+          <div class="radius-box" style="border-radius:6px;">6px<br>rounded-md</div>
+          <div class="radius-box" style="border-radius:8px;">8px<br>rounded-lg</div>
+          <div class="radius-box" style="border-radius:12px;">12px<br>rounded-xl</div>
+          <div class="radius-box" style="border-radius:16px;">16px<br>rounded-2xl</div>
+          <div class="radius-box" style="border-radius:9999px;">full<br>rounded-full</div>
+        </div>
+      </section>
 
-<!-- SHADOWS -->
-<section class="ds-section" id="shadows">
-<h2>Shadows</h2>
-<p class="desc">5 levels from sm → xl. Dark mode uses higher opacity.</p>
-<div class="shadow-grid">
-  <div class="shadow-box" style="box-shadow:var(--shadow-sm)">shadow-sm</div>
-  <div class="shadow-box" style="box-shadow:var(--shadow)">shadow</div>
-  <div class="shadow-box" style="box-shadow:var(--shadow-md)">shadow-md</div>
-  <div class="shadow-box" style="box-shadow:var(--shadow-lg)">shadow-lg</div>
-  <div class="shadow-box" style="box-shadow:var(--shadow-xl)">shadow-xl</div>
-</div>
-</section>
+      <!-- SHADOWS -->
+      <section class="ds-section" id="shadows">
+        <h2>Shadows</h2>
+        <p class="desc">5 levels from sm → xl. Dark mode uses higher opacity.</p>
+        <div class="shadow-grid">
+          <div class="shadow-box" style="box-shadow:var(--shadow-sm)">shadow-sm</div>
+          <div class="shadow-box" style="box-shadow:var(--shadow)">shadow</div>
+          <div class="shadow-box" style="box-shadow:var(--shadow-md)">shadow-md</div>
+          <div class="shadow-box" style="box-shadow:var(--shadow-lg)">shadow-lg</div>
+          <div class="shadow-box" style="box-shadow:var(--shadow-xl)">shadow-xl</div>
+        </div>
+      </section>
 
-<!-- BUTTONS -->
-<section class="ds-section" id="buttons">
-<h2>Buttons</h2>
-<p class="desc">9 variants × 4 sizes. All buttons have active:scale(0.97) press effect.</p>
+      <!-- BUTTONS -->
+      <section class="ds-section" id="buttons">
+        <h2>Buttons</h2>
+        <p class="desc">9 variants × 4 sizes. All buttons have active:scale(0.97) press effect.</p>
 
-<h3>Variants (Default Size)</h3>
-<div class="comp-row">
-  <button class="btn btn-default">Default</button>
-  <button class="btn btn-destructive">Destructive</button>
-  <button class="btn btn-secondary">Secondary</button>
-  <button class="btn btn-outline">Outline</button>
-  <button class="btn btn-ghost">Ghost</button>
-  <button class="btn btn-link">Link</button>
-</div>
+        <h3>Variants (Default Size)</h3>
+        <div class="comp-row">
+          <button class="btn btn-default">Default</button>
+          <button class="btn btn-destructive">Destructive</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-outline">Outline</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn btn-link">Link</button>
+        </div>
 
-<h3>Sizes</h3>
-<div class="comp-row">
-  <button class="btn btn-default btn-sm">Small</button>
-  <button class="btn btn-default">Default</button>
-  <button class="btn btn-default btn-lg">Large</button>
-  <button class="btn btn-default btn-icon">✦</button>
-</div>
+        <h3>Sizes</h3>
+        <div class="comp-row">
+          <button class="btn btn-default btn-sm">Small</button>
+          <button class="btn btn-default">Default</button>
+          <button class="btn btn-default btn-lg">Large</button>
+          <button class="btn btn-default btn-icon">✦</button>
+        </div>
 
-<h3>States</h3>
-<div class="comp-row">
-  <button class="btn btn-default">Normal</button>
-  <button class="btn btn-default" disabled style="opacity:0.5; pointer-events:none;">Disabled</button>
-</div>
-</section>
+        <h3>States</h3>
+        <div class="comp-row">
+          <button class="btn btn-default">Normal</button>
+          <button class="btn btn-default" disabled style="opacity:0.5; pointer-events:none;">Disabled</button>
+        </div>
+      </section>
 
-<!-- CARDS -->
-<section class="ds-section" id="cards">
-<h2>Cards</h2>
-<p class="desc">Card with header, title, description, content, and footer. Padding: p-8 (32px).</p>
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px;">
-  <div class="card">
-    <div class="card-header"><div class="card-title">Card Title</div><div class="card-desc">Card description goes here</div></div>
-    <div class="card-content"><p style="font-size:14px; color:hsl(var(--muted-foreground))">Card content with body text. Uses p-8 pt-0 for spacing consistency.</p></div>
-    <div class="card-footer"><button class="btn btn-default btn-sm">Action</button><button class="btn btn-outline btn-sm">Cancel</button></div>
+      <!-- CARDS -->
+      <section class="ds-section" id="cards">
+        <h2>Cards</h2>
+        <p class="desc">Card with header, title, description, content, and footer. Padding: p-8 (32px).</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Card Title</div>
+              <div class="card-desc">Card description goes here</div>
+            </div>
+            <div class="card-content">
+              <p style="font-size:14px; color:hsl(var(--muted-foreground))">Card content with body text. Uses p-8 pt-0
+                for spacing consistency.</p>
+            </div>
+            <div class="card-footer"><button class="btn btn-default btn-sm">Action</button><button
+                class="btn btn-outline btn-sm">Cancel</button></div>
+          </div>
+          <div class="card card-hover-demo">
+            <div class="card-header">
+              <div class="card-title">Hover Card</div>
+              <div class="card-desc">Hover to see card-hover effect</div>
+            </div>
+            <div class="card-content">
+              <p style="font-size:14px; color:hsl(var(--muted-foreground));">translateY(-6px) scale(1.01) + shadow
+                increase on hover.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BADGES -->
+      <section class="ds-section" id="badges">
+        <h2>Badges & Tags</h2>
+        <p class="desc">Badges with status dots. SectionTags with 8 variant styles. Blink dot tags.</p>
+
+        <h3>Badge Variants</h3>
+        <div class="comp-row">
+          <span class="badge badge-lg badge-default"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Default</span>
+          <span class="badge badge-lg badge-secondary"><span class="status-dot dot-black"><span
+                class="core"></span></span>Secondary</span>
+          <span class="badge badge-lg badge-destructive"><span class="status-dot dot-white"><span
+                class="core"></span><span class="ping"></span></span>Destructive</span>
+          <span class="badge badge-lg badge-outline"><span class="status-dot dot-black"><span
+                class="core"></span></span>Outline</span>
+          <span class="badge badge-lg badge-yellow"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Yellow</span>
+          <span class="badge badge-lg badge-success"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Success</span>
+        </div>
+
+        <h3>Badge Sizes</h3>
+        <div class="comp-row">
+          <span class="badge badge-sm badge-default">Small (22px)</span>
+          <span class="badge badge-md badge-default">Medium (28px)</span>
+          <span class="badge badge-lg badge-default">Large (32px)</span>
+        </div>
+
+        <h3>Blink Dot Tags (SectionTag)</h3>
+        <div class="comp-row" style="gap:12px;">
+          <span class="blink-tag"><span class="status-dot dot-green"><span class="core"></span><span
+                class="ping"></span></span>Online</span>
+          <span class="blink-tag tag-dark"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Active</span>
+          <span class="blink-tag tag-yellow"><span class="status-dot dot-yellow"><span class="core"></span><span
+                class="ping"></span></span>Pending</span>
+          <span class="blink-tag tag-red"><span class="status-dot dot-red"><span class="core"></span><span
+                class="ping"></span></span>Error</span>
+          <span class="blink-tag tag-primary"><span class="status-dot dot-blue"><span class="core"></span><span
+                class="ping"></span></span>In progress</span>
+          <span class="blink-tag"><span class="status-dot dot-green"><span class="core"></span><span
+                class="ping"></span></span>Open</span>
+        </div>
+
+        <h3>Status Dots (Standalone)</h3>
+        <div class="comp-row" style="gap:24px;">
+          <span style="display:flex; align-items:center; gap:8px; font-size:13px;"><span
+              class="status-dot dot-green"><span class="core"></span><span class="ping"></span></span>Green</span>
+          <span style="display:flex; align-items:center; gap:8px; font-size:13px;"><span
+              class="status-dot dot-red"><span class="core"></span><span class="ping"></span></span>Red</span>
+          <span style="display:flex; align-items:center; gap:8px; font-size:13px;"><span
+              class="status-dot dot-blue"><span class="core"></span><span class="ping"></span></span>Blue</span>
+          <span style="display:flex; align-items:center; gap:8px; font-size:13px;"><span
+              class="status-dot dot-yellow"><span class="core"></span><span class="ping"></span></span>Yellow</span>
+          <span style="display:flex; align-items:center; gap:8px; font-size:13px;"><span
+              class="status-dot dot-black"><span class="core"></span><span class="ping"></span></span>Black</span>
+        </div>
+      </section>
+
+      <!-- FORMS -->
+      <section class="ds-section" id="forms">
+        <h2>Form Controls</h2>
+        <p class="desc">Input, Textarea, Select, Checkbox, Switch, Label</p>
+        <div class="comp-box" style="display:flex; flex-direction:column; gap:24px; max-width:400px;">
+          <div><label class="form-label">Text Input</label><input class="input" placeholder="Nhập nội dung..." /></div>
+          <div><label class="form-label">Textarea</label><textarea class="textarea"
+              placeholder="Viết nội dung dài..."></textarea></div>
+          <div><label class="form-label">Select</label><select class="input" style="cursor:pointer;">
+              <option>Chọn một mục...</option>
+              <option>Option A</option>
+              <option>Option B</option>
+            </select></div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button class="checkbox checked"
+              onclick="this.classList.toggle('checked'); this.innerHTML = this.classList.contains('checked') ? '<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><path d=\'M5 13l4 4L19 7\'/></svg>' : '';">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+            <label class="form-label" style="margin:0;">Checkbox label</label>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button class="switch active" onclick="this.classList.toggle('active')">
+              <div class="thumb"></div>
+            </button>
+            <label class="form-label" style="margin:0;">Switch toggle</label>
+          </div>
+          <div><label class="form-label">Disabled Input</label><input class="input" placeholder="Disabled..." disabled
+              style="opacity:0.5;cursor:not-allowed;" /></div>
+        </div>
+      </section>
+
+      <!-- TABS -->
+      <section class="ds-section" id="tabs">
+        <h2>Tabs</h2>
+        <p class="desc">Custom Context-based tabs with border-bottom indicator.</p>
+        <div class="comp-box">
+          <div class="tabs-list">
+            <button class="tab-trigger active" onclick="activateTab(this, 'tab1')">Tổng quan</button>
+            <button class="tab-trigger" onclick="activateTab(this, 'tab2')">Nội dung</button>
+            <button class="tab-trigger" onclick="activateTab(this, 'tab3')">Cài đặt</button>
+          </div>
+          <div id="tab1" class="tab-content">
+            <p style="font-size:14px; color:hsl(var(--muted-foreground));">Tab content with animate-in fade-in
+              duration-300 effect.</p>
+          </div>
+          <div id="tab2" class="tab-content" style="display:none;">
+            <p style="font-size:14px; color:hsl(var(--muted-foreground));">Nội dung tab 2</p>
+          </div>
+          <div id="tab3" class="tab-content" style="display:none;">
+            <p style="font-size:14px; color:hsl(var(--muted-foreground));">Cài đặt tab 3</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGINATION -->
+      <section class="ds-section" id="pagination">
+        <h2>Pagination</h2>
+        <p class="desc">Page navigation with outline buttons (h-12 w-12).</p>
+        <div class="comp-box">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <span class="page-info">Trang 2 / 10 (150 bản ghi)</span>
+            <div class="pagination">
+              <button class="page-btn">‹</button>
+              <button class="page-btn">›</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEEDBACK -->
+      <section class="ds-section" id="feedback">
+        <h2>Feedback</h2>
+        <p class="desc">Loading spinner and status indicators.</p>
+        <div class="comp-box" style="display:flex; gap:48px; align-items:center;">
+          <div style="text-align:center;">
+            <div class="spinner" style="margin:0 auto 12px;"></div>
+            <p style="font-size:14px; font-weight:500; color:hsl(var(--muted-foreground));">Đang tải dữ liệu...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- DIALOGS -->
+      <section class="ds-section" id="dialogs">
+        <h2>Dialogs</h2>
+        <p class="desc">4 variants: danger, warning, info, success. Rounded-2xl + backdrop blur overlay.</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+          <div class="dialog-preview">
+            <div class="dialog-body">
+              <div class="dialog-icon" style="background:#ef4444;"></div>
+              <div><strong style="font-size:16px;">Xóa bản ghi?</strong>
+                <p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-top:4px;">Hành động này không thể
+                  hoàn tác.</p>
+              </div>
+            </div>
+            <div class="dialog-actions"><button class="btn btn-outline btn-sm">Hủy</button><button class="btn btn-sm"
+                style="background:#dc2626; color:white;">Xóa</button></div>
+          </div>
+          <div class="dialog-preview">
+            <div class="dialog-body">
+              <div class="dialog-icon" style="background:#f97316;"></div>
+              <div><strong style="font-size:16px;">Cảnh báo</strong>
+                <p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-top:4px;">Bạn có muốn tiếp tục?</p>
+              </div>
+            </div>
+            <div class="dialog-actions"><button class="btn btn-outline btn-sm">Hủy</button><button class="btn btn-sm"
+                style="background:#f97316; color:white;">Tiếp tục</button></div>
+          </div>
+          <div class="dialog-preview">
+            <div class="dialog-body">
+              <div class="dialog-icon" style="background:#3b82f6;"></div>
+              <div><strong style="font-size:16px;">Thông tin</strong>
+                <p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-top:4px;">Đây là thông báo quan
+                  trọng.</p>
+              </div>
+            </div>
+            <div class="dialog-actions"><button class="btn btn-outline btn-sm">Đóng</button><button
+                class="btn btn-default btn-sm">OK</button></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EFFECTS -->
+      <section class="ds-section" id="effects">
+        <h2>Utilities & Effects</h2>
+        <p class="desc">Glass, gradient text, card hover, border premium, dot grid backgrounds.</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
+          <div>
+            <div class="comp-label">Glass Effect</div>
+            <div class="glass-demo"
+              style="background-image: radial-gradient(circle at center, rgba(0,0,0,0.07) 1px, transparent 0); background-size: 24px 24px;">
+              <p style="font-size:14px;">.glass — backdrop-blur(16px) + semi-transparent bg</p>
+            </div>
+          </div>
+          <div>
+            <div class="comp-label">Border Premium</div>
+            <div class="border-premium-demo">
+              <p style="font-size:14px;">.border-premium — subtle border + backdrop blur + ring</p>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="comp-label">Dot Grid Backgrounds</div>
+          <div style="display:flex; gap:16px; flex-wrap:wrap;">
+            <div
+              style="width:120px; height:80px; border-radius:8px; border:1px solid hsl(var(--border)); background-image: radial-gradient(circle at center, rgba(0,0,0,0.07) 1px, transparent 0); background-size: 24px 24px; display:flex; align-items:center; justify-content:center; font-size:11px;">
+              .bg-dot-grid-light</div>
+            <div
+              style="width:120px; height:80px; border-radius:8px; background:#0a0a0a; background-image: radial-gradient(circle at center, rgba(255,255,255,0.07) 1px, transparent 0); background-size: 24px 24px; display:flex; align-items:center; justify-content:center; font-size:11px; color:white;">
+              .bg-dot-grid-dark</div>
+            <div
+              style="width:120px; height:80px; border-radius:8px; background:#0a0a0a; background-image: radial-gradient(circle at center, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 24px 24px; display:flex; align-items:center; justify-content:center; font-size:11px; color:white;">
+              .bg-dot-white</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
   </div>
-  <div class="card card-hover-demo">
-    <div class="card-header"><div class="card-title">Hover Card</div><div class="card-desc">Hover to see card-hover effect</div></div>
-    <div class="card-content"><p style="font-size:14px; color:hsl(var(--muted-foreground));">translateY(-6px) scale(1.01) + shadow increase on hover.</p></div>
-  </div>
-</div>
-</section>
 
-<!-- BADGES -->
-<section class="ds-section" id="badges">
-<h2>Badges & Tags</h2>
-<p class="desc">Badges with status dots. SectionTags with 8 variant styles.</p>
-
-<h3>Badge Variants</h3>
-<div class="comp-row">
-  <span class="badge badge-lg badge-default"><span class="status-dot dot-white"><span class="core"></span><span class="ping"></span></span>Default</span>
-  <span class="badge badge-lg badge-secondary"><span class="status-dot dot-black"><span class="core"></span></span>Secondary</span>
-  <span class="badge badge-lg badge-destructive"><span class="status-dot dot-white"><span class="core"></span><span class="ping"></span></span>Destructive</span>
-  <span class="badge badge-lg badge-outline"><span class="status-dot dot-black"><span class="core"></span></span>Outline</span>
-  <span class="badge badge-lg badge-yellow"><span class="status-dot dot-white"><span class="core"></span><span class="ping"></span></span>Yellow</span>
-  <span class="badge badge-lg badge-success"><span class="status-dot dot-white"><span class="core"></span><span class="ping"></span></span>Success</span>
-</div>
-
-<h3>Badge Sizes</h3>
-<div class="comp-row">
-  <span class="badge badge-sm badge-default">Small (22px)</span>
-  <span class="badge badge-md badge-default">Medium (28px)</span>
-  <span class="badge badge-lg badge-default">Large (32px)</span>
-</div>
-
-<h3>Status Dots</h3>
-<div class="comp-row" style="gap:20px;">
-  <span style="display:flex; align-items:center; gap:6px; font-size:13px;"><span class="status-dot dot-green"><span class="core"></span><span class="ping"></span></span>Green</span>
-  <span style="display:flex; align-items:center; gap:6px; font-size:13px;"><span class="status-dot dot-red"><span class="core"></span><span class="ping"></span></span>Red</span>
-  <span style="display:flex; align-items:center; gap:6px; font-size:13px;"><span class="status-dot dot-blue"><span class="core"></span><span class="ping"></span></span>Blue</span>
-  <span style="display:flex; align-items:center; gap:6px; font-size:13px;"><span class="status-dot dot-yellow"><span class="core"></span><span class="ping"></span></span>Yellow</span>
-  <span style="display:flex; align-items:center; gap:6px; font-size:13px;"><span class="status-dot dot-black"><span class="core"></span><span class="ping"></span></span>Black</span>
-</div>
-</section>
-
-<!-- FORMS -->
-<section class="ds-section" id="forms">
-<h2>Form Controls</h2>
-<p class="desc">Input, Textarea, Select, Checkbox, Switch, Label</p>
-<div class="comp-box" style="display:flex; flex-direction:column; gap:24px; max-width:400px;">
-  <div><label class="form-label">Text Input</label><input class="input" placeholder="Nhập nội dung..." /></div>
-  <div><label class="form-label">Textarea</label><textarea class="textarea" placeholder="Viết nội dung dài..."></textarea></div>
-  <div><label class="form-label">Select</label><select class="input" style="cursor:pointer;"><option>Chọn một mục...</option><option>Option A</option><option>Option B</option></select></div>
-  <div style="display:flex; align-items:center; gap:12px;">
-    <button class="checkbox checked" onclick="this.classList.toggle('checked'); this.innerHTML = this.classList.contains('checked') ? '<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><path d=\'M5 13l4 4L19 7\'/></svg>' : '';">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
-    </button>
-    <label class="form-label" style="margin:0;">Checkbox label</label>
-  </div>
-  <div style="display:flex; align-items:center; gap:12px;">
-    <button class="switch active" onclick="this.classList.toggle('active')"><div class="thumb"></div></button>
-    <label class="form-label" style="margin:0;">Switch toggle</label>
-  </div>
-  <div><label class="form-label">Disabled Input</label><input class="input" placeholder="Disabled..." disabled style="opacity:0.5;cursor:not-allowed;" /></div>
-</div>
-</section>
-
-<!-- TABS -->
-<section class="ds-section" id="tabs">
-<h2>Tabs</h2>
-<p class="desc">Custom Context-based tabs with border-bottom indicator.</p>
-<div class="comp-box">
-  <div class="tabs-list">
-    <button class="tab-trigger active" onclick="activateTab(this, 'tab1')">Tổng quan</button>
-    <button class="tab-trigger" onclick="activateTab(this, 'tab2')">Nội dung</button>
-    <button class="tab-trigger" onclick="activateTab(this, 'tab3')">Cài đặt</button>
-  </div>
-  <div id="tab1" class="tab-content"><p style="font-size:14px; color:hsl(var(--muted-foreground));">Tab content with animate-in fade-in duration-300 effect.</p></div>
-  <div id="tab2" class="tab-content" style="display:none;"><p style="font-size:14px; color:hsl(var(--muted-foreground));">Nội dung tab 2</p></div>
-  <div id="tab3" class="tab-content" style="display:none;"><p style="font-size:14px; color:hsl(var(--muted-foreground));">Cài đặt tab 3</p></div>
-</div>
-</section>
-
-<!-- PAGINATION -->
-<section class="ds-section" id="pagination">
-<h2>Pagination</h2>
-<p class="desc">Page navigation with outline buttons (h-12 w-12).</p>
-<div class="comp-box">
-  <div style="display:flex; align-items:center; justify-content:space-between;">
-    <span class="page-info">Trang 2 / 10 (150 bản ghi)</span>
-    <div class="pagination">
-      <button class="page-btn">‹</button>
-      <button class="page-btn">›</button>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- FEEDBACK -->
-<section class="ds-section" id="feedback">
-<h2>Feedback</h2>
-<p class="desc">Loading spinner and status indicators.</p>
-<div class="comp-box" style="display:flex; gap:48px; align-items:center;">
-  <div style="text-align:center;">
-    <div class="spinner" style="margin:0 auto 12px;"></div>
-    <p style="font-size:14px; font-weight:500; color:hsl(var(--muted-foreground));">Đang tải dữ liệu...</p>
-  </div>
-</div>
-</section>
-
-<!-- DIALOGS -->
-<section class="ds-section" id="dialogs">
-<h2>Dialogs</h2>
-<p class="desc">4 variants: danger, warning, info, success. Rounded-2xl + backdrop blur overlay.</p>
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
-  <div class="dialog-preview">
-    <div class="dialog-body"><div class="dialog-icon" style="background:#ef4444;"></div><div><strong style="font-size:16px;">Xóa bản ghi?</strong><p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-top:4px;">Hành động này không thể hoàn tác.</p></div></div>
-    <div class="dialog-actions"><button class="btn btn-outline btn-sm">Hủy</button><button class="btn btn-sm" style="background:#dc2626; color:white;">Xóa</button></div>
-  </div>
-  <div class="dialog-preview">
-    <div class="dialog-body"><div class="dialog-icon" style="background:#f97316;"></div><div><strong style="font-size:16px;">Cảnh báo</strong><p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-top:4px;">Bạn có muốn tiếp tục?</p></div></div>
-    <div class="dialog-actions"><button class="btn btn-outline btn-sm">Hủy</button><button class="btn btn-sm" style="background:#f97316; color:white;">Tiếp tục</button></div>
-  </div>
-  <div class="dialog-preview">
-    <div class="dialog-body"><div class="dialog-icon" style="background:#3b82f6;"></div><div><strong style="font-size:16px;">Thông tin</strong><p style="font-size:14px; color:hsl(var(--muted-foreground)); margin-top:4px;">Đây là thông báo quan trọng.</p></div></div>
-    <div class="dialog-actions"><button class="btn btn-outline btn-sm">Đóng</button><button class="btn btn-default btn-sm">OK</button></div>
-  </div>
-</div>
-</section>
-
-<!-- EFFECTS -->
-<section class="ds-section" id="effects">
-<h2>Utilities & Effects</h2>
-<p class="desc">Glass, gradient text, card hover, border premium, dot grid backgrounds.</p>
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
-  <div>
-    <div class="comp-label">Glass Effect</div>
-    <div class="glass-demo" style="background-image: radial-gradient(circle at center, rgba(0,0,0,0.07) 1px, transparent 0); background-size: 24px 24px;">
-      <p style="font-size:14px;">.glass — backdrop-blur(16px) + semi-transparent bg</p>
-    </div>
-  </div>
-  <div>
-    <div class="comp-label">Border Premium</div>
-    <div class="border-premium-demo">
-      <p style="font-size:14px;">.border-premium — subtle border + backdrop blur + ring</p>
-    </div>
-  </div>
-</div>
-<div style="margin-top:16px;">
-  <div class="comp-label">Dot Grid Backgrounds</div>
-  <div style="display:flex; gap:16px; flex-wrap:wrap;">
-    <div style="width:120px; height:80px; border-radius:8px; border:1px solid hsl(var(--border)); background-image: radial-gradient(circle at center, rgba(0,0,0,0.07) 1px, transparent 0); background-size: 24px 24px; display:flex; align-items:center; justify-content:center; font-size:11px;">.bg-dot-grid-light</div>
-    <div style="width:120px; height:80px; border-radius:8px; background:#0a0a0a; background-image: radial-gradient(circle at center, rgba(255,255,255,0.07) 1px, transparent 0); background-size: 24px 24px; display:flex; align-items:center; justify-content:center; font-size:11px; color:white;">.bg-dot-grid-dark</div>
-    <div style="width:120px; height:80px; border-radius:8px; background:#0a0a0a; background-image: radial-gradient(circle at center, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 24px 24px; display:flex; align-items:center; justify-content:center; font-size:11px; color:white;">.bg-dot-white</div>
-  </div>
-</div>
-</section>
-
-</main>
-</div>
-
-<script>
-function activateTab(el, tabId) {
-  el.parentElement.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const container = el.closest('.comp-box');
-  container.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-  container.querySelector('#' + tabId).style.display = 'block';
-}
-</script>
+  <script>
+    function activateTab(el, tabId) {
+      el.parentElement.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      const container = el.closest('.comp-box');
+      container.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      container.querySelector('#' + tabId).style.display = 'block';
+    }
+  </script>
 </body>
+
 </html>
