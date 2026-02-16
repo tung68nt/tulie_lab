@@ -417,20 +417,20 @@
       color: white;
     }
 
-    /* === Status Dot === */
+    /* === Status Dot (matches StatusDot.tsx exactly) === */
     .status-dot {
       position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 10px;
-      height: 10px;
       flex-shrink: 0;
+      width: 6px;
+      height: 6px;
     }
 
     .status-dot .core {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       position: relative;
       z-index: 1;
@@ -438,9 +438,10 @@
 
     .status-dot .ping {
       position: absolute;
-      inset: -1px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+      animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
       opacity: 0.75;
     }
 
@@ -448,7 +449,7 @@
 
       75%,
       100% {
-        transform: scale(2.5);
+        transform: scale(2);
         opacity: 0;
       }
     }
@@ -460,7 +461,7 @@
 
     .dot-black .core,
     .dot-black .ping {
-      background: hsl(var(--foreground));
+      background: #09090b;
     }
 
     .dot-green .core,
@@ -480,50 +481,123 @@
 
     .dot-yellow .core,
     .dot-yellow .ping {
-      background: #f59e0b;
+      background: #fbbf24;
     }
 
-    /* Blink dot tag — SectionTag with animated StatusDot */
-    .blink-tag {
+    /* === SectionTag (matches SectionTag.tsx exactly) === */
+    .section-tag {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      /* gap-1.5 */
       border-radius: 9999px;
-      padding: 6px 16px;
-      font-size: 13px;
+      border: 1px solid;
       font-weight: 500;
-      border: 1px solid hsl(var(--border));
-      background: hsl(var(--card));
-      color: hsl(var(--foreground));
-      transition: all 0.2s;
+      white-space: nowrap;
+      user-select: none;
+      overflow: hidden;
     }
 
-    .blink-tag:hover {
-      background: hsl(var(--muted));
+    /* Size: lg (default) */
+    .section-tag {
+      height: 32px;
+      font-size: 14px;
+      padding: 0 16px;
     }
 
-    .blink-tag.tag-dark {
+    .section-tag.tag-md {
+      height: 28px;
+      font-size: 12px;
+      padding: 0 12px;
+    }
+
+    .section-tag.tag-sm {
+      height: 22px;
+      font-size: 10px;
+      padding: 0 8px;
+    }
+
+    /* Variant: default / light */
+    .section-tag.tag-default,
+    .section-tag.tag-light {
+      border-color: rgba(228, 228, 231, 0.6);
+      /* zinc-200/60 */
+      background: rgba(255, 255, 255, 0.9);
+      /* white/90 */
+      color: #18181b;
+      /* zinc-900 */
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    /* Variant: dark */
+    .section-tag.tag-dark {
+      border-color: rgba(39, 39, 42, 0.6);
+      /* zinc-800/60 */
+      background: #09090b;
+      /* zinc-950 */
+      color: white;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Variant: black-pill */
+    .section-tag.tag-black-pill {
+      border-color: #18181b;
+      /* zinc-900 */
+      background: #18181b;
+      color: white;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    }
+
+    /* Variant: yellow */
+    .section-tag.tag-yellow {
+      border-color: rgba(202, 138, 4, 0.4);
+      /* yellow-600/40 */
+      background: #eab308;
+      /* yellow-500 */
+      color: white;
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    }
+
+    /* Variant: red */
+    .section-tag.tag-red {
+      border-color: rgba(220, 38, 38, 0.4);
+      /* red-600/40 */
+      background: #dc2626;
+      color: white;
+      box-shadow: 0 1px 2px 0 rgba(239, 68, 68, 0.1);
+    }
+
+    /* Variant: primary */
+    .section-tag.tag-primary {
+      border-color: hsl(var(--primary) / 0.2);
       background: hsl(var(--primary));
       color: hsl(var(--primary-foreground));
-      border-color: transparent;
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     }
 
-    .blink-tag.tag-yellow {
-      background: #fef3c7;
-      color: #92400e;
-      border-color: #fde68a;
+    /* Variant: outline */
+    .section-tag.tag-outline {
+      border-color: #e4e4e7;
+      /* zinc-200 */
+      background: white;
+      color: #18181b;
     }
 
-    .blink-tag.tag-red {
-      background: #fee2e2;
-      color: #991b1b;
-      border-color: #fecaca;
+    /* Dark mode overrides for section tags */
+    .dark .section-tag.tag-default,
+    .dark .section-tag.tag-light {
+      border-color: rgba(63, 63, 70, 0.6);
+      background: rgba(24, 24, 27, 0.9);
+      color: #fafafa;
     }
 
-    .blink-tag.tag-primary {
-      background: hsl(var(--primary) / 0.1);
-      color: hsl(var(--primary));
-      border-color: hsl(var(--primary) / 0.2);
+    .dark .section-tag.tag-outline {
+      border-color: #3f3f46;
+      background: #18181b;
+      color: #fafafa;
     }
 
     /* === Form Controls === */
@@ -1165,20 +1239,34 @@
           <span class="badge badge-lg badge-default">Large (32px)</span>
         </div>
 
-        <h3>Blink Dot Tags (SectionTag)</h3>
-        <div class="comp-row" style="gap:12px;">
-          <span class="blink-tag"><span class="status-dot dot-green"><span class="core"></span><span
-                class="ping"></span></span>Online</span>
-          <span class="blink-tag tag-dark"><span class="status-dot dot-white"><span class="core"></span><span
-                class="ping"></span></span>Active</span>
-          <span class="blink-tag tag-yellow"><span class="status-dot dot-yellow"><span class="core"></span><span
-                class="ping"></span></span>Pending</span>
-          <span class="blink-tag tag-red"><span class="status-dot dot-red"><span class="core"></span><span
-                class="ping"></span></span>Error</span>
-          <span class="blink-tag tag-primary"><span class="status-dot dot-blue"><span class="core"></span><span
+        <h3>SectionTag (Blink Dot Tags)</h3>
+        <p style="font-size:13px; color:hsl(var(--muted-foreground)); margin-bottom:16px;">8 variants with animated
+          StatusDot. Matches SectionTag.tsx exactly.</p>
+        <div class="comp-row" style="gap:10px; flex-wrap:wrap;">
+          <span class="section-tag tag-default"><span class="status-dot dot-black"><span class="core"></span><span
+                class="ping"></span></span>Phương pháp đào tạo</span>
+          <span class="section-tag tag-light"><span class="status-dot dot-black"><span class="core"></span><span
+                class="ping"></span></span>Light</span>
+          <span class="section-tag tag-dark"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Dark</span>
+          <span class="section-tag tag-black-pill"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Black Pill</span>
+          <span class="section-tag tag-yellow"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Yellow</span>
+          <span class="section-tag tag-red"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Red</span>
+          <span class="section-tag tag-primary"><span class="status-dot dot-white"><span class="core"></span><span
+                class="ping"></span></span>Primary</span>
+          <span class="section-tag tag-outline"><span class="status-dot dot-black"><span class="core"></span><span
+                class="ping"></span></span>Outline</span>
+        </div>
+        <div class="comp-row" style="gap:10px; margin-top:12px;">
+          <span class="section-tag tag-default"><span class="status-dot dot-green"><span class="core"></span><span
+                class="ping"></span></span>Miễn phí</span>
+          <span class="section-tag tag-default"><span class="status-dot dot-blue"><span class="core"></span><span
                 class="ping"></span></span>In progress</span>
-          <span class="blink-tag"><span class="status-dot dot-green"><span class="core"></span><span
-                class="ping"></span></span>Open</span>
+          <span class="section-tag tag-default"><span class="status-dot dot-red"><span class="core"></span><span
+                class="ping"></span></span>Error</span>
         </div>
 
         <h3>Status Dots (Standalone)</h3>
