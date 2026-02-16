@@ -476,10 +476,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                     <label htmlFor="categoryId" className="text-sm font-medium">Danh mục</label>
                                     <div className="relative">
                                         <Select
-                                            value={courseForm.categoryId}
-                                            onChange={(val) => setCourseForm({ ...courseForm, categoryId: val })}
+                                            value={courseForm.categoryId || '__NO_SELECTION__'}
+                                            onChange={(val) => setCourseForm({ ...courseForm, categoryId: val === '__NO_SELECTION__' ? '' : val })}
                                             options={[
-                                                { value: '', label: '-- Chưa phân loại --' },
+                                                { value: '__NO_SELECTION__', label: '-- Chưa phân loại --' },
                                                 ...categories.map(c => ({ value: c.id, label: c.name }))
                                             ]}
                                         />
@@ -522,10 +522,10 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                 <label htmlFor="instructorId" className="text-sm font-medium">Giảng viên</label>
                                 <div className="relative">
                                     <Select
-                                        value={courseForm.instructorId}
-                                        onChange={(val) => setCourseForm({ ...courseForm, instructorId: val })}
+                                        value={courseForm.instructorId || '__NO_SELECTION__'}
+                                        onChange={(val) => setCourseForm({ ...courseForm, instructorId: val === '__NO_SELECTION__' ? '' : val })}
                                         options={[
-                                            { value: '', label: '-- Chọn giảng viên --' },
+                                            { value: '__NO_SELECTION__', label: '-- Chọn giảng viên --' },
                                             ...instructors.map(i => ({ value: i.id, label: i.name }))
                                         ]}
                                     />
@@ -695,22 +695,22 @@ export default function EditCoursePage({ params }: { params: Promise<{ id: strin
                                         <label className="text-sm font-medium">Chương (Module)</label>
                                         <Select
                                             options={[
-                                                { value: '', label: 'Chọn chương' },
+                                                { value: '__NO_SELECTION__', label: 'Chọn chương' },
                                                 ...courseForm.structure.map(s => ({ value: s.title, label: s.title }))
                                             ]}
-                                            value={newLesson.chapter}
-                                            onChange={(val) => setNewLesson({ ...newLesson, chapter: val })}
+                                            value={newLesson.chapter || '__NO_SELECTION__'}
+                                            onChange={(val) => setNewLesson({ ...newLesson, chapter: val === '__NO_SELECTION__' ? '' : val })}
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-medium">Phần (Section)</label>
                                         <Select
                                             options={[
-                                                { value: '', label: 'Chọn phần' },
+                                                { value: '__NO_SELECTION__', label: 'Chọn phần' },
                                                 ...(courseForm.structure.find(s => s.title === newLesson.chapter)?.sections.map(sec => ({ value: sec, label: sec })) || [])
                                             ]}
-                                            value={newLesson.section}
-                                            onChange={(val) => setNewLesson({ ...newLesson, section: val })}
+                                            value={newLesson.section || '__NO_SELECTION__'}
+                                            onChange={(val) => setNewLesson({ ...newLesson, section: val === '__NO_SELECTION__' ? '' : val })}
                                         />
                                     </div>
                                 </div>

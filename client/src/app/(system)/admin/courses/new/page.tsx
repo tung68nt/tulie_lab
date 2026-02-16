@@ -248,10 +248,10 @@ export default function CreateCoursePage() {
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">Danh mục</label>
                                     <Select
-                                        value={formData.categoryId}
-                                        onChange={(val) => setFormData({ ...formData, categoryId: val })}
+                                        value={formData.categoryId || '__NO_SELECTION__'}
+                                        onChange={(val) => setFormData({ ...formData, categoryId: val === '__NO_SELECTION__' ? '' : val })}
                                         options={[
-                                            { value: '', label: '-- Chưa phân loại --' },
+                                            { value: '__NO_SELECTION__', label: '-- Chưa phân loại --' },
                                             ...categories.map((c: any) => ({ value: c.id, label: c.name }))
                                         ]}
                                     />
@@ -275,10 +275,10 @@ export default function CreateCoursePage() {
                             <div className="space-y-2">
                                 <label htmlFor="instructorId" className="text-sm font-medium">Giảng viên</label>
                                 <Select
-                                    value={formData.instructorId}
-                                    onChange={(val) => setFormData({ ...formData, instructorId: val })}
+                                    value={formData.instructorId || '__NO_SELECTION__'}
+                                    onChange={(val) => setFormData({ ...formData, instructorId: val === '__NO_SELECTION__' ? '' : val })}
                                     options={[
-                                        { value: '', label: '-- Chọn giảng viên --' },
+                                        { value: '__NO_SELECTION__', label: '-- Chọn giảng viên --' },
                                         ...instructors.map((i: any) => ({ value: i.id, label: i.name }))
                                     ]}
                                 />
