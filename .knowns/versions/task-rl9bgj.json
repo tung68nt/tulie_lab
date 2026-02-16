@@ -1,0 +1,399 @@
+{
+  "taskId": "rl9bgj",
+  "currentVersion": 6,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "rl9bgj",
+      "version": 1,
+      "timestamp": "2026-02-15T15:40:59.480Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "newValue": "## Fix Plan (SSH into VPS required)\n\n### 1. Diagnose on VPS\n```bash\nssh vps\n# Check aaPanel Nginx config for thelab.tulie.vn\ncat /www/server/panel/vhost/nginx/thelab.tulie.vn.conf\n# Check SSL cert files\nls -la /www/server/panel/vhost/cert/thelab.tulie.vn/\nopenssl x509 -in /www/server/panel/vhost/cert/thelab.tulie.vn/fullchain.pem -text -noout | head -20\n# Check Docker containers are running\ndocker ps\ncurl -sf http://localhost:3001 | head -5\ncurl -sf http://localhost:5001/api/health\n```\n\n### 2. Fix SSL Certificate\nOption A: Issue new cert via aaPanel > Website > thelab.tulie.vn > SSL > Let Encrypt (DNS verification)\nOption B: Use certbot directly:\n```bash\ncertbot certonly --nginx -d thelab.tulie.vn\n```\n\n### 3. Fix Nginx Site Config\nEnsure aaPanel config for thelab.tulie.vn has:\n- SSL cert pointing to thelab.tulie.vn cert (NOT mentoring.tulie.vn)\n- proxy_pass to localhost:3001 for / (client)\n- proxy_pass to localhost:5001 for /api (server)\n- HTTP→HTTPS redirect\n\n### 4. Reload & Verify\n```bash\nnginx -t && systemctl reload nginx\ncurl -I https://thelab.tulie.vn\ncurl https://thelab.tulie.vn/api/health\n```\n\n### 5. Document the Nginx config in project repo for backup"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix thelab.tulie.vn - SSL Certificate Mismatch & Nginx Config",
+        "description": "thelab.tulie.vn is completely inaccessible. Two issues found:\n1. HTTPS: SSL certificate mismatch - VPS serves cert valid for mentoring.tulie.vn, not thelab.tulie.vn\n2. HTTP: returns 404 - aaPanel Nginx reverse proxy config is missing or misconfigured.\n\nRoot cause: aaPanel Nginx on VPS either (a) overrides/shares the SSL certificate from mentoring.tulie.vn site config, or (b) thelab.tulie.vn site was never properly configured with its own SSL cert.\n\nArchitecture: Docker containers expose client:3001 and server:5001. aaPanel Nginx on host should reverse-proxy thelab.tulie.vn → localhost:3001 (client) and thelab.tulie.vn/api → localhost:5001 (server), plus handle SSL termination with a valid cert for thelab.tulie.vn.",
+        "status": "todo",
+        "priority": "high",
+        "labels": [
+          "infra",
+          "ssl",
+          "nginx",
+          "urgent"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+          },
+          {
+            "completed": false,
+            "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+          },
+          {
+            "completed": false,
+            "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+          },
+          {
+            "completed": false,
+            "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+          },
+          {
+            "completed": false,
+            "text": "Nginx config documented/backed up for future reference"
+          }
+        ],
+        "implementationPlan": "## Fix Plan (SSH into VPS required)\n\n### 1. Diagnose on VPS\n```bash\nssh vps\n# Check aaPanel Nginx config for thelab.tulie.vn\ncat /www/server/panel/vhost/nginx/thelab.tulie.vn.conf\n# Check SSL cert files\nls -la /www/server/panel/vhost/cert/thelab.tulie.vn/\nopenssl x509 -in /www/server/panel/vhost/cert/thelab.tulie.vn/fullchain.pem -text -noout | head -20\n# Check Docker containers are running\ndocker ps\ncurl -sf http://localhost:3001 | head -5\ncurl -sf http://localhost:5001/api/health\n```\n\n### 2. Fix SSL Certificate\nOption A: Issue new cert via aaPanel > Website > thelab.tulie.vn > SSL > Let Encrypt (DNS verification)\nOption B: Use certbot directly:\n```bash\ncertbot certonly --nginx -d thelab.tulie.vn\n```\n\n### 3. Fix Nginx Site Config\nEnsure aaPanel config for thelab.tulie.vn has:\n- SSL cert pointing to thelab.tulie.vn cert (NOT mentoring.tulie.vn)\n- proxy_pass to localhost:3001 for / (client)\n- proxy_pass to localhost:5001 for /api (server)\n- HTTP→HTTPS redirect\n\n### 4. Reload & Verify\n```bash\nnginx -t && systemctl reload nginx\ncurl -I https://thelab.tulie.vn\ncurl https://thelab.tulie.vn/api/health\n```\n\n### 5. Document the Nginx config in project repo for backup"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "rl9bgj",
+      "version": 2,
+      "timestamp": "2026-02-15T15:42:10.955Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix thelab.tulie.vn - SSL Certificate Mismatch & Nginx Config",
+        "description": "thelab.tulie.vn is completely inaccessible. Two issues found:\n1. HTTPS: SSL certificate mismatch - VPS serves cert valid for mentoring.tulie.vn, not thelab.tulie.vn\n2. HTTP: returns 404 - aaPanel Nginx reverse proxy config is missing or misconfigured.\n\nRoot cause: aaPanel Nginx on VPS either (a) overrides/shares the SSL certificate from mentoring.tulie.vn site config, or (b) thelab.tulie.vn site was never properly configured with its own SSL cert.\n\nArchitecture: Docker containers expose client:3001 and server:5001. aaPanel Nginx on host should reverse-proxy thelab.tulie.vn → localhost:3001 (client) and thelab.tulie.vn/api → localhost:5001 (server), plus handle SSL termination with a valid cert for thelab.tulie.vn.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "infra",
+          "ssl",
+          "nginx",
+          "urgent"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+          },
+          {
+            "completed": false,
+            "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+          },
+          {
+            "completed": false,
+            "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+          },
+          {
+            "completed": false,
+            "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+          },
+          {
+            "completed": false,
+            "text": "Nginx config documented/backed up for future reference"
+          }
+        ],
+        "implementationPlan": "## Fix Plan (SSH into VPS required)\n\n### 1. Diagnose on VPS\n```bash\nssh vps\n# Check aaPanel Nginx config for thelab.tulie.vn\ncat /www/server/panel/vhost/nginx/thelab.tulie.vn.conf\n# Check SSL cert files\nls -la /www/server/panel/vhost/cert/thelab.tulie.vn/\nopenssl x509 -in /www/server/panel/vhost/cert/thelab.tulie.vn/fullchain.pem -text -noout | head -20\n# Check Docker containers are running\ndocker ps\ncurl -sf http://localhost:3001 | head -5\ncurl -sf http://localhost:5001/api/health\n```\n\n### 2. Fix SSL Certificate\nOption A: Issue new cert via aaPanel > Website > thelab.tulie.vn > SSL > Let Encrypt (DNS verification)\nOption B: Use certbot directly:\n```bash\ncertbot certonly --nginx -d thelab.tulie.vn\n```\n\n### 3. Fix Nginx Site Config\nEnsure aaPanel config for thelab.tulie.vn has:\n- SSL cert pointing to thelab.tulie.vn cert (NOT mentoring.tulie.vn)\n- proxy_pass to localhost:3001 for / (client)\n- proxy_pass to localhost:5001 for /api (server)\n- HTTP→HTTPS redirect\n\n### 4. Reload & Verify\n```bash\nnginx -t && systemctl reload nginx\ncurl -I https://thelab.tulie.vn\ncurl https://thelab.tulie.vn/api/health\n```\n\n### 5. Document the Nginx config in project repo for backup"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "rl9bgj",
+      "version": 3,
+      "timestamp": "2026-02-15T15:49:26.760Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+            },
+            {
+              "completed": false,
+              "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+            },
+            {
+              "completed": false,
+              "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+            },
+            {
+              "completed": false,
+              "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+            },
+            {
+              "completed": false,
+              "text": "Nginx config documented/backed up for future reference"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+            },
+            {
+              "completed": true,
+              "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+            },
+            {
+              "completed": true,
+              "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+            },
+            {
+              "completed": true,
+              "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+            },
+            {
+              "completed": false,
+              "text": "Nginx config documented/backed up for future reference"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS."
+        }
+      ],
+      "snapshot": {
+        "title": "Fix thelab.tulie.vn - SSL Certificate Mismatch & Nginx Config",
+        "description": "thelab.tulie.vn is completely inaccessible. Two issues found:\n1. HTTPS: SSL certificate mismatch - VPS serves cert valid for mentoring.tulie.vn, not thelab.tulie.vn\n2. HTTP: returns 404 - aaPanel Nginx reverse proxy config is missing or misconfigured.\n\nRoot cause: aaPanel Nginx on VPS either (a) overrides/shares the SSL certificate from mentoring.tulie.vn site config, or (b) thelab.tulie.vn site was never properly configured with its own SSL cert.\n\nArchitecture: Docker containers expose client:3001 and server:5001. aaPanel Nginx on host should reverse-proxy thelab.tulie.vn → localhost:3001 (client) and thelab.tulie.vn/api → localhost:5001 (server), plus handle SSL termination with a valid cert for thelab.tulie.vn.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "infra",
+          "ssl",
+          "nginx",
+          "urgent"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+          },
+          {
+            "completed": true,
+            "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+          },
+          {
+            "completed": false,
+            "text": "Nginx config documented/backed up for future reference"
+          }
+        ],
+        "implementationPlan": "## Fix Plan (SSH into VPS required)\n\n### 1. Diagnose on VPS\n```bash\nssh vps\n# Check aaPanel Nginx config for thelab.tulie.vn\ncat /www/server/panel/vhost/nginx/thelab.tulie.vn.conf\n# Check SSL cert files\nls -la /www/server/panel/vhost/cert/thelab.tulie.vn/\nopenssl x509 -in /www/server/panel/vhost/cert/thelab.tulie.vn/fullchain.pem -text -noout | head -20\n# Check Docker containers are running\ndocker ps\ncurl -sf http://localhost:3001 | head -5\ncurl -sf http://localhost:5001/api/health\n```\n\n### 2. Fix SSL Certificate\nOption A: Issue new cert via aaPanel > Website > thelab.tulie.vn > SSL > Let Encrypt (DNS verification)\nOption B: Use certbot directly:\n```bash\ncertbot certonly --nginx -d thelab.tulie.vn\n```\n\n### 3. Fix Nginx Site Config\nEnsure aaPanel config for thelab.tulie.vn has:\n- SSL cert pointing to thelab.tulie.vn cert (NOT mentoring.tulie.vn)\n- proxy_pass to localhost:3001 for / (client)\n- proxy_pass to localhost:5001 for /api (server)\n- HTTP→HTTPS redirect\n\n### 4. Reload & Verify\n```bash\nnginx -t && systemctl reload nginx\ncurl -I https://thelab.tulie.vn\ncurl https://thelab.tulie.vn/api/health\n```\n\n### 5. Document the Nginx config in project repo for backup",
+        "implementationNotes": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS."
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "rl9bgj",
+      "version": 4,
+      "timestamp": "2026-02-15T15:51:12.793Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": true,
+              "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+            },
+            {
+              "completed": true,
+              "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+            },
+            {
+              "completed": true,
+              "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+            },
+            {
+              "completed": true,
+              "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+            },
+            {
+              "completed": false,
+              "text": "Nginx config documented/backed up for future reference"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+            },
+            {
+              "completed": true,
+              "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+            },
+            {
+              "completed": true,
+              "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+            },
+            {
+              "completed": true,
+              "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+            },
+            {
+              "completed": true,
+              "text": "Nginx config documented/backed up for future reference"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS.",
+          "newValue": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS.\n\nConfig backed up to deploy/nginx/thelab.tulie.vn.conf in repo."
+        }
+      ],
+      "snapshot": {
+        "title": "Fix thelab.tulie.vn - SSL Certificate Mismatch & Nginx Config",
+        "description": "thelab.tulie.vn is completely inaccessible. Two issues found:\n1. HTTPS: SSL certificate mismatch - VPS serves cert valid for mentoring.tulie.vn, not thelab.tulie.vn\n2. HTTP: returns 404 - aaPanel Nginx reverse proxy config is missing or misconfigured.\n\nRoot cause: aaPanel Nginx on VPS either (a) overrides/shares the SSL certificate from mentoring.tulie.vn site config, or (b) thelab.tulie.vn site was never properly configured with its own SSL cert.\n\nArchitecture: Docker containers expose client:3001 and server:5001. aaPanel Nginx on host should reverse-proxy thelab.tulie.vn → localhost:3001 (client) and thelab.tulie.vn/api → localhost:5001 (server), plus handle SSL termination with a valid cert for thelab.tulie.vn.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "infra",
+          "ssl",
+          "nginx",
+          "urgent"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+          },
+          {
+            "completed": true,
+            "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+          },
+          {
+            "completed": true,
+            "text": "Nginx config documented/backed up for future reference"
+          }
+        ],
+        "implementationPlan": "## Fix Plan (SSH into VPS required)\n\n### 1. Diagnose on VPS\n```bash\nssh vps\n# Check aaPanel Nginx config for thelab.tulie.vn\ncat /www/server/panel/vhost/nginx/thelab.tulie.vn.conf\n# Check SSL cert files\nls -la /www/server/panel/vhost/cert/thelab.tulie.vn/\nopenssl x509 -in /www/server/panel/vhost/cert/thelab.tulie.vn/fullchain.pem -text -noout | head -20\n# Check Docker containers are running\ndocker ps\ncurl -sf http://localhost:3001 | head -5\ncurl -sf http://localhost:5001/api/health\n```\n\n### 2. Fix SSL Certificate\nOption A: Issue new cert via aaPanel > Website > thelab.tulie.vn > SSL > Let Encrypt (DNS verification)\nOption B: Use certbot directly:\n```bash\ncertbot certonly --nginx -d thelab.tulie.vn\n```\n\n### 3. Fix Nginx Site Config\nEnsure aaPanel config for thelab.tulie.vn has:\n- SSL cert pointing to thelab.tulie.vn cert (NOT mentoring.tulie.vn)\n- proxy_pass to localhost:3001 for / (client)\n- proxy_pass to localhost:5001 for /api (server)\n- HTTP→HTTPS redirect\n\n### 4. Reload & Verify\n```bash\nnginx -t && systemctl reload nginx\ncurl -I https://thelab.tulie.vn\ncurl https://thelab.tulie.vn/api/health\n```\n\n### 5. Document the Nginx config in project repo for backup",
+        "implementationNotes": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS.\n\nConfig backed up to deploy/nginx/thelab.tulie.vn.conf in repo."
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "rl9bgj",
+      "version": 5,
+      "timestamp": "2026-02-15T15:51:14.505Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix thelab.tulie.vn - SSL Certificate Mismatch & Nginx Config",
+        "description": "thelab.tulie.vn is completely inaccessible. Two issues found:\n1. HTTPS: SSL certificate mismatch - VPS serves cert valid for mentoring.tulie.vn, not thelab.tulie.vn\n2. HTTP: returns 404 - aaPanel Nginx reverse proxy config is missing or misconfigured.\n\nRoot cause: aaPanel Nginx on VPS either (a) overrides/shares the SSL certificate from mentoring.tulie.vn site config, or (b) thelab.tulie.vn site was never properly configured with its own SSL cert.\n\nArchitecture: Docker containers expose client:3001 and server:5001. aaPanel Nginx on host should reverse-proxy thelab.tulie.vn → localhost:3001 (client) and thelab.tulie.vn/api → localhost:5001 (server), plus handle SSL termination with a valid cert for thelab.tulie.vn.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "infra",
+          "ssl",
+          "nginx",
+          "urgent"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+          },
+          {
+            "completed": true,
+            "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+          },
+          {
+            "completed": true,
+            "text": "Nginx config documented/backed up for future reference"
+          }
+        ],
+        "implementationPlan": "## Fix Plan (SSH into VPS required)\n\n### 1. Diagnose on VPS\n```bash\nssh vps\n# Check aaPanel Nginx config for thelab.tulie.vn\ncat /www/server/panel/vhost/nginx/thelab.tulie.vn.conf\n# Check SSL cert files\nls -la /www/server/panel/vhost/cert/thelab.tulie.vn/\nopenssl x509 -in /www/server/panel/vhost/cert/thelab.tulie.vn/fullchain.pem -text -noout | head -20\n# Check Docker containers are running\ndocker ps\ncurl -sf http://localhost:3001 | head -5\ncurl -sf http://localhost:5001/api/health\n```\n\n### 2. Fix SSL Certificate\nOption A: Issue new cert via aaPanel > Website > thelab.tulie.vn > SSL > Let Encrypt (DNS verification)\nOption B: Use certbot directly:\n```bash\ncertbot certonly --nginx -d thelab.tulie.vn\n```\n\n### 3. Fix Nginx Site Config\nEnsure aaPanel config for thelab.tulie.vn has:\n- SSL cert pointing to thelab.tulie.vn cert (NOT mentoring.tulie.vn)\n- proxy_pass to localhost:3001 for / (client)\n- proxy_pass to localhost:5001 for /api (server)\n- HTTP→HTTPS redirect\n\n### 4. Reload & Verify\n```bash\nnginx -t && systemctl reload nginx\ncurl -I https://thelab.tulie.vn\ncurl https://thelab.tulie.vn/api/health\n```\n\n### 5. Document the Nginx config in project repo for backup",
+        "implementationNotes": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS.\n\nConfig backed up to deploy/nginx/thelab.tulie.vn.conf in repo."
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "rl9bgj",
+      "version": 6,
+      "timestamp": "2026-02-15T16:07:22.485Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS.\n\nConfig backed up to deploy/nginx/thelab.tulie.vn.conf in repo.",
+          "newValue": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS.\n\nConfig backed up to deploy/nginx/thelab.tulie.vn.conf in repo.\n\nFinalized HeroCircleSection with framer-motion and hover effects."
+        }
+      ],
+      "snapshot": {
+        "title": "Fix thelab.tulie.vn - SSL Certificate Mismatch & Nginx Config",
+        "description": "thelab.tulie.vn is completely inaccessible. Two issues found:\n1. HTTPS: SSL certificate mismatch - VPS serves cert valid for mentoring.tulie.vn, not thelab.tulie.vn\n2. HTTP: returns 404 - aaPanel Nginx reverse proxy config is missing or misconfigured.\n\nRoot cause: aaPanel Nginx on VPS either (a) overrides/shares the SSL certificate from mentoring.tulie.vn site config, or (b) thelab.tulie.vn site was never properly configured with its own SSL cert.\n\nArchitecture: Docker containers expose client:3001 and server:5001. aaPanel Nginx on host should reverse-proxy thelab.tulie.vn → localhost:3001 (client) and thelab.tulie.vn/api → localhost:5001 (server), plus handle SSL termination with a valid cert for thelab.tulie.vn.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "infra",
+          "ssl",
+          "nginx",
+          "urgent"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "thelab.tulie.vn has its own valid SSL certificate (not reusing mentoring.tulie.vn cert)"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn loads the Next.js client app correctly"
+          },
+          {
+            "completed": true,
+            "text": "HTTPS access to thelab.tulie.vn/api/health returns {status: ok}"
+          },
+          {
+            "completed": true,
+            "text": "HTTP to HTTPS redirect works for thelab.tulie.vn"
+          },
+          {
+            "completed": true,
+            "text": "Nginx config documented/backed up for future reference"
+          }
+        ],
+        "implementationPlan": "## Fix Plan (SSH into VPS required)\n\n### 1. Diagnose on VPS\n```bash\nssh vps\n# Check aaPanel Nginx config for thelab.tulie.vn\ncat /www/server/panel/vhost/nginx/thelab.tulie.vn.conf\n# Check SSL cert files\nls -la /www/server/panel/vhost/cert/thelab.tulie.vn/\nopenssl x509 -in /www/server/panel/vhost/cert/thelab.tulie.vn/fullchain.pem -text -noout | head -20\n# Check Docker containers are running\ndocker ps\ncurl -sf http://localhost:3001 | head -5\ncurl -sf http://localhost:5001/api/health\n```\n\n### 2. Fix SSL Certificate\nOption A: Issue new cert via aaPanel > Website > thelab.tulie.vn > SSL > Let Encrypt (DNS verification)\nOption B: Use certbot directly:\n```bash\ncertbot certonly --nginx -d thelab.tulie.vn\n```\n\n### 3. Fix Nginx Site Config\nEnsure aaPanel config for thelab.tulie.vn has:\n- SSL cert pointing to thelab.tulie.vn cert (NOT mentoring.tulie.vn)\n- proxy_pass to localhost:3001 for / (client)\n- proxy_pass to localhost:5001 for /api (server)\n- HTTP→HTTPS redirect\n\n### 4. Reload & Verify\n```bash\nnginx -t && systemctl reload nginx\ncurl -I https://thelab.tulie.vn\ncurl https://thelab.tulie.vn/api/health\n```\n\n### 5. Document the Nginx config in project repo for backup",
+        "implementationNotes": "2026-02-15 22:49: Fixed SSL cert mismatch. Root cause: /srv/nginx/sites/thelab.tulie.vn.conf had broken certbot symlinks (/etc/letsencrypt/live/thelab.tulie.vn/ archive missing). Updated cert paths to aaPanel-managed cert at /www/server/panel/vhost/cert/thelab.tulie.vn/. Also added proper HTTPS server block with HTTP→HTTPS redirect, security headers, and HSTS.\n\nConfig backed up to deploy/nginx/thelab.tulie.vn.conf in repo.\n\nFinalized HeroCircleSection with framer-motion and hover effects."
+      }
+    }
+  ]
+}

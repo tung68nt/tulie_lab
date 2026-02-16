@@ -16,21 +16,17 @@ interface SimpleSelectProps extends React.ComponentPropsWithoutRef<typeof Select
 
 const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
   ({ onChange, onValueChange, options, value, defaultValue, children, className, ...props }, ref) => {
-    // Handle options: replace empty string value with placeholder
-    const safeOptions = options?.map((opt) => ({
-      ...opt,
-      value: opt.value === "" ? "__NO_SELECTION__" : opt.value,
-    }));
+    // Handle value mapping: "" <-> "__EMPTY_VALUE__"
+    const mapToSafe = (v: any) => v === "" ? "__EMPTY_VALUE__" : v;
+    const mapFromSafe = (v: string) => v === "__EMPTY_VALUE__" ? "" : v;
 
-    // Handle value: map empty string to placeholder
-    const safeValue = value === "" ? "__NO_SELECTION__" : value;
-    const safeDefaultValue = defaultValue === "" ? "__NO_SELECTION__" : defaultValue;
+    const safeValue = value !== undefined ? mapToSafe(value) : undefined;
+    const safeDefaultValue = defaultValue !== undefined ? mapToSafe(defaultValue) : undefined;
 
-    // Handle change: map placeholder back to empty string
     const handleValueChange = (newValue: string) => {
       const callback = onValueChange || onChange;
       if (callback) {
-        callback(newValue === "__NO_SELECTION__" ? "" : newValue);
+        callback(mapFromSafe(newValue));
       }
     };
 
@@ -46,8 +42,8 @@ const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {safeOptions?.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value}>
+            {options.map((opt) => (
+              <SelectItem key={opt.value} value={mapToSafe(opt.value)}>
                 {opt.label}
               </SelectItem>
             ))}
@@ -55,6 +51,7 @@ const Select = React.forwardRef<HTMLButtonElement, SimpleSelectProps>(
         </SelectRoot>
       );
     }
+
     return (
       <SelectRoot
         onValueChange={handleValueChange}
@@ -175,23 +172,28 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
-    )}
-    {...props}
-  >
-    <span className="absolute right-2 flex h-3.5 w-3.5 items-center justify-center">
-      <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
-      </SelectPrimitive.ItemIndicator>
-    </span>
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-  </SelectPrimitive.Item>
-))
+>(({ className, children, value, ...props }, ref) => {
+  const safeValue = value === "" ? "__EMPTY_VALUE__" : value;
+
+  return (
+    <SelectPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-2 pr-8 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        className
+      )}
+      value={safeValue}
+      {...props}
+    >
+      <span className="absolute right-2 flex h-3.5 w-3.5 items-center justify-center">
+        <SelectPrimitive.ItemIndicator>
+          <Check className="h-4 w-4" />
+        </SelectPrimitive.ItemIndicator>
+      </span>
+      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+    </SelectPrimitive.Item>
+  );
+})
 SelectItem.displayName = SelectPrimitive.Item.displayName
 
 const SelectSeparator = React.forwardRef<

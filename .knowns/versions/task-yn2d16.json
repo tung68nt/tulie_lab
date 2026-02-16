@@ -1,0 +1,47 @@
+{
+  "taskId": "yn2d16",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "yn2d16",
+      "version": 1,
+      "timestamp": "2026-02-16T20:26:37.236Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix Select.Item Empty Value Error & Verify Deployment",
+        "description": "Rà soát toàn bộ hệ thống để fix lỗi Select.Item value prop rỗng và verify qua việc tạo khóa học demo. Task chỉ hoàn thành khi deploy thành công và tạo được khóa học tại https://thelab.tulie.vn/admin/courses/new",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deployment"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "All Select.Item value props are non-empty strings"
+          },
+          {
+            "completed": false,
+            "text": "Changes pushed and GitHub Actions passed"
+          },
+          {
+            "completed": false,
+            "text": "Successfully created demo course at /admin/courses/new"
+          }
+        ]
+      }
+    }
+  ]
+}
