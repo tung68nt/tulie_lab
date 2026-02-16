@@ -96,37 +96,29 @@ export const webhook = async (req: Request, res: Response) => {
             console.log('Body:', JSON.stringify(req.body, null, 2));
         }
 
-        // Validate API Key from Authorization header (flexible validation)
+        // Validate API Key from Authorization header (flexible - supports both auth and no-auth modes)
+        // SePay can be configured with "Không cần chứng thực", "API Key", or "OAuth 2.0"
         const authHeader = req.headers.authorization || req.headers['x-api-key'] as string;
         const settingService = container.resolve<any>('SettingService');
         const storedApiKey = await settingService.getApiKey();
 
-        if (storedApiKey) {
-            // If API key is configured, validate it with flexible matching
+        if (authHeader && storedApiKey) {
+            // Both sides have API key → validate
             let receivedKey = '';
-            if (authHeader) {
-                const match = authHeader.match(/^(?:Apikey|Bearer)\s+(.+)$/i);
-                receivedKey = match?.[1] ?? authHeader;
-            }
+            const match = authHeader.match(/^(?:Apikey|Bearer)\s+(.+)$/i);
+            receivedKey = match?.[1] ?? authHeader;
 
-            // Robust cleaning: remove quotes and whitespace
             const cleanReceivedKey = receivedKey.trim().replace(/^["']|["']$/g, '');
-            // Also clean stored key: remove quotes, whitespace, and potential 'Bearer ' prefix if user pasted it
             const cleanStoredKey = storedApiKey.trim().replace(/^["']|["']$/g, '').replace(/^Bearer\s+/i, '');
 
-            if (!authHeader || cleanReceivedKey !== cleanStoredKey) {
-                console.warn('=== WEBHOOK AUTH FAILED ===');
+            if (cleanReceivedKey !== cleanStoredKey) {
+                console.warn('=== WEBHOOK AUTH FAILED === (API key mismatch)');
                 return res.status(401).json({ success: false, message: 'Invalid API key' });
             }
             if (!isProd) console.log('✅ Webhook: API key validated successfully');
-        } else {
-            // [Security] Log warning if webhook is called without API key configured
-            console.warn('⚠️  Webhook: No API key configured in system settings. This endpoint is currently unprotected.');
-            // UNLESS it is local or something, we should probably allow it for now but warn.
-            // Ideally we should block it in production if not configured.
-            if (isProd) {
-                return res.status(500).json({ success: false, message: 'System configuration error: Webhook API key missing' });
-            }
+        } else if (!authHeader) {
+            // No auth header from SePay (configured as "Không cần chứng thực") → allow but log
+            console.log('ℹ️  Webhook: No auth header received (SePay "Không cần chứng thực" mode). Request allowed.');
         }
 
         // Sepay payload mapping
