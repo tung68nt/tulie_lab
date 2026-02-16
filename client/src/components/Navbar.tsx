@@ -135,6 +135,7 @@ export function Navbar() {
         label: string;
         href: string;
         isExternal?: boolean;
+        icon?: React.ReactNode;
         children?: { label: string; href: string; isExternal?: boolean }[];
     }
 
@@ -258,7 +259,7 @@ export function Navbar() {
                                     className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                                     title={link.label}
                                 >
-                                    {(link as any).icon ? (link as any).icon : link.label}
+                                    {link.icon ? link.icon : link.label}
                                 </Link>
                             );
                         })}
