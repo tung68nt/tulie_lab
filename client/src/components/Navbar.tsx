@@ -231,14 +231,13 @@ export function Navbar() {
 
                                         {/* Dropdown Menu */}
                                         <div className="absolute top-full left-0 pt-2 w-56 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 ease-out z-[100]">
-                                            <div className="bg-popover border border-border rounded-md shadow-lg overflow-hidden p-1">
+                                            <div className="bg-popover border border-border rounded-md shadow-lg overflow-hidden">
                                                 {link.children.map((child) => (
                                                     <Link
                                                         key={child.href}
                                                         href={child.href}
                                                         target={child.isExternal ? '_blank' : undefined}
                                                         rel={child.isExternal ? 'noopener noreferrer' : undefined}
-                                                        prefetch={false}
                                                         className={`block px-3 py-2 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
                                                             }`}
                                                     >
@@ -257,7 +256,6 @@ export function Navbar() {
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                                    prefetch={false}
                                     className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                                     title={link.label}
                                 >
