@@ -231,14 +231,14 @@ export function Navbar() {
 
                                         {/* Dropdown Menu */}
                                         <div className="absolute top-full left-0 pt-2 w-56 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 ease-out z-[100]">
-                                            <div className="bg-popover border border-border rounded-md shadow-lg overflow-hidden">
+                                            <div className="bg-popover border border-border rounded-md shadow-lg overflow-hidden p-1">
                                                 {link.children.map((child) => (
                                                     <Link
                                                         key={child.href}
                                                         href={child.href}
                                                         target={child.isExternal ? '_blank' : undefined}
                                                         rel={child.isExternal ? 'noopener noreferrer' : undefined}
-                                                        className={`block px-3 py-2 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
+                                                        className={`block px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
                                                             }`}
                                                     >
                                                         {child.label}
