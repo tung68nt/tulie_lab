@@ -8,7 +8,8 @@ import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { Input } from '@/components/Input';
 import { useConfirm } from '@/components/ConfirmDialog';
-import { Clock, CircleAlert, Search, RefreshCcw, Copy, Save, Loader2, RefreshCw, Trash2, Webhook } from 'lucide-react';
+import { Clock, CircleAlert, Search, RefreshCcw, Copy, Save, Loader2, RefreshCw, Trash2, Webhook, Plus, CreditCard } from 'lucide-react';
+import { Switch } from '@/components/Switch';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 export default function AdminWebhooksPage() {
@@ -29,6 +30,7 @@ export default function AdminWebhooksPage() {
     const [apiKey, setApiKey] = useState<string | null>(null);
     const [showApiKey, setShowApiKey] = useState(false);
     const [regenerating, setRegenerating] = useState(false);
+    const [paymentGateways, setPaymentGateways] = useState<any[]>([]);
     const confirm = useConfirm();
 
     const fetchTransactions = async () => {
@@ -58,6 +60,26 @@ export default function AdminWebhooksPage() {
                 payment_transfer_syntax: syntax
             });
 
+            if (settings.payment_gateways) {
+                try {
+                    setPaymentGateways(JSON.parse(settings.payment_gateways));
+                } catch (e) {
+                    setPaymentGateways([]);
+                }
+            } else if (settings.SEPAY_API_KEY) {
+                // Auto-migrate if SEPAY_API_KEY exists but payment_gateways doesn't
+                setPaymentGateways([{
+                    id: 'default-sepay',
+                    name: 'SePay',
+                    type: 'SEPAY',
+                    isActive: true,
+                    config: {
+                        apiKey: settings.SEPAY_API_KEY,
+                        accountNumber: settings.bank_account_no || ''
+                    }
+                }]);
+            }
+
             // Pre-fill QR description with the prefix
             if (prefix) {
                 setQrDescription(prefix);
@@ -70,13 +92,43 @@ export default function AdminWebhooksPage() {
     const handleSaveBankConfig = async () => {
         setSavingConfig(true);
         try {
-            await api.admin.settings.update(bankConfig);
+            await api.admin.settings.update({
+                ...bankConfig,
+                payment_gateways: JSON.stringify(paymentGateways)
+            });
             addToast('Đã lưu cấu hình thanh toán', 'success');
         } catch (e: any) {
             addToast(e.message || 'Lỗi lưu cấu hình', 'error');
         } finally {
             setSavingConfig(false);
         }
+    };
+
+    const handleAddGateway = (type: string) => {
+        const newGateway = {
+            id: Math.random().toString(36).substring(2, 9),
+            name: type === 'SEPAY' ? 'SePay' : type === 'VNPAY' ? 'VNPay' : type === 'CASSO' ? 'Casso' : 'Cổng khác',
+            type,
+            isActive: true,
+            config: {}
+        };
+        setPaymentGateways([...paymentGateways, newGateway]);
+    };
+
+    const handleUpdateGateway = (index: number, updates: any) => {
+        const newGateways = [...paymentGateways];
+        newGateways[index] = { ...newGateways[index], ...updates };
+        setPaymentGateways(newGateways);
+    };
+
+    const handleUpdateGatewayConfig = (index: number, key: string, value: string) => {
+        const newGateways = [...paymentGateways];
+        newGateways[index].config = { ...newGateways[index].config, [key]: value };
+        setPaymentGateways(newGateways);
+    };
+
+    const handleRemoveGateway = (index: number) => {
+        setPaymentGateways(paymentGateways.filter((_, i) => i !== index));
     };
 
     const handleConfigChange = (key: string, value: string) => {
@@ -137,8 +189,8 @@ export default function AdminWebhooksPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Webhooks Logs"
-                subtitle="Lịch sử nhận webhook từ SePay và các hệ thống khác"
+                title="Cổng thanh toán"
+                subtitle="Cấu hình tài khoản nhận tiền và kết nối cổng thanh toán tự động"
                 icon={<Webhook className="w-8 h-8" />}
             />
 
@@ -193,7 +245,124 @@ export default function AdminWebhooksPage() {
                             </span>
                         </div>
                     </div>
-                    <div className="flex justify-end pt-2">
+
+                    <hr className="my-6 border-dashed" />
+
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <label className="text-sm font-semibold">Cấu hình Cổng thanh toán</label>
+                                <p className="text-xs text-muted-foreground">Tự động đồng bộ giao dịch qua API/Webhook.</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleAddGateway('SEPAY')}
+                                    className="h-8 text-xs gap-1"
+                                >
+                                    <Plus size={14} className="h-3 w-3" /> SePay
+                                </Button>
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleAddGateway('VNPAY')}
+                                    className="h-8 text-xs gap-1"
+                                >
+                                    <Plus size={14} className="h-3 w-3" /> VNPay
+                                </Button>
+                                <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => handleAddGateway('CASSO')}
+                                    className="h-8 text-xs gap-1"
+                                >
+                                    <Plus size={14} className="h-3 w-3" /> Casso
+                                </Button>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            {paymentGateways.map((gw, idx) => (
+                                <div key={gw.id || idx} className="p-4 border rounded-xl bg-muted/20 space-y-4 relative group">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-2 bg-background rounded-lg border">
+                                                <CreditCard size={16} className="text-muted-foreground" />
+                                            </div>
+                                            <div>
+                                                <Input
+                                                    value={gw.name}
+                                                    onChange={(e) => handleUpdateGateway(idx, { name: e.target.value })}
+                                                    className="h-7 text-sm font-bold bg-transparent border-none p-0 focus-visible:ring-0 w-auto"
+                                                />
+                                                <p className="text-[10px] text-muted-foreground font-semibold">Loại: {gw.type}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <Switch
+                                                checked={gw.isActive}
+                                                onCheckedChange={(checked) => handleUpdateGateway(idx, { isActive: checked })}
+                                            />
+                                            <Button
+                                                type="button"
+                                                size="sm"
+                                                variant="ghost"
+                                                className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive"
+                                                onClick={() => handleRemoveGateway(idx)}
+                                            >
+                                                <Trash2 size={14} />
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid gap-4 md:grid-cols-2 pt-2 border-t border-dashed">
+                                        {gw.type === 'SEPAY' && (
+                                            <>
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-bold text-muted-foreground">SePay API Key</label>
+                                                    <Input
+                                                        type="password"
+                                                        value={gw.config.apiKey || ''}
+                                                        onChange={(e) => handleUpdateGatewayConfig(idx, 'apiKey', e.target.value)}
+                                                        placeholder="Lấy từ sepay.vn"
+                                                        className="bg-background h-9 text-sm"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-[10px] font-bold text-muted-foreground">Số tài khoản</label>
+                                                    <Input
+                                                        value={gw.config.accountNumber || ''}
+                                                        onChange={(e) => handleUpdateGatewayConfig(idx, 'accountNumber', e.target.value)}
+                                                        placeholder="VD: 10400210..."
+                                                        className="bg-background h-9 text-sm"
+                                                    />
+                                                </div>
+                                            </>
+                                        )}
+                                        {(gw.type === 'VNPAY' || gw.type === 'CASSO') && (
+                                            <div className="col-span-2 py-4 text-center border border-dashed rounded-lg bg-background/50">
+                                                <p className="text-xs text-muted-foreground">
+                                                    Cổng {gw.type} đang được phát triển. Vui lòng quay lại sau.
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+
+                            {paymentGateways.length === 0 && (
+                                <div className="text-center py-8 border border-dashed rounded-xl text-muted-foreground text-sm">
+                                    Chưa có cổng thanh toán nào được cấu hình.
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end pt-4 border-t">
                         <Button onClick={handleSaveBankConfig} disabled={savingConfig}>
                             {savingConfig ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                             Lưu cấu hình
