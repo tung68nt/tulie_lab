@@ -117,13 +117,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     {/* Admin box with borders - use relative for pseudo-element */}
                     <div className="relative bg-background border-l border-r border-border min-h-[calc(100vh-64px)] overflow-visible">
                         {/* Extend borders up to navbar using absolute positioned elements */}
-                        <div className="absolute -top-16 left-[-1px] w-px h-16 bg-border z-40"></div>
-                        <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border z-40"></div>
+                        <div className="absolute -top-16 left-[-1px] w-px h-16 bg-border z-40 pointer-events-none"></div>
+                        <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border z-40 pointer-events-none"></div>
                         <div className="flex flex-col md:flex-row min-h-[calc(100vh-64px)]">
                             {/* Sidebar */}
                             <aside className="w-full border-r border-border md:w-64 shrink-0 relative overflow-visible">
                                 {/* Extend sidebar border up */}
-                                <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border z-40"></div>
+                                <div className="absolute -top-16 right-[-1px] w-px h-16 bg-border z-40 pointer-events-none"></div>
                                 <div className="sticky top-16 flex flex-col h-[calc(100vh-64px)]">
                                     <div className="px-6 pt-14 pb-6 border-b bg-muted/20">
                                         <div className="flex flex-col gap-1">

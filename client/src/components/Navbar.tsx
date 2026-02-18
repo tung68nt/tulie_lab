@@ -545,7 +545,9 @@ export function Navbar() {
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
                                     className={`block py-3 px-4 text-base font-bold rounded-lg transition-colors ${isActive ? 'bg-muted text-foreground' : 'text-foreground/80 hover:bg-muted'}`}
-                                    onClick={() => setMobileMenuOpen(false)}
+                                    onClick={(e) => {
+                                        setMobileMenuOpen(false);
+                                    }}
                                 >
                                     {link.label}
                                 </Link>
