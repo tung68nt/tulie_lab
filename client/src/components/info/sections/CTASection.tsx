@@ -24,7 +24,7 @@ export const CTASection = ({ section }: { section: Section }) => {
 
             <div className="container text-center relative z-10 mx-auto px-4">
                 <h2 className={cn(
-                    "text-3xl md:text-5xl lg:text-7xl font-semibold mb-8 leading-tight tracking-tight py-2",
+                    "text-3xl md:text-5xl lg:text-7xl font-semibold mb-8 leading-tight py-2",
                     isDark ? "text-white" : "text-zinc-950 dark:text-white"
                 )}>
                     {section.title}

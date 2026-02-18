@@ -261,6 +261,16 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
         updateSections(newSections);
     };
 
+    const handleMoveTo = (fromIndex: number, toPosition: number) => {
+        const sections = getSections();
+        const targetIndex = toPosition - 1; // Convert 1-based to 0-based
+        if (targetIndex < 0 || targetIndex >= sections.length || targetIndex === fromIndex) return;
+        const newSections = [...sections];
+        const [moved] = newSections.splice(fromIndex, 1);
+        newSections.splice(targetIndex, 0, moved);
+        updateSections(newSections);
+    };
+
     const handleRemoveSection = async (index: number) => {
         if (await confirm({
             title: 'Xóa Section',
@@ -625,43 +635,62 @@ export default function EditLandingPage({ params }: { params: Promise<{ id: stri
 
                         {mode === 'builder' ? (
                             <div className="space-y-3">
-                                <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100 mb-4 px-1">Danh sách Sections</h3>
+                                <h3 className="text-base font-semibold text-foreground mb-4 px-1">Danh sách Sections</h3>
 
                                 <div className="space-y-2">
                                     {sections.map((section, index) => (
                                         <div
                                             key={`${section.id}-${index}`}
-                                            className={`flex items-center justify-between p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950/50 text-card-foreground shadow-sm transition-all hover:border-zinc-300 dark:hover:border-zinc-700 ${section.isVisible === false ? 'opacity-50 grayscale' : ''}`}
+                                            className={`flex items-center justify-between p-4 rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all hover:border-primary/20 ${section.isVisible === false ? 'opacity-50 grayscale' : ''}`}
                                         >
                                             <div className="flex items-center gap-4 overflow-hidden">
-                                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold text-xs shrink-0">
-                                                    {index + 1}
-                                                </div>
+                                                <input
+                                                    type="number"
+                                                    min={1}
+                                                    max={sections.length}
+                                                    defaultValue={index + 1}
+                                                    key={`pos-${index}-${sections.map(s => s.id).join(',')}`}
+                                                    className="w-10 h-8 text-center text-xs font-semibold rounded-lg border border-border bg-muted text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shrink-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') {
+                                                            e.currentTarget.blur();
+                                                        }
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        const val = parseInt(e.target.value);
+                                                        if (!isNaN(val) && val !== index + 1) {
+                                                            handleMoveTo(index, val);
+                                                        } else {
+                                                            e.target.value = String(index + 1);
+                                                        }
+                                                    }}
+                                                    title={`Nhập vị trí mới (1-${sections.length})`}
+                                                />
                                                 <div className="min-w-0">
-                                                    <p className="font-semibold text-zinc-900 dark:text-zinc-50 truncate capitalize">
+                                                    <p className="font-semibold text-foreground truncate">
                                                         {(() => {
                                                             const template = SECTION_TEMPLATES.find((t: any) => t.data.type === section.type);
                                                             return template ? template.name : `${section.type.replace('-', ' ')} Section`;
                                                         })()}
                                                     </p>
-                                                    <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium truncate max-w-[300px]">{section.title || section.id}</p>
+                                                    <p className="text-xs text-muted-foreground font-medium truncate max-w-[300px]">{section.title || section.id}</p>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-1.5">
-                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" onClick={() => setEditingSectionIndex(index)} title="Chỉnh sửa">
-                                                    <Edit size={14} className="text-zinc-600 dark:text-zinc-400" />
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent transition-colors" onClick={() => setEditingSectionIndex(index)} title="Chỉnh sửa">
+                                                    <Edit size={14} className="text-muted-foreground" />
                                                 </Button>
-                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" onClick={() => handleToggleVisibility(index)} title={section.isVisible === false ? 'Hiện' : 'Ẩn'}>
-                                                    {section.isVisible === false ? <EyeOff size={14} className="text-zinc-600 dark:text-zinc-400" /> : <Eye size={14} className="text-zinc-600 dark:text-zinc-400" />}
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent transition-colors" onClick={() => handleToggleVisibility(index)} title={section.isVisible === false ? 'Hiện' : 'Ẩn'}>
+                                                    {section.isVisible === false ? <EyeOff size={14} className="text-muted-foreground" /> : <Eye size={14} className="text-muted-foreground" />}
                                                 </Button>
-                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" disabled={index === 0} onClick={() => handleMoveSection(index, 'up')} title="Lên">
-                                                    <ArrowUp size={14} className="text-zinc-600 dark:text-zinc-400" />
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent transition-colors" disabled={index === 0} onClick={() => handleMoveSection(index, 'up')} title="Lên">
+                                                    <ArrowUp size={14} className="text-muted-foreground" />
                                                 </Button>
-                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" disabled={index === sections.length - 1} onClick={() => handleMoveSection(index, 'down')} title="Xuống">
-                                                    <ArrowDown size={14} className="text-zinc-600 dark:text-zinc-400" />
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent transition-colors" disabled={index === sections.length - 1} onClick={() => handleMoveSection(index, 'down')} title="Xuống">
+                                                    <ArrowDown size={14} className="text-muted-foreground" />
                                                 </Button>
-                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" onClick={() => handleRemoveSection(index)} title="Xóa">
-                                                    <Trash2 size={14} className="text-zinc-600 dark:text-zinc-400" />
+                                                <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg bg-transparent hover:bg-accent transition-colors" onClick={() => handleRemoveSection(index)} title="Xóa">
+                                                    <Trash2 size={14} className="text-muted-foreground" />
                                                 </Button>
                                             </div>
                                         </div>

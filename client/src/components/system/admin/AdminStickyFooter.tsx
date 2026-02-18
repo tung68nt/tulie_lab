@@ -27,12 +27,12 @@ export function AdminStickyFooter({
             "fixed bottom-0 left-0 right-0 z-50 flex items-center justify-center p-4 md:p-6 animate-in fade-in slide-in-from-bottom-4 duration-300",
             className
         )}>
-            <div className="bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-zinc-200 dark:border-zinc-800 rounded-full shadow-2xl px-2 py-2 flex items-center gap-2 max-w-fit mx-auto">
+            <div className="bg-card/80 backdrop-blur-xl border border-border rounded-full shadow-2xl px-2 py-2 flex items-center gap-2 max-w-fit mx-auto">
                 <Button
                     variant="ghost"
                     size="sm"
                     onClick={onCancel}
-                    className="rounded-full text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white px-4"
+                    className="rounded-full text-muted-foreground hover:text-foreground px-4"
                 >
                     <X className="w-4 h-4 mr-2" />
                     Hủy
@@ -43,7 +43,7 @@ export function AdminStickyFooter({
                         variant="outline"
                         size="sm"
                         onClick={onViewLive}
-                        className="rounded-full border-zinc-200 dark:border-zinc-800 px-4"
+                        className="rounded-full border-border px-4"
                     >
                         <Eye className="w-4 h-4 mr-2" />
                         Xem thực tế
@@ -55,7 +55,7 @@ export function AdminStickyFooter({
                     size="sm"
                     onClick={onSave}
                     disabled={isSaving || !isDirty}
-                    className="rounded-full px-6 bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+                    className="rounded-full px-6 bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                     {isSaving ? (
                         <div className="flex items-center gap-2">

@@ -603,7 +603,7 @@ export default function AdminSettingsPage() {
                                                             onChange={(e) => handleUpdateGateway(idx, { name: e.target.value })}
                                                             className="h-7 text-sm font-bold bg-transparent border-none p-0 focus-visible:ring-0 w-auto"
                                                         />
-                                                        <p className="text-[10px] text-muted-foreground uppercase font-semibold">Loại: {gw.type}</p>
+                                                        <p className="text-[10px] text-muted-foreground font-semibold">Loại: {gw.type}</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-3">
@@ -627,7 +627,7 @@ export default function AdminSettingsPage() {
                                                 {gw.type === 'SEPAY' && (
                                                     <>
                                                         <div className="space-y-2">
-                                                            <label className="text-[10px] font-bold text-muted-foreground uppercase">SePay API Key</label>
+                                                            <label className="text-[10px] font-bold text-muted-foreground">SePay API Key</label>
                                                             <Input
                                                                 type="password"
                                                                 value={gw.config.apiKey || ''}
@@ -637,7 +637,7 @@ export default function AdminSettingsPage() {
                                                             />
                                                         </div>
                                                         <div className="space-y-2">
-                                                            <label className="text-[10px] font-bold text-muted-foreground uppercase">Số tài khoản</label>
+                                                            <label className="text-[10px] font-bold text-muted-foreground">Số tài khoản</label>
                                                             <Input
                                                                 value={gw.config.accountNumber || ''}
                                                                 onChange={(e) => handleUpdateGatewayConfig(idx, 'accountNumber', e.target.value)}

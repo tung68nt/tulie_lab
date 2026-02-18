@@ -1,7 +1,8 @@
 
 const { PrismaClient } = require('@prisma/client');
 const dotenv = require('dotenv');
-dotenv.config({ path: '/Users/tungnguyen/Documents/code/academy_tulie/server/.env' });
+const path = require('path');
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const prisma = new PrismaClient() as any;
 

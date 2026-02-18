@@ -129,7 +129,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                     <aside className={`w-full lg:w-72 shrink-0 space-y-8 lg:sticky lg:top-32 lg:self-start ${showMobileFilter ? 'block' : 'hidden lg:block'}`}>
                         {/* Search Bar */}
                         <div className="space-y-3">
-                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>
+                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2">Tìm kiếm</h3>
                             <div className="relative group">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 w-3.5 h-3.5 group-focus-within:text-primary transition-colors" />
                                 <input
@@ -144,7 +144,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
 
                         {/* Categories List - Dynamic from DB */}
                         <div className="space-y-2">
-                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Lĩnh vực</h3>
+                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2">Lĩnh vực</h3>
                             <nav className="flex flex-col gap-0.5">
                                 {/* All option */}
                                 <button
@@ -199,7 +199,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
 
                         {/* Product Types - Dynamic from DB */}
                         <div className="space-y-2">
-                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2 tracking-tight">Loại hình</h3>
+                            <h3 className="text-sm font-medium text-muted-foreground/80 px-2">Loại hình</h3>
                             <nav className="flex flex-col gap-0.5">
                                 {/* All option */}
                                 <button

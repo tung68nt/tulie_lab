@@ -23,7 +23,7 @@
 ### Bước 1: Tạo Domain Mappings trong Cloud Run (2 phút)
 
 ```bash
-cd /Users/tungnguyen/Documents/code/academy_tulie
+cd /Users/tungnguyen/Documents/code/tulie_academy
 ./scripts/setup-dns-all.sh
 ```
 

@@ -9,8 +9,8 @@ REMOTE_DB="postgres"
 REMOTE_PASS="0wWZeKFeyM6buTc9"
 
 # Local Container
-LOCAL_CONTAINER="academy_postgres"
-LOCAL_DB="academy_tulie"
+LOCAL_CONTAINER="tulie_academy_postgres"
+LOCAL_DB="tulie_academy"
 LOCAL_USER="postgres"
 
 set -o pipefail

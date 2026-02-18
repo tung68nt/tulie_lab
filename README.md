@@ -1,4 +1,4 @@
-# Academy Tulie
+# Tulie Academy
 
 > Nền tảng học trực tuyến hiện đại cho tương lai công nghệ.
 
@@ -14,7 +14,7 @@
 ## 📁 Project Structure
 
 ```
-academy_tulie/
+tulie_academy/
 ├── client/           # Next.js frontend
 │   ├── src/
 │   │   ├── app/      # App Router pages
@@ -41,8 +41,8 @@ academy_tulie/
 
 ```bash
 # Clone repository
-git clone https://github.com/yourorg/academy_tulie.git
-cd academy_tulie
+git clone https://github.com/tung68nt/tulie_lab.git
+cd tulie_academy
 
 # Install dependencies
 cd client && bun install

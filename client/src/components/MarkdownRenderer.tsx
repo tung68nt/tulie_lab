@@ -24,7 +24,7 @@ const extractText = (children: any): string => {
 
 export function MarkdownRenderer({ content, className }: MarkdownRendererProps) {
     return (
-        <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed prose-headings:tracking-tight text-black dark:text-white prose-p:text-black dark:prose-p:text-white prose-li:text-black dark:prose-li:text-white prose-p:font-medium prose-li:font-medium", className)}>
+        <div className={cn("prose prose-zinc dark:prose-invert max-w-none prose-lg prose-p:leading-relaxed text-black dark:text-white prose-p:text-black dark:prose-p:text-white prose-li:text-black dark:prose-li:text-white prose-p:font-medium prose-li:font-medium", className)}>
             <style jsx global>{`
                 .prose table {
                     width: 100%;
@@ -120,9 +120,9 @@ export function MarkdownRenderer({ content, className }: MarkdownRendererProps) 
                 remarkPlugins={[remarkGfm]}
                 components={{
                     // Custom heading tags to support TOC anchors
-                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-4xl font-bold tracking-tight mb-8 first:mt-0 pt-1" />,
-                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold tracking-tight mt-12 mb-4 first:mt-0 pt-1" />,
-                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold tracking-tight mt-8 mb-4 first:mt-0 pt-1" />,
+                    h1: ({ node, ...props }) => <h1 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-4xl font-bold mb-8 first:mt-0 pt-1" />,
+                    h2: ({ node, ...props }) => <h2 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 border-b pb-2 text-3xl font-bold mt-12 mb-4 first:mt-0 pt-1" />,
+                    h3: ({ node, ...props }) => <h3 id={slugify(extractText(props.children))} {...props} className="scroll-m-20 text-2xl font-semibold mt-8 mb-4 first:mt-0 pt-1" />,
                     p: ({ node, ...props }) => <p {...props} className="leading-7 [&:not(:first-child)]:mt-6" />,
                     hr: () => <hr className="hidden" />,
 

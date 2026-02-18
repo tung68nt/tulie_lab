@@ -199,6 +199,15 @@ export default function AdminContentPage() {
                                         setJsonContent(JSON.stringify(newSections, null, 2));
                                     };
 
+                                    const moveToPosition = (fromIndex: number, toPosition: number) => {
+                                        const targetIndex = toPosition - 1;
+                                        if (targetIndex < 0 || targetIndex >= sections.length || targetIndex === fromIndex) return;
+                                        const newSections = [...sections];
+                                        const [moved] = newSections.splice(fromIndex, 1);
+                                        newSections.splice(targetIndex, 0, moved);
+                                        setJsonContent(JSON.stringify(newSections, null, 2));
+                                    };
+
                                     const toggleVisibility = (index: number) => {
                                         const newSections = [...sections];
                                         newSections[index].isVisible = !(newSections[index].isVisible ?? true); // Default to true if undefined
@@ -227,9 +236,30 @@ export default function AdminContentPage() {
                                                 {sections.map((section: Section, index: number) => (
                                                     <div key={index} className={`flex items-center justify-between p-3 rounded-lg border ${section.isVisible === false ? 'opacity-50 bg-muted' : 'bg-card'}`}>
                                                         <div className="flex items-center gap-3">
-                                                            <span className="text-xs px-2 py-1 bg-muted rounded min-w-[24px] text-center">{index + 1}</span>
+                                                            <input
+                                                                type="number"
+                                                                min={1}
+                                                                max={sections.length}
+                                                                defaultValue={index + 1}
+                                                                key={`pos-${index}-${sections.map((s: Section) => s.id).join(',')}`}
+                                                                className="w-10 h-8 text-center text-xs font-semibold rounded-lg border border-border bg-muted text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shrink-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === 'Enter') {
+                                                                        e.currentTarget.blur();
+                                                                    }
+                                                                }}
+                                                                onBlur={(e) => {
+                                                                    const val = parseInt(e.target.value);
+                                                                    if (!isNaN(val) && val !== index + 1) {
+                                                                        moveToPosition(index, val);
+                                                                    } else {
+                                                                        e.target.value = String(index + 1);
+                                                                    }
+                                                                }}
+                                                                title={`Nhập vị trí mới (1-${sections.length})`}
+                                                            />
                                                             <div>
-                                                                <p className="font-semibold capitalize flex items-center gap-2">
+                                                                <p className="font-semibold flex items-center gap-2">
                                                                     {section.type} Section
                                                                     {section.isVisible === false && <span className="text-xs font-normal text-muted-foreground">(Hidden)</span>}
                                                                 </p>

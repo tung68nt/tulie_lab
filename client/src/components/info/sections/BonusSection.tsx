@@ -36,7 +36,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                 <div className="flex flex-col items-center mb-10">
                     <div className="inline-flex items-center gap-3 px-8 py-3 rounded-full bg-[#FF0000] text-white shadow-[0_10px_30px_-10px_rgba(255,0,0,0.5)] border border-white/20 mb-6 animate-bounce-subtle">
                         <Gift className="w-6 h-6 fill-white/20" />
-                        <span className="text-base md:text-lg font-bold tracking-tight">Quà tặng giới hạn</span>
+                        <span className="text-base md:text-lg font-bold">Quà tặng giới hạn</span>
                     </div>
                     <StandardSectionHeader
                         section={section}
@@ -136,7 +136,7 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                                     </h3>
                                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                                         <div className="relative">
-                                            <span className="text-3xl md:text-5xl text-zinc-950 font-bold tracking-tight flex items-baseline gap-1">
+                                            <span className="text-3xl md:text-5xl text-zinc-950 font-bold flex items-baseline gap-1">
                                                 {totalValue.toLocaleString('vi-VN')}<sup className="text-xl">đ</sup>
                                             </span>
                                             {/* Solid Red Strike-through */}

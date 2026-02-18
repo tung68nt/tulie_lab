@@ -112,7 +112,7 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1, duration: 0.6 }}
-                        className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl leading-[1.1] text-[#0f172a]"
+                        className="text-4xl font-bold sm:text-5xl md:text-6xl leading-[1.1] text-[#0f172a]"
                     >
                         {title}
                     </motion.h1>

@@ -68,7 +68,7 @@ echo "📂 Setting up project directory..."
 if [ ! -d "$DEPLOY_DIR" ]; then
     mkdir -p "$DEPLOY_DIR"
     echo "⚠️  Please clone the repository manually:"
-    echo "    git clone https://github.com/YOUR_USERNAME/academy_tulie.git $DEPLOY_DIR"
+    echo "    git clone https://github.com/tung68nt/tulie_lab.git $DEPLOY_DIR"
 else
     echo "✅ Project directory exists"
 fi
@@ -84,7 +84,7 @@ if [ ! -f "$DEPLOY_DIR/.env.production" ]; then
 # PostgreSQL
 POSTGRES_USER=tulie
 POSTGRES_PASSWORD=CHANGE_ME_TO_STRONG_PASSWORD
-POSTGRES_DB=academy_tulie
+POSTGRES_DB=tulie_academy
 
 # Application
 JWT_SECRET=CHANGE_ME_TO_RANDOM_STRING
@@ -133,7 +133,7 @@ echo "=========================================="
 echo ""
 echo "📋 Next steps:"
 echo "  1. Clone the repository:"
-echo "     git clone https://github.com/YOUR_USERNAME/academy_tulie.git $DEPLOY_DIR"
+echo "     git clone https://github.com/tung68nt/tulie_lab.git $DEPLOY_DIR"
 echo ""
 echo "  2. Edit the environment file:"
 echo "     nano $DEPLOY_DIR/.env.production"

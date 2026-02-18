@@ -63,7 +63,7 @@
 
 ### Option 1: Automated Fix (Recommended)
 ```bash
-cd /Users/tungnguyen/Documents/code/academy_tulie
+cd /Users/tungnguyen/Documents/code/tulie_academy
 ./fix-all.sh
 ```
 
@@ -79,7 +79,7 @@ This script will:
 
 #### Step 1: Start Database
 ```bash
-cd /Users/tungnguyen/Documents/code/academy_tulie
+cd /Users/tungnguyen/Documents/code/tulie_academy
 docker-compose up -d postgres
 ```
 

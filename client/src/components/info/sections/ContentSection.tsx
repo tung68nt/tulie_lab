@@ -10,7 +10,7 @@ export const ContentSection = ({ section }: { section: Section }) => {
         return content.split('\n\n').map((paragraph, i) => {
             // Check for headers
             if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
-                return <h3 key={i} className="font-bold text-xl md:text-2xl mt-8 mb-4 tracking-tight text-foreground">{paragraph.replace(/\*\*/g, '')}</h3>;
+                return <h3 key={i} className="font-bold text-xl md:text-2xl mt-8 mb-4 text-foreground">{paragraph.replace(/\*\*/g, '')}</h3>;
             }
 
             // Check for list items

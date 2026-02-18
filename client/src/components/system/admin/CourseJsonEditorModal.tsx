@@ -104,25 +104,25 @@ export function CourseJsonEditorModal({
 
     return createPortal(
         <div className="fixed inset-0 z-[15000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-white dark:bg-zinc-900 w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl flex flex-col border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+            <div className="bg-background w-full max-w-5xl h-[85vh] rounded-xl shadow-2xl flex flex-col border border-border overflow-hidden">
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-card">
                     <div className="flex items-start gap-4">
-                        <div className="text-zinc-900 dark:text-zinc-100 shrink-0 mt-1">
+                        <div className="text-foreground shrink-0 mt-1">
                             <FileJson className="w-6 h-6" />
                         </div>
                         <div className="flex flex-col gap-0.5">
-                            <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight leading-tight">Course JSON Editor</h2>
-                            <p className="text-xs text-zinc-500 leading-tight">Edit entire course structure and content via JSON.</p>
+                            <h2 className="text-xl font-semibold text-foreground leading-tight">Course JSON Editor</h2>
+                            <p className="text-xs text-muted-foreground leading-tight">Edit entire course structure and content via JSON.</p>
                         </div>
                     </div>
-                    <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800">
-                        <X className="w-4 h-4 text-zinc-500" />
+                    <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full">
+                        <X className="w-4 h-4 text-muted-foreground" />
                     </Button>
                 </div>
 
                 {/* Editor Area */}
-                <div className="flex-1 p-0 overflow-hidden flex flex-col relative bg-zinc-50 dark:bg-zinc-950">
+                <div className="flex-1 p-0 overflow-hidden flex flex-col relative bg-muted/30">
                     {error && (
                         <div className="absolute top-4 left-4 right-4 z-10 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm flex items-center gap-2 border border-red-100 dark:border-red-900/30 shadow-sm animate-in slide-in-from-top-2">
                             <AlertTriangle className="w-4 h-4 shrink-0" />
@@ -135,15 +135,15 @@ export function CourseJsonEditorModal({
                             setJsonValue(e.target.value);
                             if (error) setError(null);
                         }}
-                        className="flex-1 w-full h-full bg-zinc-50 dark:bg-zinc-950 p-6 font-mono text-xs leading-relaxed resize-none focus:outline-none text-zinc-800 dark:text-zinc-300 selection:bg-blue-100 dark:selection:bg-blue-900/30"
+                        className="flex-1 w-full h-full bg-muted/30 p-6 font-mono text-xs leading-relaxed resize-none focus:outline-none text-foreground/80 selection:bg-primary/10"
                         spellCheck={false}
                         placeholder="{ 'course': ... }"
                     />
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div className="text-xs text-zinc-500 max-w-[280px] shrink-0">
+                <div className="px-6 py-4 border-t border-border bg-muted/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div className="text-xs text-muted-foreground max-w-[280px] shrink-0">
                         <span className="font-medium text-amber-600 dark:text-amber-500 flex items-center gap-1.5 mb-0.5">
                             <AlertTriangle className="w-3.5 h-3.5" /> Warning
                         </span>
@@ -154,7 +154,7 @@ export function CourseJsonEditorModal({
                             variant="ghost"
                             type="button"
                             onClick={handleReset}
-                            className="text-zinc-500 hover:text-blue-600 text-xs whitespace-nowrap px-2"
+                            className="text-muted-foreground hover:text-primary text-xs whitespace-nowrap px-2"
                         >
                             Reset JSON
                         </Button>
@@ -162,7 +162,7 @@ export function CourseJsonEditorModal({
                             variant="ghost"
                             type="button"
                             onClick={handleCopy}
-                            className="text-zinc-500 hover:text-blue-600 text-xs whitespace-nowrap px-2"
+                            className="text-muted-foreground hover:text-primary text-xs whitespace-nowrap px-2"
                         >
                             <Copy className="w-4 h-4 mr-2" /> Copy JSON
                         </Button>

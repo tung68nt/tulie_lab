@@ -207,7 +207,7 @@ async function initializeApp() {
     // Strict CORS configuration
     const allowedOrigins = process.env.ALLOWED_ORIGINS
       ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://localhost:3000', 'https://thelab.tulie.vn', 'https://academy_tulie.vn'];
+      : ['http://localhost:3000', 'https://thelab.tulie.vn', 'https://tulie_academy.vn'];
 
     app.use(cors({
       origin: (origin, callback) => {

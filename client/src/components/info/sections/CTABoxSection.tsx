@@ -49,7 +49,7 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                                         )}
                                     </div>
                                     <h3 className={cn(
-                                        "text-3xl md:text-4xl font-bold tracking-tight",
+                                        "text-3xl md:text-4xl font-bold",
                                         isDarkBg ? "text-white" : "text-zinc-950 dark:text-white"
                                     )}>
                                         {section.title}

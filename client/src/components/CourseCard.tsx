@@ -96,7 +96,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                 {/* Content - Bottom Side */}
                 <div className="flex flex-1 flex-col p-6 bg-gradient-to-br from-transparent to-zinc-50/10">
                     <div className="mb-4">
-                        <h3 className="mb-3 line-clamp-2 text-xl font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
+                        <h3 className="mb-3 line-clamp-2 text-xl font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
                             {title}
                         </h3>
                         <p className="line-clamp-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
@@ -128,7 +128,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                                     </div>
                                 </>
                             ) : (
-                                <span className="text-lg font-semibold text-primary tracking-tight">Truy cập miễn phí</span>
+                                <span className="text-lg font-semibold text-primary">Truy cập miễn phí</span>
                             )}
                         </div>
 

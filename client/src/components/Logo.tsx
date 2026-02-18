@@ -114,7 +114,7 @@ export function Logo({ className = "", showText = true, height = "h-8" }: LogoPr
             )}
 
             {shouldShowText && (
-                <span className="text-lg font-bold text-foreground tracking-tight">
+                <span className="text-lg font-bold text-foreground">
                     {displayName}
                 </span>
             )}

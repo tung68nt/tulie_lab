@@ -33,7 +33,7 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
             <div className="container px-4 mx-auto relative z-10">
                 <div className="text-center mb-12 max-w-2xl mx-auto">
                     <h2 className={cn(
-                        "text-3xl font-bold tracking-tight mb-4 py-2",
+                        "text-3xl font-bold mb-4 py-2",
                         section.backgroundTheme === 'dark' ? "text-white" : "text-zinc-950 dark:text-white"
                     )}>{section.title}</h2>
                     <p className={cn(

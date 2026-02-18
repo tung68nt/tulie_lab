@@ -85,7 +85,7 @@ export function InstructorBioSection({ section }: { section: Section }) {
                     <div className="inline-flex items-center px-3 py-1 mb-6 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 text-[10px] font-bold">
                         Instructor
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6">
+                    <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
                         Giảng viên
                     </h2>
                     <p className="text-lg text-muted-foreground leading-relaxed">

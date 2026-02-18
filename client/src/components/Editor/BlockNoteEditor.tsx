@@ -69,7 +69,7 @@ export default function Editor({ initialContent, onChange, editable = true, minH
                     font-size: 2.25rem !important; /* text-4xl */
                     line-height: 2.5rem !important;
                     font-weight: 700 !important;
-                    letter-spacing: -0.025em !important; /* tracking-tight */
+                    /* removed tracking-tight */
                     margin-bottom: 2rem !important; /* mb-8 */
                     margin-top: 0 !important;
                     padding-top: 0.25rem !important;

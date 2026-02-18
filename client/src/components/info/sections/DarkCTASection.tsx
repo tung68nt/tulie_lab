@@ -33,7 +33,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                             {section.tag || "Ưu đãi có hạn"}
                         </SectionTag>
 
-                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold mb-8 leading-[1.05] text-white tracking-tighter">
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold mb-8 leading-[1.05] text-white">
                             {section.title || "Sẵn sàng bứt phá thu nhập?"}
                         </h2>
 
@@ -66,7 +66,7 @@ export const DarkCTASection = ({ section, mainCourse }: { section: any; mainCour
                                 <div className="space-y-1">
                                     <p className="text-[10px] font-semibold text-primary">Học phí trọn gói</p>
                                     <div className="flex items-center gap-3">
-                                        <span className="text-4xl md:text-5xl font-semibold text-white tracking-tight flex items-baseline gap-1">
+                                        <span className="text-4xl md:text-5xl font-semibold text-white flex items-baseline gap-1">
                                             {mainCourse ? <>{new Intl.NumberFormat('vi-VN').format(mainCourse.salePrice || mainCourse.price || 0)}<sup className="text-2xl">đ</sup></> : 'LIÊN HỆ'}
                                         </span>
                                         {Boolean(mainCourse?.salePrice && mainCourse.price > mainCourse.salePrice) && (

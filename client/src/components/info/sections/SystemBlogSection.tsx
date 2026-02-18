@@ -113,7 +113,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                     <aside className="w-full lg:w-72 shrink-0 space-y-4 lg:sticky lg:top-24 lg:self-start">
                         {/* Search Bar */}
                         <div className="space-y-3">
-                            <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Tìm kiếm</h3>
+                            <h3 className="text-sm font-bold text-muted-foreground/80 px-2">Tìm kiếm</h3>
                             <div className="relative group">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/50 w-3.5 h-3.5 group-focus-within:text-primary transition-colors" />
                                 <input
@@ -126,7 +126,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
 
                         {/* Categories List */}
                         <div className="space-y-1">
-                            <h3 className="text-sm font-bold text-muted-foreground/80 px-2 tracking-tight">Chuyên mục</h3>
+                            <h3 className="text-sm font-bold text-muted-foreground/80 px-2">Chuyên mục</h3>
                             <nav className="flex flex-col gap-0.5">
                                 <button
                                     onClick={() => toggleCategory('all')}
@@ -213,7 +213,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                                                         />
                                                     ) : (
                                                         <div className="w-full h-full flex items-center justify-center bg-muted/50 text-muted-foreground/20">
-                                                            <div className="text-2xl font-bold tracking-tighter">The Lab</div>
+                                                            <div className="text-2xl font-bold">The Lab</div>
                                                         </div>
                                                     )}
                                                     {post.category && (
@@ -226,7 +226,7 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                                 </div>
                                                 <div className="flex flex-col flex-1 p-6 md:p-7 space-y-3">
-                                                    <h2 className="text-xl md:text-2xl font-bold leading-snug tracking-tight group-hover:text-primary transition-colors line-clamp-2">
+                                                    <h2 className="text-xl md:text-2xl font-bold leading-snug group-hover:text-primary transition-colors line-clamp-2">
                                                         {post.title}
                                                     </h2>
                                                     <p className="text-[14px] md:text-[15px] text-muted-foreground line-clamp-3 leading-relaxed font-normal flex-1">

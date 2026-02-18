@@ -78,9 +78,9 @@ Tất cả heading (`h1`→`h4`) có thêm `pb-[0.15em] -mb-[0.15em]` để tạ
 ### Quy tắc bắt buộc
 
 - ⛔ **Font weight tối đa `700`** — KHÔNG dùng `font-extrabold` (800) hay `font-black` (900)
-- ⛔ **KHÔNG dùng `uppercase`** — bất kỳ đâu, kể cả heading, label, button, badge
+- ⛔ **KHÔNG dùng `uppercase`** — bất kỳ đâu, kể cả heading, label, button, badge, nav, tab, sidebar
 - ⛔ **KHÔNG dùng `italic`** — bất kỳ đâu, kể cả text nhấn mạnh
-- ⛔ **KHÔNG dùng `letter-spacing`** cho heading
+- ⛔ **KHÔNG dùng `letter-spacing`** — bất kỳ đâu, kể cả heading, label, button, badge, sidebar. Không `tracking-wide`, `tracking-widest`, `letter-spacing: 0.05em` etc.
 - Font weight khuyến nghị: `500-600` cho heading, `400-500` cho body, `700` chỉ cho `h4`
 
 ---
@@ -474,7 +474,7 @@ Card hover: `translateY(-6px) scale(1.01)` + shadow increase
 - ❌ Dùng `uppercase` / `text-transform: uppercase` — **bất kỳ đâu**
 - ❌ Dùng `italic` / `font-style: italic` — **bất kỳ đâu**
 - ❌ Dùng font-weight > `700` (`font-extrabold`, `font-black`) — **tối đa `700`**
-- ❌ Dùng `letter-spacing` cho heading
+- ❌ Dùng `letter-spacing` bất kỳ đâu (heading, button, label, badge, sidebar…)
 - ❌ Dùng padding không nhất quán giữa các card
 - ❌ Dùng `shadow` inline — dùng `--shadow-*` tokens
 - ❌ Tự viết animation mới khi đã có sẵn (float, breathe, pulse-slow)

@@ -1,25 +1,26 @@
+name: tulie_academy
 services:
   postgres:
     image: postgres:15-alpine
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_postgres
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_postgres
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-tulie}
+      POSTGRES_USER: ${POSTGRES_USER:-tulie_academy}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
-      POSTGRES_DB: ${POSTGRES_DB:-academy_tulie}
+      POSTGRES_DB: ${POSTGRES_DB:-tulie_academy}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tulie} -d ${POSTGRES_DB:-academy_tulie}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tulie_academy} -d ${POSTGRES_DB:-tulie_academy}" ]
       interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_redis
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_redis
     restart: always
     command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
     volumes:
@@ -34,15 +35,15 @@ services:
 
   server:
     image: ghcr.io/tung68nt/tulie_lab_server:latest
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_server
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_server
     restart: always
     ports:
       - "${SERVER_PORT:-5001}:8080"
     environment:
       - NODE_ENV=production
       - PORT=8080
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-tulie}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-academy_tulie}
-      - DIRECT_URL=postgresql://${POSTGRES_USER:-tulie}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-academy_tulie}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-tulie_academy}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-tulie_academy}
+      - DIRECT_URL=postgresql://${POSTGRES_USER:-tulie_academy}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-tulie_academy}
       - REDIS_URL=redis://redis:6379
       - CLIENT_URL=${CLIENT_URL:-https://thelab.tulie.vn}
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
@@ -75,7 +76,7 @@ services:
 
   client:
     image: ghcr.io/tung68nt/tulie_lab_client:latest
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie}_client
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_client
     restart: always
     expose:
       - "3000"

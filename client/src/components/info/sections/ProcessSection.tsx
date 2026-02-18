@@ -99,8 +99,8 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                                                     : "bg-card"
                                         )}>
                                             <h3 className={cn(
-                                                "text-xl font-bold mb-3 tracking-tight",
-                                                "text-xl font-bold mb-3 tracking-tight",
+                                                "text-xl font-bold mb-3",
+                                                "text-xl font-bold mb-3",
                                                 section.backgroundTheme === 'dark'
                                                     ? "text-white"
                                                     : section.backgroundTheme === 'light'

@@ -14,7 +14,7 @@ psql $DATABASE_URL -f production-migration.sql
 
 ### Option 3: Using Prisma CLI on production server
 ```bash
-cd /path/to/academy_tulie/server
+cd /path/to/tulie_academy/server
 cat ../production-migration.sql | npx prisma db execute --stdin
 ```
 
@@ -23,7 +23,7 @@ cat ../production-migration.sql | npx prisma db execute --stdin
 ### On Production Server:
 ```bash
 # 1. Navigate to project
-cd /path/to/academy_tulie
+cd /path/to/tulie_academy
 
 # 2. Pull latest code
 git pull origin main
