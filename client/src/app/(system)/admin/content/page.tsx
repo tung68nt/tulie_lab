@@ -242,7 +242,7 @@ export default function AdminContentPage() {
                                                                 max={sections.length}
                                                                 defaultValue={index + 1}
                                                                 key={`pos-${index}-${sections.map((s: Section) => s.id).join(',')}`}
-                                                                className="w-10 h-8 text-center text-xs font-semibold rounded-lg border border-border bg-muted text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring shrink-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                                className="w-9 h-9 text-center text-xs font-semibold rounded-full border border-input bg-background text-foreground transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 shrink-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                                 onKeyDown={(e) => {
                                                                     if (e.key === 'Enter') {
                                                                         e.currentTarget.blur();
