@@ -155,7 +155,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             </aside>
 
                             {/* Main content */}
-                            <main className="flex-1 p-6 md:p-8 bg-background overflow-y-auto">
+                            <main className="flex-1 p-6 md:p-8 bg-background overflow-y-auto" key={pathname}>
                                 <div className="mx-auto max-w-[1400px]">
                                     {children}
                                 </div>

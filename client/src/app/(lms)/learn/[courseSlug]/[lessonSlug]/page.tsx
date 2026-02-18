@@ -39,6 +39,7 @@ export default async function LearnPage({ params }: LearnPageProps) {
 
                 {/* Client Component handles auth, secure content, and interactivity */}
                 <LearnClient
+                    key={lessonSlug}
                     course={course}
                     lessonSlug={lessonSlug}
                     courseSlug={courseSlug}
