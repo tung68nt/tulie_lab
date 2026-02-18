@@ -129,9 +129,9 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
 
                 {/* RESPONSIVE TABLE VIEW: Scrollable on mobile, Grid on desktop */}
                 <FadeIn direction="up" delay={0.4} duration={0.6}>
-                    <div className="overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide select-none">
+                    <div className="overflow-x-auto pb-6 -mx-4 px-4">
                         <div className={cn(
-                            "w-full border border-border rounded-[32px] overflow-hidden shadow-sm relative",
+                            "min-w-[800px] border border-border rounded-[32px] overflow-hidden shadow-sm relative",
                             section.backgroundTheme === 'dark' ? "bg-zinc-900/50" : (section.backgroundTheme === 'light' ? "bg-white dark:bg-zinc-900/50" : "bg-card/50")
                         )}>
                             {/* Table Header */}
