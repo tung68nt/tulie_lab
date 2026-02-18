@@ -223,8 +223,8 @@ function CollapsibleGroup({
                             key={link.href}
                             href={link.href}
                             className={`flex items-center px-3 py-1.5 rounded-md text-sm transition-all duration-500 w-full ${isActive(link.href, link.exact)
-                                ? 'bg-secondary text-secondary-foreground font-semibold'
-                                : 'text-muted-foreground hover:bg-muted hover:text-foreground font-semibold'
+                                ? 'bg-secondary text-secondary-foreground font-medium'
+                                : 'text-muted-foreground hover:bg-muted hover:text-foreground font-medium'
                                 }`}
                         >
                             {link.label}
