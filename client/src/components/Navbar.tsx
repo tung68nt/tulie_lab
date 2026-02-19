@@ -97,13 +97,18 @@ export function Navbar() {
         }
     };
 
-    // Close mobile menu on route change
+    // Close menus on route change
     useEffect(() => {
         setMobileMenuOpen(false);
+        setDropdownOpen(false);
+        setActiveDropdown(null);
     }, [pathname]);
+
+    // ... (rest of logout handler)
 
     const handleLogout = async () => {
         try {
+            // No need to manually close state here if redirecting, but safe to keep for immediate feedback
             setMobileMenuOpen(false);
             setDropdownOpen(false);
             await logout();
@@ -251,7 +256,6 @@ export function Navbar() {
                                                                 rel={child.isExternal ? 'noopener noreferrer' : undefined}
                                                                 className={`block px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
                                                                     }`}
-                                                                onClick={() => setActiveDropdown(null)}
                                                             >
                                                                 {child.label}
                                                             </Link>
@@ -429,44 +433,44 @@ export function Navbar() {
                                             </div>
                                             <div className="p-2 space-y-0.5">
                                                 {isAdmin && (
-                                                    <Link href="/admin" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                    <Link href="/admin" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                         <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                             <Rocket size={14} />
                                                         </div>
                                                         Quản trị hệ thống
                                                     </Link>
                                                 )}
-                                                <Link href="/whiteboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/whiteboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Palette size={14} />
                                                     </div>
                                                     Bảng trắng
                                                 </Link>
-                                                <Link href="/dashboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/dashboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <BookOpen size={14} />
                                                     </div>
                                                     Khoá học của tôi
                                                 </Link>
-                                                <Link href="/my-products" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/my-products" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Package size={14} />
                                                     </div>
                                                     Sản phẩm số của tôi
                                                 </Link>
-                                                <Link href="/profile" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/profile" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <User size={14} />
                                                     </div>
                                                     Hồ sơ của tôi
                                                 </Link>
-                                                <Link href="/activate" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/activate" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Key size={14} />
                                                     </div>
                                                     Kích hoạt bằng mã
                                                 </Link>
-                                                <Link href="/orders" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors" onClick={() => setDropdownOpen(false)}>
+                                                <Link href="/orders" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <FileText size={14} />
                                                     </div>
@@ -548,7 +552,6 @@ export function Navbar() {
                                                             ? 'text-primary font-semibold bg-primary/5'
                                                             : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                                                             }`}
-                                                        onClick={() => setMobileMenuOpen(false)}
                                                     >
                                                         {child.label}
                                                     </Link>
@@ -566,9 +569,6 @@ export function Navbar() {
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
                                     className={`block py-3 px-4 text-base font-bold rounded-lg transition-colors ${isActive ? 'bg-muted text-foreground' : 'text-foreground/80 hover:bg-muted'}`}
-                                    onClick={(e) => {
-                                        setMobileMenuOpen(false);
-                                    }}
                                 >
                                     {link.label}
                                 </Link>
@@ -593,10 +593,10 @@ export function Navbar() {
                                     <p className="text-sm text-muted-foreground">Đăng nhập để tiếp tục hành trình học tập.</p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                                    <Link href="/login">
                                         <Button as="div" variant="outline" className="w-full h-10">Đăng nhập</Button>
                                     </Link>
-                                    <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                                    <Link href="/register">
                                         <Button as="div" className="w-full h-10 shadow-none">Đăng ký</Button>
                                     </Link>
                                 </div>
@@ -655,26 +655,26 @@ export function Navbar() {
                     </div>
                     <div className="flex-1 overflow-y-auto py-2">
                         {isAdmin && (
-                            <Link href="/admin" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base font-medium hover:bg-muted transition-colors text-primary">
+                            <Link href="/admin" className="block px-4 py-2.5 text-base font-medium hover:bg-muted transition-colors text-primary">
                                 Quản trị hệ thống
                             </Link>
                         )}
-                        <Link href="/activate" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/activate" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Kích hoạt bằng mã
                         </Link>
-                        <Link href="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/profile" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Hồ sơ cá nhân
                         </Link>
-                        <Link href="/whiteboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/whiteboard" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Bảng trắng cộng tác
                         </Link>
-                        <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/dashboard" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Khoá học của tôi
                         </Link>
-                        <Link href="/my-products" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/my-products" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Sản phẩm số của tôi
                         </Link>
-                        <Link href="/orders" onClick={() => setDropdownOpen(false)} className="flex items-center justify-between px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/orders" className="flex items-center justify-between px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             <span className="flex items-center gap-2">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 Giỏ hàng / Đơn hàng

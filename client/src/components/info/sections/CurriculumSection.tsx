@@ -114,7 +114,7 @@ export const CurriculumSection = ({ section }: { section: Section }) => {
 
                                                         return (
                                                             <div key={i} className="flex items-start gap-3 group/lesson py-2 px-3 -ml-3 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors">
-                                                                <div className="mt-1 shrink-0">
+                                                                <div className="mt-0.5 shrink-0">
                                                                     <Icon className={cn(
                                                                         "w-5 h-5 transition-colors",
                                                                         iconColorClass
