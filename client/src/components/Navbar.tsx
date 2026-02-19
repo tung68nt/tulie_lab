@@ -183,19 +183,35 @@ export function Navbar() {
 
     // Moved early return logic to the end to prevent Hook violation
 
-    // Fetch dynamic menu from CMS
+    // Fetch dynamic menu from CMS with caching
     useEffect(() => {
         const fetchMenu = async () => {
             try {
+                // 1. Try to load from cache first
+                const cached = localStorage.getItem('navbar_menu_cache');
+                if (cached) {
+                    try {
+                        const parsedCache = JSON.parse(cached);
+                        if (Array.isArray(parsedCache) && parsedCache.length > 0) {
+                            setNavLinks(parsedCache);
+                        }
+                    } catch (e) {
+                        console.error('Failed to parse cached menu', e);
+                    }
+                }
+
+                // 2. Fetch fresh data
                 const data = await api.cms.get(['navbar_menu']) as any;
                 if (data?.navbar_menu) {
                     const parsed = JSON.parse(data.navbar_menu);
                     if (Array.isArray(parsed) && parsed.length > 0) {
                         setNavLinks(parsed);
+                        // 3. Update cache
+                        localStorage.setItem('navbar_menu_cache', JSON.stringify(parsed));
                     }
                 }
             } catch (error) {
-                console.log('Using default navbar menu');
+                console.log('Using default navbar menu (API failed)');
             }
         };
         fetchMenu();
