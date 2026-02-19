@@ -34,21 +34,7 @@ export function Navbar() {
         setTheme(theme === 'dark' ? 'light' : 'dark');
     };
 
-    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Click outside handler
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setDropdownOpen(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     // Fetch pending orders count when user is present
     useEffect(() => {
@@ -317,10 +303,16 @@ export function Navbar() {
                                 <>
                                     <NotificationMenu />
                                     {/* User Dropdown */}
-                                    <div className="relative ml-2" ref={dropdownRef}>
+                                    <div className="relative ml-2">
+                                        {dropdownOpen && (
+                                            <div
+                                                className="fixed inset-0 z-40 bg-transparent"
+                                                onClick={() => setDropdownOpen(false)}
+                                            />
+                                        )}
                                         <button
                                             onClick={() => setDropdownOpen(!dropdownOpen)}
-                                            className="flex items-center gap-2 hover:bg-muted/50 rounded-full pl-2 pr-1 py-1 transition-colors outline-none"
+                                            className="flex items-center gap-2 hover:bg-muted/50 rounded-full pl-2 pr-1 py-1 transition-colors outline-none relative z-50"
                                         >
                                             <div className="text-right hidden sm:block">
                                                 <div className="text-xs text-muted-foreground">Xin chào!</div>

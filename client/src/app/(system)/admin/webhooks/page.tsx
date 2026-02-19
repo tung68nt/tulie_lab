@@ -10,6 +10,7 @@ import { Input } from '@/components/Input';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { Clock, CircleAlert, Search, RefreshCcw, Copy, Save, Loader2, RefreshCw, Trash2, Webhook, Plus, CreditCard } from 'lucide-react';
 import { Switch } from '@/components/Switch';
+import { Label } from '@/components/Label';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
 export default function AdminWebhooksPage() {
@@ -203,7 +204,7 @@ export default function AdminWebhooksPage() {
                 <CardContent className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Tên ngân hàng</label>
+                            <Label>Tên ngân hàng</Label>
                             <Input
                                 value={bankConfig.bank_name || ''}
                                 onChange={(e) => handleConfigChange('bank_name', e.target.value)}
@@ -211,7 +212,7 @@ export default function AdminWebhooksPage() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Số tài khoản</label>
+                            <Label>Số tài khoản</Label>
                             <Input
                                 value={bankConfig.bank_account_no || ''}
                                 onChange={(e) => handleConfigChange('bank_account_no', e.target.value)}
@@ -219,7 +220,7 @@ export default function AdminWebhooksPage() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Chủ tài khoản</label>
+                            <Label>Chủ tài khoản</Label>
                             <Input
                                 value={bankConfig.bank_account_name || ''}
                                 onChange={(e) => handleConfigChange('bank_account_name', e.target.value)}
@@ -228,7 +229,7 @@ export default function AdminWebhooksPage() {
                         </div>
                     </div>
                     <div className="space-y-2 pt-2 border-t">
-                        <label className="text-sm font-medium">Cú pháp nội dung chuyển khoản</label>
+                        <Label>Cú pháp nội dung chuyển khoản</Label>
                         <Input
                             value={bankConfig.payment_transfer_syntax || ''}
                             onChange={(e) => handleConfigChange('payment_transfer_syntax', e.target.value)}
@@ -251,7 +252,7 @@ export default function AdminWebhooksPage() {
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <label className="text-sm font-semibold">Cấu hình Cổng thanh toán</label>
+                                <Label>Cấu hình Cổng thanh toán</Label>
                                 <p className="text-xs text-muted-foreground">Tự động đồng bộ giao dịch qua API/Webhook.</p>
                             </div>
                             <div className="flex gap-2">
@@ -323,7 +324,7 @@ export default function AdminWebhooksPage() {
                                         {gw.type === 'SEPAY' && (
                                             <>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-muted-foreground">SePay API Key</label>
+                                                    <Label className="text-xs text-muted-foreground">SePay API Key</Label>
                                                     <Input
                                                         type="password"
                                                         value={gw.config.apiKey || ''}
@@ -333,7 +334,7 @@ export default function AdminWebhooksPage() {
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-[10px] font-bold text-muted-foreground">Số tài khoản</label>
+                                                    <Label className="text-xs text-muted-foreground">Số tài khoản</Label>
                                                     <Input
                                                         value={gw.config.accountNumber || ''}
                                                         onChange={(e) => handleUpdateGatewayConfig(idx, 'accountNumber', e.target.value)}
@@ -376,71 +377,85 @@ export default function AdminWebhooksPage() {
                 <CardHeader>
                     <CardTitle className="text-lg">Cấu hình Webhook</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium">Webhook URL</label>
-                        <p className="text-xs text-muted-foreground">
+                <CardContent className="space-y-6">
+                    <div className="grid gap-2">
+                        <Label>Webhook URL</Label>
+                        <p className="text-[0.8rem] text-muted-foreground">
                             Sử dụng URL này để cấu hình Webhook từ cổng thanh toán.
                         </p>
                         <div className="flex items-center gap-2">
-                            <code className="bg-muted px-3 py-2 rounded text-sm font-mono font-semibold flex-1 border">
-                                {typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/payments/webhook` : '.../api/payments/webhook'}
-                            </code>
+                            <Input
+                                readOnly
+                                value={typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}/api/payments/webhook` : '.../api/payments/webhook'}
+                                className="font-mono text-sm bg-muted/50"
+                            />
                             <Button
                                 variant="outline"
-                                size="sm"
+                                size="icon"
                                 onClick={() => {
                                     const url = `${window.location.protocol}//${window.location.host}/api/payments/webhook`;
                                     navigator.clipboard.writeText(url);
                                     addToast('Đã sao chép Webhook URL', 'success');
                                 }}
+                                title="Sao chép"
                             >
-                                <Copy size={14} className="mr-2" /> Sao chép
+                                <Copy size={14} />
                             </Button>
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-2 pt-4 border-t">
-                        <label className="text-sm font-medium">API Key (Bảo mật)</label>
-                        <p className="text-xs text-muted-foreground">
+                    <div className="grid gap-2 pt-4 border-t">
+                        <Label>API Key (Bảo mật)</Label>
+                        <p className="text-[0.8rem] text-muted-foreground">
                             Sử dụng API Key này để xác thực webhook từ cổng thanh toán.
                         </p>
                         <div className="flex items-center gap-2">
-                            <code className="bg-muted px-3 py-2 rounded text-sm font-mono font-semibold flex-1 border">
-                                {apiKey ? (showApiKey ? apiKey : '••••••••••••••••••••') : 'Chưa tạo API Key'}
-                            </code>
+                            <div className="relative flex-1">
+                                <Input
+                                    type={showApiKey ? "text" : "password"}
+                                    readOnly
+                                    value={apiKey || ''}
+                                    placeholder="Chưa tạo API Key"
+                                    className="font-mono text-sm bg-muted/50 pr-20"
+                                />
+                                {apiKey && (
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="absolute right-0 top-0 h-full px-3 text-muted-foreground hover:text-foreground"
+                                        onClick={() => setShowApiKey(!showApiKey)}
+                                    >
+                                        {showApiKey ? 'Ẩn' : 'Hiện'}
+                                    </Button>
+                                )}
+                            </div>
+
                             {apiKey && (
                                 <Button
                                     variant="outline"
-                                    size="sm"
-                                    onClick={() => setShowApiKey(!showApiKey)}
-                                >
-                                    {showApiKey ? 'Ẩn' : 'Hiện'}
-                                </Button>
-                            )}
-                            {apiKey && (
-                                <Button
-                                    variant="outline"
-                                    size="sm"
+                                    size="icon"
                                     onClick={() => {
                                         navigator.clipboard.writeText(apiKey);
                                         addToast('Đã sao chép API Key', 'success');
                                     }}
+                                    title="Sao chép"
                                 >
                                     <Copy size={14} />
                                 </Button>
                             )}
                         </div>
-                        <Button
-                            variant={apiKey ? 'outline' : 'default'}
-                            size="sm"
-                            className="w-fit"
-                            onClick={handleRegenerateApiKey}
-                            disabled={regenerating}
-                        >
-                            {regenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                            {apiKey ? 'Tạo lại API Key' : 'Tạo API Key mới'}
-                        </Button>
+
+                        <div className="flex justify-start mt-2">
+                            <Button
+                                variant={apiKey ? "outline" : "default"}
+                                size="sm"
+                                onClick={handleRegenerateApiKey}
+                                disabled={regenerating}
+                            >
+                                {regenerating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+                                {apiKey ? 'Tạo lại API Key' : 'Tạo API Key mới'}
+                            </Button>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
@@ -454,7 +469,7 @@ export default function AdminWebhooksPage() {
                 <CardContent className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Số tiền (VND)</label>
+                            <Label>Số tiền (VND)</Label>
                             <Input
                                 type="number"
                                 value={qrAmount}
@@ -463,7 +478,7 @@ export default function AdminWebhooksPage() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Nội dung chuyển khoản</label>
+                            <Label>Nội dung chuyển khoản</Label>
                             <Input
                                 value={qrDescription}
                                 onChange={(e) => setQrDescription(e.target.value)}

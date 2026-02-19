@@ -29,7 +29,7 @@ export function MainLayout({ children }: MainLayoutProps) {
                 <ContentProtector />
             </Suspense>
             <Navbar />
-            <main className="flex-1" key={pathname}>
+            <main className="flex-1">
                 {children}
             </main>
             {!isLearnPage && !isWhiteboardEditor && <Footer />}
