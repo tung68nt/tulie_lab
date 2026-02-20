@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import NextTopLoader from 'nextjs-toploader';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { MainLayout } from '@/components/MainLayout';
@@ -103,6 +104,17 @@ export default async function RootLayout({
         )}
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
+        <NextTopLoader
+          color="hsl(var(--primary))"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow={false}
+        />
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID || "GTM-XXXXXX"}`}
