@@ -27,6 +27,13 @@
       "startedAt": "2026-02-16T20:26:37.570Z",
       "pausedAt": null,
       "totalPausedMs": 0
+    },
+    {
+      "taskId": "16jqwq",
+      "taskTitle": "Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx",
+      "startedAt": "2026-02-20T11:38:14.518Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
     }
   ]
 }

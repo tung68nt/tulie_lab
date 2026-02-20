@@ -53,3 +53,8 @@ scripts/check-db.ts
 scripts/get-api-key.ts
 github_actions_key
 github_actions_key.pub
+
+# VPS Setup scripts and credentials
+aapanel_credentials.md
+copy_ssh_key.exp
+setup_vps_nginx.sh
