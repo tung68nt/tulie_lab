@@ -531,12 +531,12 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "general-hero",
         type: "hero",
-        tag: "Xu hướng 2026",
-        title: "Vibe Coding: Lập trình bằng AI - Kỹ năng bắt buộc năm 2026",
-        subtitle: "Không cần học code truyền thống. Chỉ cần tư duy logic + AI = Bạn có thể xây dựng ứng dụng thực tế. Tulie TSS đồng hành 1:1 cùng bạn từ con số 0 đến sản phẩm hoàn chỉnh.",
+        tag: "Tulie TSS - Giải pháp Đào tạo & Công nghệ",
+        title: "Tối ưu hóa Hiệu suất. Khai mở Sáng tạo. Dẫn đầu Kỷ nguyên AI.",
+        subtitle: "Chúng tôi cung cấp hệ sinh thái toàn diện: Đào tạo ứng dụng AI thực chiến, Hệ thống Templates tự động hoá doanh nghiệp, và Các nền tảng ứng dụng sáng tạo chuyên biệt. Nhấn nút để khám phá giải pháp phù hợp với bạn.",
         image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
-        ctaText: "Khám phá khoá học",
-        ctaLink: "/courses",
+        ctaText: "Khám phá Dịch vụ",
+        ctaLink: "#services",
         isVisible: true,
         order: 1,
         backgroundImage: '',
@@ -547,14 +547,14 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "tulie-stats",
         type: "stats",
-        tag: "Cam kết",
-        title: "Tulie TSS - Đồng hành từ 0 đến sản phẩm",
-        subtitle: "Chúng tôi không chỉ dạy, chúng tôi cùng bạn làm",
+        tag: "Về Tulie TSS",
+        title: "Đồng hành cùng sự phát triển của bạn",
+        subtitle: "Không chỉ cung cấp công cụ, chúng tôi mang đến giải pháp thực tế giúp giải quyết triệt để bài toán tối ưu quy trình và tài nguyên.",
         items: [
-            { title: "Học viên", value: "500+", icon: "Users", description: "Đã tin tưởng và học tập" },
-            { title: "Tài nguyên", value: "50+", icon: "Package", description: "Templates & Scripts thực chiến" },
-            { title: "Khoá học", value: "5+", icon: "GraduationCap", description: "Lộ trình từ cơ bản đến nâng cao" },
-            { title: "Hỗ trợ 1:1", value: "100%", icon: "Headphones", description: "Cam kết đồng hành trọn khoá" }
+            { title: "Học viên & Doanh nghiệp", value: "500+", icon: "Users", description: "Đã tin tưởng ứng dụng giải pháp của chúng tôi" },
+            { title: "Hệ thống Templates", value: "50+", icon: "Database", description: "Sẵn sàng triển khai ngay lập tức" },
+            { title: "Nền tảng sáng tạo", value: "10+", icon: "Palette", description: "Whiteboard, Game, Quiz, TKB tích hợp sẵn" },
+            { title: "Hỗ trợ Kỹ thuật", value: "24/7", icon: "Headphones", description: "Cam kết đồng hành liên tục cùng khách hàng" }
         ],
         isVisible: true,
         order: 2,
@@ -563,99 +563,29 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         overlayOpacity: 0.6
     },
     {
-        id: "vibe-methodology",
-        type: "coding-methods",
-        tag: "Stages",
-        title: "5 Cấp độ xây dựng App với Vibe Coding",
-        subtitle: "Học cách làm chủ AI để tạo ra sản phẩm thực thụ",
-        rowConfig: [
-            { key: "feasibility", label: "Khả thi với Vibe Coding?", icon: "Check" },
-            { key: "goal", label: "Mục tiêu", icon: "Target" },
-            { key: "ai_usage", label: "Cách dùng AI (The Vibe)", icon: "Bot" },
-            { key: "data", label: "Dữ liệu (Data)", icon: "Database" },
-            { key: "limits", label: "Giới hạn", icon: "Ban" },
-            { key: "output", label: "Sản phẩm đầu ra (Thực tế)", icon: "Package" }
-        ],
+        id: "services",
+        type: "features",
+        tag: "Dịch vụ Cốt lõi",
+        title: "Hệ Sinh Thái Giải Pháp từ Tulie TSS",
+        subtitle: "3 Trụ cột chính giúp bạn vươn xa trong kỷ nguyên công nghệ số",
         items: [
             {
-                id: "level-1",
-                name: "Cấp độ 1: Chat & Ship",
-                subtitle: "(One-shot Prompting)",
-                icon: "MessageSquare",
-                color: "from-blue-400 to-blue-600",
-                time: "30 phút - 2 giờ",
-                stepsDetail: {
-                    feasibility: { detail: "✅ Rất dễ", status: "ok" },
-                    goal: { detail: "Làm cho vui/Demo. Xem ý tưởng hình hài ra sao.", status: "ok" },
-                    ai_usage: { detail: '"Đưa hết cho AI". Ra 1 lệnh dài, AI trả về 1 cục code. Hỏng thì tạo lại cái mới.', status: "ok" },
-                    data: { detail: "Dữ liệu cứng (Fake). Tất cả tab đi là mất hết.", status: "ok" },
-                    limits: { detail: 'Chỉ dùng được 1 lần, khó sửa đổi sâu. App "chết" (tĩnh).', status: "warn" },
-                    output: { detail: "Máy tính, Game đơn giản (Snake, Caro), Thiệp nhạc.", status: "ok" }
-                }
+                title: "1. Đào tạo Ứng dụng AI (Vibe Coding)",
+                description: "Khóa học thực chiến giúp bạn biến ý tưởng thành ứng dụng thực tế, tạo ảnh, video, website và landing page bằng AI. Không cần nền tảng lập trình, chỉ cần tư duy logic.",
+                icon: "BrainCircuit",
+                link: "/p/dao-tao-ai"
             },
             {
-                id: "level-2",
-                name: "Cấp độ 2: Vẽ rồi Code",
-                subtitle: "(Iterative Prompting)",
-                icon: "Palette",
-                color: "from-purple-400 to-purple-600",
-                time: "2-6 giờ",
-                stepsDetail: {
-                    feasibility: { detail: "✅ Dễ", status: "ok" },
-                    goal: { detail: "Làm cho đẹp. Giao diện đúng ý, đúng màu thương hiệu.", status: "ok" },
-                    ai_usage: { detail: '"Vừa nhìn vừa sửa". Ra lệnh -> Xem kết quả -> Khoanh vùng chỗ sai bảo AI sửa lại (In-painting/Edit).', status: "ok" },
-                    data: { detail: "Dữ liệu giả định dạng JSON. Nhìn như thật nhưng chưa lưu.", status: "ok" },
-                    limits: { detail: 'Đẹp nhưng "rỗng ruột". Chỉ có bề ngoài (Frontend).', status: "warn" },
-                    output: { detail: "Landing Page, Portfolio, Dashboard mẫu (UI Kit).", status: "ok" }
-                }
+                title: "2. Google Sheets & App Scripts",
+                description: "Chấm dứt việc nhập liệu thủ công. Hệ thống Templates quản trị, tự động hóa quy trình nghiệp vụ chuyên sâu, dễ dàng tuỳ biến cho mọi quy mô.",
+                icon: "FileSpreadsheet",
+                link: "/p/templates-tools"
             },
             {
-                id: "level-3",
-                name: "Cấp độ 3: Ghép Lego",
-                subtitle: "(Data Integration)",
-                icon: "Layers",
-                color: "from-green-400 to-green-600",
-                time: "1-3 ngày",
-                stepsDetail: {
-                    feasibility: { detail: "✅ Trung bình", status: "ok" },
-                    goal: { detail: "Làm cho chạy. Lưu được thông tin, tính toán đúng.", status: "ok" },
-                    ai_usage: { detail: '"Ghép não cho AI". Yêu cầu AI viết các hàm xử lý (API) để nối với Database (Supabase/Firebase).', status: "ok" },
-                    data: { detail: "Database thật: Biết tạo bảng (Table), biết quan hệ (Relation) giữa User và Bài viết.", status: "ok" },
-                    limits: { detail: "Có thể chạy sai logic nếu Prompt không chặt chẽ.", status: "warn" },
-                    output: { detail: "App To-Do, App Chat nội bộ, Blog cá nhân, CMS nhỏ.", status: "ok" }
-                }
-            },
-            {
-                id: "level-4",
-                name: "Cấp độ 4: Viết Kế Hoạch Chi Tiết",
-                subtitle: "(Modular Coding)",
-                icon: "FileText",
-                color: "from-orange-400 to-orange-600",
-                time: "1-2 tuần",
-                stepsDetail: {
-                    feasibility: { detail: "⚠️ Khó (Cần kỹ năng chia nhỏ)", status: "warn" },
-                    goal: { detail: "Làm cho gọn. Code dễ sửa, dễ nâng cấp về sau.", status: "ok" },
-                    ai_usage: { detail: '"Quản lý nhân sự AI". Bảo AI: "Tạo file A làm việc này, file B làm việc kia". Không code chung 1 file.', status: "ok" },
-                    data: { detail: "Luồng dữ liệu (Flow): Kiểm soát dữ liệu nạp vào/lấy ra chặt chẽ, tránh lỗi logic.", status: "ok" },
-                    limits: { detail: "Đòi hỏi người dùng phải hiểu cấu trúc thư mục code.", status: "warn" },
-                    output: { detail: "Hệ thống SaaS nhỏ: Công cụ Marketing, CRM cho công ty nhỏ, Web đặt lịch.", status: "ok" }
-                }
-            },
-            {
-                id: "level-5",
-                name: "Cấp độ 5: Làm Chuyên Nghiệp",
-                subtitle: "(MVP Launch)",
-                icon: "Rocket",
-                color: "from-indigo-400 to-indigo-600",
-                time: "3-8 tuần",
-                stepsDetail: {
-                    feasibility: { detail: "⚠️ Rất khó (Cần tư duy Product)", status: "warn" },
-                    goal: { detail: "Làm để bán/Dùng thật. Ổn định, ít lỗi, có người dùng thật.", status: "ok" },
-                    ai_usage: { detail: '"Tổng công trình sư". Dùng AI để: Viết code + Viết test + Scan lỗi bảo mật + Tối ưu SEO.', status: "ok" },
-                    data: { detail: "Bảo vệ dữ liệu: Phân quyền (AI xem được cái gì), Sao lưu dữ liệu (Backup).", status: "ok" },
-                    limits: { detail: "Cần kiến thức về triển khai (Deploy), tên miền, chi phí server.", status: "warn" },
-                    output: { detail: "Startup công nghệ: Sàn TMĐT ngách, App học tập, Mạng xã hội nội bộ.", status: "ok" }
-                }
+                title: "3. Nền tảng Ứng dụng Sáng tạo",
+                description: "Hệ thống Whiteboard làm việc nhóm, Game hóa giáo dục, Trắc nghiệm online, công cụ tạo Thời khóa biểu thông minh đáp ứng mọi nhu cầu đổi mới sáng tạo.",
+                icon: "Shapes",
+                link: "/p/ung-dung-sang-tao"
             }
         ],
         isVisible: true,
@@ -665,48 +595,27 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         overlayOpacity: 0.6
     },
     {
+        id: "trust-indicators",
+        type: "testimonials",
+        tag: "Khách hàng nói gì",
+        title: "Chạm đúng 'pain point' - Mang lại kết quả thực",
+        subtitle: "Đừng để sự thiếu sót về công nghệ kìm hãm tốc độ phát triển của bạn.",
+        backgroundImage: 'https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80&w=2070',
+        backgroundTheme: 'light',
+        overlayOpacity: 0.6,
+        order: 4,
+        isVisible: true
+    },
+    {
         id: "general-cta",
         type: "cta",
-        tag: "Action",
-        title: "Sẵn sàng nâng tầm kỹ năng của bạn?",
-        subtitle: "Khám phá ngay các khoá học và bộ công cụ giúp bạn bứt phá trong kỷ nguyên AI.",
-        ctaText: "Xem tất cả Khoá học",
-        ctaLink: "/courses",
+        tag: "Liên hệ ngay",
+        title: "Sẵn sàng chuyển đổi số cùng Tulie TSS?",
+        subtitle: "Đội ngũ chuyên gia của chúng tôi luôn sẵn sàng lắng nghe và tư vấn giải pháp phù hợp nhất với nguồn lực của bạn.",
+        ctaText: "Liên hệ tư vấn miễn phí",
+        ctaLink: "/contact",
         isVisible: true,
-        order: 4,
-        backgroundImage: '',
-        backgroundTheme: 'light',
-        overlayOpacity: 0.6
-    },
-    {
-        id: "video-intro",
-        type: "video",
-        title: "Video Giới Thiệu",
-        tag: "Intro",
-        subtitle: "Xem video để hiểu rõ hơn về phương pháp Vibe Coding",
-        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Replace with actual video
-        mediaAspectRatio: "16/9",
-        animation: "fade-up",
         order: 5,
-        isVisible: true,
-        backgroundImage: '',
-        backgroundTheme: 'light',
-        overlayOpacity: 0.6
-    },
-    {
-        id: "gallery-showcase",
-        type: "gallery",
-        title: "Thư Viện Ảnh",
-        tag: "Gallery",
-        subtitle: "Một số hình ảnh hoạt động tại The Tulie Lab",
-        items: [
-            { title: "Workshop Offline", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800", description: "Buổi offline chia sẻ kinh nghiệm." },
-            { title: "Team Building", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800", description: "Hoạt động gắn kết thành viên." },
-            { title: "Lớp học Zoom", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800", description: "Học trực tuyến hàng tuần." }
-        ],
-        appearance: "glass",
-        order: 6,
-        isVisible: true,
         backgroundImage: '',
         backgroundTheme: 'light',
         overlayOpacity: 0.6

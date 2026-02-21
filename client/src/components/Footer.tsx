@@ -35,11 +35,11 @@ interface FooterData {
 const defaultFooterData: FooterData = {
     companyName: 'CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE',
     tagline: 'Giải pháp đào tạo và phát triển năng lực với AI',
-    address: 'Tầng 2 Tòa A Chelsea Residences, 48 Trần Kim Xuyến, Cầu Giấy, Hà Nội',
-    phone: '0978.863.775',
-    email: 'support@tulielab.vn',
+    address: 'Tầng 4, Tòa nhà SHG, Số 8 Quang Trung, Phường Hà Đông, TP Hà Nội, Việt Nam',
+    phone: '098.898.4554',
+    email: 'info@tulie.vn',
     taxId: '0110163102',
-    logoUrl: '',
+    logoUrl: 'https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev/uploads/1767674831160-510937521.png',
     quickLinks: [
 
         { label: 'Các khóa học', href: '/courses' },

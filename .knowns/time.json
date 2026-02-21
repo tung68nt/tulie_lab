@@ -1,13 +1,6 @@
 {
   "active": [
     {
-      "taskId": "bnwehz",
-      "taskTitle": "Fix Whiteboard Critical Bugs - DOM Testing & Auto Loop Fix",
-      "startedAt": "2026-02-07T17:52:19.515Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
-    },
-    {
       "taskId": "i84n3i",
       "taskTitle": "Comprehensive Whiteboard Stabilization & Audit",
       "startedAt": "2026-02-10T17:34:04.919Z",
@@ -29,9 +22,9 @@
       "totalPausedMs": 0
     },
     {
-      "taskId": "16jqwq",
-      "taskTitle": "Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx",
-      "startedAt": "2026-02-20T11:38:14.518Z",
+      "taskId": "bnwehz",
+      "taskTitle": "Fix Whiteboard Critical Bugs - DOM Testing & Auto Loop Fix",
+      "startedAt": "2026-02-21T04:57:52.988Z",
       "pausedAt": null,
       "totalPausedMs": 0
     }

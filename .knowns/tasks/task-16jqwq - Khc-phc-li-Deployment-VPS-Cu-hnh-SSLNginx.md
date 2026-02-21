@@ -1,7 +1,7 @@
 ---
 id: 16jqwq
 title: Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx
-status: in-progress
+status: done
 priority: high
 labels:
   - deploy
@@ -9,8 +9,8 @@ labels:
   - ssl
   - nginx
 createdAt: '2026-02-20T11:36:14.329Z'
-updatedAt: '2026-02-20T12:52:28.288Z'
-timeSpent: 0
+updatedAt: '2026-02-21T04:57:53.305Z'
+timeSpent: 54959
 assignee: '@me'
 ---
 # Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx
@@ -36,5 +36,9 @@ Provided aaPanel instructions to user. Waiting for them to perform the manual st
 Đã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.
 
 Reopened: User reported 'public.User does not exist' error and missing loading bar.
+
+Fix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar.
+
+Reopened to configure admin account for the new database. Successfully seeded admin user and verified login.
 <!-- SECTION:NOTES:END -->
 

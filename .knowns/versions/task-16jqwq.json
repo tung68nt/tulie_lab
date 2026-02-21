@@ -1,6 +1,6 @@
 {
   "taskId": "16jqwq",
-  "currentVersion": 5,
+  "currentVersion": 10,
   "versions": [
     {
       "id": "v1",
@@ -243,6 +243,211 @@
           }
         ],
         "implementationNotes": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar."
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "16jqwq",
+      "version": 6,
+      "timestamp": "2026-02-21T02:52:20.985Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.",
+          "newValue": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar."
+        }
+      ],
+      "snapshot": {
+        "title": "Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx",
+        "description": "Rà soát lại toàn bộ hệ thống, xử lý lỗi 502 Bad Gateway trên Nginx (aaPanel) và cài đặt SSL để đảm bảo website thelab.tulie.vn truy cập thành công.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deploy",
+          "vps",
+          "ssl",
+          "nginx"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "VPS Nginx proxy đúng về port 3001 (client) và 5001 (api)"
+          },
+          {
+            "completed": true,
+            "text": "SSL Let's Encrypt được cài đặt và tự động renew"
+          },
+          {
+            "completed": true,
+            "text": "Truy cập https://thelab.tulie.vn thành công, không bị lỗi 502 hay SSL"
+          }
+        ],
+        "implementationNotes": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar."
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "16jqwq",
+      "version": 7,
+      "timestamp": "2026-02-21T02:52:46.212Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "title": "Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx",
+        "description": "Rà soát lại toàn bộ hệ thống, xử lý lỗi 502 Bad Gateway trên Nginx (aaPanel) và cài đặt SSL để đảm bảo website thelab.tulie.vn truy cập thành công.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deploy",
+          "vps",
+          "ssl",
+          "nginx"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "VPS Nginx proxy đúng về port 3001 (client) và 5001 (api)"
+          },
+          {
+            "completed": true,
+            "text": "SSL Let's Encrypt được cài đặt và tự động renew"
+          },
+          {
+            "completed": true,
+            "text": "Truy cập https://thelab.tulie.vn thành công, không bị lỗi 502 hay SSL"
+          }
+        ],
+        "implementationNotes": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar."
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "16jqwq",
+      "version": 8,
+      "timestamp": "2026-02-21T04:56:24.931Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "done",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "title": "Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx",
+        "description": "Rà soát lại toàn bộ hệ thống, xử lý lỗi 502 Bad Gateway trên Nginx (aaPanel) và cài đặt SSL để đảm bảo website thelab.tulie.vn truy cập thành công.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deploy",
+          "vps",
+          "ssl",
+          "nginx"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "VPS Nginx proxy đúng về port 3001 (client) và 5001 (api)"
+          },
+          {
+            "completed": true,
+            "text": "SSL Let's Encrypt được cài đặt và tự động renew"
+          },
+          {
+            "completed": true,
+            "text": "Truy cập https://thelab.tulie.vn thành công, không bị lỗi 502 hay SSL"
+          }
+        ],
+        "implementationNotes": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar."
+      }
+    },
+    {
+      "id": "v9",
+      "taskId": "16jqwq",
+      "version": 9,
+      "timestamp": "2026-02-21T04:56:25.592Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar.",
+          "newValue": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar.\n\nReopened to configure admin account for the new database. Successfully seeded admin user and verified login."
+        }
+      ],
+      "snapshot": {
+        "title": "Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx",
+        "description": "Rà soát lại toàn bộ hệ thống, xử lý lỗi 502 Bad Gateway trên Nginx (aaPanel) và cài đặt SSL để đảm bảo website thelab.tulie.vn truy cập thành công.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deploy",
+          "vps",
+          "ssl",
+          "nginx"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "VPS Nginx proxy đúng về port 3001 (client) và 5001 (api)"
+          },
+          {
+            "completed": true,
+            "text": "SSL Let's Encrypt được cài đặt và tự động renew"
+          },
+          {
+            "completed": true,
+            "text": "Truy cập https://thelab.tulie.vn thành công, không bị lỗi 502 hay SSL"
+          }
+        ],
+        "implementationNotes": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar.\n\nReopened to configure admin account for the new database. Successfully seeded admin user and verified login."
+      }
+    },
+    {
+      "id": "v10",
+      "taskId": "16jqwq",
+      "version": 10,
+      "timestamp": "2026-02-21T04:57:45.494Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "title": "Khắc phục lỗi Deployment VPS & Cấu hình SSL/Nginx",
+        "description": "Rà soát lại toàn bộ hệ thống, xử lý lỗi 502 Bad Gateway trên Nginx (aaPanel) và cài đặt SSL để đảm bảo website thelab.tulie.vn truy cập thành công.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deploy",
+          "vps",
+          "ssl",
+          "nginx"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "VPS Nginx proxy đúng về port 3001 (client) và 5001 (api)"
+          },
+          {
+            "completed": true,
+            "text": "SSL Let's Encrypt được cài đặt và tự động renew"
+          },
+          {
+            "completed": true,
+            "text": "Truy cập https://thelab.tulie.vn thành công, không bị lỗi 502 hay SSL"
+          }
+        ],
+        "implementationNotes": "Provided aaPanel instructions to user. Waiting for them to perform the manual steps.\n\nĐã truy cập aaPanel cấu hình SSL, cài Docker và khởi chạy thành công container client & server. Website thelab.tulie.vn đã hoạt động có HTTPS.\n\nReopened: User reported 'public.User does not exist' error and missing loading bar.\n\nFix VPS database missing tables, loaded seed data, updated GitHub Actions to fix origin & permissions, successfully deployed and verified client loading bar.\n\nReopened to configure admin account for the new database. Successfully seeded admin user and verified login."
       }
     }
   ]

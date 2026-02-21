@@ -1,0 +1,211 @@
+{
+  "taskId": "2t8zc5",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "2t8zc5",
+      "version": 1,
+      "timestamp": "2026-02-21T17:08:41.871Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Cập nhật Logo chuẩn r2.dev",
+              "completed": false
+            },
+            {
+              "text": "Cập nhật Favicon chuẩn r2.dev",
+              "completed": false
+            },
+            {
+              "text": "Sửa tên thương hiệu thành Tulie TSS",
+              "completed": false
+            },
+            {
+              "text": "Cập nhật Địa chỉ, SĐT, Email công ty ở Footer/Contact",
+              "completed": false
+            },
+            {
+              "text": "Nội dung DV1: Đào tạo ứng dụng AI (vibecoding, tạo ảnh/video/web)",
+              "completed": false
+            },
+            {
+              "text": "Nội dung DV2: Templates Google Sheets & App Scripts",
+              "completed": false
+            },
+            {
+              "text": "Nội dung DV3: Ứng dụng sáng tạo (Whiteboard, Game, Quiz, TKB)",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Cập nhật nội dung chi tiết Website Tulie TSS",
+        "description": "Tổng hợp, biên tập thông tin chính xác, chuẩn SEO cho 3 mảng dịch vụ chính của Tulie TSS: 1. Đào tạo ứng dụng AI (vibecoding, tạo ảnh/video/web); 2. Bán template Google Sheets/App Scripts; 3. Ứng dụng sáng tạo (game, whiteboard, trắc nghiệm, TKB). Mục tiêu: Chạm pain point, touch point khách hàng, kích thích liên hệ/mua hàng.",
+        "status": "todo",
+        "priority": "high",
+        "labels": [
+          "content",
+          "seo",
+          "website"
+        ],
+        "acceptanceCriteria": [
+          {
+            "text": "Cập nhật Logo chuẩn r2.dev",
+            "completed": false
+          },
+          {
+            "text": "Cập nhật Favicon chuẩn r2.dev",
+            "completed": false
+          },
+          {
+            "text": "Sửa tên thương hiệu thành Tulie TSS",
+            "completed": false
+          },
+          {
+            "text": "Cập nhật Địa chỉ, SĐT, Email công ty ở Footer/Contact",
+            "completed": false
+          },
+          {
+            "text": "Nội dung DV1: Đào tạo ứng dụng AI (vibecoding, tạo ảnh/video/web)",
+            "completed": false
+          },
+          {
+            "text": "Nội dung DV2: Templates Google Sheets & App Scripts",
+            "completed": false
+          },
+          {
+            "text": "Nội dung DV3: Ứng dụng sáng tạo (Whiteboard, Game, Quiz, TKB)",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "2t8zc5",
+      "version": 2,
+      "timestamp": "2026-02-21T17:13:59.536Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Cập nhật Logo chuẩn r2.dev"
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật Favicon chuẩn r2.dev"
+            },
+            {
+              "completed": false,
+              "text": "Sửa tên thương hiệu thành Tulie TSS"
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật Địa chỉ, SĐT, Email công ty ở Footer/Contact"
+            },
+            {
+              "completed": false,
+              "text": "Nội dung DV1: Đào tạo ứng dụng AI (vibecoding, tạo ảnh/video/web)"
+            },
+            {
+              "completed": false,
+              "text": "Nội dung DV2: Templates Google Sheets & App Scripts"
+            },
+            {
+              "completed": false,
+              "text": "Nội dung DV3: Ứng dụng sáng tạo (Whiteboard, Game, Quiz, TKB)"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Cập nhật Logo chuẩn r2.dev"
+            },
+            {
+              "completed": true,
+              "text": "Cập nhật Favicon chuẩn r2.dev"
+            },
+            {
+              "completed": true,
+              "text": "Sửa tên thương hiệu thành Tulie TSS"
+            },
+            {
+              "completed": true,
+              "text": "Cập nhật Địa chỉ, SĐT, Email công ty ở Footer/Contact"
+            },
+            {
+              "completed": true,
+              "text": "Nội dung DV1: Đào tạo ứng dụng AI (vibecoding, tạo ảnh/video/web)"
+            },
+            {
+              "completed": true,
+              "text": "Nội dung DV2: Templates Google Sheets & App Scripts"
+            },
+            {
+              "completed": true,
+              "text": "Nội dung DV3: Ứng dụng sáng tạo (Whiteboard, Game, Quiz, TKB)"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Cập nhật Footer mặc định. Cập nhật Home Page. Seed 3 trang Landing Page thông tin tương ứng ở /p/dao-tao-ai, /p/templates-tools, và /p/ung-dung-sang-tao."
+        }
+      ],
+      "snapshot": {
+        "title": "Cập nhật nội dung chi tiết Website Tulie TSS",
+        "description": "Tổng hợp, biên tập thông tin chính xác, chuẩn SEO cho 3 mảng dịch vụ chính của Tulie TSS: 1. Đào tạo ứng dụng AI (vibecoding, tạo ảnh/video/web); 2. Bán template Google Sheets/App Scripts; 3. Ứng dụng sáng tạo (game, whiteboard, trắc nghiệm, TKB). Mục tiêu: Chạm pain point, touch point khách hàng, kích thích liên hệ/mua hàng.",
+        "status": "done",
+        "priority": "high",
+        "labels": [
+          "content",
+          "seo",
+          "website"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Cập nhật Logo chuẩn r2.dev"
+          },
+          {
+            "completed": true,
+            "text": "Cập nhật Favicon chuẩn r2.dev"
+          },
+          {
+            "completed": true,
+            "text": "Sửa tên thương hiệu thành Tulie TSS"
+          },
+          {
+            "completed": true,
+            "text": "Cập nhật Địa chỉ, SĐT, Email công ty ở Footer/Contact"
+          },
+          {
+            "completed": true,
+            "text": "Nội dung DV1: Đào tạo ứng dụng AI (vibecoding, tạo ảnh/video/web)"
+          },
+          {
+            "completed": true,
+            "text": "Nội dung DV2: Templates Google Sheets & App Scripts"
+          },
+          {
+            "completed": true,
+            "text": "Nội dung DV3: Ứng dụng sáng tạo (Whiteboard, Game, Quiz, TKB)"
+          }
+        ],
+        "implementationNotes": "Cập nhật Footer mặc định. Cập nhật Home Page. Seed 3 trang Landing Page thông tin tương ứng ở /p/dao-tao-ai, /p/templates-tools, và /p/ung-dung-sang-tao."
+      }
+    }
+  ]
+}
