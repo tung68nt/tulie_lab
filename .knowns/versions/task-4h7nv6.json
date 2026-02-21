@@ -1,0 +1,104 @@
+{
+  "taskId": "4h7nv6",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "4h7nv6",
+      "version": 1,
+      "timestamp": "2026-02-21T17:33:21.262Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Cập nhật site_title và footer info",
+              "completed": true
+            },
+            {
+              "text": "Đổi tất cả The Tulie Lab thành Tulie TSS",
+              "completed": true
+            },
+            {
+              "text": "Chỉnh update-settings.ts thay đổi trong DB",
+              "completed": true
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Fix triệt để lỗi cũ hiển thị trên web"
+        }
+      ],
+      "snapshot": {
+        "title": "Cập nhật Navbar logo và Footer info bị thiếu",
+        "description": "Sửa text Navbar The Tulie Lab và thông tin Footer (địa chỉ, SĐT) do vẫn hiển thị thông tin cũ",
+        "status": "done",
+        "priority": "high",
+        "labels": [
+          "ui",
+          "bug"
+        ],
+        "acceptanceCriteria": [
+          {
+            "text": "Cập nhật site_title và footer info",
+            "completed": true
+          },
+          {
+            "text": "Đổi tất cả The Tulie Lab thành Tulie TSS",
+            "completed": true
+          },
+          {
+            "text": "Chỉnh update-settings.ts thay đổi trong DB",
+            "completed": true
+          }
+        ],
+        "implementationNotes": "Fix triệt để lỗi cũ hiển thị trên web"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "4h7nv6",
+      "version": 2,
+      "timestamp": "2026-02-21T17:46:41.825Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Fix triệt để lỗi cũ hiển thị trên web",
+          "newValue": "Fix triệt để lỗi cũ hiển thị trên web\n\nĐã sửa lại Brand là The Tulie Lab và pháp nhân là Tulie TSS theo feedback."
+        }
+      ],
+      "snapshot": {
+        "title": "Cập nhật Navbar logo và Footer info bị thiếu",
+        "description": "Sửa text Navbar The Tulie Lab và thông tin Footer (địa chỉ, SĐT) do vẫn hiển thị thông tin cũ",
+        "status": "done",
+        "priority": "high",
+        "labels": [
+          "ui",
+          "bug"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Cập nhật site_title và footer info"
+          },
+          {
+            "completed": true,
+            "text": "Đổi tất cả The Tulie Lab thành Tulie TSS"
+          },
+          {
+            "completed": true,
+            "text": "Chỉnh update-settings.ts thay đổi trong DB"
+          }
+        ],
+        "implementationNotes": "Fix triệt để lỗi cũ hiển thị trên web\n\nĐã sửa lại Brand là The Tulie Lab và pháp nhân là Tulie TSS theo feedback."
+      }
+    }
+  ]
+}

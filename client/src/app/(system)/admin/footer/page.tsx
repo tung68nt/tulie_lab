@@ -37,15 +37,14 @@ interface FooterData {
 }
 
 const defaultFooterData: FooterData = {
-    companyName: 'The Tulie Lab',
+    companyName: 'CÔNG TY TNHH DỊCH VỤ VÀ GIẢI PHÁP CÔNG NGHỆ TULIE',
     tagline: 'Giải pháp đào tạo và phát triển năng lực với AI',
-    address: 'Tầng 2 Tòa A Chelsea Residences, 48 Trần Kim Xuyến, Cầu Giấy, Hà Nội',
-    phone: '0978.863.775',
-    email: 'support@tulielab.vn',
-    taxId: '',
-    logoUrl: '/images/logo.png',
+    address: 'Tầng 4, Tòa nhà SHG, Số 8 Quang Trung, Phường Hà Đông, TP Hà Nội, Việt Nam',
+    phone: '098.898.4554',
+    email: 'info@tulie.vn',
+    taxId: '0110163102',
+    logoUrl: 'https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev/uploads/1767674831160-510937521.png',
     quickLinks: [
-        { label: 'Về chúng tôi', href: '/about' },
         { label: 'Các khóa học', href: '/courses' },
         { label: 'Giảng viên', href: '/instructors' },
         { label: 'Blog & Bài viết', href: '/blog' },
@@ -61,11 +60,10 @@ const defaultFooterData: FooterData = {
         { platform: 'Facebook', url: 'https://facebook.com/tulielab', icon: 'facebook' },
         { platform: 'YouTube', url: 'https://youtube.com/@tulielab', icon: 'youtube' },
         { platform: 'LinkedIn', url: 'https://linkedin.com/company/tulielab', icon: 'linkedin' },
-        { platform: 'TikTok', url: 'https://tiktok.com/@tulielab', icon: 'tiktok' },
     ],
     certificationImage: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Bo_Cong_Thuong_Vietnam.svg/200px-Bo_Cong_Thuong_Vietnam.svg.png',
     certificationLink: 'http://online.gov.vn/',
-    copyrightText: 'The Tulie Lab. Bảo lưu mọi quyền.',
+    copyrightText: 'TULIE TSS. Bảo lưu mọi quyền.',
 };
 
 // Social Icons Helper

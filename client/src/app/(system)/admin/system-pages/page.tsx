@@ -94,13 +94,11 @@ export default function SystemPagesAdmin() {
                     <Card key={page.id}>
                         <CardContent className="px-6 py-4 flex items-center justify-between">
                             <div>
-                                <h3 className="font-bold text-lg m-0">{page.title}</h3>
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <span className="bg-muted px-2 py-0.5 rounded text-xs">/{page.slug}</span>
+                                <h3 className="font-semibold text-lg m-0 text-foreground">{page.title}</h3>
+                                <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                    <span className="bg-muted px-2 py-0.5 rounded text-xs font-medium border border-border">/{page.slug}</span>
                                     <span>•</span>
-                                    <span className={page.isActive ? 'text-green-600' : 'text-orange-500'}>
-                                        {page.isActive ? 'Đang hoạt động' : 'Đã ẩn'}
-                                    </span>
+                                    <span className="text-xs font-medium">{page.isActive ? 'Đang hoạt động' : 'Đã ẩn'}</span>
                                 </div>
                             </div>
                             <TableActions

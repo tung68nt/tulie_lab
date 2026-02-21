@@ -510,7 +510,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
 
                         <div className="relative z-10 pt-12 mt-12 border-t border-zinc-100 flex justify-between items-center">
                             <div className="space-y-0.5">
-                                <p className="text-[12px] font-medium text-[#71717a] tracking-tight">Hệ sinh thái Tulie TSS</p>
+                                <p className="text-[12px] font-medium text-[#71717a] tracking-tight">Hệ sinh thái The Tulie Lab</p>
                                 <p className="text-[12px] font-medium text-[#71717a] tracking-tight">tulie.vn</p>
                             </div>
                             <div className="text-right">

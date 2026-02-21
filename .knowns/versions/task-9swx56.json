@@ -1,0 +1,66 @@
+{
+  "taskId": "9swx56",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "9swx56",
+      "version": 1,
+      "timestamp": "2026-02-21T17:28:58.671Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Đồng bộ UI tag Trang thông tin và Landing Pages (dùng màu xám/neutral)",
+              "completed": true
+            },
+            {
+              "text": "Fix design.md thành chuẩn shadcn nguyên bản",
+              "completed": true
+            },
+            {
+              "text": "Fix components.html thành chuẩn shadcn nguyên bản",
+              "completed": true
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Đã fix toàn bộ theo đúng chuẩn shadcn/ui"
+        }
+      ],
+      "snapshot": {
+        "title": "Đồng bộ UI Admin Pages và shadcn/ui guidelines",
+        "description": "Đồng bộ giao diện tag status, slug giữa trang Landing Pages và Trang Thông Tin. Fix components.html và design.md theo đúng nguyên bản shadcn/ui",
+        "status": "done",
+        "priority": "medium",
+        "labels": [
+          "ui",
+          "admin"
+        ],
+        "acceptanceCriteria": [
+          {
+            "text": "Đồng bộ UI tag Trang thông tin và Landing Pages (dùng màu xám/neutral)",
+            "completed": true
+          },
+          {
+            "text": "Fix design.md thành chuẩn shadcn nguyên bản",
+            "completed": true
+          },
+          {
+            "text": "Fix components.html thành chuẩn shadcn nguyên bản",
+            "completed": true
+          }
+        ],
+        "implementationNotes": "Đã fix toàn bộ theo đúng chuẩn shadcn/ui"
+      }
+    }
+  ]
+}

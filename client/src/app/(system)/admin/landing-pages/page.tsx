@@ -94,8 +94,8 @@ export default function LandingPagesAdmin() {
                         <CardContent className="px-6 py-4 flex items-center justify-between">
                             <div>
                                 <h3 className="font-semibold text-lg m-0 text-foreground">{page.title}</h3>
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <span className="bg-muted px-2 py-0.5 rounded text-[10px] font-semibold border border-border">/{page.slug}</span>
+                                <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                    <span className="bg-muted px-2 py-0.5 rounded text-xs font-medium border border-border">/{page.slug}</span>
                                     <span>•</span>
                                     <span className="text-xs font-medium">{page.isActive ? 'Đang hoạt động' : 'Đã ẩn'}</span>
                                 </div>

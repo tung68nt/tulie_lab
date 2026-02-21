@@ -198,7 +198,7 @@ export const DEFAULT_ABOUT_PAGE_SECTIONS: Section[] = [
     {
         id: 'about-hero',
         type: 'hero',
-        title: 'Về the tulie lab',
+        title: 'Về The Tulie Lab',
         subtitle: 'Nơi biến người bình thường thành người xây dựng sản phẩm. Chúng tôi tin rằng ai cũng có thể tạo ra giá trị với công nghệ - chỉ cần đúng phương pháp và consultant phù hợp.',
         ctaText: 'Xem khoá học',
         ctaLink: '/courses',
@@ -227,7 +227,7 @@ Với AI như ChatGPT, Cursor, v0... bất kỳ ai có ý tưởng đều có th
 
 • Consultant hướng dẫn - Có người giúp debug khi gặp vấn đề thực tế
 
-The tulie lab cung cấp tất cả điều đó trong các khoá học thực hành, và hỗ trợ xuyên suốt.`,
+The Tulie Lab cung cấp tất cả điều đó trong các khoá học thực hành, và hỗ trợ xuyên suốt.`,
         image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop',
         backgroundImage: '',
         backgroundTheme: 'light',
@@ -310,7 +310,7 @@ export const DEFAULT_VIBE_CODING_SECTIONS: Section[] = [
         id: "vibe-hero",
         type: "hero",
         title: "Vibe coding - kỷ nguyên xây dựng sản phẩm mới",
-        subtitle: "The tulie lab tiên phong ứng dụng phương pháp vibe coding để giúp cá nhân và doanh nghiệp hiện thực hoá ý tưởng phần mềm chỉ bằng ngôn ngữ tự nhiên và tư duy hệ thống.",
+        subtitle: "The Tulie Lab tiên phong ứng dụng phương pháp vibe coding để giúp cá nhân và doanh nghiệp hiện thực hoá ý tưởng phần mềm chỉ bằng ngôn ngữ tự nhiên và tư duy hệ thống.",
         image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2070&auto=format&fit=crop",
         ctaText: "Tìm hiểu phương pháp",
         ctaLink: "#vibe-methodology",
@@ -531,7 +531,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "general-hero",
         type: "hero",
-        tag: "Tulie TSS - Giải pháp Đào tạo & Công nghệ",
+        tag: "The Tulie Lab - Giải pháp Đào tạo & Công nghệ",
         title: "Tối ưu hóa Hiệu suất. Khai mở Sáng tạo. Dẫn đầu Kỷ nguyên AI.",
         subtitle: "Chúng tôi cung cấp hệ sinh thái toàn diện: Đào tạo ứng dụng AI thực chiến, Hệ thống Templates tự động hoá doanh nghiệp, và Các nền tảng ứng dụng sáng tạo chuyên biệt. Nhấn nút để khám phá giải pháp phù hợp với bạn.",
         image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop",
@@ -547,7 +547,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
     {
         id: "tulie-stats",
         type: "stats",
-        tag: "Về Tulie TSS",
+        tag: "Về The Tulie Lab",
         title: "Đồng hành cùng sự phát triển của bạn",
         subtitle: "Không chỉ cung cấp công cụ, chúng tôi mang đến giải pháp thực tế giúp giải quyết triệt để bài toán tối ưu quy trình và tài nguyên.",
         items: [
@@ -566,7 +566,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         id: "services",
         type: "features",
         tag: "Dịch vụ Cốt lõi",
-        title: "Hệ Sinh Thái Giải Pháp từ Tulie TSS",
+        title: "Hệ Sinh Thái Giải Pháp từ The Tulie Lab",
         subtitle: "3 Trụ cột chính giúp bạn vươn xa trong kỷ nguyên công nghệ số",
         items: [
             {
@@ -610,7 +610,7 @@ export const DEFAULT_HOME_SECTIONS: Section[] = [
         id: "general-cta",
         type: "cta",
         tag: "Liên hệ ngay",
-        title: "Sẵn sàng chuyển đổi số cùng Tulie TSS?",
+        title: "Sẵn sàng chuyển đổi số cùng The Tulie Lab?",
         subtitle: "Đội ngũ chuyên gia của chúng tôi luôn sẵn sàng lắng nghe và tư vấn giải pháp phù hợp nhất với nguồn lực của bạn.",
         ctaText: "Liên hệ tư vấn miễn phí",
         ctaLink: "/contact",
@@ -629,7 +629,7 @@ export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
         type: "hero",
         tag: "Người đồng hành",
         title: "Gặp gỡ người sẽ đồng hành cùng bạn",
-        subtitle: "Tại Tulie TSS, bạn được học và hỗ trợ 1:1 bởi chính founder - người có kinh nghiệm thực chiến trong ngành công nghệ.",
+        subtitle: "Tại The Tulie Lab, bạn được học và hỗ trợ 1:1 bởi chính founder - người có kinh nghiệm thực chiến trong ngành công nghệ.",
         backgroundImage: '',
         backgroundTheme: 'light',
         overlayOpacity: 0.6,
@@ -641,7 +641,7 @@ export const DEFAULT_INSTRUCTORS_PAGE_SECTIONS: Section[] = [
         tag: 'Founder & Lead Instructor',
         title: 'Nguyễn Thanh Tùng',
         subtitle: 'Tiên phong Vibe Coding tại Việt Nam',
-        content: 'Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ.\n\n**10+ năm kinh nghiệm** trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp.\n\n**500+ học viên** đã được hướng dẫn từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.\n\n**Tiên phong** đưa phương pháp Vibe Coding vào Việt Nam từ 2024 - giúp những người không có background IT vẫn có thể xây dựng app chuyên nghiệp.\n\n*"Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai."*',
+        content: 'Founder của The Tulie Lab - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ.\n\n**10+ năm kinh nghiệm** trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp.\n\n**500+ học viên** đã được hướng dẫn từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.\n\n**Tiên phong** đưa phương pháp Vibe Coding vào Việt Nam từ 2024 - giúp những người không có background IT vẫn có thể xây dựng app chuyên nghiệp.\n\n*"Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai."*',
         image: 'https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev/uploads/1769793139459-56946112.jpg',
         backgroundImage: '',
         backgroundTheme: 'light',
@@ -1051,7 +1051,7 @@ export const DEFAULT_VIBE_CODING_BEGINNER_COURSE: Section[] = [
         tag: "Giảng viên",
         title: "Người hướng dẫn của bạn",
         subtitle: "Không phải lý thuyết - Đây là người đang làm thực tế",
-        content: "Founder của Tulie TSS - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ. 10+ năm kinh nghiệm trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp. Tiên phong đưa phương pháp Vibe Coding vào Việt Nam từ 2024, đã hướng dẫn 500+ học viên từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.",
+        content: "Founder của The Tulie Lab - công ty chuyên tư vấn và triển khai giải pháp công nghệ cho doanh nghiệp vừa và nhỏ. 10+ năm kinh nghiệm trong ngành công nghệ, từng làm việc tại các công ty công nghệ hàng đầu trước khi khởi nghiệp. Tiên phong đưa phương pháp Vibe Coding vào Việt Nam từ 2024, đã hướng dẫn 500+ học viên từ người mới hoàn toàn đến tự xây dựng được ứng dụng thực tế.",
         image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
         items: [
             { title: "Nguyễn Thanh Tùng", subtitle: "Founder & Lead Instructor", description: "'Tôi không dạy bạn code - Tôi dạy bạn cách ra lệnh cho AI code thay bạn. Đó mới là kỹ năng của tương lai.'", image: "https://pub-84306d90a5714d098ed77c04f4c85df2.r2.dev/uploads/1769793139459-56946112.jpg" }

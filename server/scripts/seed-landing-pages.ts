@@ -154,7 +154,7 @@ const creativeSections = [
         id: "features-creative",
         type: "benefits",
         tag: "Danh mục Giải pháp",
-        title: "Bộ ứng dụng tối ưu hóa từ Tulie TSS",
+        title: "Bộ ứng dụng tối ưu hóa từ The Tulie Lab",
         subtitle: "Biến những công việc khô khan trở nên thú vị",
         items: [
             { title: "Tulie Whiteboard", description: "Bảng trắng online cho phép nhiều người cùng vẽ, thảo luận, mindmap thời gian thực.", icon: "Edit3" },
@@ -182,21 +182,21 @@ async function seedLandingPages() {
     const pages = [
         {
             slug: 'dao-tao-ai',
-            title: 'Đào tạo ứng dụng AI (Vibe Coding) - Tulie TSS',
+            title: 'Đào tạo ứng dụng AI (Vibe Coding) - The Tulie Lab',
             description: 'Làm chủ công nghệ Vibe Coding, sử dụng trí tuệ nhân tạo (AI) tạo ảnh, video, website, ứng dụng không cần biết code.',
             sections: JSON.stringify(daoTaoAiSections),
             type: 'LANDING',
         },
         {
             slug: 'templates-tools',
-            title: 'Templates Google Sheets & App Scripts - Tulie TSS',
+            title: 'Templates Google Sheets & App Scripts - The Tulie Lab',
             description: 'Tự động hóa doanh nghiệp, quản trị hiệu quả với bộ giải pháp Google Sheets & App Scripts tiện lợi, linh hoạt và chi phí thấp.',
             sections: JSON.stringify(templateSections),
             type: 'LANDING',
         },
         {
             slug: 'ung-dung-sang-tao',
-            title: 'Hệ Sinh Thái Ứng Dụng Sáng Tạo - Tulie TSS',
+            title: 'Hệ Sinh Thái Ứng Dụng Sáng Tạo - The Tulie Lab',
             description: 'Giải pháp Whiteboard teamwork, Hệ thống Trắc nghiệm Gamification, Nền tảng Xếp Thời Khóa Biểu thông minh cho trường học.',
             sections: JSON.stringify(creativeSections),
             type: 'LANDING',

@@ -27,6 +27,13 @@
       "startedAt": "2026-02-21T04:57:52.988Z",
       "pausedAt": null,
       "totalPausedMs": 0
+    },
+    {
+      "taskId": "9swx56",
+      "taskTitle": "Đồng bộ UI Admin Pages và shadcn/ui guidelines",
+      "startedAt": "2026-02-21T17:28:58.179Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
     }
   ]
 }
