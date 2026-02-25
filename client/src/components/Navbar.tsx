@@ -234,7 +234,14 @@ export function Navbar() {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="mr-4 hidden md:flex items-center space-x-1 text-sm font-medium">
+                    {/* Click-outside overlay to close nav dropdowns */}
+                    {activeDropdown && (
+                        <div
+                            className="fixed inset-0 z-40 bg-transparent"
+                            onClick={() => setActiveDropdown(null)}
+                        />
+                    )}
+                    <div className="mr-4 hidden md:flex items-center space-x-1 text-sm font-medium relative z-50">
                         {navLinks.map((link) => {
                             const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
                             const isDropdownOpen = activeDropdown === link.href;
@@ -248,7 +255,8 @@ export function Navbar() {
                                         onMouseLeave={handleMouseLeave}
                                     >
                                         <div
-                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                                            onClick={() => setActiveDropdown(activeDropdown === link.href ? null : link.href)}
+                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-pointer select-none ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                                         >
                                             {link.label}
                                             <svg className={`w-3 h-3 opacity-50 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[3px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
