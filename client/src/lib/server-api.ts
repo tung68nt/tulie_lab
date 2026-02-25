@@ -4,7 +4,7 @@
  * Used for fetching public data during SSR
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+const BASE_URL = process.env.INTERNAL_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
 const API_BASE = BASE_URL.replace(/\/$/, '').replace(/\/api$/, '') + '/api';
 
 export interface ServerApiOptions {
