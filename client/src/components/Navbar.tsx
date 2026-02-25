@@ -270,6 +270,12 @@ export function Navbar() {
                                                                 href={child.href}
                                                                 target={child.isExternal ? '_blank' : undefined}
                                                                 rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                                                                prefetch={false}
+                                                                onClick={() => {
+                                                                    setDropdownOpen(false);
+                                                                    setActiveDropdown(null);
+                                                                    setMobileMenuOpen(false);
+                                                                }}
                                                                 className={`block px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
                                                                     }`}
                                                             >
@@ -290,6 +296,12 @@ export function Navbar() {
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                                    prefetch={false}
+                                    onClick={() => {
+                                        setDropdownOpen(false);
+                                        setActiveDropdown(null);
+                                        setMobileMenuOpen(false);
+                                    }}
                                     className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                                     title={link.label}
                                     onMouseEnter={() => handleMouseEnter(null)} // Close other dropdowns if hovering over a regular link
@@ -564,6 +576,12 @@ export function Navbar() {
                                                         href={child.href}
                                                         target={child.isExternal ? '_blank' : undefined}
                                                         rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                                                        prefetch={false}
+                                                        onClick={() => {
+                                                            setDropdownOpen(false);
+                                                            setActiveDropdown(null);
+                                                            setMobileMenuOpen(false);
+                                                        }}
                                                         className={`block py-2 px-4 text-[15px] rounded-md transition-colors ${isChildActive
                                                             ? 'text-primary font-semibold bg-primary/5'
                                                             : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
@@ -584,6 +602,12 @@ export function Navbar() {
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                                    prefetch={false}
+                                    onClick={() => {
+                                        setDropdownOpen(false);
+                                        setActiveDropdown(null);
+                                        setMobileMenuOpen(false);
+                                    }}
                                     className={`block py-3 px-4 text-base font-bold rounded-lg transition-colors ${isActive ? 'bg-muted text-foreground' : 'text-foreground/80 hover:bg-muted'}`}
                                 >
                                     {link.label}
