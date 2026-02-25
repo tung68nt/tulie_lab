@@ -46,19 +46,24 @@ docker image prune -f
 
 # Health check
 echo "🩺 Checking health..."
-for i in {1..12}; do
+for i in {1..20}; do
     echo "  Attempt $i..."
-    if curl -sf http://localhost/api/health 2>/dev/null | grep -q '"status":"ok"'; then
+    CURL_OUT=$(curl -sf http://localhost:5001/api/health || echo "CURL_ERROR")
+    if echo "$CURL_OUT" | grep -q '"status":"ok"'; then
         echo ""
         echo "✅ Deployment successful!"
         echo "📊 Service status:"
         docker compose -f docker-compose.prod.yml ps
         exit 0
     fi
+    
+    if [ "$CURL_OUT" != "CURL_ERROR" ]; then
+        echo "  API Response: $CURL_OUT"
+    fi
     sleep 10
 done
 
 echo ""
 echo "❌ Health check failed. Check logs:"
-echo "  docker compose -f docker-compose.prod.yml logs --tail 100"
+docker compose -f docker-compose.prod.yml logs --tail 100
 exit 1

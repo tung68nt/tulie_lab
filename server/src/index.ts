@@ -458,16 +458,8 @@ async function initializeApp() {
             }
           }
 
-          // 2. Unblock Prisma Migrations (Failsafe for stuck migrations)
-          const migrationsTableExists: any[] = await prisma.$queryRawUnsafe(`
-            SELECT 1 FROM information_schema.tables 
-            WHERE table_name = '_prisma_migrations' 
-            AND table_schema = 'public'
-          `);
-
-          if (migrationsTableExists && migrationsTableExists.length > 0) {
-            await prisma.$executeRawUnsafe(`DELETE FROM "_prisma_migrations" WHERE status = 'failed'`);
-          }
+          // 2. Unblock Prisma Migrations (Manually handled via baselining if needed)
+          // Removed faulty direct DELETE query to avoid schema mismatch warnings.
 
         } catch (syncErr: any) {
           loggerService.warn('⚠️ DB SYNC Warning:', { error: syncErr.message });
