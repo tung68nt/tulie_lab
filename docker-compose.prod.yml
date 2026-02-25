@@ -42,8 +42,8 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=8080
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-tulie_academy}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-tulie_academy}
-      - DIRECT_URL=postgresql://${POSTGRES_USER:-tulie_academy}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-tulie_academy}
+      - DATABASE_URL=${DATABASE_URL:?DATABASE_URL is required}
+      - DIRECT_URL=${DIRECT_URL:?DIRECT_URL is required}
       - REDIS_URL=redis://redis:6379
       - CLIENT_URL=${CLIENT_URL:-https://thelab.tulie.vn}
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
@@ -67,10 +67,7 @@ services:
     volumes:
       - uploads_data:/app/uploads
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - redis
     networks:
       - app-network
 
