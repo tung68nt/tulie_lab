@@ -233,14 +233,7 @@ export function Navbar() {
                         <Logo />
                     </div>
 
-                    {/* Desktop Navigation */}
-                    {/* Click-outside overlay to close nav dropdowns */}
-                    {activeDropdown && (
-                        <div
-                            className="fixed inset-0 z-40 bg-transparent"
-                            onClick={() => setActiveDropdown(null)}
-                        />
-                    )}
+
                     <div className="mr-4 hidden md:flex items-center space-x-1 text-sm font-medium relative z-50">
                         {navLinks.map((link) => {
                             const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
