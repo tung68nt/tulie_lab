@@ -15,6 +15,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
 
   server:
     image: ghcr.io/tung68nt/tulie_lab_server:latest
@@ -53,6 +59,22 @@ services:
       - redis
     networks:
       - app-network
+      - coolify
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 1024M
+        reservations:
+          cpus: '0.2'
+          memory: 256M
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thelab-api.rule=Host(`thelab.tulie.vn`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.thelab-api.entrypoints=https"
+      - "traefik.http.routers.thelab-api.tls=true"
+      - "traefik.http.routers.thelab-api.service=thelab-api"
+      - "traefik.http.services.thelab-api.loadbalancer.server.port=8080"
 
   client:
     image: ghcr.io/tung68nt/tulie_lab_client:latest
@@ -70,6 +92,22 @@ services:
       - server
     networks:
       - app-network
+      - coolify
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 1024M
+        reservations:
+          cpus: '0.2'
+          memory: 256M
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thelab-client.rule=Host(`thelab.tulie.vn`)"
+      - "traefik.http.routers.thelab-client.entrypoints=https"
+      - "traefik.http.routers.thelab-client.tls=true"
+      - "traefik.http.routers.thelab-client.service=thelab-client"
+      - "traefik.http.services.thelab-client.loadbalancer.server.port=3000"
   # Nginx is handled by aaPanel on the host (manages SSL + reverse proxy)
   # aaPanel Nginx proxies: thelab.tulie.vn -> client:3001, /api -> server:5001
 
@@ -81,3 +119,5 @@ volumes:
 networks:
   app-network:
     driver: bridge
+  coolify:
+    external: true
