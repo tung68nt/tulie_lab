@@ -53,6 +53,7 @@ services:
       - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-}
       - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-}
       - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN:-}
+      - NODE_OPTIONS=--max-old-space-size=512
     volumes:
       - uploads_data:/app/uploads
     depends_on:
@@ -64,10 +65,10 @@ services:
       resources:
         limits:
           cpus: '0.8'
-          memory: 1024M
+          memory: 768M
         reservations:
           cpus: '0.2'
-          memory: 256M
+          memory: 128M
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.thelab-api.rule=Host(`thelab.tulie.vn`) && PathPrefix(`/api`)"
@@ -85,9 +86,9 @@ services:
     ports:
       - "${CLIENT_PORT:-3001}:3000"
     environment:
-      - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=https://thelab.tulie.vn/api
       - INTERNAL_API_URL=http://server:8080
+      - NODE_OPTIONS=--max-old-space-size=512
     depends_on:
       - server
     networks:
@@ -97,10 +98,10 @@ services:
       resources:
         limits:
           cpus: '0.8'
-          memory: 1024M
+          memory: 768M
         reservations:
           cpus: '0.2'
-          memory: 256M
+          memory: 128M
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.thelab-client.rule=Host(`thelab.tulie.vn`)"
