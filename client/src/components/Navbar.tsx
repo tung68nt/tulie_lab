@@ -21,8 +21,6 @@ export function Navbar() {
     const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const { theme, setTheme } = useTheme();
@@ -31,18 +29,6 @@ export function Navbar() {
     useEffect(() => {
         setMounted(true);
     }, []);
-
-    const handleMouseEnter = (href: string | null) => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        setActiveDropdown(href);
-    };
-
-    const handleMouseLeave = () => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => {
-            setActiveDropdown(null);
-        }, 100);
-    };
 
     const toggleTheme = () => {
         setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -97,11 +83,9 @@ export function Navbar() {
         }
     };
 
-    // Close menus on route change
     useEffect(() => {
         setMobileMenuOpen(false);
         setDropdownOpen(false);
-        setActiveDropdown(null);
     }, [pathname]);
 
     // ... (rest of logout handler)
@@ -142,6 +126,90 @@ export function Navbar() {
         isExternal?: boolean;
         icon?: React.ReactNode;
         children?: { label: string; href: string; isExternal?: boolean }[];
+    }
+
+    function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }) {
+        const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+        const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+        useEffect(() => {
+            setIsDropdownOpen(false);
+        }, [pathname]);
+
+        const handleMouseEnter = () => {
+            if (timerRef.current) clearTimeout(timerRef.current);
+            setIsDropdownOpen(true);
+        };
+
+        const handleMouseLeave = () => {
+            if (timerRef.current) clearTimeout(timerRef.current);
+            timerRef.current = setTimeout(() => {
+                setIsDropdownOpen(false);
+            }, 150);
+        };
+
+        const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
+
+        if (link.children) {
+            return (
+                <div
+                    className="relative"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    {link.href && link.href !== '#' ? (
+                        <Link
+                            href={link.href}
+                            className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                        >
+                            {link.label}
+                            <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </Link>
+                    ) : (
+                        <div
+                            className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                        >
+                            {link.label}
+                            <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    )}
+
+                    {/* Dropdown Menu */}
+                    <div className={`absolute top-[calc(100%-4px)] left-0 pt-3 w-56 transition-all duration-200 origin-top z-[100] ${isDropdownOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}`}>
+                        <div className="bg-popover border border-border/60 rounded-xl shadow-2xl overflow-hidden p-1.5 backdrop-blur-xl">
+                            {link.children.map((child) => (
+                                <Link
+                                    key={child.href}
+                                    href={child.href}
+                                    target={child.isExternal ? '_blank' : undefined}
+                                    rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                                    className={`block px-3 py-2 text-sm rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-semibold text-foreground' : 'text-muted-foreground'
+                                        }`}
+                                >
+                                    {child.label}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <Link
+                href={link.href}
+                target={link.isExternal ? '_blank' : undefined}
+                rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                title={link.label}
+            >
+                {link.icon ? link.icon : link.label}
+            </Link>
+        );
     }
 
     // Default fallback menu
@@ -235,82 +303,13 @@ export function Navbar() {
 
 
                     <div className="mr-4 hidden md:flex items-center space-x-1 text-sm font-medium relative z-50">
-                        {navLinks.map((link) => {
-                            const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
-                            const isDropdownOpen = activeDropdown === link.href;
-
-                            if (link.children) {
-                                return (
-                                    <div
-                                        key={link.href}
-                                        className="relative"
-                                        onMouseEnter={() => handleMouseEnter(link.href)}
-                                        onMouseLeave={handleMouseLeave}
-                                    >
-                                        {link.href && link.href !== '#' ? (
-                                            <Link
-                                                href={link.href}
-                                                className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-pointer select-none ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                                            >
-                                                {link.label}
-                                                <svg className={`w-3 h-3 opacity-50 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[3px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </Link>
-                                        ) : (
-                                            <div
-                                                onClick={() => setActiveDropdown(activeDropdown === link.href ? null : link.href)}
-                                                className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-pointer select-none ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                                            >
-                                                {link.label}
-                                                <svg className={`w-3 h-3 opacity-50 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[3px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                            </div>
-                                        )}
-
-                                        {/* Dropdown Menu */}
-                                        {isDropdownOpen && (
-                                            <>
-                                                {/* Invisible bridge to prevent closing when moving mouse */}
-                                                <div className="absolute top-full left-0 w-full h-2 bg-transparent z-[100]" />
-
-                                                <div className="absolute top-[calc(100%+0.5rem)] left-0 w-56 animate-in fade-in slide-in-from-top-2 duration-200 z-[100]">
-                                                    <div className="bg-popover border border-border rounded-md shadow-lg overflow-hidden p-1">
-                                                        {link.children.map((child) => (
-                                                            <Link
-                                                                key={child.href}
-                                                                href={child.href}
-                                                                target={child.isExternal ? '_blank' : undefined}
-                                                                rel={child.isExternal ? 'noopener noreferrer' : undefined}
-                                                                className={`block px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
-                                                                    }`}
-                                                            >
-                                                                {child.label}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                );
-                            }
-
-                            return (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    target={link.isExternal ? '_blank' : undefined}
-                                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                                    className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                                    title={link.label}
-                                    onMouseEnter={() => handleMouseEnter(null)} // Close other dropdowns if hovering over a regular link
-                                >
-                                    {link.icon ? link.icon : link.label}
-                                </Link>
-                            );
-                        })}
+                        {navLinks.map((link) => (
+                            <NavMenuItem
+                                key={link.href + link.label}
+                                link={link}
+                                pathname={pathname}
+                            />
+                        ))}
                     </div>
 
                     {/* Desktop Auth Section */}
