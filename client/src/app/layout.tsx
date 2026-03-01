@@ -29,11 +29,12 @@ async function getSettings() {
     return undefined;
   }
   try {
-    const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-    const baseUrl = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl;
+    const isServer = typeof window === 'undefined';
+    const envUrl = (isServer && process.env.INTERNAL_API_URL) || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    const baseUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
     const res = await fetch(`${baseUrl}/api/settings/public`, {
       next: { revalidate: 60 },
-      signal: AbortSignal.timeout(5000), // Fail fast during Docker build
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return undefined;
     return res.json();
