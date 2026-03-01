@@ -6,18 +6,18 @@ WORKDIR /app
 # Install openssl for Prisma
 RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
-# Copy package files from root context
-COPY server/package*.json ./
-COPY server/prisma ./prisma/
+# Copy package files
+COPY package*.json ./
+COPY prisma ./prisma/
 
-# Install dependencies (incl dev for build)
+# Install dependencies
 RUN npm ci --include=dev
 
-# Generate Prisma Client (Explicit path)
+# Generate Prisma Client
 RUN npx prisma generate --schema=./prisma/schema.prisma
 
 # Copy source
-COPY server/ .
+COPY . .
 
 # Build (seed and scripts are excluded in tsconfig.json)
 RUN npm run build
@@ -31,7 +31,7 @@ WORKDIR /app
 RUN apt-get update -y && apt-get install -y openssl curl && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
-COPY server/package*.json ./
+COPY package*.json ./
 
 # Install only production dependencies
 RUN npm ci --omit=dev --ignore-scripts

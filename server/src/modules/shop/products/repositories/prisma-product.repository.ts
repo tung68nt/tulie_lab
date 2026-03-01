@@ -110,7 +110,7 @@ export class PrismaProductRepository implements IProductRepository {
     async getUpsells(productId: string): Promise<any> {
         // Get both product and course upsells
         const [productUpsells, courseUpsells] = await Promise.all([
-            (prisma as any).productUpsell.findMany({
+            prisma.productUpsell.findMany({
                 where: { productId },
                 include: {
                     upsellProduct: {
@@ -128,7 +128,7 @@ export class PrismaProductRepository implements IProductRepository {
                 },
                 orderBy: { position: 'asc' }
             }),
-            (prisma as any).productCourseUpsell.findMany({
+            prisma.productCourseUpsell.findMany({
                 where: { productId },
                 include: {
                     upsellCourse: {
@@ -169,7 +169,7 @@ export class PrismaProductRepository implements IProductRepository {
 
         if (upsellProductId) {
             // Add product upsell
-            return (prisma as any).productUpsell.create({
+            return prisma.productUpsell.create({
                 data: {
                     productId,
                     upsellProductId,
@@ -192,7 +192,7 @@ export class PrismaProductRepository implements IProductRepository {
             });
         } else if (upsellCourseId) {
             // Add course upsell
-            return (prisma as any).productCourseUpsell.create({
+            return prisma.productCourseUpsell.create({
                 data: {
                     productId,
                     upsellCourseId,
@@ -220,12 +220,12 @@ export class PrismaProductRepository implements IProductRepository {
     async removeUpsell(_productId: string, upsellId: string): Promise<void> {
         // Try to delete from both tables (one will succeed, one will fail - that's okay)
         try {
-            await (prisma as any).productUpsell.delete({
+            await prisma.productUpsell.delete({
                 where: { id: upsellId }
             });
         } catch (e) {
             // If not found in productUpsell, try courseUpsell
-            await (prisma as any).productCourseUpsell.delete({
+            await prisma.productCourseUpsell.delete({
                 where: { id: upsellId }
             });
         }
@@ -237,25 +237,25 @@ export class PrismaProductRepository implements IProductRepository {
         if (type) {
             where.type = type;
         }
-        return (prisma as any).productClassification.findMany({
+        return prisma.productClassification.findMany({
             where,
             orderBy: { name: 'asc' }
         });
     }
 
     async createClassification(data: any): Promise<any> {
-        return (prisma as any).productClassification.create({ data });
+        return prisma.productClassification.create({ data });
     }
 
     async updateClassification(id: string, data: any): Promise<any> {
-        return (prisma as any).productClassification.update({
+        return prisma.productClassification.update({
             where: { id },
             data
         });
     }
 
     async deleteClassification(id: string): Promise<any> {
-        return (prisma as any).productClassification.delete({
+        return prisma.productClassification.delete({
             where: { id }
         });
     }
