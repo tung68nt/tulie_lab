@@ -67,8 +67,9 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                         </div>
 
                         {section.ctaText && section.ctaLink && (
-                            <Link href={section.ctaLink}>
+                            <a href={section.ctaLink}>
                                 <Button
+                                    as="div"
                                     size="lg"
                                     className={cn(
                                         "rounded-full px-8 h-12 font-bold shadow-lg transition-transform hover:scale-105 active:scale-95",
@@ -80,7 +81,7 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                                     {section.ctaText}
                                     <ArrowRight className="ml-2 w-4 h-4" />
                                 </Button>
-                            </Link>
+                            </a>
                         )}
                     </div>
                 </div>

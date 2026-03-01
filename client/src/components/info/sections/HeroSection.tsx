@@ -118,7 +118,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     </svg>
                                 </Button>
                             )}
-                            <Link href="/contact">
+                            <a href="/contact">
                                 <Button as="div" variant="outline" size="lg" className={cn(
                                     "w-full sm:w-auto text-base px-8 h-12 font-semibold transition-all backdrop-blur-sm",
                                     section.backgroundTheme === 'dark'
@@ -127,7 +127,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 )}>
                                     Liên hệ tư vấn
                                 </Button>
-                            </Link>
+                            </a>
                         </div>
 
                         {/* Trust indicators - removed */}
@@ -255,19 +255,15 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                         </div>
                                                     </div>
 
-                                                    <Button
-                                                        size="lg"
-                                                        className="font-semibold text-sm shadow-xl border-0 h-12 px-8 transition-all hover:scale-[1.05] active:scale-[0.95] bg-black text-white hover:bg-zinc-800 flex items-center gap-2 rounded-xl"
-                                                        onClick={() => {
-                                                            const url = isCombo
-                                                                ? `/checkout?bundleId=${mainCourse.id}`
-                                                                : `/checkout?courseId=${mainCourse.id}`;
-                                                            router.push(url);
-                                                        }}
-                                                    >
-                                                        Chi tiết
-                                                        <ChevronRight className="w-4 h-4" />
-                                                    </Button>
+                                                    <a href={isCombo ? `/checkout?bundleId=${mainCourse.id}` : `/checkout?courseId=${mainCourse.id}`}>
+                                                        <Button
+                                                            size="lg"
+                                                            className="font-semibold text-sm shadow-xl border-0 h-12 px-8 transition-all hover:scale-[1.05] active:scale-[0.95] bg-black text-white hover:bg-zinc-800 flex items-center gap-2 rounded-xl pointer-events-none"
+                                                        >
+                                                            Chi tiết
+                                                            <ChevronRight className="w-4 h-4" />
+                                                        </Button>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

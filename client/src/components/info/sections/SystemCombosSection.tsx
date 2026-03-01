@@ -70,9 +70,9 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                         <BookOpen className="w-16 h-16 text-muted-foreground/30 mx-auto mb-6" />
                         <h3 className="text-xl font-semibold mb-2">Chưa có lộ trình nào</h3>
                         <p className="text-muted-foreground text-sm">Vui lòng quay lại sau để cập nhật các lộ trình mới nhất.</p>
-                        <Link href="/courses" className="mt-8 block">
+                        <a href="/courses" className="mt-8 block">
                             <Button variant="outline">Xem tất cả khóa học</Button>
-                        </Link>
+                        </a>
                     </div>
                 ) : (
                     <div className="flex flex-col gap-10 max-w-[1100px] mx-auto">
@@ -203,7 +203,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                             </div>
 
                                             <div className="w-full">
-                                                <Link href={`/combos/${combo.slug}`}>
+                                                <a href={`/combos/${combo.slug}`}>
                                                     <div className={cn(
                                                         "h-14 w-full rounded-2xl group-hover:scale-[1.02] flex items-center justify-center gap-3 transition-all duration-300 shadow-xl text-base font-semibold border-0",
                                                         section.backgroundTheme === 'dark'
@@ -215,7 +215,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                                                         <span>Khám phá lộ trình</span>
                                                         <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                                     </div>
-                                                </Link>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

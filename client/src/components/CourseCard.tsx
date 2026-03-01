@@ -36,7 +36,7 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
     };
 
     return (
-        <Link href={`/courses/${slug}`} className="group block h-full" onClick={handleCardClick}>
+        <a href={`/courses/${slug}`} className="group block h-full" onClick={handleCardClick}>
             <Card className="flex h-full flex-col overflow-hidden transition-all duration-300 card-hover dark:border-zinc-800/50 bg-card/60 backdrop-blur-md border-zinc-200/40">
                 {/* Thumbnail - Top Side */}
                 <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-muted group-hover:brightness-110 transition-all duration-500">
@@ -139,6 +139,6 @@ export function CourseCard({ title, slug, description, price, originalPrice, thu
                     </div>
                 </div>
             </Card>
-        </Link>
+        </a>
     );
 }

@@ -93,7 +93,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
 
                                     {/* CTA Button - Pushed to bottom */}
                                     <div className="mt-auto">
-                                        <Link href={item.link || '#'}>
+                                        <a href={item.link || '#'}>
                                             <Button
                                                 as="div"
                                                 variant={item.tag === 'Best Value' ? 'default' : 'outline'}
@@ -104,7 +104,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                                             >
                                                 {item.ctaText || 'Chọn gói này'}
                                             </Button>
-                                        </Link>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

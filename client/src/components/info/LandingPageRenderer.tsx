@@ -92,7 +92,7 @@ async function getLandingPage(slug: string) {
         console.log('[LandingPageRenderer] Fetching:', url);
 
         const res = await fetch(url, {
-            cache: 'no-store',
+            next: { revalidate: 60 },
             signal: AbortSignal.timeout(5000), // Timeout after 5s to prevent hanging navigation
         });
 
