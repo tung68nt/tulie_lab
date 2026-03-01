@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+const isServer = typeof window === 'undefined';
+const envUrl = (isServer && process.env.INTERNAL_API_URL) || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+
 // If we are on the client, we want to use the Next.js rewrite proxy (relative path)
 // to avoid CORS issues. If on server, we use the full URL.
-const isServer = typeof window === 'undefined';
 // Strip trailing slash first
 const cleanEnvUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
 

@@ -84,8 +84,8 @@ const SECTION_COMPONENTS: Record<string, React.ElementType> = {
 
 async function getLandingPage(slug: string) {
     try {
-        // Match the URL pattern from api.ts
-        const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+        const isServer = typeof window === 'undefined';
+        const envUrl = (isServer && process.env.INTERNAL_API_URL) || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
         const baseUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
         const url = `${baseUrl}/api/landing-pages/${slug}`;
 
