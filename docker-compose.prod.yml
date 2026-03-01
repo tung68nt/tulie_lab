@@ -3,7 +3,6 @@ services:
 
   tulie-redis:
     image: redis:7-alpine
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_redis
     restart: always
     command: redis-server --requirepass 0490c5c92a9b94bc2bade0098a9f9701 --maxmemory 128mb --maxmemory-policy allkeys-lru
     volumes:
@@ -24,7 +23,6 @@ services:
 
   server:
     image: ghcr.io/tung68nt/tulie_lab_server:latest
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_server
     restart: always
     ports:
       - "${SERVER_PORT:-5001}:8080"
