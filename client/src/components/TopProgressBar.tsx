@@ -8,7 +8,8 @@ export function TopProgressBar() {
       height="3px"
       color="hsl(var(--primary))"
       options={{ showSpinner: false }}
-      shallowRouting={true}
+      shallowRouting={false}
+      disableAnchorClick={true}
     />
   );
 }

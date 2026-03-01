@@ -93,6 +93,7 @@ async function getLandingPage(slug: string) {
 
         const res = await fetch(url, {
             cache: 'no-store',
+            signal: AbortSignal.timeout(5000), // Timeout after 5s to prevent hanging navigation
         });
 
         if (!res.ok) {
@@ -105,6 +106,7 @@ async function getLandingPage(slug: string) {
         return null;
     }
 }
+
 
 
 interface LandingPageRendererProps {

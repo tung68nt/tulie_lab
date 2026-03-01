@@ -14,6 +14,101 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { useTheme } from 'next-themes';
 
+interface NavLinkItem {
+    label: string;
+    href: string;
+    isExternal?: boolean;
+    icon?: React.ReactNode;
+    children?: { label: string; href: string; isExternal?: boolean }[];
+}
+
+function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }) {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        setIsDropdownOpen(false);
+    }, [pathname]);
+
+    const handleMouseEnter = () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        setIsDropdownOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(() => {
+            setIsDropdownOpen(false);
+        }, 150);
+    };
+
+    const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
+
+    if (link.children) {
+        return (
+            <div
+                className="relative"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                {link.href && link.href !== '#' ? (
+                    <Link
+                        href={link.href}
+                        prefetch={false}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                    >
+                        {link.label}
+                        <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </Link>
+                ) : (
+                    <div
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                    >
+                        {link.label}
+                        <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                )}
+
+                {/* Dropdown Menu */}
+                <div className={`absolute top-[calc(100%-4px)] left-0 pt-3 w-56 transition-all duration-200 origin-top z-[100] ${isDropdownOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}`}>
+                    <div className="bg-popover border border-border/60 rounded-xl shadow-2xl overflow-hidden p-1.5 backdrop-blur-xl">
+                        {link.children.map((child) => (
+                            <Link
+                                key={child.href}
+                                href={child.href}
+                                prefetch={false}
+                                target={child.isExternal ? '_blank' : undefined}
+                                rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                                className={`block px-3 py-2 text-sm rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-semibold text-foreground' : 'text-muted-foreground'
+                                    }`}
+                            >
+                                {child.label}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <Link
+            href={link.href}
+            prefetch={false}
+            target={link.isExternal ? '_blank' : undefined}
+            rel={link.isExternal ? 'noopener noreferrer' : undefined}
+            className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+            title={link.label}
+        >
+            {link.icon ? link.icon : link.label}
+        </Link>
+    );
+}
+
 export function Navbar() {
     const { user, logout, isLoading: authLoading } = useAuth();
     const { addToast } = useToast();
@@ -56,7 +151,6 @@ export function Navbar() {
     }, [user]);
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        // ... (existing code)
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -69,7 +163,7 @@ export function Navbar() {
                 // 2. Update profile
                 await api.users.updateProfile({ avatar: avatarUrl });
 
-                // 3. Force reload to update context (simplest way since context doesn't expose partial update)
+                // 3. Force reload to update context
                 window.location.reload();
             }
 
@@ -88,11 +182,8 @@ export function Navbar() {
         setDropdownOpen(false);
     }, [pathname]);
 
-    // ... (rest of logout handler)
-
     const handleLogout = async () => {
         try {
-            // No need to manually close state here if redirecting, but safe to keep for immediate feedback
             setMobileMenuOpen(false);
             setDropdownOpen(false);
             await logout();
@@ -119,98 +210,6 @@ export function Navbar() {
         if (user.email) return user.email.split('@')[0];
         return 'Người dùng';
     };
-
-    interface NavLinkItem {
-        label: string;
-        href: string;
-        isExternal?: boolean;
-        icon?: React.ReactNode;
-        children?: { label: string; href: string; isExternal?: boolean }[];
-    }
-
-    function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }) {
-        const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-        const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-        useEffect(() => {
-            setIsDropdownOpen(false);
-        }, [pathname]);
-
-        const handleMouseEnter = () => {
-            if (timerRef.current) clearTimeout(timerRef.current);
-            setIsDropdownOpen(true);
-        };
-
-        const handleMouseLeave = () => {
-            if (timerRef.current) clearTimeout(timerRef.current);
-            timerRef.current = setTimeout(() => {
-                setIsDropdownOpen(false);
-            }, 150);
-        };
-
-        const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
-
-        if (link.children) {
-            return (
-                <div
-                    className="relative"
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    {link.href && link.href !== '#' ? (
-                        <Link
-                            href={link.href}
-                            className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                        >
-                            {link.label}
-                            <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </Link>
-                    ) : (
-                        <div
-                            className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                        >
-                            {link.label}
-                            <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
-                    )}
-
-                    {/* Dropdown Menu */}
-                    <div className={`absolute top-[calc(100%-4px)] left-0 pt-3 w-56 transition-all duration-200 origin-top z-[100] ${isDropdownOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}`}>
-                        <div className="bg-popover border border-border/60 rounded-xl shadow-2xl overflow-hidden p-1.5 backdrop-blur-xl">
-                            {link.children.map((child) => (
-                                <Link
-                                    key={child.href}
-                                    href={child.href}
-                                    target={child.isExternal ? '_blank' : undefined}
-                                    rel={child.isExternal ? 'noopener noreferrer' : undefined}
-                                    className={`block px-3 py-2 text-sm rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-semibold text-foreground' : 'text-muted-foreground'
-                                        }`}
-                                >
-                                    {child.label}
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
-        return (
-            <Link
-                href={link.href}
-                target={link.isExternal ? '_blank' : undefined}
-                rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                title={link.label}
-            >
-                {link.icon ? link.icon : link.label}
-            </Link>
-        );
-    }
 
     // Default fallback menu
     const DEFAULT_NAV_LINKS: NavLinkItem[] = [
