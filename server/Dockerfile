@@ -11,7 +11,7 @@ COPY package*.json ./
 COPY prisma ./prisma/
 
 # Install dependencies
-RUN npm ci --include=dev
+RUN npm install --include=dev
 
 # Generate Prisma Client
 RUN npx prisma generate --schema=./prisma/schema.prisma
@@ -34,7 +34,7 @@ RUN apt-get update -y && apt-get install -y openssl curl && rm -rf /var/lib/apt/
 COPY package*.json ./
 
 # Install only production dependencies
-RUN npm ci --omit=dev --ignore-scripts
+RUN npm install --omit=dev --ignore-scripts
 
 # Copy Prisma schema and generated client from builder
 COPY --from=builder /app/prisma ./prisma
