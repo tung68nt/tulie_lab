@@ -27,6 +27,7 @@ class RedisService {
         this.client.on('error', (err) => {
             console.error('Redis error', err);
             this.isConnected = false;
+            (this as any).lastError = err.message;
         });
 
         this.client.on('close', () => {
@@ -39,9 +40,10 @@ class RedisService {
         try {
             await this.client.connect();
             this.isConnected = true;
-        } catch (error) {
-            console.warn('Could not connect to Redis, caching will be skipped.');
+        } catch (error: any) {
+            console.warn('Could not connect to Redis, caching will be skipped.', error.message);
             this.isConnected = false;
+            (this as any).lastError = error.message;
         }
     }
 
