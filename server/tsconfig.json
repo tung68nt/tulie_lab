@@ -11,9 +11,8 @@
     "lib": [
       "esnext"
     ],
-    "types": [
-      "node"
-    ],
+    //   "node"
+    // ],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],

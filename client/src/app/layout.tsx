@@ -24,6 +24,10 @@ import { UtmTracker } from '@/components/system/analytics/UtmTracker';
 const inter = Inter({ subsets: ['latin'] });
 
 async function getSettings() {
+  if (process.env.DOCKER_BUILD === 'true') {
+    console.log('[DOCKER_BUILD] Skipping settings fetch during static generation');
+    return undefined;
+  }
   try {
     const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
     const baseUrl = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl;
