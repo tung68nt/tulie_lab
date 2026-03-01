@@ -107,7 +107,7 @@ jobs:
             # Pull images and deploy
             echo "🏗️ Pulling images and deploying..."
             docker compose -f docker-compose.prod.yml --env-file .env.production pull server client
-            docker compose -f docker-compose.prod.yml --env-file .env.production up -d --force-recreate
+            docker compose -f docker-compose.prod.yml --env-file .env.production up -d --force-recreate --remove-orphans
 
             # Run database migrations
             echo "🗄️ Running database migrations..."
