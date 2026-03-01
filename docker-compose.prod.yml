@@ -1,7 +1,7 @@
 name: tulie_academy
 services:
 
-  redis:
+  tulie-redis:
     image: redis:7-alpine
     container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_redis
     restart: always
@@ -33,7 +33,7 @@ services:
       - PORT=8080
       - DATABASE_URL=${DATABASE_URL:?DATABASE_URL is required}
       - DIRECT_URL=${DIRECT_URL:?DIRECT_URL is required}
-      - REDIS_URL=redis://:0490c5c92a9b94bc2bade0098a9f9701@redis:6379
+      - REDIS_URL=redis://:0490c5c92a9b94bc2bade0098a9f9701@tulie-redis:6379
       - CLIENT_URL=${CLIENT_URL:-https://thelab.tulie.vn}
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
       - R2_ACCOUNT_ID=${R2_ACCOUNT_ID:-}
@@ -57,7 +57,7 @@ services:
     volumes:
       - uploads_data:/app/uploads
     depends_on:
-      - redis
+      - tulie-redis
     networks:
       - app-network
       - coolify
