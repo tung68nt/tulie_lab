@@ -7,7 +7,7 @@ RUN apt-get update -y && apt-get install -y openssl
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY server/package*.json ./
 COPY prisma ./prisma/
 
 # Install dependencies (incl dev for build)
@@ -17,7 +17,7 @@ RUN npm ci --include=dev
 RUN npx prisma generate
 
 # Copy source
-COPY . .
+COPY server/ .
 
 # Build
 RUN npm run build
@@ -34,7 +34,7 @@ ENV PORT=8080
 RUN apt-get update -y && apt-get install -y openssl curl && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
-COPY package*.json ./
+COPY server/package*.json ./
 
 # Install only production dependencies
 RUN npm ci --omit=dev --ignore-scripts
