@@ -8,7 +8,7 @@ WORKDIR /app
 
 # Copy package files
 COPY server/package*.json ./
-COPY prisma ./prisma/
+COPY server/prisma ./prisma/
 
 # Install dependencies (incl dev for build)
 RUN npm ci --include=dev

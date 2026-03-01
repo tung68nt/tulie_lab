@@ -1176,3 +1176,19 @@ enum WhiteboardPermission {
   VIEW
   EDIT
 }
+
+model ProductClassification {
+  id        String             @id @default(uuid())
+  name      String
+  type      ClassificationType
+  isActive  Boolean            @default(true)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@unique([name, type])
+}
+
+enum ClassificationType {
+  PRODUCT_TYPE
+  PRODUCT_FIELD
+}
