@@ -74,6 +74,7 @@ app.get('/api/health', async (req, res) => {
     if (redisService.getClient() && (redisService as any).isConnected) {
       await redisService.getClient().ping();
       health.checks.redis = 'connected';
+    } else {
       health.checks.redis = `disconnected: ${(redisService as any).lastError || 'not initialized'}`;
       health.redis_url_masked = process.env.REDIS_URL ? process.env.REDIS_URL.replace(/:[^:@]+@/, ':***@') : 'not provided';
     }
