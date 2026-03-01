@@ -13,9 +13,12 @@ import { DynamicFavicon } from '@/components/DynamicFavicon';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/system/analytics/UtmTracker';
 
-// Force dynamic rendering — prevents Next.js from fetching during Docker build
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'default-no-store';
+// NOTE: force-dynamic and fetchCache removed from layout level.
+// Having them here forces Next.js to re-render the ENTIRE layout on every 
+// client-side navigation, blocking transitions and causing the double-click bug.
+// Individual pages set force-dynamic where needed.
+// The getSettings() fetch uses AbortSignal.timeout(5000) for Docker build safety.
+
 
 
 const inter = Inter({ subsets: ['latin'] });
