@@ -9,30 +9,32 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// Schema Version: 2 (Force Rebuild)
-
 model User {
-  id            String             @id @default(uuid())
-  email         String             @unique
-  password      String
-  role          Role               @default(USER)
-  isActive      Boolean            @default(true)
-  createdAt     DateTime           @default(now())
-  updatedAt     DateTime           @updatedAt
-  boughtCodes   ActivationCode[]   @relation("BoughtCodes")
-  redeemedCodes ActivationCode[]   @relation("RedeemedCodes")
-  activityLogs  ActivityLog[]
-  enrollments   Enrollment[]
-  progress      LessonProgress[]
-  marketingLead MarketingLead[]
-  orders        Order[]
-  securityLogs  SecurityLog[]
-  subscriptions Subscription[]
-  notifications   UserNotification[]
-  profile         UserProfile?
-  sessions        UserSession[]
-  invoiceProfiles UserInvoiceProfile[]
-  notes           UserNote[]
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  password            String
+  role                Role                 @default(USER)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  isActive            Boolean              @default(true)
+  boughtCodes         ActivationCode[]     @relation("BoughtCodes")
+  redeemedCodes       ActivationCode[]     @relation("RedeemedCodes")
+  activityLogs        ActivityLog[]
+  enrollments         Enrollment[]
+  progress            LessonProgress[]
+  marketingLead       MarketingLead[]
+  orders              Order[]
+  securityLogs        SecurityLog[]
+  subscriptions       Subscription[]
+  invoiceProfiles     UserInvoiceProfile[]
+  notes               UserNote[]
+  notifications       UserNotification[]
+  profile             UserProfile?
+  sessions            UserSession[]
+  journeyEnrollments  JourneyEnrollment[]
+  mentoringSessions   MentoringSession[]
+  whiteboards         Whiteboard[]
+  collaboratedBoards  WhiteboardCollaborator[]
 
   @@index([role])
   @@index([email])
@@ -75,10 +77,10 @@ model UserSession {
 model SystemSetting {
   id        String   @id @default(uuid())
   key       String   @unique
-  value     String   @db.Text
   type      String   @default("text")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  value     String
 }
 
 model SystemNotification {
@@ -97,15 +99,15 @@ model SystemNotification {
 }
 
 model UserNotification {
-  id               String   @id @default(uuid())
-  userId           String
-  notificationId   String
-  isRead           Boolean  @default(false)
-  readAt           DateTime?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  notification     SystemNotification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  id             String             @id @default(uuid())
+  userId         String
+  notificationId String
+  isRead         Boolean            @default(false)
+  readAt         DateTime?
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  notification   SystemNotification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  user           User               @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, notificationId])
   @@index([userId])
@@ -158,7 +160,6 @@ model EmailLog {
 
 model MarketingLead {
   id        String   @id @default(uuid())
-  userId    String?
   orderId   String   @unique
   source    String?
   medium    String?
@@ -166,23 +167,44 @@ model MarketingLead {
   term      String?
   content   String?
   fbc       String?
+  fbp       String?
   gclid     String?
   clickId   String?
+  tags      String[] @default([])
   createdAt DateTime @default(now())
+  userId    String?
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
   user      User?    @relation(fields: [userId], references: [id])
 }
 
+model AdInsights {
+  id            String   @id @default(uuid())
+  platform      String   @default("facebook")
+  campaignId    String
+  campaignName  String
+  adsetId       String?
+  adsetName     String?
+  date          DateTime
+  spend         Float
+  impressions   Int?
+  clicks        Int?
+  actions       Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([platform, campaignId, date])
+}
+
 model Category {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   name        String
-  slug        String   @unique
+  slug        String     @unique
   description String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  courses     Course[]
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   blogPosts   BlogPost[]
+  courses     Course[]
 }
 
 model Course {
@@ -192,40 +214,45 @@ model Course {
   description       String?
   thumbnail         String?
   price             Decimal                @default(0) @db.Decimal(12, 0)
-  compareAtPrice    Decimal?               @db.Decimal(12, 0)
   isPublished       Boolean                @default(false)
-  deploymentStatus  String
-  tag               CourseTag              @default(NONE)
-  introVideoUrl     String?
-  learningOutcomes  String?                @db.Text
-  structure         String?                @db.Text
-  // Countdown/Campaign fields
-  campaignId        String?
-  saleStartDate     DateTime?
-  saleEndDate       DateTime?
   createdAt         DateTime               @default(now())
   updatedAt         DateTime               @updatedAt
   instructorId      String?
   categoryId        String?
+  introVideoUrl     String?
+  deploymentStatus  CourseDeploymentStatus @default(RELEASED)
+  isHidden          Boolean                @default(false)
+  tag               CourseTag              @default(NONE)
+  learningOutcomes  String?
+  structure         String?
+  compareAtPrice    Decimal?               @db.Decimal(12, 0)
+  campaignId        String?
+  saleStartDate     DateTime?
+  saleEndDate       DateTime?
+  releaseDate       DateTime?
   activationCodes   ActivationCode[]
   bundles           BundleCourse[]
+  campaign          Campaign?              @relation(fields: [campaignId], references: [id])
   category          Category?              @relation(fields: [categoryId], references: [id])
   instructor        Instructor?            @relation(fields: [instructorId], references: [id])
-  campaign          Campaign?              @relation(fields: [campaignId], references: [id])
+  upsellProducts    CourseProductUpsell[]  @relation("CourseToUpsellProducts")
   registrations     CourseRegistration[]
+  upsellCourses     CourseUpsell[]         @relation("CourseToUpsellCourses")
+  upsellFor         CourseUpsell[]         @relation("UpsellCourseToCourse")
   enrollments       Enrollment[]
   landingPages      LandingPage[]          @relation("LandingPageCourse")
   upsellForPages    LandingPage[]          @relation("LandingPageUpsell")
   lessons           Lesson[]
   orderItems        OrderItem[]
-  // Upsell relations
-  upsellCourses     CourseUpsell[]         @relation("CourseToUpsellCourses")
-  upsellFor         CourseUpsell[]         @relation("UpsellCourseToCourse")
-  upsellProducts    CourseProductUpsell[]  @relation("CourseToUpsellProducts")
   upsellFromProduct ProductCourseUpsell[]  @relation("ProductUpsellCourse")
+  journeys          LearningJourney[]
+  mentoringSessions MentoringSession[]
+  addOns            PricingAddOn[]
 
   @@index([isPublished])
   @@index([price])
+  @@index([categoryId])
+  @@index([instructorId])
 }
 
 model Lesson {
@@ -233,11 +260,9 @@ model Lesson {
   title       String
   slug        String
   description String?
-  thumbnail   String?
+  learningOutcomes String?
   videoUrl    String?
   duration    String?
-  chapter     String?
-  section     String?
   content     String?
   guide       String?
   isFree      Boolean          @default(false)
@@ -245,6 +270,9 @@ model Lesson {
   courseId    String
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
+  thumbnail   String?
+  chapter     String?
+  section     String?
   attachments Attachment[]
   course      Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
   progress    LessonProgress[]
@@ -290,19 +318,35 @@ model LessonProgress {
 }
 
 model Instructor {
-  id           String     @id @default(uuid())
+  id           String                 @id @default(uuid())
   name         String
-  slug         String?    @unique
+  slug         String?                @unique
   title        String?
   bio          String?
   avatar       String?
   socialLinks  String?
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  courseCount  Int        @default(0)
-  studentCount Int        @default(0)
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  courseCount  Int                    @default(0)
+  studentCount Int                    @default(0)
   blogPosts    BlogPost[]
   courses      Course[]
+  experiences  InstructorExperience[]
+}
+
+model InstructorExperience {
+  id           String     @id @default(uuid())
+  instructorId String
+  company      String
+  position     String
+  period       String?
+  description  String?
+  icon         String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  instructor   Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
+  @@index([instructorId])
 }
 
 model CourseRegistration {
@@ -324,37 +368,32 @@ model Product {
   thumbnail          String?
   price              Decimal               @default(0) @db.Decimal(12, 0)
   compareAtPrice     Decimal?              @db.Decimal(12, 0)
-  type               ProductType           @default(TEMPLATE)
-  membershipAccess   String                @default("ALL")
+  type               String                @default("TEMPLATE")
   fileUrl            String?
   previewUrl         String?
   isPublished        Boolean               @default(false)
-  deploymentStatus   String                @default("RELEASED")
   tags               String[]
-  // Rich content fields
-  gallery            Json?                 // Array of {type: 'image'|'video', url: string, thumbnail?: string}
-  detailedContent    String?               @db.Text // Markdown content
-  // Countdown/Campaign fields
-  campaignId         String?
-  saleStartDate      DateTime?
-  saleEndDate        DateTime?
   createdAt          DateTime              @default(now())
   updatedAt          DateTime              @updatedAt
   field              String                @default("OTHER")
-  orderItems         OrderItem[]
-  versions           ProductVersion[]
-  subscriptions      Subscription[]
-  campaign           Campaign?             @relation(fields: [campaignId], references: [id])
-  // Landing page relations
+  campaignId         String?
+  saleStartDate      DateTime?
+  saleEndDate        DateTime?
+  gallery            Json?
+  detailedContent    String?
+  membershipAccess   String                @default("ALL")
+  deploymentStatus   String                @default("RELEASED")
+  activationCodes    ActivationCode[]
+  upsellFromCourse   CourseProductUpsell[] @relation("CourseUpsellProduct")
   landingPages       LandingPage[]         @relation("LandingPageProduct")
   landingPagesUpsell LandingPage[]         @relation("LandingPageUpsellProduct")
-  // Activation
-  activationCodes    ActivationCode[]
-  // Upsell relations
+  orderItems         OrderItem[]
+  campaign           Campaign?             @relation(fields: [campaignId], references: [id])
+  upsellCourses      ProductCourseUpsell[] @relation("ProductToUpsellCourses")
   upsellProducts     ProductUpsell[]       @relation("ProductToUpsellProducts")
   upsellFor          ProductUpsell[]       @relation("UpsellProductToProduct")
-  upsellCourses      ProductCourseUpsell[] @relation("ProductToUpsellCourses")
-  upsellFromCourse   CourseProductUpsell[] @relation("CourseUpsellProduct")
+  versions           ProductVersion[]
+  subscriptions      Subscription[]
 }
 
 model ProductVersion {
@@ -368,40 +407,45 @@ model ProductVersion {
 }
 
 model OrderItem {
-  id        String   @id @default(uuid())
+  id        String        @id @default(uuid())
   orderId   String
   courseId  String?
   productId String?
-  price     Decimal  @db.Decimal(12, 0)
+  addOnId   String?
+  price     Decimal       @db.Decimal(12, 0)
   metadata  Json?
-  course    Course?  @relation(fields: [courseId], references: [id])
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product   Product? @relation(fields: [productId], references: [id])
+  course    Course?       @relation(fields: [courseId], references: [id])
+  order     Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product?      @relation(fields: [productId], references: [id])
+  addOn     PricingAddOn? @relation(fields: [addOnId], references: [id])
 
   @@index([orderId])
   @@index([courseId])
   @@index([productId])
+  @@index([addOnId])
+  @@index([courseId, productId])
 }
 
 model Order {
-  id              String           @id @default(uuid())
-  code            String           @unique
-  userId          String
-  amount          Decimal          @db.Decimal(12, 0)
-  status          OrderStatus      @default(PENDING)
-  transactionId   String?
-  paymentMethod   String?
-  isGift          Boolean          @default(false)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  activationCodes ActivationCode[]
-  marketingLead    MarketingLead?
-  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items            OrderItem[]
+  id               String              @id @default(uuid())
+  code             String              @unique
+  userId           String
+  amount           Decimal             @db.Decimal(12, 0)
+  status           OrderStatus         @default(PENDING)
+  transactionId    String?
+  paymentMethod    String?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  isGift           Boolean             @default(false)
   metadata         Json?
   promoCodeId      String?
+  promoCode        Coupon?             @relation(fields: [promoCodeId], references: [id])
   invoiceProfileId String?
+  activationCodes  ActivationCode[]
+  marketingLead    MarketingLead?
   invoiceProfile   UserInvoiceProfile? @relation(fields: [invoiceProfileId], references: [id])
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items            OrderItem[]
 
   @@index([userId])
   @@index([status])
@@ -423,6 +467,9 @@ model PaymentTransaction {
   referenceCode   String?
   description     String?
   createdAt       DateTime  @default(now())
+
+  @@index([code])
+  @@index([transactionDate])
 }
 
 model Bundle {
@@ -437,10 +484,6 @@ model Bundle {
   isActive        Boolean        @default(true)
   startDate       DateTime?
   endDate         DateTime?
-  badgeText       String?
-  tag1            String?
-  tag2            String?
-  tag3            String?
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   courses         BundleCourse[]
@@ -474,6 +517,7 @@ model Coupon {
   forBirthday   Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  orders        Order[]
   usages        CouponUsage[]
 }
 
@@ -485,13 +529,15 @@ model CouponUsage {
   discount Int
   usedAt   DateTime @default(now())
   coupon   Coupon   @relation(fields: [couponId], references: [id], onDelete: Cascade)
+
+  @@index([couponId])
+  @@index([userId])
 }
 
 model ActivationCode {
   id           String               @id @default(uuid())
   code         String               @unique
   courseId     String?
-  productId    String?
   orderId      String?
   buyerId      String?
   redeemedById String?
@@ -499,10 +545,11 @@ model ActivationCode {
   status       ActivationCodeStatus @default(ACTIVE)
   createdAt    DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
+  productId    String?
   buyer        User?                @relation("BoughtCodes", fields: [buyerId], references: [id])
   course       Course?              @relation(fields: [courseId], references: [id])
-  product      Product?             @relation(fields: [productId], references: [id])
   order        Order?               @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product      Product?             @relation(fields: [productId], references: [id])
   redeemedBy   User?                @relation("RedeemedCodes", fields: [redeemedById], references: [id])
 
   @@index([code])
@@ -511,20 +558,20 @@ model ActivationCode {
 
 model BlogPost {
   id              String      @id @default(uuid())
-  slug            String      @unique
   title           String
+  slug            String      @unique
   excerpt         String?
   content         String
-  publishedAt     DateTime?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  thumbnail       String?
   authorId        String?
-  categoryId      String?
   isPublished     Boolean     @default(false)
+  publishedAt     DateTime?
+  metaTitle       String?
   metaDescription String?
   metaKeywords    String?
-  metaTitle       String?
-  thumbnail       String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  categoryId      String?
   author          Instructor? @relation(fields: [authorId], references: [id])
   category        Category?   @relation(fields: [categoryId], references: [id])
 }
@@ -544,25 +591,26 @@ model LandingPage {
   title           String
   slug            String   @unique
   description     String?
-  sections        String?  @db.Text
-  htmlContent     String?  @db.Text
   isActive        Boolean  @default(true)
-  isHomepage      Boolean  @default(false)
-  // Main product - can be either course OR product
-  courseId        String?
-  productId       String?
-  // Upsell - can be either course OR product
-  upsellCourseId  String?
-  upsellProductId String?
-  upsellPrice     Decimal? @db.Decimal(10, 2)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  sections        String?
+  courseId        String?
+  upsellCourseId  String?
+  upsellPrice     Decimal? @db.Decimal(10, 2)
   type            PageType @default(LANDING)
-  // Relations
+  productId       String?
+  upsellProductId String?
+  isHomepage      Boolean  @default(false)
+  htmlContent     String?
   course          Course?  @relation("LandingPageCourse", fields: [courseId], references: [id])
   product         Product? @relation("LandingPageProduct", fields: [productId], references: [id])
   upsellCourse    Course?  @relation("LandingPageUpsell", fields: [upsellCourseId], references: [id])
   upsellProduct   Product? @relation("LandingPageUpsellProduct", fields: [upsellProductId], references: [id])
+
+  @@index([courseId])
+  @@index([productId])
+  @@index([type])
 }
 
 model Subscription {
@@ -580,6 +628,159 @@ model Subscription {
   @@index([userId])
   @@index([status])
   @@index([endDate])
+}
+
+model Campaign {
+  id        String    @id @default(uuid())
+  name      String
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  courses   Course[]
+  products  Product[]
+}
+
+model ProductUpsell {
+  id              String   @id @default(uuid())
+  productId       String
+  upsellProductId String
+  position        Int      @default(0)
+  createdAt       DateTime @default(now())
+  product         Product  @relation("ProductToUpsellProducts", fields: [productId], references: [id], onDelete: Cascade)
+  upsellProduct   Product  @relation("UpsellProductToProduct", fields: [upsellProductId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, upsellProductId])
+  @@index([productId])
+}
+
+model CourseUpsell {
+  id             String   @id @default(uuid())
+  courseId       String
+  upsellCourseId String
+  position       Int      @default(0)
+  createdAt      DateTime @default(now())
+  course         Course   @relation("CourseToUpsellCourses", fields: [courseId], references: [id], onDelete: Cascade)
+  upsellCourse   Course   @relation("UpsellCourseToCourse", fields: [upsellCourseId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, upsellCourseId])
+  @@index([courseId])
+}
+
+model ProductCourseUpsell {
+  id             String   @id @default(uuid())
+  productId      String
+  upsellCourseId String
+  position       Int      @default(0)
+  createdAt      DateTime @default(now())
+  product        Product  @relation("ProductToUpsellCourses", fields: [productId], references: [id], onDelete: Cascade)
+  upsellCourse   Course   @relation("ProductUpsellCourse", fields: [upsellCourseId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, upsellCourseId])
+  @@index([productId])
+}
+
+model CourseProductUpsell {
+  id              String   @id @default(uuid())
+  courseId        String
+  upsellProductId String
+  position        Int      @default(0)
+  createdAt       DateTime @default(now())
+  course          Course   @relation("CourseToUpsellProducts", fields: [courseId], references: [id], onDelete: Cascade)
+  upsellProduct   Product  @relation("CourseUpsellProduct", fields: [upsellProductId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, upsellProductId])
+  @@index([courseId])
+}
+
+model Event {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  date        DateTime
+  time        String?
+  type        EventType @default(WEBINAR)
+  link        String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([date])
+  @@index([isActive])
+}
+
+model Media {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  url       String
+  name      String
+  mimeType  String
+  size      Int
+  width     Int?
+  height    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([mimeType])
+}
+
+model UserInvoiceProfile {
+  id          String   @id @default(uuid())
+  userId      String
+  companyName String
+  taxCode     String
+  address     String
+  email       String?
+  isDefault   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orders      Order[]
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model UserNote {
+  id        String   @id @default(uuid())
+  userId    String
+  content   String
+  adminId   String?
+  adminName String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model ApiKey {
+  id         String    @id @default(uuid())
+  name       String
+  key        String    @unique
+  isActive   Boolean   @default(true)
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([key])
+}
+
+enum ClassificationType {
+  PRODUCT_TYPE
+  PRODUCT_FIELD
+}
+
+model ProductClassification {
+  id        String             @id @default(uuid())
+  name      String
+  type      ClassificationType
+  icon      String?            // Lucide icon name, e.g. "Calculator", "Users"
+  isActive  Boolean            @default(true)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@unique([name, type])
 }
 
 enum Role {
@@ -669,93 +870,6 @@ enum SubscriptionStatus {
   CANCELLED
 }
 
-// Campaign Model for Countdown Strategy
-model Campaign {
-  id        String    @id @default(uuid())
-  name      String
-  startDate DateTime
-  endDate   DateTime
-  isActive  Boolean   @default(true)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  // Relations
-  products  Product[]
-  courses   Course[]
-}
-
-// Product to Product Upsell (Self-Relation)
-model ProductUpsell {
-  id              String   @id @default(uuid())
-  productId       String
-  upsellProductId String
-  position        Int      @default(0)
-  createdAt       DateTime @default(now())
-  product         Product  @relation("ProductToUpsellProducts", fields: [productId], references: [id], onDelete: Cascade)
-  upsellProduct   Product  @relation("UpsellProductToProduct", fields: [upsellProductId], references: [id], onDelete: Cascade)
-
-  @@unique([productId, upsellProductId])
-  @@index([productId])
-}
-
-// Course to Course Upsell (Self-Relation)
-model CourseUpsell {
-  id             String   @id @default(uuid())
-  courseId       String
-  upsellCourseId String
-  position       Int      @default(0)
-  createdAt      DateTime @default(now())
-  course         Course   @relation("CourseToUpsellCourses", fields: [courseId], references: [id], onDelete: Cascade)
-  upsellCourse   Course   @relation("UpsellCourseToCourse", fields: [upsellCourseId], references: [id], onDelete: Cascade)
-
-  @@unique([courseId, upsellCourseId])
-  @@index([courseId])
-}
-
-// Product to Course Upsell (Cross-Entity)
-model ProductCourseUpsell {
-  id             String   @id @default(uuid())
-  productId      String
-  upsellCourseId String
-  position       Int      @default(0)
-  createdAt      DateTime @default(now())
-  product        Product  @relation("ProductToUpsellCourses", fields: [productId], references: [id], onDelete: Cascade)
-  upsellCourse   Course   @relation("ProductUpsellCourse", fields: [upsellCourseId], references: [id], onDelete: Cascade)
-
-  @@unique([productId, upsellCourseId])
-  @@index([productId])
-}
-
-// Course to Product Upsell (Cross-Entity)
-model CourseProductUpsell {
-  id              String   @id @default(uuid())
-  courseId        String
-  upsellProductId String
-  position        Int      @default(0)
-  createdAt       DateTime @default(now())
-  course          Course   @relation("CourseToUpsellProducts", fields: [courseId], references: [id], onDelete: Cascade)
-  upsellProduct   Product  @relation("CourseUpsellProduct", fields: [upsellProductId], references: [id], onDelete: Cascade)
-
-  @@unique([courseId, upsellProductId])
-  @@index([courseId])
-}
-
-// Calendar Events
-model Event {
-  id          String    @id @default(uuid())
-  title       String
-  description String?   @db.Text
-  date        DateTime  // Event date
-  time        String?   // Event time (e.g., "20:00", "19:30")
-  type        EventType @default(WEBINAR)
-  link        String?   // Link to course or external URL
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  @@index([date])
-  @@index([isActive])
-}
-
 enum EventType {
   WEBINAR
   WORKSHOP
@@ -764,58 +878,317 @@ enum EventType {
   OTHER
 }
 
-model Media {
-    id        String   @id @default(uuid())
-    key       String   @unique
-    url       String
-    name      String
-    mimeType  String
-    size      Int
-    width     Int?
-    height    Int?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    
-    @@index([createdAt])
-    @@index([mimeType])
+enum AddOnType {
+  VIDEO
+  CHAT
+  REVIEW
+  OTHER
 }
 
-model UserInvoiceProfile {
-  id          String   @id @default(uuid())
+enum MentoringSessionStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model PricingAddOn {
+  id              String             @id @default(uuid())
+  name            String
+  description     String?
+  priceAddon      Decimal            @db.Decimal(12, 0)
+  compareAtAddon  Decimal?           @db.Decimal(12, 0)
+  features        String[]
+  position        Int                @default(0)
+  isActive        Boolean            @default(true)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  
+  // Mentoring Fields
+  type            AddOnType          @default(OTHER)
+  sessionCount    Int                @default(0)
+  sessionDuration Int                @default(60) // minutes
+  curriculum      Json?              // List of session topics
+
+  orderItems      OrderItem[]
+  mentoringSessions MentoringSession[]
+  courses         Course[]
+
+  @@index([isActive])
+  @@index([position])
+}
+
+model MentoringSession {
+  id          String                 @id @default(uuid())
   userId      String
-  companyName String
-  taxCode     String
-  address     String
-  email       String?
-  isDefault   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  orders      Order[]
+  addOnId     String
+  courseId    String?
+  
+  status      MentoringSessionStatus @default(PENDING)
+  startTime   DateTime
+  endTime     DateTime
+  meetingLink String?
+  notes       String?
+  bookingNote String?                // Note from student when booking
+  
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
 
+  user        User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addOn       PricingAddOn           @relation(fields: [addOnId], references: [id])
+  course      Course?                @relation(fields: [courseId], references: [id])
+
+  @@index([userId])
+  @@index([addOnId])
+  @@index([startTime])
+  @@index([status])
+}
+
+// =============================================================================
+// LEARNING JOURNEY SYSTEM
+// =============================================================================
+
+// Learning Journey - Lộ trình học thực hành
+model LearningJourney {
+  id           String              @id @default(uuid())
+  title        String              // "Từ Ý Tưởng Đến Sản Phẩm"
+  slug         String              @unique
+  description  String?
+  thumbnail    String?
+  courseId     String?             // Optional: Liên kết với Course
+  isPublished  Boolean             @default(false)
+  isAddOn      Boolean             @default(false) // Bán như Add-on
+  price        Decimal             @default(0) @db.Decimal(12, 0)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  course       Course?             @relation(fields: [courseId], references: [id])
+  steps        JourneyStep[]
+  enrollments  JourneyEnrollment[]
+
+  @@index([isPublished])
+  @@index([courseId])
+}
+
+// Các bước trong Journey
+model JourneyStep {
+  id             String              @id @default(uuid())
+  journeyId      String
+  title          String              // "Step 1: Brainstorm ý tưởng"
+  description    String?             // Hướng dẫn chi tiết
+  position       Int                 @default(0)
+  submissionType SubmissionType      @default(ANY) // IMAGE, FILE, URL, TEXT, ANY
+  isRequired     Boolean             @default(true)
+  deadlineDays   Int?                // Optional: số ngày deadline từ khi enroll
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  journey        LearningJourney     @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  submissions    JourneySubmission[]
+
+  @@index([journeyId])
+  @@index([position])
+}
+
+// Học viên đăng ký Journey
+model JourneyEnrollment {
+  id          String              @id @default(uuid())
+  userId      String
+  journeyId   String
+  currentStep Int                 @default(0) // Bước hiện tại (0 = chưa bắt đầu)
+  status      JourneyStatus       @default(IN_PROGRESS)
+  startedAt   DateTime            @default(now())
+  completedAt DateTime?
+
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  journey     LearningJourney     @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  submissions JourneySubmission[]
+
+  @@unique([userId, journeyId])
+  @@index([userId])
+  @@index([journeyId])
+  @@index([status])
+}
+
+// Bài nộp của học viên
+model JourneySubmission {
+  id             String            @id @default(uuid())
+  enrollmentId   String
+  stepId         String
+  submissionType SubmissionType    // IMAGE, FILE, URL, TEXT
+  content        String            // URL file/image hoặc text content
+  fileName       String?           // Tên file gốc nếu upload
+  status         SubmissionStatus  @default(PENDING)
+  feedback       String?           // Phản hồi từ reviewer
+  reviewedBy     String?           // Admin/Mentor ID
+  reviewedAt     DateTime?
+  submittedAt    DateTime          @default(now())
+
+  enrollment     JourneyEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  step           JourneyStep       @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  @@index([enrollmentId])
+  @@index([stepId])
+  @@index([status])
+}
+
+enum SubmissionType {
+  IMAGE
+  FILE
+  URL
+  TEXT
+  ANY
+}
+
+enum SubmissionStatus {
+  PENDING   // Chờ duyệt
+  APPROVED  // Đã duyệt
+  REJECTED  // Từ chối, cần làm lại
+  REVISION  // Cần chỉnh sửa
+}
+
+enum JourneyStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+// =============================================================================
+// WHITEBOARD SYSTEM
+// =============================================================================
+
+model Whiteboard {
+  id          String      @id @default(uuid())
+  creatorId   String
+  title       String?
+  description String?
+  thumbnail   String?    @db.Text
+  status      WhiteboardStatus @default(PRIVATE)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
+
+  creator     User        @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  artboards   Artboard[]
+  shares      WhiteboardShare[]
+  collaborators WhiteboardCollaborator[]
+  history     WhiteboardHistory[]
+
+  @@index([creatorId])
+  @@index([status])
+}
+
+model Artboard {
+  id           String     @id @default(uuid())
+  whiteboardId String
+  order        Int        @default(0)
+  name         String?
+  width        Int        @default(1920)
+  height       Int        @default(1080)
+  elements     Json?      // Canvas objects (tldraw state)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  whiteboard   Whiteboard @relation(fields: [whiteboardId], references: [id], onDelete: Cascade)
+  history      ArtboardHistory[]
+
+  @@index([whiteboardId])
+  @@index([order])
+}
+
+model WhiteboardShare {
+  id           String     @id @default(uuid())
+  whiteboardId String
+  shareToken   String     @unique
+  permission   WhiteboardPermission @default(VIEW)
+  expiresAt    DateTime?
+  maxAccesses  Int?
+  accessCount  Int        @default(0)
+  createdAt    DateTime   @default(now())
+
+  whiteboard   Whiteboard @relation(fields: [whiteboardId], references: [id], onDelete: Cascade)
+
+  @@index([whiteboardId])
+  @@index([shareToken])
+}
+
+model WhiteboardCollaborator {
+  id           String     @id @default(uuid())
+  whiteboardId String
+  userId       String
+  cursorX      Float?
+  cursorY      Float?
+  connectedAt  DateTime   @default(now())
+
+  whiteboard   Whiteboard @relation(fields: [whiteboardId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([whiteboardId])
   @@index([userId])
 }
 
-model UserNote {
-  id        String   @id @default(uuid())
-  userId    String
-  content   String   @db.Text
-  adminId   String?  // The admin who wrote the note
-  adminName String?  // Cached admin name
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model WhiteboardHistory {
+  id           String     @id @default(uuid())
+  whiteboardId String
+  version      Int
+  snapshot     Json?      // Full state
+  changedBy    String?
+  createdAt    DateTime   @default(now())
 
-  @@index([userId])
-  @@index([createdAt])
+  whiteboard   Whiteboard @relation(fields: [whiteboardId], references: [id], onDelete: Cascade)
+
+  @@index([whiteboardId])
 }
 
-model ApiKey {
-  id          String    @id @default(uuid())
-  name        String    // e.g., "External CRM"
-  key         String    @unique
-  isActive    Boolean   @default(true)
-  lastUsedAt  DateTime?
-  createdAt   DateTime  @default(now())
+model ArtboardHistory {
+  id           String     @id @default(uuid())
+  artboardId   String
+  version      Int
+  snapshot     Json?      // Elements snapshot
+  changedBy    String?
+  createdAt    DateTime   @default(now())
 
-  @@index([key])
+  artboard     Artboard   @relation(fields: [artboardId], references: [id], onDelete: Cascade)
+
+  @@index([artboardId])
+}
+
+model ShortLink {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  originalUrl   String
+  title         String?
+  clicks        Int       @default(0)
+  userId        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastClickedAt DateTime?
+
+  @@index([code])
+}
+
+enum WhiteboardStatus {
+  PUBLIC
+  PRIVATE
+}
+
+enum WhiteboardPermission {
+  VIEW
+  EDIT
+}
+
+model ProductClassification {
+  id        String             @id @default(uuid())
+  name      String
+  type      ClassificationType
+  isActive  Boolean            @default(true)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@unique([name, type])
+}
+
+enum ClassificationType {
+  PRODUCT_TYPE
+  PRODUCT_FIELD
 }
