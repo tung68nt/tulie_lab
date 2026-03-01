@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { TopProgressBar } from '@/components/TopProgressBar';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -104,7 +105,7 @@ export default async function RootLayout({
         )}
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
-        <TopProgressBar />
+        <Suspense fallback={null}><TopProgressBar /></Suspense>
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID || "GTM-XXXXXX"}`}
