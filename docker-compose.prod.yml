@@ -59,11 +59,6 @@ services:
     networks:
       - app-network
       - coolify
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/api/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     deploy:
       resources:
         limits:
@@ -77,7 +72,6 @@ services:
       - "traefik.http.routers.thelab-api.rule=Host(`thelab.tulie.vn`) && PathPrefix(`/api`)"
       - "traefik.http.routers.thelab-api.entrypoints=https"
       - "traefik.http.routers.thelab-api.tls=true"
-      - "traefik.http.routers.thelab-api.tls.certresolver=letsencrypt"
       - "traefik.http.routers.thelab-api.service=thelab-api"
       - "traefik.http.services.thelab-api.loadbalancer.server.port=8080"
       - "traefik.docker.network=coolify"
@@ -99,11 +93,6 @@ services:
     networks:
       - app-network
       - coolify
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     deploy:
       resources:
         limits:
@@ -117,11 +106,9 @@ services:
       - "traefik.http.routers.thelab-client.rule=Host(`thelab.tulie.vn`)"
       - "traefik.http.routers.thelab-client.entrypoints=https"
       - "traefik.http.routers.thelab-client.tls=true"
-      - "traefik.http.routers.thelab-client.tls.certresolver=letsencrypt"
       - "traefik.http.routers.thelab-client.service=thelab-client"
       - "traefik.http.services.thelab-client.loadbalancer.server.port=3000"
       - "traefik.docker.network=coolify"
-  # Routing is handled by Coolify (Traefik) via labels above
 
 volumes:
   redis_data:
