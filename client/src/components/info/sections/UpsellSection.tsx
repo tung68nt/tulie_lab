@@ -130,9 +130,9 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
 
                                 <div className="mt-auto">
                                     {item.link && item.link !== '#payment' ? (
-                                        <a href={item.link} className="w-full block">
+                                        <Link href={item.link} className="w-full block">
                                             {ButtonComponent}
-                                        </a>
+                                        </Link>
                                     ) : ButtonComponent}
                                 </div>
                             </div>

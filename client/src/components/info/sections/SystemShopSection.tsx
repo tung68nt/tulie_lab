@@ -386,11 +386,11 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             {new Intl.NumberFormat('vi-VN').format(Number(product.compareAtPrice))}<sup className="text-[8px]">đ</sup>
                                                         </div>
                                                     )}
-                                                    <a href={`/shop/${product.slug}`} className="w-full block">
+                                                    <Link href={`/shop/${product.slug}`} className="w-full block">
                                                         <Button size="sm" variant={isOwned ? "outline" : "default"} className="w-full rounded-xl h-11 font-bold shadow-sm hover:shadow transition-all pointer-events-none">
                                                             {isOwned ? 'Xem sản phẩm' : 'Xem chi tiết'}
                                                         </Button>
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>

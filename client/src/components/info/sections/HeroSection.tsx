@@ -118,7 +118,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     </svg>
                                 </Button>
                             )}
-                            <a href="/contact">
+                            <Link href="/contact" className="w-full sm:w-auto">
                                 <Button as="div" variant="outline" size="lg" className={cn(
                                     "w-full sm:w-auto text-base px-8 h-12 font-semibold transition-all backdrop-blur-sm",
                                     section.backgroundTheme === 'dark'
@@ -127,7 +127,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 )}>
                                     Liên hệ tư vấn
                                 </Button>
-                            </a>
+                            </Link>
                         </div>
 
                         {/* Trust indicators - removed */}
@@ -255,7 +255,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                         </div>
                                                     </div>
 
-                                                    <a href={isCombo ? `/checkout?bundleId=${mainCourse.id}` : `/checkout?courseId=${mainCourse.id}`}>
+                                                    <Link href={isCombo ? `/checkout?bundleId=${mainCourse.id}` : `/checkout?courseId=${mainCourse.id}`} className="w-full sm:w-auto">
                                                         <Button
                                                             size="lg"
                                                             className="font-semibold text-sm shadow-xl border-0 h-12 px-8 transition-all hover:scale-[1.05] active:scale-[0.95] bg-black text-white hover:bg-zinc-800 flex items-center gap-2 rounded-xl pointer-events-none"
@@ -263,7 +263,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                                             Chi tiết
                                                             <ChevronRight className="w-4 h-4" />
                                                         </Button>
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>

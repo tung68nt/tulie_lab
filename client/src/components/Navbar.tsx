@@ -52,7 +52,7 @@ function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }
                 onMouseLeave={handleMouseLeave}
             >
                 {link.href && link.href !== '#' ? (
-                    <a
+                    <Link
                         href={link.href}
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
                     >
@@ -60,7 +60,7 @@ function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }
                         <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
-                    </a>
+                    </Link>
                 ) : (
                     <div
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
@@ -76,7 +76,7 @@ function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }
                 <div className={`absolute top-[calc(100%-4px)] left-0 pt-3 w-56 transition-all duration-200 origin-top z-[100] ${isDropdownOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}`}>
                     <div className="bg-popover border border-border/60 rounded-xl shadow-2xl overflow-hidden p-1.5 backdrop-blur-xl">
                         {link.children.map((child) => (
-                            <a
+                            <Link
                                 key={child.href}
                                 href={child.href}
                                 target={child.isExternal ? '_blank' : undefined}
@@ -85,7 +85,7 @@ function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }
                                     }`}
                             >
                                 {child.label}
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 </div>
@@ -94,7 +94,7 @@ function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }
     }
 
     return (
-        <a
+        <Link
             href={link.href}
             target={link.isExternal ? '_blank' : undefined}
             rel={link.isExternal ? 'noopener noreferrer' : undefined}
@@ -102,7 +102,7 @@ function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }
             title={link.label}
         >
             {link.icon ? link.icon : link.label}
-        </a>
+        </Link>
     );
 }
 
@@ -561,13 +561,13 @@ export function Navbar() {
                                 return (
                                     <div key={link.href} className="space-y-1">
                                         {link.href && link.href !== '#' ? (
-                                            <a
+                                            <Link
                                                 href={link.href}
                                                 onClick={() => setMobileMenuOpen(false)}
                                                 className="block px-4 py-3 text-base font-bold text-foreground hover:bg-muted rounded-lg transition-colors"
                                             >
                                                 {link.label}
-                                            </a>
+                                            </Link>
                                         ) : (
                                             <div className="px-4 py-3 text-base font-bold text-foreground">
                                                 {link.label}
@@ -577,7 +577,7 @@ export function Navbar() {
                                             {link.children.map(child => {
                                                 const isChildActive = pathname === child.href;
                                                 return (
-                                                    <a
+                                                    <Link
                                                         key={child.href}
                                                         href={child.href}
                                                         target={child.isExternal ? '_blank' : undefined}
@@ -588,7 +588,7 @@ export function Navbar() {
                                                             }`}
                                                     >
                                                         {child.label}
-                                                    </a>
+                                                    </Link>
                                                 );
                                             })}
                                         </div>
@@ -597,7 +597,7 @@ export function Navbar() {
                             }
 
                             return (
-                                <a
+                                <Link
                                     key={link.href}
                                     href={link.href}
                                     target={link.isExternal ? '_blank' : undefined}
@@ -605,7 +605,7 @@ export function Navbar() {
                                     className={`block py-3 px-4 text-base font-bold rounded-lg transition-colors ${isActive ? 'bg-muted text-foreground' : 'text-foreground/80 hover:bg-muted'}`}
                                 >
                                     {link.label}
-                                </a>
+                                </Link>
                             );
                         })}
 
