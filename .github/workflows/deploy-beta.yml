@@ -56,7 +56,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            NEXT_PUBLIC_API_URL=https://beta.thelab.tulie.vn/api
+            NEXT_PUBLIC_API_URL=https://betathelab.tulie.vn/api
 
   deploy:
     name: Deploy Beta to VPS
@@ -78,13 +78,13 @@ jobs:
             echo "🚀 Starting beta deployment..."
 
             # Ensure deployment directory exists
-            if [ ! -d "/srv/beta.thelab.tulie.vn" ]; then
-              echo "📁 Creating directory /srv/beta.thelab.tulie.vn..."
-              sudo mkdir -p /srv/beta.thelab.tulie.vn
-              sudo chown $(whoami):$(whoami) /srv/beta.thelab.tulie.vn
+            if [ ! -d "/srv/betathelab.tulie.vn" ]; then
+              echo "📁 Creating directory /srv/betathelab.tulie.vn..."
+              sudo mkdir -p /srv/betathelab.tulie.vn
+              sudo chown $(whoami):$(whoami) /srv/betathelab.tulie.vn
             fi
 
-            cd /srv/beta.thelab.tulie.vn
+            cd /srv/betathelab.tulie.vn
 
             # Pull latest config via git
             if [ ! -d ".git" ]; then
@@ -129,7 +129,7 @@ jobs:
               WEB_HEALTH=$(curl -sf http://localhost:3002 --max-time 10 | grep -q '<' && echo "WEB_OK" || echo "WEB_FAIL")
               
               # Check Domain
-              DOMAIN_HEALTH=$(curl -sfL https://beta.thelab.tulie.vn --max-time 10 | grep -q '<' && echo "DOMAIN_OK" || echo "DOMAIN_FAIL")
+              DOMAIN_HEALTH=$(curl -sfL https://betathelab.tulie.vn --max-time 10 | grep -q '<' && echo "DOMAIN_OK" || echo "DOMAIN_FAIL")
 
               echo "Status: API=$API_HEALTH, Web=$WEB_HEALTH, Domain=$DOMAIN_HEALTH"
               if [ "$API_HEALTH" = "API_OK" ] && [ "$WEB_HEALTH" = "WEB_OK" ] && [ "$DOMAIN_HEALTH" = "DOMAIN_OK" ]; then

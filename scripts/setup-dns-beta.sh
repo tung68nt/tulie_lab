@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Quick DNS Setup Script for beta.thelab.tulie.vn
+# Quick DNS Setup Script for betathelab.tulie.vn
 # Run this script to get DNS records for configuration
 
 set -e
@@ -10,7 +10,7 @@ echo "🔧 Cloud Run Domain Mapping Setup"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-DOMAIN="beta.thelab.tulie.vn"
+DOMAIN="betathelab.tulie.vn"
 SERVICE="academy-web-beta"
 REGION="asia-southeast1"
 
@@ -85,7 +85,7 @@ A_RECORDS=$(gcloud run domain-mappings describe "$DOMAIN" \
 echo "📝 Add these A records to your DNS provider:"
 echo ""
 echo "Record Type: A"
-echo "Name: beta (or beta.thelab.tulie.vn)"
+echo "Name: beta (or betathelab.tulie.vn)"
 echo "Values:"
 echo "$A_RECORDS" | while read -r ip; do
     if [ -n "$ip" ]; then

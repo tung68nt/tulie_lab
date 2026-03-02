@@ -2,7 +2,7 @@
 
 # Verify DNS and Cloud Run setup
 
-DOMAIN="beta.thelab.tulie.vn"
+DOMAIN="betathelab.tulie.vn"
 CLOUDRUN_URL="academy-web-beta-qcmix2qxca-as.a.run.app"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

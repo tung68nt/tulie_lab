@@ -28,7 +28,7 @@ cd /Users/tungnguyen/Documents/code/tulie_academy
 ```
 
 Script này sẽ:
-- ✅ Map `beta.thelab.tulie.vn` → `academy-web-beta`
+- ✅ Map `betathelab.tulie.vn` → `academy-web-beta`
 - ✅ Map `thelab.tulie.vn` → `academy-web`
 - ✅ Lấy DNS records cần cấu hình
 
@@ -61,7 +61,7 @@ Vào DNS provider của bạn (nơi đăng ký domain `thelab.tulie.vn`):
 
 #### 2.1. XÓA Records Cũ (Vercel)
 
-**Cho BETA (beta.thelab.tulie.vn):**
+**Cho BETA (betathelab.tulie.vn):**
 - ❌ Xóa: `CNAME: beta → vercel-dns-017.com`
 - ❌ Hoặc xóa: `A: 64.29.17.65`
 - ❌ Hoặc xóa: `A: 216.198.79.65`
@@ -108,7 +108,7 @@ DNS cần thời gian để propagate. Kiểm tra bằng:
 
 ```bash
 # Check DNS đã update chưa
-dig beta.thelab.tulie.vn +short
+dig betathelab.tulie.vn +short
 dig thelab.tulie.vn +short
 
 # Nếu thấy IPs dạng 216.239.x.x → ✅ Thành công
@@ -149,7 +149,7 @@ Sau khi DNS đã chuyển sang Cloud Run:
 
 1. Vào https://vercel.com/dashboard
 2. Chọn project Tulie Lab
-3. Settings → Domains → Remove `beta.thelab.tulie.vn` và `thelab.tulie.vn`
+3. Settings → Domains → Remove `betathelab.tulie.vn` và `thelab.tulie.vn`
 4. (Optional) Delete toàn bộ Vercel project nếu không cần nữa
 
 ---
@@ -163,7 +163,7 @@ Sau khi DNS đã chuyển sang Cloud Run:
 **Giải pháp**:
 ```bash
 # Check TTL hiện tại
-dig beta.thelab.tulie.vn
+dig betathelab.tulie.vn
 
 # Nếu TTL còn cao (>3600), đợi thêm hoặc:
 # 1. Giảm TTL xuống 300 trước khi update DNS
@@ -171,8 +171,8 @@ dig beta.thelab.tulie.vn
 sudo dscacheutil -flushcache
 
 # 3. Check trên nhiều DNS servers
-dig @8.8.8.8 beta.thelab.tulie.vn +short    # Google DNS
-dig @1.1.1.1 beta.thelab.tulie.vn +short    # Cloudflare DNS
+dig @8.8.8.8 betathelab.tulie.vn +short    # Google DNS
+dig @1.1.1.1 betathelab.tulie.vn +short    # Cloudflare DNS
 ```
 
 ### Vấn Đề 2: SSL Certificate Pending
@@ -183,7 +183,7 @@ dig @1.1.1.1 beta.thelab.tulie.vn +short    # Cloudflare DNS
 
 Check status:
 ```bash
-gcloud run domain-mappings describe beta.thelab.tulie.vn \
+gcloud run domain-mappings describe betathelab.tulie.vn \
   --region asia-southeast1 \
   --format="get(status.conditions)"
 ```
@@ -207,7 +207,7 @@ gcloud run domain-mappings describe beta.thelab.tulie.vn \
 # 2. Clear browser cache
 # 3. Test incognito/private window
 # 4. Check DNS:
-dig beta.thelab.tulie.vn +short
+dig betathelab.tulie.vn +short
 
 # 5. Nếu vẫn thấy Vercel IPs → DNS chưa update
 ```
@@ -220,9 +220,9 @@ dig beta.thelab.tulie.vn +short
 - [ ] Copy DNS records từ output
 - [ ] Vào DNS provider và xóa Vercel records
 - [ ] Thêm Cloud Run A records (4 IPs cho mỗi domain)
-- [ ] `dig beta.thelab.tulie.vn +short` → Thấy `216.239.x.x` IPs
+- [ ] `dig betathelab.tulie.vn +short` → Thấy `216.239.x.x` IPs
 - [ ] `dig thelab.tulie.vn +short` → Thấy `216.239.x.x` IPs
-- [ ] `curl -I https://beta.thelab.tulie.vn` → HTTP 200, server: Google Frontend
+- [ ] `curl -I https://betathelab.tulie.vn` → HTTP 200, server: Google Frontend
 - [ ] `curl -I https://thelab.tulie.vn` → HTTP 200, server: Google Frontend
 - [ ] `./scripts/verify-dns-all.sh` → Tất cả ✅
 - [ ] Test website trên browser → Hoạt động bình thường
@@ -253,7 +253,7 @@ Check status định kỳ:
 ```bash
 # Health check
 curl https://thelab.tulie.vn/api/health
-curl https://beta.thelab.tulie.vn/api/health
+curl https://betathelab.tulie.vn/api/health
 
 # Logs
 gcloud run logs read --service academy-web --region asia-southeast1 --limit 50

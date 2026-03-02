@@ -32,7 +32,7 @@ services:
       - DATABASE_URL=${DATABASE_URL:?DATABASE_URL is required}
       - DIRECT_URL=${DIRECT_URL:?DIRECT_URL is required}
       - REDIS_URL=redis://:0490c5c92a9b94bc2bade0098a9f9701@tulie-redis-beta:6379
-      - CLIENT_URL=${CLIENT_URL:-https://beta.thelab.tulie.vn}
+      - CLIENT_URL=${CLIENT_URL:-https://betathelab.tulie.vn}
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
       - R2_ACCOUNT_ID=${R2_ACCOUNT_ID:-}
       - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID:-}
@@ -69,7 +69,7 @@ services:
           memory: 128M
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.thelab-beta-api.rule=Host(`beta.thelab.tulie.vn`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.thelab-beta-api.rule=Host(`betathelab.tulie.vn`) && PathPrefix(`/api`)"
       - "traefik.http.routers.thelab-beta-api.entrypoints=https"
       - "traefik.http.routers.thelab-beta-api.tls=true"
       - "traefik.http.routers.thelab-beta-api.service=thelab-beta-api"
@@ -85,7 +85,7 @@ services:
     ports:
       - "${BETA_CLIENT_PORT:-3002}:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=https://beta.thelab.tulie.vn/api
+      - NEXT_PUBLIC_API_URL=https://betathelab.tulie.vn/api
       - INTERNAL_API_URL=http://server:8080
       - NODE_OPTIONS=--max-old-space-size=512
     depends_on:
@@ -103,7 +103,7 @@ services:
           memory: 128M
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.thelab-beta-client.rule=Host(`beta.thelab.tulie.vn`)"
+      - "traefik.http.routers.thelab-beta-client.rule=Host(`betathelab.tulie.vn`)"
       - "traefik.http.routers.thelab-beta-client.entrypoints=https"
       - "traefik.http.routers.thelab-beta-client.tls=true"
       - "traefik.http.routers.thelab-beta-client.service=thelab-beta-client"

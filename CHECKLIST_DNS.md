@@ -1,4 +1,4 @@
-# DNS Setup Checklist - beta.thelab.tulie.vn
+# DNS Setup Checklist - betathelab.tulie.vn
 
 ## Quick Start
 
@@ -25,7 +25,7 @@
 ```bash
 gcloud run domain-mappings create \
   --service academy-web-beta \
-  --domain beta.thelab.tulie.vn \
+  --domain betathelab.tulie.vn \
   --region asia-southeast1
 ```
 
@@ -34,7 +34,7 @@ Expected output: Domain mapping created successfully
 ### ✅ Step 2: Get DNS Records (1 minute)
 
 ```bash
-gcloud run domain-mappings describe beta.thelab.tulie.vn \
+gcloud run domain-mappings describe betathelab.tulie.vn \
   --region asia-southeast1 \
   --format="value(status.resourceRecords.filter(type:A).rrdata)"
 ```
@@ -68,7 +68,7 @@ Check DNS propagation:
 
 ```bash
 # Check if DNS has updated
-dig beta.thelab.tulie.vn +short
+dig betathelab.tulie.vn +short
 
 # Should show Google Cloud IPs (216.239.x.x), not Vercel IPs
 ```
@@ -83,7 +83,7 @@ Cloud Run automatically provisions SSL certificate. Check:
 
 ```bash
 # Test HTTPS access
-curl -I https://beta.thelab.tulie.vn
+curl -I https://betathelab.tulie.vn
 
 # Expected output:
 # HTTP/2 200
@@ -92,9 +92,9 @@ curl -I https://beta.thelab.tulie.vn
 
 ### ✅ Step 6: Test Application
 
-- [ ] Open https://beta.thelab.tulie.vn in browser
+- [ ] Open https://betathelab.tulie.vn in browser
 - [ ] Homepage loads without errors
-- [ ] Admin pages accessible: https://beta.thelab.tulie.vn/admin
+- [ ] Admin pages accessible: https://betathelab.tulie.vn/admin
 - [ ] No "Network Error" messages
 - [ ] Check browser console for any errors
 
@@ -103,7 +103,7 @@ curl -I https://beta.thelab.tulie.vn
 Once DNS is working:
 
 - [ ] Go to Vercel Dashboard
-- [ ] Remove domain `beta.thelab.tulie.vn` from project
+- [ ] Remove domain `betathelab.tulie.vn` from project
 - [ ] Or delete entire Vercel deployment if not needed
 
 ## Troubleshooting
@@ -118,14 +118,14 @@ sudo systemd-resolve --flush-caches  # Linux
 ipconfig /flushdns  # Windows
 
 # Check on Google's DNS
-dig @8.8.8.8 beta.thelab.tulie.vn +short
+dig @8.8.8.8 betathelab.tulie.vn +short
 ```
 
 ### Problem: SSL Certificate Pending
 
 **Solution:** Wait 15-60 minutes. Check status:
 ```bash
-gcloud run domain-mappings describe beta.thelab.tulie.vn \
+gcloud run domain-mappings describe betathelab.tulie.vn \
   --region asia-southeast1 \
   --format="get(status.conditions)"
 ```
@@ -155,9 +155,9 @@ gcloud run logs read --service academy-web-beta --region asia-southeast1 --limit
 ./scripts/verify-dns-beta.sh
 
 # Or manual checks:
-dig beta.thelab.tulie.vn +short                    # Check DNS
-curl -I https://beta.thelab.tulie.vn               # Check HTTPS
-curl https://beta.thelab.tulie.vn/api/health       # Check API (if proxied)
+dig betathelab.tulie.vn +short                    # Check DNS
+curl -I https://betathelab.tulie.vn               # Check HTTPS
+curl https://betathelab.tulie.vn/api/health       # Check API (if proxied)
 ```
 
 ## Timeline

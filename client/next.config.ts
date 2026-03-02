@@ -19,7 +19,7 @@ const nextConfig: any = {
       },
       {
         protocol: 'https',
-        hostname: 'beta.thelab.tulie.vn',
+        hostname: 'betathelab.tulie.vn',
       },
       {
         protocol: 'https',

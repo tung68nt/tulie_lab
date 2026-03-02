@@ -26,11 +26,11 @@ echo ""
 # BETA DOMAIN
 # ============================================
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "1️⃣  BETA: beta.thelab.tulie.vn → academy-web-beta"
+echo "1️⃣  BETA: betathelab.tulie.vn → academy-web-beta"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-BETA_DOMAIN="beta.thelab.tulie.vn"
+BETA_DOMAIN="betathelab.tulie.vn"
 BETA_SERVICE="academy-web-beta"
 
 # Check if mapping exists
@@ -146,11 +146,11 @@ echo ""
 echo "3. Wait 5-15 minutes for DNS propagation"
 echo ""
 echo "4. Verify with:"
-echo "   dig beta.thelab.tulie.vn +short"
+echo "   dig betathelab.tulie.vn +short"
 echo "   dig thelab.tulie.vn +short"
 echo ""
 echo "5. Test:"
-echo "   curl -I https://beta.thelab.tulie.vn"
+echo "   curl -I https://betathelab.tulie.vn"
 echo "   curl -I https://thelab.tulie.vn"
 echo ""
 

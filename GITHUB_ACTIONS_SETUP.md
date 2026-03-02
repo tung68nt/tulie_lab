@@ -35,10 +35,10 @@ Workflow này sẽ chạy trên GitHub (có quyền access Google Cloud) và t�
 ┌───────────────────────┬──────┬──────────────────┐
 │ NAME                  │ TYPE │ RRDATA          │
 ├───────────────────────┼──────┼──────────────────┤
-│ beta.thelab.tulie.vn  │ A    │ 216.239.32.21   │
-│ beta.thelab.tulie.vn  │ A    │ 216.239.34.21   │
-│ beta.thelab.tulie.vn  │ A    │ 216.239.36.21   │
-│ beta.thelab.tulie.vn  │ A    │ 216.239.38.21   │
+│ betathelab.tulie.vn  │ A    │ 216.239.32.21   │
+│ betathelab.tulie.vn  │ A    │ 216.239.34.21   │
+│ betathelab.tulie.vn  │ A    │ 216.239.36.21   │
+│ betathelab.tulie.vn  │ A    │ 216.239.38.21   │
 └───────────────────────┴──────┴──────────────────┘
 
 📋 A Records (for DNS provider):
@@ -75,7 +75,7 @@ Copy 4 IP addresses từ output và:
 
 ```bash
 # Check DNS
-dig beta.thelab.tulie.vn +short
+dig betathelab.tulie.vn +short
 dig thelab.tulie.vn +short
 
 # Should see: 216.239.x.x IPs (not 64.29.x.x)
@@ -119,7 +119,7 @@ Khi run workflow, bạn có thể chọn:
 | Option | Mô Tả |
 |--------|-------|
 | `both` | Setup cả beta và production (Recommended) |
-| `beta` | Chỉ setup beta.thelab.tulie.vn |
+| `beta` | Chỉ setup betathelab.tulie.vn |
 | `prod` | Chỉ setup thelab.tulie.vn |
 
 ---
@@ -134,7 +134,7 @@ Khi run workflow, bạn có thể chọn:
 - [ ] Thêm 4 A records mới cho mỗi domain
 - [ ] Đợi DNS propagate (5-15 phút)
 - [ ] Verify với `dig` hoặc `./scripts/verify-dns-all.sh`
-- [ ] Test website: https://beta.thelab.tulie.vn & https://thelab.tulie.vn
+- [ ] Test website: https://betathelab.tulie.vn & https://thelab.tulie.vn
 - [ ] Confirm "server: Google Frontend" trong response headers
 
 ---
@@ -157,7 +157,7 @@ Khi run workflow, bạn có thể chọn:
 
 **Giải pháp**:
 1. Clear DNS cache: `sudo dscacheutil -flushcache`
-2. Check trên Google DNS: `dig @8.8.8.8 beta.thelab.tulie.vn +short`
+2. Check trên Google DNS: `dig @8.8.8.8 betathelab.tulie.vn +short`
 3. Verify DNS records đã add đúng chưa
 
 ---

@@ -7,7 +7,7 @@ echo "🔍 Full DNS & Cloud Run Verification"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-BETA_DOMAIN="beta.thelab.tulie.vn"
+BETA_DOMAIN="betathelab.tulie.vn"
 PROD_DOMAIN="thelab.tulie.vn"
 BETA_CLOUDRUN="academy-web-beta-qcmix2qxca-as.a.run.app"
 PROD_CLOUDRUN="academy-web-qcmix2qxca-as.a.run.app"
@@ -115,7 +115,7 @@ PROD_ON_GCP=$(dig +short "$PROD_DOMAIN" | grep -E '^216.239')
 if [ -n "$BETA_ON_GCP" ] && [ -n "$PROD_ON_GCP" ]; then
     echo "🎉 SUCCESS! Both domains migrated to Cloud Run"
     echo ""
-    echo "✅ beta.thelab.tulie.vn → Google Cloud Run"
+    echo "✅ betathelab.tulie.vn → Google Cloud Run"
     echo "✅ thelab.tulie.vn → Google Cloud Run"
     echo ""
     echo "🗑️  You can now:"
@@ -124,8 +124,8 @@ if [ -n "$BETA_ON_GCP" ] && [ -n "$PROD_ON_GCP" ]; then
 elif [ -z "$BETA_ON_GCP" ] || [ -z "$PROD_ON_GCP" ]; then
     echo "⏳ DNS Migration In Progress"
     echo ""
-    [ -z "$BETA_ON_GCP" ] && echo "⏳ beta.thelab.tulie.vn - Still on Vercel, waiting for DNS"
-    [ -n "$BETA_ON_GCP" ] && echo "✅ beta.thelab.tulie.vn - Migrated to Cloud Run"
+    [ -z "$BETA_ON_GCP" ] && echo "⏳ betathelab.tulie.vn - Still on Vercel, waiting for DNS"
+    [ -n "$BETA_ON_GCP" ] && echo "✅ betathelab.tulie.vn - Migrated to Cloud Run"
     [ -z "$PROD_ON_GCP" ] && echo "⏳ thelab.tulie.vn - Still on Vercel, waiting for DNS"
     [ -n "$PROD_ON_GCP" ] && echo "✅ thelab.tulie.vn - Migrated to Cloud Run"
     echo ""
