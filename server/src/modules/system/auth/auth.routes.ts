@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authController } from './auth.controller';
 import { authenticate } from '../../../middleware/auth.middleware';
 import { authLimiter, passwordResetLimiter } from '../../../middleware/rate-limit.middleware';
+import { verifyCaptcha } from '../../../middleware/captcha.middleware';
 
 const router = Router();
 
@@ -36,7 +37,7 @@ const router = Router();
  *       201:
  *         description: User registered successfully
  */
-router.post('/register', authLimiter, (req, res) => authController.register(req, res));
+router.post('/register', authLimiter, verifyCaptcha, (req, res) => authController.register(req, res));
 
 /**
  * @openapi
@@ -92,7 +93,7 @@ router.post('/logout', (req, res) => authController.logout(req, res));
  *         description: User profile retrieved
  */
 router.get('/me', authenticate, (req, res) => authController.me(req, res));
-router.post('/forgot-password', passwordResetLimiter, (req, res) => authController.forgotPassword(req, res));
+router.post('/forgot-password', passwordResetLimiter, verifyCaptcha, (req, res) => authController.forgotPassword(req, res));
 router.post('/reset-password', passwordResetLimiter, (req, res) => authController.resetPassword(req, res));
 
 // Google Auth

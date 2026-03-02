@@ -8,15 +8,26 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Logo } from '@/components/Logo';
 import { useToast } from '@/contexts/ToastContext';
 import { Mail } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useRef } from 'react';
 
 export default function ForgotPasswordPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
     const { addToast } = useToast();
+    const captchaRef = useRef<any>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
+
+        const captchaToken = captchaRef.current?.getValue();
+        if (!captchaToken) {
+            addToast('Vui lòng xác minh bạn không phải là robot!', 'error');
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const formData = new FormData(e.currentTarget);
             const email = formData.get('email') as string;
@@ -24,7 +35,7 @@ export default function ForgotPasswordPage() {
             const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ email, captchaToken }),
             });
 
             if (res.ok) {
@@ -35,6 +46,7 @@ export default function ForgotPasswordPage() {
             }
         } catch (error) {
             addToast('Đã xảy ra lỗi. Vui lòng thử lại sau.', 'error');
+            captchaRef.current?.reset();
         } finally {
             setIsLoading(false);
         }
@@ -86,6 +98,12 @@ export default function ForgotPasswordPage() {
                                         type="email"
                                         required
                                         className="h-12"
+                                    />
+                                </div>
+                                <div className="flex justify-center">
+                                    <ReCAPTCHA
+                                        ref={captchaRef}
+                                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"}
                                     />
                                 </div>
                                 <Button className="w-full h-12 text-base font-semibold" disabled={isLoading}>

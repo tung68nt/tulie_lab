@@ -1,0 +1,117 @@
+{
+  "taskId": "zojzsi",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "zojzsi",
+      "version": 1,
+      "timestamp": "2026-03-02T17:21:37.500Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Setup and Deploy Beta Environment",
+        "description": "Deploy the beta branch using the production database (main) for live testing. This includes branch creation, Coolify configuration, and environment variable setup.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deployment",
+          "beta"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Beta branch created from main"
+          },
+          {
+            "completed": false,
+            "text": "Beta environment configured in Coolify to use main DB"
+          },
+          {
+            "completed": false,
+            "text": "Beta site go live and verified"
+          }
+        ]
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "zojzsi",
+      "version": 2,
+      "timestamp": "2026-03-02T17:25:06.381Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Beta branch created from main"
+            },
+            {
+              "completed": false,
+              "text": "Beta environment configured in Coolify to use main DB"
+            },
+            {
+              "completed": false,
+              "text": "Beta site go live and verified"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Beta branch created from main"
+            },
+            {
+              "completed": true,
+              "text": "Beta environment configured in Coolify to use main DB"
+            },
+            {
+              "completed": false,
+              "text": "Beta site go live and verified"
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "Merged main into beta, created docker-compose.beta.yml, and added GitHub Actions workflow deploy-beta.yml. Pushed everything to beta branch."
+        }
+      ],
+      "snapshot": {
+        "title": "Setup and Deploy Beta Environment",
+        "description": "Deploy the beta branch using the production database (main) for live testing. This includes branch creation, Coolify configuration, and environment variable setup.",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "deployment",
+          "beta"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Beta branch created from main"
+          },
+          {
+            "completed": true,
+            "text": "Beta environment configured in Coolify to use main DB"
+          },
+          {
+            "completed": false,
+            "text": "Beta site go live and verified"
+          }
+        ],
+        "implementationNotes": "Merged main into beta, created docker-compose.beta.yml, and added GitHub Actions workflow deploy-beta.yml. Pushed everything to beta branch."
+      }
+    }
+  ]
+}

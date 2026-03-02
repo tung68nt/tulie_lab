@@ -10,6 +10,8 @@ import { api } from '@/lib/api';
 import { Logo } from '@/components/Logo';
 import { SectionBackground } from '@/components/info/SectionBackground';
 import { useToast } from '@/contexts/ToastContext';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { useRef } from 'react';
 
 export default function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false);
@@ -17,10 +19,19 @@ export default function RegisterPage() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const { addToast } = useToast();
     const router = useRouter();
+    const captchaRef = useRef<any>(null);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
+
+        const captchaToken = captchaRef.current?.getValue();
+        if (!captchaToken) {
+            addToast('Vui lòng xác minh bạn không phải là robot!', 'error');
+            setIsLoading(false);
+            return;
+        }
+
         try {
             const formData = new FormData(e.currentTarget);
             const name = formData.get('name') as string;
@@ -42,11 +53,12 @@ export default function RegisterPage() {
                 return;
             }
 
-            await api.auth.register({ email, password, name });
+            await api.auth.register({ email, password, name, captchaToken });
             addToast('Đăng ký thành công! Vui lòng đăng nhập.', 'success');
             router.push('/login');
         } catch (error) {
-            addToast('Đăng ký thất bại. Email có thể đã tồn tại.', 'error');
+            addToast('Đăng ký thất bại. Email có thể đã tồn tại hoặc mã Captcha không đúng.', 'error');
+            captchaRef.current?.reset();
         } finally {
             setIsLoading(false);
         }
@@ -204,6 +216,12 @@ export default function RegisterPage() {
                                         )}
                                     </button>
                                 </div>
+                            </div>
+                            <div className="flex justify-center">
+                                <ReCAPTCHA
+                                    ref={captchaRef}
+                                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"}
+                                />
                             </div>
                             <Button className="w-full h-12 text-base font-semibold" disabled={isLoading}>
                                 {isLoading ? (
