@@ -118,7 +118,7 @@ jobs:
             echo "🧹 Cleaning up..."
             docker image prune -f
 
-            # Health check (check internal ports since aaPanel Nginx handles port 80)
+            # Health check (check internal ports to verify containers started correctly)
             echo "🩺 Checking health..."
             for i in {1..20}; do
               echo "Attempt $i..."
