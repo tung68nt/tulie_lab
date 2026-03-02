@@ -94,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             items: [
                 { href: '/admin/users', label: 'Thành viên' },
                 { href: '/admin/notifications', label: 'Thông báo' },
-                { href: '/admin/emails', label: 'Email Logs' },
+                { href: '/admin/emails', label: 'Emails & Templates' },
                 { href: '/admin/security', label: 'Bảo mật' },
                 { href: '/admin/menu', label: 'Menu / Navigation' },
                 { href: '/admin/media', label: 'Kho Media' },

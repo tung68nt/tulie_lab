@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { api, getMediaUrl } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings, Plus, Trash2, Edit2, CreditCard } from 'lucide-react';
+import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings, Plus, Trash2, Edit2, CreditCard, Mail } from 'lucide-react';
 import { Switch } from '@/components/Switch';
 import { useSettings } from '@/contexts/SettingsContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -519,85 +520,28 @@ export default function AdminSettingsPage() {
                         </CardContent>
                     </Card>
 
-                    {/* SMTP / Email Configuration */}
+                    {/* Redundant SMTP section removed - moved to /admin/emails */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
-                                📧 Cấu hình SMTP (Gửi Email)
+                                📧 Cấu hình Email & SMTP
                             </CardTitle>
                             <CardDescription>
-                                Cấu hình máy chủ SMTP để hệ thống gửi email (mật khẩu, xác nhận đơn hàng, thông báo...).
+                                Thiết lập máy chủ gửi email và quản lý template email.
                             </CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-6">
-                            <div className="grid gap-4 md:grid-cols-2">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">SMTP Host</label>
-                                    <Input
-                                        value={settings.smtp_host || ''}
-                                        onChange={(e) => handleChange('smtp_host', e.target.value)}
-                                        placeholder="smtp.gmail.com"
-                                    />
+                        <CardContent>
+                            <div className="flex items-center justify-between p-4 border border-dashed rounded-xl bg-muted/20">
+                                <div className="space-y-1">
+                                    <p className="text-sm font-medium">Cấu hình SMTP đã được chuyển đi</p>
+                                    <p className="text-xs text-muted-foreground">Để quản lý cấu hình gửi email chuyên sâu hơn, vui lòng truy cập trang Email.</p>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">SMTP Port</label>
-                                    <Input
-                                        type="number"
-                                        value={settings.smtp_port || ''}
-                                        onChange={(e) => handleChange('smtp_port', e.target.value)}
-                                        placeholder="587"
-                                    />
-                                </div>
-                            </div>
-                            <div className="grid gap-4 md:grid-cols-2">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">SMTP User (Email)</label>
-                                    <Input
-                                        value={settings.smtp_user || ''}
-                                        onChange={(e) => handleChange('smtp_user', e.target.value)}
-                                        placeholder="your-email@gmail.com"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-medium">SMTP Password</label>
-                                    <Input
-                                        type="password"
-                                        value={settings.smtp_pass || ''}
-                                        onChange={(e) => handleChange('smtp_pass', e.target.value)}
-                                        placeholder="App Password"
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2">
-                                    <Switch
-                                        id="smtp_secure"
-                                        checked={settings.smtp_secure === 'true'}
-                                        onCheckedChange={(checked) => handleChange('smtp_secure', checked ? 'true' : 'false')}
-                                    />
-                                    <label htmlFor="smtp_secure" className="text-sm cursor-pointer select-none font-medium">
-                                        SSL/TLS (Port 465)
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div className="border-t pt-4">
-                                <div className="flex items-center gap-3">
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        size="sm"
-                                        className="gap-2"
-                                        disabled={emailTestLoading || !settings.smtp_host || !settings.smtp_user}
-                                        onClick={handleTestEmail}
-                                    >
-                                        {emailTestLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send size={14} />}
-                                        Gửi email thử nghiệm
+                                <Link href="/admin/emails">
+                                    <Button variant="outline" size="sm" className="gap-2">
+                                        <Mail className="w-4 h-4" />
+                                        Đi tới cài đặt Email
                                     </Button>
-                                    <p className="text-xs text-muted-foreground">
-                                        Gửi email test tới Admin Email đã cấu hình ở trên.
-                                    </p>
-                                </div>
+                                </Link>
                             </div>
                         </CardContent>
                     </Card>
