@@ -345,41 +345,41 @@ export default function CoursePage({ params }: { params: any }) {
 
             {/* Content Section */}
             <div className="container py-6 mt-6 md:mt-12 relative">
-                <div className="grid gap-8 md:gap-12 md:grid-cols-3">
+                {/* mobile outcomes - outside grid to avoid affecting desktop alignment */}
+                <section className="md:hidden mb-8">
+                    <h2 className="mb-6 text-xl font-bold text-zinc-900 dark:text-white">Bạn sẽ học được gì</h2>
+                    <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 p-5 shadow-sm">
+                        {(() => {
+                            const outcomes = course.learningOutcomes;
+                            const isRichText = outcomes && (outcomes.includes('<') || outcomes.includes('*') || outcomes.includes('[') || (outcomes.startsWith('[') && outcomes.endsWith(']')));
+
+                            if (isRichText) {
+                                return <MarkdownRenderer content={outcomes} />;
+                            }
+
+                            const outcomesList = Array.isArray(outcomes) ? outcomes : (outcomes || '').split('\n').filter((l: string) => l.trim());
+                            return outcomesList.length > 0 ? (
+                                <ul className="grid gap-3 sm:grid-cols-2">
+                                    {outcomesList.map((line: string, i: number) => (
+                                        <li key={i} className="flex gap-3 items-start text-sm text-zinc-900 dark:text-zinc-100">
+                                            <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
+                                                <Check className="w-3 h-3 text-emerald-500" strokeWidth={3} />
+                                            </div>
+                                            <span>{line.replace(/^- /, '')}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p className="text-sm text-zinc-500 italic">Nội dung đang cập nhật...</p>
+                            );
+                        })()}
+                    </div>
+                </section>
+
+                <div className="grid gap-8 md:gap-12 md:grid-cols-3 items-start">
                     <div className="md:col-span-2 space-y-12">
-                        {/* mobile outcomes */}
-                        <section className="md:hidden">
-                            <h2 className="mb-6 text-xl font-bold text-zinc-900 dark:text-white">Bạn sẽ học được gì</h2>
-                            <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 p-5 shadow-sm">
-                                {(() => {
-                                    const outcomes = course.learningOutcomes;
-                                    const isRichText = outcomes && (outcomes.includes('<') || outcomes.includes('*') || outcomes.includes('[') || (outcomes.startsWith('[') && outcomes.endsWith(']')));
-
-                                    if (isRichText) {
-                                        return <MarkdownRenderer content={outcomes} />;
-                                    }
-
-                                    const outcomesList = Array.isArray(outcomes) ? outcomes : (outcomes || '').split('\n').filter((l: string) => l.trim());
-                                    return outcomesList.length > 0 ? (
-                                        <ul className="grid gap-3 sm:grid-cols-2">
-                                            {outcomesList.map((line: string, i: number) => (
-                                                <li key={i} className="flex gap-3 items-start text-sm text-zinc-900 dark:text-zinc-100">
-                                                    <div className="shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
-                                                        <Check className="w-3 h-3 text-emerald-500" strokeWidth={3} />
-                                                    </div>
-                                                    <span>{line.replace(/^- /, '')}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="text-sm text-zinc-500 italic">Nội dung đang cập nhật...</p>
-                                    );
-                                })()}
-                            </div>
-                        </section>
-
                         <section>
-                            <h2 className="mb-6 text-xl md:text-2xl font-bold text-zinc-900 dark:text-white">Nội dung khóa học</h2>
+                            <h2 className="mb-6 text-2xl font-bold text-zinc-900 dark:text-white">Nội dung khóa học</h2>
                             <div className="rounded-xl border border-zinc-200 dark:border-white/10 bg-card dark:bg-zinc-900/50 overflow-hidden divide-y divide-zinc-100 dark:divide-white/5 shadow-sm">
                                 {course.lessons && course.lessons.length > 0 ? (
                                     <>
