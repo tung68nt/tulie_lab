@@ -1,1 +1,0 @@
-{"status":"ok","version":"v1.1.3-debug","timestamp":"2026-02-09T20:27:05.312Z","checks":{"uptime":25.917959665,"readiness":true,"database":"connected","redis":"disconnected (not initialized)"}}
