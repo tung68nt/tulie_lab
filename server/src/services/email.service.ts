@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import prisma from '../config/prisma';
 
 // Function to get the latest SMTP configuration and create a transporter
-const getTransporter = async () => {
+export const getTransporter = async () => {
     // 1. Try to get from database first
     const smtpSettings = await prisma.systemSetting.findMany({
         where: {

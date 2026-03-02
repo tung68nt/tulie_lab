@@ -29,6 +29,7 @@ export default function AdminSettingsPage() {
     const [regenerating, setRegenerating] = useState(false);
     const [domainBranding, setDomainBranding] = useState<any[]>([]);
     const [uploadingDomainLogo, setUploadingDomainLogo] = useState<number | null>(null);
+    const [emailTestLoading, setEmailTestLoading] = useState(false);
 
     useEffect(() => {
         loadSettings();
@@ -167,6 +168,18 @@ export default function AdminSettingsPage() {
             addToast(error.message || 'Lỗi kiểm tra kết nối', 'error');
         } finally {
             setTestLoading(false);
+        }
+    };
+
+    const handleTestEmail = async () => {
+        setEmailTestLoading(true);
+        try {
+            const res = await api.admin.settings.testEmail(settings.admin_notification_email);
+            addToast(res.message || 'Đã gửi email thử nghiệm thành công!', 'success');
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi gửi email thử nghiệm', 'error');
+        } finally {
+            setEmailTestLoading(false);
         }
     };
 
@@ -487,7 +500,9 @@ export default function AdminSettingsPage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Cấu hình Admin & Thông báo</CardTitle>
+                            <CardTitle className="flex items-center gap-2">
+                                Cấu hình Admin & Thông báo
+                            </CardTitle>
                             <CardDescription>
                                 Cấu hình email và thông báo để nhận tin từ hệ thống.
                             </CardDescription>
@@ -500,6 +515,89 @@ export default function AdminSettingsPage() {
                                     onChange={(e) => handleChange('admin_notification_email', e.target.value)}
                                     placeholder="Email để nhận thông báo đơn hàng, contact..."
                                 />
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* SMTP / Email Configuration */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                📧 Cấu hình SMTP (Gửi Email)
+                            </CardTitle>
+                            <CardDescription>
+                                Cấu hình máy chủ SMTP để hệ thống gửi email (mật khẩu, xác nhận đơn hàng, thông báo...).
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="grid gap-4 md:grid-cols-2">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">SMTP Host</label>
+                                    <Input
+                                        value={settings.smtp_host || ''}
+                                        onChange={(e) => handleChange('smtp_host', e.target.value)}
+                                        placeholder="smtp.gmail.com"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">SMTP Port</label>
+                                    <Input
+                                        type="number"
+                                        value={settings.smtp_port || ''}
+                                        onChange={(e) => handleChange('smtp_port', e.target.value)}
+                                        placeholder="587"
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid gap-4 md:grid-cols-2">
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">SMTP User (Email)</label>
+                                    <Input
+                                        value={settings.smtp_user || ''}
+                                        onChange={(e) => handleChange('smtp_user', e.target.value)}
+                                        placeholder="your-email@gmail.com"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm font-medium">SMTP Password</label>
+                                    <Input
+                                        type="password"
+                                        value={settings.smtp_pass || ''}
+                                        onChange={(e) => handleChange('smtp_pass', e.target.value)}
+                                        placeholder="App Password"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-2">
+                                    <Switch
+                                        id="smtp_secure"
+                                        checked={settings.smtp_secure === 'true'}
+                                        onCheckedChange={(checked) => handleChange('smtp_secure', checked ? 'true' : 'false')}
+                                    />
+                                    <label htmlFor="smtp_secure" className="text-sm cursor-pointer select-none font-medium">
+                                        SSL/TLS (Port 465)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="border-t pt-4">
+                                <div className="flex items-center gap-3">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2"
+                                        disabled={emailTestLoading || !settings.smtp_host || !settings.smtp_user}
+                                        onClick={handleTestEmail}
+                                    >
+                                        {emailTestLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send size={14} />}
+                                        Gửi email thử nghiệm
+                                    </Button>
+                                    <p className="text-xs text-muted-foreground">
+                                        Gửi email test tới Admin Email đã cấu hình ở trên.
+                                    </p>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>

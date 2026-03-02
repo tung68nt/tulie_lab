@@ -12,6 +12,10 @@ export const settingsApi = {
     }),
     getEmailLogs: () => request<unknown[]>('/settings/email-logs'),
     testTelegram: () => request<{ message: string }>('/settings/telegram/test', { method: 'POST' }),
+    testEmail: (email?: string) => request<{ success: boolean; message: string }>('/settings/email/test', {
+        method: 'POST',
+        body: JSON.stringify({ email })
+    }),
     getPublic: () => request<unknown>('/settings/public'),
 };
 
