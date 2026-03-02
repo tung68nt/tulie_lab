@@ -2,6 +2,15 @@ import { Request, Response } from 'express';
 import { container } from '../../../core/container';
 import { SettingService } from './settings.service';
 
+const SENSITIVE_SETTING_KEYS = [
+    'sepay_api_key',
+    'sepay_secret_key',
+    'smtp_pass',
+    'jwt_secret',
+    'apiKey',
+    'SYSTEM_API_KEY'
+];
+
 export class SettingController {
     private get settingService(): SettingService {
         return container.resolve<SettingService>('SettingService');
@@ -12,7 +21,12 @@ export class SettingController {
             const { keys } = req.query;
             let settings = await this.settingService.getAllSettings();
 
-            // Filter if keys are provided
+            // Security Filter: Remove sensitive keys from public results
+            SENSITIVE_SETTING_KEYS.forEach(key => {
+                if (settings[key]) delete settings[key];
+            });
+
+            // Filter if specific keys are provided
             if (keys && typeof keys === 'string') {
                 const requestedKeys = keys.split(',');
                 const filtered: any = {};
