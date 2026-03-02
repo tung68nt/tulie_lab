@@ -1,16 +1,42 @@
 import nodemailer from 'nodemailer';
 import prisma from '../config/prisma';
 
-// SMTP Configuration
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-    },
-});
+// Function to get the latest SMTP configuration and create a transporter
+const getTransporter = async () => {
+    // 1. Try to get from database first
+    const smtpSettings = await prisma.systemSetting.findMany({
+        where: {
+            key: {
+                in: ['smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass', 'smtp_secure']
+            }
+        }
+    });
+
+    const settings: Record<string, string> = {};
+    smtpSettings.forEach((s: any) => {
+        settings[s.key] = s.value;
+    });
+
+    const host = settings['smtp_host'] || process.env.SMTP_HOST || 'smtp.gmail.com';
+    const port = parseInt(settings['smtp_port'] || process.env.SMTP_PORT || '587');
+    const secure = (settings['smtp_secure'] || process.env.SMTP_SECURE) === 'true';
+    const user = settings['smtp_user'] || process.env.SMTP_USER;
+    const pass = settings['smtp_pass'] || process.env.SMTP_PASS;
+
+    if (!user || !pass) {
+        console.warn('[EmailService] SMTP credentials missing. Email sending will likely fail.');
+    }
+
+    return nodemailer.createTransport({
+        host,
+        port,
+        secure,
+        auth: {
+            user,
+            pass,
+        },
+    });
+};
 
 // Helper to log email sends
 const logEmail = async (data: {
@@ -349,8 +375,11 @@ export const emailService = {
         const template = emailTemplates.passwordReset(resetLink, userName);
 
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"Tulie Academy" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"Tulie Academy" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to,
                 subject: template.subject,
                 html: template.html,
@@ -368,8 +397,11 @@ export const emailService = {
         const template = emailTemplates.welcomeEmail(userName, loginLink);
 
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"Tulie Academy" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"Tulie Academy" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to,
                 subject: template.subject,
                 html: template.html,
@@ -391,8 +423,11 @@ export const emailService = {
         const template = emailTemplates.orderConfirmation(orderCode, amount, courses, paymentInfo);
 
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"Tulie Academy" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"Tulie Academy" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to,
                 subject: template.subject,
                 html: template.html,
@@ -408,8 +443,11 @@ export const emailService = {
     async sendBirthdayCouponEmail(to: string, userName: string, couponCode: string, discount: string) {
         const template = emailTemplates.birthdayCoupon(userName, couponCode, discount);
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"Tulie Academy" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"Tulie Academy" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to,
                 subject: template.subject,
                 html: template.html,
@@ -425,6 +463,7 @@ export const emailService = {
     // Test email connection
     async verifyConnection() {
         try {
+            const transporter = await getTransporter();
             await transporter.verify();
             console.log('✅ SMTP connection verified');
             return true;
@@ -437,8 +476,11 @@ export const emailService = {
     async sendPaymentSuccessEmail(to: string, userName: string, orderCode: string, courses: string[]) {
         const template = emailTemplates.paymentSuccess(userName, orderCode, courses);
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"The Tulie Lab" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"The Tulie Lab" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to,
                 subject: template.subject,
                 html: template.html,
@@ -451,16 +493,25 @@ export const emailService = {
         }
     },
 
+    // Helper to get admin email from DB or env
+    async getAdminEmail() {
+        const setting = await prisma.systemSetting.findUnique({ where: { key: 'admin_notification_email' } });
+        return setting?.value || process.env.ADMIN_NOTIFICATION_EMAIL;
+    },
+
     async sendAdminContactNotification(submission: { name: string; email: string; phone?: string; message: string }) {
-        const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+        const adminEmail = await this.getAdminEmail();
         if (!adminEmail) {
             console.warn('⚠️ ADMIN_NOTIFICATION_EMAIL not configured, skipping admin notification');
             return false;
         }
         const template = emailTemplates.adminNewContact(submission);
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"The Tulie Lab" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"The Tulie Lab" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to: adminEmail,
                 subject: template.subject,
                 html: template.html,
@@ -474,15 +525,18 @@ export const emailService = {
     },
 
     async sendAdminOrderNotification(orderCode: string, userEmail: string, courses: string[], amount: number) {
-        const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+        const adminEmail = await this.getAdminEmail();
         if (!adminEmail) {
             console.warn('⚠️ ADMIN_NOTIFICATION_EMAIL not configured, skipping admin notification');
             return false;
         }
         const template = emailTemplates.adminNewOrder(orderCode, userEmail, courses, amount);
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"The Tulie Lab" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"The Tulie Lab" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to: adminEmail,
                 subject: template.subject,
                 html: template.html,
@@ -518,8 +572,11 @@ export const emailService = {
         });
 
         try {
+            const transporter = await getTransporter();
+            const from = process.env.SMTP_FROM || process.env.SMTP_USER || '"The Tulie Lab" <noreply@tulie.vn>';
+
             await transporter.sendMail({
-                from: `"The Tulie Lab" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+                from,
                 to: data.to,
                 subject: template.subject,
                 html: template.html,

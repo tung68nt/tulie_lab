@@ -10,6 +10,8 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import { loggerService } from './services/logger.service';
 import redisService from './services/redis.service';
+import { concurrencyLimiter, getActiveRequestsCount } from './middleware/concurrency.middleware';
+import { cleanupOldLogs } from './scripts/cleanup-logs';
 
 // Lazy load prisma to avoid top-level crash
 let prisma: any = null;
@@ -41,7 +43,14 @@ app.get('/api/health', async (req, res) => {
     timestamp: new Date().toISOString(),
     checks: {
       uptime: process.uptime(),
-      readiness: isAppReady
+      readiness: isAppReady,
+      activeRequests: getActiveRequestsCount(),
+      memory: {
+        rss: Math.round(process.memoryUsage().rss / 1024 / 1024) + 'MB',
+        heapTotal: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + 'MB',
+        heapUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
+        external: Math.round(process.memoryUsage().external / 1024 / 1024) + 'MB'
+      }
     }
   };
 
@@ -84,6 +93,9 @@ app.get('/api/health', async (req, res) => {
 
   res.status(health.status === 'error' ? 503 : 200).json(health);
 });
+
+// --- CONCURRENCY LIMITER (Early rejection) ---
+app.use(concurrencyLimiter);
 
 app.get('/api/check', (req, res) => {
   res.json({ message: 'Deployment Success', version: 'v1.1.2-audit-v1', time: new Date().toISOString() });
@@ -156,6 +168,13 @@ if (process.env.NODE_ENV !== 'test') {
 
   // Pass io to app if needed for other modules
   app.set('io', io);
+
+  // --- Background Jobs ---
+  // Run log cleanup every 24 hours
+  setInterval(() => {
+    loggerService.info('⏰ Running scheduled log cleanup...');
+    cleanupOldLogs().catch(err => console.error('Failed to run scheduled cleanup:', err));
+  }, 24 * 60 * 60 * 1000);
 }
 
 // --- Async App Initialization ---

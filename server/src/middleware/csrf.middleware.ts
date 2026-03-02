@@ -17,14 +17,19 @@ export const csrfProtection = (req: Request, res: Response, next: NextFunction) 
     }
 
     // Exempt webhooks from CSRF (they use API keys instead)
-    if (req.path.includes('/webhook') || req.path.includes('/callback')) {
+    if (
+        req.path.includes('/webhook') ||
+        req.path.includes('/callback') ||
+        req.originalUrl.includes('/webhook') ||
+        req.path.includes('/telegram-webhook')
+    ) {
         return next();
     }
 
     const csrfHeader = req.headers['x-requested-with'] || req.headers['x-csrf-token'];
 
     if (!csrfHeader) {
-        console.warn(`[Security] CSRF attempt blocked: ${req.method} ${req.path} - Missing custom header`);
+        console.warn(`[Security] CSRF attempt blocked: ${req.method} ${req.path} (${req.originalUrl}) - Missing custom header`);
         return res.status(403).json({
             message: 'Security violation: CSRF protection triggered. Missing required headers.',
             error: 'CSRF_PROTECTION'

@@ -35,8 +35,8 @@ export const telegramWebhook = async (req: Request, res: Response) => {
             // Get report data
             const reportData = await crmService.getSystemReport(period);
 
-            // Send report (using the configured service method which sends to default channel)
-            await telegramService.sendDailyReport(reportData);
+            // Send report (using the requesting chatId)
+            await telegramService.sendDailyReport(reportData, chatId);
 
             console.log('[TelegramWebhook] Report command executed successfully');
         } else if (lowerText === '/ping') {

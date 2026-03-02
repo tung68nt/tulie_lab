@@ -26,10 +26,12 @@ export class TelegramService {
         }
     }
 
-    async sendMessage(message: string) {
+    async sendMessage(message: string, targetChatId?: string | number) {
         await this.refreshSettings();
 
-        if (!this.botToken || !this.chatId) {
+        const chatId = targetChatId || this.chatId;
+
+        if (!this.botToken || !chatId) {
             console.warn('[TelegramService] Bot token or Chat ID not configured. Skipping notification.');
             return;
         }
@@ -37,11 +39,11 @@ export class TelegramService {
         try {
             const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
             await axios.post(url, {
-                chat_id: this.chatId,
+                chat_id: chatId.toString(),
                 text: message,
                 parse_mode: 'HTML'
             });
-            console.log('[TelegramService] Message sent successfully');
+            console.log(`[TelegramService] Message sent successfully to ${chatId}`);
         } catch (error: any) {
             console.error('[TelegramService] Failed to send message:', error.response?.data || error.message);
         }
@@ -113,7 +115,7 @@ export class TelegramService {
         inactiveUsers: number;
         securityRisks: number;
         systemStatus?: string;
-    }) {
+    }, targetChatId?: string | number) {
         const title = data.title || 'hôm nay';
         const message = `
 <b>📊 BÁO CÁO KINH DOANH & HỆ THỐNG</b>
@@ -134,7 +136,7 @@ export class TelegramService {
 <i>Hệ thống Tulie Academy - ${new Date().toLocaleDateString('vi-VN')}</i>
         `.trim();
 
-        return this.sendMessage(message);
+        return this.sendMessage(message, targetChatId);
     }
 }
 
