@@ -70,6 +70,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.thelab-api.rule=Host(`thelab.tulie.vn`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.thelab-api.entrypoints=https"
+      - "traefik.http.routers.thelab-api.tls=true"
+      - "traefik.http.routers.thelab-api.service=thelab-api"
       - "traefik.http.services.thelab-api.loadbalancer.server.port=8080"
       - "traefik.docker.network=coolify"
 
@@ -101,10 +104,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.thelab-client.rule=Host(`thelab.tulie.vn`)"
+      - "traefik.http.routers.thelab-client.entrypoints=https"
+      - "traefik.http.routers.thelab-client.tls=true"
+      - "traefik.http.routers.thelab-client.service=thelab-client"
       - "traefik.http.services.thelab-client.loadbalancer.server.port=3000"
       - "traefik.docker.network=coolify"
-  # Nginx is handled by aaPanel on the host (manages SSL + reverse proxy)
-  # aaPanel Nginx proxies: thelab.tulie.vn -> client:3001, /api -> server:5001
+  # Routing is handled by Coolify (Traefik) via labels above
 
 volumes:
   redis_data:
