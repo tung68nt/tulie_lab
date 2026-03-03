@@ -457,44 +457,44 @@ export function Navbar() {
                                             </div>
                                             <div className="p-2 space-y-0.5">
                                                 {isAdmin && (
-                                                    <Link href="/admin" onClick={() => setDropdownOpen(false)} className="flex w-full cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                    <Link href="/admin" className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                         <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                             <Rocket size={14} />
                                                         </div>
                                                         Quản trị hệ thống
                                                     </Link>
                                                 )}
-                                                <Link href="/whiteboard" onClick={() => setDropdownOpen(false)} className="flex w-full cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/whiteboard" className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Palette size={14} />
                                                     </div>
                                                     Bảng trắng
                                                 </Link>
-                                                <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="flex w-full cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/dashboard" className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <BookOpen size={14} />
                                                     </div>
                                                     Khoá học của tôi
                                                 </Link>
-                                                <Link href="/my-products" onClick={() => setDropdownOpen(false)} className="flex w-full cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/my-products" className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Package size={14} />
                                                     </div>
                                                     Sản phẩm số của tôi
                                                 </Link>
-                                                <Link href="/profile" onClick={() => setDropdownOpen(false)} className="flex w-full cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/profile" className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <User size={14} />
                                                     </div>
                                                     Hồ sơ của tôi
                                                 </Link>
-                                                <Link href="/activate" onClick={() => setDropdownOpen(false)} className="flex w-full cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/activate" className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Key size={14} />
                                                     </div>
                                                     Kích hoạt bằng mã
                                                 </Link>
-                                                <Link href="/orders" onClick={() => setDropdownOpen(false)} className="flex w-full cursor-pointer items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/orders" className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <FileText size={14} />
                                                     </div>
@@ -505,7 +505,7 @@ export function Navbar() {
                                                 <div className="h-px bg-zinc-100 my-1.5 mx-1" />
 
                                                 <button
-                                                    className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
+                                                    className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
                                                     onClick={handleLogout}
                                                 >
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
@@ -563,7 +563,6 @@ export function Navbar() {
                                         {link.href && link.href !== '#' ? (
                                             <Link
                                                 href={link.href}
-                                                onClick={() => setMobileMenuOpen(false)}
                                                 className="block px-4 py-3 text-base font-bold text-foreground hover:bg-muted rounded-lg transition-colors"
                                             >
                                                 {link.label}
@@ -580,7 +579,6 @@ export function Navbar() {
                                                     <Link
                                                         key={child.href}
                                                         href={child.href}
-                                                        onClick={() => setMobileMenuOpen(false)}
                                                         target={child.isExternal ? '_blank' : undefined}
                                                         rel={child.isExternal ? 'noopener noreferrer' : undefined}
                                                         className={`block py-2 px-4 text-[15px] rounded-md transition-colors ${isChildActive
@@ -690,26 +688,26 @@ export function Navbar() {
                     </div>
                     <div className="flex-1 overflow-y-auto py-2">
                         {isAdmin && (
-                            <Link href="/admin" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base font-medium hover:bg-muted transition-colors text-primary">
+                            <Link href="/admin" className="block px-4 py-2.5 text-base font-medium hover:bg-muted transition-colors text-primary">
                                 Quản trị hệ thống
                             </Link>
                         )}
-                        <Link href="/activate" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/activate" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Kích hoạt bằng mã
                         </Link>
-                        <Link href="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/profile" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Hồ sơ cá nhân
                         </Link>
-                        <Link href="/whiteboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/whiteboard" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Bảng trắng cộng tác
                         </Link>
-                        <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/dashboard" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Khoá học của tôi
                         </Link>
-                        <Link href="/my-products" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/my-products" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Sản phẩm số của tôi
                         </Link>
-                        <Link href="/orders" onClick={() => setDropdownOpen(false)} className="flex items-center justify-between px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/orders" className="flex items-center justify-between px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             <span className="flex items-center gap-2">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 Giỏ hàng / Đơn hàng

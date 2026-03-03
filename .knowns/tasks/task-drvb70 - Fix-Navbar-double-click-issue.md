@@ -7,7 +7,7 @@ labels:
   - bug
   - ui/ux
 createdAt: '2026-03-01T02:36:26.506Z'
-updatedAt: '2026-03-01T02:39:26.365Z'
+updatedAt: '2026-03-03T03:20:23.898Z'
 timeSpent: 172
 assignee: '@me'
 ---
@@ -30,10 +30,10 @@ Users are required to click twice on Navbar links to navigate. This is likely ca
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-1. Extract navigation items into a sub-component NavMenuItem to localize state updates and prevent full Navbar re-renders on hover.
-2. Remove 'select-none' and 'cursor-pointer' from all Link components.
-3. Replace JS-driven hover state with Tailwind CSS 'group-hover' for simple dropdowns if possible, or use local state in sub-components.
-4. Adjust the 'invisible bridge' positioning to ensure it doesn't overlap link click areas.
+1. Remove redundant onClick state updates from Navbar Links (close menu is already handled by pathname useEffect)
+2. Remove key={pathname} from AdminLayout main container to prevent full re-mounts
+3. Strip select-none and cursor-pointer from navigation elements
+4. Refactor NavMenuItem to use Tailwind group-hover for stable dropdown transitions
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes

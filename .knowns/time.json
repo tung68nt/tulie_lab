@@ -34,6 +34,13 @@
       "startedAt": "2026-02-21T17:28:58.179Z",
       "pausedAt": null,
       "totalPausedMs": 0
+    },
+    {
+      "taskId": "drvb70",
+      "taskTitle": "Fix Navbar double-click issue",
+      "startedAt": "2026-03-03T03:20:14.847Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
     }
   ]
 }

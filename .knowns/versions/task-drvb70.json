@@ -1,6 +1,6 @@
 {
   "taskId": "drvb70",
-  "currentVersion": 3,
+  "currentVersion": 4,
   "versions": [
     {
       "id": "v1",
@@ -174,6 +174,50 @@
           }
         ],
         "implementationPlan": "1. Extract navigation items into a sub-component NavMenuItem to localize state updates and prevent full Navbar re-renders on hover.\n2. Remove 'select-none' and 'cursor-pointer' from all Link components.\n3. Replace JS-driven hover state with Tailwind CSS 'group-hover' for simple dropdowns if possible, or use local state in sub-components.\n4. Adjust the 'invisible bridge' positioning to ensure it doesn't overlap link click areas.",
+        "implementationNotes": "Refactored Navbar.tsx to use local state in NavMenuItem sub-component. This prevents the entire Navbar from re-rendering when hovering over links, which was causing click events to be swallowed or requiring a double-click on some devices. Also removed 'select-none' from navigation links and added a useEffect to close dropdowns on pathname change."
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "drvb70",
+      "version": 4,
+      "timestamp": "2026-03-03T03:20:23.901Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": "1. Extract navigation items into a sub-component NavMenuItem to localize state updates and prevent full Navbar re-renders on hover.\n2. Remove 'select-none' and 'cursor-pointer' from all Link components.\n3. Replace JS-driven hover state with Tailwind CSS 'group-hover' for simple dropdowns if possible, or use local state in sub-components.\n4. Adjust the 'invisible bridge' positioning to ensure it doesn't overlap link click areas.",
+          "newValue": "1. Remove redundant onClick state updates from Navbar Links (close menu is already handled by pathname useEffect)\n2. Remove key={pathname} from AdminLayout main container to prevent full re-mounts\n3. Strip select-none and cursor-pointer from navigation elements\n4. Refactor NavMenuItem to use Tailwind group-hover for stable dropdown transitions"
+        }
+      ],
+      "snapshot": {
+        "title": "Fix Navbar double-click issue",
+        "description": "Users are required to click twice on Navbar links to navigate. This is likely caused by re-renders triggered by onMouseEnter events in the Navbar component.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "bug",
+          "ui/ux"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Navbar links navigate on first click"
+          },
+          {
+            "completed": true,
+            "text": "Hover dropdowns still function correctly"
+          },
+          {
+            "completed": true,
+            "text": "Remove unnecessary re-renders during hover"
+          },
+          {
+            "completed": true,
+            "text": "Remove select-none from navigation links"
+          }
+        ],
+        "implementationPlan": "1. Remove redundant onClick state updates from Navbar Links (close menu is already handled by pathname useEffect)\n2. Remove key={pathname} from AdminLayout main container to prevent full re-mounts\n3. Strip select-none and cursor-pointer from navigation elements\n4. Refactor NavMenuItem to use Tailwind group-hover for stable dropdown transitions",
         "implementationNotes": "Refactored Navbar.tsx to use local state in NavMenuItem sub-component. This prevents the entire Navbar from re-rendering when hovering over links, which was causing click events to be swallowed or requiring a double-click on some devices. Also removed 'select-none' from navigation links and added a useEffect to close dropdowns on pathname change."
       }
     }
