@@ -3,8 +3,9 @@ import { IOrderRepository } from '../interfaces/order.repository.interface';
 import { IActivationCodeRepository } from '../../activation-codes/interfaces/activation-code.repository.interface';
 import { ICourseRepository } from '../../../lms/courses/interfaces/course.repository.interface';
 import { IUserRepository } from '../../../system/users/interfaces/user.repository.interface';
-import { ProductType } from '@prisma/client';
 import { FacebookService } from '../../../system/facebook/facebook.service';
+import axios from 'axios';
+import { env } from '../../../../config/env';
 
 export class OrderPaidListener {
     constructor(
@@ -132,6 +133,35 @@ export class OrderPaidListener {
             });
         } catch (err) {
             console.error('[OrderPaidListener] Failed to send CAPI event:', err);
+        }
+
+        // 4. Push to CRM Webhook
+        if (env.CRM_WEBHOOK_URL) {
+            try {
+                console.log(`[OrderPaidListener] Pushing order ${order.code} to CRM...`);
+                await axios.post(env.CRM_WEBHOOK_URL, {
+                    event: 'ORDER_PAID',
+                    order: {
+                        id: order.id,
+                        code: order.code,
+                        amount: Number(order.amount),
+                        user: {
+                            email: (user as any).email,
+                            profile: (user as any).profile
+                        },
+                        items: order.items,
+                        createdAt: order.createdAt
+                    }
+                }, {
+                    headers: {
+                        'x-academy-api-key': env.CRM_API_KEY || ''
+                    },
+                    timeout: 5000
+                });
+                console.log(`[OrderPaidListener] Successfully pushed to CRM`);
+            } catch (err: any) {
+                console.error('[OrderPaidListener] Failed to push to CRM:', err.message);
+            }
         }
     }
 }

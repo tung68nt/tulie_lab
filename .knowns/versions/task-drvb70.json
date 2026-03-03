@@ -1,6 +1,6 @@
 {
   "taskId": "drvb70",
-  "currentVersion": 4,
+  "currentVersion": 5,
   "versions": [
     {
       "id": "v1",
@@ -219,6 +219,50 @@
         ],
         "implementationPlan": "1. Remove redundant onClick state updates from Navbar Links (close menu is already handled by pathname useEffect)\n2. Remove key={pathname} from AdminLayout main container to prevent full re-mounts\n3. Strip select-none and cursor-pointer from navigation elements\n4. Refactor NavMenuItem to use Tailwind group-hover for stable dropdown transitions",
         "implementationNotes": "Refactored Navbar.tsx to use local state in NavMenuItem sub-component. This prevents the entire Navbar from re-rendering when hovering over links, which was causing click events to be swallowed or requiring a double-click on some devices. Also removed 'select-none' from navigation links and added a useEffect to close dropdowns on pathname change."
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "drvb70",
+      "version": 5,
+      "timestamp": "2026-03-03T03:46:12.714Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Refactored Navbar.tsx to use local state in NavMenuItem sub-component. This prevents the entire Navbar from re-rendering when hovering over links, which was causing click events to be swallowed or requiring a double-click on some devices. Also removed 'select-none' from navigation links and added a useEffect to close dropdowns on pathname change.",
+          "newValue": "Resolved double-click navigation by removing redundant state resets and key={pathname} in AdminLayout. Navigation is now single-click and smooth."
+        }
+      ],
+      "snapshot": {
+        "title": "Fix Navbar double-click issue",
+        "description": "Users are required to click twice on Navbar links to navigate. This is likely caused by re-renders triggered by onMouseEnter events in the Navbar component.",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [
+          "bug",
+          "ui/ux"
+        ],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Navbar links navigate on first click"
+          },
+          {
+            "completed": true,
+            "text": "Hover dropdowns still function correctly"
+          },
+          {
+            "completed": true,
+            "text": "Remove unnecessary re-renders during hover"
+          },
+          {
+            "completed": true,
+            "text": "Remove select-none from navigation links"
+          }
+        ],
+        "implementationPlan": "1. Remove redundant onClick state updates from Navbar Links (close menu is already handled by pathname useEffect)\n2. Remove key={pathname} from AdminLayout main container to prevent full re-mounts\n3. Strip select-none and cursor-pointer from navigation elements\n4. Refactor NavMenuItem to use Tailwind group-hover for stable dropdown transitions",
+        "implementationNotes": "Resolved double-click navigation by removing redundant state resets and key={pathname} in AdminLayout. Navigation is now single-click and smooth."
       }
     }
   ]

@@ -7,8 +7,8 @@ labels:
   - bug
   - ui/ux
 createdAt: '2026-03-01T02:36:26.506Z'
-updatedAt: '2026-03-03T03:20:23.898Z'
-timeSpent: 172
+updatedAt: '2026-03-03T03:46:13.662Z'
+timeSpent: 1730
 assignee: '@me'
 ---
 # Fix Navbar double-click issue
@@ -39,6 +39,6 @@ Users are required to click twice on Navbar links to navigate. This is likely ca
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-Refactored Navbar.tsx to use local state in NavMenuItem sub-component. This prevents the entire Navbar from re-rendering when hovering over links, which was causing click events to be swallowed or requiring a double-click on some devices. Also removed 'select-none' from navigation links and added a useEffect to close dropdowns on pathname change.
+Resolved double-click navigation by removing redundant state resets and key={pathname} in AdminLayout. Navigation is now single-click and smooth.
 <!-- SECTION:NOTES:END -->
 
