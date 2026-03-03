@@ -33,7 +33,9 @@ export const concurrencyLimiter = (req: Request, res: Response, next: NextFuncti
 
         return res.status(503).json({
             status: 503,
-            message: 'Hệ thống hiện đang quá tải (System at capacity). Vui lòng quay lại sau vài phút.',
+            code: 'SYSTEM_OVERLOADED',
+            message: 'Hệ thống đang xử lý quá nhiều yêu cầu. Vui lòng thử lại sau ít phút.',
+            messageEn: 'System is processing too many requests. Please try again in a few minutes.',
             error: 'Service Unavailable',
             retryAfter: 30
         });

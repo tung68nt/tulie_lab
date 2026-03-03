@@ -60,6 +60,34 @@ export async function request<T>(endpoint: string, options: RequestInit = {}): P
         const response = await fetch(url, { ...options, headers, credentials: 'include', cache: 'no-store' });
 
         if (!response.ok) {
+            // 🛡️ System Overload Detection (503 / 429)
+            if ((response.status === 503 || response.status === 429) && typeof window !== 'undefined') {
+                const text = await response.text();
+                let errorObj;
+                try { errorObj = JSON.parse(text); } catch { errorObj = {}; }
+
+                const isOverloaded = errorObj.code === 'SYSTEM_OVERLOADED' ||
+                    response.status === 503 ||
+                    response.status === 429;
+
+                if (isOverloaded) {
+                    const retryAfter = errorObj.retryAfter || 30;
+                    console.warn(`[API] System overloaded (${response.status}). Retry after ${retryAfter}s`);
+
+                    // Dispatch event for UI to show friendly notification
+                    window.dispatchEvent(new CustomEvent('system-overloaded', {
+                        detail: {
+                            status: response.status,
+                            message: errorObj.message || 'Hệ thống đang quá tải',
+                            retryAfter,
+                            systemStatus: errorObj.systemStatus,
+                        }
+                    }));
+
+                    throw new ApiError(response.status, errorObj.message || 'Hệ thống đang quá tải. Vui lòng thử lại sau.');
+                }
+            }
+
             if (response.status === 401 && typeof window !== 'undefined') {
                 const hadToken = !!token; // User had a token before this request
 

@@ -12,6 +12,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { DynamicFavicon } from '@/components/DynamicFavicon';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/system/analytics/UtmTracker';
+import SystemOverloadBanner from '@/components/SystemOverloadBanner';
 
 // NOTE: force-dynamic and fetchCache removed from layout level.
 // Having them here forces Next.js to re-render the ENTIRE layout on every 
@@ -114,6 +115,7 @@ export default async function RootLayout({
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <Suspense fallback={null}><TopProgressBar /></Suspense>
+        <SystemOverloadBanner />
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID || "GTM-XXXXXX"}`}

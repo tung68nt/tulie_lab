@@ -11,6 +11,7 @@ import { swaggerSpec } from './config/swagger';
 import { loggerService } from './services/logger.service';
 import redisService from './services/redis.service';
 import { concurrencyLimiter, getActiveRequestsCount } from './middleware/concurrency.middleware';
+import { systemGuard, getSystemMetrics } from './middleware/system-guard.middleware';
 import { cleanupOldLogs } from './scripts/cleanup-logs';
 
 // Lazy load prisma to avoid top-level crash
@@ -50,7 +51,8 @@ app.get('/api/health', async (req, res) => {
         heapTotal: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + 'MB',
         heapUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
         external: Math.round(process.memoryUsage().external / 1024 / 1024) + 'MB'
-      }
+      },
+      system: getSystemMetrics()
     }
   };
 
@@ -93,6 +95,9 @@ app.get('/api/health', async (req, res) => {
 
   res.status(health.status === 'error' ? 503 : 200).json(health);
 });
+
+// --- SYSTEM GUARD (Proactive overload protection) ---
+app.use(systemGuard);
 
 // --- CONCURRENCY LIMITER (Early rejection) ---
 app.use(concurrencyLimiter);
