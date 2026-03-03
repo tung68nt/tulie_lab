@@ -1,14 +1,8 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, startTransition } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-/**
- * Custom progress bar that does NOT proxy pushState or intercept anchor clicks.
- * It only reacts to pathname/searchParams changes via Next.js hooks.
- * This avoids the bug in next-nprogress-bar where pushState proxy interferes
- * with Next.js 15 App Router navigation.
- */
 export function TopProgressBar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -17,37 +11,47 @@ export function TopProgressBar() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const previousPathRef = useRef(pathname);
 
+  // Sync pathname to ref to detect changes correctly
   useEffect(() => {
-    // Skip on initial mount
-    if (previousPathRef.current === pathname) return;
-    previousPathRef.current = pathname;
+    // Detect navigation start
+    if (previousPathRef.current !== pathname) {
+      previousPathRef.current = pathname;
 
-    // Start progress
-    setVisible(true);
-    setProgress(30);
+      // Wrap state updates in transition to avoid blocking Next.js navigation transition
+      startTransition(() => {
+        setVisible(true);
+        setProgress(30);
+      });
 
-    timerRef.current = setTimeout(() => {
-      setProgress(60);
-    }, 100);
-
-    const t2 = setTimeout(() => {
-      setProgress(90);
-    }, 300);
-
-    const t3 = setTimeout(() => {
-      setProgress(100);
-      setTimeout(() => {
-        setVisible(false);
-        setProgress(0);
-      }, 200);
-    }, 500);
-
-    return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
-  }, [pathname, searchParams]);
+
+      const t1 = setTimeout(() => {
+        startTransition(() => setProgress(60));
+      }, 100);
+
+      const t2 = setTimeout(() => {
+        startTransition(() => setProgress(90));
+      }, 300);
+
+      const t3 = setTimeout(() => {
+        startTransition(() => {
+          setProgress(100);
+          setTimeout(() => {
+            setVisible(false);
+            setProgress(0);
+          }, 200);
+        });
+      }, 500);
+
+      timerRef.current = t1; // Track for cleanup
+
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
+    }
+  }, [pathname]); // Only react to pathname changes to be more stable
 
   if (!visible) return null;
 

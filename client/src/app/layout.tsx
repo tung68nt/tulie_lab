@@ -13,15 +13,14 @@ import { DynamicFavicon } from '@/components/DynamicFavicon';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/system/analytics/UtmTracker';
 import SystemOverloadBanner from '@/components/SystemOverloadBanner';
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
 // NOTE: force-dynamic and fetchCache removed from layout level.
 // Having them here forces Next.js to re-render the ENTIRE layout on every 
 // client-side navigation, blocking transitions and causing the double-click bug.
 // Individual pages set force-dynamic where needed.
 // The getSettings() fetch uses AbortSignal.timeout(5000) for Docker build safety.
-
-
-
 const inter = Inter({ subsets: ['latin'] });
 
 async function getSettings() {
@@ -137,7 +136,9 @@ export default async function RootLayout({
                 <DynamicFavicon />
                 <ConfirmProvider>
                   <UtmTracker />
+                  <Navbar />
                   <MainLayout>{children}</MainLayout>
+                  <Footer />
                 </ConfirmProvider>
               </SettingsProvider>
             </AuthProvider>

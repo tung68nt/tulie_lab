@@ -1,9 +1,6 @@
 'use client';
 
 import { Suspense } from 'react';
-import { usePathname } from 'next/navigation';
-import { Navbar } from './Navbar';
-import { Footer } from './Footer';
 import { ContentProtector } from './system/security/ContentProtector';
 import { ActivityTracker } from './ActivityTracker';
 import { BackToTop } from './BackToTop';
@@ -13,11 +10,6 @@ interface MainLayoutProps {
 }
 
 export function MainLayout({ children }: MainLayoutProps) {
-    const pathname = usePathname();
-    const isLearnPage = pathname?.startsWith('/learn');
-    const isAdminPage = pathname?.startsWith('/admin');
-    const isWhiteboardEditor = pathname?.startsWith('/whiteboard/') && pathname.length > 12;
-
     // Layout strategy:
     // Public pages: Full width (Sections handle their own containers)
     // Admin/Learn: Managed by their own layouts
@@ -28,11 +20,9 @@ export function MainLayout({ children }: MainLayoutProps) {
                 <ActivityTracker />
                 <ContentProtector />
             </Suspense>
-            <Navbar />
             <main className="flex-1">
                 {children}
             </main>
-            {!isLearnPage && !isWhiteboardEditor && <Footer />}
             <BackToTop />
         </div>
     );
