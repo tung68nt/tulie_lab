@@ -73,6 +73,7 @@ const nextConfig: any = {
       },
     ];
   },
+  reactCompiler: true,
   output: 'standalone',
 };
 

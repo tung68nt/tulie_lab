@@ -63,135 +63,59 @@ export default function SystemOverloadBanner() {
         <div
             role="alert"
             aria-live="assertive"
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 99999,
-                background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-                color: '#fff',
-                padding: '0',
-                borderBottom: '2px solid rgba(255, 165, 0, 0.6)',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
-                animation: 'slideDown 0.4s ease-out',
-            }}
+            className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none px-6"
         >
-            <style>{`
-                @keyframes slideDown {
-                    from { transform: translateY(-100%); opacity: 0; }
-                    to { transform: translateY(0); opacity: 1; }
-                }
-                @keyframes pulse-glow {
-                    0%, 100% { opacity: 1; }
-                    50% { opacity: 0.6; }
-                }
-                @keyframes progress-shrink {
-                    from { width: 100%; }
-                    to { width: 0%; }
-                }
-            `}</style>
+            <div className="absolute inset-0 bg-black/5 backdrop-blur-sm pointer-events-none" />
 
-            <div style={{
-                maxWidth: '1200px',
-                margin: '0 auto',
-                padding: '16px 24px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                flexWrap: 'wrap',
-            }}>
-                {/* Icon */}
-                <div style={{
-                    fontSize: '28px',
-                    animation: 'pulse-glow 2s ease-in-out infinite',
-                    flexShrink: 0,
-                }}>
-                    ⚡
-                </div>
-
-                {/* Message */}
-                <div style={{ flex: 1, minWidth: '200px' }}>
-                    <div style={{
-                        fontWeight: 700,
-                        fontSize: '15px',
-                        marginBottom: '4px',
-                        letterSpacing: '0.3px',
-                    }}>
-                        Hệ thống đang quá tải
+            <div className="bg-zinc-950/80 backdrop-blur-3xl border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)] rounded-[32px] overflow-hidden w-full max-w-[600px] pointer-events-auto animate-in fade-in zoom-in-95 duration-500">
+                <div className="px-10 py-12 flex flex-col items-center text-center gap-8">
+                    {/* Minimal status indicator */}
+                    <div className="flex flex-col items-center gap-4">
+                        <div className="relative flex h-4 w-4">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white/20 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-4 w-4 bg-white"></span>
+                        </div>
+                        <h2 className="text-[20px] font-bold text-white tracking-tight">Hệ thống đang quá tải</h2>
                     </div>
-                    <div style={{
-                        fontSize: '13px',
-                        opacity: 0.85,
-                        lineHeight: 1.4,
-                    }}>
-                        {overloadInfo.message || 'Hệ thống đang xử lý quá nhiều yêu cầu.'}{' '}
-                        Vui lòng đợi <strong style={{ color: '#ffd700' }}>{countdown}s</strong> rồi thử lại.
+
+                    {/* Content Section */}
+                    <div className="space-y-2">
+                        <p className="text-[15px] text-white/70 leading-relaxed max-w-[400px]">
+                            {overloadInfo.message || 'Hệ thống đang xử lý lượng truy cập lớn hơn bình thường.'}
+                        </p>
+                        <p className="text-[14px] text-white/40 font-normal">
+                            Vui lòng đợi {countdown} giây để hệ thống ổn định lại.
+                        </p>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 w-full pt-2">
+                        <button
+                            onClick={() => {
+                                setIsVisible(false);
+                                window.location.reload();
+                            }}
+                            className="bg-white text-black hover:bg-zinc-200 w-full sm:flex-1 h-12 rounded-2xl text-[14px] font-bold transition-all active:scale-95 shadow-xl shadow-white/5"
+                        >
+                            Tải lại trang
+                        </button>
+
+                        <button
+                            onClick={() => setIsVisible(false)}
+                            className="text-[13px] font-semibold text-white/30 hover:text-white transition-colors h-12 px-6"
+                        >
+                            Bỏ qua
+                        </button>
                     </div>
                 </div>
 
-                {/* Retry button */}
-                <button
-                    onClick={() => {
-                        setIsVisible(false);
-                        window.location.reload();
-                    }}
-                    style={{
-                        background: 'rgba(255, 255, 255, 0.15)',
-                        border: '1px solid rgba(255, 255, 255, 0.3)',
-                        color: '#fff',
-                        padding: '8px 20px',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        transition: 'all 0.2s',
-                        whiteSpace: 'nowrap',
-                        backdropFilter: 'blur(4px)',
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
-                    }}
-                >
-                    Tải lại trang
-                </button>
-
-                {/* Close button */}
-                <button
-                    onClick={() => setIsVisible(false)}
-                    aria-label="Đóng thông báo"
-                    style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'rgba(255, 255, 255, 0.6)',
-                        cursor: 'pointer',
-                        fontSize: '20px',
-                        padding: '4px',
-                        lineHeight: 1,
-                        transition: 'color 0.2s',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255, 255, 255, 0.6)'; }}
-                >
-                    ✕
-                </button>
-            </div>
-
-            {/* Progress bar showing time until auto-dismiss */}
-            <div style={{
-                height: '3px',
-                background: 'rgba(255, 215, 0, 0.4)',
-                overflow: 'hidden',
-            }}>
-                <div style={{
-                    height: '100%',
-                    background: 'linear-gradient(90deg, #ffd700, #ff8c00)',
-                    width: `${(countdown / (overloadInfo.retryAfter || 30)) * 100}%`,
-                    transition: 'width 1s linear',
-                }} />
+                {/* Progress indicator */}
+                <div className="h-[2px] bg-white/5 w-full">
+                    <div
+                        className="h-full bg-white/40 transition-all duration-1000 ease-linear shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                        style={{ width: `${(countdown / (overloadInfo.retryAfter || 30)) * 100}%` }}
+                    />
+                </div>
             </div>
         </div>
     );
