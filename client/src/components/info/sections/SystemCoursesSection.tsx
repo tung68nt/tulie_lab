@@ -100,6 +100,7 @@ export const SystemCoursesSection: React.FC<SystemCoursesSectionProps> = ({ sect
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
             />
             <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
                 <Suspense fallback={<div>Loading courses...</div>}>

@@ -876,7 +876,8 @@ export const DEFAULT_VIBE_CODING_BEGINNER_COURSE: Section[] = [
         order: 2,
         backgroundImage: '',
         backgroundTheme: 'light',
-        overlayOpacity: 0.6
+        overlayOpacity: 0.6,
+        backgroundPattern: 'grid'
     },
     // 3. PAIN POINTS - FOMO
     {
@@ -951,7 +952,8 @@ export const DEFAULT_VIBE_CODING_BEGINNER_COURSE: Section[] = [
         order: 4,
         backgroundImage: '',
         backgroundTheme: 'light',
-        overlayOpacity: 0.6
+        overlayOpacity: 0.6,
+        backgroundPattern: 'grid'
     },
     // 5. CURRICULUM
     {

@@ -24,6 +24,7 @@ export function ContentBlockSection({ section }: { section: Section }) {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={section.glowVariant}
             />
             <div className="container px-4 mx-auto space-y-12 relative z-10">

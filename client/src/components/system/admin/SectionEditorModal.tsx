@@ -289,15 +289,42 @@ export function SectionEditorModal({ section, isOpen, onClose, onSave }: Section
                             {/* Appearance Settings */}
                             <div className="space-y-4 border-t border-neutral-200 dark:border-neutral-800 pt-4">
                                 <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-2">Display Settings</h3>
-                                <div className="flex items-center justify-between">
+                                <div className="space-y-3">
                                     <div className="space-y-0.5">
-                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Show Dot Pattern</label>
-                                        <p className="text-xs text-neutral-500">Enable subtle decorative dots in section corners.</p>
+                                        <label className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Background Pattern</label>
+                                        <p className="text-xs text-neutral-500">Add decorative patterns to the section background.</p>
                                     </div>
-                                    <Switch
-                                        checked={editedSection.showDotPattern !== false}
-                                        onChange={checked => handleChange('showDotPattern', checked)}
-                                    />
+                                    <div className="flex p-0.5 bg-neutral-200/50 dark:bg-neutral-800 rounded-lg">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                handleChange('showDotPattern', false);
+                                            }}
+                                            className={`flex-1 py-1.5 px-2 text-[10px] md:text-xs font-semibold rounded-md transition-all ${editedSection.showDotPattern === false ? 'bg-white dark:bg-neutral-600 text-black dark:text-white shadow-sm' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'}`}
+                                        >
+                                            None (Không)
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                handleChange('showDotPattern', true);
+                                                handleChange('backgroundPattern', 'dots');
+                                            }}
+                                            className={`flex-1 py-1.5 px-2 text-[10px] md:text-xs font-semibold rounded-md transition-all ${editedSection.showDotPattern !== false && (editedSection.backgroundPattern === 'dots' || !editedSection.backgroundPattern) ? 'bg-white dark:bg-neutral-600 text-black dark:text-white shadow-sm' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'}`}
+                                        >
+                                            Dots (Chấm)
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                handleChange('showDotPattern', true);
+                                                handleChange('backgroundPattern', 'grid');
+                                            }}
+                                            className={`flex-1 py-1.5 px-2 text-[10px] md:text-xs font-semibold rounded-md transition-all ${editedSection.showDotPattern !== false && editedSection.backgroundPattern === 'grid' ? 'bg-white dark:bg-neutral-600 text-black dark:text-white shadow-sm' : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'}`}
+                                        >
+                                            Grid (Ô vuông)
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 

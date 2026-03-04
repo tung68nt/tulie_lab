@@ -51,6 +51,7 @@ export const VideoSection: React.FC<{ section: Section }> = ({ section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 className={section.appearance === 'glass' ? "bg-black/80" : undefined}
             />
 

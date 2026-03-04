@@ -122,6 +122,7 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 showDotPattern={true}
             />
 

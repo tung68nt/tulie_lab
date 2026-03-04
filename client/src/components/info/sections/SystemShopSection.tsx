@@ -120,6 +120,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                     backgroundImage={section.backgroundImage}
                     backgroundTheme={section.backgroundTheme || 'light'}
                     overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                     showDotPattern={true}
                 />
             </div>

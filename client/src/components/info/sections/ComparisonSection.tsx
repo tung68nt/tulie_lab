@@ -21,6 +21,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={11}
             />
             <div className="container relative z-10">

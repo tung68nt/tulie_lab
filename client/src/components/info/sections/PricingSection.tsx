@@ -29,6 +29,7 @@ export const PricingSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 hideGradients={section.backgroundTheme === 'dark'}
                 glowVariant={0}
             />

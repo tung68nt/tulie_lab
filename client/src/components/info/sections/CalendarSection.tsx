@@ -66,6 +66,7 @@ export const CalendarSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
             />
             <div className="container relative z-10 mx-auto px-4">
                 <div className="relative">

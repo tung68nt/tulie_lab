@@ -37,6 +37,7 @@ export const ProcessSection = ({ section, variant = 'grid' }: ProcessSectionProp
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={10}
             />
             <div className="container relative z-10">

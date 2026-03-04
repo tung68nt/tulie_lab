@@ -18,6 +18,7 @@ export const CTASection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 hideGradients={isDark}
                 glowVariant={15}
             />

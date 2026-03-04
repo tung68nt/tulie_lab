@@ -22,6 +22,7 @@ export const HeadingSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={section.glowVariant}
             />
 

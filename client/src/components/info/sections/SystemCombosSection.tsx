@@ -55,6 +55,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                backgroundPattern={section.backgroundPattern}
             />
             <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
                 {/* Combos List (1 Column) */}
