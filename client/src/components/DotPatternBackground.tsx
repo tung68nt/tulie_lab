@@ -34,8 +34,8 @@ export function DotPatternBackground({ className, fadeClassName, withVignette = 
             )}
                 style={{
                     backgroundImage: isGrid
-                        ? 'linear-gradient(to right, currentColor 1.2px, transparent 1.2px), linear-gradient(to bottom, currentColor 1.2px, transparent 1.2px)'
-                        : 'radial-gradient(circle at center, currentColor 1.2px, transparent 1.2px)',
+                        ? 'linear-gradient(to right, currentColor 0.9px, transparent 0.9px), linear-gradient(to bottom, currentColor 0.9px, transparent 0.9px)'
+                        : 'radial-gradient(circle at center, currentColor 0.9px, transparent 0.9px)',
                     backgroundSize: isGrid ? '32px 32px' : '32px 32px'
                 }}
             ></div>
