@@ -15,6 +15,7 @@ export function CustomHtmlSection({ section }: { section: Section }) {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
                 backgroundPattern={section.backgroundPattern}
                 glowVariant={section.glowVariant}
             />

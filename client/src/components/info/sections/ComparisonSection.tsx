@@ -21,6 +21,7 @@ export function ComparisonSection({ section }: { section: Section }) {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
                 backgroundPattern={section.backgroundPattern}
                 glowVariant={11}
             />

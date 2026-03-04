@@ -39,6 +39,7 @@ export const GallerySection: React.FC<{ section: Section }> = ({ section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
                 backgroundPattern={section.backgroundPattern}
                 glowVariant={3}
                 className={section.appearance === 'glass' ? "bg-black/80" : undefined}

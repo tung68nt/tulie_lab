@@ -54,6 +54,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
                 backgroundPattern={section.backgroundPattern}
                 hideGradients={false}
                 className="opacity-100"
