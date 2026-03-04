@@ -28,8 +28,8 @@ export function DotPatternBackground({ className, fadeClassName, withVignette = 
             {/* Pattern Layer with Radial Fade */}
             <div className={cn(
                 "absolute inset-0",
-                withFade && "[mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_100%)]",
-                withFade && "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_100%)]",
+                withFade && "[mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_75%)]",
+                withFade && "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_10%,transparent_75%)]",
                 fadeClassName
             )}
                 style={{
