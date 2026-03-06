@@ -22,7 +22,7 @@ export const getAdminEbooks = async (req: Request, res: Response, next: NextFunc
 export const getAdminEbookById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const result = await ebooksService.getAdminEbookById(id);
+        const result = await ebooksService.getAdminEbookById(id as string);
         res.json({ success: true, data: result });
     } catch (error) {
         next(error);
@@ -43,7 +43,7 @@ export const updateEbook = async (req: Request, res: Response, next: NextFunctio
     try {
         const { id } = req.params;
         const ebookData = req.body;
-        const result = await ebooksService.updateEbook(id, ebookData);
+        const result = await ebooksService.updateEbook(id as string, ebookData);
         res.json({ success: true, data: result });
     } catch (error) {
         next(error);
@@ -53,7 +53,7 @@ export const updateEbook = async (req: Request, res: Response, next: NextFunctio
 export const deleteEbook = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        await ebooksService.deleteEbook(id);
+        await ebooksService.deleteEbook(id as string);
         res.json({ success: true, message: "Xóa Ebook thành công." });
     } catch (error) {
         next(error);
@@ -67,7 +67,7 @@ export const deleteEbook = async (req: Request, res: Response, next: NextFunctio
 export const getEbookBySlug = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { slug } = req.params;
-        const result = await ebooksService.getEbookBySlug(slug);
+        const result = await ebooksService.getEbookBySlug(slug as string);
         res.json({ success: true, data: result });
     } catch (error) {
         next(error);
@@ -83,7 +83,7 @@ export const checkEbookAccess = async (req: Request, res: Response, next: NextFu
             return res.status(401).json({ success: false, message: "Unauthorized" });
         }
 
-        const accessInfo = await ebooksService.checkAndGetPresignedUrl(id, userId);
+        const accessInfo = await ebooksService.checkAndGetPresignedUrl(id as string, userId);
 
         res.json({ success: true, data: accessInfo });
     } catch (error) {

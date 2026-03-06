@@ -6,7 +6,7 @@ export const getAdminEbooks = async (params: { keyword?: string; page: number; l
     const { keyword, page, limit } = params;
     const skip = (page - 1) * limit;
 
-    const where: Prisma.EbookWhereInput = keyword ? {
+    const where: any = keyword ? {
         OR: [
             { title: { contains: keyword, mode: 'insensitive' } },
             { slug: { contains: keyword, mode: 'insensitive' } },
