@@ -361,6 +361,7 @@ async function initializeApp() {
         { path: '/api/whiteboards', module: './modules/system/whiteboard/whiteboard.routes' },
         { path: '/api/short-links', module: './modules/system/short-link/short-link.routes' },
         { path: '/api/marketing', module: './modules/system/facebook/facebook.routes' },
+        { path: '/api/ebooks', module: './modules/lms/ebooks/ebooks.routes' },
         { path: '/api', module: './modules/lms/journeys/journey.routes' }
       ];
 

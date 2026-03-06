@@ -1,4 +1,4 @@
-export type SectionType = 'hero' | 'stats' | 'process' | 'comparison' | 'projects' | 'testimonials' | 'cta' | 'features' | 'content' | 'instructor-grid' | 'benefits' | 'coding-methods' | 'sales-countdown' | 'upsell' | 'payment' | 'custom-html' | 'student-showcase' | 'content-block' | 'instructor-bio' | 'bonus' | 'faq' | 'history' | 'curriculum' | 'pricing' | 'calendar' | 'video' | 'video-text' | 'gallery' | 'system-courses' | 'system-shop' | 'system-blog' | 'system-combos' | 'system-instructors' | 'heading' | 'cta-box' | 'course-content' | 'simple-testimonials';
+export type SectionType = 'hero' | 'stats' | 'process' | 'comparison' | 'projects' | 'testimonials' | 'cta' | 'features' | 'content' | 'instructor-grid' | 'benefits' | 'coding-methods' | 'sales-countdown' | 'upsell' | 'payment' | 'custom-html' | 'student-showcase' | 'content-block' | 'instructor-bio' | 'bonus' | 'faq' | 'history' | 'curriculum' | 'pricing' | 'calendar' | 'video' | 'video-text' | 'gallery' | 'system-courses' | 'system-shop' | 'system-blog' | 'system-combos' | 'system-instructors' | 'heading' | 'cta-box' | 'course-content' | 'simple-testimonials' | 'flipbook';
 
 export interface SectionButton {
     text: string;
@@ -71,4 +71,10 @@ export interface Section {
     glowVariant?: number; // New: variant for background glow effects (0-15)
     courseId?: string; // For course-content section: ID of course to display
     backgroundPattern?: 'dots' | 'grid'; // New: background pattern variant
+
+    // Flipbook specific fields
+    ebookId?: string;
+    pdfUrl?: string;
+    previewPages?: number;
+    coverImage?: string;
 }

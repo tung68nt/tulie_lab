@@ -41,6 +41,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/courses', label: 'Khóa học' },
                 { href: '/admin/bundles', label: 'Combo / Bundle' },
                 { href: '/admin/categories', label: 'Chuyên mục' },
+                { href: '/admin/ebooks', label: 'Ebooks' },
                 { href: '/admin/events', label: 'Sự kiện' },
                 { href: '/admin/journeys', label: 'Lộ trình học' },
                 { href: '/admin/learning-analytics', label: 'Phân tích học tập' },

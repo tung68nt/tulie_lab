@@ -695,6 +695,30 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
         }
     },
     {
+        id: 'flipbook-demo',
+        name: 'Flipbook Demo',
+        category: 'Special',
+        description: 'Interactive flipbook to preview an ebook.',
+        previewImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'flipbook-preview',
+            type: 'flipbook',
+            name: 'Flipbook Demo',
+            title: 'Hành Trình Chinh Phục UI/UX',
+            tag: 'Ebook Đào Tạo',
+            subtitle: 'Lật qua các trang để xem trước nội dung chất lượng cao từ khóa học chuyên sâu.',
+            pdfUrl: 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf',
+            previewPages: 10,
+            ctaText: 'Mua Ebook đầy đủ',
+            ctaLink: '/shop/ebook-uiux-chinh-phuc',
+            appearance: {
+                paddingY: 'xl',
+                backgroundType: 'solid',
+                backgroundColor: '#ffffff'
+            }
+        }
+    },
+    {
         id: 'payment-section',
         name: 'Payment Section',
         category: 'Conversion',
