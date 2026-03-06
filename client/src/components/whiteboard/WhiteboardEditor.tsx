@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
+// @ts-ignore
 import { exportToBlob } from '@excalidraw/excalidraw';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/Button';

@@ -5,6 +5,7 @@ import { BlockNoteView } from "@blocknote/mantine";
 import { useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/mantine/style.css";
 import "@mantine/core/styles.css";
+// @ts-ignore - Export mismatch in some environments
 import { createTheme, MantineProvider } from "@mantine/core";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

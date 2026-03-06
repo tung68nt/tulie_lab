@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+// @ts-ignore
 import { Excalidraw, MainMenu, WelcomeScreen } from '@excalidraw/excalidraw';
 import '@excalidraw/excalidraw/index.css';
 
