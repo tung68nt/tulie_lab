@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authenticate, authorize } from "../../../../middleware/auth.middleware";
+import { authenticate, authorize } from "../../../middleware/auth.middleware";
 import { Role } from "@prisma/client";
 import * as ebooksController from "./ebooks.controller";
 
