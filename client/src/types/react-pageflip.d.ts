@@ -1,3 +1,5 @@
+import React from 'react';
+
 declare module 'react-pageflip' {
     export interface PageFlipProps {
         width: number;
@@ -7,16 +9,17 @@ declare module 'react-pageflip' {
         maxWidth?: number;
         minHeight?: number;
         maxHeight?: number;
-        drawShadow?: boolean;
-        flippingTime?: number;
-        usePortrait?: boolean;
-        startZIndex?: number;
-        autoSize?: boolean;
         maxShadowOpacity?: number;
         showCover?: boolean;
         mobileScrollSupport?: boolean;
+        startPage?: number;
         clickEventForward?: boolean;
         useMouseEvents?: boolean;
+        flippingTime?: number;
+        drawShadow?: boolean;
+        usePortrait?: boolean;
+        startZIndex?: number;
+        autoSize?: boolean;
         swipeDistance?: number;
         showPageCorners?: boolean;
         disableFlipByClick?: boolean;

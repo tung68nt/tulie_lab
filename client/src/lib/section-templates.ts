@@ -711,11 +711,7 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             previewPages: 10,
             ctaText: 'Mua Ebook đầy đủ',
             ctaLink: '/shop/ebook-uiux-chinh-phuc',
-            appearance: {
-                paddingY: 'xl',
-                backgroundType: 'solid',
-                backgroundColor: '#ffffff'
-            }
+            appearance: 'standard'
         }
     },
     {
