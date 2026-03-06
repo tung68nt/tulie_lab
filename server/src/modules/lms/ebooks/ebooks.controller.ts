@@ -77,7 +77,7 @@ export const getEbookBySlug = async (req: Request, res: Response, next: NextFunc
 export const checkEbookAccess = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const userId = req.user?.userId; // Assuming `isAuth` middleware sets `req.user.userId`
+        const userId = req.user?.id; // Authmiddleware sets req.user.id
 
         if (!userId) {
             return res.status(401).json({ success: false, message: "Unauthorized" });

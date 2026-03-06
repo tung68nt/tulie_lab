@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { isAuth, isRole } from "../../../../middlewares/auth.middleware";
+import { authenticate, authorize } from "../../../../middleware/auth.middleware";
+import { Role } from "@prisma/client";
 import * as ebooksController from "./ebooks.controller";
 
 const router = Router();
@@ -9,19 +10,19 @@ const router = Router();
 // ============================================
 
 // Lấy danh sách Ebooks (Admin)
-router.get("/admin", isAuth, isRole(["ADMIN"]), ebooksController.getAdminEbooks);
+router.get("/admin", authenticate, authorize([Role.ADMIN]), ebooksController.getAdminEbooks);
 
 // Lấy chi tiết 1 Ebook (Admin)
-router.get("/admin/:id", isAuth, isRole(["ADMIN"]), ebooksController.getAdminEbookById);
+router.get("/admin/:id", authenticate, authorize([Role.ADMIN]), ebooksController.getAdminEbookById);
 
 // Tạo mới Ebook
-router.post("/admin", isAuth, isRole(["ADMIN"]), ebooksController.createEbook);
+router.post("/admin", authenticate, authorize([Role.ADMIN]), ebooksController.createEbook);
 
 // Cập nhật Ebook
-router.put("/admin/:id", isAuth, isRole(["ADMIN"]), ebooksController.updateEbook);
+router.put("/admin/:id", authenticate, authorize([Role.ADMIN]), ebooksController.updateEbook);
 
 // Xóa Ebook
-router.delete("/admin/:id", isAuth, isRole(["ADMIN"]), ebooksController.deleteEbook);
+router.delete("/admin/:id", authenticate, authorize([Role.ADMIN]), ebooksController.deleteEbook);
 
 
 // ============================================
@@ -32,6 +33,6 @@ router.delete("/admin/:id", isAuth, isRole(["ADMIN"]), ebooksController.deleteEb
 router.get("/:slug", ebooksController.getEbookBySlug);
 
 // Kiểm tra quyền truy cập và lấy presigned URL nếo có quyền (Auth required)
-router.get("/:id/access", isAuth, ebooksController.checkEbookAccess);
+router.get("/:id/access", authenticate, ebooksController.checkEbookAccess);
 
 export default router;

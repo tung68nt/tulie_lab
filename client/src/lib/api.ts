@@ -63,6 +63,7 @@ export const api: any = {
         instructors: adminInstructorsApi,
         media: mediaApi,
         ebooks: ebooksApi,
+        products: productsApi,
     },
     cms: cmsApi,
     blog: blogApi,
