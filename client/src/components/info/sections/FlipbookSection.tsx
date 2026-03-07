@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { Document, Page, pdfjs } from 'react-pdf';
 import HTMLFlipBook from 'react-pageflip';
+
+const FlipBook = HTMLFlipBook as any;
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import { ExternalLink, Lock, Loader2, Maximize2, ZoomIn, ZoomOut, Save } from 'lucide-react';
@@ -147,7 +149,7 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
                             {!loading && !error && numPages && numPages > 0 && (
                                 <div className="animate-in fade-in zoom-in-95 duration-500 w-full h-full flex flex-col items-center justify-center">
                                     <div className="relative shadow-2xl rounded overflow-hidden">
-                                        <HTMLFlipBook
+                                        <FlipBook
                                             width={MAX_WIDTH}
                                             height={MAX_HEIGHT}
                                             size="stretch"
@@ -198,7 +200,7 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
                                                     </div>
                                                 </PageComponent>
                                             ))}
-                                        </HTMLFlipBook>
+                                        </FlipBook>
                                     </div>
 
                                     <div className="mt-8 flex items-center gap-4 text-xs font-medium text-muted-foreground bg-background/50 px-4 py-2 rounded-full backdrop-blur-md border border-border">

@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import HTMLFlipBook from 'react-pageflip';
+
+const FlipBook = HTMLFlipBook as any;
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import { Loader2, Maximize2, ZoomIn, ZoomOut, BookOpen, FileText, ChevronLeft, ChevronRight, X } from 'lucide-react';
@@ -231,7 +233,7 @@ export const EbookViewer: React.FC<EbookViewerProps> = ({
                 {/* FLIPBOOK MODE */}
                 {!loading && !error && viewMode === 'flipbook' && dimensions.width > 0 && numPages && (
                     <div className="w-full h-full flex flex-col items-center justify-center pb-10">
-                        <HTMLFlipBook
+                        <FlipBook
                             width={dimensions.width}
                             height={dimensions.height}
                             size="fixed"
@@ -263,7 +265,7 @@ export const EbookViewer: React.FC<EbookViewerProps> = ({
                                     <WatermarkedPage width={dimensions.width} index={index + 1} />
                                 </PageComponent>
                             ))}
-                        </HTMLFlipBook>
+                        </FlipBook>
                     </div>
                 )}
 

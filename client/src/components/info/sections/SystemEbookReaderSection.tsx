@@ -12,6 +12,8 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 import { api } from '@/lib/api';
 import { Loader2, Lock, BookOpen, AlertCircle } from 'lucide-react';
 
+const FlipBook = HTMLFlipBook as any;
+
 // Configure PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -29,7 +31,7 @@ const PageComponent = React.forwardRef<HTMLDivElement, PageProps>((props, ref) =
 });
 PageComponent.displayName = 'PageComponent';
 
-export const SystemEbookReaderSection = ({ section }: { section: Section }) => {
+export const SystemEbookReaderSection = ({ section }: { section: any }) => {
     const ebookSlug = section.ebookSlug || section.data?.ebookSlug;
 
     const [ebook, setEbook] = useState<any>(null);
@@ -147,7 +149,7 @@ export const SystemEbookReaderSection = ({ section }: { section: Section }) => {
                                 />
                                 {numPages && (
                                     <div className="w-full flex justify-center">
-                                        <HTMLFlipBook
+                                        <FlipBook
                                             width={MAX_WIDTH}
                                             height={MAX_HEIGHT}
                                             size="stretch"
@@ -182,7 +184,7 @@ export const SystemEbookReaderSection = ({ section }: { section: Section }) => {
                                                     />
                                                 </PageComponent>
                                             ))}
-                                        </HTMLFlipBook>
+                                        </FlipBook>
                                     </div>
                                 )}
                             </>
