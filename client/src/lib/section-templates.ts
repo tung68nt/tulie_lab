@@ -1048,5 +1048,24 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             backgroundTheme: 'light',
             glowVariant: 0
         }
+    },
+    {
+        id: 'system-ebook-reader',
+        name: 'Ebook Reader',
+        category: 'System',
+        description: 'Interactive flipbook reader section for private ebooks. Requires an ebook slug.',
+        previewImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'system-ebook-reader-1',
+            type: 'system-ebook-reader',
+            name: 'Đọc Ebook',
+            title: '', // Empty: use ebook title by default
+            tag: 'Reading',
+            subtitle: '',
+            ebookSlug: '', // User must input a valid ebook slug
+            backgroundTheme: 'light',
+            showDotPattern: true,
+            backgroundPattern: 'dots'
+        }
     }
 ];

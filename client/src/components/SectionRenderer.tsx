@@ -22,6 +22,7 @@ import { SystemCombosSection } from '@/components/info/sections/SystemCombosSect
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 import { SimpleTestimonialsSection } from '@/components/info/sections/SimpleTestimonialsSection';
 import { SystemEbooksSection } from '@/components/info/sections/SystemEbooksSection';
+import { SystemEbookReaderSection } from '@/components/info/sections/SystemEbookReaderSection';
 import dynamic from 'next/dynamic';
 import { FadeIn } from '@/components/animations/FadeIn';
 
@@ -84,6 +85,7 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'simple-testimonials': SimpleTestimonialsSection,
     'course-content': CourseContentSection,
     'flipbook': FlipbookSection,
+    'system-ebook-reader': SystemEbookReaderSection,
     'system-ebooks': SystemEbooksSection,
 };
 
