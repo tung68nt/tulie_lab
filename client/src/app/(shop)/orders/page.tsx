@@ -80,7 +80,7 @@ export default function OrdersPage() {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-foreground " />
             </div>
         );
     }

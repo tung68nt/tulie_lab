@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -80,7 +81,7 @@ export default function LoginPage() {
         return (
             <div className="flex items-center justify-center min-h-screen bg-background">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                    <Loader2 className="animate-spin w-8 h-8 text-primary " />
                     <p className="text-muted-foreground animate-pulse">Đang kiểm tra đăng nhập...</p>
                 </div>
             </div>

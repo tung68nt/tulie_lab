@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
@@ -97,7 +98,7 @@ export default function LearnCoursePage() {
     // Loading State
     return (
         <div className="min-h-screen bg-background flex items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-foreground border-t-transparent"></div>
+            <Loader2 className="animate-spin w-8 h-8 text-foreground " />
         </div>
     );
 }

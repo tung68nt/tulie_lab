@@ -114,7 +114,7 @@ export const CalendarSection = ({ section }: { section: Section }) => {
 
                 {loading ? (
                     <div className="text-center py-12">
-                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+                        <Loader2 className="animate-spin w-8 h-8 text-primary mx-auto mb-4" />
                         <p className="text-muted-foreground">Đang tải lịch hoạt động...</p>
                     </div>
                 ) : viewMode === 'month' ? (

@@ -183,7 +183,7 @@ export default function MarketingCampaignsPage() {
                         <CardContent className="p-0">
                             {loadingCampaigns ? (
                                 <div className="flex items-center justify-center p-12">
-                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
+                                    <Loader2 className="animate-spin w-8 h-8 text-primary " />
                                 </div>
                             ) : campaigns.length === 0 ? (
                                 <div className="p-12 text-center text-muted-foreground text-sm">

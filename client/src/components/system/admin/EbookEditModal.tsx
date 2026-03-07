@@ -208,7 +208,7 @@ export const EbookEditModal: React.FC<EbookEditModalProps> = ({ isOpen, onClose,
                 <div className="p-6 border-t flex items-center justify-end gap-3 bg-muted/10">
                     <Button variant="ghost" onClick={onClose} type="button">Hủy</Button>
                     <Button onClick={handleSubmit} disabled={loading} className="gap-2">
-                        {loading && <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent" />}
+                        {loading && <Loader2 className="animate-spin w-4 h-4 text-primary " />}
                         <Save className="h-4 w-4" /> {ebook ? 'Cập nhật' : 'Tạo mới'}
                     </Button>
                 </div>

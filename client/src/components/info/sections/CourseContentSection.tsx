@@ -132,7 +132,7 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
                 {/* Loading State */}
                 {loading && (
                     <div className="flex justify-center py-12">
-                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                        <Loader2 className="animate-spin w-8 h-8 text-primary " />
                     </div>
                 )}
 

@@ -615,7 +615,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         return (
             <div className="flex items-center justify-center w-full h-screen bg-background">
                 {/* Tulie-style Loader: Simple Arc Spinner */}
-                <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-zinc-200 border-t-zinc-900 dark:border-zinc-800 dark:border-t-zinc-50" />
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         );
     }

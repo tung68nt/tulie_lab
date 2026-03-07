@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
-import { BarChart3, Users, BookOpen, TrendingUp, AlertCircle, CheckCircle2, PlayCircle } from 'lucide-react';
+import { BarChart3, Users, BookOpen, TrendingUp, AlertCircle, CheckCircle2, PlayCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LearningAnalyticsPage() {
@@ -31,7 +31,7 @@ export default function LearningAnalyticsPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         );
     }

@@ -288,7 +288,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         className="gap-2 min-w-[120px]"
                     >
                         {isDownloading ? (
-                            <div className="w-4 h-4 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
+                            <Loader2 className="animate-spin w-4 h-4 text-primary " />
                         ) : (
                             <Download className="w-4 h-4" />
                         )}

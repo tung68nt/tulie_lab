@@ -165,7 +165,7 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
                                             startPage={0}
                                             drawShadow={true}
                                             flippingTime={1000}
-                                            usePortrait={true}
+                                            usePortrait={false}
                                             startZIndex={0}
                                             autoSize={true}
                                             clickEventForward={true}

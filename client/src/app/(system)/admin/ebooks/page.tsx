@@ -113,7 +113,7 @@ export default function AdminEbooksPage() {
                                 <tr>
                                     <td colSpan={5} className="h-32 text-center items-center justify-center">
                                         <div className="flex justify-center flex-col items-center gap-2">
-                                            <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                            <Loader2 className="animate-spin w-6 h-6 text-primary " />
                                             <span className="text-muted-foreground">Đang tải...</span>
                                         </div>
                                     </td>

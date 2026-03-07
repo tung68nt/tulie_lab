@@ -174,7 +174,7 @@ export default function CoursePage({ params }: { params: any }) {
 
     if (loading) return (
         <div className="flex min-h-[50vh] items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <Loader2 className="animate-spin w-8 h-8 text-primary " />
         </div>
     );
 

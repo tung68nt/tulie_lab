@@ -85,7 +85,7 @@ export default function OrderPage({ params }: { params: any }) {
             <div className="min-h-screen relative flex items-center justify-center bg-white">
                 <SectionBackground backgroundTheme="light" showDotPattern={true} />
                 <div className="relative z-10 flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 rounded-full border-4 border-zinc-100 border-t-zinc-900 animate-spin" />
+                    <Loader2 className="animate-spin w-12 h-12 text-primary " />
                     <p className="text-zinc-400 font-medium">Đang tải thông tin đơn hàng...</p>
                 </div>
             </div>
