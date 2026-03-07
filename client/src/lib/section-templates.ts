@@ -1030,5 +1030,23 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             glowVariant: 3,
             courseId: '' // User needs to input this
         }
+    },
+    {
+        id: 'system-ebooks',
+        name: 'Ebook Library',
+        category: 'System',
+        description: 'Dynamic ebook library showing all published ebooks with cover, description, and pricing.',
+        previewImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'system-ebooks-1',
+            type: 'system-ebooks',
+            name: 'Thư viện Ebook',
+            title: 'Thư viện Ebook',
+            tag: 'Ebook',
+            subtitle: 'Khám phá bộ sưu tập ebook chất lượng cao từ các chuyên gia hàng đầu.',
+            showDotPattern: true,
+            backgroundTheme: 'light',
+            glowVariant: 0
+        }
     }
 ];

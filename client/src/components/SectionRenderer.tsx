@@ -21,6 +21,7 @@ import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection'
 import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 import { SimpleTestimonialsSection } from '@/components/info/sections/SimpleTestimonialsSection';
+import { SystemEbooksSection } from '@/components/info/sections/SystemEbooksSection';
 import dynamic from 'next/dynamic';
 import { FadeIn } from '@/components/animations/FadeIn';
 
@@ -83,6 +84,7 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'simple-testimonials': SimpleTestimonialsSection,
     'course-content': CourseContentSection,
     'flipbook': FlipbookSection,
+    'system-ebooks': SystemEbooksSection,
 };
 
 // Context for checking if section is in preview mode (e.g. editor)
