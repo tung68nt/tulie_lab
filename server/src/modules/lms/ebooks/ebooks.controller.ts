@@ -14,8 +14,13 @@ export const getAdminEbooks = async (req: Request, res: Response, next: NextFunc
             limit: parseInt(limit as string, 10),
         });
         res.json({ success: true, ...result });
-    } catch (error) {
-        next(error);
+    } catch (error: any) {
+        console.error("[DEBUG] getAdminEbooks Error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Lỗi hệ thống: " + (error.message || "Internal Server Error"),
+            debug: process.env.NODE_ENV !== 'production' ? error.stack : undefined
+        });
     }
 };
 
