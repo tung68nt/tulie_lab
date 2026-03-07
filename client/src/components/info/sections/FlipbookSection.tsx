@@ -93,9 +93,6 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
         };
     }, []);
 
-    const MAX_WIDTH = 400;
-    const MAX_HEIGHT = 560;
-
     return (
         <section className={cn("py-10 md:py-16 relative overflow-hidden select-none", section.className)}>
             <SectionBackground
@@ -150,8 +147,8 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
                                 <div className="animate-in fade-in zoom-in-95 duration-500 w-full h-full flex flex-col items-center justify-center">
                                     <div className="relative shadow-2xl rounded overflow-hidden">
                                         <FlipBook
-                                            width={MAX_WIDTH}
-                                            height={MAX_HEIGHT}
+                                            width={595}
+                                            height={842}
                                             size="stretch"
                                             minWidth={300}
                                             maxWidth={500}
@@ -178,25 +175,22 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
                                         >
                                             {Array.from(new Array(numPages), (_el, index) => (
                                                 <PageComponent key={`page_${index + 1}`} pageNumber={index + 1}>
-                                                    <div className="w-full h-full relative group">
+                                                    <div className="w-full h-full relative group flex items-center justify-center bg-white overflow-hidden">
                                                         <Document file={section.pdfUrl}>
                                                             <Page
                                                                 pageNumber={index + 1}
-                                                                width={MAX_WIDTH}
+                                                                width={800}
                                                                 renderTextLayer={false}
                                                                 renderAnnotationLayer={false}
-                                                                className="w-full h-full object-contain"
+                                                                className="max-w-full max-h-full"
                                                             />
                                                         </Document>
                                                         {/* Watermark overlay - Diagonal text */}
-                                                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-50">
-                                                            <div className="transform -rotate-45 text-black/10 dark:text-white/10 text-xl md:text-2xl font-bold whitespace-nowrap opacity-20">
+                                                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-20">
+                                                            <div className="transform -rotate-45 text-black/5 text-xl md:text-2xl font-bold whitespace-nowrap opacity-10">
                                                                 BẢN XEM THỬ • BẢN XEM THỬ
                                                             </div>
                                                         </div>
-
-                                                        {/* Hover gradient for depth */}
-                                                        <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-black/5 to-transparent pointer-events-none" />
                                                     </div>
                                                 </PageComponent>
                                             ))}

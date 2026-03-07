@@ -47,7 +47,9 @@ export const StandardSectionHeader: React.FC<StandardSectionHeaderProps> = ({
 
     const titleGradientClass = isDarkBg
         ? "text-white"
-        : "text-zinc-950 dark:text-white";
+        : isLightBg
+            ? "text-zinc-950"
+            : "text-zinc-950 dark:text-white";
 
     const subtitleClass = isDarkBg
         ? "text-zinc-400"

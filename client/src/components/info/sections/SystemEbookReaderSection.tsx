@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Section } from '@/types/sections';
+import { StandardSectionHeader } from '../StandardSectionHeader';
 import { SectionBackground } from '../SectionBackground';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -98,9 +99,6 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
         );
     }
 
-    const MAX_WIDTH = 450;
-    const MAX_HEIGHT = 630;
-
     return (
         <section className={cn("py-12 md:py-24 relative overflow-hidden select-none", section.className)}>
             <SectionBackground
@@ -111,11 +109,14 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
 
             <div className="container relative z-10 mx-auto px-4">
                 {/* Header */}
-                <div className="text-center mb-12">
-                    {section.tag && <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-4">{section.tag}</span>}
-                    <h2 className="text-3xl md:text-5xl font-extrabold mb-4">{section.title || ebook?.title}</h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">{section.subtitle || ebook?.description}</p>
-                </div>
+                <StandardSectionHeader
+                    section={{
+                        tag: section.tag,
+                        title: section.title || ebook?.title,
+                        subtitle: section.subtitle || ebook?.description,
+                        backgroundTheme: section.backgroundTheme || 'light'
+                    }}
+                />
 
                 <div className={cn(
                     "max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.2)] border flex flex-col md:flex-row min-h-[600px]",
@@ -150,8 +151,8 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                                 {numPages && (
                                     <div className="w-full flex justify-center">
                                         <FlipBook
-                                            width={MAX_WIDTH}
-                                            height={MAX_HEIGHT}
+                                            width={595} // A4 width
+                                            height={842} // A4 height
                                             size="stretch"
                                             minWidth={300}
                                             maxWidth={500}
@@ -176,12 +177,15 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                                         >
                                             {[...Array(numPages)].map((_, i) => (
                                                 <PageComponent key={i} pageNumber={i + 1}>
-                                                    <Page
-                                                        pageNumber={i + 1}
-                                                        width={MAX_WIDTH}
-                                                        renderAnnotationLayer={false}
-                                                        renderTextLayer={false}
-                                                    />
+                                                    <div className="w-full h-full flex items-center justify-center overflow-hidden bg-white">
+                                                        <Page
+                                                            pageNumber={i + 1}
+                                                            width={800} // Render at higher resolution
+                                                            renderAnnotationLayer={false}
+                                                            renderTextLayer={false}
+                                                            className="max-w-full max-h-full"
+                                                        />
+                                                    </div>
                                                 </PageComponent>
                                             ))}
                                         </FlipBook>

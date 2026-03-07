@@ -126,18 +126,18 @@ export const EbookViewer: React.FC<EbookViewerProps> = ({
         const height = width * 1.414;
 
         return (
-            <div className="relative overflow-hidden w-full h-full">
+            <div className="relative overflow-hidden w-full h-full flex items-center justify-center bg-white">
                 <Document
                     file={pdfUrl}
                     loading={<div className="flex w-full h-full items-center justify-center bg-muted/20">...</div>}
                 >
                     <Page
                         pageNumber={index}
-                        width={width}
-                        scale={scale}
+                        width={width * 1.5} // Higher res for scaling
+                        scale={scale / 1.5} // Compensate width increase
                         renderTextLayer={false}
                         renderAnnotationLayer={false}
-                        className="w-full h-full"
+                        className="max-w-full max-h-full"
                     />
                 </Document>
                 <EbookWatermark
