@@ -64,6 +64,20 @@ export const deleteEbook = async (req: Request, res: Response, next: NextFunctio
 // PUBLIC & USER CONTROLLERS
 // ============================================
 
+export const getEbooks = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { keyword, page = 1, limit = 20 } = req.query;
+        const result = await ebooksService.getEbooks({
+            keyword: keyword as string,
+            page: parseInt(page as string, 10),
+            limit: parseInt(limit as string, 10),
+        });
+        res.json({ success: true, ...result });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export const getEbookBySlug = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { slug } = req.params;

@@ -29,6 +29,9 @@ router.delete("/admin/:id", authenticate, authorize([Role.ADMIN]), ebooksControl
 // PUBLIC & USER ROUTES 
 // ============================================
 
+// Lấy danh sách Ebooks (Public)
+router.get("/", ebooksController.getEbooks);
+
 // Lấy chi tiết Ebook theo slug (Public - Dùng cho Landing page/Shop)
 router.get("/:slug", ebooksController.getEbookBySlug);
 

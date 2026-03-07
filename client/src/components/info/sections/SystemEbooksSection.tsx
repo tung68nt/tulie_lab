@@ -30,7 +30,7 @@ export const SystemEbooksSection = ({ section }: { section: Section }) => {
     useEffect(() => {
         const fetchEbooks = async () => {
             try {
-                const res: any = await api.ebooks.listAdmin({ limit: 50 });
+                const res: any = await api.ebooks.list({ limit: 50 });
                 setEbooks(res?.data || []);
             } catch (err: any) {
                 console.error('Failed to load ebooks:', err);

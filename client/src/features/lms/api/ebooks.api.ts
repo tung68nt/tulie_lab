@@ -12,6 +12,10 @@ export const ebooksApi = {
     delete: (id: string) => request<void>(`/ebooks/admin/${id}`, { method: 'DELETE' }),
 
     // Public/User methods
+    list: (params?: { keyword?: string; page?: number; limit?: number }) => {
+        const query = new URLSearchParams(params as any).toString();
+        return request<any>(`/ebooks?${query}`);
+    },
     getBySlug: (slug: string) => request<any>(`/ebooks/${slug}`),
     checkAccess: (id: string) => request<{ hasAccess: boolean; presignedUrl?: string }>(`/ebooks/${id}/access`),
 };

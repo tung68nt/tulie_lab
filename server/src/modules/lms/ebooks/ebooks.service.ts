@@ -35,6 +35,40 @@ export const getAdminEbooks = async (params: { keyword?: string; page: number; l
     return { total, page, limit, data: ebooks };
 };
 
+export const getEbooks = async (params: { keyword?: string; page: number; limit: number }) => {
+    const { keyword, page, limit } = params;
+    const skip = (page - 1) * limit;
+
+    const where: any = keyword ? {
+        OR: [
+            { title: { contains: keyword, mode: 'insensitive' } },
+            { slug: { contains: keyword, mode: 'insensitive' } },
+        ]
+    } : {};
+
+    const [total, ebooks] = await Promise.all([
+        prisma.ebook.count({ where }),
+        prisma.ebook.findMany({
+            where,
+            select: {
+                id: true,
+                title: true,
+                slug: true,
+                description: true,
+                cover: true,
+                price: true,
+                totalPages: true,
+                previewPages: true
+            },
+            orderBy: { createdAt: 'desc' },
+            skip,
+            take: limit
+        })
+    ]);
+
+    return { total, page, limit, data: ebooks };
+};
+
 export const getAdminEbookById = async (id: string) => {
     return prisma.ebook.findUnique({
         where: { id },
