@@ -7,7 +7,7 @@ import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
-import { Clock, ChevronDown, ChevronUp, Lock, Check, PlayCircle, CheckCircle2 } from 'lucide-react';
+import {  Clock, ChevronDown, ChevronUp, Lock, Check, PlayCircle, CheckCircle2 , Loader2 } from 'lucide-react';
 import { sendGTMEvent } from '@/lib/gtm';
 import { CountdownTimer } from '@/components/CountdownTimer';
 import { CourseChapter } from '@/features/lms/components/CourseChapter';

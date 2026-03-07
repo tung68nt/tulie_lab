@@ -6,7 +6,7 @@ import { Instructor, ApiResponse } from '@/types/api';
 import { Section } from '@/types/sections';
 import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
-import { Twitter, Linkedin, Github, ExternalLink, Mail, ArrowRight } from 'lucide-react';
+import {  Twitter, Linkedin, Github, ExternalLink, Mail, ArrowRight , Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/Button';

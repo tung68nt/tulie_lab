@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Printer, Download, Mail, Globe, MapPin, FileText, Phone, ArrowLeft } from 'lucide-react';
+import {  Printer, Download, Mail, Globe, MapPin, FileText, Phone, ArrowLeft , Loader2 } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
 import Link from 'next/link';

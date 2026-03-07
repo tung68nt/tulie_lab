@@ -10,7 +10,7 @@ import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
-import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Download } from 'lucide-react';
+import {  Sparkles, Wallet, ShieldCheck, Check, MoveRight, Download , Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { QuickEdit } from '@/components/admin/QuickEdit';

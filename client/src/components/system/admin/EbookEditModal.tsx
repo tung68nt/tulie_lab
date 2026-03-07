@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useToast } from '@/contexts/ToastContext';
-import { X, Save, FileText, ImageIcon, Link as LinkIcon } from 'lucide-react';
+import {  X, Save, FileText, ImageIcon, Link as LinkIcon , Loader2 } from 'lucide-react';
 
 interface EbookEditModalProps {
     isOpen: boolean;

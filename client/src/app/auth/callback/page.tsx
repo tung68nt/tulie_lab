@@ -78,7 +78,7 @@ function AuthCallbackContent() {
 
 export default function AuthCallbackPage() {
     return (
-        <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background"><Loader2 className="animate-spin w-8 h-8 text-primary " />}>
+        <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background"><Loader2 className="animate-spin w-8 h-8 text-primary " /></div>}>
             <AuthCallbackContent />
         </Suspense>
     );

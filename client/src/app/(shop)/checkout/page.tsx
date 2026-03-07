@@ -16,7 +16,7 @@ import { DotPatternBackground } from '@/components/DotPatternBackground';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { FadeIn } from '@/components/animations/FadeIn';
-import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt } from 'lucide-react';
+import {  ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt , Loader2 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
 import { Switch } from '@/components/Switch';
 

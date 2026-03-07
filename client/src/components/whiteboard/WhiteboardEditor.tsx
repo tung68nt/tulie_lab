@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { exportToBlob } from '@excalidraw/excalidraw';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/Button';
-import { Lock, FileX } from 'lucide-react';
+import {  Lock, FileX , Loader2 } from 'lucide-react';
 
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';

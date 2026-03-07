@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api, getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { BookOpen, Clock, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
+import {  BookOpen, Clock, ChevronRight, Sparkles, TrendingUp , Loader2 } from 'lucide-react';
 
 import { Card } from '@/components/Card';
 import Image from 'next/image';

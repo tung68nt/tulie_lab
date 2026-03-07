@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { cn } from '@/lib/utils';
-import { Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers, FileText, Image, Video, Music, Globe, Smartphone, Database, Settings, Star, Heart, ShoppingCart, Tag, Bookmark, Award, Gift, Target, Lightbulb, Rocket } from 'lucide-react';
+import {  Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers, FileText, Image, Video, Music, Globe, Smartphone, Database, Settings, Star, Heart, ShoppingCart, Tag, Bookmark, Award, Gift, Target, Lightbulb, Rocket , Loader2 } from 'lucide-react';
 import { Section } from '@/types/sections';
 import { SectionTag } from '@/components/SectionTag';
 import { SectionBackground } from '../SectionBackground';

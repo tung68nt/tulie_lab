@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button } from '@/components/Button';
-import { Eye, Save, X } from 'lucide-react';
+import {  Eye, Save, X , Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AdminStickyFooterProps {

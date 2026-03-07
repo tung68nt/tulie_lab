@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { cn } from '@/lib/utils';
-import { BookOpen, Search, Eye, ShoppingCart } from 'lucide-react';
+import {  BookOpen, Search, Eye, ShoppingCart , Loader2 } from 'lucide-react';
 import { Section } from '@/types/sections';
 import { SectionTag } from '@/components/SectionTag';
 import { SectionBackground } from '../SectionBackground';

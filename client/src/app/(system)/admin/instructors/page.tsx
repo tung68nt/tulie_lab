@@ -9,7 +9,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { TableActions } from '@/components/system/admin/TableActions';
-import { UserCheck } from 'lucide-react';
+import {  UserCheck , Loader2 } from 'lucide-react';
 
 // Define Instructor interface for type safety
 interface InstructorExperience {

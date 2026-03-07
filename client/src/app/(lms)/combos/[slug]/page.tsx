@@ -8,7 +8,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { SectionTag } from '@/components/SectionTag';
 import { Button } from '@/components/Button';
 import { DotPatternBackground } from '@/components/DotPatternBackground';
-import { Clock, BookOpen, CheckCircle2, ChevronRight } from 'lucide-react';
+import {  Clock, BookOpen, CheckCircle2, ChevronRight , Loader2 } from 'lucide-react';
 import Image from 'next/image';
 
 export default function ComboLandingPage({ params }: { params: Promise<{ slug: string }> }) {

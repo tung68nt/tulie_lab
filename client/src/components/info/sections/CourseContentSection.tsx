@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Section } from '@/types/sections';
-import { BookOpen, PlayCircle, ChevronDown, ChevronUp, Lock, Eye, Clock, FileText, HelpCircle } from 'lucide-react';
+import {  BookOpen, PlayCircle, ChevronDown, ChevronUp, Lock, Eye, Clock, FileText, HelpCircle , Loader2 } from 'lucide-react';
 import { SectionBackground } from '../SectionBackground';
 import { SectionTag } from '@/components/SectionTag';
 import { cn } from '@/lib/utils';

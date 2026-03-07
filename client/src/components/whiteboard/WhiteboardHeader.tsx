@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
-import { ChevronLeft, Cloud, Pencil, LayoutGrid, Globe, Lock, Link as LinkIcon, Check, Copy } from 'lucide-react';
+import {  ChevronLeft, Cloud, Pencil, LayoutGrid, Globe, Lock, Link as LinkIcon, Check, Copy , Loader2 } from 'lucide-react';
 import { SaveStatus } from './SaveStatusIndicator';
 import { Logo } from '@/components/Logo';
 

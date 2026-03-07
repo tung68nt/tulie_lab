@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Section } from '@/types/sections';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { Calendar as CalendarIcon, List as ListIcon, ExternalLink } from 'lucide-react';
+import {  Calendar as CalendarIcon, List as ListIcon, ExternalLink , Loader2 } from 'lucide-react';
 import { MonthViewCalendar } from '@/components/calendar/MonthViewCalendar';
 import { Button } from '@/components/Button';
 import { SectionBackground } from '../SectionBackground';

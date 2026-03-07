@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
 import { Button } from '@/components/Button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {  ChevronLeft, ChevronRight , Loader2 } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 10;
 

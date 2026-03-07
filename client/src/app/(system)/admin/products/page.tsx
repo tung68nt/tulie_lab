@@ -6,7 +6,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
-import { Plus, Search, Edit, Trash, ExternalLink, ShoppingBag } from 'lucide-react';
+import {  Plus, Search, Edit, Trash, ExternalLink, ShoppingBag , Loader2 } from 'lucide-react';
 import { Input } from '@/components/Input';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
