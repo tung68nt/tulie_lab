@@ -155,9 +155,9 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                                             height={842} // A4 height
                                             size="stretch"
                                             minWidth={300}
-                                            maxWidth={500}
-                                            minHeight={400}
-                                            maxHeight={700}
+                                            maxWidth={1000}
+                                            minHeight={300}
+                                            maxHeight={1200}
                                             maxShadowOpacity={0.5}
                                             showCover={true}
                                             mobileScrollSupport={true}
