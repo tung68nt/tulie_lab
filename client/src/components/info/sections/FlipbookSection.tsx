@@ -37,6 +37,7 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
     const isDarkBg = !section.backgroundTheme || section.backgroundTheme === 'dark';
 
     const [numPages, setNumPages] = useState<number | null>(null);
+    const [pageRatio, setPageRatio] = useState<number>(1.414); // Default to A4
     const [pageNumber, setPageNumber] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -53,11 +54,19 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
 
     const selectedAnimation = animationVariants[section.animation || 'fade-up'];
 
-    const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    const onDocumentLoadSuccess = (pdf: any) => {
+        const { numPages } = pdf;
         // Limit to preview pages
         const limit = section.previewPages || 5;
         setNumPages(Math.min(numPages, limit));
-        setLoading(false);
+
+        // Dynamic ratio detection from the first page
+        pdf.getPage(1).then((page: any) => {
+            const viewport = page.getViewport({ scale: 1 });
+            const ratio = viewport.height / viewport.width;
+            setPageRatio(ratio);
+            setLoading(false);
+        });
     };
 
     const onDocumentLoadError = (error: Error) => {
@@ -147,8 +156,8 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
                                 <div className="animate-in fade-in zoom-in-95 duration-500 w-full h-full flex flex-col items-center justify-center">
                                     <div className="relative shadow-2xl rounded overflow-hidden">
                                         <FlipBook
-                                            width={595}
-                                            height={842}
+                                            width={600}
+                                            height={Math.round(600 * pageRatio)}
                                             size="stretch"
                                             minWidth={300}
                                             maxWidth={1000}
@@ -179,10 +188,11 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
                                                         <Document file={section.pdfUrl}>
                                                             <Page
                                                                 pageNumber={index + 1}
-                                                                width={800}
+                                                                width={800} // Render width
+                                                                // The height will be derived from the page's own ratio
                                                                 renderTextLayer={false}
                                                                 renderAnnotationLayer={false}
-                                                                className="max-w-full max-h-full"
+                                                                className="max-w-full max-h-full object-contain"
                                                             />
                                                         </Document>
                                                         {/* Watermark overlay - Diagonal text */}

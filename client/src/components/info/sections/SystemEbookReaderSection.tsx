@@ -37,6 +37,7 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
 
     const [ebook, setEbook] = useState<any>(null);
     const [numPages, setNumPages] = useState<number | null>(null);
+    const [pageRatio, setPageRatio] = useState<number>(1.414); // Default to A4
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [hasAccess, setHasAccess] = useState(false);
@@ -64,13 +65,9 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                         setHasAccess(true);
                         setPdfUrl(accessRes.presignedUrl);
                     } else {
-                        // Use public cover/preview if provided in section or logic
-                        // For now we just use a placeholder or the preview URL if we define one
                         setHasAccess(false);
-                        // In a real app, maybe we'd have a public preview PDF URL
                     }
                 } catch (e) {
-                    // Probably not logged in or no access
                     setHasAccess(false);
                 }
             } catch (err: any) {
@@ -84,10 +81,18 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
         fetchEbookAndAccess();
     }, [ebookSlug]);
 
-    const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    const onDocumentLoadSuccess = (pdf: any) => {
+        const { numPages } = pdf;
         // If no access, limit to preview pages
         const limit = hasAccess ? numPages : (ebook?.previewPages || 5);
         setNumPages(Math.min(numPages, limit));
+
+        // Dynamic ratio detection from the first page
+        pdf.getPage(1).then((page: any) => {
+            const viewport = page.getViewport({ scale: 1 });
+            const ratio = viewport.height / viewport.width;
+            setPageRatio(ratio);
+        });
     };
 
     if (loading) {
@@ -148,11 +153,11 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                                     loading={<Loader2 className="w-8 h-8 animate-spin" />}
                                     className="hidden"
                                 />
-                                {numPages && (
+                                {numPages && numPages > 0 && (
                                     <div className="w-full flex justify-center">
                                         <FlipBook
-                                            width={595} // A4 width
-                                            height={842} // A4 height
+                                            width={600}
+                                            height={Math.round(600 * pageRatio)}
                                             size="stretch"
                                             minWidth={300}
                                             maxWidth={1000}
@@ -183,7 +188,7 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                                                             width={800} // Render at higher resolution
                                                             renderAnnotationLayer={false}
                                                             renderTextLayer={false}
-                                                            className="max-w-full max-h-full"
+                                                            className="max-w-full max-h-full object-contain"
                                                         />
                                                     </div>
                                                 </PageComponent>
