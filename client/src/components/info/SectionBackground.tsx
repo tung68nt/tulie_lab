@@ -94,7 +94,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                                         ? "text-zinc-500/[0.15] dark:text-white/[0.35]"
                                         : "text-zinc-500/[0.50] dark:text-white/[0.70]"
                         )}
-                        withVignette={false}
+                        withVignette={true}
                         withFade={dotPatternFade}
                         variant={backgroundPattern}
                     />

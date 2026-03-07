@@ -127,7 +127,7 @@ export default function ProfilePage() {
 
     return (
         <div className="relative min-h-screen overflow-hidden">
-            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={false} />
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={true} />
             <div className="container pt-24 pb-32 relative z-10">
                 <div className="max-w-2xl mx-auto">
                     <h1 className="text-3xl font-bold mb-8">Hồ sơ cá nhân</h1>

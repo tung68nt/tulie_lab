@@ -79,7 +79,7 @@ export default function DashboardPage() {
     return (
 
         <div className="relative min-h-screen overflow-hidden">
-            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={false} />
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={true} />
 
             <div className="container pt-24 pb-32 relative z-10">
                 {/* Header */}

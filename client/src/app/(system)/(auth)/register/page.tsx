@@ -70,7 +70,7 @@ export default function RegisterPage() {
 
     return (
         <div className="relative flex items-center justify-center min-h-screen bg-background overflow-hidden p-4 pt-12 pb-32">
-            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={false} />
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={true} />
             <div className="w-full max-w-md relative z-10">
                 <div className="text-center mb-6">
                     <h1 className="text-2xl font-bold">Tạo tài khoản mới</h1>
