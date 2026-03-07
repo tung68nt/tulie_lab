@@ -150,50 +150,56 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                                 <Document
                                     file={pdfUrl}
                                     onLoadSuccess={onDocumentLoadSuccess}
-                                    loading={<Loader2 className="w-8 h-8 animate-spin" />}
+                                    loading={<Loader2 className="w-8 h-8 animate-spin text-primary" />}
                                     className="hidden"
                                 />
                                 {numPages && numPages > 0 && (
                                     <div className="w-full flex justify-center">
-                                        <FlipBook
-                                            width={600}
-                                            height={Math.round(600 * pageRatio)}
-                                            size="stretch"
-                                            minWidth={300}
-                                            maxWidth={1000}
-                                            minHeight={300}
-                                            maxHeight={1200}
-                                            maxShadowOpacity={0.5}
-                                            showCover={true}
-                                            mobileScrollSupport={true}
-                                            className="ebook-reader-pageflip"
-                                            style={{ backgroundColor: 'transparent', margin: '0 auto' }}
-                                            startPage={0}
-                                            drawShadow={true}
-                                            flippingTime={1000}
-                                            usePortrait={false}
-                                            startZIndex={0}
-                                            autoSize={true}
-                                            clickEventForward={true}
-                                            useMouseEvents={true}
-                                            swipeDistance={3}
-                                            showPageCorners={true}
-                                            disableFlipByClick={false}
+                                        <Document
+                                            file={pdfUrl}
+                                            loading={<Loader2 className="w-8 h-8 animate-spin text-primary" />}
                                         >
-                                            {[...Array(numPages)].map((_, i) => (
-                                                <PageComponent key={i} pageNumber={i + 1}>
-                                                    <div className="w-full h-full flex items-center justify-center overflow-hidden bg-white">
-                                                        <Page
-                                                            pageNumber={i + 1}
-                                                            width={800} // Render at higher resolution
-                                                            renderAnnotationLayer={false}
-                                                            renderTextLayer={false}
-                                                            className="max-w-full max-h-full object-contain"
-                                                        />
-                                                    </div>
-                                                </PageComponent>
-                                            ))}
-                                        </FlipBook>
+                                            <FlipBook
+                                                width={600}
+                                                height={Math.round(600 * pageRatio)}
+                                                size="stretch"
+                                                minWidth={300}
+                                                maxWidth={1200}
+                                                minHeight={300}
+                                                maxHeight={1400}
+                                                maxShadowOpacity={0.5}
+                                                showCover={true}
+                                                mobileScrollSupport={true}
+                                                className="ebook-reader-pageflip"
+                                                style={{ backgroundColor: 'transparent', margin: '0 auto' }}
+                                                startPage={0}
+                                                drawShadow={true}
+                                                flippingTime={1000}
+                                                usePortrait={false}
+                                                startZIndex={0}
+                                                autoSize={true}
+                                                clickEventForward={true}
+                                                useMouseEvents={true}
+                                                swipeDistance={3}
+                                                showPageCorners={true}
+                                                disableFlipByClick={false}
+                                            >
+                                                {[...Array(numPages)].map((_, i) => (
+                                                    <PageComponent key={i} pageNumber={i + 1}>
+                                                        <div className="w-full h-full flex items-center justify-center overflow-hidden bg-white border border-black/5">
+                                                            <Page
+                                                                pageNumber={i + 1}
+                                                                width={600} // Matches target width
+                                                                renderAnnotationLayer={false}
+                                                                renderTextLayer={false}
+                                                                className="max-w-full max-h-full transition-opacity duration-300"
+                                                                loading={<div className="bg-muted animate-pulse w-[300px] h-[400px]" />}
+                                                            />
+                                                        </div>
+                                                    </PageComponent>
+                                                ))}
+                                            </FlipBook>
+                                        </Document>
                                     </div>
                                 )}
                             </>
@@ -247,6 +253,6 @@ export const SystemEbookReaderSection = ({ section }: { section: any }) => {
                     border-radius: 4px;
                 }
             `}</style>
-        </section>
+        </section >
     );
 };

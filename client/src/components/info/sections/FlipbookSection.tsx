@@ -154,57 +154,61 @@ export const FlipbookSection: React.FC<{ section: Section }> = ({ section }) => 
 
                             {!loading && !error && numPages && numPages > 0 && (
                                 <div className="animate-in fade-in zoom-in-95 duration-500 w-full h-full flex flex-col items-center justify-center">
-                                    <div className="relative shadow-2xl rounded overflow-hidden">
-                                        <FlipBook
-                                            width={600}
-                                            height={Math.round(600 * pageRatio)}
-                                            size="stretch"
-                                            minWidth={300}
-                                            maxWidth={1000}
-                                            minHeight={300}
-                                            maxHeight={1200}
-                                            maxShadowOpacity={0.5}
-                                            showCover={true}
-                                            mobileScrollSupport={true}
-                                            onFlip={handlePageChange}
-                                            className="flip-book-container"
-                                            ref={flipBookRef}
-                                            style={{ margin: "0 auto" }}
-                                            startPage={0}
-                                            drawShadow={true}
-                                            flippingTime={1000}
-                                            usePortrait={false}
-                                            startZIndex={0}
-                                            autoSize={true}
-                                            clickEventForward={true}
-                                            useMouseEvents={true}
-                                            swipeDistance={3}
-                                            showPageCorners={true}
-                                            disableFlipByClick={false}
+                                    <div className="relative shadow-2xl rounded overflow-hidden bg-white/5 backdrop-blur-sm">
+                                        <Document
+                                            file={section.pdfUrl}
+                                            loading={<Loader2 className="w-8 h-8 animate-spin text-primary" />}
                                         >
-                                            {Array.from(new Array(numPages), (_el, index) => (
-                                                <PageComponent key={`page_${index + 1}`} pageNumber={index + 1}>
-                                                    <div className="w-full h-full relative group flex items-center justify-center bg-white overflow-hidden">
-                                                        <Document file={section.pdfUrl}>
+                                            <FlipBook
+                                                width={600}
+                                                height={Math.round(600 * pageRatio)}
+                                                size="stretch"
+                                                minWidth={300}
+                                                maxWidth={1200}
+                                                minHeight={300}
+                                                maxHeight={1400}
+                                                maxShadowOpacity={0.5}
+                                                showCover={true}
+                                                mobileScrollSupport={true}
+                                                onFlip={handlePageChange}
+                                                className="flip-book-container"
+                                                ref={flipBookRef}
+                                                style={{ margin: "0 auto" }}
+                                                startPage={0}
+                                                drawShadow={true}
+                                                flippingTime={1000}
+                                                usePortrait={false}
+                                                startZIndex={0}
+                                                autoSize={true}
+                                                clickEventForward={true}
+                                                useMouseEvents={true}
+                                                swipeDistance={3}
+                                                showPageCorners={true}
+                                                disableFlipByClick={false}
+                                            >
+                                                {Array.from(new Array(numPages), (_el, index) => (
+                                                    <PageComponent key={`page_${index + 1}`} pageNumber={index + 1}>
+                                                        <div className="w-full h-full relative group flex items-center justify-center bg-white overflow-hidden border border-black/5">
                                                             <Page
                                                                 pageNumber={index + 1}
-                                                                width={800} // Render width
-                                                                // The height will be derived from the page's own ratio
+                                                                width={600} // Target width for the flipbook size
                                                                 renderTextLayer={false}
                                                                 renderAnnotationLayer={false}
-                                                                className="max-w-full max-h-full object-contain"
+                                                                className="max-w-full max-h-full transition-opacity duration-300"
+                                                                loading={<div className="bg-muted animate-pulse w-[300px] h-[400px]" />}
                                                             />
-                                                        </Document>
-                                                        {/* Watermark overlay - Diagonal text */}
-                                                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-20">
-                                                            <div className="transform -rotate-45 text-black/5 text-xl md:text-2xl font-bold whitespace-nowrap opacity-10">
-                                                                BẢN XEM THỬ • BẢN XEM THỬ
+
+                                                            {/* Watermark overlay - Diagonal text */}
+                                                            <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-20">
+                                                                <div className="transform -rotate-45 text-black/[0.03] text-xl md:text-2xl font-bold whitespace-nowrap">
+                                                                    BẢN XEM THỬ • BẢN XEM THỬ
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </PageComponent>
-                                            ))}
-                                        </FlipBook>
+                                                    </PageComponent>
+                                                ))}
+                                            </FlipBook>
+                                        </Document>
                                     </div>
 
                                     <div className="mt-8 flex items-center gap-4 text-xs font-medium text-muted-foreground bg-background/50 px-4 py-2 rounded-full backdrop-blur-md border border-border">
