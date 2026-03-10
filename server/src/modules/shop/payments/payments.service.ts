@@ -402,6 +402,62 @@ export class PaymentService {
         return this.orderRepository.findAll({ skip, take: limit, where, orderBy: { createdAt: 'desc' } });
     }
 
+    async getRecentPublicOrders(limit = 10) {
+        // Fetch only PAID orders with user profile and course titles
+        const orders = await prisma.order.findMany({
+            where: {
+                status: OrderStatus.PAID,
+                userId: { not: null }
+            },
+            take: limit,
+            orderBy: { createdAt: 'desc' },
+            include: {
+                user: {
+                    include: {
+                        profile: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                },
+                items: {
+                    include: {
+                        course: {
+                            select: { title: true }
+                        },
+                        product: {
+                            select: { title: true }
+                        }
+                    }
+                }
+            }
+        });
+
+        const anonymize = (name: string) => {
+            if (!name) return 'Khách hàng';
+            const parts = name.split(' ');
+            if (parts.length === 1) return parts[0];
+            const last = parts[parts.length - 1];
+            const rest = parts.slice(0, -1).map(p => p[0]).join('. ');
+            return `${rest}. ${last}`;
+        };
+
+        return orders.map(order => {
+            const name = order.user?.profile?.name || 'Khách hàng';
+            const item = order.items[0]?.course?.title || order.items[0]?.product?.title || 'khóa học';
+
+            return {
+                id: order.id,
+                name: anonymize(name),
+                location: 'Việt Nam', // We don't track location yet, maybe random from a set or default
+                action: `vừa đăng ký ${item}`,
+                time: 'Gần đây',
+                createdAt: order.createdAt
+            };
+        });
+    }
+
     async updateOrderStatus(id: string, status: OrderStatus): Promise<Order> {
         const order = await this.orderRepository.findById(id);
         if (!order) throw new Error('Order not found');

@@ -1,0 +1,171 @@
+{
+  "taskId": "8xb5v3",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "8xb5v3",
+      "version": 1,
+      "timestamp": "2026-03-10T02:43:18.329Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "title": "Implement FOMO and Exit Intent Popups",
+        "description": "Implement FOMO notifications and Exit Intent popups for the landing pages.\nFollow the designs provided in the user's screenshots:\n1. FOMO: Small floating notification with real/mock purchase/registration data.\n2. Exit Intent: Modal with urgent messaging and CTAs (Talk to founder, free audit).\n3. Bonus alignment: Fix \"Quà tặng #1\" alignment with title in BonusSection.\n\nReference docs for UI patterns: @doc/ui-guidelines (if exists)\nRelated to: @doc/landing-pages-arch",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [],
+        "acceptanceCriteria": []
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "8xb5v3",
+      "version": 2,
+      "timestamp": "2026-03-10T02:43:26.150Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [],
+          "newValue": [
+            {
+              "text": "Fix \"Quà tặng #1\" vertical alignment with Ebook title in BonusSection.tsx",
+              "completed": false
+            },
+            {
+              "text": "Implement FOMO Notification with real (if data exists) and mock (randomized) data modes. (Slide 3)",
+              "completed": false
+            },
+            {
+              "text": "Implement Exit Intent Modal with centered UI, urgent copy, and CTA buttons. (Slide 4)",
+              "completed": false
+            },
+            {
+              "text": "Integrate FOMO and Exit Intent popups into relevant landing pages.",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "title": "Implement FOMO and Exit Intent Popups",
+        "description": "Implement FOMO notifications and Exit Intent popups for the landing pages.\nFollow the designs provided in the user's screenshots:\n1. FOMO: Small floating notification with real/mock purchase/registration data.\n2. Exit Intent: Modal with urgent messaging and CTAs (Talk to founder, free audit).\n3. Bonus alignment: Fix \"Quà tặng #1\" alignment with title in BonusSection.\n\nReference docs for UI patterns: @doc/ui-guidelines (if exists)\nRelated to: @doc/landing-pages-arch",
+        "status": "in-progress",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "text": "Fix \"Quà tặng #1\" vertical alignment with Ebook title in BonusSection.tsx",
+            "completed": false
+          },
+          {
+            "text": "Implement FOMO Notification with real (if data exists) and mock (randomized) data modes. (Slide 3)",
+            "completed": false
+          },
+          {
+            "text": "Implement Exit Intent Modal with centered UI, urgent copy, and CTA buttons. (Slide 4)",
+            "completed": false
+          },
+          {
+            "text": "Integrate FOMO and Exit Intent popups into relevant landing pages.",
+            "completed": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "8xb5v3",
+      "version": 3,
+      "timestamp": "2026-03-10T02:46:43.462Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Fix \"Quà tặng #1\" vertical alignment with Ebook title in BonusSection.tsx"
+            },
+            {
+              "completed": false,
+              "text": "Implement FOMO Notification with real (if data exists) and mock (randomized) data modes. (Slide 3)"
+            },
+            {
+              "completed": false,
+              "text": "Implement Exit Intent Modal with centered UI, urgent copy, and CTA buttons. (Slide 4)"
+            },
+            {
+              "completed": false,
+              "text": "Integrate FOMO and Exit Intent popups into relevant landing pages."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Fix \"Quà tặng #1\" vertical alignment with Ebook title in BonusSection.tsx"
+            },
+            {
+              "completed": true,
+              "text": "Implement FOMO Notification with real (if data exists) and mock (randomized) data modes. (Slide 3)"
+            },
+            {
+              "completed": true,
+              "text": "Implement Exit Intent Modal with centered UI, urgent copy, and CTA buttons. (Slide 4)"
+            },
+            {
+              "completed": true,
+              "text": "Integrate FOMO and Exit Intent popups into relevant landing pages."
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "newValue": "### Summary: FOMO & Exit Intent Implementation\n\n1. **Alignment Fix**: Adjusted `BonusSection.tsx` to ensure the \"Quà tặng #x\" tag and the Ebook title are vertically centered using `items-center` and `leading-none`. Fixed a min-height for the header to maintain consistency.\n2. **Gift Content**: Updated `defaultContent.ts` to include \"Ebook 'Google Sheets Pro Guide'\" as the first bonus item (Quà tặng #1) for the Vibe Coding course.\n3. **FOMO Notification**: \n   - Created `FomoNotification.tsx` with a premium floating design (bottom-left).\n   - **Mode 1 (Real)**: Fetches recent successful orders from the new `/api/payments/recent` endpoint.\n   - **Mode 2 (Mock)**: Generates random realistic Vietnamese registrations if no real data is available.\n   - Anonymizes real names (e.g., \"Nguyễn Thanh Tùng\" -> \"N. T. Tùng\").\n4. **Exit Intent Modal**:\n   - Created `ExitIntentModal.tsx` triggered when the mouse leaves the browser viewport (exit intent).\n   - Features the \"Khoan đã!\" urgent messaging with two CTAs: \"Máy dò ý tưởng\" (Free Audit) and \"Chat với Founder\".\n   - Uses `sessionStorage` to only show once per visit.\n5. **Integration**: Added `LandingPageNotifications` wrapper to `MainLayout.tsx`, restricting it to the home page or dynamic landing pages (`/p/*`).\n\n### Technical Changes:\n- **Client**: `FomoNotification.tsx`, `ExitIntentModal.tsx`, `LandingPageNotifications.tsx`.\n- **Server**: Added `getRecentPublicOrders` to `PaymentService` and exposed it via `PaymentController` at `GET /api/payments/recent`."
+        }
+      ],
+      "snapshot": {
+        "title": "Implement FOMO and Exit Intent Popups",
+        "description": "Implement FOMO notifications and Exit Intent popups for the landing pages.\nFollow the designs provided in the user's screenshots:\n1. FOMO: Small floating notification with real/mock purchase/registration data.\n2. Exit Intent: Modal with urgent messaging and CTAs (Talk to founder, free audit).\n3. Bonus alignment: Fix \"Quà tặng #1\" alignment with title in BonusSection.\n\nReference docs for UI patterns: @doc/ui-guidelines (if exists)\nRelated to: @doc/landing-pages-arch",
+        "status": "done",
+        "priority": "high",
+        "assignee": "@me",
+        "labels": [],
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Fix \"Quà tặng #1\" vertical alignment with Ebook title in BonusSection.tsx"
+          },
+          {
+            "completed": true,
+            "text": "Implement FOMO Notification with real (if data exists) and mock (randomized) data modes. (Slide 3)"
+          },
+          {
+            "completed": true,
+            "text": "Implement Exit Intent Modal with centered UI, urgent copy, and CTA buttons. (Slide 4)"
+          },
+          {
+            "completed": true,
+            "text": "Integrate FOMO and Exit Intent popups into relevant landing pages."
+          }
+        ],
+        "implementationNotes": "### Summary: FOMO & Exit Intent Implementation\n\n1. **Alignment Fix**: Adjusted `BonusSection.tsx` to ensure the \"Quà tặng #x\" tag and the Ebook title are vertically centered using `items-center` and `leading-none`. Fixed a min-height for the header to maintain consistency.\n2. **Gift Content**: Updated `defaultContent.ts` to include \"Ebook 'Google Sheets Pro Guide'\" as the first bonus item (Quà tặng #1) for the Vibe Coding course.\n3. **FOMO Notification**: \n   - Created `FomoNotification.tsx` with a premium floating design (bottom-left).\n   - **Mode 1 (Real)**: Fetches recent successful orders from the new `/api/payments/recent` endpoint.\n   - **Mode 2 (Mock)**: Generates random realistic Vietnamese registrations if no real data is available.\n   - Anonymizes real names (e.g., \"Nguyễn Thanh Tùng\" -> \"N. T. Tùng\").\n4. **Exit Intent Modal**:\n   - Created `ExitIntentModal.tsx` triggered when the mouse leaves the browser viewport (exit intent).\n   - Features the \"Khoan đã!\" urgent messaging with two CTAs: \"Máy dò ý tưởng\" (Free Audit) and \"Chat với Founder\".\n   - Uses `sessionStorage` to only show once per visit.\n5. **Integration**: Added `LandingPageNotifications` wrapper to `MainLayout.tsx`, restricting it to the home page or dynamic landing pages (`/p/*`).\n\n### Technical Changes:\n- **Client**: `FomoNotification.tsx`, `ExitIntentModal.tsx`, `LandingPageNotifications.tsx`.\n- **Server**: Added `getRecentPublicOrders` to `PaymentService` and exposed it via `PaymentController` at `GET /api/payments/recent`."
+      }
+    }
+  ]
+}

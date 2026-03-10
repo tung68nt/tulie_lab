@@ -7,6 +7,7 @@ import { Role } from '@prisma/client';
 const router = Router();
 
 router.post('/checkout', authenticateOptional, apiLimiter, PaymentController.checkout);
+router.get('/recent', apiLimiter, PaymentController.getRecentPublicOrders);
 
 // Admin routes - MUST be before /:code
 router.get('/orders', authenticate, authorize([Role.ADMIN]), apiLimiter, PaymentController.getAllOrders);

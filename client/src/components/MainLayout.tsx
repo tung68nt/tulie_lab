@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { ContentProtector } from './system/security/ContentProtector';
 import { ActivityTracker } from './ActivityTracker';
 import { BackToTop } from './BackToTop';
+import { LandingPageNotifications } from './notifications/LandingPageNotifications';
 
 interface MainLayoutProps {
     children: React.ReactNode;
@@ -19,6 +20,7 @@ export function MainLayout({ children }: MainLayoutProps) {
             <Suspense fallback={null}>
                 <ActivityTracker />
                 <ContentProtector />
+                <LandingPageNotifications />
             </Suspense>
             <main className="flex-1">
                 {children}
