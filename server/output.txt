@@ -1,0 +1,43 @@
+Tables in DB: [
+  'Event',                  'EmailLog',             'Campaign',
+  'ApiKey',                 'CourseRegistration',   'ProductCourseUpsell',
+  'CourseProductUpsell',    'OrderItem',            'Category',
+  'CourseUpsell',           'Lesson',               'SystemSetting',
+  'Enrollment',             'LessonProgress',       'PaymentTransaction',
+  'Instructor',             'BlogPost',             'SystemNotification',
+  'Bundle',                 'Coupon',               'Media',
+  'MarketingLead',          'InstructorExperience', 'ProductClassification',
+  'LandingPage',            'PricingAddOn',         'Course',
+  'JourneyEnrollment',      'JourneySubmission',    'JourneyStep',
+  'MentoringSession',       'LearningJourney',      'UserInvoiceProfile',
+  'Product',                'UserNote',             'ProductUpsell',
+  'UserProfile',            'ProductVersion',       'User',
+  'Attachment',             'Order',                'ContactSubmission',
+  'CouponUsage',            'UserNotification',     'SecurityLog',
+  'ActivityLog',            'ActivationCode',       'BundleCourse',
+  'UserSession',            'Subscription',         '_CourseToPricingAddOn',
+  'Whiteboard',             'Artboard',             'WhiteboardShare',
+  'WhiteboardCollaborator', '_prisma_migrations',   'WhiteboardHistory',
+  'ArtboardHistory',        'ShortLink',            'AdInsights',
+  'EbookAccess',            'Ebook'
+]
+Columns in Ebook: [
+  { column_name: 'id', data_type: 'text' },
+  { column_name: 'title', data_type: 'text' },
+  { column_name: 'slug', data_type: 'text' },
+  { column_name: 'description', data_type: 'text' },
+  { column_name: 'cover', data_type: 'text' },
+  { column_name: 'pdfKey', data_type: 'text' },
+  { column_name: 'totalPages', data_type: 'integer' },
+  { column_name: 'previewPages', data_type: 'integer' },
+  { column_name: 'price', data_type: 'numeric' },
+  { column_name: 'productId', data_type: 'text' },
+  {
+    column_name: 'createdAt',
+    data_type: 'timestamp without time zone'
+  },
+  {
+    column_name: 'updatedAt',
+    data_type: 'timestamp without time zone'
+  }
+]

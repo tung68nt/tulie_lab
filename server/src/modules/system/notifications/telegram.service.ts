@@ -4,6 +4,57 @@ import prisma from '../../../config/prisma';
 export class TelegramService {
     private botToken: string | undefined;
     private chatId: string | undefined;
+    private templates: Record<string, string> = {};
+
+    private defaultTemplates = {
+        telegram_template_order: `
+🔔 <b>Đơn hàng mới!</b>
+━━━━━━━━━━━━━━━━━━
+<b>Mã:</b> <b>#{{code}}</b>
+<b>Khách:</b> {{customer}}
+<b>Tiền:</b> {{amount}}
+<b>Trạng thái:</b> <b>{{status}}</b>
+<b>Nội dung:</b> {{items}}
+━━━━━━━━━━━━━━━━━━
+<i>Hệ thống {{academy}}</i>
+        `.trim(),
+        telegram_template_security: `
+⚠️ <b>Cảnh báo Bảo mật!</b>
+━━━━━━━━━━━━━━━━━━
+<b>Hành vi:</b> <b>{{action}}</b>
+<b>Chi tiết:</b> {{details}}
+<b>IP:</b> {{ip}}
+<b>Thời gian:</b> {{time}}
+━━━━━━━━━━━━━━━━━━
+<i>Vui lòng kiểm tra Admin Panel ngay!</i>
+        `.trim(),
+        telegram_template_registration: `
+👤 <b>Thành viên mới!</b>
+━━━━━━━━━━━━━━━━━━
+<b>Tên:</b> {{name}}
+<b>Email:</b> {{email}}
+<b>Thời gian:</b> {{time}}
+━━━━━━━━━━━━━━━━━━
+        `.trim(),
+        telegram_template_report: `
+<b>📊 BÁO CÁO KINH DOANH & HỆ THỐNG</b>
+━━━━━━━━━━━━━━━━━━
+💰 <b>Kết quả {{title}}:</b>
+- Doanh thu: <b>{{revenue}}</b>
+- Đơn hàng: <b>{{paidOrders}}</b>/{{totalOrders}} (Thành công/Tổng)
+- Thành viên mới: <b>{{newUsers}}</b>
+
+⏳ <b>Tình hình tồn đọng:</b>
+- Đơn hàng pending: <b>{{pendingOrders}}</b> đơn
+- Học viên "ngủ đông": <b>{{inactiveUsers}}</b> người (>14 ngày)
+
+🛡️ <b>Bảo mật & Sức khỏe:</b>
+- Cảnh báo bảo mật: <b>{{securityRisks}}</b>
+- Trạng thái: <b>{{systemStatus}}</b>
+━━━━━━━━━━━━━━━━━━
+<i>Hệ thống {{academy}} - {{time}}</i>
+        `.trim()
+    };
 
     constructor() {
         // Initial values from env as fallback
@@ -13,17 +64,50 @@ export class TelegramService {
 
     private async refreshSettings() {
         try {
-            const [tokenSetting, idSetting] = await Promise.all([
-                prisma.systemSetting.findUnique({ where: { key: 'telegram_bot_token' } }),
-                prisma.systemSetting.findUnique({ where: { key: 'telegram_chat_id' } })
-            ]);
+            const keys = [
+                'telegram_bot_token',
+                'telegram_chat_id',
+                'telegram_template_order',
+                'telegram_template_security',
+                'telegram_template_registration',
+                'telegram_template_report',
+                'site_name'
+            ];
 
-            if (tokenSetting?.value) this.botToken = tokenSetting.value;
-            if (idSetting?.value) this.chatId = idSetting.value;
+            const settings = await prisma.systemSetting.findMany({
+                where: { key: { in: keys } }
+            });
+
+            const settingsMap = settings.reduce((acc: any, s) => {
+                acc[s.key] = s.value;
+                return acc;
+            }, {});
+
+            if (settingsMap.telegram_bot_token) this.botToken = settingsMap.telegram_bot_token;
+            if (settingsMap.telegram_chat_id) this.chatId = settingsMap.telegram_chat_id;
+
+            this.templates = {
+                order: settingsMap.telegram_template_order || this.defaultTemplates.telegram_template_order,
+                security: settingsMap.telegram_template_security || this.defaultTemplates.telegram_template_security,
+                registration: settingsMap.telegram_template_registration || this.defaultTemplates.telegram_template_registration,
+                report: settingsMap.telegram_template_report || this.defaultTemplates.telegram_template_report,
+                academy: settingsMap.site_name || 'Tulie Academy'
+            };
         } catch (error) {
             console.error('[TelegramService] Failed to refresh settings from DB:', error);
-            // Fallback to initial env values (already in constructor)
         }
+    }
+
+    private renderTemplate(template: string, data: Record<string, any>) {
+        let result = template;
+        const allData = { ...data, academy: this.templates.academy };
+
+        Object.entries(allData).forEach(([key, value]) => {
+            const regex = new RegExp(`{{${key}}}`, 'g');
+            const replacement = (value !== undefined && value !== null) ? String(value) : 'N/A';
+            result = result.replace(regex, replacement);
+        });
+        return result;
     }
 
     async sendMessage(message: string, targetChatId?: string | number) {
@@ -50,45 +134,40 @@ export class TelegramService {
     }
 
     async sendOrderAlert(order: any) {
-        const message = `
-🔔 <b>Đơn hàng mới!</b>
-━━━━━━━━━━━━━━━━━━
-<b>Mã:</b> <b>#${order.code}</b>
-<b>Khách:</b> ${order.user?.profile?.name || order.user?.email || 'N/A'}
-<b>Tiền:</b> ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount))}
-<b>Trạng thái:</b> <b>${order.status}</b>
-<b>Nội dung:</b> ${order.items?.map((i: any) => i.course?.title || i.product?.title).join(', ') || 'N/A'}
-━━━━━━━━━━━━━━━━━━
-<i>Hệ thống Tulie Academy</i>
-        `.trim();
+        if (!this.templates.order) await this.refreshSettings();
+
+        const message = this.renderTemplate(this.templates.order, {
+            code: order.code,
+            customer: order.user?.profile?.name || order.user?.email || 'N/A',
+            amount: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(order.amount)),
+            status: order.status,
+            items: order.items?.map((i: any) => i.course?.title || i.product?.title).join(', ') || 'N/A'
+        });
 
         return this.sendMessage(message);
     }
 
     async sendSecurityAlert(action: string, details: string, ip?: string) {
-        const message = `
-⚠️ <b>Cảnh báo Bảo mật!</b>
-━━━━━━━━━━━━━━━━━━
-<b>Hành vi:</b> <b>${action}</b>
-<b>Chi tiết:</b> ${details}
-<b>IP:</b> ${ip || 'N/A'}
-<b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}
-━━━━━━━━━━━━━━━━━━
-<i>Vui lòng kiểm tra Admin Panel ngay!</i>
-        `.trim();
+        if (!this.templates.security) await this.refreshSettings();
+
+        const message = this.renderTemplate(this.templates.security, {
+            action,
+            details,
+            ip: ip || 'N/A',
+            time: new Date().toLocaleString('vi-VN')
+        });
 
         return this.sendMessage(message);
     }
 
     async sendRegistrationAlert(name: string, email: string) {
-        const message = `
-👤 <b>Thành viên mới!</b>
-━━━━━━━━━━━━━━━━━━
-<b>Tên:</b> ${name}
-<b>Email:</b> ${email}
-<b>Thời gian:</b> ${new Date().toLocaleString('vi-VN')}
-━━━━━━━━━━━━━━━━━━
-        `.trim();
+        if (!this.templates.registration) await this.refreshSettings();
+
+        const message = this.renderTemplate(this.templates.registration, {
+            name,
+            email,
+            time: new Date().toLocaleString('vi-VN')
+        });
 
         return this.sendMessage(message);
     }
@@ -116,28 +195,24 @@ export class TelegramService {
         securityRisks: number;
         systemStatus?: string;
     }, targetChatId?: string | number) {
-        const title = data.title || 'hôm nay';
-        const message = `
-<b>📊 BÁO CÁO KINH DOANH & HỆ THỐNG</b>
-━━━━━━━━━━━━━━━━━━
-💰 <b>Kết quả ${title}:</b>
-- Doanh thu: <b>${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.todayRevenue)}</b>
-- Đơn hàng: <b>${data.todayPaidOrders}</b>/${data.todayOrders} (Thành công/Tổng)
-- Thành viên mới: <b>${data.todayNewUsers}</b>
+        if (!this.templates.report) await this.refreshSettings();
 
-⏳ <b>Tình hình tồn đọng:</b>
-- Đơn hàng pending: <b>${data.pendingOrders}</b> đơn
-- Học viên "ngủ đông": <b>${data.inactiveUsers}</b> người (>14 ngày)
-
-🛡️ <b>Bảo mật & Sức khỏe:</b>
-- Cảnh báo bảo mật: <b>${data.securityRisks > 0 ? `⚠️ ${data.securityRisks} vụ` : '✅ An toàn'}</b>
-- Trạng thái: <b>${data.systemStatus || 'Hoạt động ổn định'}</b>
-━━━━━━━━━━━━━━━━━━
-<i>Hệ thống Tulie Academy - ${new Date().toLocaleDateString('vi-VN')}</i>
-        `.trim();
+        const message = this.renderTemplate(this.templates.report, {
+            title: data.title || 'hôm nay',
+            revenue: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.todayRevenue),
+            paidOrders: data.todayPaidOrders,
+            totalOrders: data.todayOrders,
+            newUsers: data.todayNewUsers,
+            pendingOrders: data.pendingOrders,
+            inactiveUsers: data.inactiveUsers,
+            securityRisks: data.securityRisks > 0 ? `⚠️ ${data.securityRisks} vụ` : '✅ An toàn',
+            systemStatus: data.systemStatus || 'Hoạt động ổn định',
+            time: new Date().toLocaleDateString('vi-VN')
+        });
 
         return this.sendMessage(message, targetChatId);
     }
 }
 
 export const telegramService = new TelegramService();
+
