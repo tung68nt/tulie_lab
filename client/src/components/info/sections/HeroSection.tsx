@@ -1,5 +1,6 @@
 'use client';
 import { SectionTag } from '@/components/SectionTag';
+import { Badge } from '@/components/Badge';
 import { FadeIn } from '@/components/animations/FadeIn';
 
 import { useState } from 'react';
@@ -107,12 +108,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                         }
                                     }}
                                     variant={section.backgroundTheme === 'dark' ? "white" : "default"}
-                                    className={cn(
-                                        "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
-                                        section.backgroundTheme !== 'dark'
-                                            ? "bg-zinc-900 text-white hover:bg-zinc-800 dark:border dark:border-white/20 dark:bg-zinc-900"
-                                            : "bg-white text-black hover:bg-zinc-200" // Explicit high contrast
-                                    )}
+                                    className="w-full sm:w-auto text-base px-8 h-12 font-bold shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]"
                                 >
                                     {section.ctaText || 'Đăng ký ngay'}
                                     <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,15 +134,9 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                             section.backgroundTheme === 'dark' ? "text-zinc-300" : "text-muted-foreground"
                         )}>
                             {(section.trustIndicators || ['Miễn phí thử', 'Hỗ trợ 24/7', 'Chứng chỉ']).map((indicator: string, index: number) => (
-                                <div
-                                    key={index}
-                                    className={cn(
-                                        "flex items-center gap-2.5 px-4 md:px-5 py-2 rounded-full shadow-lg group/indicator transition-all bg-zinc-900 border border-zinc-800 text-white hover:bg-zinc-800 justify-center w-auto shrink-0"
-                                    )}
-                                >
-                                    <StatusDot color="white" className="w-1.5 h-1.5" />
-                                    <span className="not-italic whitespace-nowrap">{indicator}</span>
-                                </div>
+                                <Badge key={index} variant="default" size="lg" bold showDot dotColor="white" animate={false}>
+                                    {indicator}
+                                </Badge>
                             ))}
                         </div>
                     </FadeIn>

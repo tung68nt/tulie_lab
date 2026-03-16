@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { Input } from '@/components/Input';
 import { Switch } from '@/components/Switch';
@@ -178,9 +179,9 @@ export default function PricingAddOnsPage() {
                                                     <div className="flex flex-col gap-1">
                                                         <div className="flex items-center gap-2">
                                                             <span className="text-base font-semibold text-foreground">{addOn.name}</span>
-                                                            <span className="text-[10px] bg-muted text-muted-foreground px-2 py-0.5 rounded border border-border font-bold">
+                                                            <Badge variant="muted" size="sm" showDot={false}>
                                                                 {addOn.type || 'OTHER'}
-                                                            </span>
+                                                            </Badge>
                                                         </div>
                                                         {addOn.description && (
                                                             <p className="text-sm text-muted-foreground line-clamp-1">{addOn.description}</p>
@@ -194,9 +195,9 @@ export default function PricingAddOnsPage() {
                                                 </td>
                                                 <td className="py-4 px-4 text-center">
                                                     {!addOn.isActive ? (
-                                                        <span className="text-[10px] bg-neutral-50 text-neutral-400 px-2 py-0.5 rounded border border-neutral-100 font-bold">Ẩn</span>
+                                                        <Badge variant="muted" size="sm" showDot={false}>Ẩn</Badge>
                                                     ) : (
-                                                        <span className="text-[10px] bg-neutral-900 text-white px-2 py-0.5 rounded border border-neutral-900 font-bold">Hiện</span>
+                                                        <Badge variant="default" size="sm" showDot={false}>Hiện</Badge>
                                                     )}
                                                 </td>
                                                 <td className="py-4 px-6 text-right">

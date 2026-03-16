@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card';
+import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 import { Pagination } from '@/components/Pagination';
 import Link from 'next/link';
@@ -114,9 +115,9 @@ export default function AdminCoursesPage() {
                                             {course.price === 0 ? 'Miễn phí' : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
                                         </td>
                                         <td className="py-4 px-4 align-middle text-center">
-                                            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none ${course.isPublished ? 'bg-foreground text-background' : 'bg-muted text-muted-foreground'}`}>
+                                            <Badge variant={course.isPublished ? 'default' : 'muted'} size="sm" showDot={false}>
                                                 {course.isPublished ? 'Live' : 'Draft'}
-                                            </span>
+                                            </Badge>
                                         </td>
                                         <td className="py-4 px-6 align-middle text-right">
                                             <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-end">

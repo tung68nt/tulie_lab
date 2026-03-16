@@ -7,6 +7,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { Loader2, Search, Trash2, Mail, Eye, RefreshCcw, RotateCcw, Download, MessageSquare, Phone, MapPin, User, Clock } from 'lucide-react';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
 import { Card, CardContent } from '@/components/Card';
 import { Pagination } from '@/components/Pagination';
 import { useConfirm } from '@/components/ConfirmDialog';
@@ -16,13 +17,13 @@ import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 const getStatusBadge = (status: string) => {
     switch (status) {
         case 'NEW':
-            return <span className="inline-flex items-center rounded-full border border-foreground bg-foreground text-background px-2.5 py-0.5 text-xs font-semibold">Mới</span>;
+            return <Badge variant="default" size="sm" showDot={false}>Mới</Badge>;
         case 'READ':
-            return <span className="inline-flex items-center rounded-full border border-border bg-muted text-foreground px-2.5 py-0.5 text-xs font-semibold">Đã xem</span>;
+            return <Badge variant="muted" size="sm" showDot={false}>Đã xem</Badge>;
         case 'REPLIED':
-            return <span className="inline-flex items-center rounded-full border border-foreground text-foreground px-2.5 py-0.5 text-xs font-semibold">Đã phản hồi</span>;
+            return <Badge variant="outline" size="sm" showDot={false}>Đã phản hồi</Badge>;
         default:
-            return <span className="inline-flex items-center rounded-full border border-border text-foreground px-2.5 py-0.5 text-xs font-semibold">{status}</span>;
+            return <Badge variant="outline" size="sm" showDot={false}>{status}</Badge>;
     }
 };
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { Switch } from '@/components/Switch';
@@ -175,18 +176,18 @@ export default function NotificationsPage() {
                                         </div>
                                     </td>
                                     <td className="p-4 align-middle">
-                                        <span className="inline-flex items-center rounded-full border border-gray-200 px-2.5 py-0.5 text-xs font-semibold capitalize">
+                                        <Badge variant="outline" size="sm" showDot={false}>
                                             {n.type.toLowerCase()}
-                                        </span>
+                                        </Badge>
                                     </td>
                                     <td className="p-4 align-middle text-muted-foreground">
                                         {n.targetAll ? 'Tất cả' : n.targetBirthday ? 'Sinh nhật' : 'Tùy chọn'}
                                     </td>
                                     <td className="p-4 align-middle">
                                         {n.isActive ? (
-                                            <span className="bg-foreground text-background px-2 py-0.5 rounded-full font-bold text-[10px] capitalize">Active</span>
+                                            <Badge variant="default" size="sm" showDot={false}>Active</Badge>
                                         ) : (
-                                            <span className="bg-muted text-muted-foreground px-2 py-0.5 rounded-full font-bold text-[10px] capitalize">Draft</span>
+                                            <Badge variant="muted" size="sm" showDot={false}>Draft</Badge>
                                         )}
                                     </td>
                                     <td className="p-4 align-middle text-muted-foreground whitespace-nowrap text-xs">

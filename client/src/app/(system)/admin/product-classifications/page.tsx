@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
 import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { Input } from '@/components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
@@ -187,9 +188,9 @@ export default function AdminProductClassificationsPage() {
                                         </td>
                                         <td className="py-3 px-4 text-center">
                                             {!item.isActive ? (
-                                                <span className="text-[10px] bg-muted text-muted-foreground px-2 py-0.5 rounded border border-border font-bold">Ẩn</span>
+                                                <Badge variant="muted" size="sm" showDot={false}>Ẩn</Badge>
                                             ) : (
-                                                <span className="text-[10px] bg-neutral-100 text-neutral-900 px-2 py-0.5 rounded border border-neutral-200 font-bold">Hiện</span>
+                                                <Badge variant="default" size="sm" showDot={false}>Hiện</Badge>
                                             )}
                                         </td>
                                         <td className="py-3 px-6 text-right">
