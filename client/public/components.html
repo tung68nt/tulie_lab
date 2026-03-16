@@ -192,7 +192,7 @@ h1.page-title{font-size:2.5rem;font-weight:800;margin-bottom:.5rem;background:va
 /* Background patterns */
 .dot-bg{position:absolute;inset:0;background-image:radial-gradient(circle,currentColor .9px,transparent .9px);background-size:32px 32px;opacity:.1;pointer-events:none}
 .grid-bg{position:absolute;inset:0;background-image:linear-gradient(to right,currentColor .8px,transparent .8px),linear-gradient(to bottom,currentColor .8px,transparent .8px);background-size:32px 32px;opacity:.06;pointer-events:none}
-.cross-bg{position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 8v8M8 12h8' stroke='%23888' stroke-width='1' fill='none'/%3E%3C/svg%3E");background-size:24px 24px}
+.cross-bg{position:absolute;inset:0;opacity:.15;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 8v8M8 12h8' stroke='currentColor' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");background-size:24px 24px}
 .glow{position:absolute;border-radius:50%;filter:blur(100px);opacity:.3;pointer-events:none}
 .glow-light{position:absolute;border-radius:50%;filter:blur(120px);opacity:.15;pointer-events:none}
 /* Hero */
@@ -614,8 +614,8 @@ html.dark .code-keyword{color:#ff4d4d}html.dark .code-string{color:#50e3c2}html.
 </div>
 <h3>SectionTag Sizes</h3>
 <div class="flex items-center gap-2">
-<span class="section-tag tag-default tag-sm"><span class="status-dot-wrap" style="width:6px;height:6px"><span class="dot-ping dot-black"></span><span class="dot-core dot-black" style="width:5px;height:5px"></span></span> Small</span>
-<span class="section-tag tag-default tag-md"><span class="status-dot-wrap" style="width:6px;height:6px"><span class="dot-ping dot-black"></span><span class="dot-core dot-black" style="width:5px;height:5px"></span></span> Medium</span>
+<span class="section-tag tag-default tag-sm"><span class="status-dot dot-black" style="width:5px;height:5px"></span> Small</span>
+<span class="section-tag tag-default tag-md"><span class="status-dot dot-black" style="width:5px;height:5px"></span> Medium</span>
 <span class="section-tag tag-default"><span class="status-dot-wrap"><span class="dot-ping dot-black"></span><span class="dot-core dot-black"></span></span> Large (default)</span>
 </div>
 <div class="spec">Badge: rounded-full. StatusDot: 8×8px, có animation ping. SectionTag: 8 variants, 3 sizes (sm/md/lg), dùng ở phía trên section header. Tự động ẩn khi nội dung chứa "Khóa học".</div>
