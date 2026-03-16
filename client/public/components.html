@@ -13,17 +13,18 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--f
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 h1.page-title{font-size:2rem;font-weight:800;margin-bottom:.5rem}
 .page-desc{color:var(--muted-fg);margin-bottom:2rem;font-size:.875rem}
-/* Sidebar Layout */
-.page-layout{display:grid;grid-template-columns:220px 1fr;gap:0;min-height:100vh}
-.sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--border);padding:20px 0;background:var(--bg)}
+/* Sidebar Layout — Boxed */
+.page-wrapper{max-width:1200px;margin:32px auto;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg)}
+.page-layout{display:grid;grid-template-columns:200px 1fr;gap:0;min-height:calc(100vh - 64px)}
+.sidebar{position:sticky;top:0;height:calc(100vh - 64px);overflow-y:auto;border-right:1px solid var(--border);padding:20px 0;background:var(--bg)}
 .sidebar-title{font-size:11px;font-weight:700;color:var(--muted-fg);padding:0 16px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
 .sidebar-group{margin-bottom:16px}
 .sidebar-group-title{font-size:10px;font-weight:700;color:var(--muted-fg);padding:8px 16px 4px;opacity:.6}
 .sidebar a{display:block;font-size:12px;padding:5px 16px;color:var(--muted-fg);text-decoration:none;font-weight:500;transition:all .15s;border-left:2px solid transparent}
 .sidebar a:hover{color:var(--fg);background:var(--muted)}
 .sidebar a.active{color:var(--fg);font-weight:600;border-left-color:var(--primary);background:var(--muted)}
-.main-content{padding:0 32px;max-width:960px;margin:0 auto;overflow-x:hidden}
-@media(max-width:768px){.page-layout{grid-template-columns:1fr}.sidebar{display:none}}
+.main-content{padding:0 32px;overflow-x:hidden}
+@media(max-width:768px){.page-wrapper{margin:0;border:none;border-radius:0}.page-layout{grid-template-columns:1fr}.sidebar{display:none}}
 /* Section */
 .section{padding:2.5rem 0;border-bottom:1px solid var(--border)}
 .section:last-child{border-bottom:none}
@@ -40,7 +41,13 @@ h1.page-title{font-size:2rem;font-weight:800;margin-bottom:.5rem}
 /* Theme toggle */
 .theme-toggle{position:fixed;top:12px;right:16px;z-index:100;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--fg);cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;box-shadow:var(--shadow)}
 /* Color swatch */
-.swatch{padding:12px 16px;border-radius:var(--radius);font-size:12px;font-weight:600;text-align:center;border:1px solid var(--border)}
+.swatch{padding:14px 12px 10px;border-radius:var(--radius);font-size:12px;font-weight:600;text-align:center;border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:64px}
+.swatch .hex{font-size:10px;font-weight:500;opacity:.7}
+/* Palette strip */
+.palette-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px}
+.palette-swatch{padding:10px 8px;border-radius:8px;font-size:10px;font-weight:600;min-height:56px;display:flex;flex-direction:column;justify-content:flex-end;gap:2px}
+.palette-swatch .shade{font-weight:700;font-size:11px}
+.palette-swatch .hex{font-weight:500;opacity:.8}
 /* Shadow demo */
 .shadow-demo{padding:16px;border-radius:var(--radius);background:var(--card);font-size:11px;text-align:center;color:var(--muted-fg);font-weight:500}
 /* Radius demo */
@@ -253,6 +260,7 @@ html.dark .code-keyword{color:#ff4d4d}html.dark .code-string{color:#50e3c2}html.
 <body>
 <button class="theme-toggle" onclick="document.documentElement.classList.toggle('dark');document.documentElement.classList.toggle('light');this.textContent=document.documentElement.classList.contains('dark')?'☀ Light':'● Dark'">● Dark</button>
 
+<div class="page-wrapper">
 <div class="page-layout">
 <nav class="sidebar" id="sidebar">
 <div style="padding:0 16px 16px"><span style="font-weight:800;font-size:15px">Tulie DS</span></div>
@@ -312,18 +320,72 @@ html.dark .code-keyword{color:#ff4d4d}html.dark .code-string{color:#50e3c2}html.
 
 <!-- ============ 1. DESIGN TOKENS ============ -->
 <div class="section" id="tokens">
-<h2>1. Màu sắc và Design Tokens</h2>
+<h2>1. Color System</h2>
+
 <h3>Semantic Colors</h3>
 <div class="grid-4 gap-3" style="margin-bottom:16px">
-<div class="swatch" style="background:var(--bg);color:var(--fg)">Background</div>
-<div class="swatch" style="background:var(--primary);color:var(--primary-fg)">Primary</div>
-<div class="swatch" style="background:var(--muted);color:var(--muted-fg)">Muted</div>
-<div class="swatch" style="background:var(--accent);color:var(--accent-fg)">Accent</div>
-<div class="swatch" style="background:var(--destructive);color:#fff">Destructive</div>
-<div class="swatch" style="background:var(--success);color:#fff">Success</div>
-<div class="swatch" style="background:var(--warning);color:#fff">Warning</div>
-<div class="swatch" style="background:var(--card);color:var(--card-fg);border:1px solid var(--border)">Card</div>
+<div class="swatch" style="background:var(--bg);color:var(--fg)">Background<span class="hex">#ffffff</span></div>
+<div class="swatch" style="background:var(--primary);color:var(--primary-fg)">Primary<span class="hex">#18181b</span></div>
+<div class="swatch" style="background:var(--muted);color:var(--muted-fg)">Muted<span class="hex">#f4f4f5</span></div>
+<div class="swatch" style="background:var(--accent);color:var(--accent-fg)">Accent<span class="hex">#f4f4f5</span></div>
 </div>
+<div class="grid-4 gap-3" style="margin-bottom:24px">
+<div class="swatch" style="background:var(--destructive);color:#fff">Destructive<span class="hex">#ef4444</span></div>
+<div class="swatch" style="background:var(--success);color:#fff">Success<span class="hex">#16a34a</span></div>
+<div class="swatch" style="background:var(--warning);color:#fff">Warning<span class="hex">#f59e0b</span></div>
+<div class="swatch" style="background:var(--info);color:#fff">Info<span class="hex">#3b82f6</span></div>
+</div>
+
+<h3>Neutral Palette</h3>
+<div class="palette-strip" style="margin-bottom:24px">
+<div class="palette-swatch" style="background:#09090b;color:#fafafa"><span class="shade">950</span><span class="hex">#09090b</span></div>
+<div class="palette-swatch" style="background:#18181b;color:#fafafa"><span class="shade">900</span><span class="hex">#18181b</span></div>
+<div class="palette-swatch" style="background:#27272a;color:#fafafa"><span class="shade">800</span><span class="hex">#27272a</span></div>
+<div class="palette-swatch" style="background:#3f3f46;color:#fafafa"><span class="shade">700</span><span class="hex">#3f3f46</span></div>
+<div class="palette-swatch" style="background:#52525b;color:#fff"><span class="shade">600</span><span class="hex">#52525b</span></div>
+<div class="palette-swatch" style="background:#71717a;color:#fff"><span class="shade">500</span><span class="hex">#71717a</span></div>
+<div class="palette-swatch" style="background:#a1a1aa;color:#18181b"><span class="shade">400</span><span class="hex">#a1a1aa</span></div>
+<div class="palette-swatch" style="background:#d4d4d8;color:#18181b"><span class="shade">300</span><span class="hex">#d4d4d8</span></div>
+<div class="palette-swatch" style="background:#e4e4e7;color:#18181b"><span class="shade">200</span><span class="hex">#e4e4e7</span></div>
+<div class="palette-swatch" style="background:#f4f4f5;color:#18181b"><span class="shade">100</span><span class="hex">#f4f4f5</span></div>
+<div class="palette-swatch" style="background:#fafafa;color:#18181b;border:1px solid #e4e4e7"><span class="shade">50</span><span class="hex">#fafafa</span></div>
+</div>
+
+<h3>Extended Colors</h3>
+<p style="font-size:12px;color:var(--muted-fg);margin-bottom:12px">Màu phụ dùng cho badge, status, accent.</p>
+<div style="margin-bottom:8px;font-size:11px;font-weight:700;color:var(--muted-fg)">RED</div>
+<div class="palette-strip" style="margin-bottom:12px">
+<div class="palette-swatch" style="background:#991b1b;color:#fff"><span class="shade">800</span><span class="hex">#991b1b</span></div>
+<div class="palette-swatch" style="background:#dc2626;color:#fff"><span class="shade">600</span><span class="hex">#dc2626</span></div>
+<div class="palette-swatch" style="background:#ef4444;color:#fff"><span class="shade">500</span><span class="hex">#ef4444</span></div>
+<div class="palette-swatch" style="background:#fca5a5;color:#18181b"><span class="shade">300</span><span class="hex">#fca5a5</span></div>
+<div class="palette-swatch" style="background:#fef2f2;color:#18181b;border:1px solid #fecaca"><span class="shade">50</span><span class="hex">#fef2f2</span></div>
+</div>
+<div style="margin-bottom:8px;font-size:11px;font-weight:700;color:var(--muted-fg)">GREEN</div>
+<div class="palette-strip" style="margin-bottom:12px">
+<div class="palette-swatch" style="background:#166534;color:#fff"><span class="shade">800</span><span class="hex">#166534</span></div>
+<div class="palette-swatch" style="background:#16a34a;color:#fff"><span class="shade">600</span><span class="hex">#16a34a</span></div>
+<div class="palette-swatch" style="background:#22c55e;color:#fff"><span class="shade">500</span><span class="hex">#22c55e</span></div>
+<div class="palette-swatch" style="background:#86efac;color:#18181b"><span class="shade">300</span><span class="hex">#86efac</span></div>
+<div class="palette-swatch" style="background:#f0fdf4;color:#18181b;border:1px solid #bbf7d0"><span class="shade">50</span><span class="hex">#f0fdf4</span></div>
+</div>
+<div style="margin-bottom:8px;font-size:11px;font-weight:700;color:var(--muted-fg)">AMBER</div>
+<div class="palette-strip" style="margin-bottom:12px">
+<div class="palette-swatch" style="background:#92400e;color:#fff"><span class="shade">800</span><span class="hex">#92400e</span></div>
+<div class="palette-swatch" style="background:#d97706;color:#fff"><span class="shade">600</span><span class="hex">#d97706</span></div>
+<div class="palette-swatch" style="background:#f59e0b;color:#fff"><span class="shade">500</span><span class="hex">#f59e0b</span></div>
+<div class="palette-swatch" style="background:#fcd34d;color:#18181b"><span class="shade">300</span><span class="hex">#fcd34d</span></div>
+<div class="palette-swatch" style="background:#fffbeb;color:#18181b;border:1px solid #fde68a"><span class="shade">50</span><span class="hex">#fffbeb</span></div>
+</div>
+<div style="margin-bottom:8px;font-size:11px;font-weight:700;color:var(--muted-fg)">BLUE</div>
+<div class="palette-strip" style="margin-bottom:24px">
+<div class="palette-swatch" style="background:#1e40af;color:#fff"><span class="shade">800</span><span class="hex">#1e40af</span></div>
+<div class="palette-swatch" style="background:#2563eb;color:#fff"><span class="shade">600</span><span class="hex">#2563eb</span></div>
+<div class="palette-swatch" style="background:#3b82f6;color:#fff"><span class="shade">500</span><span class="hex">#3b82f6</span></div>
+<div class="palette-swatch" style="background:#93c5fd;color:#18181b"><span class="shade">300</span><span class="hex">#93c5fd</span></div>
+<div class="palette-swatch" style="background:#eff6ff;color:#18181b;border:1px solid #bfdbfe"><span class="shade">50</span><span class="hex">#eff6ff</span></div>
+</div>
+
 <h3>Shadows</h3>
 <div class="flex gap-3" style="margin-bottom:16px">
 <div class="shadow-demo" style="box-shadow:var(--shadow-sm)">shadow-sm</div>
@@ -339,7 +401,7 @@ html.dark .code-keyword{color:#ff4d4d}html.dark .code-string{color:#50e3c2}html.
 <div class="radius-demo" style="border-radius:12px">0.75rem ★</div>
 <div class="radius-demo" style="border-radius:9999px">full</div>
 </div>
-<div class="spec">Default radius: 0.75rem (12px). Full cho badge/pill. 4px cho checkbox. Button dùng radius mặc định.</div>
+<div class="spec">Default radius: 0.75rem (12px). Full cho badge/pill. 4px cho checkbox. Button dùng radius mặc định. Brand: B&W monochrome (zinc palette). Màu phụ chỉ dùng cho semantic (status, badge, alert).</div>
 </div>
 
 <!-- ============ 2. TYPOGRAPHY ============ -->
@@ -1199,6 +1261,7 @@ Blockquote thông thường — không có marker [!TYPE].
 
 </div><!-- end main-content -->
 </div><!-- end page-layout -->
+</div><!-- end page-wrapper -->
 
 <script>
 // Scroll spy for sidebar active state

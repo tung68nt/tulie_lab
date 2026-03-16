@@ -110,7 +110,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                     className={cn(
                                         "w-full sm:w-auto text-base px-8 h-12 font-bold shadow-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-[0.98]",
                                         section.backgroundTheme !== 'dark'
-                                            ? "bg-black text-white hover:bg-zinc-800 dark:border dark:border-white/20 dark:bg-black"
+                                            ? "bg-zinc-900 text-white hover:bg-zinc-800 dark:border dark:border-white/20 dark:bg-zinc-900"
                                             : "bg-white text-black hover:bg-zinc-200" // Explicit high contrast
                                     )}
                                 >
@@ -141,7 +141,7 @@ export function HeroSection({ section, mainCourse }: { section: any; mainCourse?
                                 <div
                                     key={index}
                                     className={cn(
-                                        "flex items-center gap-2.5 px-4 md:px-5 py-2 rounded-full shadow-lg group/indicator transition-all bg-black border border-white/10 text-white hover:bg-zinc-900 justify-center w-auto shrink-0"
+                                        "flex items-center gap-2.5 px-4 md:px-5 py-2 rounded-full shadow-lg group/indicator transition-all bg-zinc-900 border border-zinc-800 text-white hover:bg-zinc-800 justify-center w-auto shrink-0"
                                     )}
                                 >
                                     <StatusDot color="white" className="w-1.5 h-1.5" />
