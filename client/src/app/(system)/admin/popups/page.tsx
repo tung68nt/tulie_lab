@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card';
 import { Button } from '@/components/Button';
-import { Save, Bell, LogOut, Loader2 } from 'lucide-react';
+import { Save, Bell, LogOut, Loader2, ShoppingBag, X, ArrowRight, MessageCircle, Eye, EyeOff } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
@@ -54,11 +54,16 @@ const DEFAULT_EXIT: ExitConfig = {
     idleTimeout: 0,
 };
 
+const NAMES = ['Anh T.', 'Chị H.', 'Minh N.', 'Linh V.', 'Hoàng D.'];
+const LOCATIONS = ['Hà Nội', 'TP. HCM', 'Đà Nẵng', 'Vũng Tàu', 'Bình Dương'];
+
 export default function PopupConfigPage() {
     const [fomo, setFomo] = useState<FomoConfig>(DEFAULT_FOMO);
     const [exit, setExit] = useState<ExitConfig>(DEFAULT_EXIT);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [showFomoPreview, setShowFomoPreview] = useState(false);
+    const [showExitPreview, setShowExitPreview] = useState(false);
     const { addToast } = useToast();
 
     useEffect(() => {
@@ -107,42 +112,80 @@ export default function PopupConfigPage() {
         );
     }
 
+    // Preview data
+    const previewAction = fomo.actions[0] || 'vừa mua sản phẩm';
+    const previewName = NAMES[0];
+    const previewLocation = LOCATIONS[0];
+
     return (
-        <div className="space-y-8 max-w-3xl mx-auto">
+        <div className="space-y-6">
             <AdminPageHeader
                 title="Popup & FOMO"
                 subtitle="Cấu hình nội dung, nút và link cho các popup thông báo trên website"
-                icon={<Bell className="w-8 h-8 text-foreground" />}
-            />
-
-            <div className="flex justify-end">
+                icon={<Bell className="w-8 h-8" />}
+            >
                 <Button onClick={handleSave} disabled={saving} className="gap-2">
                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                     Lưu cấu hình
                 </Button>
-            </div>
+            </AdminPageHeader>
 
             {/* FOMO Notification Config */}
-            <Card className="border-border">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center">
-                            <Bell className="w-4 h-4 text-foreground" />
-                        </div>
+            <Card>
+                <CardHeader>
+                    <div className="flex items-center justify-between">
                         <div>
-                            <CardTitle className="text-base">FOMO Notification</CardTitle>
-                            <p className="text-xs text-muted-foreground mt-0.5">Popup hiển thị ở góc dưới-trái khi vào trang</p>
+                            <CardTitle>FOMO Notification</CardTitle>
+                            <CardDescription>Popup hiển thị ở góc dưới-trái khi vào trang</CardDescription>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground">{fomo.enabled ? 'Đang bật' : 'Đã tắt'}</span>
-                        <Switch
-                            checked={fomo.enabled}
-                            onCheckedChange={(checked) => setFomo({ ...fomo, enabled: checked })}
-                        />
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setShowFomoPreview(!showFomoPreview)}
+                                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                {showFomoPreview ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                                {showFomoPreview ? 'Ẩn preview' : 'Xem preview'}
+                            </button>
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs text-muted-foreground">{fomo.enabled ? 'Đang bật' : 'Đã tắt'}</span>
+                                <Switch
+                                    checked={fomo.enabled}
+                                    onCheckedChange={(checked) => setFomo({ ...fomo, enabled: checked })}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-5">
+                    {/* FOMO Preview */}
+                    {showFomoPreview && (
+                        <div className="rounded-lg border border-border bg-muted/30 p-4">
+                            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Preview</p>
+                            <div className="flex justify-start">
+                                <div className="w-72 md:w-80 overflow-hidden rounded-lg bg-zinc-900/95 border border-zinc-800 shadow-lg flex items-center p-3.5 gap-3.5">
+                                    <div className="relative shrink-0">
+                                        <div className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-zinc-300">
+                                            <ShoppingBag className="w-5 h-5" />
+                                        </div>
+                                        <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-zinc-900" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex flex-wrap items-center gap-x-1.5 mb-0.5">
+                                            <span className="text-[13px] font-semibold text-zinc-100">{previewName}</span>
+                                            <span className="text-[12px] text-zinc-400">đến từ</span>
+                                            <span className="text-[13px] font-semibold text-zinc-200">{previewLocation}</span>
+                                        </div>
+                                        <p className="text-[12px] text-zinc-400 font-medium leading-tight mb-0.5">{previewAction}</p>
+                                        <span className="text-[10px] text-zinc-500 block">Vừa xong</span>
+                                    </div>
+                                    <div className="self-start p-1 rounded-md text-zinc-600">
+                                        <X className="w-3.5 h-3.5" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <div className="space-y-2">
                         <Label className="text-sm font-medium">Danh sách hành động</Label>
                         <Textarea
@@ -180,26 +223,63 @@ export default function PopupConfigPage() {
             </Card>
 
             {/* Exit-Intent Modal Config */}
-            <Card className="border-border">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-muted flex items-center justify-center">
-                            <LogOut className="w-4 h-4 text-foreground" />
-                        </div>
+            <Card>
+                <CardHeader>
+                    <div className="flex items-center justify-between">
                         <div>
-                            <CardTitle className="text-base">Exit-Intent Modal</CardTitle>
-                            <p className="text-xs text-muted-foreground mt-0.5">Popup khi user di chuột ra khỏi trang</p>
+                            <CardTitle>Exit-Intent Modal</CardTitle>
+                            <CardDescription>Popup khi user di chuột ra khỏi trang hoặc không tương tác</CardDescription>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground">{exit.enabled ? 'Đang bật' : 'Đã tắt'}</span>
-                        <Switch
-                            checked={exit.enabled}
-                            onCheckedChange={(checked) => setExit({ ...exit, enabled: checked })}
-                        />
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setShowExitPreview(!showExitPreview)}
+                                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                {showExitPreview ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                                {showExitPreview ? 'Ẩn preview' : 'Xem preview'}
+                            </button>
+                            <div className="flex items-center gap-2">
+                                <span className="text-xs text-muted-foreground">{exit.enabled ? 'Đang bật' : 'Đã tắt'}</span>
+                                <Switch
+                                    checked={exit.enabled}
+                                    onCheckedChange={(checked) => setExit({ ...exit, enabled: checked })}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-5">
+                    {/* Exit-Intent Preview */}
+                    {showExitPreview && (
+                        <div className="rounded-lg border border-border bg-muted/30 p-4">
+                            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Preview</p>
+                            <div className="flex justify-center">
+                                <div className="w-full max-w-md overflow-hidden rounded-lg bg-zinc-900 border border-zinc-800 shadow-xl p-6">
+                                    <div className="flex items-start justify-between mb-3">
+                                        <h2 className="text-xl font-semibold text-zinc-100">{exit.title || 'Tiêu đề'}</h2>
+                                        <div className="p-1.5 rounded-md text-zinc-500">
+                                            <X className="w-4 h-4" />
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-zinc-400 mb-6 leading-relaxed">{exit.description || 'Nội dung mô tả...'}</p>
+                                    <div className="space-y-3">
+                                        <div className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-zinc-100 text-zinc-900 text-sm font-medium">
+                                            {exit.primaryText || 'Nút chính'}
+                                            <ArrowRight className="w-4 h-4" />
+                                        </div>
+                                        <div className="flex items-center justify-center gap-2 w-full h-11 rounded-md border border-zinc-700 text-zinc-300 text-sm font-medium">
+                                            <MessageCircle className="w-4 h-4" />
+                                            {exit.secondaryText || 'Nút phụ'}
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 w-full text-center text-zinc-600 text-xs font-medium">
+                                        Không, cảm ơn
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <div className="space-y-2">
                         <Label className="text-sm font-medium">Tiêu đề</Label>
                         <Input
