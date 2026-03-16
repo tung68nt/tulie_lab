@@ -27,6 +27,7 @@ interface ExitConfig {
     primaryLink: string;
     secondaryText: string;
     secondaryLink: string;
+    idleTimeout: number;
 }
 
 const DEFAULT_FOMO: FomoConfig = {
@@ -50,6 +51,7 @@ const DEFAULT_EXIT: ExitConfig = {
     primaryLink: '/san-pham',
     secondaryText: 'Chat với tư vấn viên',
     secondaryLink: 'https://zalo.me/0393137755',
+    idleTimeout: 0,
 };
 
 export default function PopupConfigPage() {
@@ -260,6 +262,24 @@ export default function PopupConfigPage() {
                             </div>
                         </div>
                     </div>
+
+                    <div className="border-t border-border pt-4">
+                        <p className="text-xs font-semibold text-muted-foreground mb-3">Trigger theo thời gian</p>
+                        <div className="space-y-2">
+                            <Label className="text-sm font-medium">Hiển thị sau khi không tương tác (giây)</Label>
+                            <Input
+                                type="number"
+                                value={exit.idleTimeout}
+                                onChange={(e) => setExit({ ...exit, idleTimeout: parseInt(e.target.value) || 0 })}
+                                placeholder="0"
+                            />
+                            <p className="text-xs text-muted-foreground">
+                                {exit.idleTimeout > 0
+                                    ? `Sẽ hiện popup sau ${exit.idleTimeout} giây không tương tác (hoạt động trên cả mobile)`
+                                    : 'Đặt 0 để tắt. Chỉ dùng trigger chuột rời trang (desktop only).'}
+                            </p>
+                        </div>
+                    </div>
                 </CardContent>
             </Card>
 
@@ -270,7 +290,7 @@ export default function PopupConfigPage() {
                 </CardHeader>
                 <CardContent className="text-xs space-y-2 text-muted-foreground leading-relaxed">
                     <p><strong>FOMO Notification:</strong> Popup nhỏ hiển thị ở góc dưới-trái, auto rotate danh sách hành động. Chỉ hiển thị trên landing page và trang chủ.</p>
-                    <p><strong>Exit-Intent Modal:</strong> Hiển thị khi user di chuột ra khỏi viewport (phía trên). Chỉ hiện 1 lần mỗi session. Chỉ trên landing page và trang chủ.</p>
+                    <p><strong>Exit-Intent Modal:</strong> Hiển thị khi user di chuột ra khỏi viewport (phía trên) hoặc sau khi không tương tác một khoảng thời gian. Chỉ hiện 1 lần mỗi session. Chỉ trên landing page và trang chủ.</p>
                     <p><strong>Link:</strong> Dùng đường dẫn nội bộ (VD: <code className="bg-muted px-1 py-0.5 rounded text-xs">/san-pham</code>) hoặc link ngoài (VD: <code className="bg-muted px-1 py-0.5 rounded text-xs">https://zalo.me/...</code>).</p>
                 </CardContent>
             </Card>

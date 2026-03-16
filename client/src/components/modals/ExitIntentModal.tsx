@@ -13,6 +13,7 @@ interface ExitConfig {
     primaryLink: string;
     secondaryText: string;
     secondaryLink: string;
+    idleTimeout: number; // seconds, 0 = disabled
 }
 
 const DEFAULT_CONFIG: ExitConfig = {
@@ -23,6 +24,7 @@ const DEFAULT_CONFIG: ExitConfig = {
     primaryLink: '/san-pham',
     secondaryText: 'Chat với tư vấn viên',
     secondaryLink: 'https://zalo.me/0393137755',
+    idleTimeout: 0, // 0 = disabled by default
 };
 
 export function ExitIntentModal() {
@@ -48,10 +50,17 @@ export function ExitIntentModal() {
         loadConfig();
     }, []);
 
+    const showModal = () => {
+        if (hasShown) return;
+        setIsOpen(true);
+        setHasShown(true);
+        sessionStorage.setItem('exit_intent_shown', 'true');
+    };
+
+    // Mouse leave trigger (desktop)
     useEffect(() => {
         if (!configLoaded || !config.enabled) return;
 
-        // Check if shown in this session
         const shown = sessionStorage.getItem('exit_intent_shown');
         if (shown) {
             setHasShown(true);
@@ -59,11 +68,8 @@ export function ExitIntentModal() {
         }
 
         const handleMouseLeave = (e: MouseEvent) => {
-            // Trigger when mouse leaves the top of the viewport
             if (e.clientY <= 0 && !hasShown) {
-                setIsOpen(true);
-                setHasShown(true);
-                sessionStorage.setItem('exit_intent_shown', 'true');
+                showModal();
             }
         };
 
@@ -72,6 +78,40 @@ export function ExitIntentModal() {
             document.removeEventListener('mouseleave', handleMouseLeave);
         };
     }, [hasShown, configLoaded, config.enabled]);
+
+    // Idle timeout trigger (desktop + mobile)
+    useEffect(() => {
+        if (!configLoaded || !config.enabled || hasShown) return;
+        if (!config.idleTimeout || config.idleTimeout <= 0) return;
+
+        const shown = sessionStorage.getItem('exit_intent_shown');
+        if (shown) return;
+
+        let idleTimer: ReturnType<typeof setTimeout>;
+        let lastActivity = Date.now();
+
+        const resetIdle = () => {
+            lastActivity = Date.now();
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(() => {
+                showModal();
+            }, config.idleTimeout * 1000);
+        };
+
+        // Listen for user activity
+        const events = ['mousemove', 'keydown', 'scroll', 'touchstart', 'click'];
+        events.forEach(e => document.addEventListener(e, resetIdle, { passive: true }));
+
+        // Start the timer
+        idleTimer = setTimeout(() => {
+            showModal();
+        }, config.idleTimeout * 1000);
+
+        return () => {
+            clearTimeout(idleTimer);
+            events.forEach(e => document.removeEventListener(e, resetIdle));
+        };
+    }, [configLoaded, config.enabled, config.idleTimeout, hasShown]);
 
     // Don't render if disabled or config not loaded
     if (!configLoaded || !config.enabled) return null;
