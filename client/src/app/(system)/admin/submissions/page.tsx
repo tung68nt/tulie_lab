@@ -117,7 +117,7 @@ export default function SubmissionsPage() {
                     <div className="flex-1 overflow-y-auto p-2 space-y-2 bg-zinc-50/30">
                         {loading && submissions.length === 0 ? (
                             <div className="text-center py-12">
-                                <Loader2 className="animate-spin w-6 h-6 text-foreground mx-auto mb-3" />
+                                <div className="w-6 h-6 rounded-full border-2 border-border border-t-foreground animate-spin mx-auto mb-3" style={{ animationDuration: '0.6s' }} />
                                 <p className="text-xs text-muted-foreground">Đang tải dữ liệu...</p>
                             </div>
                         ) : submissions.length === 0 ? (

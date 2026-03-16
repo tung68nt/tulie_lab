@@ -79,7 +79,7 @@ export default function ProductDetailPage() {
     if (loading) {
         return (
             <div className="min-h-screen pt-24 bg-background flex flex-col items-center justify-center">
-                <Loader2 className="animate-spin w-12 h-12 text-primary mb-4" />
+                <div className="w-12 h-12 rounded-full border-[3px] border-border border-t-primary animate-spin mb-4" style={{ animationDuration: '0.6s' }} />
                 <p className="text-muted-foreground animate-pulse">Đang tải thông tin sản phẩm...</p>
             </div>
         );

@@ -85,7 +85,7 @@ export default function OrderPage({ params }: { params: any }) {
             <div className="min-h-screen relative flex items-center justify-center bg-white">
                 <SectionBackground backgroundTheme="light" showDotPattern={true} />
                 <div className="relative z-10 flex flex-col items-center gap-4">
-                    <Loader2 className="animate-spin w-12 h-12 text-primary " />
+                    <div className="w-12 h-12 rounded-full border-[3px] border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
                     <p className="text-zinc-400 font-medium">Đang tải thông tin đơn hàng...</p>
                 </div>
             </div>

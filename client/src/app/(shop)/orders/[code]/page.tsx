@@ -34,7 +34,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
     if (loading) {
         return (
             <div className="min-h-screen pt-24 pb-20 flex flex-col items-center justify-center">
-                <Loader2 className="animate-spin w-12 h-12 text-primary mb-4" />
+                <div className="w-12 h-12 rounded-full border-[3px] border-border border-t-primary animate-spin mb-4" style={{ animationDuration: '0.6s' }} />
                 <p className="text-zinc-500 font-medium">Đang tải đơn hàng...</p>
             </div>
         );

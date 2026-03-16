@@ -390,7 +390,7 @@ export default function AdminInstructorsPage() {
                 <CardContent>
                     {loading ? (
                         <div className="flex items-center justify-center py-8">
-                            <Loader2 className="animate-spin w-8 h-8 text-primary " />
+                            <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
                         </div>
                     ) : instructors.length === 0 ? (
                         <p className="text-center text-muted-foreground py-8">Chưa có giảng viên nào</p>

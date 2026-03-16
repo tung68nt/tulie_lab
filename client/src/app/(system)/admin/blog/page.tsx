@@ -227,7 +227,7 @@ export default function AdminBlogPage() {
     if (loading) {
         return (
             <div className="flex items-center justify-center py-20">
-                <Loader2 className="animate-spin w-8 h-8 text-primary " />
+                <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
             </div>
         );
     }

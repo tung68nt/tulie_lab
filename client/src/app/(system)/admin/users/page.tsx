@@ -203,7 +203,7 @@ export default function AdminUsersPage() {
                 <CardContent className="!p-0">
                     {loading ? (
                         <div className="flex items-center justify-center py-20">
-                            <Loader2 className="h-8 w-8 animate-spin text-foreground" />
+                            <div className="w-8 h-8 rounded-full border-3 border-border border-t-foreground animate-spin" style={{ animationDuration: '0.6s' }} />
                         </div>
                     ) : users.length === 0 ? (
                         <div className="text-center py-20 text-muted-foreground">

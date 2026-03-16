@@ -170,7 +170,7 @@ Gặp khó khăn? Chúng tôi luôn sẵn sàng hỗ trợ:
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
                 <p className="text-muted-foreground animate-pulse">Đang tải tài liệu...</p>
             </div>
         );

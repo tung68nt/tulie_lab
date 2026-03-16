@@ -1,11 +1,35 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-export const LoadingSpinner: React.FC = () => {
+interface LoadingSpinnerProps {
+    size?: 'sm' | 'md' | 'lg';
+    className?: string;
+    label?: string;
+}
+
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+    size = 'md',
+    className,
+    label = 'Đang tải dữ liệu...'
+}) => {
+    const sizeClasses = {
+        sm: 'w-5 h-5 border-2',
+        md: 'w-8 h-8 border-3',
+        lg: 'w-12 h-12 border-[3px]',
+    };
+
     return (
-        <div className="flex flex-col items-center justify-center space-y-4">
-            <Loader2 className="animate-spin w-12 h-12 text-primary " />
-            <p className="text-sm font-medium text-zinc-500 animate-pulse">Đang tải dữ liệu...</p>
+        <div className={cn("flex flex-col items-center justify-center gap-3", className)}>
+            <div
+                className={cn(
+                    "rounded-full border-border border-t-primary animate-spin",
+                    sizeClasses[size]
+                )}
+                style={{ animationDuration: '0.6s' }}
+            />
+            {label && (
+                <p className="text-sm font-medium text-muted-foreground">{label}</p>
+            )}
         </div>
     );
 };

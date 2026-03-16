@@ -128,7 +128,7 @@ export default function AdminUserDetailPage() {
         }
     };
 
-    if (loading) return <div className="flex items-center justify-center py-40"><Loader2 className="h-10 w-10 animate-spin text-muted-foreground" /></div>;
+    if (loading) return <div className="flex items-center justify-center py-40"><div className="w-10 h-10 rounded-full border-3 border-border border-t-muted-foreground animate-spin" style={{ animationDuration: '0.6s' }} /></div>;
     if (!user) return <div className="text-center py-20">Không tìm thấy thành viên</div>;
 
     const tabs: { id: UserTab, label: string, icon: any }[] = [

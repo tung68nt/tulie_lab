@@ -69,7 +69,7 @@ function AuthCallbackContent() {
     return (
         <div className="flex min-h-screen items-center justify-center bg-background">
             <div className="flex flex-col items-center gap-4">
-                <Loader2 className="animate-spin w-8 h-8 text-primary " />
+                <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
                 <p className="text-muted-foreground animate-pulse">Đang hoàn tất đăng nhập...</p>
             </div>
         </div>
@@ -78,7 +78,7 @@ function AuthCallbackContent() {
 
 export default function AuthCallbackPage() {
     return (
-        <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background"><Loader2 className="animate-spin w-8 h-8 text-primary " /></div>}>
+        <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background"><div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} /></div>}>
             <AuthCallbackContent />
         </Suspense>
     );

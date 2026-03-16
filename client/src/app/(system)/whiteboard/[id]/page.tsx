@@ -11,7 +11,7 @@ const WhiteboardEditor = dynamic(() => import('@/components/whiteboard/Whiteboar
     ssr: false,
     loading: () => (
         <div className="flex items-center justify-center w-full h-screen bg-background pt-16">
-            <Loader2 className="animate-spin w-8 h-8 text-primary " />
+            <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
         </div>
     ),
 });

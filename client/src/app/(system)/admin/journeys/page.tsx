@@ -132,7 +132,7 @@ export default function JourneyListPage() {
             {/* Journey List */}
             {loading ? (
                 <div className="text-center py-12">
-                    <Loader2 className="animate-spin w-8 h-8 text-primary mx-auto mb-4" />
+                    <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin mx-auto mb-4" style={{ animationDuration: '0.6s' }} />
                     <p className="text-muted-foreground">Đang tải...</p>
                 </div>
             ) : journeys.length === 0 ? (

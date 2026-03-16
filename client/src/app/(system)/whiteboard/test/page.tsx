@@ -12,7 +12,7 @@ const VanillaExcalidraw = dynamic(
         loading: () => (
             <div className="flex items-center justify-center w-full h-screen bg-white">
                 <div className="text-center">
-                    <Loader2 className="animate-spin w-8 h-8 text-foreground mx-auto mb-4" />
+                    <div className="w-8 h-8 rounded-full border-3 border-border border-t-foreground animate-spin mx-auto mb-4" style={{ animationDuration: '0.6s' }} />
                     <p className="text-zinc-600">Loading Vanilla Excalidraw...</p>
                 </div>
             </div>

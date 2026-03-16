@@ -159,7 +159,7 @@ export default function PopupConfigPage() {
     const addFeatured = () => setExit({ ...exit, featuredItems: [...(exit.featuredItems || []), { title: '', price: '', link: '/san-pham', badge: '' }] });
     const removeFeatured = (i: number) => setExit({ ...exit, featuredItems: (exit.featuredItems || []).filter((_, x) => x !== i) });
 
-    if (loading) return <div className="flex items-center justify-center py-20"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>;
+    if (loading) return <div className="flex items-center justify-center py-20"><div className="w-6 h-6 rounded-full border-2 border-border border-t-muted-foreground animate-spin" style={{ animationDuration: '0.6s' }} /></div>;
 
     return (
         <div className="space-y-6">

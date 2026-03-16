@@ -298,7 +298,7 @@ function CheckoutContent() {
     if (loading) {
         return (
             <div className="flex min-h-[60vh] items-center justify-center">
-                <Loader2 className="animate-spin w-8 h-8 text-primary " />
+                <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
             </div>
         );
     }
@@ -734,7 +734,7 @@ export default function CheckoutPage() {
     return (
         <Suspense fallback={
             <div className="flex min-h-[60vh] items-center justify-center">
-                <Loader2 className="animate-spin w-8 h-8 text-primary " />
+                <div className="w-8 h-8 rounded-full border-3 border-border border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
             </div>
         }>
             <CheckoutContent />
