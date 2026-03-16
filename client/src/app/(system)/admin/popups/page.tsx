@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card';
 import { Button } from '@/components/Button';
-import { Save, Bell, LogOut, Loader2, ShoppingBag, X, ArrowRight, MessageCircle, Eye, EyeOff } from 'lucide-react';
+import { Save, Bell, Loader2, ShoppingBag, X, ArrowRight, MessageCircle, Eye, EyeOff, Users, TrendingUp, Zap, Plus, Trash2 } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
@@ -21,8 +21,10 @@ interface FomoConfig {
 
 interface ExitConfig {
     enabled: boolean;
+    highlight: string;
     title: string;
     description: string;
+    stats: { value: string; label: string }[];
     primaryText: string;
     primaryLink: string;
     secondaryText: string;
@@ -45,17 +47,24 @@ const DEFAULT_FOMO: FomoConfig = {
 
 const DEFAULT_EXIT: ExitConfig = {
     enabled: true,
-    title: 'Chờ chút nhé!',
-    description: 'Bạn có thể đang bỏ lỡ các công cụ và khoá học giúp tối ưu công việc. Hãy xem qua sản phẩm của chúng mình trước khi rời đi.',
-    primaryText: 'Xem sản phẩm',
+    highlight: '🔥 Hơn 500+ học viên đã tham gia tuần này',
+    title: 'Chờ chút — Đừng bỏ lỡ!',
+    description: 'Bạn đang cách một bước để sở hữu bộ công cụ & khoá học giúp tự động hóa công việc, tiết kiệm hàng chục giờ mỗi tuần.',
+    stats: [
+        { value: '2,000+', label: 'Học viên' },
+        { value: '50+', label: 'Sản phẩm số' },
+        { value: '4.9/5', label: 'Đánh giá' },
+    ],
+    primaryText: 'Khám phá ngay',
     primaryLink: '/san-pham',
-    secondaryText: 'Chat với tư vấn viên',
+    secondaryText: 'Chat tư vấn miễn phí',
     secondaryLink: 'https://zalo.me/0393137755',
     idleTimeout: 0,
 };
 
 const NAMES = ['Anh T.', 'Chị H.', 'Minh N.', 'Linh V.', 'Hoàng D.'];
 const LOCATIONS = ['Hà Nội', 'TP. HCM', 'Đà Nẵng', 'Vũng Tàu', 'Bình Dương'];
+const STAT_ICONS = [Users, TrendingUp, Zap];
 
 export default function PopupConfigPage() {
     const [fomo, setFomo] = useState<FomoConfig>(DEFAULT_FOMO);
@@ -104,6 +113,20 @@ export default function PopupConfigPage() {
         }
     };
 
+    const updateStat = (index: number, field: 'value' | 'label', val: string) => {
+        const newStats = [...(exit.stats || [])];
+        newStats[index] = { ...newStats[index], [field]: val };
+        setExit({ ...exit, stats: newStats });
+    };
+
+    const addStat = () => {
+        setExit({ ...exit, stats: [...(exit.stats || []), { value: '', label: '' }] });
+    };
+
+    const removeStat = (index: number) => {
+        setExit({ ...exit, stats: (exit.stats || []).filter((_, i) => i !== index) });
+    };
+
     if (loading) {
         return (
             <div className="flex items-center justify-center py-20">
@@ -112,10 +135,7 @@ export default function PopupConfigPage() {
         );
     }
 
-    // Preview data
     const previewAction = fomo.actions[0] || 'vừa mua sản phẩm';
-    const previewName = NAMES[0];
-    const previewLocation = LOCATIONS[0];
 
     return (
         <div className="space-y-6">
@@ -139,25 +159,18 @@ export default function PopupConfigPage() {
                             <CardDescription>Popup hiển thị ở góc dưới-trái khi vào trang</CardDescription>
                         </div>
                         <div className="flex items-center gap-3">
-                            <button
-                                onClick={() => setShowFomoPreview(!showFomoPreview)}
-                                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                            >
+                            <button onClick={() => setShowFomoPreview(!showFomoPreview)} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
                                 {showFomoPreview ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                                {showFomoPreview ? 'Ẩn preview' : 'Xem preview'}
+                                {showFomoPreview ? 'Ẩn' : 'Preview'}
                             </button>
                             <div className="flex items-center gap-2">
-                                <span className="text-xs text-muted-foreground">{fomo.enabled ? 'Đang bật' : 'Đã tắt'}</span>
-                                <Switch
-                                    checked={fomo.enabled}
-                                    onCheckedChange={(checked) => setFomo({ ...fomo, enabled: checked })}
-                                />
+                                <span className="text-xs text-muted-foreground">{fomo.enabled ? 'Bật' : 'Tắt'}</span>
+                                <Switch checked={fomo.enabled} onCheckedChange={(c) => setFomo({ ...fomo, enabled: c })} />
                             </div>
                         </div>
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-5">
-                    {/* FOMO Preview */}
                     {showFomoPreview && (
                         <div className="rounded-lg border border-border bg-muted/30 p-4">
                             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Preview</p>
@@ -171,51 +184,38 @@ export default function PopupConfigPage() {
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex flex-wrap items-center gap-x-1.5 mb-0.5">
-                                            <span className="text-[13px] font-semibold text-zinc-100">{previewName}</span>
+                                            <span className="text-[13px] font-semibold text-zinc-100">{NAMES[0]}</span>
                                             <span className="text-[12px] text-zinc-400">đến từ</span>
-                                            <span className="text-[13px] font-semibold text-zinc-200">{previewLocation}</span>
+                                            <span className="text-[13px] font-semibold text-zinc-200">{LOCATIONS[0]}</span>
                                         </div>
                                         <p className="text-[12px] text-zinc-400 font-medium leading-tight mb-0.5">{previewAction}</p>
                                         <span className="text-[10px] text-zinc-500 block">Vừa xong</span>
                                     </div>
-                                    <div className="self-start p-1 rounded-md text-zinc-600">
-                                        <X className="w-3.5 h-3.5" />
-                                    </div>
+                                    <div className="self-start p-1 rounded-md text-zinc-600"><X className="w-3.5 h-3.5" /></div>
                                 </div>
                             </div>
                         </div>
                     )}
-
                     <div className="space-y-2">
                         <Label className="text-sm font-medium">Danh sách hành động</Label>
                         <Textarea
                             rows={6}
                             value={fomo.actions.join('\n')}
                             onChange={(e) => setFomo({ ...fomo, actions: e.target.value.split('\n').filter(Boolean) })}
-                            placeholder="Mỗi dòng là 1 hành động, ví dụ:&#10;vừa mua HRM Google Sheets&#10;vừa đăng ký khóa Vibe Coding"
+                            placeholder="Mỗi dòng là 1 hành động"
                             className="text-sm"
                         />
-                        <p className="text-xs text-muted-foreground">Mỗi dòng là 1 hành động. Hệ thống sẽ random ghép với tên và địa chỉ giả lập.</p>
+                        <p className="text-xs text-muted-foreground">Mỗi dòng là 1 hành động. Random ghép với tên và địa chỉ giả lập.</p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label className="text-sm font-medium">Hiển thị mỗi (ms)</Label>
-                            <Input
-                                type="number"
-                                value={fomo.showEvery}
-                                onChange={(e) => setFomo({ ...fomo, showEvery: parseInt(e.target.value) || 25000 })}
-                                placeholder="25000"
-                            />
+                            <Input type="number" value={fomo.showEvery} onChange={(e) => setFomo({ ...fomo, showEvery: parseInt(e.target.value) || 25000 })} />
                             <p className="text-xs text-muted-foreground">{(fomo.showEvery / 1000).toFixed(0)} giây</p>
                         </div>
                         <div className="space-y-2">
                             <Label className="text-sm font-medium">Thời gian hiển thị (ms)</Label>
-                            <Input
-                                type="number"
-                                value={fomo.duration}
-                                onChange={(e) => setFomo({ ...fomo, duration: parseInt(e.target.value) || 6000 })}
-                                placeholder="6000"
-                            />
+                            <Input type="number" value={fomo.duration} onChange={(e) => setFomo({ ...fomo, duration: parseInt(e.target.value) || 6000 })} />
                             <p className="text-xs text-muted-foreground">{(fomo.duration / 1000).toFixed(0)} giây</p>
                         </div>
                     </div>
@@ -228,22 +228,16 @@ export default function PopupConfigPage() {
                     <div className="flex items-center justify-between">
                         <div>
                             <CardTitle>Exit-Intent Modal</CardTitle>
-                            <CardDescription>Popup khi user di chuột ra khỏi trang hoặc không tương tác</CardDescription>
+                            <CardDescription>Popup khi user rời trang hoặc không tương tác</CardDescription>
                         </div>
                         <div className="flex items-center gap-3">
-                            <button
-                                onClick={() => setShowExitPreview(!showExitPreview)}
-                                className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                            >
+                            <button onClick={() => setShowExitPreview(!showExitPreview)} className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
                                 {showExitPreview ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                                {showExitPreview ? 'Ẩn preview' : 'Xem preview'}
+                                {showExitPreview ? 'Ẩn' : 'Preview'}
                             </button>
                             <div className="flex items-center gap-2">
-                                <span className="text-xs text-muted-foreground">{exit.enabled ? 'Đang bật' : 'Đã tắt'}</span>
-                                <Switch
-                                    checked={exit.enabled}
-                                    onCheckedChange={(checked) => setExit({ ...exit, enabled: checked })}
-                                />
+                                <span className="text-xs text-muted-foreground">{exit.enabled ? 'Bật' : 'Tắt'}</span>
+                                <Switch checked={exit.enabled} onCheckedChange={(c) => setExit({ ...exit, enabled: c })} />
                             </div>
                         </div>
                     </div>
@@ -254,108 +248,142 @@ export default function PopupConfigPage() {
                         <div className="rounded-lg border border-border bg-muted/30 p-4">
                             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Preview</p>
                             <div className="flex justify-center">
-                                <div className="w-full max-w-md overflow-hidden rounded-lg bg-zinc-900 border border-zinc-800 shadow-xl p-6">
-                                    <div className="flex items-start justify-between mb-3">
-                                        <h2 className="text-xl font-semibold text-zinc-100">{exit.title || 'Tiêu đề'}</h2>
-                                        <div className="p-1.5 rounded-md text-zinc-500">
-                                            <X className="w-4 h-4" />
+                                <div className="w-full max-w-md overflow-hidden rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl">
+                                    {/* Highlight banner */}
+                                    {exit.highlight && (
+                                        <div className="px-6 py-2.5 bg-zinc-800/80 border-b border-zinc-700/50 text-center">
+                                            <span className="text-xs font-semibold text-zinc-300">{exit.highlight}</span>
                                         </div>
-                                    </div>
-                                    <p className="text-sm text-zinc-400 mb-6 leading-relaxed">{exit.description || 'Nội dung mô tả...'}</p>
-                                    <div className="space-y-3">
-                                        <div className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-zinc-100 text-zinc-900 text-sm font-medium">
-                                            {exit.primaryText || 'Nút chính'}
-                                            <ArrowRight className="w-4 h-4" />
+                                    )}
+                                    <div className="p-6">
+                                        <div className="flex items-start justify-between mb-2">
+                                            <h2 className="text-xl font-bold text-zinc-100">{exit.title || 'Tiêu đề'}</h2>
+                                            <div className="p-1.5 rounded-md text-zinc-500"><X className="w-4 h-4" /></div>
                                         </div>
-                                        <div className="flex items-center justify-center gap-2 w-full h-11 rounded-md border border-zinc-700 text-zinc-300 text-sm font-medium">
-                                            <MessageCircle className="w-4 h-4" />
-                                            {exit.secondaryText || 'Nút phụ'}
+                                        <p className="text-sm text-zinc-400 mb-5 leading-relaxed">{exit.description || 'Mô tả...'}</p>
+
+                                        {/* Stats */}
+                                        {exit.stats && exit.stats.length > 0 && (
+                                            <div className="grid grid-cols-3 gap-3 mb-6">
+                                                {exit.stats.map((stat, i) => {
+                                                    const Icon = STAT_ICONS[i % STAT_ICONS.length];
+                                                    return (
+                                                        <div key={i} className="text-center p-3 rounded-lg bg-zinc-800/60 border border-zinc-700/40">
+                                                            <Icon className="w-4 h-4 text-zinc-500 mx-auto mb-1" />
+                                                            <div className="text-lg font-bold text-zinc-100">{stat.value}</div>
+                                                            <div className="text-[10px] text-zinc-500 font-medium">{stat.label}</div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-center gap-2 w-full h-12 rounded-xl bg-white text-zinc-900 text-sm font-semibold">
+                                                {exit.primaryText || 'Nút chính'} <ArrowRight className="w-4 h-4" />
+                                            </div>
+                                            <div className="flex items-center justify-center gap-2 w-full h-11 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium">
+                                                <MessageCircle className="w-4 h-4" /> {exit.secondaryText || 'Nút phụ'}
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="mt-4 w-full text-center text-zinc-600 text-xs font-medium">
-                                        Không, cảm ơn
+                                        <div className="mt-4 w-full text-center text-zinc-600 text-xs font-medium">Không, cảm ơn</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     )}
 
+                    {/* Highlight */}
+                    <div className="space-y-2">
+                        <Label className="text-sm font-medium">Dòng highlight (banner trên cùng)</Label>
+                        <Input
+                            value={exit.highlight || ''}
+                            onChange={(e) => setExit({ ...exit, highlight: e.target.value })}
+                            placeholder="🔥 Hơn 500+ học viên đã tham gia tuần này"
+                        />
+                        <p className="text-xs text-muted-foreground">Để trống để ẩn. Có thể dùng emoji.</p>
+                    </div>
+
                     <div className="space-y-2">
                         <Label className="text-sm font-medium">Tiêu đề</Label>
-                        <Input
-                            value={exit.title}
-                            onChange={(e) => setExit({ ...exit, title: e.target.value })}
-                            placeholder="Chờ chút nhé!"
-                        />
+                        <Input value={exit.title} onChange={(e) => setExit({ ...exit, title: e.target.value })} placeholder="Chờ chút — Đừng bỏ lỡ!" />
                     </div>
                     <div className="space-y-2">
                         <Label className="text-sm font-medium">Nội dung mô tả</Label>
-                        <Textarea
-                            rows={3}
-                            value={exit.description}
-                            onChange={(e) => setExit({ ...exit, description: e.target.value })}
-                            placeholder="Bạn có thể đang bỏ lỡ..."
-                            className="text-sm"
-                        />
+                        <Textarea rows={3} value={exit.description} onChange={(e) => setExit({ ...exit, description: e.target.value })} className="text-sm" />
                     </div>
 
+                    {/* Stats */}
+                    <div className="border-t border-border pt-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <p className="text-xs font-semibold text-muted-foreground">Số liệu (Social Proof)</p>
+                            <button onClick={addStat} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+                                <Plus className="w-3.5 h-3.5" /> Thêm
+                            </button>
+                        </div>
+                        <div className="space-y-2">
+                            {(exit.stats || []).map((stat, i) => (
+                                <div key={i} className="flex items-center gap-2">
+                                    <Input
+                                        value={stat.value}
+                                        onChange={(e) => updateStat(i, 'value', e.target.value)}
+                                        placeholder="2,000+"
+                                        className="w-28"
+                                    />
+                                    <Input
+                                        value={stat.label}
+                                        onChange={(e) => updateStat(i, 'label', e.target.value)}
+                                        placeholder="Học viên"
+                                        className="flex-1"
+                                    />
+                                    <button onClick={() => removeStat(i)} className="p-1.5 text-muted-foreground hover:text-red-500 transition-colors">
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">Hiển thị tối đa 3 số liệu. Để trống để ẩn.</p>
+                    </div>
+
+                    {/* Primary CTA */}
                     <div className="border-t border-border pt-4">
                         <p className="text-xs font-semibold text-muted-foreground mb-3">Nút chính (Primary)</p>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Text</Label>
-                                <Input
-                                    value={exit.primaryText}
-                                    onChange={(e) => setExit({ ...exit, primaryText: e.target.value })}
-                                    placeholder="Xem sản phẩm"
-                                />
+                                <Input value={exit.primaryText} onChange={(e) => setExit({ ...exit, primaryText: e.target.value })} placeholder="Khám phá ngay" />
                             </div>
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Link</Label>
-                                <Input
-                                    value={exit.primaryLink}
-                                    onChange={(e) => setExit({ ...exit, primaryLink: e.target.value })}
-                                    placeholder="/san-pham"
-                                />
+                                <Input value={exit.primaryLink} onChange={(e) => setExit({ ...exit, primaryLink: e.target.value })} placeholder="/san-pham" />
                             </div>
                         </div>
                     </div>
 
+                    {/* Secondary CTA */}
                     <div className="border-t border-border pt-4">
                         <p className="text-xs font-semibold text-muted-foreground mb-3">Nút phụ (Secondary)</p>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Text</Label>
-                                <Input
-                                    value={exit.secondaryText}
-                                    onChange={(e) => setExit({ ...exit, secondaryText: e.target.value })}
-                                    placeholder="Chat với tư vấn viên"
-                                />
+                                <Input value={exit.secondaryText} onChange={(e) => setExit({ ...exit, secondaryText: e.target.value })} placeholder="Chat tư vấn miễn phí" />
                             </div>
                             <div className="space-y-2">
                                 <Label className="text-sm font-medium">Link</Label>
-                                <Input
-                                    value={exit.secondaryLink}
-                                    onChange={(e) => setExit({ ...exit, secondaryLink: e.target.value })}
-                                    placeholder="https://zalo.me/..."
-                                />
+                                <Input value={exit.secondaryLink} onChange={(e) => setExit({ ...exit, secondaryLink: e.target.value })} placeholder="https://zalo.me/..." />
                             </div>
                         </div>
                     </div>
 
+                    {/* Idle timeout */}
                     <div className="border-t border-border pt-4">
                         <p className="text-xs font-semibold text-muted-foreground mb-3">Trigger theo thời gian</p>
                         <div className="space-y-2">
                             <Label className="text-sm font-medium">Hiển thị sau khi không tương tác (giây)</Label>
-                            <Input
-                                type="number"
-                                value={exit.idleTimeout}
-                                onChange={(e) => setExit({ ...exit, idleTimeout: parseInt(e.target.value) || 0 })}
-                                placeholder="0"
-                            />
+                            <Input type="number" value={exit.idleTimeout} onChange={(e) => setExit({ ...exit, idleTimeout: parseInt(e.target.value) || 0 })} placeholder="0" />
                             <p className="text-xs text-muted-foreground">
                                 {exit.idleTimeout > 0
-                                    ? `Sẽ hiện popup sau ${exit.idleTimeout} giây không tương tác (hoạt động trên cả mobile)`
+                                    ? `Hiện popup sau ${exit.idleTimeout}s không tương tác (desktop + mobile)`
                                     : 'Đặt 0 để tắt. Chỉ dùng trigger chuột rời trang (desktop only).'}
                             </p>
                         </div>
@@ -369,9 +397,9 @@ export default function PopupConfigPage() {
                     <CardTitle className="text-sm font-semibold">Hướng dẫn</CardTitle>
                 </CardHeader>
                 <CardContent className="text-xs space-y-2 text-muted-foreground leading-relaxed">
-                    <p><strong>FOMO Notification:</strong> Popup nhỏ hiển thị ở góc dưới-trái, auto rotate danh sách hành động. Chỉ hiển thị trên landing page và trang chủ.</p>
-                    <p><strong>Exit-Intent Modal:</strong> Hiển thị khi user di chuột ra khỏi viewport (phía trên) hoặc sau khi không tương tác một khoảng thời gian. Chỉ hiện 1 lần mỗi session. Chỉ trên landing page và trang chủ.</p>
-                    <p><strong>Link:</strong> Dùng đường dẫn nội bộ (VD: <code className="bg-muted px-1 py-0.5 rounded text-xs">/san-pham</code>) hoặc link ngoài (VD: <code className="bg-muted px-1 py-0.5 rounded text-xs">https://zalo.me/...</code>).</p>
+                    <p><strong>FOMO Notification:</strong> Popup nhỏ góc dưới-trái, random xoay danh sách hành động. Chỉ trên trang chủ và landing page.</p>
+                    <p><strong>Exit-Intent Modal:</strong> Hiển thị khi rời trang hoặc sau thời gian không tương tác. 1 lần/session. Chỉ trên trang chủ và landing page.</p>
+                    <p><strong>Social Proof:</strong> Các số liệu (học viên, sản phẩm, đánh giá) tăng độ tin cậy và tạo FOMO. Nên dùng 3 số liệu.</p>
                 </CardContent>
             </Card>
         </div>
