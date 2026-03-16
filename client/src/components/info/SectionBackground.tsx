@@ -12,6 +12,7 @@ interface SectionBackgroundProps {
     hideGradients?: boolean;
     glowVariant?: number;
     dotPatternFade?: boolean;
+    backgroundPattern?: 'dots' | 'grid';
 }
 
 export const SectionBackground: React.FC<SectionBackgroundProps> = ({
@@ -24,6 +25,7 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
     hideGradients = false,
     glowVariant,
     dotPatternFade = true,
+    backgroundPattern = 'dots',
 }) => {
     // ... rest of the component
     const isLightTheme = backgroundTheme === 'light';
@@ -85,13 +87,16 @@ export const SectionBackground: React.FC<SectionBackgroundProps> = ({
                     <DotPatternBackground
                         className={cn(
                             (backgroundTheme === 'dark' || isDarkTheme)
-                                ? backgroundImage ? "text-white/[0.30]" : "text-zinc-400/[0.30]"
+                                ? backgroundPattern === 'grid' ? "text-white/[0.08]" : "text-white/[0.12]"
                                 : backgroundTheme === 'light'
-                                    ? "text-zinc-500/[0.18]"
-                                    : "text-zinc-500/[0.18] dark:text-zinc-400/[0.30]"
+                                    ? backgroundPattern === 'grid' ? "text-zinc-500/[0.05]" : "text-zinc-500/[0.10]"
+                                    : backgroundPattern === 'grid'
+                                        ? "text-zinc-500/[0.05] dark:text-white/[0.08]"
+                                        : "text-zinc-500/[0.10] dark:text-white/[0.12]"
                         )}
-                        withVignette={false}
+                        withVignette={true}
                         withFade={dotPatternFade}
+                        variant={backgroundPattern}
                     />
                 </div>
             )}

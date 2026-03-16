@@ -35,12 +35,27 @@ export const telegramWebhook = async (req: Request, res: Response) => {
             // Get report data
             const reportData = await crmService.getSystemReport(period);
 
-            // Send report (using the configured service method which sends to default channel)
-            await telegramService.sendDailyReport(reportData);
+            // Send report (using the requesting chatId)
+            await telegramService.sendDailyReport(reportData, chatId);
 
             console.log('[TelegramWebhook] Report command executed successfully');
         } else if (lowerText === '/ping') {
-            await telegramService.sendMessage(`Pong! Service is alive. IP: ${req.ip}`);
+            await telegramService.sendMessage(`Pong! Service is alive. IP: ${req.ip}`, chatId);
+        } else if (lowerText === '/help' || lowerText === '/start') {
+            const helpMessage = `
+<b>🤖 Hướng dẫn sử dụng Bot Tulie Academy</b>
+━━━━━━━━━━━━━━━━━━
+📊 <b>Báo cáo:</b>
+- <code>/report</code>: Báo cáo trong ngày
+- <code>/report week</code>: Báo cáo trong tuần
+- <code>/report month</code>: Báo cáo trong tháng
+
+✨ <b>Khác:</b>
+- <code>/ping</code>: Kiểm tra trạng thái kết nối
+- <code>/help</code>: Xem hướng dẫn này
+━━━━━━━━━━━━━━━━━━
+            `.trim();
+            await telegramService.sendMessage(helpMessage, chatId);
         }
 
         // Always return 200 OK to Telegram to prevent retries

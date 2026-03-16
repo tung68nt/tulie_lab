@@ -90,6 +90,8 @@ export const ContentSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
             />
 
             <div className="container relative z-10 mx-auto px-6">

@@ -10,6 +10,9 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import { loggerService } from './services/logger.service';
 import redisService from './services/redis.service';
+import { concurrencyLimiter, getActiveRequestsCount } from './middleware/concurrency.middleware';
+import { systemGuard, getSystemMetrics } from './middleware/system-guard.middleware';
+import { cleanupOldLogs } from './scripts/cleanup-logs';
 
 // Lazy load prisma to avoid top-level crash
 let prisma: any = null;
@@ -41,7 +44,15 @@ app.get('/api/health', async (req, res) => {
     timestamp: new Date().toISOString(),
     checks: {
       uptime: process.uptime(),
-      readiness: isAppReady
+      readiness: isAppReady,
+      activeRequests: getActiveRequestsCount(),
+      memory: {
+        rss: Math.round(process.memoryUsage().rss / 1024 / 1024) + 'MB',
+        heapTotal: Math.round(process.memoryUsage().heapTotal / 1024 / 1024) + 'MB',
+        heapUsed: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB',
+        external: Math.round(process.memoryUsage().external / 1024 / 1024) + 'MB'
+      },
+      system: getSystemMetrics()
     }
   };
 
@@ -75,7 +86,8 @@ app.get('/api/health', async (req, res) => {
       await redisService.getClient().ping();
       health.checks.redis = 'connected';
     } else {
-      health.checks.redis = 'disconnected (not initialized)';
+      health.checks.redis = `disconnected: ${(redisService as any).lastError || 'not initialized'}`;
+      health.redis_url_masked = process.env.REDIS_URL ? process.env.REDIS_URL.replace(/:[^:@]+@/, ':***@') : 'not provided';
     }
   } catch (error: any) {
     health.checks.redis = `disconnected: ${error.message}`;
@@ -83,6 +95,12 @@ app.get('/api/health', async (req, res) => {
 
   res.status(health.status === 'error' ? 503 : 200).json(health);
 });
+
+// --- SYSTEM GUARD (Proactive overload protection) ---
+app.use(systemGuard);
+
+// --- CONCURRENCY LIMITER (Early rejection) ---
+app.use(concurrencyLimiter);
 
 app.get('/api/check', (req, res) => {
   res.json({ message: 'Deployment Success', version: 'v1.1.2-audit-v1', time: new Date().toISOString() });
@@ -155,6 +173,13 @@ if (process.env.NODE_ENV !== 'test') {
 
   // Pass io to app if needed for other modules
   app.set('io', io);
+
+  // --- Background Jobs ---
+  // Run log cleanup every 24 hours
+  setInterval(() => {
+    loggerService.info('⏰ Running scheduled log cleanup...');
+    cleanupOldLogs().catch(err => console.error('Failed to run scheduled cleanup:', err));
+  }, 24 * 60 * 60 * 1000);
 }
 
 // --- Async App Initialization ---
@@ -207,7 +232,7 @@ async function initializeApp() {
     // Strict CORS configuration
     const allowedOrigins = process.env.ALLOWED_ORIGINS
       ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://localhost:3000', 'https://thelab.tulie.vn', 'https://tulie_academy.vn'];
+      : ['http://localhost:3000', 'https://thelab.tulie.vn', 'https://betathelab.tulie.vn'];
 
     app.use(cors({
       origin: (origin, callback) => {
@@ -336,6 +361,7 @@ async function initializeApp() {
         { path: '/api/whiteboards', module: './modules/system/whiteboard/whiteboard.routes' },
         { path: '/api/short-links', module: './modules/system/short-link/short-link.routes' },
         { path: '/api/marketing', module: './modules/system/facebook/facebook.routes' },
+        { path: '/api/ebooks', module: './modules/lms/ebooks/ebooks.routes' },
         { path: '/api', module: './modules/lms/journeys/journey.routes' }
       ];
 
@@ -458,8 +484,8 @@ async function initializeApp() {
             }
           }
 
-          // 2. Unblock Prisma Migrations
-          await prisma.$executeRawUnsafe(`DELETE FROM "_prisma_migrations" WHERE status = 'failed'`);
+          // 2. Unblock Prisma Migrations (Manually handled via baselining if needed)
+          // Removed faulty direct DELETE query to avoid schema mismatch warnings.
 
         } catch (syncErr: any) {
           loggerService.warn('⚠️ DB SYNC Warning:', { error: syncErr.message });

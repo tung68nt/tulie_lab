@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { Textarea } from '@/components/Textarea';
-import { Clock, CheckCircle, XCircle, FileText, Link as LinkIcon, User, Route, Eye, Send, Inbox } from 'lucide-react';
+import {  Clock, CheckCircle, XCircle, FileText, Link as LinkIcon, User, Route, Eye, Send, Inbox , Loader2 } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 
@@ -117,7 +117,7 @@ export default function SubmissionsPage() {
                     <div className="flex-1 overflow-y-auto p-2 space-y-2 bg-zinc-50/30">
                         {loading && submissions.length === 0 ? (
                             <div className="text-center py-12">
-                                <div className="animate-spin w-6 h-6 border-2 border-zinc-900 border-t-transparent rounded-full mx-auto mb-3" />
+                                <Loader2 className="animate-spin w-6 h-6 text-foreground mx-auto mb-3" />
                                 <p className="text-xs text-muted-foreground">Đang tải dữ liệu...</p>
                             </div>
                         ) : submissions.length === 0 ? (

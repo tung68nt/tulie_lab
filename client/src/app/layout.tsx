@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import NextTopLoader from 'nextjs-toploader';
+import { Suspense } from 'react';
+import { TopProgressBar } from '@/components/TopProgressBar';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { MainLayout } from '@/components/MainLayout';
@@ -11,21 +12,29 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { DynamicFavicon } from '@/components/DynamicFavicon';
 import Script from 'next/script';
 import { UtmTracker } from '@/components/system/analytics/UtmTracker';
+import SystemOverloadBanner from '@/components/SystemOverloadBanner';
+import { Navbar } from '@/components/Navbar';
+import { Footer } from '@/components/Footer';
 
-// Force dynamic rendering — prevents Next.js from fetching during Docker build
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'default-no-store';
-
-
+// NOTE: force-dynamic and fetchCache removed from layout level.
+// Having them here forces Next.js to re-render the ENTIRE layout on every 
+// client-side navigation, blocking transitions and causing the double-click bug.
+// Individual pages set force-dynamic where needed.
+// The getSettings() fetch uses AbortSignal.timeout(5000) for Docker build safety.
 const inter = Inter({ subsets: ['latin'] });
 
 async function getSettings() {
+  if (process.env.DOCKER_BUILD === 'true') {
+    console.log('[DOCKER_BUILD] Skipping settings fetch during static generation');
+    return undefined;
+  }
   try {
-    const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-    const baseUrl = envUrl.endsWith('/api') ? envUrl.slice(0, -4) : envUrl;
+    const isServer = typeof window === 'undefined';
+    const envUrl = (isServer && process.env.INTERNAL_API_URL) || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+    const baseUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
     const res = await fetch(`${baseUrl}/api/settings/public`, {
       next: { revalidate: 60 },
-      signal: AbortSignal.timeout(5000), // Fail fast during Docker build
+      signal: AbortSignal.timeout(5000),
     });
     if (!res.ok) return undefined;
     return res.json();
@@ -104,17 +113,8 @@ export default async function RootLayout({
         )}
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
-        <NextTopLoader
-          color="hsl(var(--primary))"
-          initialPosition={0.08}
-          crawlSpeed={200}
-          height={3}
-          crawl={true}
-          showSpinner={false}
-          easing="ease"
-          speed={200}
-          shadow={false}
-        />
+        <Suspense fallback={null}><TopProgressBar /></Suspense>
+        <SystemOverloadBanner />
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID || "GTM-XXXXXX"}`}
@@ -136,7 +136,9 @@ export default async function RootLayout({
                 <DynamicFavicon />
                 <ConfirmProvider>
                   <UtmTracker />
+                  <Navbar />
                   <MainLayout>{children}</MainLayout>
+                  <Footer />
                 </ConfirmProvider>
               </SettingsProvider>
             </AuthProvider>

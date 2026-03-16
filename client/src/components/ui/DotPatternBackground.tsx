@@ -13,29 +13,37 @@ interface DotPatternBackgroundProps {
      * @default true
      */
     withFade?: boolean;
+    /**
+     * Pattern variant: 'dots' or 'grid'
+     * @default 'dots'
+     */
+    variant?: 'dots' | 'grid';
 }
 
-export function DotPatternBackground({ className, fadeClassName, withVignette = true, withFade = true }: DotPatternBackgroundProps) {
+export function DotPatternBackground({ className, fadeClassName, withVignette = true, withFade = true, variant = 'dots' }: DotPatternBackgroundProps) {
+    const isGrid = variant === 'grid';
+
     return (
         <div className={cn("absolute inset-0 pointer-events-none overflow-hidden", className || "text-foreground/15")}>
-            {/* Dot Pattern with Radial Fade */}
-            {/* The mask makes dots visible in center and fade out towards edges */}
+            {/* Pattern Layer with Radial Fade */}
             <div className={cn(
                 "absolute inset-0",
-                withFade && "[mask-image:radial-gradient(ellipse_at_center,black_70%,transparent_100%)]",
-                withFade && "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_70%,transparent_100%)]",
+                withFade && "[mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_100%)]",
+                withFade && "[-webkit-mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_100%)]",
                 fadeClassName
             )}
                 style={{
-                    backgroundImage: 'radial-gradient(circle at center, currentColor 1.5px, transparent 1px)',
-                    backgroundSize: '32px 32px'
+                    backgroundImage: isGrid
+                        ? 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)'
+                        : 'radial-gradient(circle at center, currentColor 0.8px, transparent 0.8px)',
+                    backgroundSize: isGrid ? '32px 32px' : '32px 32px'
                 }}
             ></div>
 
             {/* Vignette Overlay (Darken edges) - Milder */}
             {
                 withVignette && (
-                    <div className="absolute inset-0 bg-black/10 [mask-image:radial-gradient(ellipse_at_center,transparent_40%,black)]"></div>
+                    <div className="absolute inset-0 bg-black/5 [mask-image:radial-gradient(ellipse_at_center,transparent_40%,black)]"></div>
                 )
             }
         </div >

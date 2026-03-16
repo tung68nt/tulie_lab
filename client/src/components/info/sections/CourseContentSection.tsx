@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Section } from '@/types/sections';
-import { BookOpen, PlayCircle, ChevronDown, ChevronUp, Lock, Eye, Clock, FileText, HelpCircle } from 'lucide-react';
+import {  BookOpen, PlayCircle, ChevronDown, ChevronUp, Lock, Eye, Clock, FileText, HelpCircle , Loader2 } from 'lucide-react';
 import { SectionBackground } from '../SectionBackground';
 import { SectionTag } from '@/components/SectionTag';
 import { cn } from '@/lib/utils';
@@ -122,7 +122,8 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
-                showDotPattern={true}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
             />
 
             <div className="container px-4 mx-auto relative z-10">
@@ -131,7 +132,7 @@ export const CourseContentSection = ({ section }: { section: Section }) => {
                 {/* Loading State */}
                 {loading && (
                     <div className="flex justify-center py-12">
-                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+                        <Loader2 className="animate-spin w-8 h-8 text-primary " />
                     </div>
                 )}
 

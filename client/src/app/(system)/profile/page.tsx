@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import { useEffect, useState, useRef } from 'react';
 import { api } from '@/lib/api';
@@ -119,7 +120,7 @@ export default function ProfilePage() {
 
     if (loading) return (
         <div className="min-h-screen flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
+            <Loader2 className="animate-spin w-8 h-8 text-primary " />
         </div>
     );
 
@@ -127,7 +128,7 @@ export default function ProfilePage() {
 
     return (
         <div className="relative min-h-screen overflow-hidden">
-            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={false} />
+            <SectionBackground backgroundTheme="light" showDotPattern={true} className="z-0" dotPatternFade={true} />
             <div className="container pt-24 pb-32 relative z-10">
                 <div className="max-w-2xl mx-auto">
                     <h1 className="text-3xl font-bold mb-8">Hồ sơ cá nhân</h1>

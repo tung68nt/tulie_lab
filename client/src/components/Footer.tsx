@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { MapPin, Phone, Mail, FileText } from 'lucide-react';
@@ -110,6 +111,7 @@ const SocialIcon = ({ type }: { type: string }) => {
 export function Footer() {
     const [footerData, setFooterData] = useState<FooterData>(defaultFooterData);
     const [logoError, setLogoError] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const loadFooterData = async () => {
@@ -124,6 +126,11 @@ export function Footer() {
         };
         loadFooterData();
     }, []);
+
+    const isLearnPage = pathname?.startsWith('/learn');
+    const isWhiteboardEditor = pathname?.startsWith('/whiteboard/') && pathname.length > 12;
+
+    if (isLearnPage || isWhiteboardEditor) return null;
 
     return (
         <footer className="border-t bg-background">

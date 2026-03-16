@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import React from 'react';
 import dynamic from 'next/dynamic';
@@ -10,7 +11,7 @@ const WhiteboardEditor = dynamic(() => import('@/components/whiteboard/Whiteboar
     ssr: false,
     loading: () => (
         <div className="flex items-center justify-center w-full h-screen bg-background pt-16">
-            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <Loader2 className="animate-spin w-8 h-8 text-primary " />
         </div>
     ),
 });

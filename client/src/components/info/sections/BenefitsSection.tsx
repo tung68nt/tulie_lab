@@ -36,6 +36,8 @@ export function BenefitsSection({ section }: BenefitsSectionProps) {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 hideGradients={isDark}
                 glowVariant={1}
             />

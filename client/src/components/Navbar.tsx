@@ -14,6 +14,98 @@ import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { useTheme } from 'next-themes';
 
+interface NavLinkItem {
+    label: string;
+    href: string;
+    isExternal?: boolean;
+    icon?: React.ReactNode;
+    children?: { label: string; href: string; isExternal?: boolean }[];
+}
+
+function NavMenuItem({ link, pathname }: { link: NavLinkItem, pathname: string }) {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        setIsDropdownOpen(false);
+    }, [pathname]);
+
+    const handleMouseEnter = () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        setIsDropdownOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(() => {
+            setIsDropdownOpen(false);
+        }, 150);
+    };
+
+    const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
+
+    if (link.children) {
+        return (
+            <div
+                className="relative"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+            >
+                {link.href && link.href !== '#' ? (
+                    <Link
+                        href={link.href}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                    >
+                        {link.label}
+                        <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </Link>
+                ) : (
+                    <div
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-md transition-all duration-200 cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+                    >
+                        {link.label}
+                        <svg className={`w-3.5 h-3.5 opacity-50 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[2.5px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                )}
+
+                {/* Dropdown Menu */}
+                <div className={`absolute top-[calc(100%-4px)] left-0 pt-3 w-56 transition-all duration-200 origin-top z-[100] ${isDropdownOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}`}>
+                    <div className="bg-popover border border-border/60 rounded-xl shadow-2xl overflow-hidden p-1.5 backdrop-blur-xl">
+                        {link.children.map((child) => (
+                            <Link
+                                key={child.href}
+                                href={child.href}
+                                target={child.isExternal ? '_blank' : undefined}
+                                rel={child.isExternal ? 'noopener noreferrer' : undefined}
+                                className={`block px-3 py-2 text-sm rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-semibold text-foreground' : 'text-muted-foreground'
+                                    }`}
+                            >
+                                {child.label}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <Link
+            href={link.href}
+            target={link.isExternal ? '_blank' : undefined}
+            rel={link.isExternal ? 'noopener noreferrer' : undefined}
+            className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-semibold' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
+            title={link.label}
+        >
+            {link.icon ? link.icon : link.label}
+        </Link>
+    );
+}
+
 export function Navbar() {
     const { user, logout, isLoading: authLoading } = useAuth();
     const { addToast } = useToast();
@@ -21,8 +113,6 @@ export function Navbar() {
     const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const timerRef = useRef<NodeJS.Timeout | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const { theme, setTheme } = useTheme();
@@ -31,18 +121,6 @@ export function Navbar() {
     useEffect(() => {
         setMounted(true);
     }, []);
-
-    const handleMouseEnter = (href: string | null) => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        setActiveDropdown(href);
-    };
-
-    const handleMouseLeave = () => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => {
-            setActiveDropdown(null);
-        }, 100);
-    };
 
     const toggleTheme = () => {
         setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -70,7 +148,6 @@ export function Navbar() {
     }, [user]);
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        // ... (existing code)
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -83,7 +160,7 @@ export function Navbar() {
                 // 2. Update profile
                 await api.users.updateProfile({ avatar: avatarUrl });
 
-                // 3. Force reload to update context (simplest way since context doesn't expose partial update)
+                // 3. Force reload to update context
                 window.location.reload();
             }
 
@@ -97,18 +174,13 @@ export function Navbar() {
         }
     };
 
-    // Close menus on route change
     useEffect(() => {
         setMobileMenuOpen(false);
         setDropdownOpen(false);
-        setActiveDropdown(null);
     }, [pathname]);
-
-    // ... (rest of logout handler)
 
     const handleLogout = async () => {
         try {
-            // No need to manually close state here if redirecting, but safe to keep for immediate feedback
             setMobileMenuOpen(false);
             setDropdownOpen(false);
             await logout();
@@ -135,14 +207,6 @@ export function Navbar() {
         if (user.email) return user.email.split('@')[0];
         return 'Người dùng';
     };
-
-    interface NavLinkItem {
-        label: string;
-        href: string;
-        isExternal?: boolean;
-        icon?: React.ReactNode;
-        children?: { label: string; href: string; isExternal?: boolean }[];
-    }
 
     // Default fallback menu
     const DEFAULT_NAV_LINKS: NavLinkItem[] = [
@@ -233,71 +297,15 @@ export function Navbar() {
                         <Logo />
                     </div>
 
-                    {/* Desktop Navigation */}
-                    <div className="mr-4 hidden md:flex items-center space-x-1 text-sm font-medium">
-                        {navLinks.map((link) => {
-                            const isActive = pathname === link.href || (link.children?.some(c => pathname === c.href));
-                            const isDropdownOpen = activeDropdown === link.href;
 
-                            if (link.children) {
-                                return (
-                                    <div
-                                        key={link.href}
-                                        className="relative"
-                                        onMouseEnter={() => handleMouseEnter(link.href)}
-                                        onMouseLeave={handleMouseLeave}
-                                    >
-                                        <div
-                                            className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors cursor-default ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                                        >
-                                            {link.label}
-                                            <svg className={`w-3 h-3 opacity-50 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''} ${isActive ? 'stroke-[3px]' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                            </svg>
-                                        </div>
-
-                                        {/* Dropdown Menu */}
-                                        {isDropdownOpen && (
-                                            <>
-                                                {/* Invisible bridge to prevent closing when moving mouse */}
-                                                <div className="absolute top-full left-0 w-full h-2 bg-transparent z-[100]" />
-
-                                                <div className="absolute top-[calc(100%+0.5rem)] left-0 w-56 animate-in fade-in slide-in-from-top-2 duration-200 z-[100]">
-                                                    <div className="bg-popover border border-border rounded-md shadow-lg overflow-hidden p-1">
-                                                        {link.children.map((child) => (
-                                                            <Link
-                                                                key={child.href}
-                                                                href={child.href}
-                                                                target={child.isExternal ? '_blank' : undefined}
-                                                                rel={child.isExternal ? 'noopener noreferrer' : undefined}
-                                                                className={`block px-2 py-1.5 text-sm rounded-sm hover:bg-accent hover:text-accent-foreground ${pathname === child.href ? 'bg-accent/50 font-medium text-foreground' : 'text-muted-foreground'
-                                                                    }`}
-                                                            >
-                                                                {child.label}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                );
-                            }
-
-                            return (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    target={link.isExternal ? '_blank' : undefined}
-                                    rel={link.isExternal ? 'noopener noreferrer' : undefined}
-                                    className={`transition-all duration-200 px-3 py-2 rounded-md ${isActive ? 'bg-zinc-100 dark:bg-zinc-800 text-foreground font-medium' : 'text-muted-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-foreground font-medium'}`}
-                                    title={link.label}
-                                    onMouseEnter={() => handleMouseEnter(null)} // Close other dropdowns if hovering over a regular link
-                                >
-                                    {link.icon ? link.icon : link.label}
-                                </Link>
-                            );
-                        })}
+                    <div className="mr-4 hidden md:flex items-center space-x-1 text-sm font-medium relative z-50">
+                        {navLinks.map((link) => (
+                            <NavMenuItem
+                                key={link.href + link.label}
+                                link={link}
+                                pathname={pathname}
+                            />
+                        ))}
                     </div>
 
                     {/* Desktop Auth Section */}
@@ -449,44 +457,44 @@ export function Navbar() {
                                             </div>
                                             <div className="p-2 space-y-0.5">
                                                 {isAdmin && (
-                                                    <Link href="/admin" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                    <Link href="/admin" onClick={() => setDropdownOpen(false)} className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                         <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                             <Rocket size={14} />
                                                         </div>
                                                         Quản trị hệ thống
                                                     </Link>
                                                 )}
-                                                <Link href="/whiteboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/whiteboard" onClick={() => setDropdownOpen(false)} className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Palette size={14} />
                                                     </div>
                                                     Bảng trắng
                                                 </Link>
-                                                <Link href="/dashboard" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <BookOpen size={14} />
                                                     </div>
                                                     Khoá học của tôi
                                                 </Link>
-                                                <Link href="/my-products" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/my-products" onClick={() => setDropdownOpen(false)} className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Package size={14} />
                                                     </div>
                                                     Sản phẩm số của tôi
                                                 </Link>
-                                                <Link href="/profile" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/profile" onClick={() => setDropdownOpen(false)} className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <User size={14} />
                                                     </div>
                                                     Hồ sơ của tôi
                                                 </Link>
-                                                <Link href="/activate" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/activate" onClick={() => setDropdownOpen(false)} className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <Key size={14} />
                                                     </div>
                                                     Kích hoạt bằng mã
                                                 </Link>
-                                                <Link href="/orders" className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
+                                                <Link href="/orders" onClick={() => setDropdownOpen(false)} className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors">
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
                                                         <FileText size={14} />
                                                     </div>
@@ -497,7 +505,7 @@ export function Navbar() {
                                                 <div className="h-px bg-zinc-100 my-1.5 mx-1" />
 
                                                 <button
-                                                    className="flex w-full cursor-pointer select-none items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
+                                                    className="flex w-full items-center rounded-lg px-3 py-1.5 text-xs font-medium text-zinc-600 outline-none hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
                                                     onClick={handleLogout}
                                                 >
                                                     <div className="w-5 h-5 flex items-center justify-center mr-2 text-zinc-400">
@@ -552,9 +560,19 @@ export function Navbar() {
                             if (link.children) {
                                 return (
                                     <div key={link.href} className="space-y-1">
-                                        <div className="px-4 py-3 text-base font-bold text-foreground">
-                                            {link.label}
-                                        </div>
+                                        {link.href && link.href !== '#' ? (
+                                            <Link
+                                                href={link.href}
+                                                onClick={() => setMobileMenuOpen(false)}
+                                                className="block px-4 py-3 text-base font-bold text-foreground hover:bg-muted rounded-lg transition-colors"
+                                            >
+                                                {link.label}
+                                            </Link>
+                                        ) : (
+                                            <div className="px-4 py-3 text-base font-bold text-foreground">
+                                                {link.label}
+                                            </div>
+                                        )}
                                         <div className="ml-4 border-l-2 border-border/60 pl-2 space-y-1 my-1">
                                             {link.children.map(child => {
                                                 const isChildActive = pathname === child.href;
@@ -562,6 +580,7 @@ export function Navbar() {
                                                     <Link
                                                         key={child.href}
                                                         href={child.href}
+                                                        onClick={() => setMobileMenuOpen(false)}
                                                         target={child.isExternal ? '_blank' : undefined}
                                                         rel={child.isExternal ? 'noopener noreferrer' : undefined}
                                                         className={`block py-2 px-4 text-[15px] rounded-md transition-colors ${isChildActive
@@ -582,6 +601,7 @@ export function Navbar() {
                                 <Link
                                     key={link.href}
                                     href={link.href}
+                                    onClick={() => setMobileMenuOpen(false)}
                                     target={link.isExternal ? '_blank' : undefined}
                                     rel={link.isExternal ? 'noopener noreferrer' : undefined}
                                     className={`block py-3 px-4 text-base font-bold rounded-lg transition-colors ${isActive ? 'bg-muted text-foreground' : 'text-foreground/80 hover:bg-muted'}`}
@@ -671,26 +691,26 @@ export function Navbar() {
                     </div>
                     <div className="flex-1 overflow-y-auto py-2">
                         {isAdmin && (
-                            <Link href="/admin" className="block px-4 py-2.5 text-base font-medium hover:bg-muted transition-colors text-primary">
+                            <Link href="/admin" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base font-medium hover:bg-muted transition-colors text-primary">
                                 Quản trị hệ thống
                             </Link>
                         )}
-                        <Link href="/activate" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/activate" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Kích hoạt bằng mã
                         </Link>
-                        <Link href="/profile" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/profile" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Hồ sơ cá nhân
                         </Link>
-                        <Link href="/whiteboard" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/whiteboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Bảng trắng cộng tác
                         </Link>
-                        <Link href="/dashboard" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Khoá học của tôi
                         </Link>
-                        <Link href="/my-products" className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/my-products" onClick={() => setDropdownOpen(false)} className="block px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             Sản phẩm số của tôi
                         </Link>
-                        <Link href="/orders" className="flex items-center justify-between px-4 py-2.5 text-base hover:bg-muted transition-colors">
+                        <Link href="/orders" onClick={() => setDropdownOpen(false)} className="flex items-center justify-between px-4 py-2.5 text-base hover:bg-muted transition-colors">
                             <span className="flex items-center gap-2">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                 Giỏ hàng / Đơn hàng

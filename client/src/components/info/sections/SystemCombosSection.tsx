@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api, getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/Button';
-import { BookOpen, Clock, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
+import {  BookOpen, Clock, ChevronRight, Sparkles, TrendingUp , Loader2 } from 'lucide-react';
 
 import { Card } from '@/components/Card';
 import Image from 'next/image';
@@ -35,7 +35,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
     if (loading) {
         return (
             <section className="py-10 bg-background relative overflow-hidden flex flex-col items-center justify-center">
-                <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+                <Loader2 className="animate-spin w-12 h-12 text-primary mb-4" />
                 <p className="text-muted-foreground animate-pulse">Đang tải các lộ trình học tập...</p>
             </section>
         );
@@ -55,6 +55,8 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
             />
             <div className="container mx-auto px-6 max-w-[1200px] relative z-10">
                 {/* Combos List (1 Column) */}
@@ -71,7 +73,7 @@ export const SystemCombosSection = ({ section }: { section: Section }) => {
                         <h3 className="text-xl font-semibold mb-2">Chưa có lộ trình nào</h3>
                         <p className="text-muted-foreground text-sm">Vui lòng quay lại sau để cập nhật các lộ trình mới nhất.</p>
                         <Link href="/courses" className="mt-8 block">
-                            <Button variant="outline">Xem tất cả khóa học</Button>
+                            <Button variant="outline" as="div">Xem tất cả khóa học</Button>
                         </Link>
                     </div>
                 ) : (

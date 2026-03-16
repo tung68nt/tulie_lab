@@ -1,50 +1,37 @@
 name: tulie_academy
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_postgres
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-tulie_academy}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
-      POSTGRES_DB: ${POSTGRES_DB:-tulie_academy}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tulie_academy} -d ${POSTGRES_DB:-tulie_academy}" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
-  redis:
+  tulie-redis:
     image: redis:7-alpine
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_redis
     restart: always
-    command: redis-server --maxmemory 128mb --maxmemory-policy allkeys-lru
+    command: redis-server --requirepass 0490c5c92a9b94bc2bade0098a9f9701 --maxmemory 128mb --maxmemory-policy allkeys-lru
     volumes:
       - redis_data:/data
     networks:
       - app-network
     healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
+      test: [ "CMD", "redis-cli", "-a", "0490c5c92a9b94bc2bade0098a9f9701", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
 
   server:
     image: ghcr.io/tung68nt/tulie_lab_server:latest
-    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy}_server
     restart: always
     ports:
       - "${SERVER_PORT:-5001}:8080"
     environment:
       - NODE_ENV=production
       - PORT=8080
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-tulie_academy}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-tulie_academy}
-      - DIRECT_URL=postgresql://${POSTGRES_USER:-tulie_academy}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-tulie_academy}
-      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL:?DATABASE_URL is required}
+      - DIRECT_URL=${DIRECT_URL:?DIRECT_URL is required}
+      - REDIS_URL=redis://:0490c5c92a9b94bc2bade0098a9f9701@tulie-redis:6379
       - CLIENT_URL=${CLIENT_URL:-https://thelab.tulie.vn}
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
       - R2_ACCOUNT_ID=${R2_ACCOUNT_ID:-}
@@ -64,15 +51,31 @@ services:
       - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-}
       - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-}
       - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN:-}
+      - NODE_OPTIONS=--max-old-space-size=512
     volumes:
       - uploads_data:/app/uploads
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - tulie-redis
     networks:
       - app-network
+      - coolify
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 768M
+        reservations:
+          cpus: '0.2'
+          memory: 128M
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thelab-api.rule=Host(`thelab.tulie.vn`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.thelab-api.entrypoints=https"
+      - "traefik.http.routers.thelab-api.tls=true"
+      - "traefik.http.routers.thelab-api.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.thelab-api.service=thelab-api"
+      - "traefik.http.services.thelab-api.loadbalancer.server.port=8080"
+      - "traefik.docker.network=coolify"
 
   client:
     image: ghcr.io/tung68nt/tulie_lab_client:latest
@@ -83,17 +86,33 @@ services:
     ports:
       - "${CLIENT_PORT:-3001}:3000"
     environment:
-      - NODE_ENV=production
       - NEXT_PUBLIC_API_URL=https://thelab.tulie.vn/api
+      - INTERNAL_API_URL=http://server:8080
+      - NODE_OPTIONS=--max-old-space-size=512
     depends_on:
       - server
     networks:
       - app-network
-  # Nginx is handled by aaPanel on the host (manages SSL + reverse proxy)
-  # aaPanel Nginx proxies: thelab.tulie.vn -> client:3001, /api -> server:5001
+      - coolify
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 768M
+        reservations:
+          cpus: '0.2'
+          memory: 128M
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thelab-client.rule=Host(`thelab.tulie.vn`)"
+      - "traefik.http.routers.thelab-client.entrypoints=https"
+      - "traefik.http.routers.thelab-client.tls=true"
+      - "traefik.http.routers.thelab-client.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.thelab-client.service=thelab-client"
+      - "traefik.http.services.thelab-client.loadbalancer.server.port=3000"
+      - "traefik.docker.network=coolify"
 
 volumes:
-  postgres_data:
   redis_data:
   uploads_data:
 
@@ -101,3 +120,5 @@ volumes:
 networks:
   app-network:
     driver: bridge
+  coolify:
+    external: true

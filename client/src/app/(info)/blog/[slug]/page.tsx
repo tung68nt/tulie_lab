@@ -139,7 +139,7 @@ export default function BlogPostPage() {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         );
     }

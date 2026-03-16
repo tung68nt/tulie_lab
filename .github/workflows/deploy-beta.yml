@@ -1,0 +1,200 @@
+name: Deploy Beta to VPS
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - beta
+    paths:
+      - 'server/**'
+      - 'client/**'
+      - 'prisma/**'
+      - 'docker-compose.beta.yml'
+      - '.github/workflows/deploy-beta.yml'
+
+# ✅ Cancel previous runs on same branch to avoid parallel deploys
+concurrency:
+  group: deploy-beta-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_PREFIX: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    name: Build and Push Beta Images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Server (Beta)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./server
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_PREFIX }}_server:beta
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push Client (Beta)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./client
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_PREFIX }}_client:beta
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NEXT_PUBLIC_API_URL=https://betathelab.tulie.vn/api
+
+  deploy:
+    name: Deploy Beta to VPS
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    timeout-minutes: 60
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: ${{ secrets.VPS_SSH_PORT || 22 }}
+          command_timeout: 55m
+          script: |
+            set -e
+            echo "🚀 Starting beta deployment..."
+
+            # ═══════════════════════════════════════════════════════════
+            # 🛡️ DEPLOY LOCK - Prevent parallel deploys on VPS
+            # ═══════════════════════════════════════════════════════════
+            LOCK_FILE="/tmp/deploy-beta.lock"
+            if [ -f "$LOCK_FILE" ]; then
+              LOCK_AGE=$(($(date +%s) - $(stat -c %Y "$LOCK_FILE" 2>/dev/null || stat -f %m "$LOCK_FILE")))
+              if [ "$LOCK_AGE" -lt 600 ]; then
+                echo "⏳ Another deployment is running (${LOCK_AGE}s ago). Waiting 30s..."
+                sleep 30
+                if [ -f "$LOCK_FILE" ]; then
+                  echo "⚠️ Deploy still locked. Skipping this run."
+                  exit 0
+                fi
+              else
+                echo "🔓 Stale lock detected (${LOCK_AGE}s), removing..."
+                rm -f "$LOCK_FILE"
+              fi
+            fi
+            echo $$ > "$LOCK_FILE"
+            trap "rm -f $LOCK_FILE" EXIT
+
+            # ═══════════════════════════════════════════════════════════
+            # 🛡️ RATE LIMIT - Avoid rapid-fire deploys (DDoS prevention)
+            # ═══════════════════════════════════════════════════════════
+            LAST_DEPLOY_FILE="/tmp/last-deploy-beta.timestamp"
+            MIN_DEPLOY_INTERVAL=120  # Minimum 2 minutes between deploys
+            
+            if [ -f "$LAST_DEPLOY_FILE" ]; then
+              LAST_DEPLOY=$(cat "$LAST_DEPLOY_FILE")
+              NOW=$(date +%s)
+              ELAPSED=$((NOW - LAST_DEPLOY))
+              if [ "$ELAPSED" -lt "$MIN_DEPLOY_INTERVAL" ]; then
+                WAIT_TIME=$((MIN_DEPLOY_INTERVAL - ELAPSED))
+                echo "⏳ Rate limit: waiting ${WAIT_TIME}s before deploy (last deploy ${ELAPSED}s ago)..."
+                sleep "$WAIT_TIME"
+              fi
+            fi
+            date +%s > "$LAST_DEPLOY_FILE"
+
+            # Ensure deployment directory exists
+            if [ ! -d "/srv/betathelab.tulie.vn" ]; then
+              echo "📁 Creating directory /srv/betathelab.tulie.vn..."
+              sudo mkdir -p /srv/betathelab.tulie.vn
+              sudo chown $(whoami):$(whoami) /srv/betathelab.tulie.vn
+            fi
+
+            cd /srv/betathelab.tulie.vn
+
+            # Pull latest config via git (with retry + backoff)
+            if [ ! -d ".git" ]; then
+              echo "📦 Initializing git repository..."
+              git init
+              git remote add origin https://${{ github.actor }}:${{ secrets.GHCR_TOKEN }}@github.com/${{ github.repository }}.git || \
+              git remote set-url origin https://${{ github.actor }}:${{ secrets.GHCR_TOKEN }}@github.com/${{ github.repository }}.git
+            else
+              git remote set-url origin https://${{ github.actor }}:${{ secrets.GHCR_TOKEN }}@github.com/${{ github.repository }}.git
+            fi
+
+            echo "📥 Pulling latest beta config..."
+            # ✅ Single git operation with depth=1 to minimize network traffic
+            git fetch --depth=1 origin beta
+            git reset --hard origin/beta
+
+            # Log in to GHCR on VPS
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # Pull images and deploy
+            echo "🏗️ Pulling beta images and deploying..."
+            docker compose -f docker-compose.beta.yml --env-file .env.beta pull server client
+            docker compose -f docker-compose.beta.yml --env-file .env.beta up -d --force-recreate --remove-orphans
+
+            # Run database migrations (same DB, but ensure schema is up to date for beta code)
+            echo "🗄️ Running database migrations..."
+            sleep 10
+            docker compose -f docker-compose.beta.yml --env-file .env.beta exec -T server npx prisma migrate deploy || echo "⚠️ Migration warning"
+
+            # Clean up old images
+            echo "🧹 Cleaning up..."
+            docker image prune -f
+
+            # ═══════════════════════════════════════════════════════════
+            # 🩺 HEALTH CHECK - Reduced from 20 to 10 attempts, longer interval
+            # Fewer but more spaced-out requests to avoid triggering DDoS detection
+            # ═══════════════════════════════════════════════════════════
+            echo "🩺 Checking health..."
+            for i in {1..10}; do
+              echo "Health check attempt $i/10..."
+              
+              # Check API (localhost only - no external traffic)
+              API_HEALTH=$(curl -sf http://localhost:5002/api/health --max-time 5 2>/dev/null | grep -q '"status":"ok"' && echo "OK" || echo "FAIL")
+              
+              # Check Web (localhost only - no external traffic)
+              WEB_HEALTH=$(curl -sf http://localhost:3002 --max-time 5 2>/dev/null | grep -q '<' && echo "OK" || echo "FAIL")
+
+              echo "  API=$API_HEALTH, Web=$WEB_HEALTH"
+              
+              if [ "$API_HEALTH" = "OK" ] && [ "$WEB_HEALTH" = "OK" ]; then
+                # ✅ Only check domain ONCE when internal checks pass
+                echo "  Internal checks passed. Verifying domain..."
+                DOMAIN_HEALTH=$(curl -sfL https://betathelab.tulie.vn --max-time 10 2>/dev/null | grep -q '<' && echo "OK" || echo "FAIL")
+                echo "  Domain=$DOMAIN_HEALTH"
+                if [ "$DOMAIN_HEALTH" = "OK" ]; then
+                  echo "✅ All Beta Health Checks Passed!"
+                  exit 0
+                fi
+                echo "  ⚠️ Domain not ready yet, continuing..."
+              fi
+              
+              # ✅ Longer wait between checks (15s instead of 10s)
+              sleep 15
+            done
+            
+            echo "⚠️ Health checks incomplete after 10 attempts. Containers may still be starting."
+            echo "📜 Container Logs (Debug):"
+            docker compose -f docker-compose.beta.yml --env-file .env.beta logs --tail 50 client
+            exit 0

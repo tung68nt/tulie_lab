@@ -28,6 +28,8 @@ export function UpsellSection({ section, upsellCourse, upsellProduct, upsellPric
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'dark'}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={14}
             />
             <div className="container px-4 mx-auto relative z-10">

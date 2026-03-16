@@ -8,7 +8,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { SectionTag } from '@/components/SectionTag';
 import { Button } from '@/components/Button';
 import { DotPatternBackground } from '@/components/DotPatternBackground';
-import { Clock, BookOpen, CheckCircle2, ChevronRight } from 'lucide-react';
+import {  Clock, BookOpen, CheckCircle2, ChevronRight , Loader2 } from 'lucide-react';
 import Image from 'next/image';
 
 export default function ComboLandingPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -43,7 +43,7 @@ export default function ComboLandingPage({ params }: { params: Promise<{ slug: s
 
     if (loading) return (
         <div className="flex min-h-[50vh] items-center justify-center">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+            <Loader2 className="animate-spin w-8 h-8 text-primary " />
         </div>
     );
 

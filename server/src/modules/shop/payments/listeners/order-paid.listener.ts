@@ -3,8 +3,10 @@ import { IOrderRepository } from '../interfaces/order.repository.interface';
 import { IActivationCodeRepository } from '../../activation-codes/interfaces/activation-code.repository.interface';
 import { ICourseRepository } from '../../../lms/courses/interfaces/course.repository.interface';
 import { IUserRepository } from '../../../system/users/interfaces/user.repository.interface';
-import { ProductType } from '@prisma/client';
 import { FacebookService } from '../../../system/facebook/facebook.service';
+import axios from 'axios';
+import { env } from '../../../../config/env';
+import { prisma } from '../../../../config/prisma';
 
 export class OrderPaidListener {
     constructor(
@@ -120,6 +122,25 @@ export class OrderPaidListener {
                     });
                     console.log(`[OrderPaidListener] Created subscription for user ${user.email} and deactivated old ones.`);
                 }
+
+                // 2.2. Ebook Handling
+                if (item.product.ebook) {
+                    const ebookId = item.product.ebook.id;
+                    // Check if already has access
+                    const existingAccess = await (prisma as any).ebookAccess.findUnique({
+                        where: { userId_ebookId: { userId: user.id, ebookId } }
+                    });
+
+                    if (!existingAccess) {
+                        await (prisma as any).ebookAccess.create({
+                            data: {
+                                userId: user.id,
+                                ebookId: ebookId
+                            }
+                        });
+                        console.log(`[OrderPaidListener] Granted Ebook access (${item.product.ebook.title}) to user ${user.email}`);
+                    }
+                }
             }
         }
 
@@ -132,6 +153,35 @@ export class OrderPaidListener {
             });
         } catch (err) {
             console.error('[OrderPaidListener] Failed to send CAPI event:', err);
+        }
+
+        // 4. Push to CRM Webhook
+        if (env.CRM_WEBHOOK_URL) {
+            try {
+                console.log(`[OrderPaidListener] Pushing order ${order.code} to CRM...`);
+                await axios.post(env.CRM_WEBHOOK_URL, {
+                    event: 'ORDER_PAID',
+                    order: {
+                        id: order.id,
+                        code: order.code,
+                        amount: Number(order.amount),
+                        user: {
+                            email: (user as any).email,
+                            profile: (user as any).profile
+                        },
+                        items: order.items,
+                        createdAt: order.createdAt
+                    }
+                }, {
+                    headers: {
+                        'x-academy-api-key': env.CRM_API_KEY || ''
+                    },
+                    timeout: 5000
+                });
+                console.log(`[OrderPaidListener] Successfully pushed to CRM`);
+            } catch (err: any) {
+                console.error('[OrderPaidListener] Failed to push to CRM:', err.message);
+            }
         }
     }
 }

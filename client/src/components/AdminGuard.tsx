@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -29,7 +30,7 @@ export function AdminGuard({ children }: AdminGuardProps) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="h-10 w-10 animate-spin rounded-full border-[3px] border-zinc-200 border-t-black"></div>
+                    <Loader2 className="animate-spin w-10 h-10 text-primary " />
                     <p className="text-muted-foreground">Đang kiểm tra quyền truy cập...</p>
                 </div>
             </div>

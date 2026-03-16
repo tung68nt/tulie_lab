@@ -22,4 +22,7 @@ router.get('/email-logs', authenticate, authorize([Role.ADMIN]), (req, res) => s
 // Telegram test
 router.post('/telegram/test', authenticate, authorize([Role.ADMIN]), (req, res) => settingController.testTelegram(req, res));
 
+// Email test
+router.post('/email/test', authenticate, authorize([Role.ADMIN]), (req, res) => settingController.testEmail(req, res));
+
 export default router;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/Button';
-import { ChevronLeft, Cloud, Pencil, LayoutGrid, Globe, Lock, Link as LinkIcon, Check, Copy } from 'lucide-react';
+import {  ChevronLeft, Cloud, Pencil, LayoutGrid, Globe, Lock, Link as LinkIcon, Check, Copy , Loader2 } from 'lucide-react';
 import { SaveStatus } from './SaveStatusIndicator';
 import { Logo } from '@/components/Logo';
 
@@ -194,7 +194,7 @@ export default function WhiteboardHeader({
                         <div className="hidden sm:flex items-center gap-2 bg-zinc-50 dark:bg-zinc-800/50 px-2.5 py-1 rounded-full border border-zinc-100 dark:border-zinc-800 ml-1">
                             {saveStatus === 'saving' && (
                                 <>
-                                    <div className="w-2 h-2 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
+                                    <Loader2 className="animate-spin w-2 h-2 text-primary " />
                                     <span className="text-[11px] text-zinc-500 font-medium">Saving</span>
                                 </>
                             )}

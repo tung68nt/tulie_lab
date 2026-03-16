@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
@@ -68,7 +69,7 @@ function AuthCallbackContent() {
     return (
         <div className="flex min-h-screen items-center justify-center bg-background">
             <div className="flex flex-col items-center gap-4">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
                 <p className="text-muted-foreground animate-pulse">Đang hoàn tất đăng nhập...</p>
             </div>
         </div>
@@ -77,7 +78,7 @@ function AuthCallbackContent() {
 
 export default function AuthCallbackPage() {
     return (
-        <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>}>
+        <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background"><Loader2 className="animate-spin w-8 h-8 text-primary " /></div>}>
             <AuthCallbackContent />
         </Suspense>
     );

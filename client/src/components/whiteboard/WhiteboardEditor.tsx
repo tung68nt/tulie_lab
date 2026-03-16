@@ -4,10 +4,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import { useRouter } from 'next/navigation';
+// @ts-ignore
 import { exportToBlob } from '@excalidraw/excalidraw';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/Button';
-import { Lock, FileX } from 'lucide-react';
+import {  Lock, FileX , Loader2 } from 'lucide-react';
 
 import ExcalidrawWrapper from './ExcalidrawWrapper';
 import { api } from '@/lib/api';
@@ -614,7 +615,7 @@ export default function WhiteboardEditor({ id }: WhiteboardEditorProps) {
         return (
             <div className="flex items-center justify-center w-full h-screen bg-background">
                 {/* Tulie-style Loader: Simple Arc Spinner */}
-                <div className="animate-spin rounded-full h-8 w-8 border-[3px] border-zinc-200 border-t-zinc-900 dark:border-zinc-800 dark:border-t-zinc-50" />
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         );
     }

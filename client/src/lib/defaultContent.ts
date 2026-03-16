@@ -876,7 +876,8 @@ export const DEFAULT_VIBE_CODING_BEGINNER_COURSE: Section[] = [
         order: 2,
         backgroundImage: '',
         backgroundTheme: 'light',
-        overlayOpacity: 0.6
+        overlayOpacity: 0.6,
+        backgroundPattern: 'grid'
     },
     // 3. PAIN POINTS - FOMO
     {
@@ -951,7 +952,8 @@ export const DEFAULT_VIBE_CODING_BEGINNER_COURSE: Section[] = [
         order: 4,
         backgroundImage: '',
         backgroundTheme: 'light',
-        overlayOpacity: 0.6
+        overlayOpacity: 0.6,
+        backgroundPattern: 'grid'
     },
     // 5. CURRICULUM
     {
@@ -1106,7 +1108,7 @@ export const DEFAULT_VIBE_CODING_BEGINNER_COURSE: Section[] = [
         title: "Quà tặng độc quyền (Trị giá 5.000.000đ)",
         subtitle: "Chỉ dành cho học viên đăng ký trong tháng này",
         items: [
-            { title: "Thư viện 100+ Prompts", description: "Copy-paste để AI viết code chính xác ngay lần đầu. Tiết kiệm hàng giờ debug.", value: "Trị giá 1.500.000đ", icon: "FileText" },
+            { title: "Ebook 'Google Sheets Pro Guide'", description: "Bí kíp làm chủ Google Sheets từ cơ bản đến nâng cao. Tối ưu hoá quy trình và báo cáo của bạn.", value: "Trị giá 500.000đ", icon: "FileText" },
             { title: "10+ Project Templates", description: "Clone và customize để hoàn thành dự án nhanh gấp 5 lần.", value: "Trị giá 2.000.000đ", icon: "Folder" },
             { title: "Private Community", description: "Nhóm kín với 500+ thành viên, chia sẻ kinh nghiệm, cơ hội việc làm.", value: "Trị giá 500.000đ", icon: "Users" },
             { title: "Lifetime Updates", description: "Cập nhật nội dung mới khi công nghệ thay đổi, không mất thêm phí.", value: "Vô giá", icon: "RefreshCw" },

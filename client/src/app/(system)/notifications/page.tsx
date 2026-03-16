@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
 import { Button } from '@/components/Button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {  ChevronLeft, ChevronRight , Loader2 } from 'lucide-react';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -96,7 +96,7 @@ export default function NotificationsPage() {
     if (loading) {
         return (
             <div className="container py-10 min-h-screen flex justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         );
     }

@@ -727,6 +727,8 @@ export function PaymentSection({ section, mainCourse, upsellCourse, mainProduct:
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
             />
 
             <div className="container px-4 mx-auto max-w-6xl relative z-10">

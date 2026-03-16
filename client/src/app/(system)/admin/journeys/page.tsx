@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
-import { Plus, Edit2, Trash2, Users, BookOpen, Eye, EyeOff, Route } from 'lucide-react';
+import {  Plus, Edit2, Trash2, Users, BookOpen, Eye, EyeOff, Route , Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { useToast } from '@/contexts/ToastContext';
@@ -132,7 +132,7 @@ export default function JourneyListPage() {
             {/* Journey List */}
             {loading ? (
                 <div className="text-center py-12">
-                    <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-4" />
+                    <Loader2 className="animate-spin w-8 h-8 text-primary mx-auto mb-4" />
                     <p className="text-muted-foreground">Đang tải...</p>
                 </div>
             ) : journeys.length === 0 ? (

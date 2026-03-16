@@ -83,16 +83,18 @@ const SECTION_COMPONENTS: Record<string, React.ElementType> = {
 };
 
 async function getLandingPage(slug: string) {
+    console.log(`[getLandingPage] Starting fetch for slug: ${slug}`);
     try {
-        // Match the URL pattern from api.ts
-        const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+        const isServer = typeof window === 'undefined';
+        const envUrl = (isServer && process.env.INTERNAL_API_URL) || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
         const baseUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
         const url = `${baseUrl}/api/landing-pages/${slug}`;
 
         console.log('[LandingPageRenderer] Fetching:', url);
 
         const res = await fetch(url, {
-            cache: 'no-store',
+            next: { revalidate: 60 },
+            signal: AbortSignal.timeout(5000), // Timeout after 5s to prevent hanging navigation
         });
 
         if (!res.ok) {
@@ -105,6 +107,7 @@ async function getLandingPage(slug: string) {
         return null;
     }
 }
+
 
 
 interface LandingPageRendererProps {

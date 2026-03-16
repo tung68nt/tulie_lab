@@ -1,0 +1,126 @@
+name: tulie_academy_beta
+services:
+
+  tulie-redis-beta:
+    image: redis:7-alpine
+    restart: always
+    command: redis-server --requirepass 0490c5c92a9b94bc2bade0098a9f9701 --maxmemory 128mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_beta_data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "0490c5c92a9b94bc2bade0098a9f9701", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 64M
+
+  server:
+    image: ghcr.io/tung68nt/tulie_lab_server:beta
+    restart: always
+    ports:
+      - "${BETA_SERVER_PORT:-5002}:8080"
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - DATABASE_URL=${DATABASE_URL:?DATABASE_URL is required}
+      - DIRECT_URL=${DIRECT_URL:?DIRECT_URL is required}
+      - REDIS_URL=redis://:0490c5c92a9b94bc2bade0098a9f9701@tulie-redis-beta:6379
+      - CLIENT_URL=${CLIENT_URL:-https://betathelab.tulie.vn}
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET is required}
+      - R2_ACCOUNT_ID=${R2_ACCOUNT_ID:-}
+      - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID:-}
+      - R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY:-}
+      - R2_BUCKET_NAME=${R2_BUCKET_NAME:-}
+      - R2_PUBLIC_DOMAIN=${R2_PUBLIC_DOMAIN:-}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - SEPAY_API_KEY=${SEPAY_API_KEY:-}
+      - SEPAY_SECRET_KEY=${SEPAY_SECRET_KEY:-}
+      - SMTP_HOST=${SMTP_HOST:-}
+      - SMTP_PORT=${SMTP_PORT:-}
+      - SMTP_USER=${SMTP_USER:-}
+      - SMTP_PASS=${SMTP_PASS:-}
+      - SMTP_FROM=${SMTP_FROM:-}
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL:-}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-}
+      - ANTHROPIC_AUTH_TOKEN=${ANTHROPIC_AUTH_TOKEN:-}
+      - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY:-}
+      - NODE_OPTIONS=--max-old-space-size=512
+    volumes:
+      - uploads_beta_data:/app/uploads
+    depends_on:
+      - tulie-redis-beta
+    networks:
+      - app-network
+      - coolify
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 768M
+        reservations:
+          cpus: '0.2'
+          memory: 128M
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thelab-beta-api.rule=Host(`betathelab.tulie.vn`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.thelab-beta-api.entrypoints=https"
+      - "traefik.http.routers.thelab-beta-api.tls=true"
+      - "traefik.http.routers.thelab-beta-api.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.thelab-beta-api.service=thelab-beta-api"
+      - "traefik.http.services.thelab-beta-api.loadbalancer.server.port=8080"
+      - "traefik.docker.network=coolify"
+
+  client:
+    image: ghcr.io/tung68nt/tulie_lab_client:beta
+    container_name: ${COMPOSE_PROJECT_NAME:-tulie_academy_beta}_client
+    restart: always
+    expose:
+      - "3000"
+    ports:
+      - "${BETA_CLIENT_PORT:-3002}:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=https://betathelab.tulie.vn/api
+      - NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${NEXT_PUBLIC_RECAPTCHA_SITE_KEY:-}
+      - INTERNAL_API_URL=http://server:8080
+      - NODE_OPTIONS=--max-old-space-size=512
+    depends_on:
+      - server
+    networks:
+      - app-network
+      - coolify
+    deploy:
+      resources:
+        limits:
+          cpus: '0.8'
+          memory: 768M
+        reservations:
+          cpus: '0.2'
+          memory: 128M
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.thelab-beta-client.rule=Host(`betathelab.tulie.vn`)"
+      - "traefik.http.routers.thelab-beta-client.entrypoints=https"
+      - "traefik.http.routers.thelab-beta-client.tls=true"
+      - "traefik.http.routers.thelab-beta-client.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.thelab-beta-client.service=thelab-beta-client"
+      - "traefik.http.services.thelab-beta-client.loadbalancer.server.port=3000"
+      - "traefik.docker.network=coolify"
+
+volumes:
+  redis_beta_data:
+  uploads_beta_data:
+
+
+networks:
+  app-network:
+    driver: bridge
+  coolify:
+    external: true

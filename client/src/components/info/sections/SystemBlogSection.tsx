@@ -104,7 +104,8 @@ export const SystemBlogSection = ({ section }: { section: Section }) => {
                     backgroundImage={section.backgroundImage}
                     backgroundTheme={section.backgroundTheme || 'light'}
                     overlayOpacity={section.overlayOpacity}
-                    showDotPattern={true}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 />
             </div>
             <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">

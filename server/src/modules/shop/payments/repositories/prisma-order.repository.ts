@@ -20,7 +20,9 @@ export class PrismaOrderRepository implements IOrderRepository {
                 items: {
                     include: {
                         course: true,
-                        product: true
+                        product: {
+                            include: { ebook: true }
+                        }
                     }
                 },
                 user: {
@@ -39,7 +41,9 @@ export class PrismaOrderRepository implements IOrderRepository {
                 items: {
                     include: {
                         course: true,
-                        product: true
+                        product: {
+                            include: { ebook: true }
+                        }
                     }
                 },
                 user: {

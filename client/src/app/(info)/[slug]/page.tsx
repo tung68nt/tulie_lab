@@ -75,14 +75,16 @@ const SECTION_COMPONENTS: Record<string, any> = {
 
 async function getSystemPage(slug: string) {
     try {
-        const envUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
+        const isServer = typeof window === 'undefined';
+        const envUrl = (isServer && process.env.INTERNAL_API_URL) || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
         const baseUrl = envUrl.replace(/\/$/, '').replace(/\/api$/, '');
         const apiUrl = `${baseUrl}/api/landing-pages/${slug}`;
 
         console.log('[SystemPageRenderer] Fetching:', apiUrl);
 
         const res = await fetch(apiUrl, {
-            next: { revalidate: 60 }
+            next: { revalidate: 60 },
+            signal: AbortSignal.timeout(5000),
         });
 
         if (!res.ok) {

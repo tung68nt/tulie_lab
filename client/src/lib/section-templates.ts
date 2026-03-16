@@ -695,6 +695,26 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
         }
     },
     {
+        id: 'flipbook-demo',
+        name: 'Flipbook Demo',
+        category: 'Special',
+        description: 'Interactive flipbook to preview an ebook.',
+        previewImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'flipbook-preview',
+            type: 'flipbook',
+            name: 'Flipbook Demo',
+            title: 'Hành Trình Chinh Phục UI/UX',
+            tag: 'Ebook Đào Tạo',
+            subtitle: 'Lật qua các trang để xem trước nội dung chất lượng cao từ khóa học chuyên sâu.',
+            pdfUrl: 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf',
+            previewPages: 10,
+            ctaText: 'Mua Ebook đầy đủ',
+            ctaLink: '/shop/ebook-uiux-chinh-phuc',
+            appearance: 'standard'
+        }
+    },
+    {
         id: 'payment-section',
         name: 'Payment Section',
         category: 'Conversion',
@@ -1009,6 +1029,43 @@ export const SECTION_TEMPLATES: SectionTemplate[] = [
             backgroundTheme: 'light',
             glowVariant: 3,
             courseId: '' // User needs to input this
+        }
+    },
+    {
+        id: 'system-ebooks',
+        name: 'Ebook Library',
+        category: 'System',
+        description: 'Dynamic ebook library showing all published ebooks with cover, description, and pricing.',
+        previewImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'system-ebooks-1',
+            type: 'system-ebooks',
+            name: 'Thư viện Ebook',
+            title: 'Thư viện Ebook',
+            tag: 'Ebook',
+            subtitle: 'Khám phá bộ sưu tập ebook chất lượng cao từ các chuyên gia hàng đầu.',
+            showDotPattern: true,
+            backgroundTheme: 'light',
+            glowVariant: 0
+        }
+    },
+    {
+        id: 'system-ebook-reader',
+        name: 'Ebook Reader',
+        category: 'System',
+        description: 'Interactive flipbook reader section for private ebooks. Requires an ebook slug.',
+        previewImage: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=500',
+        data: {
+            id: 'system-ebook-reader-1',
+            type: 'system-ebook-reader',
+            name: 'Đọc Ebook',
+            title: '', // Empty: use ebook title by default
+            tag: 'Reading',
+            subtitle: '',
+            ebookSlug: '', // User must input a valid ebook slug
+            backgroundTheme: 'light',
+            showDotPattern: true,
+            backgroundPattern: 'dots'
         }
     }
 ];

@@ -22,6 +22,8 @@ export const StudentShowcaseSection: React.FC<StudentShowcaseSectionProps> = ({ 
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={13}
             />
             <div className="container relative z-10 mx-auto px-4">

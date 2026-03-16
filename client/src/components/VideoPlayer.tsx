@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -121,7 +122,7 @@ export function VideoPlayer({ url, type, title, thumbnail, className = '' }: Vid
                 <div className="relative w-full h-full">
                     {isResolving ? (
                         <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded-lg">
-                            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                            <Loader2 className="animate-spin w-8 h-8 text-primary " />
                         </div>
                     ) : (
                         <HLSPlayer src={resolvedUrl} title={title} thumbnail={thumbnail} onError={() => setError(true)} />
@@ -418,7 +419,7 @@ function HLSPlayer({
         <div ref={containerRef} className={`relative bg-black w-full h-full ${isFullscreen ? 'w-screen h-screen flex items-center justify-center' : ''}`}>
             {isLoading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 z-30">
-                    <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <Loader2 className="animate-spin w-8 h-8 text-white " />
                 </div>
             )}
             <video

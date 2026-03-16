@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Printer, Download, Mail, Globe, MapPin, FileText, Phone, ArrowLeft } from 'lucide-react';
+import {  Printer, Download, Mail, Globe, MapPin, FileText, Phone, ArrowLeft , Loader2 } from 'lucide-react';
 import { Button } from '@/components/Button';
 import { Card, CardContent } from '@/components/Card';
 import Link from 'next/link';
@@ -288,7 +288,7 @@ export const OrderInvoice = ({ order, onDownload, onPrint }: InvoiceProps) => {
                         className="gap-2 min-w-[120px]"
                     >
                         {isDownloading ? (
-                            <div className="w-4 h-4 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
+                            <Loader2 className="animate-spin w-4 h-4 text-primary " />
                         ) : (
                             <Download className="w-4 h-4" />
                         )}

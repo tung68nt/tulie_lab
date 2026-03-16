@@ -10,7 +10,7 @@ import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { MEMBERSHIP_PRICING } from '@/constants/pricing';
-import { Sparkles, Wallet, ShieldCheck, Check, MoveRight, Download } from 'lucide-react';
+import {  Sparkles, Wallet, ShieldCheck, Check, MoveRight, Download , Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { QuickEdit } from '@/components/admin/QuickEdit';
@@ -79,7 +79,7 @@ export default function ProductDetailPage() {
     if (loading) {
         return (
             <div className="min-h-screen pt-24 bg-background flex flex-col items-center justify-center">
-                <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+                <Loader2 className="animate-spin w-12 h-12 text-primary mb-4" />
                 <p className="text-muted-foreground animate-pulse">Đang tải thông tin sản phẩm...</p>
             </div>
         );

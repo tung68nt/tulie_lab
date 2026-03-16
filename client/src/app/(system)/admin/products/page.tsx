@@ -6,7 +6,7 @@ import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
 import { useToast } from '@/contexts/ToastContext';
-import { Plus, Search, Edit, Trash, ExternalLink, ShoppingBag } from 'lucide-react';
+import {  Plus, Search, Edit, Trash, ExternalLink, ShoppingBag , Loader2 } from 'lucide-react';
 import { Input } from '@/components/Input';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -115,7 +115,7 @@ export default function AdminProductsPage() {
                                 <tr>
                                     <td colSpan={5} className="h-24 text-center">
                                         <div className="flex justify-center">
-                                            <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                                            <Loader2 className="animate-spin w-6 h-6 text-primary " />
                                         </div>
                                     </td>
                                 </tr>

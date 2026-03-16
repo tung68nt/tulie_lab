@@ -8,7 +8,7 @@ import { Input } from '@/components/Input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/Card';
 import { Logo } from '@/components/Logo';
 import { useToast } from '@/contexts/ToastContext';
-import { CircleCheck, Eye, EyeOff, CircleX } from 'lucide-react';
+import {  CircleCheck, Eye, EyeOff, CircleX , Loader2 } from 'lucide-react';
 
 function ResetPasswordContent() {
     const [isLoading, setIsLoading] = useState(false);
@@ -191,7 +191,7 @@ function ResetPasswordContent() {
 
 export default function ResetPasswordPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>}>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin w-8 h-8 text-primary " /></div>}>
             <ResetPasswordContent />
         </Suspense>
     );

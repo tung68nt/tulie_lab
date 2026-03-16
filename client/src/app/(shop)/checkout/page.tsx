@@ -16,7 +16,7 @@ import { DotPatternBackground } from '@/components/DotPatternBackground';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card';
 import { useToast } from '@/contexts/ToastContext';
 import { FadeIn } from '@/components/animations/FadeIn';
-import { ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt } from 'lucide-react';
+import {  ShieldCheck, Sparkles, TrendingUp, MoveRight, Lock, CheckCircle2, ShoppingBag, Ticket, Receipt , Loader2 } from 'lucide-react';
 import { Badge } from '@/components/Badge';
 import { Switch } from '@/components/Switch';
 
@@ -298,7 +298,7 @@ function CheckoutContent() {
     if (loading) {
         return (
             <div className="flex min-h-[60vh] items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         );
     }
@@ -700,7 +700,7 @@ function CheckoutContent() {
                                     >
                                         {processing ? (
                                             <>
-                                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent mr-2" />
+                                                <Loader2 className="animate-spin w-4 h-4 text-current mr-2" />
                                                 Đang xử lý...
                                             </>
                                         ) : (
@@ -734,7 +734,7 @@ export default function CheckoutPage() {
     return (
         <Suspense fallback={
             <div className="flex min-h-[60vh] items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         }>
             <CheckoutContent />

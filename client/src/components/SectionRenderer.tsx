@@ -21,6 +21,8 @@ import { SystemBlogSection } from '@/components/info/sections/SystemBlogSection'
 import { SystemCombosSection } from '@/components/info/sections/SystemCombosSection';
 import { SystemInstructorsSection } from '@/components/info/sections/SystemInstructorsSection';
 import { SimpleTestimonialsSection } from '@/components/info/sections/SimpleTestimonialsSection';
+import { SystemEbooksSection } from '@/components/info/sections/SystemEbooksSection';
+import { SystemEbookReaderSection } from '@/components/info/sections/SystemEbookReaderSection';
 import dynamic from 'next/dynamic';
 import { FadeIn } from '@/components/animations/FadeIn';
 
@@ -38,6 +40,7 @@ const CalendarSection = dynamic(() => import('@/components/info/sections/Calenda
 const VideoSection = dynamic(() => import('@/components/info/sections/VideoSection').then((mod: any) => mod.VideoSection));
 const VideoTextSection = dynamic(() => import('@/components/info/sections/VideoTextSection').then((mod: any) => mod.VideoTextSection));
 const CourseContentSection = dynamic(() => import('@/components/info/sections/CourseContentSection').then((mod: any) => mod.CourseContentSection));
+const FlipbookSection = dynamic(() => import('@/components/info/sections/FlipbookSection').then((mod: any) => mod.FlipbookSection));
 
 // Map section types to components
 export const SECTION_COMPONENTS: Record<string, any> = {
@@ -81,6 +84,9 @@ export const SECTION_COMPONENTS: Record<string, any> = {
     'system-instructors': SystemInstructorsSection,
     'simple-testimonials': SimpleTestimonialsSection,
     'course-content': CourseContentSection,
+    'flipbook': FlipbookSection,
+    'system-ebook-reader': SystemEbookReaderSection,
+    'system-ebooks': SystemEbooksSection,
 };
 
 // Context for checking if section is in preview mode (e.g. editor)

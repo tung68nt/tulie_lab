@@ -53,11 +53,13 @@ export const BonusSection: React.FC<BonusSectionProps> = ({ section }) => {
                         {items.map((item, idx) => (
                             <div key={idx} className="group relative overflow-hidden rounded-3xl bg-neutral-900/80 backdrop-blur-md border border-white/20 hover:border-[#FF0000]/60 transition-all duration-500 hover:shadow-[10px_10px_50px_-10px_rgba(255,0,0,0.3)]">
                                 {/* Header Stripe */}
-                                <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 px-6 py-4 flex items-center border-b border-white/5">
-                                    <span className="bg-[#FF0000] text-white text-[10px] font-bold px-3 py-1 rounded-lg mr-4 shadow-lg shadow-red-500/20 whitespace-nowrap">
+                                <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 px-6 py-4 flex items-center border-b border-white/5 min-h-[64px]">
+                                    <span className="bg-[#FF0000] text-white text-[10px] uppercase font-black px-3 py-1.5 rounded-lg mr-4 shadow-lg shadow-red-500/20 whitespace-nowrap flex items-center justify-center">
                                         Quà tặng #{idx + 1}
                                     </span>
-                                    <h3 className="text-lg md:text-xl font-bold truncate pr-4 text-white">{item.title}</h3>
+                                    <h3 className="text-lg md:text-xl font-bold truncate pr-4 text-white leading-none flex items-center">
+                                        {item.title}
+                                    </h3>
                                 </div>
 
                                 <div className="flex flex-col md:flex-row">

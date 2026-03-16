@@ -6,7 +6,7 @@ import { Instructor, ApiResponse } from '@/types/api';
 import { Section } from '@/types/sections';
 import { SectionBackground } from '../SectionBackground';
 import { StandardSectionHeader } from '@/components/info/StandardSectionHeader';
-import { Twitter, Linkedin, Github, ExternalLink, Mail, ArrowRight } from 'lucide-react';
+import {  Twitter, Linkedin, Github, ExternalLink, Mail, ArrowRight , Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
@@ -34,7 +34,7 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
     if (loading) {
         return (
             <div className="py-24 flex flex-col items-center justify-center">
-                <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+                <Loader2 className="animate-spin w-12 h-12 text-primary mb-4" />
                 <p className="text-muted-foreground animate-pulse">Đang tải đội ngũ giảng viên...</p>
             </div>
         );
@@ -51,6 +51,8 @@ export const SystemInstructorsSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'light'}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={section.glowVariant}
             />
 

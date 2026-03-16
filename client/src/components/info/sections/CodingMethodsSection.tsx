@@ -122,6 +122,8 @@ export const CodingMethodsSection = ({ section }: CodingMethodsSectionProps) => 
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme || 'auto'}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={12}
             />
             <div className="container relative z-10">

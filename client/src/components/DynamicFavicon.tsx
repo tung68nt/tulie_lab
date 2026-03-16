@@ -7,24 +7,33 @@ export function DynamicFavicon() {
     const { settings } = useSettings();
 
     useEffect(() => {
-        if (settings?.site_favicon) {
-            // Remove all existing favicon links (including apple-touch-icon, shortcut icon, etc.)
-            const existingLinks = document.querySelectorAll('link[rel*="icon"]');
-            existingLinks.forEach(link => link.remove());
+        if (!settings?.site_favicon) return;
 
-            // Add cache-busting parameter to force browser to reload
-            const faviconUrl = settings.site_favicon.includes('?')
-                ? `${settings.site_favicon}&t=${Date.now()}`
-                : `${settings.site_favicon}?t=${Date.now()}`;
+        const faviconUrl = settings.site_favicon.includes('?')
+            ? `${settings.site_favicon}&t=${Date.now()}`
+            : `${settings.site_favicon}?t=${Date.now()}`;
 
-            // Add new favicon link
+        // Update main favicon
+        const currentFavicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+        if (currentFavicon) {
+            if (currentFavicon.href !== faviconUrl) {
+                currentFavicon.href = faviconUrl;
+            }
+        } else {
             const link = document.createElement('link');
             link.rel = 'icon';
             link.type = 'image/x-icon';
             link.href = faviconUrl;
             document.head.appendChild(link);
+        }
 
-            // Also add shortcut icon for better compatibility
+        // Update shortcut icon
+        const currentShortcut = document.querySelector('link[rel="shortcut icon"]') as HTMLLinkElement;
+        if (currentShortcut) {
+            if (currentShortcut.href !== faviconUrl) {
+                currentShortcut.href = faviconUrl;
+            }
+        } else {
             const shortcutLink = document.createElement('link');
             shortcutLink.rel = 'shortcut icon';
             shortcutLink.type = 'image/x-icon';

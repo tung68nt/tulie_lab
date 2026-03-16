@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Section } from '@/types/sections';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { Calendar as CalendarIcon, List as ListIcon, ExternalLink } from 'lucide-react';
+import {  Calendar as CalendarIcon, List as ListIcon, ExternalLink , Loader2 } from 'lucide-react';
 import { MonthViewCalendar } from '@/components/calendar/MonthViewCalendar';
 import { Button } from '@/components/Button';
 import { SectionBackground } from '../SectionBackground';
@@ -66,6 +66,8 @@ export const CalendarSection = ({ section }: { section: Section }) => {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
             />
             <div className="container relative z-10 mx-auto px-4">
                 <div className="relative">
@@ -112,7 +114,7 @@ export const CalendarSection = ({ section }: { section: Section }) => {
 
                 {loading ? (
                     <div className="text-center py-12">
-                        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto mb-4" />
+                        <Loader2 className="animate-spin w-8 h-8 text-primary mx-auto mb-4" />
                         <p className="text-muted-foreground">Đang tải lịch hoạt động...</p>
                     </div>
                 ) : viewMode === 'month' ? (

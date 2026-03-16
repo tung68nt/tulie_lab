@@ -1,4 +1,4 @@
-FROM node:20-slim AS base
+FROM node:22-slim AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -32,6 +32,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 ARG NEXT_PUBLIC_API_URL=http://127.0.0.1:1
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
+ENV DOCKER_BUILD=true
 RUN npm run build
 
 # Production image, copy all the files and run next

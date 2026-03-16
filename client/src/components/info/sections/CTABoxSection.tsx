@@ -69,6 +69,7 @@ export const CTABoxSection = ({ section }: { section: Section }) => {
                         {section.ctaText && section.ctaLink && (
                             <Link href={section.ctaLink}>
                                 <Button
+                                    as="div"
                                     size="lg"
                                     className={cn(
                                         "rounded-full px-8 h-12 font-bold shadow-lg transition-transform hover:scale-105 active:scale-95",

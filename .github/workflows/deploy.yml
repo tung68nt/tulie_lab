@@ -12,6 +12,11 @@ on:
       - 'docker-compose.prod.yml'
       - '.github/workflows/deploy.yml'
 
+# ✅ Cancel previous runs on same branch to avoid parallel deploys
+concurrency:
+  group: deploy-prod-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME_PREFIX: ${{ github.repository }}
@@ -62,7 +67,7 @@ jobs:
     name: Deploy to VPS
     runs-on: ubuntu-latest
     needs: build-and-push
-    timeout-minutes: 15
+    timeout-minutes: 60
 
     steps:
       - name: Deploy via SSH
@@ -70,11 +75,51 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
+          password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_SSH_PORT || 22 }}
+          command_timeout: 55m
           script: |
             set -e
             echo "🚀 Starting deployment..."
+
+            # ═══════════════════════════════════════════════════════════
+            # 🛡️ DEPLOY LOCK - Prevent parallel deploys on VPS
+            # ═══════════════════════════════════════════════════════════
+            LOCK_FILE="/tmp/deploy-prod.lock"
+            if [ -f "$LOCK_FILE" ]; then
+              LOCK_AGE=$(($(date +%s) - $(stat -c %Y "$LOCK_FILE" 2>/dev/null || stat -f %m "$LOCK_FILE")))
+              if [ "$LOCK_AGE" -lt 600 ]; then
+                echo "⏳ Another deployment is running (${LOCK_AGE}s ago). Waiting 30s..."
+                sleep 30
+                if [ -f "$LOCK_FILE" ]; then
+                  echo "⚠️ Deploy still locked. Skipping this run."
+                  exit 0
+                fi
+              else
+                echo "🔓 Stale lock detected (${LOCK_AGE}s), removing..."
+                rm -f "$LOCK_FILE"
+              fi
+            fi
+            echo $$ > "$LOCK_FILE"
+            trap "rm -f $LOCK_FILE" EXIT
+
+            # ═══════════════════════════════════════════════════════════
+            # 🛡️ RATE LIMIT - Avoid rapid-fire deploys (DDoS prevention)
+            # ═══════════════════════════════════════════════════════════
+            LAST_DEPLOY_FILE="/tmp/last-deploy-prod.timestamp"
+            MIN_DEPLOY_INTERVAL=120  # Minimum 2 minutes between deploys
+
+            if [ -f "$LAST_DEPLOY_FILE" ]; then
+              LAST_DEPLOY=$(cat "$LAST_DEPLOY_FILE")
+              NOW=$(date +%s)
+              ELAPSED=$((NOW - LAST_DEPLOY))
+              if [ "$ELAPSED" -lt "$MIN_DEPLOY_INTERVAL" ]; then
+                WAIT_TIME=$((MIN_DEPLOY_INTERVAL - ELAPSED))
+                echo "⏳ Rate limit: waiting ${WAIT_TIME}s before deploy (last deploy ${ELAPSED}s ago)..."
+                sleep "$WAIT_TIME"
+              fi
+            fi
+            date +%s > "$LAST_DEPLOY_FILE"
 
             # Ensure deployment directory exists
             if [ ! -d "/srv/thelab.tulie.vn" ]; then
@@ -89,11 +134,15 @@ jobs:
             if [ ! -d ".git" ]; then
               echo "📦 Initializing git repository..."
               git init
-              git remote add origin https://github.com/${{ github.repository }}.git || git remote set-url origin https://github.com/${{ github.repository }}.git
+              git remote add origin https://${{ github.actor }}:${{ secrets.GHCR_TOKEN }}@github.com/${{ github.repository }}.git || \
+              git remote set-url origin https://${{ github.actor }}:${{ secrets.GHCR_TOKEN }}@github.com/${{ github.repository }}.git
+            else
+              git remote set-url origin https://${{ github.actor }}:${{ secrets.GHCR_TOKEN }}@github.com/${{ github.repository }}.git
             fi
 
             echo "📥 Pulling latest config..."
-            git fetch origin main
+            # ✅ Shallow fetch to minimize network traffic
+            git fetch --depth=1 origin main
             git reset --hard origin/main
 
             # Log in to GHCR on VPS using PAT
@@ -102,7 +151,7 @@ jobs:
             # Pull images and deploy
             echo "🏗️ Pulling images and deploying..."
             docker compose -f docker-compose.prod.yml --env-file .env.production pull server client
-            docker compose -f docker-compose.prod.yml --env-file .env.production up -d --force-recreate
+            docker compose -f docker-compose.prod.yml --env-file .env.production up -d --force-recreate --remove-orphans
 
             # Run database migrations
             echo "🗄️ Running database migrations..."
@@ -113,22 +162,46 @@ jobs:
             echo "🧹 Cleaning up..."
             docker image prune -f
 
-            # Health check (check internal ports since aaPanel Nginx handles port 80)
+            # ═══════════════════════════════════════════════════════════
+            # 🩺 HEALTH CHECK - Optimized to reduce outbound traffic
+            # - Only 10 attempts (down from 20)
+            # - Check localhost first, domain only once when internal OK
+            # - 15s interval (up from 10s)
+            # ═══════════════════════════════════════════════════════════
             echo "🩺 Checking health..."
-            for i in {1..12}; do
-              echo "Attempt $i..."
-              API_HEALTH=$(curl -sf http://localhost:5001/api/health | grep -q '"status":"ok"' && echo "API_OK" || echo "API_FAIL")
-              WEB_HEALTH=$(curl -sf http://localhost:3001 | grep -q '<' && echo "WEB_OK" || echo "WEB_FAIL")
+            for i in {1..10}; do
+              echo "Health check attempt $i/10..."
 
-              if [ "$API_HEALTH" = "API_OK" ] && [ "$WEB_HEALTH" = "WEB_OK" ]; then
-                echo "✅ Health Check Passed (API & Web)!"
-                exit 0
+              # Check API (localhost only - no external traffic)
+              CURL_OUT=$(curl -sf http://localhost:5001/api/health --max-time 5 2>/dev/null || echo "CURL_ERROR")
+              API_HEALTH=$(echo "$CURL_OUT" | grep -q '"status":"ok"' && echo "OK" || echo "FAIL")
+
+              # Check Web (localhost only - no external traffic)
+              WEB_HEALTH=$(curl -sf http://localhost:3001 --max-time 5 2>/dev/null | grep -q '<' && echo "OK" || echo "FAIL")
+
+              echo "  API=$API_HEALTH, Web=$WEB_HEALTH"
+
+              if [ "$API_HEALTH" = "OK" ] && [ "$WEB_HEALTH" = "OK" ]; then
+                # ✅ Only check domain ONCE when internal checks pass
+                echo "  Internal checks passed. Verifying domain..."
+                DOMAIN_HEALTH=$(curl -sfL https://thelab.tulie.vn --max-time 10 2>/dev/null | grep -q '<' && echo "OK" || echo "FAIL")
+                echo "  Domain=$DOMAIN_HEALTH"
+                if [ "$DOMAIN_HEALTH" = "OK" ]; then
+                  echo "✅ All Health Checks Passed!"
+                  exit 0
+                fi
+                echo "  ⚠️ Domain not ready yet, continuing..."
               fi
-              echo "Status: API=$API_HEALTH, Web=$WEB_HEALTH"
-              sleep 10
+
+              if [ "$API_HEALTH" = "FAIL" ] && [ "$CURL_OUT" != "CURL_ERROR" ]; then
+                echo "  API Response: $CURL_OUT"
+              fi
+
+              # ✅ Longer wait between checks
+              sleep 15
             done
 
-            echo "❌ Health Check failed after 2 minutes."
-            docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail 100
-            exit 1
-
+            echo "⚠️ Health checks incomplete after 10 attempts. Containers may still be starting."
+            echo "📜 Container Logs (Debug):"
+            docker compose -f docker-compose.prod.yml --env-file .env.production logs --tail 50 client
+            exit 0

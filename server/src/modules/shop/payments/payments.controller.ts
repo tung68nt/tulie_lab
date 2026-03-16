@@ -397,3 +397,13 @@ export const syncTransactions = async (req: Request, res: Response) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const getRecentPublicOrders = async (req: Request, res: Response) => {
+    try {
+        const paymentService = container.resolve<PaymentService>('PaymentService');
+        const orders = await paymentService.getRecentPublicOrders();
+        res.json(orders);
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};

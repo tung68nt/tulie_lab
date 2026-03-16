@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
-import { Trash2 } from 'lucide-react';
+import {  Trash2 , Loader2 } from 'lucide-react';
 import { useToast } from '@/contexts/ToastContext';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { SectionBackground } from '@/components/info/SectionBackground';
@@ -80,7 +80,7 @@ export default function OrdersPage() {
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-foreground border-t-transparent rounded-full animate-spin"></div>
+                <Loader2 className="animate-spin w-8 h-8 text-foreground " />
             </div>
         );
     }

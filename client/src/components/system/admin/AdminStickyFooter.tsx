@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Button } from '@/components/Button';
-import { Eye, Save, X } from 'lucide-react';
+import {  Eye, Save, X , Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AdminStickyFooterProps {
@@ -59,7 +59,7 @@ export function AdminStickyFooter({
                 >
                     {isSaving ? (
                         <div className="flex items-center gap-2">
-                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <Loader2 className="animate-spin w-4 h-4 text-white " />
                             Đang lưu...
                         </div>
                     ) : (

@@ -1,16 +1,61 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/Card';
 import { api, getMediaUrl } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings, Plus, Trash2, Edit2, CreditCard } from 'lucide-react';
+import { Loader2, Upload, Send, Key, RefreshCw, Copy, Check, Settings, Plus, Trash2, Edit2, CreditCard, Mail } from 'lucide-react';
 import { Switch } from '@/components/Switch';
 import { useSettings } from '@/contexts/SettingsContext';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useConfirm } from '@/components/ConfirmDialog';
+import { Textarea } from '@/components/Textarea';
+import { Info } from 'lucide-react';
+
+const DEFAULT_TEMPLATES = {
+    telegram_template_order: `🔔 <b>Đơn hàng mới!</b>
+━━━━━━━━━━━━━━━━━━
+<b>Mã:</b> <b>#{{code}}</b>
+<b>Khách:</b> {{customer}}
+<b>Tiền:</b> {{amount}}
+<b>Trạng thái:</b> <b>{{status}}</b>
+<b>Nội dung:</b> {{items}}
+━━━━━━━━━━━━━━━━━━
+<i>Hệ thống {{academy}}</i>`,
+    telegram_template_security: `⚠️ <b>Cảnh báo Bảo mật!</b>
+━━━━━━━━━━━━━━━━━━
+<b>Hành vi:</b> <b>{{action}}</b>
+<b>Chi tiết:</b> {{details}}
+<b>IP:</b> {{ip}}
+<b>Thời gian:</b> {{time}}
+━━━━━━━━━━━━━━━━━━
+<i>Vui lòng kiểm tra Admin Panel ngay!</i>`,
+    telegram_template_registration: `👤 <b>Thành viên mới!</b>
+━━━━━━━━━━━━━━━━━━
+<b>Tên:</b> {{name}}
+<b>Email:</b> {{email}}
+<b>Thời gian:</b> {{time}}
+━━━━━━━━━━━━━━━━━━`,
+    telegram_template_report: `<b>📊 BÁO CÁO KINH DOANH & HỆ THỐNG</b>
+━━━━━━━━━━━━━━━━━━
+💰 <b>Kết quả {{title}}:</b>
+- Doanh thu: <b>{{revenue}}</b>
+- Đơn hàng: <b>{{paidOrders}}</b>/{{totalOrders}} (Thành công/Tổng)
+- Thành viên mới: <b>{{newUsers}}</b>
+
+⏳ <b>Tình hình tồn đọng:</b>
+- Đơn hàng pending: <b>{{pendingOrders}}</b> đơn
+- Học viên "ngủ đông": <b>{{inactiveUsers}}</b> người (>14 ngày)
+
+🛡️ <b>Bảo mật & Sức khỏe:</b>
+- Cảnh báo bảo mật: <b>{{securityRisks}}</b>
+- Trạng thái: <b>{{systemStatus}}</b>
+━━━━━━━━━━━━━━━━━━
+<i>Hệ thống {{academy}} - {{time}}</i>`
+};
 
 export default function AdminSettingsPage() {
     const { addToast } = useToast();
@@ -29,6 +74,7 @@ export default function AdminSettingsPage() {
     const [regenerating, setRegenerating] = useState(false);
     const [domainBranding, setDomainBranding] = useState<any[]>([]);
     const [uploadingDomainLogo, setUploadingDomainLogo] = useState<number | null>(null);
+    const [emailTestLoading, setEmailTestLoading] = useState(false);
 
     useEffect(() => {
         loadSettings();
@@ -167,6 +213,18 @@ export default function AdminSettingsPage() {
             addToast(error.message || 'Lỗi kiểm tra kết nối', 'error');
         } finally {
             setTestLoading(false);
+        }
+    };
+
+    const handleTestEmail = async () => {
+        setEmailTestLoading(true);
+        try {
+            const res = await api.admin.settings.testEmail(settings.admin_notification_email);
+            addToast(res.message || 'Đã gửi email thử nghiệm thành công!', 'success');
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi gửi email thử nghiệm', 'error');
+        } finally {
+            setEmailTestLoading(false);
         }
     };
 
@@ -487,7 +545,9 @@ export default function AdminSettingsPage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Cấu hình Admin & Thông báo</CardTitle>
+                            <CardTitle className="flex items-center gap-2">
+                                Cấu hình Admin & Thông báo
+                            </CardTitle>
                             <CardDescription>
                                 Cấu hình email và thông báo để nhận tin từ hệ thống.
                             </CardDescription>
@@ -500,6 +560,32 @@ export default function AdminSettingsPage() {
                                     onChange={(e) => handleChange('admin_notification_email', e.target.value)}
                                     placeholder="Email để nhận thông báo đơn hàng, contact..."
                                 />
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Redundant SMTP section removed - moved to /admin/emails */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                📧 Cấu hình Email & SMTP
+                            </CardTitle>
+                            <CardDescription>
+                                Thiết lập máy chủ gửi email và quản lý template email.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex items-center justify-between p-4 border border-dashed rounded-xl bg-muted/20">
+                                <div className="space-y-1">
+                                    <p className="text-sm font-medium">Cấu hình SMTP đã được chuyển đi</p>
+                                    <p className="text-xs text-muted-foreground">Để quản lý cấu hình gửi email chuyên sâu hơn, vui lòng truy cập trang Email.</p>
+                                </div>
+                                <Link href="/admin/emails">
+                                    <Button variant="outline" size="sm" className="gap-2">
+                                        <Mail className="w-4 h-4" />
+                                        Đi tới cài đặt Email
+                                    </Button>
+                                </Link>
                             </div>
                         </CardContent>
                     </Card>
@@ -560,15 +646,25 @@ export default function AdminSettingsPage() {
                                             </div>
                                             <Switch
                                                 checked={settings.telegram_notify_orders === 'true'}
-                                                onChange={(checked) => handleChange('telegram_notify_orders', checked ? 'true' : 'false')}
+                                                onCheckedChange={(checked) => handleChange('telegram_notify_orders', checked ? 'true' : 'false')}
                                             />
                                         </div>
-                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
-                                            <p className="font-bold text-blue-500 mb-2">Mẫu tin nhắn:</p>
-                                            🔔 <b>Đơn hàng mới!</b><br />
-                                            Mã: <code>#ABC123</code><br />
-                                            Khách: Nguyễn Văn A<br />
-                                            Tiền: 500.000 ₫
+                                        <div className="space-y-2 mt-auto">
+                                            <label className="text-[10px] font-bold text-blue-500 flex items-center gap-1">
+                                                Mẫu tin nhắn (HTML):
+                                                <div className="group relative">
+                                                    <Info size={12} className="text-muted-foreground cursor-help" />
+                                                    <div className="absolute left-0 bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground text-[9px] rounded-md shadow-lg border opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                                                        Biến khả dụng: {"{{code}}, {{customer}}, {{amount}}, {{status}}, {{items}}, {{academy}}"}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <Textarea
+                                                value={settings.telegram_template_order || DEFAULT_TEMPLATES.telegram_template_order}
+                                                onChange={(e) => handleChange('telegram_template_order', e.target.value)}
+                                                placeholder="Nhập mẫu tin nhắn..."
+                                                className="text-xs font-mono h-24"
+                                            />
                                         </div>
                                     </div>
 
@@ -583,11 +679,22 @@ export default function AdminSettingsPage() {
                                                 onCheckedChange={(checked) => handleChange('telegram_notify_registrations', checked ? 'true' : 'false')}
                                             />
                                         </div>
-                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
-                                            <p className="font-bold text-blue-500 mb-2">Mẫu tin nhắn:</p>
-                                            👤 <b>Thành viên mới!</b><br />
-                                            Tên: Nguyễn Văn A<br />
-                                            Email: user@example.com
+                                        <div className="space-y-2 mt-auto">
+                                            <label className="text-[10px] font-bold text-blue-500 flex items-center gap-1">
+                                                Mẫu tin nhắn (HTML):
+                                                <div className="group relative">
+                                                    <Info size={12} className="text-muted-foreground cursor-help" />
+                                                    <div className="absolute left-0 bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground text-[9px] rounded-md shadow-lg border opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                                                        Biến khả dụng: {"{{name}}, {{email}}, {{time}}, {{academy}}"}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <Textarea
+                                                value={settings.telegram_template_registration || DEFAULT_TEMPLATES.telegram_template_registration}
+                                                onChange={(e) => handleChange('telegram_template_registration', e.target.value)}
+                                                placeholder="Nhập mẫu tin nhắn..."
+                                                className="text-xs font-mono h-24"
+                                            />
                                         </div>
                                     </div>
 
@@ -602,11 +709,22 @@ export default function AdminSettingsPage() {
                                                 onCheckedChange={(checked) => handleChange('telegram_notify_security', checked ? 'true' : 'false')}
                                             />
                                         </div>
-                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
-                                            <p className="font-bold text-red-500 mb-2">Mẫu tin nhắn:</p>
-                                            ⚠️ <b>Cảnh báo Bảo mật!</b><br />
-                                            Hành vi: FAILED_LOGIN<br />
-                                            IP: <code>1.2.3.4</code>
+                                        <div className="space-y-2 mt-auto">
+                                            <label className="text-[10px] font-bold text-red-500 flex items-center gap-1">
+                                                Mẫu tin nhắn (HTML):
+                                                <div className="group relative">
+                                                    <Info size={12} className="text-muted-foreground cursor-help" />
+                                                    <div className="absolute left-0 bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground text-[9px] rounded-md shadow-lg border opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                                                        Biến khả dụng: {"{{action}}, {{details}}, {{ip}}, {{time}}, {{academy}}"}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <Textarea
+                                                value={settings.telegram_template_security || DEFAULT_TEMPLATES.telegram_template_security}
+                                                onChange={(e) => handleChange('telegram_template_security', e.target.value)}
+                                                placeholder="Nhập mẫu tin nhắn..."
+                                                className="text-xs font-mono h-24"
+                                            />
                                         </div>
                                     </div>
 
@@ -649,14 +767,22 @@ export default function AdminSettingsPage() {
                                             </div>
                                         )}
 
-                                        <div className="mt-auto bg-muted/30 p-4 rounded-xl border border-dashed text-xs text-muted-foreground leading-relaxed font-inter">
-                                            <p className="font-bold text-amber-500 mb-2">Mẫu tin nhắn:</p>
-                                            📊 <b>Báo cáo định kỳ {new Date().toLocaleDateString('vi-VN')}</b><br />
-                                            💰 <b>Doanh thu:</b> 5.200.000 ₫<br />
-                                            🛒 <b>Đơn hàng mới:</b> 8 đơn<br />
-                                            👤 <b>User mới:</b> 12 thành viên<br />
-                                            ⏳ <b>Đơn pending:</b> 5 đơn<br />
-                                            😴 <b>Nghỉ học lâu:</b> 12 người (&gt;14d)
+                                        <div className="space-y-2 mt-auto">
+                                            <label className="text-[10px] font-bold text-amber-500 flex items-center gap-1">
+                                                Mẫu báo cáo (HTML):
+                                                <div className="group relative">
+                                                    <Info size={12} className="text-muted-foreground cursor-help" />
+                                                    <div className="absolute left-0 bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground text-[9px] rounded-md shadow-lg border opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                                                        Biến khả dụng: {"{{title}}, {{revenue}}, {{paidOrders}}, {{totalOrders}}, {{newUsers}}, {{pendingOrders}}, {{inactiveUsers}}, {{securityRisks}}, {{systemStatus}}, {{time}}, {{academy}}"}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                            <Textarea
+                                                value={settings.telegram_template_report || DEFAULT_TEMPLATES.telegram_template_report}
+                                                onChange={(e) => handleChange('telegram_template_report', e.target.value)}
+                                                placeholder="Nhập mẫu tin nhắn..."
+                                                className="text-xs font-mono h-32"
+                                            />
                                         </div>
                                     </div>
                                 </div>

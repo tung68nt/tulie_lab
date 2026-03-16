@@ -1,4 +1,5 @@
 'use client';
+import { Loader2 } from 'lucide-react';
 
 import React from 'react';
 import dynamic from 'next/dynamic';
@@ -11,7 +12,7 @@ const VanillaExcalidraw = dynamic(
         loading: () => (
             <div className="flex items-center justify-center w-full h-screen bg-white">
                 <div className="text-center">
-                    <div className="w-8 h-8 border-4 border-zinc-900 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <Loader2 className="animate-spin w-8 h-8 text-foreground mx-auto mb-4" />
                     <p className="text-zinc-600">Loading Vanilla Excalidraw...</p>
                 </div>
             </div>

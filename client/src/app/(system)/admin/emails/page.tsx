@@ -5,7 +5,8 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { useToast } from '@/contexts/ToastContext';
-import { Mail, Eye, Code, Save, Settings, ChevronDown, ChevronUp, Send } from 'lucide-react';
+import { Mail, Eye, Code, Save, Settings, ChevronDown, ChevronUp, Send, Loader2 } from 'lucide-react';
+import { Switch } from '@/components/Switch';
 import { api } from '@/lib/api';
 import { useConfirm } from '@/components/ConfirmDialog';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
@@ -147,6 +148,7 @@ export default function AdminEmailsPage() {
         smtp_user: '',
         smtp_pass: '',
         smtp_from: '',
+        smtp_secure: 'false',
         admin_notification_email: '',
     });
 
@@ -163,6 +165,7 @@ export default function AdminEmailsPage() {
                     smtp_user: settings.smtp_user || '',
                     smtp_pass: settings.smtp_pass || '',
                     smtp_from: settings.smtp_from || '',
+                    smtp_secure: settings.smtp_secure || 'false',
                     admin_notification_email: settings.admin_notification_email || '',
                 });
 
@@ -202,6 +205,8 @@ export default function AdminEmailsPage() {
         }
     };
 
+    const [emailTestLoading, setEmailTestLoading] = useState(false);
+
     const handleSaveSMTP = async () => {
         setLoading(true);
         try {
@@ -211,6 +216,18 @@ export default function AdminEmailsPage() {
             addToast('Lỗi khi lưu SMTP', 'error');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleTestEmail = async () => {
+        setEmailTestLoading(true);
+        try {
+            const res = await api.admin.settings.testEmail(smtpSettings.admin_notification_email);
+            addToast(res.message || 'Đã gửi email thử nghiệm thành công!', 'success');
+        } catch (error: any) {
+            addToast(error.message || 'Lỗi gửi email thử nghiệm', 'error');
+        } finally {
+            setEmailTestLoading(false);
         }
     };
 
@@ -256,8 +273,8 @@ export default function AdminEmailsPage() {
     return (
         <div className="space-y-6">
             <AdminPageHeader
-                title="Email Logs"
-                subtitle="Lịch sử gửi email và trạng thái gửi"
+                title="Emails & Templates"
+                subtitle="Quản lý template email và cấu hình gửi mail (SMTP)"
                 icon={<Mail className="w-8 h-8" />}
             />
 
@@ -439,7 +456,36 @@ export default function AdminEmailsPage() {
                                 />
                             </div>
                         </div>
-                        <div className="pt-4 flex justify-end gap-2">
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                <Switch
+                                    id="smtp_secure"
+                                    checked={smtpSettings.smtp_secure === 'true'}
+                                    onCheckedChange={(checked) => setSmtpSettings(prev => ({ ...prev, smtp_secure: checked ? 'true' : 'false' }))}
+                                />
+                                <label htmlFor="smtp_secure" className="text-sm cursor-pointer select-none font-medium">
+                                    SSL/TLS (Port 465)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="pt-4 flex justify-between gap-2 border-t">
+                            <div className="flex items-center gap-3">
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    className="gap-2"
+                                    disabled={emailTestLoading || !smtpSettings.smtp_host || !smtpSettings.smtp_user}
+                                    onClick={handleTestEmail}
+                                >
+                                    {emailTestLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send size={14} />}
+                                    Gửi email thử nghiệm
+                                </Button>
+                                <p className="text-xs text-muted-foreground">
+                                    Gửi email test tới Admin Email.
+                                </p>
+                            </div>
                             <Button onClick={handleSaveSMTP} disabled={loading}>
                                 <Save className="w-4 h-4 mr-2" />
                                 Lưu cấu hình SMTP

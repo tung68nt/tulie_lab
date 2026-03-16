@@ -12,6 +12,7 @@ import { instructorsApi, adminInstructorsApi } from '@/features/lms/api/instruct
 import { bundlesApi } from '@/features/lms/api/bundles.api';
 import { mentoringApi } from '@/features/lms/api/mentoring.api';
 import { categoriesApi } from '@/features/lms/api/categories.api';
+import { ebooksApi } from '@/features/lms/api/ebooks.api';
 import { ordersApi, checkoutApi } from '@/features/shop/api/orders.api';
 import { paymentsApi } from '@/features/shop/api/payments.api';
 import { promosApi, couponsApi } from '@/features/shop/api/discounts.api';
@@ -61,6 +62,8 @@ export const api: any = {
         cms: cmsApi,
         instructors: adminInstructorsApi,
         media: mediaApi,
+        ebooks: ebooksApi,
+        products: productsApi,
     },
     cms: cmsApi,
     blog: blogApi,
@@ -88,4 +91,5 @@ export const api: any = {
     whiteboards: whiteboardApi,
     shortLinks: shortLinksApi,
     marketingAds: marketingAdsApi,
+    ebooks: ebooksApi,
 };

@@ -6,7 +6,7 @@ import { api } from '@/lib/api';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
-import { ArrowLeft, Users, CheckCircle, Clock, XCircle, Route, User } from 'lucide-react';
+import {  ArrowLeft, Users, CheckCircle, Clock, XCircle, Route, User , Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/contexts/ToastContext';
 
@@ -87,7 +87,7 @@ export default function JourneyDashboardPage() {
     if (loading) {
         return (
             <div className="p-6 flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
+                <Loader2 className="animate-spin w-8 h-8 text-primary " />
             </div>
         );
     }

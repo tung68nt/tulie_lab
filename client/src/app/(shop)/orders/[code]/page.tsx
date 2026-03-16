@@ -3,7 +3,7 @@
 import { useEffect, useState, use } from 'react';
 import { api } from '@/lib/api';
 import { useToast } from '@/contexts/ToastContext';
-import { ArrowLeft } from 'lucide-react';
+import {  ArrowLeft , Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/Button';
 import { OrderInvoice } from '@/components/shop/OrderInvoice';
@@ -34,7 +34,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ code: st
     if (loading) {
         return (
             <div className="min-h-screen pt-24 pb-20 flex flex-col items-center justify-center">
-                <div className="w-12 h-12 border-4 border-zinc-950 border-t-transparent rounded-full animate-spin mb-4" />
+                <Loader2 className="animate-spin w-12 h-12 text-primary mb-4" />
                 <p className="text-zinc-500 font-medium">Đang tải đơn hàng...</p>
             </div>
         );

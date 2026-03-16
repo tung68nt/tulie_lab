@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { Section } from "@/types/sections";
 import { DynamicIcon } from "@/components/DynamicIcon";
 
+import { SectionBackground } from "../SectionBackground";
+
 interface HeroCircleSectionProps {
     section?: Partial<Section>;
 }
@@ -16,19 +18,30 @@ export default function HeroCircleSection({ section }: HeroCircleSectionProps) {
     const tag = section?.tag || "Liên Hiệp các Hội Khoa học và Kỹ thuật Việt Nam";
     const baseText = (section?.tag || "#InstituteofMedicalTechnologyApplication #Vechungtoi #Aboutus #VienungdungCongngheYte ") + " ";
     const circularText = baseText.repeat(2);
-    const isDark = section?.backgroundTheme === 'dark';
+    const backgroundTheme = section?.backgroundTheme || 'dark';
+    const isDark = backgroundTheme === 'dark';
     const iconName = section?.icon || "Play";
 
     return (
         <div className={cn(
             "relative flex min-h-[600px] md:min-h-[700px] w-full items-center justify-center overflow-hidden transition-colors duration-500 py-20",
-            isDark ? "bg-[#0a0a0a] text-white" : "bg-[#f5f5f5] text-[#1a1a1a]"
+            isDark ? "bg-[#0a0a0a] text-white" : "bg-white dark:bg-[#0a0a0a] text-zinc-950 dark:text-white"
         )}>
-            {/* Background Grid Pattern (Extremely Subtle as per sample) */}
-            <div className={cn(
-                "absolute inset-0 bg-[linear-gradient(to_right,#80808005_1px,transparent_1px),linear-gradient(to_bottom,#80808005_1px,transparent_1px)] bg-[size:32px:32px]",
-                isDark ? "opacity-20" : "opacity-40"
-            )}></div>
+            {/* Background Pattern Layer */}
+            <SectionBackground
+                backgroundImage={section?.backgroundImage}
+                backgroundTheme={section?.backgroundTheme as any}
+                overlayOpacity={section?.overlayOpacity}
+                showDotPattern={section?.showDotPattern}
+                backgroundPattern={section?.backgroundPattern}
+                glowVariant={10}
+            />
+
+            {/* Subtle Gradient Glow for Hero (keep some original vibe) */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-[-5%] right-[-5%] w-[180px] md:w-[800px] h-[180px] md:h-[800px] bg-primary/10 md:bg-primary/20 rounded-full blur-[60px] md:blur-[160px] opacity-40 md:opacity-60 animate-pulse" />
+                <div className="absolute bottom-[-5%] left-[-5%] w-[120px] md:w-[600px] h-[120px] md:h-[600px] bg-blue-500/5 md:bg-blue-500/10 rounded-full blur-[50px] md:blur-[140px] opacity-30 md:opacity-40" />
+            </div>
 
             {/* Main Content Container - Horizontal on Desktop */}
             <div className="container relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 px-6 max-w-7xl">

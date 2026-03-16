@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { Button } from '@/components/Button';
 import { cn } from '@/lib/utils';
-import { Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers, FileText, Image, Video, Music, Globe, Smartphone, Database, Settings, Star, Heart, ShoppingCart, Tag, Bookmark, Award, Gift, Target, Lightbulb, Rocket } from 'lucide-react';
+import {  Search, Filter, X, Calculator, Users, TrendingUp, Briefcase, Palette, Folder, Layout, Code, Key, Zap, Package, Layers, FileText, Image, Video, Music, Globe, Smartphone, Database, Settings, Star, Heart, ShoppingCart, Tag, Bookmark, Award, Gift, Target, Lightbulb, Rocket , Loader2 } from 'lucide-react';
 import { Section } from '@/types/sections';
 import { SectionTag } from '@/components/SectionTag';
 import { SectionBackground } from '../SectionBackground';
@@ -107,7 +107,7 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
     if (loading) {
         return (
             <div className="py-20 flex flex-col items-center justify-center">
-                <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent mb-4" />
+                <Loader2 className="animate-spin w-12 h-12 text-primary mb-4" />
                 <p className="text-muted-foreground animate-pulse">Đang tải cửa hàng...</p>
             </div>
         );
@@ -120,7 +120,8 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                     backgroundImage={section.backgroundImage}
                     backgroundTheme={section.backgroundTheme || 'light'}
                     overlayOpacity={section.overlayOpacity}
-                    showDotPattern={true}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 />
             </div>
             <div className="container relative z-10 px-6 max-w-[1200px] mx-auto">
@@ -386,8 +387,8 @@ export const SystemShopSection = ({ section }: { section: Section }) => {
                                                             {new Intl.NumberFormat('vi-VN').format(Number(product.compareAtPrice))}<sup className="text-[8px]">đ</sup>
                                                         </div>
                                                     )}
-                                                    <Link href={`/shop/${product.slug}`} className="w-full">
-                                                        <Button as="div" size="sm" variant={isOwned ? "outline" : "default"} className="w-full rounded-xl h-11 font-bold shadow-sm hover:shadow transition-all">
+                                                    <Link href={`/shop/${product.slug}`} className="w-full block">
+                                                        <Button size="sm" variant={isOwned ? "outline" : "default"} className="w-full rounded-xl h-11 font-bold shadow-sm hover:shadow transition-all pointer-events-none">
                                                             {isOwned ? 'Xem sản phẩm' : 'Xem chi tiết'}
                                                         </Button>
                                                     </Link>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card';
 import { Button } from '@/components/Button';
-import { RefreshCw, Filter, CheckSquare, Square, Search } from 'lucide-react';
+import {  RefreshCw, Filter, CheckSquare, Square, Search , Loader2 } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
@@ -183,7 +183,7 @@ export default function MarketingCampaignsPage() {
                         <CardContent className="p-0">
                             {loadingCampaigns ? (
                                 <div className="flex items-center justify-center p-12">
-                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
+                                    <Loader2 className="animate-spin w-8 h-8 text-primary " />
                                 </div>
                             ) : campaigns.length === 0 ? (
                                 <div className="p-12 text-center text-muted-foreground text-sm">

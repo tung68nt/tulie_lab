@@ -44,6 +44,8 @@ export function FAQSection({ section }: { section: Section }) {
                 backgroundImage={section.backgroundImage}
                 backgroundTheme={section.backgroundTheme}
                 overlayOpacity={section.overlayOpacity}
+                showDotPattern={section.showDotPattern}
+                backgroundPattern={section.backgroundPattern}
                 glowVariant={4}
             />
             <div className="container relative z-10">
