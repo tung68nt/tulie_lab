@@ -117,7 +117,7 @@ export function FomoNotification({ className }: FomoNotificationProps) {
                         animate={{ opacity: 1, x: 0, scale: 1 }}
                         exit={{ opacity: 0, x: -50, scale: 0.9 }}
                         transition={{ type: "spring", damping: 20, stiffness: 300 }}
-                        className="pointer-events-auto group relative w-72 md:w-80 overflow-hidden rounded-lg bg-zinc-900/95 backdrop-blur-md border border-zinc-800 shadow-lg flex items-center p-3.5 gap-3.5"
+                        className="pointer-events-auto group relative w-72 md:w-80 overflow-hidden rounded-lg bg-black backdrop-blur-md border border-zinc-800 shadow-lg flex items-center p-3.5 gap-3.5"
                     >
                         {/* Left Icon Area */}
                         <div className="relative shrink-0">
