@@ -41,6 +41,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/courses', label: 'Khóa học' },
                 { href: '/admin/bundles', label: 'Combo / Bundle' },
                 { href: '/admin/categories', label: 'Chuyên mục' },
+                { href: '/admin/ebooks', label: 'Ebooks' },
                 { href: '/admin/events', label: 'Sự kiện' },
                 { href: '/admin/journeys', label: 'Lộ trình học' },
                 { href: '/admin/learning-analytics', label: 'Phân tích học tập' },
@@ -86,6 +87,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 { href: '/admin/docs', label: 'Hệ thống Docs' },
                 { href: '/admin/links', label: 'Rút gọn Link' },
                 { href: '/admin/footer', label: 'Footer' },
+                { href: '/admin/popups', label: 'Popup & FOMO' },
             ]
         },
         {
@@ -94,7 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             items: [
                 { href: '/admin/users', label: 'Thành viên' },
                 { href: '/admin/notifications', label: 'Thông báo' },
-                { href: '/admin/emails', label: 'Email Logs' },
+                { href: '/admin/emails', label: 'Emails & Templates' },
                 { href: '/admin/security', label: 'Bảo mật' },
                 { href: '/admin/menu', label: 'Menu / Navigation' },
                 { href: '/admin/media', label: 'Kho Media' },
@@ -155,7 +157,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             </aside>
 
                             {/* Main content */}
-                            <main className="flex-1 p-6 md:p-8 bg-background overflow-y-auto" key={pathname}>
+                            <main className="flex-1 p-6 md:p-8 bg-background overflow-y-auto">
                                 <div className="mx-auto max-w-[1400px]">
                                     {children}
                                 </div>
