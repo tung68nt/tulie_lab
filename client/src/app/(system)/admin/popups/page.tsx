@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card';
 import { Button } from '@/components/Button';
-import { Save, Bell, Loader2, ShoppingBag, X, ArrowRight, MessageCircle, Eye, EyeOff, Users, TrendingUp, Zap, Plus, Trash2 } from 'lucide-react';
+import { Save, Bell, Loader2, ShoppingBag, X, ArrowRight, MessageCircle, Eye, EyeOff, Users, TrendingUp, Zap, Plus, Trash2, Sun, Moon } from 'lucide-react';
 import { AdminPageHeader } from '@/components/system/admin/AdminPageHeader';
 import { useToast } from '@/contexts/ToastContext';
 import { api } from '@/lib/api';
@@ -29,6 +29,7 @@ interface FeaturedItem {
 
 interface ExitConfig {
     enabled: boolean;
+    theme: 'dark' | 'light';
     highlight: string;
     title: string;
     description: string;
@@ -57,6 +58,7 @@ const DEFAULT_FOMO: FomoConfig = {
 
 const DEFAULT_EXIT: ExitConfig = {
     enabled: true,
+    theme: 'dark',
     highlight: '🔥 Hơn 500+ học viên đã tham gia tuần này',
     title: 'Chờ chút — Đừng bỏ lỡ!',
     description: 'Bạn đang cách một bước để sở hữu bộ công cụ & khoá học giúp tự động hóa công việc, tiết kiệm hàng chục giờ mỗi tuần.',
@@ -81,6 +83,32 @@ const DEFAULT_EXIT: ExitConfig = {
 const NAMES = ['Anh T.', 'Chị H.', 'Minh N.', 'Linh V.', 'Hoàng D.'];
 const LOCATIONS = ['Hà Nội', 'TP. HCM', 'Đà Nẵng', 'Vũng Tàu', 'Bình Dương'];
 const STAT_ICONS = [Users, TrendingUp, Zap];
+
+const themeClasses = (theme: 'dark' | 'light') => {
+    const d = theme === 'dark';
+    return {
+        modal: d ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200',
+        highlightBg: d ? 'bg-gradient-to-r from-zinc-800 to-zinc-800/50 border-zinc-700/50' : 'bg-gradient-to-r from-zinc-100 to-zinc-50 border-zinc-200',
+        highlightText: d ? 'text-zinc-300' : 'text-zinc-600',
+        title: d ? 'text-zinc-100' : 'text-zinc-900',
+        desc: d ? 'text-zinc-400' : 'text-zinc-500',
+        close: d ? 'text-zinc-500' : 'text-zinc-400',
+        statBg: d ? 'bg-zinc-800/60 border-zinc-700/40' : 'bg-zinc-50 border-zinc-200',
+        statVal: d ? 'text-zinc-100' : 'text-zinc-900',
+        statLabel: d ? 'text-zinc-500' : 'text-zinc-400',
+        statIcon: d ? 'text-zinc-500' : 'text-zinc-400',
+        featTitle: d ? 'text-zinc-400' : 'text-zinc-500',
+        itemBg: d ? 'bg-zinc-800/40 border-zinc-700/30' : 'bg-zinc-50 border-zinc-200',
+        itemIcon: d ? 'bg-zinc-700/50 text-zinc-400' : 'bg-zinc-200 text-zinc-500',
+        itemTitle: d ? 'text-zinc-200' : 'text-zinc-800',
+        itemPrice: d ? 'text-zinc-100' : 'text-zinc-900',
+        itemOriginal: d ? 'text-zinc-500' : 'text-zinc-400',
+        itemArrow: d ? 'text-zinc-600' : 'text-zinc-400',
+        primaryBtn: d ? 'bg-white text-zinc-900' : 'bg-zinc-900 text-white',
+        secondaryBtn: d ? 'border-zinc-700 text-zinc-300' : 'border-zinc-300 text-zinc-600',
+        dismiss: d ? 'text-zinc-600' : 'text-zinc-400',
+    };
+};
 
 export default function PopupConfigPage() {
     const [fomo, setFomo] = useState<FomoConfig>(DEFAULT_FOMO);
@@ -213,32 +241,34 @@ export default function PopupConfigPage() {
                 </CardHeader>
                 <CardContent className="space-y-5">
                     {/* Preview */}
-                    {showExitPreview && (
+                    {showExitPreview && (() => {
+                        const tc = themeClasses(exit.theme || 'dark');
+                        return (
                         <div className="rounded-lg border border-border bg-muted/30 p-4">
                             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Preview</p>
                             <div className="flex justify-center">
-                                <div className="w-full max-w-lg rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl overflow-hidden">
+                                <div className={`w-full max-w-lg rounded-xl border shadow-2xl overflow-hidden ${tc.modal}`}>
                                     {exit.highlight && (
-                                        <div className="px-6 py-2.5 bg-gradient-to-r from-zinc-800 to-zinc-800/50 border-b border-zinc-700/50 text-center">
-                                            <span className="text-xs font-semibold text-zinc-300">{exit.highlight}</span>
+                                        <div className={`px-6 py-2.5 border-b text-center ${tc.highlightBg}`}>
+                                            <span className={`text-xs font-semibold ${tc.highlightText}`}>{exit.highlight}</span>
                                         </div>
                                     )}
                                     <div className="p-6">
                                         <div className="flex items-start justify-between mb-2">
-                                            <h2 className="text-xl font-bold text-zinc-100">{exit.title || 'Tiêu đề'}</h2>
-                                            <div className="p-1.5 text-zinc-500"><X className="w-4 h-4" /></div>
+                                            <h2 className={`text-xl font-bold ${tc.title}`}>{exit.title || 'Tiêu đề'}</h2>
+                                            <div className={`p-1.5 ${tc.close}`}><X className="w-4 h-4" /></div>
                                         </div>
-                                        <p className="text-sm text-zinc-400 mb-5 leading-relaxed">{exit.description || 'Mô tả...'}</p>
+                                        <p className={`text-sm mb-5 leading-relaxed ${tc.desc}`}>{exit.description || 'Mô tả...'}</p>
 
                                         {exit.stats && exit.stats.length > 0 && (
                                             <div className="grid grid-cols-3 gap-3 mb-5">
                                                 {exit.stats.map((s, i) => {
                                                     const Icon = STAT_ICONS[i % STAT_ICONS.length];
                                                     return (
-                                                        <div key={i} className="text-center p-3 rounded-lg bg-zinc-800/60 border border-zinc-700/40">
-                                                            <Icon className="w-4 h-4 text-zinc-500 mx-auto mb-1" />
-                                                            <div className="text-lg font-bold text-zinc-100">{s.value}</div>
-                                                            <div className="text-[10px] text-zinc-500 font-medium">{s.label}</div>
+                                                        <div key={i} className={`text-center p-3 rounded-lg border ${tc.statBg}`}>
+                                                            <Icon className={`w-4 h-4 mx-auto mb-1 ${tc.statIcon}`} />
+                                                            <div className={`text-lg font-bold ${tc.statVal}`}>{s.value}</div>
+                                                            <div className={`text-[10px] font-medium ${tc.statLabel}`}>{s.label}</div>
                                                         </div>
                                                     );
                                                 })}
@@ -247,22 +277,22 @@ export default function PopupConfigPage() {
 
                                         {exit.featuredItems && exit.featuredItems.length > 0 && (
                                             <div className="mb-5">
-                                                {exit.featuredTitle && <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">{exit.featuredTitle}</p>}
+                                                {exit.featuredTitle && <p className={`text-xs font-semibold uppercase tracking-wider mb-3 ${tc.featTitle}`}>{exit.featuredTitle}</p>}
                                                 <div className="space-y-2">
                                                     {exit.featuredItems.map((item, i) => (
-                                                        <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-zinc-800/40 border border-zinc-700/30">
-                                                            <div className="w-9 h-9 rounded-lg bg-zinc-700/50 flex items-center justify-center shrink-0"><ShoppingBag className="w-4 h-4 text-zinc-400" /></div>
+                                                        <div key={i} className={`flex items-center gap-3 p-3 rounded-lg border ${tc.itemBg}`}>
+                                                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${tc.itemIcon}`}><ShoppingBag className="w-4 h-4" /></div>
                                                             <div className="flex-1 min-w-0">
                                                                 <div className="flex items-center gap-2">
-                                                                    <span className="text-sm font-medium text-zinc-200 truncate">{item.title || 'Tên sản phẩm'}</span>
-                                                                    {item.badge && <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30">{item.badge}</span>}
+                                                                    <span className={`text-sm font-medium truncate ${tc.itemTitle}`}>{item.title || 'Tên sản phẩm'}</span>
+                                                                    {item.badge && <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-500/20 text-amber-500 border border-amber-500/30">{item.badge}</span>}
                                                                 </div>
                                                                 <div className="flex items-center gap-2 mt-0.5">
-                                                                    <span className="text-sm font-bold text-zinc-100">{item.price || '0đ'}</span>
-                                                                    {item.originalPrice && <span className="text-xs text-zinc-500 line-through">{item.originalPrice}</span>}
+                                                                    <span className={`text-sm font-bold ${tc.itemPrice}`}>{item.price || '0đ'}</span>
+                                                                    {item.originalPrice && <span className={`text-xs line-through ${tc.itemOriginal}`}>{item.originalPrice}</span>}
                                                                 </div>
                                                             </div>
-                                                            <ArrowRight className="w-4 h-4 text-zinc-600 shrink-0" />
+                                                            <ArrowRight className={`w-4 h-4 shrink-0 ${tc.itemArrow}`} />
                                                         </div>
                                                     ))}
                                                 </div>
@@ -270,15 +300,43 @@ export default function PopupConfigPage() {
                                         )}
 
                                         <div className="space-y-3">
-                                            <div className="flex items-center justify-center gap-2 w-full h-12 rounded-xl bg-white text-zinc-900 text-sm font-semibold">{exit.primaryText || 'Nút chính'} <ArrowRight className="w-4 h-4" /></div>
-                                            <div className="flex items-center justify-center gap-2 w-full h-11 rounded-lg border border-zinc-700 text-zinc-300 text-sm font-medium"><MessageCircle className="w-4 h-4" /> {exit.secondaryText || 'Nút phụ'}</div>
+                                            <div className={`flex items-center justify-center gap-2 w-full h-12 rounded-xl text-sm font-semibold ${tc.primaryBtn}`}>{exit.primaryText || 'Nút chính'} <ArrowRight className="w-4 h-4" /></div>
+                                            <div className={`flex items-center justify-center gap-2 w-full h-11 rounded-lg border text-sm font-medium ${tc.secondaryBtn}`}><MessageCircle className="w-4 h-4" /> {exit.secondaryText || 'Nút phụ'}</div>
                                         </div>
-                                        <div className="mt-4 w-full text-center text-zinc-600 text-xs font-medium">Không, cảm ơn</div>
+                                        <div className={`mt-4 w-full text-center text-xs font-medium ${tc.dismiss}`}>Không, cảm ơn</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    )}
+                        );
+                    })()}
+
+                    {/* Theme selector */}
+                    <div className="space-y-2">
+                        <Label className="text-sm font-medium">Giao diện</Label>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => setExit({ ...exit, theme: 'dark' })}
+                                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm font-medium transition-all ${
+                                    (exit.theme || 'dark') === 'dark'
+                                        ? 'bg-zinc-900 text-white border-zinc-700 shadow-sm'
+                                        : 'bg-transparent text-muted-foreground border-border hover:bg-muted/50'
+                                }`}
+                            >
+                                <Moon className="w-4 h-4" /> Dark
+                            </button>
+                            <button
+                                onClick={() => setExit({ ...exit, theme: 'light' })}
+                                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm font-medium transition-all ${
+                                    exit.theme === 'light'
+                                        ? 'bg-white text-zinc-900 border-zinc-300 shadow-sm'
+                                        : 'bg-transparent text-muted-foreground border-border hover:bg-muted/50'
+                                }`}
+                            >
+                                <Sun className="w-4 h-4" /> Light
+                            </button>
+                        </div>
+                    </div>
 
                     {/* Highlight */}
                     <div className="space-y-2">
