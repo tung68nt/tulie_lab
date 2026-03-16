@@ -172,7 +172,9 @@ h1.page-title{font-size:2rem;font-weight:800;margin-bottom:.5rem}
 /* Background patterns */
 .dot-bg{position:absolute;inset:0;background-image:radial-gradient(circle,currentColor .9px,transparent .9px);background-size:32px 32px;opacity:.1;pointer-events:none}
 .grid-bg{position:absolute;inset:0;background-image:linear-gradient(to right,currentColor .8px,transparent .8px),linear-gradient(to bottom,currentColor .8px,transparent .8px);background-size:32px 32px;opacity:.06;pointer-events:none}
+.cross-bg{position:absolute;inset:0;opacity:.08;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 8v8M8 12h8' stroke='%23888' stroke-width='1' fill='none'/%3E%3C/svg%3E");background-size:24px 24px}
 .glow{position:absolute;border-radius:50%;filter:blur(100px);opacity:.3;pointer-events:none}
+.glow-light{position:absolute;border-radius:50%;filter:blur(120px);opacity:.15;pointer-events:none}
 /* Hero */
 .demo-hero{position:relative;padding:48px 32px;border-radius:var(--radius);overflow:hidden;background:#050505;color:#fff}
 .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
@@ -786,29 +788,100 @@ Có được hoàn tiền không?
 <!-- ============ 19. BACKGROUNDS ============ -->
 <div class="section" id="backgrounds">
 <h2>19. Section Backgrounds</h2>
-<div class="grid-2" style="margin-bottom:12px">
-<div class="demo-section dark" style="padding:32px;min-height:120px">
+
+<h3>Không pattern (Plain)</h3>
+<div class="grid-4" style="margin-bottom:16px">
+<div class="demo-section dark" style="padding:24px;min-height:100px">
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark</div>
+</div>
+<div class="demo-section dark" style="padding:24px;min-height:100px">
+<div class="glow" style="width:180px;height:180px;background:oklch(.65 .3 250);top:-30%;right:-15%"></div>
+<div class="glow" style="width:120px;height:120px;background:oklch(.65 .3 300);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark + Glow</div>
+</div>
+<div class="demo-section light" style="padding:24px;min-height:100px">
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light</div>
+</div>
+<div class="demo-section light" style="padding:24px;min-height:100px">
+<div class="glow-light" style="width:180px;height:180px;background:oklch(.7 .2 250);top:-30%;right:-15%"></div>
+<div class="glow-light" style="width:120px;height:120px;background:oklch(.7 .2 330);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light + Glow</div>
+</div>
+</div>
+
+<h3>Dot Pattern</h3>
+<div class="grid-4" style="margin-bottom:16px">
+<div class="demo-section dark" style="padding:24px;min-height:100px">
 <div class="dot-bg" style="color:#fff"></div>
-<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff">Dot Pattern (dark)</div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark</div>
 </div>
-<div class="demo-section dark" style="padding:32px;min-height:120px">
-<div class="grid-bg" style="color:#fff"></div>
-<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff">Grid Pattern (dark)</div>
-</div>
-</div>
-<div class="grid-2">
-<div class="demo-section dark" style="padding:32px;min-height:120px">
+<div class="demo-section dark" style="padding:24px;min-height:100px">
 <div class="dot-bg" style="color:#fff"></div>
-<div class="glow" style="width:200px;height:200px;background:oklch(.65 .3 250);top:-20%;right:-10%"></div>
-<div class="glow" style="width:150px;height:150px;background:oklch(.65 .3 300);bottom:-10%;left:-5%"></div>
-<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff">Dot + Glow Effects</div>
+<div class="glow" style="width:180px;height:180px;background:oklch(.65 .3 250);top:-30%;right:-15%"></div>
+<div class="glow" style="width:120px;height:120px;background:oklch(.65 .3 300);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark + Glow</div>
 </div>
-<div class="demo-section light" style="padding:32px;min-height:120px">
+<div class="demo-section light" style="padding:24px;min-height:100px">
 <div class="dot-bg" style="color:var(--fg)"></div>
-<div style="position:relative;z-index:2;text-align:center;font-weight:600">Dot Pattern (light)</div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light</div>
+</div>
+<div class="demo-section light" style="padding:24px;min-height:100px">
+<div class="dot-bg" style="color:var(--fg)"></div>
+<div class="glow-light" style="width:180px;height:180px;background:oklch(.7 .2 250);top:-30%;right:-15%"></div>
+<div class="glow-light" style="width:120px;height:120px;background:oklch(.7 .2 330);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light + Glow</div>
 </div>
 </div>
-<div class="spec">DotPatternBackground: radial-gradient 0.9px dots, 32×32px grid. Variant: 'dots' hoặc 'grid'. Glow: blur-[100px-160px], opacity 30-60%. SectionBackground hỗ trợ backgroundImage + overlay, dot/grid patterns, và 6 glow variants.</div>
+
+<h3>Grid Pattern</h3>
+<div class="grid-4" style="margin-bottom:16px">
+<div class="demo-section dark" style="padding:24px;min-height:100px">
+<div class="grid-bg" style="color:#fff"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark</div>
+</div>
+<div class="demo-section dark" style="padding:24px;min-height:100px">
+<div class="grid-bg" style="color:#fff"></div>
+<div class="glow" style="width:180px;height:180px;background:oklch(.65 .3 250);top:-30%;right:-15%"></div>
+<div class="glow" style="width:120px;height:120px;background:oklch(.65 .3 300);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark + Glow</div>
+</div>
+<div class="demo-section light" style="padding:24px;min-height:100px">
+<div class="grid-bg" style="color:var(--fg)"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light</div>
+</div>
+<div class="demo-section light" style="padding:24px;min-height:100px">
+<div class="grid-bg" style="color:var(--fg)"></div>
+<div class="glow-light" style="width:180px;height:180px;background:oklch(.7 .2 250);top:-30%;right:-15%"></div>
+<div class="glow-light" style="width:120px;height:120px;background:oklch(.7 .2 330);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light + Glow</div>
+</div>
+</div>
+
+<h3>Cross Pattern</h3>
+<div class="grid-4" style="margin-bottom:16px">
+<div class="demo-section dark" style="padding:24px;min-height:100px">
+<div class="cross-bg" style="color:#fff"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark</div>
+</div>
+<div class="demo-section dark" style="padding:24px;min-height:100px">
+<div class="cross-bg" style="color:#fff"></div>
+<div class="glow" style="width:180px;height:180px;background:oklch(.65 .3 250);top:-30%;right:-15%"></div>
+<div class="glow" style="width:120px;height:120px;background:oklch(.65 .3 300);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;color:#fff;font-size:12px">Dark + Glow</div>
+</div>
+<div class="demo-section light" style="padding:24px;min-height:100px">
+<div class="cross-bg" style="color:var(--fg)"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light</div>
+</div>
+<div class="demo-section light" style="padding:24px;min-height:100px">
+<div class="cross-bg" style="color:var(--fg)"></div>
+<div class="glow-light" style="width:180px;height:180px;background:oklch(.7 .2 250);top:-30%;right:-15%"></div>
+<div class="glow-light" style="width:120px;height:120px;background:oklch(.7 .2 330);bottom:-20%;left:-10%"></div>
+<div style="position:relative;z-index:2;text-align:center;font-weight:600;font-size:12px">Light + Glow</div>
+</div>
+</div>
+
+<div class="spec">SectionBackground hỗ trợ 4 chế độ: plain (không pattern), dot (radial-gradient 0.9px, 32×32px), grid (linear-gradient 0.8px, 32×32px), cross (SVG cross 4px, 24×24px). Mỗi chế độ hỗ trợ 4 nền: dark, dark+glow, light, light+glow. Glow: blur 100–160px, opacity 15–30%. Glow-light dùng opacity thấp hơn (≈15%) cho nền sáng.</div>
 </div>
 
 <!-- ============ 20. HERO SECTION ============ -->
