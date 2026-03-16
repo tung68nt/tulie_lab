@@ -88,6 +88,9 @@ const themeClasses = (theme: 'dark' | 'light') => {
     const d = theme === 'dark';
     return {
         modal: d ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200',
+        pattern: d ? 'opacity-[0.06]' : 'opacity-[0.04]',
+        glow1: d ? 'bg-indigo-500/20 blur-[100px]' : 'bg-indigo-300/10 blur-[120px]',
+        glow2: d ? 'bg-purple-500/15 blur-[100px]' : 'bg-purple-300/8 blur-[120px]',
         highlightBg: d ? 'bg-gradient-to-r from-zinc-800 to-zinc-800/50 border-zinc-700/50' : 'bg-gradient-to-r from-zinc-100 to-zinc-50 border-zinc-200',
         highlightText: d ? 'text-zinc-300' : 'text-zinc-600',
         title: d ? 'text-zinc-100' : 'text-zinc-900',
@@ -104,6 +107,7 @@ const themeClasses = (theme: 'dark' | 'light') => {
         itemPrice: d ? 'text-zinc-100' : 'text-zinc-900',
         itemOriginal: d ? 'text-zinc-500' : 'text-zinc-400',
         itemArrow: d ? 'text-zinc-600' : 'text-zinc-400',
+        badge: d ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' : 'bg-amber-500/10 text-amber-600 border-amber-500/20',
         primaryBtn: d ? 'bg-white text-zinc-900' : 'bg-zinc-900 text-white',
         secondaryBtn: d ? 'border-zinc-700 text-zinc-300' : 'border-zinc-300 text-zinc-600',
         dismiss: d ? 'text-zinc-600' : 'text-zinc-400',
@@ -247,9 +251,12 @@ export default function PopupConfigPage() {
                         <div className="rounded-lg border border-border bg-muted/30 p-4">
                             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-3">Preview</p>
                             <div className="flex justify-center">
-                                <div className={`w-full max-w-lg rounded-xl border shadow-2xl overflow-hidden ${tc.modal}`}>
+                                <div className={`w-full max-w-lg rounded-xl border shadow-2xl overflow-hidden relative ${tc.modal}`}>
+                                    <div className={`absolute inset-0 pointer-events-none ${tc.pattern}`} style={{ backgroundImage: 'radial-gradient(circle, currentColor 0.8px, transparent 0.8px)', backgroundSize: '24px 24px' }} />
+                                    <div className={`absolute -top-20 -right-20 w-48 h-48 rounded-full pointer-events-none ${tc.glow1}`} />
+                                    <div className={`absolute -bottom-16 -left-16 w-36 h-36 rounded-full pointer-events-none ${tc.glow2}`} />
                                     {exit.highlight && (
-                                        <div className={`px-6 py-2.5 border-b text-center ${tc.highlightBg}`}>
+                                        <div className={`px-6 py-2.5 border-b text-center relative z-10 ${tc.highlightBg}`}>
                                             <span className={`text-xs font-semibold ${tc.highlightText}`}>{exit.highlight}</span>
                                         </div>
                                     )}
@@ -285,7 +292,7 @@ export default function PopupConfigPage() {
                                                             <div className="flex-1 min-w-0">
                                                                 <div className="flex items-center gap-2">
                                                                     <span className={`text-sm font-medium truncate ${tc.itemTitle}`}>{item.title || 'Tên sản phẩm'}</span>
-                                                                    {item.badge && <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-500/20 text-amber-500 border border-amber-500/30">{item.badge}</span>}
+                                                                    {item.badge && <span className={`shrink-0 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${tc.badge}`}>{item.badge}</span>}
                                                                 </div>
                                                                 <div className="flex items-center gap-2 mt-0.5">
                                                                     <span className={`text-sm font-bold ${tc.itemPrice}`}>{item.price || '0đ'}</span>

@@ -58,6 +58,9 @@ const t = (theme: 'dark' | 'light') => {
     const d = theme === 'dark';
     return {
         modal: d ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200',
+        pattern: d ? 'opacity-[0.06]' : 'opacity-[0.04]',
+        glow1: d ? 'bg-indigo-500/20 blur-[100px]' : 'bg-indigo-300/10 blur-[120px]',
+        glow2: d ? 'bg-purple-500/15 blur-[100px]' : 'bg-purple-300/8 blur-[120px]',
         highlightBg: d ? 'bg-gradient-to-r from-zinc-800 to-zinc-800/50 border-zinc-700/50' : 'bg-gradient-to-r from-zinc-100 to-zinc-50 border-zinc-200',
         highlightText: d ? 'text-zinc-300' : 'text-zinc-600',
         close: d ? 'text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800' : 'text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100',
@@ -74,6 +77,7 @@ const t = (theme: 'dark' | 'light') => {
         itemPrice: d ? 'text-zinc-100' : 'text-zinc-900',
         itemOriginal: d ? 'text-zinc-500' : 'text-zinc-400',
         itemArrow: d ? 'text-zinc-600' : 'text-zinc-400',
+        badge: d ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' : 'bg-amber-500/10 text-amber-600 border-amber-500/20',
         primaryBtn: d ? 'bg-white text-zinc-900 hover:bg-zinc-200' : 'bg-zinc-900 text-white hover:bg-zinc-800',
         secondaryBtn: d ? 'border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100' : 'border-zinc-300 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900',
         dismiss: d ? 'text-zinc-600 hover:text-zinc-400' : 'text-zinc-400 hover:text-zinc-600',
@@ -137,6 +141,11 @@ export function ExitIntentModal() {
                         initial={{ opacity: 0, scale: 0.95, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 10 }}
                         className={`relative w-full max-w-lg overflow-hidden rounded-xl border shadow-2xl max-h-[90vh] overflow-y-auto ${c.modal}`}
                     >
+                        {/* Dot pattern background */}
+                        <div className={`absolute inset-0 pointer-events-none ${c.pattern}`} style={{ backgroundImage: 'radial-gradient(circle, currentColor 0.8px, transparent 0.8px)', backgroundSize: '24px 24px' }} />
+                        {/* Glow effects */}
+                        <div className={`absolute -top-20 -right-20 w-48 h-48 rounded-full pointer-events-none ${c.glow1}`} />
+                        <div className={`absolute -bottom-16 -left-16 w-36 h-36 rounded-full pointer-events-none ${c.glow2}`} />
                         {config.highlight && (
                             <div className={`px-6 py-2.5 border-b text-center sticky top-0 z-10 ${c.highlightBg}`}>
                                 <span className={`text-xs font-semibold ${c.highlightText}`}>{config.highlight}</span>
@@ -172,7 +181,7 @@ export function ExitIntentModal() {
                                                 <div className="flex-1 min-w-0">
                                                     <div className="flex items-center gap-2">
                                                         <span className={`text-sm font-medium truncate ${c.itemTitle}`}>{item.title}</span>
-                                                        {item.badge && <span className="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-500/20 text-amber-500 border border-amber-500/30">{item.badge}</span>}
+                                                        {item.badge && <span className={`shrink-0 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${c.badge}`}>{item.badge}</span>}
                                                     </div>
                                                     <div className="flex items-center gap-2 mt-0.5">
                                                         <span className={`text-sm font-bold ${c.itemPrice}`}>{item.price}</span>
